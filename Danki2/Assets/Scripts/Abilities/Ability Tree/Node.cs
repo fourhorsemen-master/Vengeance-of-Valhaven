@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 
-using Abilities;
-
-namespace AbilityTree
+namespace Abilities
 {
     public abstract class Node
     {

@@ -1,4 +1,4 @@
-﻿namespace AbilityTree
+﻿namespace Abilities
 {
     public enum Direction
     {

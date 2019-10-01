@@ -1,7 +1,6 @@
-﻿using Abilities;
-using System;
+﻿using System;
 
-namespace AbilityTree
+namespace Abilities
 {
     public abstract class AbilityTree
     {

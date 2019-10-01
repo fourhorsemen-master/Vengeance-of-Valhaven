@@ -3,6 +3,7 @@
     public enum Ability
     {
         SLASH,
-        SHIELD_BASH
+        SHIELD_BASH,
+        OTHER
     }
 }

@@ -1,11 +1,10 @@
-﻿using Abilities;
-
-namespace AbilityTree
+﻿namespace Abilities
 {
     public static class AbilityTreeFactory
     {
         // These private implementations of the abstract classes ensure that all instantiation
-        // of ability trees and nodes happen from this factory class.
+        // of ability trees and nodes happen from this factory class. See the factory pattern
+        // for more information
         private class AbilityTreeImplementation : AbilityTree
         {
             public AbilityTreeImplementation(Node rootNode) : base(rootNode)
@@ -38,17 +37,6 @@ namespace AbilityTree
             node.SetChild(Direction.LEFT, leftChild);
             node.SetChild(Direction.RIGHT, rightChild);
             return node;
-        }
-    }
-
-    class Test
-    {
-        public void test()
-        {
-            AbilityTree tree = AbilityTreeFactory.CreateTree(
-                AbilityTreeFactory.CreateNode(Ability.SHIELD_BASH),
-                AbilityTreeFactory.CreateNode(Ability.SLASH)
-            );
         }
     }
 }
