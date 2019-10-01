@@ -1,10 +1,11 @@
 ﻿using Abilities;
+using System;
 
 namespace AbilityTree
 {
     public abstract class AbilityTree
     {
-        private Node rootNode;
+        private readonly Node rootNode;
 
         private Node currentNode;
 
@@ -12,6 +13,18 @@ namespace AbilityTree
         {
             this.rootNode = rootNode;
             currentNode = this.rootNode;
+        }
+
+        public bool CanWalk()
+        {
+            foreach (Direction direction in Enum.GetValues(typeof(Direction)))
+            {
+                if (!CanWalk(direction))
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         public bool CanWalk(Direction direction)

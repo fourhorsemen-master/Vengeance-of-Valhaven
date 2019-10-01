@@ -7,9 +7,13 @@ namespace AbilityTree
 {
     public abstract class Node
     {
-        public Ability Ability { get; private set; }
+        public Ability Ability { get; }
 
-        private readonly Dictionary<Direction, Node> children = DictionaryUtils.EnumDictionary<Direction, Node>(null);
+        private readonly Dictionary<Direction, Node> children = new Dictionary<Direction, Node>();
+
+        protected Node()
+        {
+        }
 
         protected Node(Ability ability)
         {
@@ -18,7 +22,7 @@ namespace AbilityTree
 
         public bool HasChild(Direction direction)
         {
-            return children[direction] == null;
+            return children.TryGetValue(direction, out _);
         }
 
         public Node GetChild(Direction direction)
