@@ -14,18 +14,6 @@ namespace Abilities
             currentNode = this.rootNode;
         }
 
-        public bool CanWalk()
-        {
-            foreach (Direction direction in Enum.GetValues(typeof(Direction)))
-            {
-                if (!CanWalk(direction))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
         public bool CanWalk(Direction direction)
         {
             return currentNode.HasChild(direction);
