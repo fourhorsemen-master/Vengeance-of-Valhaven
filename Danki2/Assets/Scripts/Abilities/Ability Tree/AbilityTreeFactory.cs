@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Abilities;
+using System;
 
 namespace Abilities
 {
@@ -20,7 +21,7 @@ namespace Abilities
             {
             }
 
-            public NodeImplementation(Action<AbilityContext, Ability> AbilityBuilder) : base(AbilityBuilder)
+            public NodeImplementation(AbilityReference ability) : base(ability)
             {
             }
         }
@@ -33,9 +34,9 @@ namespace Abilities
             return new AbilityTreeImplementation(rootNode);
         }
 
-        public static Node CreateNode(Action<AbilityContext, Ability> AbilityBuilder, Node leftChild = null, Node rightChild = null)
+        public static Node CreateNode(AbilityReference ability, Node leftChild = null, Node rightChild = null)
         {
-            Node node = new NodeImplementation(AbilityBuilder);
+            Node node = new NodeImplementation(ability);
             node.SetChild(Direction.LEFT, leftChild);
             node.SetChild(Direction.RIGHT, rightChild);
             return node;

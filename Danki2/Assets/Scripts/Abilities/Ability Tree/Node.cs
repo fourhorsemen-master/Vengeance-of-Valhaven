@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Abilities;
+using System;
 using System.Collections.Generic;
 
 namespace Abilities
@@ -7,15 +8,15 @@ namespace Abilities
     {
         private readonly Dictionary<Direction, Node> children = new Dictionary<Direction, Node>();
 
-        public Action<AbilityContext, Ability> AbilityBuilder { get; }
+        public AbilityReference Ability { get; }
 
         protected Node()
         {
         }
 
-        protected Node(Action<AbilityContext, Ability> AbilityBuilder)
+        protected Node(AbilityReference ability)
         {
-            this.AbilityBuilder = AbilityBuilder;
+            this.Ability = ability;
         }
 
         public bool HasChild(Direction direction)

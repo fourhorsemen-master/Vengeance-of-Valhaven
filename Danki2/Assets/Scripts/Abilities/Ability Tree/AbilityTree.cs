@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Abilities;
+using System;
 
 namespace Abilities
 {
@@ -19,9 +20,11 @@ namespace Abilities
             return currentNode.HasChild(direction);
         }
 
-        public Action<AbilityContext, Ability> GetAbilityBuilder(Direction direction)
+        public AbilityBuilder GetAbilityBuilder(Direction direction)
         {
-            return currentNode.GetChild(direction).AbilityBuilder;
+            var ability = currentNode.GetChild(direction).Ability;
+
+            return AbilityBuilder.GetAbilityBuilder(ability);
         }
 
         public void Walk(Direction direction)
