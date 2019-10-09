@@ -31,9 +31,9 @@ namespace Abilities
             return currentNode.HasChild(direction);
         }
 
-        public Ability GetAbility(Direction direction)
+        public Action<AbilityContext, Ability> GetAbilityBuilder(Direction direction)
         {
-            return currentNode.GetChild(direction).Ability;
+            return currentNode.GetChild(direction).AbilityBuilder;
         }
 
         public void Walk(Direction direction)

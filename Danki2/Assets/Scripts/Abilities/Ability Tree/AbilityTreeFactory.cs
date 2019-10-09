@@ -1,4 +1,6 @@
-﻿namespace Abilities
+﻿using System;
+
+namespace Abilities
 {
     public static class AbilityTreeFactory
     {
@@ -18,7 +20,7 @@
             {
             }
 
-            public NodeImplementation(Ability ability) : base(ability)
+            public NodeImplementation(Action<AbilityContext, Ability> AbilityBuilder) : base(AbilityBuilder)
             {
             }
         }
@@ -31,9 +33,9 @@
             return new AbilityTreeImplementation(rootNode);
         }
 
-        public static Node CreateNode(Ability ability, Node leftChild = null, Node rightChild = null)
+        public static Node CreateNode(Action<AbilityContext, Ability> AbilityBuilder, Node leftChild = null, Node rightChild = null)
         {
-            Node node = new NodeImplementation(ability);
+            Node node = new NodeImplementation(AbilityBuilder);
             node.SetChild(Direction.LEFT, leftChild);
             node.SetChild(Direction.RIGHT, rightChild);
             return node;

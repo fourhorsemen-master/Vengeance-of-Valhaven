@@ -1,20 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Abilities
 {
     public abstract class Node
     {
-        public Ability Ability { get; }
-
         private readonly Dictionary<Direction, Node> children = new Dictionary<Direction, Node>();
+
+        public Action<AbilityContext, Ability> AbilityBuilder { get; }
 
         protected Node()
         {
         }
 
-        protected Node(Ability ability)
+        protected Node(Action<AbilityContext, Ability> AbilityBuilder)
         {
-            Ability = ability;
+            this.AbilityBuilder = AbilityBuilder;
         }
 
         public bool HasChild(Direction direction)
