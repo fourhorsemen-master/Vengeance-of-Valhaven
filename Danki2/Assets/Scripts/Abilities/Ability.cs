@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts;
+using UnityEngine;
 
 namespace Abilities
 {
@@ -6,20 +7,17 @@ namespace Abilities
     {
         private readonly AbilityCaster owner;
         private readonly AbilityCaster target;
-        private readonly float xOrigin;
-        private readonly float yOrigin;
+        private readonly Vector3 origin;
 
         public AbilityContext(
             AbilityCaster owner,
             AbilityCaster target,
-            float xOrigin,
-            float yOrigin
+            Vector3 origin
         )
         {
             this.owner = owner;
             this.target = target;
-            this.xOrigin = xOrigin;
-            this.yOrigin = yOrigin;
+            this.origin = origin;
         }
     }
 
