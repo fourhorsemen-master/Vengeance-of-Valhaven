@@ -1,17 +1,16 @@
-﻿using Assets.Scripts;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Abilities
 {
     public abstract class AbilityContext
     {
-        private readonly AbilityCaster owner;
-        private readonly AbilityCaster target;
+        private readonly Actor owner;
+        private readonly Actor target;
         private readonly Vector3 origin;
 
         public AbilityContext(
-            AbilityCaster owner,
-            AbilityCaster target,
+            Actor owner,
+            Actor target,
             Vector3 origin
         )
         {
