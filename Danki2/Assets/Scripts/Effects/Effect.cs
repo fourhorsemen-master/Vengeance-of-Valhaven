@@ -1,34 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.Scripts.Effects
 {
     public abstract class Effect
     {
         private float remainingDuration;
+
         public Effect(float duration)
         {
             remainingDuration = duration;
         }
 
-        protected abstract void UpdateAction(Actor actor);
+        public bool Expired => this.remainingDuration < 0f;
+
+        protected abstract void UpdateAction(Actor actor, float deltaTime);
 
         protected abstract void FinishAction(Actor actor);
 
-        public bool Update(Actor actor)
+        public void Update(Actor actor)
         {
-            remainingDuration -= Time.deltaTime;
-            this.UpdateAction(actor);
+            var deltaTime = Time.deltaTime;
+
+            remainingDuration -= deltaTime;
+            this.UpdateAction(actor, deltaTime);
             if (remainingDuration < 0f)
             {
                 this.FinishAction(actor);
-                return true;
             }
-            return false;
         }
     }
 }
