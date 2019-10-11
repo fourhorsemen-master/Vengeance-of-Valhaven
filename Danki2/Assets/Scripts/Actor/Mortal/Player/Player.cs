@@ -4,15 +4,8 @@ using UnityEngine;
 
 public class Player : Mortal
 {
-    // Start is called before the first frame update
-    void Start()
+    public new void Act()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        // Handle input
     }
 }

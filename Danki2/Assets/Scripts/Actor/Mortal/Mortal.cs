@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class Mortal : Actor
 {
-    // Start is called before the first frame update
-    void Start()
+    public new void Update()
     {
-        
-    }
+        // if (this.CurrentHealth <= 0)
+        // {
+        //     this.Die();
+        //     return;
+        // }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        base.Update();
     }
 }
