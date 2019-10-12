@@ -20,10 +20,12 @@ namespace Assets.Scripts.KeyMapping
         Pause,
     }
 
+    // KeyMapper works as a global singleton accessed fro anywhere by KeyMapper.Mapper.
+    // KeyMapper loads and saves keybindings as json in a text file.
     public class KeyMapper
     {
         private static string keyBindingsFilePath = Application.persistentDataPath + "/Settings/KeyBindings.txt";
-        private static KeyMapper _instance;
+
         private static Dictionary<Control, KeyCode> defaultBindings = new Dictionary<Control, KeyCode>
         {
             { Control.Up, KeyCode.W },
@@ -50,17 +52,9 @@ namespace Assets.Scripts.KeyMapping
             this.SaveBindings();
         }
 
-        public static KeyMapper Mapper {
-            get {
-                if (_instance == null)
-                {
-                    _instance = new KeyMapper();
-                }
+        public static KeyMapper Mapper { get; } = new KeyMapper();
 
-                return _instance;
-            }
-        }
-
+        // On first run, settings file won't exist, so we create a new one. Otherwise we return the loaded settings.
         private bool TryLoadBindings(out Dictionary<Control, KeyCode> bindings)
         {
             if (!File.Exists(keyBindingsFilePath))
