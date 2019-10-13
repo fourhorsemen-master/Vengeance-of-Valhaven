@@ -24,7 +24,8 @@ namespace Assets.Scripts.KeyMapping
     // KeyMapper loads and saves keybindings as json in a text file.
     public class KeyMapper
     {
-        private static string keyBindingsFilePath = Application.persistentDataPath + "/Settings/KeyBindings.txt";
+        private static string keyBindingsDirectory = Application.persistentDataPath;
+        private static string keyBindingsFilePath = keyBindingsDirectory + "/keyBindings.json";
 
         private static Dictionary<Control, KeyCode> defaultBindings = new Dictionary<Control, KeyCode>
         {
@@ -57,6 +58,8 @@ namespace Assets.Scripts.KeyMapping
         // On first run, settings file won't exist, so we create a new one. Otherwise we return the loaded settings.
         private bool TryLoadBindings(out Dictionary<Control, KeyCode> bindings)
         {
+            Directory.CreateDirectory(keyBindingsDirectory);
+
             if (!File.Exists(keyBindingsFilePath))
             {
                 bindings = default;
