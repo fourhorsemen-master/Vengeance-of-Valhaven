@@ -73,8 +73,8 @@ namespace Assets.Scripts.KeyMapping
 
         private void SaveBindings()
         {
-            File.Create(keyBindingsFilePath);
-            File.WriteAllText(keyBindingsFilePath, JsonUtility.ToJson(this.Bindings));
+            var bindingsJson = JsonUtility.ToJson(this.Bindings);
+            File.WriteAllText(keyBindingsFilePath, bindingsJson);
         }
 
         public void SetBinding(Control control, KeyCode code)
