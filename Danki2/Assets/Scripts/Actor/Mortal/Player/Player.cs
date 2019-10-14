@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Player : Mortal
 {
-    public new void Act()
+    public override void Act()
     {
         var upBinding = KeyMapper.Mapper.GetBinding(Control.Up);
         var downBinding = KeyMapper.Mapper.GetBinding(Control.Down);

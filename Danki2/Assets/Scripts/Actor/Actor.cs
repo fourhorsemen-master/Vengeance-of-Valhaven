@@ -19,7 +19,7 @@ public class Actor : MonoBehaviour
         this.Act();
     }
 
-    public void Act()
+    public virtual void Act()
     {
         this.personality.Act();
     }
