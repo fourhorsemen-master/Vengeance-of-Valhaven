@@ -8,18 +8,6 @@ using UnityEngine;
 
 namespace Assets.Scripts.KeyMapping
 {
-    public enum Control
-    {
-        Up,
-        Down,
-        Left,
-        Right,
-        LeftAction,
-        RightAction,
-        Dash,
-        Pause,
-    }
-
     // KeyMapper works as a global singleton accessed fro anywhere by KeyMapper.Mapper.
     // KeyMapper loads and saves keybindings as json in a text file.
     public class KeyMapper
@@ -27,19 +15,17 @@ namespace Assets.Scripts.KeyMapping
         private static string keyBindingsDirectory = Application.persistentDataPath;
         private static string keyBindingsFilePath = keyBindingsDirectory + "/keyBindings.json";
 
-        private static Dictionary<Control, KeyCode> defaultBindings = new Dictionary<Control, KeyCode>
-        {
-            { Control.Up, KeyCode.W },
-            { Control.Down, KeyCode.S },
-            { Control.Left, KeyCode.A },
-            { Control.Right, KeyCode.D },
-            { Control.LeftAction, KeyCode.Mouse0 },
-            { Control.RightAction, KeyCode.Mouse1 },
-            { Control.Dash, KeyCode.Space },
-            { Control.Pause, KeyCode.Escape },
-        };
-
-        private Dictionary<Control, KeyCode> Bindings;
+        private static KeyBindings defaultBindings = new KeyBindings
+        (
+            KeyCode.W,
+            KeyCode.S,
+            KeyCode.A,
+            KeyCode.D,
+            KeyCode.Mouse0,
+            KeyCode.Mouse1,
+            KeyCode.Space,
+            KeyCode.Escape
+        );
 
         private KeyMapper()
         {
@@ -53,10 +39,18 @@ namespace Assets.Scripts.KeyMapping
             this.SaveBindings();
         }
 
+        public KeyBindings Bindings { get; private set; }
+
         public static KeyMapper Mapper { get; } = new KeyMapper();
 
+        public void SetBindings(KeyBindings bindings)
+        {
+            this.Bindings = bindings;
+            this.SaveBindings();
+        }
+
         // On first run, settings file won't exist, so we create a new one. Otherwise we return the loaded settings.
-        private bool TryLoadBindings(out Dictionary<Control, KeyCode> bindings)
+        private bool TryLoadBindings(out KeyBindings bindings)
         {
             Directory.CreateDirectory(keyBindingsDirectory);
 
@@ -67,7 +61,7 @@ namespace Assets.Scripts.KeyMapping
             }
 
             var bindingsJsonString = File.ReadAllText(keyBindingsFilePath);
-            bindings = JsonUtility.FromJson<Dictionary<Control,KeyCode>>(bindingsJsonString);
+            bindings = JsonUtility.FromJson<KeyBindings>(bindingsJsonString);
             return true;
         }
 
@@ -75,22 +69,6 @@ namespace Assets.Scripts.KeyMapping
         {
             var bindingsJson = JsonUtility.ToJson(this.Bindings);
             File.WriteAllText(keyBindingsFilePath, bindingsJson);
-        }
-
-        public void SetBinding(Control control, KeyCode code)
-        {
-            this.Bindings[control] = code;
-            this.SaveBindings();
-        }
-
-        public KeyCode GetBinding(Control control)
-        {
-            if (!this.Bindings.TryGetValue(control, out var keyCode))
-            {
-                throw new KeyNotFoundException($"No keycode registered for control {keyCode.ToString()}");
-            }
-
-            return keyCode;
         }
     }
 }

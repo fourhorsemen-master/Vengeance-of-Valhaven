@@ -7,15 +7,11 @@ public class Player : Mortal
 {
     public override void Act()
     {
-        var upBinding = KeyMapper.Mapper.GetBinding(Control.Up);
-        var downBinding = KeyMapper.Mapper.GetBinding(Control.Down);
-        var leftBinding = KeyMapper.Mapper.GetBinding(Control.Left);
-        var rightBinding = KeyMapper.Mapper.GetBinding(Control.Right);
-        var leftActionBinding = KeyMapper.Mapper.GetBinding(Control.LeftAction);
-        var rightActionBinding = KeyMapper.Mapper.GetBinding(Control.RightAction);
-        var dashBinding = KeyMapper.Mapper.GetBinding(Control.Dash);
+        var bindings = KeyMapper.Mapper.Bindings;
 
-        if (Input.GetKey(upBinding))
+        var test = bindings.Down;
+
+        if (Input.GetKey(bindings.Down))
         {
 
         }
