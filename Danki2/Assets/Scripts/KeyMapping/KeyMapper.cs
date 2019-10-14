@@ -8,13 +8,14 @@ using UnityEngine;
 
 namespace Assets.Scripts.KeyMapping
 {
-    // KeyMapper works as a global singleton accessed fro anywhere by KeyMapper.Mapper.
-    // KeyMapper loads and saves keybindings as json in a text file.
+    // KeyMapper works as a global singleton accessed from anywhere by KeyMapper.Mapper, which points to a static KeyMapper.
+    // KeyMapper loads and saves keybindings using a json file.
     public class KeyMapper
     {
         private static string keyBindingsDirectory = Application.persistentDataPath;
         private static string keyBindingsFilePath = keyBindingsDirectory + "/keyBindings.json";
 
+        // These default bindings are used if no keybindings file exists.
         private static KeyBindings defaultBindings = new KeyBindings
         (
             KeyCode.W,
@@ -52,6 +53,7 @@ namespace Assets.Scripts.KeyMapping
         // On first run, settings file won't exist, so we create a new one. Otherwise we return the loaded settings.
         private bool TryLoadBindings(out KeyBindings bindings)
         {
+            // We create the directory if it doesn't exist already.
             Directory.CreateDirectory(keyBindingsDirectory);
 
             if (!File.Exists(keyBindingsFilePath))
@@ -65,6 +67,7 @@ namespace Assets.Scripts.KeyMapping
             return true;
         }
 
+        // Save bindings to the json file.
         private void SaveBindings()
         {
             var bindingsJson = JsonUtility.ToJson(this.Bindings);

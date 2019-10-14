@@ -1,6 +1,4 @@
 ﻿using Assets.Scripts.KeyMapping;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : Mortal
@@ -9,9 +7,6 @@ public class Player : Mortal
     {
         var bindings = KeyMapper.Mapper.Bindings;
 
-        if (Input.GetKey(bindings.Down))
-        {
-
-        }
+        // Move etc. according to bindings
     }
 }
