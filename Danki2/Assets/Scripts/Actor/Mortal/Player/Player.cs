@@ -9,8 +9,6 @@ public class Player : Mortal
     {
         var bindings = KeyMapper.Mapper.Bindings;
 
-        var test = bindings.Down;
-
         if (Input.GetKey(bindings.Down))
         {
 
