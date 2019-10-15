@@ -27,7 +27,7 @@ namespace Assets.Scripts.AI
             {
                 if (this.agenda[key] && this.personality.TryGetValue(key, out var behaviour))
                 {
-                    behaviour();
+                    behaviour(this.actor);
                 }
             }
         }
