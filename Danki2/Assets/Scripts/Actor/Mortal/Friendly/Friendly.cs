@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Friendly : Mortal
+public abstract class Friendly : Mortal
 {
 
 }

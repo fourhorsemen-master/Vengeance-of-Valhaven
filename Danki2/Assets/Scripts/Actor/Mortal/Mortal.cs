@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Mortal : Actor
+public abstract class Mortal : Actor
 {
     public new void Update()
     {

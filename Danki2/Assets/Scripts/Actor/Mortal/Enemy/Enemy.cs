@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : Mortal
+public abstract class Enemy : Mortal
 {
 
 }

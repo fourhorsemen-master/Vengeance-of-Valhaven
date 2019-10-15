@@ -1,11 +1,9 @@
 ﻿using Assets.Scripts.AI;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Actor : MonoBehaviour
+public abstract class Actor : MonoBehaviour
 {
-    private Personality personality = new Personality();
+    public abstract AI AI { get; }
 
     // Start is called before the first frame update
     public void Start()
@@ -21,6 +19,6 @@ public class Actor : MonoBehaviour
 
     public virtual void Act()
     {
-        this.personality.Act();
+        this.AI.Act();
     }
 }

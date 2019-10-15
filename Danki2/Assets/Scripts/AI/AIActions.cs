@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace Assets.Scripts.AI
 {
-    public class Personality
+    public enum AIAction
     {
-        public void Act()
-        {
-            
-        }
+        FindTarget,
+        Attack,
+        Defend,
+        Advance,
+        Retreat,
+        Evade
     }
 }
