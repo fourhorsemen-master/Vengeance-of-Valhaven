@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Player : Mortal
 {
-    public override AI AI => null;
+    public override IAI AI => null;
 
     public override void Act()
     {

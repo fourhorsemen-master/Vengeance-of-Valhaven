@@ -3,7 +3,7 @@ using UnityEngine;
 
 public abstract class Actor : MonoBehaviour
 {
-    public abstract AI AI { get; }
+    public abstract IAI AI { get; }
 
     // Start is called before the first frame update
     public void Start()

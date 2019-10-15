@@ -4,14 +4,14 @@ using Agenda = System.Collections.Generic.Dictionary<Assets.Scripts.AI.AIAction,
 
 namespace Assets.Scripts.AI
 {
-    public class AI
+    public class AI<T> : IAI where T : Actor
     {
-        private readonly Actor actor;
-        private readonly Func<Actor, Agenda> plan;
-        private readonly Dictionary<AIAction, Action<Actor>> personality;
+        private readonly T actor;
+        private readonly Func<T, Agenda> plan;
+        private readonly Dictionary<AIAction, Action<T>> personality;
         private Agenda agenda;
 
-        public AI(Actor actor, Func<Actor, Agenda> plan, Dictionary<AIAction, Action<Actor>> personality)
+        public AI(T actor, Func<T, Agenda> plan, Dictionary<AIAction, Action<T>> personality)
         {
             this.actor = actor;
             this.plan = plan;

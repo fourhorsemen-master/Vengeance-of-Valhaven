@@ -7,16 +7,16 @@ using UnityEngine;
 
 public class TargetDummy : Enemy
 {
-    private AI ai;
+    private AI<TargetDummy> ai;
 
     public TargetDummy()
     {
-        this.ai = new AI(
+        this.ai = new AI<TargetDummy>(
             this,
             a => new Dictionary<AIAction, bool>(),
-            new Dictionary<AIAction, Action<Actor>>()
+            new Dictionary<AIAction, Action<TargetDummy>>()
         );
     }
 
-    public override AI AI => this.ai;
+    public override IAI AI => this.ai;
 }
