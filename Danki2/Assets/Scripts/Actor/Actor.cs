@@ -5,12 +5,17 @@ using UnityEngine;
 
 public class Actor : MonoBehaviour
 {
-    private Personality personality = new Personality();
+    private Personality _personality = new Personality();
+
+    [SerializeField, Range(1f, 100f), Tooltip("Recommended value: 16.")]
+    protected float moveSpeed = 1f;
+
+    private Vector3 _vecToMove;
 
     // Start is called before the first frame update
     public void Start()
     {
-
+        _vecToMove = new Vector3();
     }
 
     // Update is called once per frame
@@ -19,8 +24,22 @@ public class Actor : MonoBehaviour
         this.Act();
     }
 
-    public virtual void Act()
+    protected virtual void Act()
     {
-        this.personality.Act();
+        this._personality.Act();
     }
+
+    protected void MoveAlongVector(Vector3 vec)
+    {
+        vec.Normalize();
+        vec *= moveSpeed;
+        transform.Translate(vec);
+    }
+
+    protected void MoveToward(Vector3 target)
+    {
+        _vecToMove = target - transform.position;
+        MoveAlongVector(_vecToMove);
+    }
+
 }
