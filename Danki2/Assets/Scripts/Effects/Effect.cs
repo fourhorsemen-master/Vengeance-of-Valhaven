@@ -4,14 +4,14 @@ namespace Assets.Scripts.Effects
 {
     public abstract class Effect
     {
-        private float remainingDuration;
+        private float _remainingDuration;
 
         public Effect(float duration)
         {
-            remainingDuration = duration;
+            _remainingDuration = duration;
         }
 
-        public bool Expired => this.remainingDuration < 0f;
+        public bool Expired => _remainingDuration < 0f;
 
         protected abstract void UpdateAction(Actor actor, float deltaTime);
 
@@ -21,9 +21,9 @@ namespace Assets.Scripts.Effects
         {
             var deltaTime = Time.deltaTime;
 
-            remainingDuration -= deltaTime;
+            _remainingDuration -= deltaTime;
             this.UpdateAction(actor, deltaTime);
-            if (remainingDuration < 0f)
+            if (_remainingDuration < 0f)
             {
                 this.FinishAction(actor);
             }

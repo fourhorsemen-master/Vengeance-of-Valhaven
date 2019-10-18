@@ -8,9 +8,9 @@ namespace Assets.Scripts.Effects
 {
     public class Dash : Effect
     {
-        private readonly float speedMultiplier;
-        private readonly float slowDuration;
-        private readonly float slowMultiplier;
+        private readonly float _speedMultiplier;
+        private readonly float _slowDuration;
+        private readonly float _slowMultiplier;
 
         public Dash(
             float duration,
@@ -20,15 +20,15 @@ namespace Assets.Scripts.Effects
         )
             : base(duration)
         {
-            this.speedMultiplier = speedMultiplier;
-            this.slowDuration = slowDuration;
-            this.slowMultiplier = slowMultiplier;
+            _speedMultiplier = speedMultiplier;
+            _slowDuration = slowDuration;
+            _slowMultiplier = slowMultiplier;
         }
 
         protected override void FinishAction(Actor actor)
         {
             actor.AddEffect(
-                new Slow(this.slowDuration, this.slowMultiplier)
+                new Slow(_slowDuration, _slowMultiplier)
             );
         }
 
@@ -36,7 +36,7 @@ namespace Assets.Scripts.Effects
         {
             // actor.SetStat(
             //     Stats.Speed,
-            //     actor.GetStat(Stats.Speed) * this.speedMultiplier
+            //     actor.GetStat(Stats.Speed) * _speedMultiplier
             // );
         }
     }

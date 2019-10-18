@@ -8,11 +8,11 @@ namespace Assets.Scripts.Effects
 {
     public class Slow : Effect
     {
-        private readonly float slowMultiplier;
+        private readonly float _slowMultiplier;
 
         public Slow(float duration, float slowMultiplier) : base(duration)
         {
-            this.slowMultiplier = slowMultiplier;
+            _slowMultiplier = slowMultiplier;
         }
 
         protected override void FinishAction(Actor actor)

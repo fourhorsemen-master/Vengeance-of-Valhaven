@@ -8,20 +8,20 @@ namespace Assets.Scripts.Effects
 {
     public class EffectTracker
     {
-        private List<Effect> Effects;
-        private readonly Actor actor;
+        private List<Effect> _effects;
+        private readonly Actor _actor;
 
         public EffectTracker(Actor actor)
         {
-            this.Effects = new List<Effect>();
-            this.actor = actor;
+            _effects = new List<Effect>();
+            _actor = actor;
         }
         
         public void ProcessEffects()
         {
-            this.Effects = this.Effects.FindAll(
+            _effects = _effects.FindAll(
                 effect => {
-                    effect.Update(this.actor);
+                    effect.Update(_actor);
                     return !effect.Expired;
                 }    
             );
@@ -29,7 +29,7 @@ namespace Assets.Scripts.Effects
 
         public void AddEffect(Effect effect)
         {
-            this.Effects.Add(effect);
+            _effects.Add(effect);
         }
     }
 }
