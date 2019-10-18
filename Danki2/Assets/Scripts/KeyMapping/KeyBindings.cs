@@ -13,21 +13,21 @@ namespace Assets.Scripts.KeyMapping
     {
         // SerializeField is required as by default JsonUtility ignores private fields.
         [SerializeField]
-        private KeyCode up;
+        private KeyCode _up;
         [SerializeField]
-        private KeyCode down;
+        private KeyCode _down;
         [SerializeField]
-        private KeyCode left;
+        private KeyCode _left;
         [SerializeField]
-        private KeyCode right;
+        private KeyCode _right;
         [SerializeField]
-        private KeyCode leftAction;
+        private KeyCode _leftAction;
         [SerializeField]
-        private KeyCode rightAction;
+        private KeyCode _rightAction;
         [SerializeField]
-        private KeyCode dash;
+        private KeyCode _dash;
         [SerializeField]
-        private KeyCode pause;
+        private KeyCode _pause;
 
         public KeyBindings(
             KeyCode up,
@@ -40,14 +40,14 @@ namespace Assets.Scripts.KeyMapping
             KeyCode pause
         )
         {
-            this.up = up;
-            this.down = down;
-            this.left = left;
-            this.right = right;
-            this.leftAction = leftAction;
-            this.rightAction = rightAction;
-            this.dash = dash;
-            this.pause = pause;
+            _up = up;
+            _down = down;
+            _left = left;
+            _right = right;
+            _leftAction = leftAction;
+            _rightAction = rightAction;
+            _dash = dash;
+            _pause = pause;
         }
 
         // With the method below, we can create KeyBindings using an existing one, and setting whichever optional parameters we like to be different.
@@ -65,23 +65,23 @@ namespace Assets.Scripts.KeyMapping
             KeyCode pause = 0
         )
         {
-            this.up = up == 0 ? initialBindings.up : up;
-            this.down = down == 0 ? initialBindings.down : down;
-            this.left = left == 0 ? initialBindings.left : left;
-            this.right = right == 0 ? initialBindings.right : right;
-            this.leftAction = leftAction == 0 ? initialBindings.leftAction : leftAction;
-            this.rightAction = rightAction == 0 ? initialBindings.rightAction : rightAction;
-            this.dash = dash == 0 ? initialBindings.dash : dash;
-            this.pause = pause == 0 ? initialBindings.pause : pause;
+            _up = up == 0 ? initialBindings._up : up;
+            _down = down == 0 ? initialBindings._down : down;
+            _left = left == 0 ? initialBindings._left : left;
+            _right = right == 0 ? initialBindings._right : right;
+            _leftAction = leftAction == 0 ? initialBindings._leftAction : leftAction;
+            _rightAction = rightAction == 0 ? initialBindings._rightAction : rightAction;
+            _dash = dash == 0 ? initialBindings._dash : dash;
+            _pause = pause == 0 ? initialBindings._pause : pause;
         }
 
-        public KeyCode Up => this.up;
-        public KeyCode Down => this.down;
-        public KeyCode Left => this.left;
-        public KeyCode Right => this.right;
-        public KeyCode LeftAction => this.leftAction;
-        public KeyCode RightAction => this.rightAction;
-        public KeyCode Dash => this.dash;
-        public KeyCode Pause => this.pause;
+        public KeyCode Up => _up;
+        public KeyCode Down => _down;
+        public KeyCode Left => _left;
+        public KeyCode Right => _right;
+        public KeyCode LeftAction => _leftAction;
+        public KeyCode RightAction => _rightAction;
+        public KeyCode Dash => _dash;
+        public KeyCode Pause => _pause;
     }
 }
