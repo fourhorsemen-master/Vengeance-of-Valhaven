@@ -5,36 +5,36 @@ namespace Abilities
 {
     public abstract class AbilityTree
     {
-        private readonly Node rootNode;
+        private readonly Node _rootNode;
 
-        private Node currentNode;
+        private Node _currentNode;
 
         protected AbilityTree(Node rootNode)
         {
-            this.rootNode = rootNode;
-            currentNode = this.rootNode;
+            _rootNode = rootNode;
+            _currentNode = _rootNode;
         }
 
         public bool CanWalk(Direction direction)
         {
-            return currentNode.HasChild(direction);
+            return _currentNode.HasChild(direction);
         }
 
         public AbilityBuilder GetAbilityBuilder(Direction direction)
         {
-            var ability = currentNode.GetChild(direction).Ability;
+            var ability = _currentNode.GetChild(direction).Ability;
 
             return AbilityBuilder.GetAbilityBuilder(ability);
         }
 
         public void Walk(Direction direction)
         {
-            currentNode = currentNode.GetChild(direction);
+            _currentNode = _currentNode.GetChild(direction);
         }
 
         public void Reset()
         {
-            currentNode = rootNode;
+            _currentNode = _rootNode;
         }
     }
 }

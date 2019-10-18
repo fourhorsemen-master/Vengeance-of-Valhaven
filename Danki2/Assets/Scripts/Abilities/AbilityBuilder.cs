@@ -13,16 +13,16 @@ namespace Assets.Scripts.Abilities
 
     public class AbilityBuilder
     {
-        private readonly Func<AbilityContext, Ability> buildAction;
+        private readonly Func<AbilityContext, Ability> _buildAction;
 
         public AbilityBuilder(Func<AbilityContext, Ability> buildAction)
         {
-            this.buildAction = buildAction;
+            _buildAction = buildAction;
         }
 
         public Ability Build(AbilityContext context)
         {
-            return this.buildAction(context);
+            return _buildAction(context);
         }
 
         // This is where we tie the AbilityReference enum to abilities.
