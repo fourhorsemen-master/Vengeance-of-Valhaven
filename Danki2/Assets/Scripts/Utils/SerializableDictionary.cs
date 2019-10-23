@@ -6,10 +6,10 @@ using UnityEngine;
 public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, ISerializationCallbackReceiver
 {
     [SerializeField]
-    private readonly List<TKey> keys = new List<TKey>();
+    private List<TKey> keys = new List<TKey>();
 
     [SerializeField]
-    private readonly List<TValue> values = new List<TValue>();
+    private List<TValue> values = new List<TValue>();
 
     public void OnBeforeSerialize()
     {
