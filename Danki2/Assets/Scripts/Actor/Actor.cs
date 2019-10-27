@@ -5,7 +5,7 @@ using UnityEngine;
 public class Actor : MonoBehaviour
 {
     [HideInInspector]
-    public Stats stats = new Stats();
+    public Stats stats = new Stats(0);
 
     // Start is called before the first frame update
     void Start()

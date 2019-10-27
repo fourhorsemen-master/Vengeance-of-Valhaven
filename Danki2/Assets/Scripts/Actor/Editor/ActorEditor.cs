@@ -14,10 +14,6 @@ public class ActorEditor : Editor
         EditorGUI.indentLevel++;
         foreach (Stat stat in Enum.GetValues(typeof(Stat)))
         {
-            if (!actor.stats.ContainsKey(stat))
-            {
-                actor.stats.Add(stat, 0);
-            }
             actor.stats[stat] = EditorGUILayout.IntSlider(stat.ToString(), actor.stats[stat], 0, 100);
         }
         EditorGUI.indentLevel--;
