@@ -21,6 +21,20 @@ public class SerializableEnumDictionary<TEnumKey, TValue> : ISerializationCallba
         }
     }
 
+    public SerializableEnumDictionary(SerializableEnumDictionary<TEnumKey, TValue> dictionary)
+    {
+        foreach (TEnumKey key in Enum.GetValues(typeof(TEnumKey)))
+        {
+            this.dictionary[key] = dictionary[key];
+        }
+    }
+
+    public TValue this[TEnumKey key]
+    {
+        get { return dictionary[key]; }
+        set { dictionary[key] = value; }
+    }
+
     public void OnBeforeSerialize()
     {
         keys.Clear();
@@ -38,11 +52,5 @@ public class SerializableEnumDictionary<TEnumKey, TValue> : ISerializationCallba
         {
             dictionary[keys[i]] = values[i];
         }
-    }
-
-    public TValue this[TEnumKey key]
-    {
-        get { return dictionary[key]; }
-        set { dictionary[key] = value; }
     }
 }
