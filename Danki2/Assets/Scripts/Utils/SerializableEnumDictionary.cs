@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class SerializableEnumDictionary<TEnumKey, TValue> : ISerializationCallbackReceiver
+public class SerializableEnumDictionary<TEnumKey, TValue> : ISerializationCallbackReceiver where TEnumKey : Enum
 {
     [SerializeField]
     private List<TEnumKey> keys = new List<TEnumKey>();
@@ -25,7 +25,7 @@ public class SerializableEnumDictionary<TEnumKey, TValue> : ISerializationCallba
     {
         foreach (TEnumKey key in Enum.GetValues(typeof(TEnumKey)))
         {
-            this.dictionary[key] = dictionary[key];
+            this.dictionary.Add(key, dictionary[key]);
         }
     }
 
