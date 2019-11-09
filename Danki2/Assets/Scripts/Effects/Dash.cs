@@ -34,10 +34,7 @@ namespace Assets.Scripts.Effects
 
         protected override void UpdateAction(Actor actor, float deltaTime)
         {
-            // actor.SetStat(
-            //     Stats.Speed,
-            //     actor.GetStat(Stats.Speed) * _speedMultiplier
-            // );
+            // TODO: Implement dash update.
         }
     }
 }

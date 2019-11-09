@@ -21,7 +21,7 @@ namespace Assets.Scripts.Effects
 
         protected override void UpdateAction(Actor actor, float deltaTime)
         {
-            // actor.SetStat(Stats.Speed, actor.GetStat(Stats.Speed) * this.slowMultiplier);
+            // TODO: Implement slow update
         }
     }
 }
