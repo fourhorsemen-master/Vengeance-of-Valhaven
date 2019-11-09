@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.KeyMapping;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Player : Mortal
 {
@@ -14,10 +13,10 @@ public class Player : Mortal
     { 
         _moveDirection = Vector3.zero;
 
-        if (Input.GetKey(KeyMapper.Mapper.Bindings.Right)) _moveDirection.x += 1f;
-        if (Input.GetKey(KeyMapper.Mapper.Bindings.Left)) _moveDirection.x -= 1f;
-        if (Input.GetKey(KeyMapper.Mapper.Bindings.Up)) _moveDirection.y += 1f;
-        if (Input.GetKey(KeyMapper.Mapper.Bindings.Down)) _moveDirection.y -= 1f;
+        if (Input.GetAxis("Horizontal") > 0) _moveDirection.x += 1f;
+        if (Input.GetAxis("Horizontal") < 0) _moveDirection.x -= 1f;
+        if (Input.GetAxis("Vertical") > 0) _moveDirection.y += 1f;
+        if (Input.GetAxis("Vertical") < 0) _moveDirection.y -= 1f;
 
         MoveAlongVector(_moveDirection);
     }
