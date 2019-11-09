@@ -5,6 +5,9 @@ public class Actor : MonoBehaviour
 {
     private EffectTracker effectTracker;
 
+    [HideInInspector]
+    public Stats stats = new Stats();
+
     // Start is called before the first frame update
     void Start()
     {
