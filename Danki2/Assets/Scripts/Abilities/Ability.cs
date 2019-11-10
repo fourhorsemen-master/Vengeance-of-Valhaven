@@ -13,22 +13,22 @@ namespace Abilities
         Whirlwind,
     }
 
-    public abstract class AbilityContext
+    public class AbilityContext
     {
-        private readonly Actor _owner;
-        private readonly Actor _target;
-        private readonly Vector3 _origin;
-
         public AbilityContext(
             Actor owner,
             Actor target,
             Vector3 origin
         )
         {
-            _owner = owner;
-            _target = target;
-            _origin = origin;
+            Owner = owner;
+            Target = target;
+            Origin = origin;
         }
+
+        public Actor Owner { get; }
+        public Actor Target { get; }
+        public Vector3 Origin { get; }
     }
 
     public class Ability
