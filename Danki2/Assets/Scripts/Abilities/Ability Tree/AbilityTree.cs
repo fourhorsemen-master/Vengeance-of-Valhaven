@@ -1,37 +1,38 @@
-﻿using System;
+﻿using Assets.Scripts.Abilities;
+using System;
 
 namespace Abilities
 {
     public abstract class AbilityTree
     {
-        private readonly Node rootNode;
+        private readonly Node _rootNode;
 
-        private Node currentNode;
+        private Node _currentNode;
 
         protected AbilityTree(Node rootNode)
         {
-            this.rootNode = rootNode;
-            currentNode = this.rootNode;
+            _rootNode = rootNode;
+            _currentNode = _rootNode;
         }
 
         public bool CanWalk(Direction direction)
         {
-            return currentNode.HasChild(direction);
+            return _currentNode.HasChild(direction);
         }
 
-        public Ability GetAbility(Direction direction)
+        public AbilityReference GetAbility(Direction direction)
         {
-            return currentNode.GetChild(direction).Ability;
+            return _currentNode.GetChild(direction).Ability;
         }
 
         public void Walk(Direction direction)
         {
-            currentNode = currentNode.GetChild(direction);
+            _currentNode = _currentNode.GetChild(direction);
         }
 
         public void Reset()
         {
-            currentNode = rootNode;
+            _currentNode = _rootNode;
         }
     }
 }
