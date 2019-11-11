@@ -5,26 +5,26 @@ using UnityEngine;
 
 public class StatsManager
 {
-    private readonly Stats baseStats;
-    private readonly Stats frameStats;
+    private readonly Stats _baseStats;
+    private readonly Stats _frameStats;
 
     public StatsManager(Stats baseStats)
     {
-        this.baseStats = baseStats;
-        this.frameStats = new Stats(this.baseStats);
+        _baseStats = baseStats;
+        _frameStats = new Stats(_baseStats);
     }
 
     public int this[Stat stat]
     {
-        get { return frameStats[stat]; }
-        set { frameStats[stat] = value; }
+        get { return _frameStats[stat]; }
+        set { _frameStats[stat] = value; }
     }
 
     public void Rebase()
     {
         foreach (Stat stat in Enum.GetValues(typeof(Stat)))
         {
-            frameStats[stat] = baseStats[stat];
+            _frameStats[stat] = _baseStats[stat];
         }
     }
 }

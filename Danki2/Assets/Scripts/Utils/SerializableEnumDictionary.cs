@@ -6,18 +6,18 @@ using UnityEngine;
 public class SerializableEnumDictionary<TEnumKey, TValue> : ISerializationCallbackReceiver where TEnumKey : Enum
 {
     [SerializeField]
-    private List<TEnumKey> keys = new List<TEnumKey>();
+    private List<TEnumKey> _keys = new List<TEnumKey>();
 
     [SerializeField]
-    private List<TValue> values = new List<TValue>();
+    private List<TValue> _values = new List<TValue>();
 
-    private Dictionary<TEnumKey, TValue> dictionary = new Dictionary<TEnumKey, TValue>();
+    private Dictionary<TEnumKey, TValue> _dictionary = new Dictionary<TEnumKey, TValue>();
 
     public SerializableEnumDictionary(TValue defaultValue)
     {
         foreach (TEnumKey key in Enum.GetValues(typeof(TEnumKey)))
         {
-            dictionary.Add(key, defaultValue);
+            _dictionary.Add(key, defaultValue);
         }
     }
 
@@ -25,32 +25,32 @@ public class SerializableEnumDictionary<TEnumKey, TValue> : ISerializationCallba
     {
         foreach (TEnumKey key in Enum.GetValues(typeof(TEnumKey)))
         {
-            this.dictionary.Add(key, dictionary[key]);
+            _dictionary.Add(key, dictionary[key]);
         }
     }
 
     public TValue this[TEnumKey key]
     {
-        get { return dictionary[key]; }
-        set { dictionary[key] = value; }
+        get { return _dictionary[key]; }
+        set { _dictionary[key] = value; }
     }
 
     public void OnBeforeSerialize()
     {
-        keys.Clear();
-        values.Clear();
-        foreach (KeyValuePair<TEnumKey, TValue> keyValuePair in dictionary)
+        _keys.Clear();
+        _values.Clear();
+        foreach (KeyValuePair<TEnumKey, TValue> keyValuePair in _dictionary)
         {
-            keys.Add(keyValuePair.Key);
-            values.Add(keyValuePair.Value);
+            _keys.Add(keyValuePair.Key);
+            _values.Add(keyValuePair.Value);
         }
     }
 
     public void OnAfterDeserialize()
     {
-        for (int i = 0; i < keys.Count; i++)
+        for (int i = 0; i < _keys.Count; i++)
         {
-            dictionary[keys[i]] = values[i];
+            _dictionary[_keys[i]] = _values[i];
         }
     }
 }

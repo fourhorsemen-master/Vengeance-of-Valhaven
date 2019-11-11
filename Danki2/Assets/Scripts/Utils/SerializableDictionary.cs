@@ -6,28 +6,28 @@ using UnityEngine;
 public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, ISerializationCallbackReceiver
 {
     [SerializeField]
-    private List<TKey> keys = new List<TKey>();
+    private List<TKey> _keys = new List<TKey>();
 
     [SerializeField]
-    private List<TValue> values = new List<TValue>();
+    private List<TValue> _values = new List<TValue>();
 
     public void OnBeforeSerialize()
     {
-        keys.Clear();
-        values.Clear();
+        _keys.Clear();
+        _values.Clear();
         foreach (KeyValuePair<TKey, TValue> keyValuePair in this)
         {
-            keys.Add(keyValuePair.Key);
-            values.Add(keyValuePair.Value);
+            _keys.Add(keyValuePair.Key);
+            _values.Add(keyValuePair.Value);
         }
     }
 
     public void OnAfterDeserialize()
     {
         Clear();
-        for (int i = 0; i < keys.Count; i++)
+        for (int i = 0; i < _keys.Count; i++)
         {
-            Add(keys[i], values[i]);
+            Add(_keys[i], _values[i]);
         }
     }
 }

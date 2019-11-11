@@ -6,36 +6,36 @@ public class Actor : MonoBehaviour
     [HideInInspector]
     public Stats baseStats = new Stats(0);
 
-    private StatsManager statsManager;
+    private StatsManager _statsManager;
 
-    private EffectTracker effectTracker;
+    private EffectTracker _effectTracker;
 
     // Start is called before the first frame update
     void Start()
     {
-        statsManager = new StatsManager(baseStats);
-        effectTracker = new EffectTracker(this);
+        _statsManager = new StatsManager(baseStats);
+        _effectTracker = new EffectTracker(this);
     }
 
     // Update is called once per frame
     void Update()
     {
-        statsManager.Rebase();
-        effectTracker.ProcessEffects();
+        _statsManager.Rebase();
+        _effectTracker.ProcessEffects();
     }
 
     public int GetStat(Stat stat)
     {
-        return statsManager[stat];
+        return _statsManager[stat];
     }
 
     public void SetStat(Stat stat, int value)
     {
-        statsManager[stat] = value;
+        _statsManager[stat] = value;
     }
 
     public void AddEffect(Effect effect)
     {
-        effectTracker.AddEffect(effect);
+        _effectTracker.AddEffect(effect);
     }
 }
