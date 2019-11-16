@@ -8,4 +8,14 @@ public enum Stat
 }
 
 [Serializable]
-public class Stats : SerializableDictionary<Stat, int> {}
+public class Stats : SerializableEnumDictionary<Stat, int>
+{
+    public Stats(int defaultValue) : base(defaultValue)
+    {
+    }
+
+    public Stats(SerializableEnumDictionary<Stat, int> dictionary) : base(dictionary)
+    {
+    }
+}
+

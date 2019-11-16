@@ -3,25 +3,39 @@ using UnityEngine;
 
 public class Actor : MonoBehaviour
 {
-    private EffectTracker effectTracker;
-
     [HideInInspector]
-    public Stats stats = new Stats();
+    public Stats baseStats = new Stats(0);
+
+    private StatsManager _statsManager;
+
+    private EffectTracker _effectTracker;
 
     // Start is called before the first frame update
     void Start()
     {
-        this.effectTracker = new EffectTracker(this);
+        _statsManager = new StatsManager(baseStats);
+        _effectTracker = new EffectTracker(this);
     }
 
     // Update is called once per frame
     void Update()
     {
-        this.effectTracker.ProcessEffects();
+        _statsManager.Rebase();
+        _effectTracker.ProcessEffects();
+    }
+
+    public int GetStat(Stat stat)
+    {
+        return _statsManager[stat];
+    }
+
+    public void SetStat(Stat stat, int value)
+    {
+        _statsManager[stat] = value;
     }
 
     public void AddEffect(Effect effect)
     {
-        this.effectTracker.AddEffect(effect);
+        _effectTracker.AddEffect(effect);
     }
 }
