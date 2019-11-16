@@ -2,6 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Passive : Actor
+public abstract class Passive : Actor
 {
 }

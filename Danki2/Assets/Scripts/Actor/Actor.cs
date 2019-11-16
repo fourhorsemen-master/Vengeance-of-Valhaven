@@ -1,7 +1,8 @@
-﻿using Assets.Scripts.Effects;
+﻿using Assets.Scripts.AI;
+using Assets.Scripts.Effects;
 using UnityEngine;
 
-public class Actor : MonoBehaviour
+public abstract class Actor : MonoBehaviour
 {
     [HideInInspector]
     public Stats baseStats = new Stats(0);
@@ -9,6 +10,8 @@ public class Actor : MonoBehaviour
     private StatsManager _statsManager;
 
     private EffectTracker _effectTracker;
+
+    public abstract IAI AI { get; }
 
     // Start is called before the first frame update
     void Start()
@@ -22,6 +25,12 @@ public class Actor : MonoBehaviour
     {
         _statsManager.Rebase();
         _effectTracker.ProcessEffects();
+        this.Act();
+    }
+
+    protected virtual void Act()
+    {
+        this.AI.Act();
     }
 
     public int GetStat(Stat stat)
