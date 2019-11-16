@@ -9,6 +9,18 @@ public class Player : Mortal
 
     protected override void Act()
     {
-        // TODO: Act according to key-presses.
+        this.Move();
+    }
+
+    private void Move()
+    {
+        var _moveDirection = Vector3.zero;
+
+        if (Input.GetAxis("Horizontal") > 0) _moveDirection.x += 1f;
+        if (Input.GetAxis("Horizontal") < 0) _moveDirection.x -= 1f;
+        if (Input.GetAxis("Vertical") > 0) _moveDirection.y += 1f;
+        if (Input.GetAxis("Vertical") < 0) _moveDirection.y -= 1f;
+
+        MoveAlongVector(_moveDirection);
     }
 }
