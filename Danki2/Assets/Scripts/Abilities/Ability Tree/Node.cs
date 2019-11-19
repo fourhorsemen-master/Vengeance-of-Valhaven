@@ -1,37 +1,32 @@
-﻿using Assets.Scripts.Abilities;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace Abilities
+public abstract class Node
 {
-    public abstract class Node
+    private readonly Dictionary<Direction, Node> _children = new Dictionary<Direction, Node>();
+
+    public AbilityReference Ability { get; }
+
+    protected Node()
     {
-        private readonly Dictionary<Direction, Node> _children = new Dictionary<Direction, Node>();
+    }
 
-        public AbilityReference Ability { get; }
+    protected Node(AbilityReference ability)
+    {
+        this.Ability = ability;
+    }
 
-        protected Node()
-        {
-        }
+    public bool HasChild(Direction direction)
+    {
+        return _children.TryGetValue(direction, out _);
+    }
 
-        protected Node(AbilityReference ability)
-        {
-            this.Ability = ability;
-        }
+    public Node GetChild(Direction direction)
+    {
+        return _children[direction];
+    }
 
-        public bool HasChild(Direction direction)
-        {
-            return _children.TryGetValue(direction, out _);
-        }
-
-        public Node GetChild(Direction direction)
-        {
-            return _children[direction];
-        }
-
-        public void SetChild(Direction direction, Node value)
-        {
-            _children[direction] = value;
-        }
+    public void SetChild(Direction direction, Node value)
+    {
+        _children[direction] = value;
     }
 }
