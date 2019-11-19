@@ -16,9 +16,12 @@ public class Player : Mortal
 
         if (Input.GetAxis("Horizontal") > 0) _moveDirection.x += 1f;
         if (Input.GetAxis("Horizontal") < 0) _moveDirection.x -= 1f;
-        if (Input.GetAxis("Vertical") > 0) _moveDirection.y += 1f;
-        if (Input.GetAxis("Vertical") < 0) _moveDirection.y -= 1f;
+        if (Input.GetAxis("Vertical") > 0) _moveDirection.z += 1f;
+        if (Input.GetAxis("Vertical") < 0) _moveDirection.z -= 1f;
 
-        MoveAlongVector(_moveDirection);
+        if (_moveDirection != Vector3.zero)
+        {
+            MoveAlongVector(_moveDirection);
+        }
     }
 }

@@ -45,9 +45,15 @@ public abstract class Actor : MonoBehaviour
 
     protected void MoveAlongVector(Vector3 vec)
     {
+        if (vec == Vector3.zero)
+        {
+            return;
+        }
+
         vec.Normalize();
-        vec *= _statsManager[Stat.Speed];
-        transform.Translate(vec);
+        var speed = _statsManager[Stat.Speed];
+
+        transform.Translate(vec * Time.deltaTime * speed);
     }
 
     protected void MoveToward(Vector3 target)
