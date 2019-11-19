@@ -1,17 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using Agenda = System.Collections.Generic.Dictionary<Assets.Scripts.AI.AIAction, bool>;
 
 namespace Assets.Scripts.AI
 {
-    public class AI<T> : IAI where T : Actor
+    public abstract class AI
+    {
+        public abstract void Act();
+    }
+
+    public class AI<T> : AI where T : Actor
     {
         private readonly T _actor;
-        private readonly Func<T, Agenda> _plan;
+        private readonly Func<T, Agenda, Agenda> _plan;
         private readonly Dictionary<AIAction, Action<T>> _personality;
         private Agenda _agenda;
 
-        public AI(T actor, Func<T, Agenda> plan, Dictionary<AIAction, Action<T>> personality)
+        public AI(T actor, Func<T, Agenda, Agenda> plan, Personality<T> personality)
         {
             _actor = actor;
             _plan = plan;
@@ -19,9 +23,9 @@ namespace Assets.Scripts.AI
             _agenda = new Agenda();
         }
 
-        public void Act()
+        public override void Act()
         {
-            _agenda = _plan(_actor);
+            _agenda = _plan(_actor, _agenda);
 
             foreach (AIAction key in _agenda.Keys)
             {
