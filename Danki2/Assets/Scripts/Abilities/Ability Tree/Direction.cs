@@ -1,8 +1,5 @@
-﻿namespace Abilities
+﻿public enum Direction
 {
-    public enum Direction
-    {
-        Left,
-        Right
-    }
+    Left,
+    Right
 }
