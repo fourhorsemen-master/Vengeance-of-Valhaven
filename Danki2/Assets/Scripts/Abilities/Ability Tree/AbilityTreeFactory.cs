@@ -29,16 +29,16 @@ namespace Abilities
         public static AbilityTree CreateTree(Node leftChild = null, Node rightChild = null)
         {
             Node rootNode = new NodeImplementation();
-            rootNode.SetChild(Direction.LEFT, leftChild);
-            rootNode.SetChild(Direction.RIGHT, rightChild);
+            rootNode.SetChild(Direction.Left, leftChild);
+            rootNode.SetChild(Direction.Right, rightChild);
             return new AbilityTreeImplementation(rootNode);
         }
 
         public static Node CreateNode(AbilityReference ability, Node leftChild = null, Node rightChild = null)
         {
             Node node = new NodeImplementation(ability);
-            node.SetChild(Direction.LEFT, leftChild);
-            node.SetChild(Direction.RIGHT, rightChild);
+            node.SetChild(Direction.Left, leftChild);
+            node.SetChild(Direction.Right, rightChild);
             return node;
         }
     }
