@@ -1,5 +1,3 @@
-﻿using Assets.Scripts.AI;
-using Assets.Scripts.Effects;
 using UnityEngine;
 
 public abstract class Actor : MonoBehaviour
