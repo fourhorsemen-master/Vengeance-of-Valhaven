@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class Player : Mortal
 {
-    public override IAI AI => null;
-
     protected override void Act()
     {
         this.Move();

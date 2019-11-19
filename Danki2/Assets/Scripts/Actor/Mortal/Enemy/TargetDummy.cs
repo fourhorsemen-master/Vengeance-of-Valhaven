@@ -13,10 +13,10 @@ public class TargetDummy : Enemy
     {
         _ai = new AI<TargetDummy>(
             this,
-            a => new Dictionary<AIAction, bool>(),
-            new Dictionary<AIAction, Action<TargetDummy>>()
+            (a, b) => new Agenda(),
+            new Personality<TargetDummy>()
         );
     }
 
-    public override IAI AI => _ai;
+    public override AI AI => _ai;
 }

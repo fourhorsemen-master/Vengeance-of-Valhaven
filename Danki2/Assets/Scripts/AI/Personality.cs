@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace Assets.Scripts.AI
 {
-    public interface IAI
+    public class Personality<T> : Dictionary<AIAction, Action<T>>
     {
-        void Act();
     }
 }

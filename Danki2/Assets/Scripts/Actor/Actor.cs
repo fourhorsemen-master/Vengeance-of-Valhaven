@@ -11,8 +11,6 @@ public abstract class Actor : MonoBehaviour
 
     private EffectTracker _effectTracker;
 
-    public abstract IAI AI { get; }
-
     // Start is called before the first frame update
     void Start()
     {
@@ -28,10 +26,7 @@ public abstract class Actor : MonoBehaviour
         this.Act();
     }
 
-    protected virtual void Act()
-    {
-        this.AI.Act();
-    }
+    protected abstract void Act();
 
     public int GetStat(Stat stat)
     {
