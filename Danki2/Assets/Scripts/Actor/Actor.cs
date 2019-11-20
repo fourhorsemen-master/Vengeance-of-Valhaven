@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+using UnityEngine;
 
-public class Actor : MonoBehaviour
+public abstract class Actor : MonoBehaviour
 {
     [HideInInspector]
     public Stats baseStats = new Stats(0);
@@ -21,7 +21,10 @@ public class Actor : MonoBehaviour
     {
         _statsManager.Rebase();
         _effectTracker.ProcessEffects();
+        this.Act();
     }
+
+    protected abstract void Act();
 
     public int GetStat(Stat stat)
     {

@@ -1,7 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class Enemy : Mortal
+﻿public abstract class Enemy : Mortal
 {
+    public abstract AI AI { get; }
+
+
+    protected override void Act()
+    {
+        this.AI.Act();
+    }
 }
