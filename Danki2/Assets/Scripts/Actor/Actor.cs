@@ -40,4 +40,23 @@ public abstract class Actor : MonoBehaviour
     {
         _effectTracker.AddEffect(effect);
     }
+
+    protected void MoveAlongVector(Vector3 vec)
+    {
+        if (vec == Vector3.zero)
+        {
+            return;
+        }
+
+        vec.Normalize();
+        var speed = _statsManager[Stat.Speed];
+
+        transform.Translate(vec * Time.deltaTime * speed);
+    }
+
+    protected void MoveToward(Vector3 target)
+    {
+        var vecToMove = target - transform.position;
+        MoveAlongVector(vecToMove);
+    }
 }
