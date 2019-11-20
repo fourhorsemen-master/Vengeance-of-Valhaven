@@ -4,9 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assets.Scripts.AI
+public class Personality<T> : Dictionary<AIAction, Action<T>>
 {
-    public class Personality<T> : Dictionary<AIAction, Action<T>>
-    {
-    }
 }

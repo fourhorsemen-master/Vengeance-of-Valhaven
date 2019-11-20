@@ -1,6 +1,4 @@
-﻿using Assets.Scripts.AI;
-
-public abstract class Enemy : Mortal
+﻿public abstract class Enemy : Mortal
 {
     public abstract AI AI { get; }
 
