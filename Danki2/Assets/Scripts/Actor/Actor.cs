@@ -17,7 +17,7 @@ public abstract class Actor : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    public virtual void Update()
     {
         _statsManager.Rebase();
         _effectTracker.ProcessEffects();

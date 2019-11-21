@@ -1,10 +1,31 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+enum CastingStatus
+{
+    ChannelLeft,
+    ChannelRight,
+    Cooldown,
+    Ready
+}
+
+enum ActionControlState
+{
+    Left,
+    Right,
+    Both,
+    None
+}
 
 public class Player : Mortal
 {
     private AbilityTree _abilityTree;
+    private CastingStatus _castingStatus = CastingStatus.Ready;
+    private float _remainingCooldown = 0f;
+    private float _maximumCooldown = 1f;
+    private ActionControlState _previousActionControlState = ActionControlState.None;
 
     public override void Start()
     {
@@ -19,9 +40,17 @@ public class Player : Mortal
         );
     }
 
+    public override void Update()
+    {
+        base.Update();
+        _remainingCooldown = Mathf.Max(0f, _remainingCooldown - Time.deltaTime);
+    }
+
+
     protected override void Act()
     {
         this.Move();
+        this.HandleAbilities();
     }
 
     private void Move()
@@ -37,5 +66,23 @@ public class Player : Mortal
         {
             MoveAlongVector(_moveDirection);
         }
+    }
+
+    private void HandleAbilities()
+    {
+        var _currentControlState = this.GetCurrentActionControlState();
+        // handle abilities
+
+        this._previousActionControlState = _currentControlState;
+    }
+
+    private ActionControlState GetCurrentActionControlState()
+    {
+        var left = (Input.GetAxis("Left Action") > 0);
+        var right = (Input.GetAxis("Right Action") > 0);
+
+        return left
+            ? (right ? ActionControlState.Both : ActionControlState.Left)
+            : (right ? ActionControlState.Right : ActionControlState.None);
     }
 }
