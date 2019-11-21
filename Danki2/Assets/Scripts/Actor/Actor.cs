@@ -10,7 +10,7 @@ public abstract class Actor : MonoBehaviour
     private EffectTracker _effectTracker;
 
     // Start is called before the first frame update
-    void Start()
+    public virtual void Start()
     {
         _statsManager = new StatsManager(baseStats);
         _effectTracker = new EffectTracker(this);

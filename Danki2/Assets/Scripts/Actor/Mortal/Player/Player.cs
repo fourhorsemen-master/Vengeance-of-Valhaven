@@ -4,6 +4,21 @@ using UnityEngine;
 
 public class Player : Mortal
 {
+    private AbilityTree _abilityTree;
+
+    public override void Start()
+    {
+        base.Start();
+        _abilityTree = AbilityTreeFactory.CreateTree(
+            AbilityTreeFactory.CreateNode(AbilityReference.Slash),
+            AbilityTreeFactory.CreateNode(
+                AbilityReference.Whirlwind,
+                AbilityTreeFactory.CreateNode(AbilityReference.Slash),
+                AbilityTreeFactory.CreateNode(AbilityReference.Slash)
+            )
+        );
+    }
+
     protected override void Act()
     {
         this.Move();
