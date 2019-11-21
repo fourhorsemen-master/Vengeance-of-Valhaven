@@ -38,13 +38,29 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: Action
-    descriptiveName: Ability tree actions
+    m_Name: Left Action
+    descriptiveName: 
     descriptiveNegativeName: 
-    negativeButton: mouse 0
+    negativeButton: 
+    positiveButton: mouse 0
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 1000
+    dead: 0.001
+    sensitivity: 1000
+    snap: 0
+    invert: 0
+    type: 0
+    axis: 0
+    joyNum: 0
+  - serializedVersion: 3
+    m_Name: Right Action
+    descriptiveName: 
+    descriptiveNegativeName: 
+    negativeButton: 
     positiveButton: mouse 1
     altNegativeButton: 
-    altPositiveButton: mouse 0
+    altPositiveButton: 
     gravity: 1000
     dead: 0.001
     sensitivity: 1000
