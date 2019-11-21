@@ -44,6 +44,10 @@ public class Player : Mortal
     {
         base.Update();
         _remainingCooldown = Mathf.Max(0f, _remainingCooldown - Time.deltaTime);
+        if (_remainingCooldown == 0f && _castingStatus == CastingStatus.Cooldown)
+        {
+            _castingStatus = CastingStatus.Ready;
+        }
     }
 
 
