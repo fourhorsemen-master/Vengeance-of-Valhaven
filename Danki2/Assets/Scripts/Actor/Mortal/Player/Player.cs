@@ -3,15 +3,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-enum CastingStatus
+public enum CastingStatus
 {
-    ChannelLeft,
-    ChannelRight,
+    ChannelingLeft,
+    ChannelingRight,
     Cooldown,
     Ready
 }
 
-enum ActionControlState
+public enum CastingCommand
+{
+    ContinueChannel,
+    CancelChannel,
+    CastLeft,
+    CastRight,
+    None
+}
+
+public enum ActionControlState
 {
     Left,
     Right,
@@ -42,12 +51,13 @@ public class Player : Mortal
 
     public override void Update()
     {
-        base.Update();
         _remainingCooldown = Mathf.Max(0f, _remainingCooldown - Time.deltaTime);
         if (_remainingCooldown == 0f && _castingStatus == CastingStatus.Cooldown)
         {
             _castingStatus = CastingStatus.Ready;
         }
+
+        base.Update();
     }
 
 
