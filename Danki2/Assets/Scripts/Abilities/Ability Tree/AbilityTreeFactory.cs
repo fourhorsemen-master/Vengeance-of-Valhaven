@@ -21,7 +21,8 @@
         }
     }
 
-    public static AbilityTree CreateTree(Node leftChild = null, Node rightChild = null)
+    // Root node must have two children for ability tree to be functional.
+    public static AbilityTree CreateTree(Node leftChild, Node rightChild)
     {
         Node rootNode = new NodeImplementation();
         rootNode.SetChild(Direction.Left, leftChild);

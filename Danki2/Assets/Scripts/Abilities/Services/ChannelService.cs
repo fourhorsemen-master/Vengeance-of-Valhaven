@@ -33,14 +33,14 @@ public class ChannelService : MonoBehaviour
         }
     }
 
-    public void StartChannel(Channel channel)
+    public void Start(Channel channel)
     {
         _currentChannel = channel;
         _remainingDuration = _currentChannel.Duration;
         _currentChannel.Start();
     }
 
-    public void CancelChannel()
+    public void Cancel()
     {
         if (!Active) return;
 
