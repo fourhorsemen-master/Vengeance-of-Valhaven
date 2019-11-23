@@ -61,6 +61,8 @@ public class Player : Mortal
             _castingStatus = CastingStatus.Ready;
         }
 
+        _channelService.Update();
+
         base.Update();
     }
 

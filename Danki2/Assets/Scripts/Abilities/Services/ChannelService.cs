@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class ChannelService : MonoBehaviour
+public class ChannelService
 {
     private Channel _currentChannel;
     private float _remainingDuration;
@@ -20,9 +20,9 @@ public class ChannelService : MonoBehaviour
             return;
         };
 
-        this._remainingDuration = Mathf.Min(0f, _remainingDuration - Time.deltaTime);
+        this._remainingDuration = Mathf.Max(0f, _remainingDuration - Time.deltaTime);
 
-        if (_remainingDuration > 0)
+        if (_remainingDuration > 0f)
         {
             _currentChannel.Continue();
         }
@@ -37,6 +37,7 @@ public class ChannelService : MonoBehaviour
     {
         _currentChannel = channel;
         _remainingDuration = _currentChannel.Duration;
+        Active = true;
         _currentChannel.Start();
     }
 
@@ -45,6 +46,7 @@ public class ChannelService : MonoBehaviour
         if (!Active) return;
 
         _currentChannel.Cancel();
+        _remainingDuration = 0f;
         Active = false;
     }
 }

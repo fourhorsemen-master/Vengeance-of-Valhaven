@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 public class Whirlwind : Channel
 {
@@ -10,21 +11,21 @@ public class Whirlwind : Channel
 
     public override void Cancel()
     {
-        throw new NotImplementedException();
+        GameObject.Find("Player").GetComponent<Renderer>().material.color = Color.cyan;
     }
 
     public override void Continue()
     {
-        throw new NotImplementedException();
+        GameObject.Find("Player").GetComponent<Renderer>().material.color = Color.gray;
     }
 
     public override void End()
     {
-        throw new NotImplementedException();
+        GameObject.Find("Player").GetComponent<Renderer>().material.color = Color.green;
     }
 
     public override void Start()
     {
-        throw new NotImplementedException();
+        GameObject.Find("Player").GetComponent<Renderer>().material.color = Color.yellow;
     }
 }
