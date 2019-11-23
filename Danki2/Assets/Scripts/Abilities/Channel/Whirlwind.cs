@@ -6,17 +6,19 @@ public class Whirlwind : Channel
     {
     }
 
-    public override void Cancel(float xPosition, float yPosition)
+    public override float Duration => 3f;
+
+    public override void Cancel()
     {
         throw new NotImplementedException();
     }
 
-    public override void Continue(float xPosition, float yPosition)
+    public override void Continue()
     {
         throw new NotImplementedException();
     }
 
-    public override void End(float xPosition, float yPosition)
+    public override void End()
     {
         throw new NotImplementedException();
     }

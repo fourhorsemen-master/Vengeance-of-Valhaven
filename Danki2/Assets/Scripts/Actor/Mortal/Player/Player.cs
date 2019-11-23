@@ -31,6 +31,7 @@ public enum ActionControlState
 public class Player : Mortal
 {
     private AbilityTree _abilityTree;
+    private ChannelService _channelService;
     private CastingStatus _castingStatus = CastingStatus.Ready;
     private float _remainingCooldown = 0f;
     private float _maximumCooldown = 1f;
@@ -39,6 +40,9 @@ public class Player : Mortal
     public override void Start()
     {
         base.Start();
+
+        _channelService = new ChannelService();
+
         _abilityTree = AbilityTreeFactory.CreateTree(
             AbilityTreeFactory.CreateNode(AbilityReference.Slash),
             AbilityTreeFactory.CreateNode(
@@ -84,10 +88,30 @@ public class Player : Mortal
 
     private void HandleAbilities()
     {
-        var _currentControlState = this.GetCurrentActionControlState();
-        // handle abilities
+        var currentControlState = this.GetCurrentActionControlState();
 
-        this._previousActionControlState = _currentControlState;
+        var castingCommand = ControlMatrix.GetCastingCommand(_castingStatus, _previousActionControlState, currentControlState);
+
+        switch (castingCommand)
+        {
+            case CastingCommand.ContinueChannel:
+                break;
+            case CastingCommand.CancelChannel:
+                break;
+            case CastingCommand.CastLeft:
+                this.BranchAndCast(Direction.Left);
+                break;
+            case CastingCommand.CastRight:
+                this.BranchAndCast(Direction.Right);
+                break;
+        }
+
+        this._previousActionControlState = currentControlState;
+    }
+
+    private void BranchAndCast(Direction direction)
+    {
+        throw new NotImplementedException();
     }
 
     private ActionControlState GetCurrentActionControlState()
