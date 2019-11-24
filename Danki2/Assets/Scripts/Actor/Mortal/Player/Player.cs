@@ -137,9 +137,7 @@ public class Player : Mortal
             var instantCast = instantCastbuilder.Invoke(abilityContext);
             instantCast.Cast();
 
-            _castingStatus = direction == Direction.Left
-                ? CastingStatus.ChannelingLeft
-                : CastingStatus.ChannelingRight;
+            _castingStatus = CastingStatus.Cooldown;
         }
 
         if (Ability.TryGetAsChannelBuilder(abilityReference, out var channelBuilder))
@@ -147,7 +145,9 @@ public class Player : Mortal
             var channel = channelBuilder.Invoke(abilityContext);
             _channelService.Start(channel);
 
-            _castingStatus = CastingStatus.Cooldown;
+            _castingStatus = direction == Direction.Left
+                ? CastingStatus.ChannelingLeft
+                : CastingStatus.ChannelingRight;
         }
 
         _remainingCooldown = _maximumCooldown;
