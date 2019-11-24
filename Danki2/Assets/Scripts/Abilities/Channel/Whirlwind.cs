@@ -16,7 +16,9 @@ public class Whirlwind : Channel
 
     public override void Continue()
     {
-        GameObject.Find("Player").GetComponent<Renderer>().material.color = Color.gray;
+        var rnd = (float) new System.Random().NextDouble();
+        
+        GameObject.Find("Player").GetComponent<Renderer>().material.color = new Color(rnd, 1f, 1f);
     }
 
     public override void End()

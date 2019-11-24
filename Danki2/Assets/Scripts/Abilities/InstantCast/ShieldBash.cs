@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 public class ShieldBash : InstantCast
 {
@@ -8,6 +9,6 @@ public class ShieldBash : InstantCast
 
     public override void Cast()
     {
-        throw new NotImplementedException();
+        GameObject.Find("Player").GetComponent<Renderer>().material.color = Color.magenta;
     }
 }
