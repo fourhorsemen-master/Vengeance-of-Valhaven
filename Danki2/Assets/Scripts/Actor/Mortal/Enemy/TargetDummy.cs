@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+﻿using UnityEngine;
 
 public class TargetDummy : Enemy
 {
@@ -18,4 +14,10 @@ public class TargetDummy : Enemy
     }
 
     public override AI AI => _ai;
+
+    protected override void OnDeath()
+    {
+        // TODO: Implement TargetDummy death.
+        Debug.Log("The target dummy died.");
+    }
 }

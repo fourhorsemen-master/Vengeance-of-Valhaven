@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Player : Mortal
 {
@@ -22,5 +20,11 @@ public class Player : Mortal
         {
             MoveAlongVector(_moveDirection);
         }
+    }
+
+    protected override void OnDeath()
+    {
+        // TODO: Implement Player death.
+        Debug.Log("The player died");
     }
 }

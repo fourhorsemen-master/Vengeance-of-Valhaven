@@ -9,15 +9,13 @@ public abstract class Actor : MonoBehaviour
 
     private EffectTracker _effectTracker;
 
-    // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
         _statsManager = new StatsManager(baseStats);
         _effectTracker = new EffectTracker(this);
     }
 
-    // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         _statsManager.Rebase();
         _effectTracker.ProcessEffects();
