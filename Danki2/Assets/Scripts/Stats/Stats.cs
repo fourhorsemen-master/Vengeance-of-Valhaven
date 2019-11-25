@@ -2,7 +2,7 @@
 
 public enum Stat
 {
-    Health,
+    MaxHealth,
     Speed,
     Strength
 }

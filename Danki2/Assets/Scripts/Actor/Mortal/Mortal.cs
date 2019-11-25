@@ -1,17 +1,19 @@
-﻿public abstract class Mortal : Actor
+﻿using UnityEngine;
+
+public abstract class Mortal : Actor
 {
     public int Health { get; private set; }
 
     public void ModifyHealth(int healthChange)
     {
-        Health += healthChange;
+        Health = Mathf.Min(Health + healthChange, GetStat(Stat.MaxHealth));
     }
 
     protected override void Start()
     {
         base.Start();
 
-        Health = GetStat(Stat.Health);
+        Health = GetStat(Stat.MaxHealth);
     }
 
     protected override void Update()
