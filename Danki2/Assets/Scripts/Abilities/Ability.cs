@@ -13,16 +13,16 @@ public class AbilityContext
 {
     public AbilityContext(
         Actor owner,
-        Vector3 mousePosition
+        Vector3 targetPosition
     )
     {
         Owner = owner;
-        MousePosition = mousePosition;
+        TargetPosition = targetPosition;
 
     }
 
     public Actor Owner { get; }
-    public Vector3 MousePosition { get; }
+    public Vector3 TargetPosition { get; }
 }
 
 public class Ability

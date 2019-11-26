@@ -9,13 +9,13 @@ public abstract class Actor : MonoBehaviour
 
     private EffectTracker _effectTracker;
 
-    internal virtual void Start()
+    protected virtual void Start()
     {
         _statsManager = new StatsManager(baseStats);
         _effectTracker = new EffectTracker(this);
     }
 
-    internal virtual void Update()
+    protected virtual void Update()
     {
         _statsManager.Rebase();
         _effectTracker.ProcessEffects();

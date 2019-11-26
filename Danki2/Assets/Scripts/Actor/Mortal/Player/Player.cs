@@ -34,7 +34,7 @@ public class Player : Mortal
     private float _remainingCooldown = 0f;
     private readonly float _maximumCooldown = 1f;
 
-    internal override void Start()
+    protected override void Start()
     {
         base.Start();
 
@@ -54,8 +54,10 @@ public class Player : Mortal
         );
     }
 
-    internal override void Update()
+    protected override void Update()
     {
+        base.Update();
+
         _remainingCooldown = Mathf.Max(0f, _remainingCooldown - Time.deltaTime);
         if (_remainingCooldown == 0f && _castingStatus == CastingStatus.Cooldown)
         {
@@ -63,8 +65,6 @@ public class Player : Mortal
         }
 
         _channelService.Update();
-
-        base.Update();
     }
 
 

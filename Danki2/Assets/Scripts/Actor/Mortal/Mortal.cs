@@ -9,14 +9,14 @@ public abstract class Mortal : Actor
         Health = Mathf.Min(Health + healthChange, GetStat(Stat.MaxHealth));
     }
 
-    internal override void Start()
+    protected override void Start()
     {
         base.Start();
 
         Health = GetStat(Stat.MaxHealth);
     }
 
-    internal override void Update()
+    protected override void Update()
     {
         base.Update();
 
