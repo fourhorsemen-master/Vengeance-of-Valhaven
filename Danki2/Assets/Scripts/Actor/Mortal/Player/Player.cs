@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public enum CastingStatus
 {
@@ -37,7 +34,7 @@ public class Player : Mortal
     private float _remainingCooldown = 0f;
     private readonly float _maximumCooldown = 1f;
 
-    public override void Start()
+    internal override void Start()
     {
         base.Start();
 
@@ -57,7 +54,7 @@ public class Player : Mortal
         );
     }
 
-    public override void Update()
+    internal override void Update()
     {
         _remainingCooldown = Mathf.Max(0f, _remainingCooldown - Time.deltaTime);
         if (_remainingCooldown == 0f && _castingStatus == CastingStatus.Cooldown)
@@ -165,5 +162,10 @@ public class Player : Mortal
         return left
             ? (right ? ActionControlState.Both : ActionControlState.Left)
             : (right ? ActionControlState.Right : ActionControlState.None);
+    }
+    protected override void OnDeath()
+    {
+        // TODO: Implement Player death.
+        Debug.Log("The player died");
     }
 }
