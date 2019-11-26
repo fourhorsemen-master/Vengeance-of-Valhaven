@@ -4,8 +4,12 @@ public abstract class Mortal : Actor
 {
     public int Health { get; private set; }
 
+    public bool Dead { get; private set; }
+
     public void ModifyHealth(int healthChange)
     {
+        if (Dead) return;
+
         Health = Mathf.Min(Health + healthChange, GetStat(Stat.MaxHealth));
     }
 
@@ -14,15 +18,17 @@ public abstract class Mortal : Actor
         base.Start();
 
         Health = GetStat(Stat.MaxHealth);
+        Dead = false;
     }
 
     protected override void Update()
     {
         base.Update();
 
-        if (Health <= 0)
+        if (Health <= 0 && !Dead)
         {
             OnDeath();
+            Dead = true;
         }
     }
 
