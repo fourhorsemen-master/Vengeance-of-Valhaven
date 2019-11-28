@@ -20,9 +20,10 @@
         return _currentNode.GetChild(direction).Ability;
     }
 
-    public void Walk(Direction direction)
+    public AbilityReference Walk(Direction direction)
     {
         _currentNode = _currentNode.GetChild(direction);
+        return _currentNode.Ability;
     }
 
     public void Reset()

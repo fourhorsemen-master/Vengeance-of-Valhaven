@@ -21,7 +21,8 @@
         }
     }
 
-    public static AbilityTree CreateTree(Node leftChild = null, Node rightChild = null)
+    // Root node must have two children for ability tree to be functional.
+    public static AbilityTree CreateTree(Node leftChild, Node rightChild)
     {
         Node rootNode = new NodeImplementation();
         rootNode.SetChild(Direction.Left, leftChild);
@@ -32,8 +33,8 @@
     public static Node CreateNode(AbilityReference ability, Node leftChild = null, Node rightChild = null)
     {
         Node node = new NodeImplementation(ability);
-        node.SetChild(Direction.Left, leftChild);
-        node.SetChild(Direction.Right, rightChild);
+        if (leftChild != null) node.SetChild(Direction.Left, leftChild);
+        if (rightChild != null) node.SetChild(Direction.Right, rightChild);
         return node;
     }
 }

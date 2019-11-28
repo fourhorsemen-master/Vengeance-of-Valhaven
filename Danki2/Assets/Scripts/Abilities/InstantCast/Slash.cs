@@ -1,4 +1,4 @@
-﻿using System;
+﻿using UnityEngine;
 
 public class Slash : InstantCast
 {
@@ -8,6 +8,6 @@ public class Slash : InstantCast
 
     public override void Cast()
     {
-        throw new NotImplementedException();
+        GameObject.Find("Player").GetComponent<Renderer>().material.color = Color.blue;
     }
 }

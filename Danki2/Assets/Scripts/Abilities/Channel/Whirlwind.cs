@@ -1,4 +1,4 @@
-﻿using System;
+﻿using UnityEngine;
 
 public class Whirlwind : Channel
 {
@@ -6,23 +6,27 @@ public class Whirlwind : Channel
     {
     }
 
-    public override void Cancel(float xPosition, float yPosition)
+    public override float Duration => 3f;
+
+    public override void Cancel()
     {
-        throw new NotImplementedException();
+        GameObject.Find("Player").GetComponent<Renderer>().material.color = Color.cyan;
     }
 
-    public override void Continue(float xPosition, float yPosition)
+    public override void Continue()
     {
-        throw new NotImplementedException();
+        var rnd = (float) new System.Random().NextDouble();
+        
+        GameObject.Find("Player").GetComponent<Renderer>().material.color = new Color(rnd, 1f, 1f);
     }
 
-    public override void End(float xPosition, float yPosition)
+    public override void End()
     {
-        throw new NotImplementedException();
+        GameObject.Find("Player").GetComponent<Renderer>().material.color = Color.green;
     }
 
     public override void Start()
     {
-        throw new NotImplementedException();
+        GameObject.Find("Player").GetComponent<Renderer>().material.color = Color.yellow;
     }
 }
