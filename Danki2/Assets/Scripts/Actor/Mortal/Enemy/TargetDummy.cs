@@ -4,8 +4,10 @@ public class TargetDummy : Enemy
 {
     private AI<TargetDummy> _ai;
 
-    public TargetDummy()
+    protected override void Start()
     {
+        base.Start();
+
         _ai = new AI<TargetDummy>(
             this,
             (a, b) => new Agenda(),
