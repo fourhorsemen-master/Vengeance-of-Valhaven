@@ -40,17 +40,22 @@ public class Player : Mortal
 
         _channelService = new ChannelService();
 
+        //_abilityTree = AbilityTreeFactory.CreateTree(
+        //    AbilityTreeFactory.CreateNode(
+        //        AbilityReference.Fireball,
+        //        AbilityTreeFactory.CreateNode(AbilityReference.ShieldBash),
+        //        AbilityTreeFactory.CreateNode(AbilityReference.Whirlwind)
+        //    ),
+        //    AbilityTreeFactory.CreateNode(
+        //        AbilityReference.Whirlwind,
+        //        AbilityTreeFactory.CreateNode(AbilityReference.Slash),
+        //        AbilityTreeFactory.CreateNode(AbilityReference.ShieldBash)
+        //    )
+        //);
+
         _abilityTree = AbilityTreeFactory.CreateTree(
-            AbilityTreeFactory.CreateNode(
-                AbilityReference.Fireball,
-                AbilityTreeFactory.CreateNode(AbilityReference.ShieldBash),
-                AbilityTreeFactory.CreateNode(AbilityReference.Whirlwind)
-            ),
-            AbilityTreeFactory.CreateNode(
-                AbilityReference.Whirlwind,
-                AbilityTreeFactory.CreateNode(AbilityReference.Slash),
-                AbilityTreeFactory.CreateNode(AbilityReference.ShieldBash)
-            )
+            AbilityTreeFactory.CreateNode(AbilityReference.Fireball),
+            AbilityTreeFactory.CreateNode(AbilityReference.Fireball)
         );
     }
 

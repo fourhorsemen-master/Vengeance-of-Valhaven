@@ -8,6 +8,12 @@ public class Fireball : InstantCast
 
     public override void Cast()
     {
-        Debug.Log("Cast Fireball");
+        Vector3 position = Context.Owner.transform.position;
+        Quaternion rotation = Quaternion.FromToRotation(position, Context.TargetPosition);
+        FireballObject.Fire(
+            position,
+            rotation,
+            3
+        );
     }
 }
