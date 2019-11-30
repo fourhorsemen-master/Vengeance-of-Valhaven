@@ -7,6 +7,7 @@ public enum AbilityReference
     Slash,
     ShieldBash,
     Whirlwind,
+    Fireball,
 }
 
 public class AbilityContext
@@ -38,6 +39,7 @@ public class Ability
     {
         { AbilityReference.Slash, c => new Slash(c) },
         { AbilityReference.ShieldBash, c => new ShieldBash(c) },
+        { AbilityReference.Fireball, c => new Fireball(c) },
     };
 
     private static Dictionary<AbilityReference, Func<AbilityContext, Channel>> _channels = new Dictionary<AbilityReference, Func<AbilityContext, Channel>>
