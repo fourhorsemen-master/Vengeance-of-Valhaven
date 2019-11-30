@@ -10,10 +10,6 @@ public class Fireball : InstantCast
     {
         Vector3 position = Context.Owner.transform.position;
         Quaternion rotation = Quaternion.FromToRotation(position, Context.TargetPosition);
-        FireballObject.Fire(
-            position,
-            rotation,
-            3
-        );
+        FireballObject.Fire(position, rotation);
     }
 }

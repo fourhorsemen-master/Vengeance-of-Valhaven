@@ -2,17 +2,16 @@
 
 public class FireballObject : MonoBehaviour
 {
-    private float _speed;
+    private static readonly float SPEED = 5;
 
-    public static void Fire(Vector3 position, Quaternion rotation, float speed)
+    public static void Fire(Vector3 position, Quaternion rotation)
     {
         FireballObject prefab = AbilityObjectLookup.Instance.FireballObjectPrefab;
-        FireballObject fireballObject = Instantiate(prefab, position, rotation);
-        fireballObject._speed = speed;
+        Instantiate(prefab, position, rotation);
     }
 
     private void Update()
     {
-        transform.position += transform.forward * Time.deltaTime * _speed;
+        transform.position += transform.forward * Time.deltaTime * SPEED;
     }
 }
