@@ -3,7 +3,7 @@
 public class AbilityObjectLookup : Singleton<AbilityObjectLookup>
 {
     [SerializeField]
-    private FireballObject _fireballPrefab;
+    private FireballObject _fireballObjectPrefab;
 
-    public FireballObject FireballPrefab { get => _fireballPrefab; }
+    public FireballObject FireballObjectPrefab { get => _fireballObjectPrefab; }
 }
