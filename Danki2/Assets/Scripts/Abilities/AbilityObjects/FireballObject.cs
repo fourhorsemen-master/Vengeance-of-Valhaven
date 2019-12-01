@@ -6,7 +6,7 @@ public class FireballObject : MonoBehaviour
 
     public static void Fire(Vector3 position, Quaternion rotation, float speed)
     {
-        FireballObject prefab = AbilityObjectLookup.Instance.FireballObjectPrefab;
+        FireballObject prefab = AbilityObjectPrefabLookup.Instance.FireballObjectPrefab;
         FireballObject fireballObject = Instantiate(prefab, position, rotation);
         fireballObject._speed = speed;
     }

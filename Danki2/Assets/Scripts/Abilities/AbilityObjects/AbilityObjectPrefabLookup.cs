@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class AbilityObjectLookup : Singleton<AbilityObjectLookup>
+public class AbilityObjectPrefabLookup : Singleton<AbilityObjectPrefabLookup>
 {
     [SerializeField]
     private FireballObject _fireballObjectPrefab = null;
