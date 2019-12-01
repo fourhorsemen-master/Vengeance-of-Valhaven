@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class MousePositionFinder : Singleton<MousePositionFinder>
+public class MouseGamePositionFinder : Singleton<MouseGamePositionFinder>
 {
     [SerializeField]
     private float _planeHeight = 0;
@@ -14,7 +14,7 @@ public class MousePositionFinder : Singleton<MousePositionFinder>
         _plane = new Plane(Vector3.up, _planeHeight * Vector3.up);
     }
 
-    public Vector3 GetMousePosition()
+    public Vector3 GetMouseGamePosition()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 

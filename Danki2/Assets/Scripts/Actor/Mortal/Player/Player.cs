@@ -136,7 +136,7 @@ public class Player : Mortal
 
         var abilityReference = _abilityTree.Walk(direction);
 
-        var abilityContext = new AbilityContext(this, MousePositionFinder.Instance.GetMousePosition());
+        var abilityContext = new AbilityContext(this, MouseGamePositionFinder.Instance.GetMouseGamePosition());
 
         if (Ability.TryGetAsInstantCastBuilder(abilityReference, out var instantCastbuilder))
         {
