@@ -42,7 +42,7 @@ public class Player : Mortal
 
         _abilityTree = AbilityTreeFactory.CreateTree(
             AbilityTreeFactory.CreateNode(
-                AbilityReference.Slash,
+                AbilityReference.Fireball,
                 AbilityTreeFactory.CreateNode(AbilityReference.ShieldBash),
                 AbilityTreeFactory.CreateNode(AbilityReference.Whirlwind)
             ),
@@ -131,7 +131,7 @@ public class Player : Mortal
 
         var abilityReference = _abilityTree.Walk(direction);
 
-        var abilityContext = new AbilityContext(this, Input.mousePosition);
+        var abilityContext = new AbilityContext(this, MouseGamePositionFinder.Instance.GetMouseGamePosition());
 
         if (Ability.TryGetAsInstantCastBuilder(abilityReference, out var instantCastbuilder))
         {

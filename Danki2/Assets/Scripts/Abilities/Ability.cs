@@ -1,28 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 public enum AbilityReference
 {
     Slash,
     ShieldBash,
     Whirlwind,
-}
-
-public class AbilityContext
-{
-    public AbilityContext(
-        Actor owner,
-        Vector3 targetPosition
-    )
-    {
-        Owner = owner;
-        TargetPosition = targetPosition;
-
-    }
-
-    public Actor Owner { get; }
-    public Vector3 TargetPosition { get; }
+    Fireball,
 }
 
 public class Ability
@@ -38,6 +22,7 @@ public class Ability
     {
         { AbilityReference.Slash, c => new Slash(c) },
         { AbilityReference.ShieldBash, c => new ShieldBash(c) },
+        { AbilityReference.Fireball, c => new Fireball(c) },
     };
 
     private static Dictionary<AbilityReference, Func<AbilityContext, Channel>> _channels = new Dictionary<AbilityReference, Func<AbilityContext, Channel>>
