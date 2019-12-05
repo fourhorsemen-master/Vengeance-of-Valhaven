@@ -29,14 +29,21 @@ public class Player : Mortal
 {
     private AbilityTree _abilityTree;
     private ChannelService _channelService;
+    private MovementManager _movementManager;
+    private StatsManager _statsManager;
     private CastingStatus _castingStatus = CastingStatus.Ready;
     private ActionControlState _previousActionControlState = ActionControlState.None;
     private float _remainingCooldown = 0f;
     private readonly float _maximumCooldown = 1f;
+    private float _remainingDashCooldown = 0f;
+    private float _totalDashCooldown = 1f;
 
     protected override void Start()
     {
         base.Start();
+
+        _movementManager = gameObject.GetComponent<MovementManager>();
+        _statsManager = gameObject.GetComponent<StatsManager>();
 
         _channelService = new ChannelService();
 
@@ -57,6 +64,8 @@ public class Player : Mortal
     protected override void Update()
     {
         base.Update();
+
+        _remainingDashCooldown = Mathf.Max(0f, _remainingDashCooldown - Time.deltaTime);
 
         _remainingCooldown = Mathf.Max(0f, _remainingCooldown - Time.deltaTime);
         if (_remainingCooldown == 0f && _castingStatus == CastingStatus.Cooldown)
@@ -83,9 +92,14 @@ public class Player : Mortal
         if (Input.GetAxis("Vertical") > 0) _moveDirection.z += 1f;
         if (Input.GetAxis("Vertical") < 0) _moveDirection.z -= 1f;
 
-        if (_moveDirection != Vector3.zero)
+        if (Input.GetAxis("Dash") > 0 && _remainingDashCooldown <= 0)
         {
-            MoveAlongVector(_moveDirection);
+            _movementManager.LockMovement(0.2f, _statsManager[Stat.Speed] * 3, _moveDirection);
+            _remainingDashCooldown = _totalDashCooldown;
+        } 
+        else
+        {
+            _movementManager.MoveAlong(_moveDirection);
         }
     }
 

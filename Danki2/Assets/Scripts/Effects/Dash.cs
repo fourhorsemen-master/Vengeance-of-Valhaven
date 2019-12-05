@@ -19,7 +19,7 @@
 
     protected override void FinishAction(Actor actor)
     {
-        actor.AddEffect(
+        actor.gameObject.GetComponent<EffectTracker>().AddEffect(
             new Slow(_slowDuration, _slowMultiplier)
         );
     }

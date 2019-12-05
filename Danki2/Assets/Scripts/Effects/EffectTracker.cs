@@ -1,24 +1,25 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
-public class EffectTracker
+public class EffectTracker : MonoBehaviour
 {
     private List<Effect> _effects;
-    private readonly Actor _actor;
+    private Actor _actor;
 
-    public EffectTracker(Actor actor)
+    void Start()
     {
         _effects = new List<Effect>();
-        _actor = actor;
+        _actor = gameObject.GetComponent<Actor>();
     }
-        
-    public void ProcessEffects()
+
+    private void Update()
     {
-        _effects = _effects.FindAll(
-            effect => {
-                effect.Update(_actor);
-                return !effect.Expired;
-            }    
-        );
+        _effects = _effects.FindAll(e => !e.Expired);
+    }
+
+    public void Process()
+    {
+        _effects.ForEach(e => e.Update(_actor));
     }
 
     public void AddEffect(Effect effect)

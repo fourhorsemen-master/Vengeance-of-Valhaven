@@ -2,24 +2,20 @@
 
 public abstract class Mortal : Actor
 {
-    public int Health { get; private set; }
-
-    public bool Dead { get; private set; }
-
-    public void ModifyHealth(int healthChange)
-    {
-        if (Dead) return;
-
-        Health = Mathf.Min(Health + healthChange, GetStat(Stat.MaxHealth));
-    }
+    private StatsManager _statsManager;
 
     protected override void Start()
     {
         base.Start();
 
-        Health = GetStat(Stat.MaxHealth);
+        _statsManager = gameObject.GetComponent<StatsManager>();
+
+        Health = _statsManager[Stat.MaxHealth];
         Dead = false;
     }
+    public int Health { get; private set; }
+
+    public bool Dead { get; private set; }
 
     protected override void Update()
     {
@@ -30,6 +26,13 @@ public abstract class Mortal : Actor
             OnDeath();
             Dead = true;
         }
+    }
+
+    public void ModifyHealth(int healthChange)
+    {
+        if (Dead) return;
+
+        Health = Mathf.Min(Health + healthChange, _statsManager[Stat.MaxHealth]);
     }
 
     protected abstract void OnDeath();
