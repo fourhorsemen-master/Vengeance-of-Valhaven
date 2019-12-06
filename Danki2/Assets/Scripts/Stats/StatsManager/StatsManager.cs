@@ -9,7 +9,8 @@ public class StatsManager : MonoBehaviour
     private Stats _baseStats;
     private Stats _frameStats;
 
-    void Awake()
+    // We initialse Stats fields in the constructor because errors happen if we wait until Awake or Start - not clear why.
+    public StatsManager()
     {
         _baseStats = baseStats;
         _frameStats = new Stats(_baseStats);
