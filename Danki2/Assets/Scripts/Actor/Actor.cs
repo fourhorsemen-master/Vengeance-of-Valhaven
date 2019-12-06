@@ -2,13 +2,15 @@ using UnityEngine;
 
 public abstract class Actor : MonoBehaviour
 {
-    private StatsManager _statsManager;
-    private EffectTracker _effectTracker;
+    protected StatsManager _statsManager;
+    protected EffectTracker _effectTracker;
+    protected MovementManager _movementManager;
 
     protected virtual void Start()
     {
         _statsManager = gameObject.GetComponent<StatsManager>();
         _effectTracker = gameObject.GetComponent<EffectTracker>();
+        _movementManager = gameObject.GetComponent<MovementManager>();
     }
 
     protected virtual void Update()

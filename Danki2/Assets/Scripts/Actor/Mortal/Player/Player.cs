@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public enum CastingStatus
 {
@@ -29,8 +30,6 @@ public class Player : Mortal
 {
     private AbilityTree _abilityTree;
     private ChannelService _channelService;
-    private MovementManager _movementManager;
-    private StatsManager _statsManager;
     private CastingStatus _castingStatus = CastingStatus.Ready;
     private ActionControlState _previousActionControlState = ActionControlState.None;
     private float _remainingCooldown = 0f;
@@ -65,17 +64,25 @@ public class Player : Mortal
     {
         base.Update();
 
-        _remainingDashCooldown = Mathf.Max(0f, _remainingDashCooldown - Time.deltaTime);
+        TickDashCooldown();
+        TickAbilityCooldown();
 
+        _channelService.Update();
+    }
+
+    private void TickAbilityCooldown()
+    {
         _remainingCooldown = Mathf.Max(0f, _remainingCooldown - Time.deltaTime);
         if (_remainingCooldown == 0f && _castingStatus == CastingStatus.Cooldown)
         {
             _castingStatus = CastingStatus.Ready;
         }
-
-        _channelService.Update();
     }
 
+    private void TickDashCooldown()
+    {
+        _remainingDashCooldown = Mathf.Max(0f, _remainingDashCooldown - Time.deltaTime);
+    }
 
     protected override void Act()
     {

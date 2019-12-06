@@ -2,13 +2,9 @@
 
 public abstract class Mortal : Actor
 {
-    private StatsManager _statsManager;
-
     protected override void Start()
     {
         base.Start();
-
-        _statsManager = gameObject.GetComponent<StatsManager>();
 
         Health = _statsManager[Stat.MaxHealth];
         Dead = false;
