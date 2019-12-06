@@ -9,7 +9,7 @@ public class StatsManager : MonoBehaviour
     private Stats _baseStats;
     private Stats _frameStats;
 
-    void Start()
+    void Awake()
     {
         _baseStats = baseStats;
         _frameStats = new Stats(_baseStats);

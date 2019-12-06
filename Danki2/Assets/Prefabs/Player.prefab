@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 7762175983366530551}
   - component: {fileID: -8560286000309466659}
   - component: {fileID: -788339751849619298}
+  - component: {fileID: -1920245497732153087}
   - component: {fileID: 8075471737366941008}
   - component: {fileID: 1191838369}
   m_Layer: 0
@@ -96,6 +97,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e1ea7e958e193143965f692ae890a3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maximumCooldown: 1
+  totalDashCooldown: 1
+  dashDuration: 0.2
+  dashSpeedMultiplier: 3
 --- !u!114 &7762175983366530551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,6 +138,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 232babd5be363bb479b4d7a59bd511f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-1920245497732153087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4777388720977389772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4085de0986f996c4ab5dc900539296c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!136 &8075471737366941008
