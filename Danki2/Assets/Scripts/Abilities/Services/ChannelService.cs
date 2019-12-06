@@ -1,18 +1,18 @@
 ﻿using UnityEngine;
 
-public class ChannelService
+public class ChannelService : MonoBehaviour
 {
     private Channel _currentChannel;
     private float _remainingDuration;
 
-    public ChannelService()
+    private void Start()
     {
         Active = false;
     }
 
     public bool Active { get; private set; }
 
-    public void Update()
+    private void Update()
     {
         if (!Active)
         {
@@ -33,7 +33,7 @@ public class ChannelService
         }
     }
 
-    public void Start(Channel channel)
+    public void StartChannel(Channel channel)
     {
         _currentChannel = channel;
         _remainingDuration = _currentChannel.Duration;

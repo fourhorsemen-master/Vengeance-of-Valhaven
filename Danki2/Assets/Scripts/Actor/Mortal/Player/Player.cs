@@ -37,7 +37,6 @@ public class Player : Mortal
     public float dashSpeedMultiplier = 3f;
 
     private AbilityTree _abilityTree;
-    private ChannelService _channelService;
     private CastingStatus _castingStatus = CastingStatus.Ready;
     private ActionControlState _previousActionControlState = ActionControlState.None;
     private float _remainingCooldown = 0f;
@@ -49,8 +48,6 @@ public class Player : Mortal
 
         _movementManager = gameObject.GetComponent<MovementManager>();
         _statsManager = gameObject.GetComponent<StatsManager>();
-
-        _channelService = new ChannelService();
 
         _abilityTree = AbilityTreeFactory.CreateTree(
             AbilityTreeFactory.CreateNode(
@@ -72,8 +69,6 @@ public class Player : Mortal
 
         TickDashCooldown();
         TickAbilityCooldown();
-
-        _channelService.Update();
     }
 
     private void TickAbilityCooldown()
@@ -171,7 +166,7 @@ public class Player : Mortal
         if (Ability.TryGetAsChannelBuilder(abilityReference, out var channelBuilder))
         {
             var channel = channelBuilder.Invoke(abilityContext);
-            _channelService.Start(channel);
+            _channelService.StartChannel(channel);
 
             _castingStatus = direction == Direction.Left
                 ? CastingStatus.ChannelingLeft

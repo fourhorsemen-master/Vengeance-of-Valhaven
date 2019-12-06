@@ -5,12 +5,14 @@ public abstract class Actor : MonoBehaviour
     protected StatsManager _statsManager;
     protected EffectTracker _effectTracker;
     protected MovementManager _movementManager;
+    protected ChannelService _channelService;
 
     protected virtual void Start()
     {
         _statsManager = gameObject.GetComponent<StatsManager>();
         _effectTracker = gameObject.GetComponent<EffectTracker>();
         _movementManager = gameObject.GetComponent<MovementManager>();
+        _channelService = gameObject.GetComponent<ChannelService>();
     }
 
     protected virtual void Update()
