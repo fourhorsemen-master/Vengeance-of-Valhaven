@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public enum CastingStatus
 {
@@ -28,14 +27,21 @@ public enum ActionControlState
 
 public class Player : Mortal
 {
+    [HideInInspector]
+    public float maximumCooldown = 1f;
+    [HideInInspector]
+    public float totalDashCooldown = 1f;
+    [HideInInspector]
+    public float dashDuration = 0.2f;
+    [HideInInspector]
+    public float dashSpeedMultiplier = 3f;
+
     private AbilityTree _abilityTree;
     private ChannelService _channelService;
     private CastingStatus _castingStatus = CastingStatus.Ready;
     private ActionControlState _previousActionControlState = ActionControlState.None;
     private float _remainingCooldown = 0f;
-    private readonly float _maximumCooldown = 1f;
     private float _remainingDashCooldown = 0f;
-    private float _totalDashCooldown = 1f;
 
     protected override void Start()
     {
@@ -101,8 +107,8 @@ public class Player : Mortal
 
         if (Input.GetAxis("Dash") > 0 && _remainingDashCooldown <= 0)
         {
-            _movementManager.LockMovement(0.2f, _statsManager[Stat.Speed] * 3, _moveDirection);
-            _remainingDashCooldown = _totalDashCooldown;
+            _movementManager.LockMovement(dashDuration, _statsManager[Stat.Speed] * dashSpeedMultiplier, _moveDirection);
+            _remainingDashCooldown = totalDashCooldown;
         } 
         else
         {
@@ -172,7 +178,7 @@ public class Player : Mortal
                 : CastingStatus.ChannelingRight;
         }
 
-        _remainingCooldown = _maximumCooldown;
+        _remainingCooldown = maximumCooldown;
     }
 
     private ActionControlState GetCurrentActionControlState()

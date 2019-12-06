@@ -27,7 +27,10 @@ public class MovementManager : MonoBehaviour
         _moveLockOn = _moveLockRemainingDuration > 0 ? _moveLockOn : false;
     }
 
-    private void LateUpdate()
+    /// <summary>
+    /// Called by the Actor component during orchestration.
+    /// </summary>
+    public void ExecuteMovement()
     {
         var speedStat = _statsManager[Stat.Speed];
 

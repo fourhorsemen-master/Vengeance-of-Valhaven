@@ -18,6 +18,7 @@ public abstract class Actor : MonoBehaviour
         _statsManager.Rebase();
         _effectTracker.Process();
         this.Act();
+        _movementManager.ExecuteMovement();
     }
 
     protected abstract void Act();
