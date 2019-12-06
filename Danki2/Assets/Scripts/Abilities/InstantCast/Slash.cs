@@ -8,6 +8,6 @@ public class Slash : InstantCast
 
     public override void Cast()
     {
-        GameObject.Find("Player").GetComponent<Renderer>().material.color = Color.blue;
+        Debug.Log("Casting Slash.");
     }
 }

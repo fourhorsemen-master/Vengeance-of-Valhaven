@@ -8,6 +8,6 @@ public class ShieldBash : InstantCast
 
     public override void Cast()
     {
-        GameObject.Find("Player").GetComponent<Renderer>().material.color = Color.magenta;
+        Debug.Log("Casting ShieldBash");
     }
 }
