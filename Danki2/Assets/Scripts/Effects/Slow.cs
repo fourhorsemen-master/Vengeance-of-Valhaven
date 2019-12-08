@@ -7,12 +7,10 @@
         _slowMultiplier = slowMultiplier;
     }
 
-    protected override void FinishAction(Actor actor)
+    public override float ProcessStat(Stat stat, float value)
     {
-    }
-
-    protected override void UpdateAction(Actor actor, float deltaTime)
-    {
-        // TODO: Implement slow update
+        return stat == Stat.Speed
+            ? value * _slowMultiplier
+            : value;
     }
 }

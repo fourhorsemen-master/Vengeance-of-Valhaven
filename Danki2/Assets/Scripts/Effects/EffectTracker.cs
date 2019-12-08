@@ -21,6 +21,13 @@ public class EffectTracker
         );
     }
 
+    public float ProcessStat(Stat stat, float value)
+    {
+        var processedValue = value;
+        _effects.ForEach(e => e.ProcessStat(stat, processedValue));
+        return processedValue;
+    }
+
     public void AddEffect(Effect effect)
     {
         _effects.Add(effect);

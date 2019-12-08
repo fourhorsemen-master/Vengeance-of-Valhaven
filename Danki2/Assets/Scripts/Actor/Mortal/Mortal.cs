@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public abstract class Mortal : Actor
 {
@@ -10,14 +11,15 @@ public abstract class Mortal : Actor
     {
         if (Dead) return;
 
-        Health = Mathf.Min(Health + healthChange, GetStat(Stat.MaxHealth));
+        Health = Mathf.Min(Health + healthChange, (int)GetStat(Stat.MaxHealth));
     }
 
     protected override void Start()
     {
         base.Start();
 
-        Health = GetStat(Stat.MaxHealth);
+        // Note that if health is less than 1 you'll die on frame 1.
+        Health = (int)GetStat(Stat.MaxHealth);
         Dead = false;
     }
 
