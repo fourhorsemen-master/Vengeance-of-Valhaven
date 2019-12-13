@@ -1,43 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 public class StatsManager
 {
     private readonly Stats _baseStats;
-    private readonly Dictionary<Stat, float> _statsCache;
-    private List<Func<Stat, float, float>> _pipes;
+    private readonly Dictionary<Stat, float> _cache;
+    private List<StatPipe> _pipes;
 
     public StatsManager(Stats baseStats)
     {
         _baseStats = baseStats;
-        _statsCache = new Dictionary<Stat, float>();
-        _pipes = new List<Func<Stat, float, float>>();
+        _cache = new Dictionary<Stat, float>();
+        _pipes = new List<StatPipe>();
     }
 
     public float this[Stat stat]
     {
         get {
-            if (_statsCache.TryGetValue(stat, out float value))
+            if (_cache.TryGetValue(stat, out float value))
             {
                 return value;
             }
             else
             {
                 var pipelineValue = (float)_baseStats[stat];
-                _pipes.ForEach(p => pipelineValue = p(stat, pipelineValue));
-                _statsCache.Add(stat, pipelineValue);
+                _pipes.ForEach(p => pipelineValue = p.ProcessStat(stat, pipelineValue));
+                _cache.Add(stat, pipelineValue);
                 return pipelineValue;
             }
         }
     }
 
-    public void RegisterPipe(Func<Stat, float, float> pipe)
+    public void RegisterPipe(StatPipe pipe)
     {
         _pipes.Add(pipe);
     }
 
-    public void ResetCache()
+    public void ClearCache()
     {
-        _statsCache.Clear();
+        _cache.Clear();
     }
 }

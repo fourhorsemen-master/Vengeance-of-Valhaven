@@ -12,8 +12,7 @@ public abstract class Actor : MonoBehaviour
     protected virtual void Start()
     {
         _statsManager = new StatsManager(baseStats);
-        _effectTracker = new EffectTracker(this);
-        _statsManager.RegisterPipe((stat, value) => _effectTracker.ProcessStat(stat, value));
+        _effectTracker = new EffectTracker(this, _statsManager);
     }
 
     protected virtual void Update()
