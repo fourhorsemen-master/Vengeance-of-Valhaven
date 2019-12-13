@@ -13,7 +13,9 @@ public abstract class Actor : MonoBehaviour
     {
         _statsManager = new StatsManager(baseStats);
         _effectTracker = new EffectTracker(this);
-        _movementManager = new MovementManager(this);
+
+        var rigidBody = gameObject.GetComponent<Rigidbody>();
+        _movementManager = new MovementManager(this, rigidBody);
     }
 
     protected virtual void Update()

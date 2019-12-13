@@ -10,10 +10,10 @@ public class MovementManager
     private Vector3 _moveLockDirection;
     private Vector3 _moveDirection;
 
-    public MovementManager(Actor actor)
+    public MovementManager(Actor actor, Rigidbody rigidbody)
     {
         _actor = actor;
-        _rigidbody = actor.gameObject.GetComponent<Rigidbody>();
+        _rigidbody = rigidbody;
         _moveLockRemainingDuration = 0f;
         _moveLockSpeed = 0f;
         _moveLockOn = false;
