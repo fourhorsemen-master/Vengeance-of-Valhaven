@@ -15,6 +15,11 @@ public class Fireball : InstantCast
         Vector3 position = Context.Owner.transform.position;
         Vector3 target = Context.TargetPosition;
         Quaternion rotation = Quaternion.LookRotation(target - position);
-        FireballObject.Fire(context.Owner, position, rotation, FIREBALL_SPEED);
+        FireballObject.Fire(context.Owner, OnCollision, position, rotation, FIREBALL_SPEED);
+    }
+
+    public void OnCollision(GameObject gameObject)
+    {
+
     }
 }
