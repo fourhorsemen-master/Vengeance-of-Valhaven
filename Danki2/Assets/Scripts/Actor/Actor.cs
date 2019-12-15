@@ -24,15 +24,12 @@ public abstract class Actor : MonoBehaviour
     protected virtual void Update()
     {
         _effectTracker.ProcessEffects();
-        this.Act();
     }
 
     protected virtual void LateUpdate()
     {
         _movementManager.ExecuteMovement();
     }
-
-    protected abstract void Act();
 
     public float GetStat(Stat stat)
     {

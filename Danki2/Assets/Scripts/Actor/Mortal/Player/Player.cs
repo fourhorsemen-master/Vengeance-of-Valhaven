@@ -65,13 +65,8 @@ public class Player : Mortal
         }
 
         _channelService.Update();
-    }
-
-
-    protected override void Act()
-    {
-        this.Move();
-        this.HandleAbilities();
+        Move();
+        HandleAbilities();
     }
 
     private void Move()
