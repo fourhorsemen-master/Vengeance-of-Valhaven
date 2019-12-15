@@ -8,7 +8,7 @@ public class TargetDummy : Enemy
     {
         base.Awake();
 
-        Planner<TargetDummy> planner = new AlwaysAdvance<TargetDummy>();
+        IPlanner<TargetDummy> planner = new AlwaysAdvance<TargetDummy>();
         Personality<TargetDummy> personality = new Personality<TargetDummy>
         {
             { AIAction.Advance, new FollowPlayer<TargetDummy>() }

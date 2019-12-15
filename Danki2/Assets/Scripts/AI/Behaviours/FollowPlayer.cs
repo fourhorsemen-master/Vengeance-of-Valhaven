@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class FollowPlayer<T> : Behaviour<T> where T : Actor
+public class FollowPlayer<T> : IBehaviour<T> where T : Actor
 {
     public void Behave(T actor)
     {

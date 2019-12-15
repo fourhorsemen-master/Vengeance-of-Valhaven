@@ -6,11 +6,11 @@
 public class AI<T> : AI where T : Actor
 {
     private readonly T _actor;
-    private readonly Planner<T> _planner;
+    private readonly IPlanner<T> _planner;
     private readonly Personality<T> _personality;
     private Agenda _agenda;
 
-    public AI(T actor, Planner<T> planner, Personality<T> personality)
+    public AI(T actor, IPlanner<T> planner, Personality<T> personality)
     {
         _actor = actor;
         _planner = planner;
