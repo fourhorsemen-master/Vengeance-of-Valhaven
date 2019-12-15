@@ -2,8 +2,10 @@
 {
     public abstract AI AI { get; }
 
-    protected override void Act()
+    protected override void Update()
     {
-        this.AI.Act();
+        base.Update();
+
+        AI.Act();
     }
 }

@@ -39,9 +39,9 @@ public class Player : Mortal
     private float _remainingCooldown = 0f;
     private float _remainingDashCooldown = 0f;
 
-    protected override void Start()
+    protected override void Awake()
     {
-        base.Start();
+        base.Awake();
 
         _channelService = new ChannelService();
 
@@ -66,6 +66,9 @@ public class Player : Mortal
         TickDashCooldown();
         TickAbilityCooldown();
 
+        Move();
+        HandleAbilities();
+
         _channelService.Update();
     }
 
@@ -78,17 +81,9 @@ public class Player : Mortal
         }
     }
 
-
     private void TickDashCooldown()
     {
         _remainingDashCooldown = Mathf.Max(0f, _remainingDashCooldown - Time.deltaTime);
-    }
-
-
-    protected override void Act()
-    {
-        this.Move();
-        this.HandleAbilities();
     }
 
     private void Move()
