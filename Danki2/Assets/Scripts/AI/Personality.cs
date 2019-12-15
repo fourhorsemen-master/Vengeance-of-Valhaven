@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-public class Personality<T> : Dictionary<AIAction, Action<T>>
+public class Personality<T> : Dictionary<AIAction, IBehaviour<T>> where T : Actor
 {
 }
