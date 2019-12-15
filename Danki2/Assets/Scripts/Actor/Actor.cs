@@ -51,7 +51,7 @@ public abstract class Actor : MonoBehaviour
         _movementManager.MoveAlong(vec);
     }
 
-    protected void MoveToward(Vector3 target)
+    public void MoveToward(Vector3 target)
     {
         _movementManager.MoveToward(target);
     }
