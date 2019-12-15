@@ -34,9 +34,9 @@ public class Player : Mortal
     private float _remainingCooldown = 0f;
     private readonly float _maximumCooldown = 1f;
 
-    protected override void Start()
+    protected override void Awake()
     {
-        base.Start();
+        base.Awake();
 
         _channelService = new ChannelService();
 
@@ -65,13 +65,8 @@ public class Player : Mortal
         }
 
         _channelService.Update();
-    }
-
-
-    protected override void Act()
-    {
-        this.Move();
-        this.HandleAbilities();
+        Move();
+        HandleAbilities();
     }
 
     private void Move()

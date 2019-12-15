@@ -4,9 +4,9 @@ public class TargetDummy : Enemy
 {
     private AI<TargetDummy> _ai;
 
-    protected override void Start()
+    protected override void Awake()
     {
-        base.Start();
+        base.Awake();
 
         _ai = new AI<TargetDummy>(
             this,
