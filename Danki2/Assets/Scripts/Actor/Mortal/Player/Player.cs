@@ -85,7 +85,7 @@ public class Player : Mortal
 
         if (_moveDirection != Vector3.zero)
         {
-            MoveAlongVector(_moveDirection);
+            MoveAlong(_moveDirection);
         }
     }
 

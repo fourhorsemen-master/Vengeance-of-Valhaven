@@ -6,19 +6,27 @@ public abstract class Actor : MonoBehaviour
     public Stats baseStats = new Stats(0);
 
     private StatsManager _statsManager;
-
     private EffectTracker _effectTracker;
+    private MovementManager _movementManager;
 
     protected virtual void Start()
     {
         _statsManager = new StatsManager(baseStats);
         _effectTracker = new EffectTracker(this, _statsManager);
+
+        var rigidBody = gameObject.GetComponent<Rigidbody>();
+        _movementManager = new MovementManager(this, rigidBody);
     }
 
     protected virtual void Update()
     {
         _effectTracker.ProcessEffects();
         this.Act();
+    }
+
+    protected virtual void LateUpdate()
+    {
+        _movementManager.ExecuteMovement();
     }
 
     protected abstract void Act();
@@ -33,22 +41,18 @@ public abstract class Actor : MonoBehaviour
         _effectTracker.AddEffect(effect);
     }
 
-    protected void MoveAlongVector(Vector3 vec)
+    public void LockMovement(float duration, float speed, Vector3 direction)
     {
-        if (vec == Vector3.zero)
-        {
-            return;
-        }
+        _movementManager.LockMovement(duration, speed, direction);
+    }
 
-        vec.Normalize();
-        var speed = _statsManager[Stat.Speed];
-
-        transform.Translate(vec * Time.deltaTime * speed);
+    protected void MoveAlong(Vector3 vec)
+    {
+        _movementManager.MoveAlong(vec);
     }
 
     protected void MoveToward(Vector3 target)
     {
-        var vecToMove = target - transform.position;
-        MoveAlongVector(vecToMove);
+        _movementManager.MoveToward(target);
     }
 }
