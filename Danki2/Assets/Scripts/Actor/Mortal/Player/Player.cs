@@ -27,12 +27,21 @@ public enum ActionControlState
 
 public class Player : Mortal
 {
+    [HideInInspector]
+    public float abilityCooldown = 1f;
+    [HideInInspector]
+    public float totalDashCooldown = 1f;
+    [HideInInspector]
+    public float dashDuration = 0.2f;
+    [HideInInspector]
+    public float dashSpeedMultiplier = 3f;
+
     private AbilityTree _abilityTree;
     private ChannelService _channelService;
     private CastingStatus _castingStatus = CastingStatus.Ready;
     private ActionControlState _previousActionControlState = ActionControlState.None;
     private float _remainingCooldown = 0f;
-    private readonly float _maximumCooldown = 1f;
+    private float _remainingDashCooldown = 0f;
 
     protected override void Awake()
     {
@@ -58,15 +67,27 @@ public class Player : Mortal
     {
         base.Update();
 
+        TickDashCooldown();
+        TickAbilityCooldown();
+
+        Move();
+        HandleAbilities();
+
+        _channelService.Update();
+    }
+
+    private void TickAbilityCooldown()
+    {
         _remainingCooldown = Mathf.Max(0f, _remainingCooldown - Time.deltaTime);
         if (_remainingCooldown == 0f && _castingStatus == CastingStatus.Cooldown)
         {
             _castingStatus = CastingStatus.Ready;
         }
+    }
 
-        _channelService.Update();
-        Move();
-        HandleAbilities();
+    private void TickDashCooldown()
+    {
+        _remainingDashCooldown = Mathf.Max(0f, _remainingDashCooldown - Time.deltaTime);
     }
 
     private void Move()
@@ -78,7 +99,12 @@ public class Player : Mortal
         if (Input.GetAxis("Vertical") > 0) _moveDirection.z += 1f;
         if (Input.GetAxis("Vertical") < 0) _moveDirection.z -= 1f;
 
-        if (_moveDirection != Vector3.zero)
+        if (Input.GetAxis("Dash") > 0 && _remainingDashCooldown <= 0)
+        {
+            LockMovement(dashDuration, GetStat(Stat.Speed) * dashSpeedMultiplier, _moveDirection);
+            _remainingDashCooldown = totalDashCooldown;
+        }
+        else
         {
             MoveAlong(_moveDirection);
         }
@@ -146,7 +172,7 @@ public class Player : Mortal
                 : CastingStatus.ChannelingRight;
         }
 
-        _remainingCooldown = _maximumCooldown;
+        _remainingCooldown = abilityCooldown;
     }
 
     private ActionControlState GetCurrentActionControlState()
