@@ -13,9 +13,9 @@ public abstract class Mortal : Actor
         Health = Mathf.Min(Health + healthChange, (int)GetStat(Stat.MaxHealth));
     }
 
-    protected override void Start()
+    protected override void Awake()
     {
-        base.Start();
+        base.Awake();
 
         // Note that if health is less than 1 you'll die on frame 1.
         Health = (int)GetStat(Stat.MaxHealth);
