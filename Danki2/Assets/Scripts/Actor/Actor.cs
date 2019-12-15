@@ -9,11 +9,14 @@ public abstract class Actor : MonoBehaviour
     private EffectTracker _effectTracker;
     private MovementManager _movementManager;
 
-    protected virtual void Start()
+    protected virtual void Awake()
     {
         _statsManager = new StatsManager(baseStats);
         _effectTracker = new EffectTracker(this, _statsManager);
+    }
 
+    protected virtual void Start()
+    {
         var rigidBody = gameObject.GetComponent<Rigidbody>();
         _movementManager = new MovementManager(this, rigidBody);
     }
