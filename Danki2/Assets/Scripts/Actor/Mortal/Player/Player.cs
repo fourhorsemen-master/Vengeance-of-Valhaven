@@ -27,9 +27,13 @@ public enum ActionControlState
 
 public class Player : Mortal
 {
-    public float maximumCooldown = 1f;
+    [HideInInspector]
+    public float abilityCooldown = 1f;
+    [HideInInspector]
     public float totalDashCooldown = 1f;
+    [HideInInspector]
     public float dashDuration = 0.2f;
+    [HideInInspector]
     public float dashSpeedMultiplier = 3f;
 
     private AbilityTree _abilityTree;
@@ -168,7 +172,7 @@ public class Player : Mortal
                 : CastingStatus.ChannelingRight;
         }
 
-        _remainingCooldown = maximumCooldown;
+        _remainingCooldown = abilityCooldown;
     }
 
     private ActionControlState GetCurrentActionControlState()
