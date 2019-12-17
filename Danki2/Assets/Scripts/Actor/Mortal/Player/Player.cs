@@ -41,7 +41,6 @@ public class Player : Mortal
     private CastingStatus _castingStatus = CastingStatus.Ready;
     private ActionControlState _previousActionControlState = ActionControlState.None;
     private float _remainingCooldown = 0f;
-    private float _remainingDashCooldown = 0f;
 
     protected override void Awake()
     {
@@ -67,10 +66,8 @@ public class Player : Mortal
     {
         base.Update();
 
-        TickDashCooldown();
         TickAbilityCooldown();
 
-        Move();
         HandleAbilities();
 
         _channelService.Update();
@@ -82,31 +79,6 @@ public class Player : Mortal
         if (_remainingCooldown == 0f && _castingStatus == CastingStatus.Cooldown)
         {
             _castingStatus = CastingStatus.Ready;
-        }
-    }
-
-    private void TickDashCooldown()
-    {
-        _remainingDashCooldown = Mathf.Max(0f, _remainingDashCooldown - Time.deltaTime);
-    }
-
-    private void Move()
-    {
-        var _moveDirection = Vector3.zero;
-
-        if (Input.GetAxis("Horizontal") > 0) _moveDirection.x += 1f;
-        if (Input.GetAxis("Horizontal") < 0) _moveDirection.x -= 1f;
-        if (Input.GetAxis("Vertical") > 0) _moveDirection.z += 1f;
-        if (Input.GetAxis("Vertical") < 0) _moveDirection.z -= 1f;
-
-        if (Input.GetAxis("Dash") > 0 && _remainingDashCooldown <= 0)
-        {
-            LockMovement(dashDuration, GetStat(Stat.Speed) * dashSpeedMultiplier, _moveDirection);
-            _remainingDashCooldown = totalDashCooldown;
-        }
-        else
-        {
-            MoveAlong(_moveDirection);
         }
     }
 
