@@ -25,6 +25,7 @@ public enum ActionControlState
     None
 }
 
+[Behaviour(SomeValue = "My Player value", Type = typeof(Player))]
 public class Player : Mortal
 {
     [HideInInspector]

@@ -1,4 +1,7 @@
-﻿using UnityEditor;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
+using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(Player))]
@@ -21,6 +24,15 @@ public class PlayerEditor : MortalEditor
             player.dashDuration = EditorGUILayout.Slider("Duration", player.dashDuration, 0, 1);
             player.dashSpeedMultiplier = EditorGUILayout.Slider("Speed Multiplier", player.dashSpeedMultiplier, 1, 10);
         EditorGUI.indentLevel--;
+
+        if (GUILayout.Button("Log Attribute Values"))
+        {
+            foreach (BehaviourAttribute behaviour in BehaviourScanner.GetBehaviours())
+            {
+                Debug.Log(behaviour.SomeValue);
+                Debug.Log(behaviour.Type.Name);
+            }
+        }
 
         if (GUI.changed)
         {

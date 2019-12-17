@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+[Behaviour(SomeValue = "My TargetDummy value.", Type = typeof(TargetDummy))]
 public class TargetDummy : Enemy
 {
     private AI<TargetDummy> _ai;
