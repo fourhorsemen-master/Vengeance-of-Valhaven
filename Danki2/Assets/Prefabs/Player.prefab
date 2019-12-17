@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8075471737366941008}
   - component: {fileID: -5201030127241623248}
   - component: {fileID: 1191838369}
+  - component: {fileID: -7333941826244338973}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -110,6 +111,10 @@ MonoBehaviour:
   baseStats:
     _keys: 000000000100000002000000
     _values: 0a0000000a0000000a000000
+  abilityCooldown: 1
+  totalDashCooldown: 1
+  dashDuration: 0.2
+  dashSpeedMultiplier: 3
 --- !u!54 &1191838369
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -126,3 +131,16 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &-7333941826244338973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4777388720977389772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22a456a5fd14b18468b0292fa37ee870, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _actor: {fileID: -5201030127241623248}
