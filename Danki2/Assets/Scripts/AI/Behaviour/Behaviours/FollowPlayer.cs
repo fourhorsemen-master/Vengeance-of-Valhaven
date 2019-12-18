@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+[Behaviour("Follow Player", AIAction.Advance)]
 public class FollowPlayer<T> : IBehaviour<T> where T : Actor
 {
     public void Behave(T actor)

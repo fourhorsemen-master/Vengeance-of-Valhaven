@@ -1,34 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using UnityEngine;
 
 public static class BehaviourScanner
 {
-    public static List<AttributeData<BehaviourAttribute>> BehaviourData { get; private set; } = new List<AttributeData<BehaviourAttribute>>();
+    public static List<BehaviourData> BehaviourData { get; private set; } = new List<BehaviourData>();
 
     public static void Scan()
     {
-        BehaviourData = ReflectionUtils.GetAttributeData<BehaviourAttribute>();
-    }
-
-    public static List<string> GetValues()
-    {
-        return (
-            from AttributeData<BehaviourAttribute> behaviourData
-            in BehaviourData
-            select behaviourData.Attribute.SomeValue
+        BehaviourData = (
+            from attributeData
+            in ReflectionUtils.GetAttributeData<BehaviourAttribute>()
+            select new BehaviourData(attributeData)
         ).ToList();
     }
 
-    public static List<string> GetValuesByType(Type type)
+    public static List<BehaviourData> GetDataByAction(AIAction action)
     {
         return (
-            from AttributeData<BehaviourAttribute> behaviourData
+            from BehaviourData data
             in BehaviourData
-            where behaviourData.Type.Equals(type)
-            select behaviourData.Attribute.SomeValue
+            where data.Action.Equals(action)
+            select data
         ).ToList();
     }
 }

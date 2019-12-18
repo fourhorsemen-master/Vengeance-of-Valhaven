@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+[Behaviour("Follow Player At Distance", AIAction.Advance)]
 public class FollowPlayerAtDistance<T> : IBehaviour<T> where T : Actor
 {
     private static readonly float _followDistance = 5;

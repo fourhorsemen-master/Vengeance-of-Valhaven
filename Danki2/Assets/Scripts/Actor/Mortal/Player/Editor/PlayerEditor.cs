@@ -28,13 +28,10 @@ public class PlayerEditor : MortalEditor
         if (GUILayout.Button("Log Attribute Values"))
         {
             BehaviourScanner.Scan();
-            foreach (string value in BehaviourScanner.GetValues())
+
+            foreach (AIAction action in Enum.GetValues(typeof(AIAction)))
             {
-                Debug.Log(value);
-            }
-            foreach (string value in BehaviourScanner.GetValuesByType(typeof(Player)))
-            {
-                Debug.Log(value);
+                LogBehaviourData(action);
             }
         }
 
@@ -42,5 +39,11 @@ public class PlayerEditor : MortalEditor
         {
             EditorUtility.SetDirty(target);
         }
+    }
+
+    private void LogBehaviourData(AIAction action)
+    {
+        var data = BehaviourScanner.GetDataByAction(action);
+        Debug.Log(action.ToString() + " behaviours found: " + data.Count);
     }
 }
