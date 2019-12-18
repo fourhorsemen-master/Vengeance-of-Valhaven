@@ -6,32 +6,29 @@ using UnityEngine;
 
 public static class BehaviourScanner
 {
-    public static List<BehaviourAttribute> GetBehaviours()
+    public static List<AttributeData<BehaviourAttribute>> BehaviourData { get; private set; } = new List<AttributeData<BehaviourAttribute>>();
+
+    public static void Scan()
     {
-        List<BehaviourAttribute> behaviours = new List<BehaviourAttribute>();
-
-        foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
-        {
-            if (assembly.IsDynamic)
-            {
-                continue;
-            }
-
-            foreach (Type type in assembly.GetExportedTypes())
-            {
-                if (TryGetAttribute(type, out BehaviourAttribute attribute))
-                {
-                    behaviours.Add(attribute);
-                }
-            }
-        }
-
-        return behaviours;
+        BehaviourData = ReflectionUtils.GetAttributeData<BehaviourAttribute>();
     }
 
-    private static bool TryGetAttribute(Type type, out BehaviourAttribute attribute)
+    public static List<string> GetValues()
     {
-        attribute = type.GetCustomAttributes<BehaviourAttribute>().FirstOrDefault();
-        return attribute != null;
+        return (
+            from AttributeData<BehaviourAttribute> behaviourData
+            in BehaviourData
+            select behaviourData.Attribute.SomeValue
+        ).ToList();
+    }
+
+    public static List<string> GetValuesByType(Type type)
+    {
+        return (
+            from AttributeData<BehaviourAttribute> behaviourData
+            in BehaviourData
+            where behaviourData.Type.Equals(type)
+            select behaviourData.Attribute.SomeValue
+        ).ToList();
     }
 }

@@ -27,10 +27,14 @@ public class PlayerEditor : MortalEditor
 
         if (GUILayout.Button("Log Attribute Values"))
         {
-            foreach (BehaviourAttribute behaviour in BehaviourScanner.GetBehaviours())
+            BehaviourScanner.Scan();
+            foreach (string value in BehaviourScanner.GetValues())
             {
-                Debug.Log(behaviour.SomeValue);
-                Debug.Log(behaviour.Type.Name);
+                Debug.Log(value);
+            }
+            foreach (string value in BehaviourScanner.GetValuesByType(typeof(Player)))
+            {
+                Debug.Log(value);
             }
         }
 
