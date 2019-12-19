@@ -38,6 +38,8 @@ public class Player : Mortal
 
     private float _remainingDashCooldown = 0f;
     private CastingStatus _castingStatus = CastingStatus.Ready;
+    private ActionControlState _previousActionControlState = ActionControlState.None;
+    private ActionControlState _currentActionControlState = ActionControlState.None;
     private AbilityTree _abilityTree;
     private ChannelService _channelService;
     private float _remainingCooldown = 0f;
@@ -72,6 +74,13 @@ public class Player : Mortal
         _channelService.Update();
     }
 
+    protected override void LateUpdate()
+    {
+        base.LateUpdate();
+
+        HandleAbilities();
+    }
+
     private void TickDashCooldown()
     {
         _remainingDashCooldown = Mathf.Max(0f, _remainingDashCooldown - Time.deltaTime);
@@ -95,9 +104,16 @@ public class Player : Mortal
         }
     }
 
-    public void HandleAbilities(ActionControlState current, ActionControlState previous)
+    public void SetCurrentControlState(ActionControlState controlState)
     {
-        var castingCommand = ControlMatrix.GetCastingCommand(_castingStatus, previous, current);
+        _currentActionControlState = controlState;
+    }
+
+    private void HandleAbilities()
+    {
+        var castingCommand = ControlMatrix.GetCastingCommand(_castingStatus, _previousActionControlState, _currentActionControlState);
+        _previousActionControlState = _currentActionControlState;
+        _currentActionControlState = ActionControlState.None;
 
         switch (castingCommand)
         {

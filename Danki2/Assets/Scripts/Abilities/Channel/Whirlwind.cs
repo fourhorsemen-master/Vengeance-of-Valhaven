@@ -8,25 +8,23 @@ public class Whirlwind : Channel
 
     public override float Duration => 3f;
 
-    public override void Cancel()
+    public override void Start()
     {
-        GameObject.Find("Player").GetComponent<Renderer>().material.color = Color.cyan;
+        Debug.Log("Whirlwind start");
     }
 
     public override void Continue()
     {
-        var rnd = (float) new System.Random().NextDouble();
-        
-        GameObject.Find("Player").GetComponent<Renderer>().material.color = new Color(rnd, 1f, 1f);
+        Debug.Log("Whirlwind continuing");
+    }
+
+    public override void Cancel()
+    {
+        Debug.Log("Whirlwind cancelled");
     }
 
     public override void End()
     {
-        GameObject.Find("Player").GetComponent<Renderer>().material.color = Color.green;
-    }
-
-    public override void Start()
-    {
-        GameObject.Find("Player").GetComponent<Renderer>().material.color = Color.yellow;
+        Debug.Log("Whirlwind end");
     }
 }

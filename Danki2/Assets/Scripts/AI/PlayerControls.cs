@@ -7,7 +7,6 @@ public class PlayerControls : MonoBehaviour
     [SerializeField]
     private Player _player;
 
-    private ActionControlState _previousActionControlState = ActionControlState.None;
 
     private void Update()
     {
@@ -37,10 +36,7 @@ public class PlayerControls : MonoBehaviour
     private void HandleAbilities()
     {
         var currentControlState = GetCurrentActionControlState();
-
-        _player.HandleAbilities(currentControlState, _previousActionControlState);
-
-        _previousActionControlState = currentControlState;
+        _player.SetCurrentControlState(currentControlState);
     }
 
     private ActionControlState GetCurrentActionControlState()
