@@ -1,20 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerControls : MonoBehaviour
 {
     [SerializeField]
     private Player _player;
 
-
     private void Update()
     {
-        Move();
+        HandleMovement();
         HandleAbilities();
     }
 
-    private void Move()
+    private void HandleMovement()
     {
         var moveDirection = Vector3.zero;
 
@@ -35,17 +32,13 @@ public class PlayerControls : MonoBehaviour
 
     private void HandleAbilities()
     {
-        var currentControlState = GetCurrentActionControlState();
-        _player.SetCurrentControlState(currentControlState);
-    }
+        var left = Input.GetAxis("Left Action") > 0;
+        var right = Input.GetAxis("Right Action") > 0;
 
-    private ActionControlState GetCurrentActionControlState()
-    {
-        var left = (Input.GetAxis("Left Action") > 0);
-        var right = (Input.GetAxis("Right Action") > 0);
-
-        return left
+        var currentControlState = left
             ? (right ? ActionControlState.Both : ActionControlState.Left)
             : (right ? ActionControlState.Right : ActionControlState.None);
+
+        _player.SetCurrentControlState(currentControlState);
     }
 }

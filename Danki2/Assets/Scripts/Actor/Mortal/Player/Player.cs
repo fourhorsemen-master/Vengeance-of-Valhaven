@@ -37,12 +37,12 @@ public class Player : Mortal
     public float dashSpeedMultiplier = 3f;
 
     private float _remainingDashCooldown = 0f;
+    private float _remainingAbilityCooldown = 0f;
+    private AbilityTree _abilityTree;
+    private ChannelService _channelService;
     private CastingStatus _castingStatus = CastingStatus.Ready;
     private ActionControlState _previousActionControlState = ActionControlState.None;
     private ActionControlState _currentActionControlState = ActionControlState.None;
-    private AbilityTree _abilityTree;
-    private ChannelService _channelService;
-    private float _remainingCooldown = 0f;
 
     protected override void Awake()
     {
@@ -88,8 +88,8 @@ public class Player : Mortal
 
     private void TickAbilityCooldown()
     {
-        _remainingCooldown = Mathf.Max(0f, _remainingCooldown - Time.deltaTime);
-        if (_remainingCooldown == 0f && _castingStatus == CastingStatus.Cooldown)
+        _remainingAbilityCooldown = Mathf.Max(0f, _remainingAbilityCooldown - Time.deltaTime);
+        if (_remainingAbilityCooldown == 0f && _castingStatus == CastingStatus.Cooldown)
         {
             _castingStatus = CastingStatus.Ready;
         }
@@ -121,21 +121,21 @@ public class Player : Mortal
                 // Handle case where channel has ended naturally.
                 if (!_channelService.Active)
                 {
-                    _castingStatus = _remainingCooldown <= 0f ? CastingStatus.Ready : CastingStatus.Cooldown;
+                    _castingStatus = _remainingAbilityCooldown <= 0f ? CastingStatus.Ready : CastingStatus.Cooldown;
                 }
                 break;
             case CastingCommand.CancelChannel:
                 _channelService.Cancel();
-                _castingStatus = _remainingCooldown <= 0f ? CastingStatus.Ready : CastingStatus.Cooldown;
+                _castingStatus = _remainingAbilityCooldown <= 0f ? CastingStatus.Ready : CastingStatus.Cooldown;
 
                 // Ability whiffed, reset tree. TODO: Make a method out of this including feedback for player. 
                 _abilityTree.Reset();
                 break;
             case CastingCommand.CastLeft:
-                this.BranchAndCast(Direction.Left);
+                BranchAndCast(Direction.Left);
                 break;
             case CastingCommand.CastRight:
-                this.BranchAndCast(Direction.Right);
+                BranchAndCast(Direction.Right);
                 break;
         }
     }
@@ -169,7 +169,7 @@ public class Player : Mortal
                 : CastingStatus.ChannelingRight;
         }
 
-        _remainingCooldown = abilityCooldown;
+        _remainingAbilityCooldown = abilityCooldown;
     }
 
     protected override void OnDeath()
