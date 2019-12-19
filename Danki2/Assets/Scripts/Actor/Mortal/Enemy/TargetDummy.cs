@@ -11,7 +11,7 @@ public class TargetDummy : Enemy
         IPlanner<TargetDummy> planner = new AlwaysAdvance<TargetDummy>();
         Personality<TargetDummy> personality = new Personality<TargetDummy>
         {
-            { AIAction.Advance, new FollowPlayer<TargetDummy>() }
+            { AIAction.Advance, new FollowPlayerAtDistance<TargetDummy>() }
         };
 
         _ai = new AI<TargetDummy>(
