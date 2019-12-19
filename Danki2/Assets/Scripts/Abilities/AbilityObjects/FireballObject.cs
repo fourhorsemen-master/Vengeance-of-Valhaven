@@ -1,18 +1,12 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
-public class FireballObject : MonoBehaviour
+public class FireballObject : ProjectileObject
 {
-    private float _speed;
-
-    public static void Fire(Vector3 position, Quaternion rotation, float speed)
+    public static void Fire(Actor caster, Action<GameObject> collisionCallback, float speed, Vector3 position, Quaternion rotation)
     {
-        FireballObject prefab = AbilityObjectPrefabLookup.Instance.FireballObjectPrefab;
-        FireballObject fireballObject = Instantiate(prefab, position, rotation);
-        fireballObject._speed = speed;
-    }
-
-    private void Update()
-    {
-        transform.position += transform.forward * _speed * Time.deltaTime;
+        var prefab = AbilityObjectPrefabLookup.Instance.FireballObjectPrefab;
+        Instantiate(prefab, position, rotation)
+            .InitialiseProjectile(caster, collisionCallback, speed);
     }
 }

@@ -1,22 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 public class StatsManager
 {
     private readonly Stats _baseStats;
-    private readonly Dictionary<Stat, float> _cache;
+    private readonly Dictionary<Stat, int> _cache;
     private List<StatPipe> _pipes;
 
     public StatsManager(Stats baseStats)
     {
         _baseStats = baseStats;
-        _cache = new Dictionary<Stat, float>();
+        _cache = new Dictionary<Stat, int>();
         _pipes = new List<StatPipe>();
     }
 
-    public float this[Stat stat]
+    public int this[Stat stat]
     {
         get {
-            if (_cache.TryGetValue(stat, out float value))
+            if (_cache.TryGetValue(stat, out int value))
             {
                 return value;
             }
@@ -24,8 +25,10 @@ public class StatsManager
             {
                 var pipelineValue = (float)_baseStats[stat];
                 _pipes.ForEach(p => pipelineValue = p.ProcessStat(stat, pipelineValue));
-                _cache.Add(stat, pipelineValue);
-                return pipelineValue;
+
+                var statValue = (int)Math.Ceiling(pipelineValue);
+                _cache.Add(stat, statValue);
+                return statValue;
             }
         }
     }
