@@ -31,7 +31,7 @@ public abstract class Actor : MonoBehaviour
         _movementManager.ExecuteMovement();
     }
 
-    public float GetStat(Stat stat)
+    public int GetStat(Stat stat)
     {
         return _statsManager[stat];
     }

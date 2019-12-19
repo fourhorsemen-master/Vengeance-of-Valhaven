@@ -25,7 +25,7 @@ public class TargetDummy : Enemy
 
     protected override void OnDeath()
     {
-        // TODO: Implement TargetDummy death.
-        Debug.Log("The target dummy died.");
+        gameObject.GetComponent<Rigidbody>().velocity = Vector3.up * 5;
+        transform.Rotate(Vector3.forward, 90f);
     }
 }
