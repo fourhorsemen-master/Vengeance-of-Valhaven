@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 8251054034089271737}
   - component: {fileID: 7113009608915976202}
   - component: {fileID: 8075471737366941008}
-  - component: {fileID: -5201030127241623248}
   - component: {fileID: 1191838369}
+  - component: {fileID: -5201030127241623248}
+  - component: {fileID: -7333941826244338973}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -95,21 +96,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-5201030127241623248
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4777388720977389772}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e1ea7e958e193143965f692ae890a3f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseStats:
-    _keys: 000000000100000002000000
-    _values: 0a0000000a0000000a000000
 --- !u!54 &1191838369
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -126,3 +112,35 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &-5201030127241623248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4777388720977389772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e1ea7e958e193143965f692ae890a3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseStats:
+    _keys: 000000000100000002000000
+    _values: 0a0000000a0000000a000000
+  abilityCooldown: 1
+  totalDashCooldown: 1
+  dashDuration: 0.2
+  dashSpeedMultiplier: 3
+--- !u!114 &-7333941826244338973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4777388720977389772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22a456a5fd14b18468b0292fa37ee870, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _player: {fileID: -5201030127241623248}
