@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(Player))]
@@ -25,33 +22,9 @@ public class PlayerEditor : MortalEditor
             player.dashSpeedMultiplier = EditorGUILayout.Slider("Speed Multiplier", player.dashSpeedMultiplier, 1, 10);
         EditorGUI.indentLevel--;
 
-        if (GUILayout.Button("Log Attribute Values"))
-        {
-            BehaviourScanner.Scan();
-            LogBehaviourData();
-        }
-
         if (GUI.changed)
         {
             EditorUtility.SetDirty(target);
         }
-    }
-
-    private void LogBehaviourData()
-    {
-        foreach (AIAction action in Enum.GetValues(typeof(AIAction)))
-        {
-            var data = BehaviourScanner.GetDataByAction(action);
-            string message = action.ToString() + " behaviours found: " + data.Count;
-            if (data.Count > 0) message += ": ";
-            foreach (var d in data)
-            {
-                message += d.DisplayValue + ", ";
-            }
-            message.Remove(message.Length - 2);
-
-            Debug.Log(message);
-        }
-
     }
 }

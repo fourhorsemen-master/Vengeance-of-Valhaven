@@ -5,7 +5,6 @@ using System.Reflection;
 
 public static class ReflectionUtils
 {
-
     public static List<AttributeData<TAttribute>> GetAttributeData<TAttribute>() where TAttribute : Attribute
     {
         List<AttributeData<TAttribute>> attributeData = new List<AttributeData<TAttribute>>();
