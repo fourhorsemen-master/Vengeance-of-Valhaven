@@ -2,54 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAI : Player
+public class PlayerControls : MonoBehaviour
 {
     [SerializeField]
-    private Actor _actor;
+    private Player _player;
 
-    private float _remainingDashCooldown = 0f;
-    private CastingStatus _castingStatus = CastingStatus.Ready;
-    private ActionControlState _previousActionControlState = ActionControlState.None;
-    private AbilityTree _abilityTree;
-    private ChannelService _channelService;
-    private float _remainingCooldown = 0f;
 
-    protected override void Awake()
+    private void Update()
     {
-        base.Awake();
-
-        _channelService = new ChannelService();
-
-        _abilityTree = AbilityTreeFactory.CreateTree(
-            AbilityTreeFactory.CreateNode(
-                AbilityReference.Fireball,
-                AbilityTreeFactory.CreateNode(AbilityReference.ShieldBash),
-                AbilityTreeFactory.CreateNode(AbilityReference.Whirlwind)
-            ),
-            AbilityTreeFactory.CreateNode(
-                AbilityReference.ShieldBash,
-                AbilityTreeFactory.CreateNode(AbilityReference.Slash),
-                AbilityTreeFactory.CreateNode(AbilityReference.ShieldBash)
-            )
-        );
-    }
-
-    protected override void Update()
-    {
-        base.Update();
-
-        TickDashCooldown();
         Move();
 
-        TickAbilityCooldown();
-        HandleAbilities();
-
-        _channelService.Update();
-    }
-
-    private void TickDashCooldown()
-    {
-        _remainingDashCooldown = Mathf.Max(0f, _remainingDashCooldown - Time.deltaTime);
+       /* HandleAbilities();*/
     }
 
     private void Move()
@@ -61,19 +24,17 @@ public class PlayerAI : Player
         if (Input.GetAxis("Vertical") > 0) _moveDirection.z += 1f;
         if (Input.GetAxis("Vertical") < 0) _moveDirection.z -= 1f;
 
-        if (Input.GetAxis("Dash") > 0 && _remainingDashCooldown <= 0)
+        if (Input.GetAxis("Dash") > 0)
         {
-            
-            LockMovement(dashDuration, GetStat(Stat.Speed) * dashSpeedMultiplier, _moveDirection);
-            _remainingDashCooldown = totalDashCooldown;
+            _player.Dash(_moveDirection);
         }
         else
         {
-            MoveAlong(_moveDirection);
+            _player.MoveAlong(_moveDirection);
         }
     }
 
-    private void HandleAbilities()
+   /* private void HandleAbilities()
     {
         var currentControlState = this.GetCurrentActionControlState();
 
@@ -116,16 +77,6 @@ public class PlayerAI : Player
             : (right ? ActionControlState.Right : ActionControlState.None);
     }
 
-
-    private void TickAbilityCooldown()
-    {
-        _remainingCooldown = Mathf.Max(0f, _remainingCooldown - Time.deltaTime);
-        if (_remainingCooldown == 0f && _castingStatus == CastingStatus.Cooldown)
-        {
-            _castingStatus = CastingStatus.Ready;
-        }
-    }
-
     private void BranchAndCast(Direction direction)
     {
         if (!_abilityTree.CanWalk(direction))
@@ -156,5 +107,5 @@ public class PlayerAI : Player
         }
 
         _remainingCooldown = abilityCooldown;
-    }
+    }*/
 }
