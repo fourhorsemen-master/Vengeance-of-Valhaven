@@ -46,7 +46,7 @@ public abstract class Actor : MonoBehaviour
         _movementManager.LockMovement(duration, speed, direction);
     }
 
-    protected void MoveAlong(Vector3 vec)
+    public void MoveAlong(Vector3 vec)
     {
         _movementManager.MoveAlong(vec);
     }

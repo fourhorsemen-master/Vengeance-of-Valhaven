@@ -36,12 +36,13 @@ public class Player : Mortal
     [HideInInspector]
     public float dashSpeedMultiplier = 3f;
 
+    private float _remainingDashCooldown = 0f;
+    private float _remainingAbilityCooldown = 0f;
     private AbilityTree _abilityTree;
     private ChannelService _channelService;
     private CastingStatus _castingStatus = CastingStatus.Ready;
     private ActionControlState _previousActionControlState = ActionControlState.None;
-    private float _remainingCooldown = 0f;
-    private float _remainingDashCooldown = 0f;
+    private ActionControlState _currentActionControlState = ActionControlState.None;
 
     protected override void Awake()
     {
@@ -70,19 +71,14 @@ public class Player : Mortal
         TickDashCooldown();
         TickAbilityCooldown();
 
-        Move();
-        HandleAbilities();
-
         _channelService.Update();
     }
 
-    private void TickAbilityCooldown()
+    protected override void LateUpdate()
     {
-        _remainingCooldown = Mathf.Max(0f, _remainingCooldown - Time.deltaTime);
-        if (_remainingCooldown == 0f && _castingStatus == CastingStatus.Cooldown)
-        {
-            _castingStatus = CastingStatus.Ready;
-        }
+        base.LateUpdate();
+
+        HandleAbilities();
     }
 
     private void TickDashCooldown()
@@ -90,31 +86,34 @@ public class Player : Mortal
         _remainingDashCooldown = Mathf.Max(0f, _remainingDashCooldown - Time.deltaTime);
     }
 
-    private void Move()
+    private void TickAbilityCooldown()
     {
-        var _moveDirection = Vector3.zero;
-
-        if (Input.GetAxis("Horizontal") > 0) _moveDirection.x += 1f;
-        if (Input.GetAxis("Horizontal") < 0) _moveDirection.x -= 1f;
-        if (Input.GetAxis("Vertical") > 0) _moveDirection.z += 1f;
-        if (Input.GetAxis("Vertical") < 0) _moveDirection.z -= 1f;
-
-        if (Input.GetAxis("Dash") > 0 && _remainingDashCooldown <= 0)
+        _remainingAbilityCooldown = Mathf.Max(0f, _remainingAbilityCooldown - Time.deltaTime);
+        if (_remainingAbilityCooldown == 0f && _castingStatus == CastingStatus.Cooldown)
         {
-            LockMovement(dashDuration, GetStat(Stat.Speed) * dashSpeedMultiplier, _moveDirection);
+            _castingStatus = CastingStatus.Ready;
+        }
+    }
+
+    public void Dash(Vector3 direction)
+    {
+        if (_remainingDashCooldown <= 0)
+        {
+            LockMovement(dashDuration, GetStat(Stat.Speed) * dashSpeedMultiplier, direction);
             _remainingDashCooldown = totalDashCooldown;
         }
-        else
-        {
-            MoveAlong(_moveDirection);
-        }
+    }
+
+    public void SetCurrentControlState(ActionControlState controlState)
+    {
+        _currentActionControlState = controlState;
     }
 
     private void HandleAbilities()
     {
-        var currentControlState = this.GetCurrentActionControlState();
-
-        var castingCommand = ControlMatrix.GetCastingCommand(_castingStatus, _previousActionControlState, currentControlState);
+        var castingCommand = ControlMatrix.GetCastingCommand(_castingStatus, _previousActionControlState, _currentActionControlState);
+        _previousActionControlState = _currentActionControlState;
+        _currentActionControlState = ActionControlState.None;
 
         switch (castingCommand)
         {
@@ -122,25 +121,23 @@ public class Player : Mortal
                 // Handle case where channel has ended naturally.
                 if (!_channelService.Active)
                 {
-                    _castingStatus = _remainingCooldown <= 0f ? CastingStatus.Ready : CastingStatus.Cooldown;
+                    _castingStatus = _remainingAbilityCooldown <= 0f ? CastingStatus.Ready : CastingStatus.Cooldown;
                 }
                 break;
             case CastingCommand.CancelChannel:
                 _channelService.Cancel();
-                _castingStatus = _remainingCooldown <= 0f ? CastingStatus.Ready : CastingStatus.Cooldown;
-                
+                _castingStatus = _remainingAbilityCooldown <= 0f ? CastingStatus.Ready : CastingStatus.Cooldown;
+
                 // Ability whiffed, reset tree. TODO: Make a method out of this including feedback for player. 
                 _abilityTree.Reset();
                 break;
             case CastingCommand.CastLeft:
-                this.BranchAndCast(Direction.Left);
+                BranchAndCast(Direction.Left);
                 break;
             case CastingCommand.CastRight:
-                this.BranchAndCast(Direction.Right);
+                BranchAndCast(Direction.Right);
                 break;
         }
-
-        this._previousActionControlState = currentControlState;
     }
 
     private void BranchAndCast(Direction direction)
@@ -172,18 +169,9 @@ public class Player : Mortal
                 : CastingStatus.ChannelingRight;
         }
 
-        _remainingCooldown = abilityCooldown;
+        _remainingAbilityCooldown = abilityCooldown;
     }
 
-    private ActionControlState GetCurrentActionControlState()
-    {
-        var left = (Input.GetAxis("Left Action") > 0);
-        var right = (Input.GetAxis("Right Action") > 0);
-
-        return left
-            ? (right ? ActionControlState.Both : ActionControlState.Left)
-            : (right ? ActionControlState.Right : ActionControlState.None);
-    }
     protected override void OnDeath()
     {
         // TODO: Implement Player death.
