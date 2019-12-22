@@ -10,6 +10,7 @@ public static class BehaviourScanner
         BehaviourData = (
             from attributeData
             in ReflectionUtils.GetAttributeData<BehaviourAttribute>()
+            where attributeData.Type.GetInterfaces().Contains(typeof(Behaviour))
             select new BehaviourData(attributeData)
         ).ToList();
     }

@@ -1,6 +1,6 @@
-﻿public abstract class Behaviour<T> where T : Actor
+﻿public abstract class Behaviour
 {
     protected Behaviour(float[] args) { }
 
-    public abstract void Behave(T actor);
+    public abstract void Behave(Actor actor);
 }

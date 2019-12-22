@@ -1,4 +1,4 @@
-﻿public interface IPlanner<T> where T : Actor
+﻿public interface IPlanner
 {
-    Agenda Plan(T actor, Agenda previousAgenda);
+    Agenda Plan(Actor actor, Agenda previousAgenda);
 }

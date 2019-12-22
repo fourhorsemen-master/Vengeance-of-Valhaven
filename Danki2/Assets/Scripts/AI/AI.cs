@@ -1,16 +1,11 @@
-﻿public abstract class AI
+﻿public class AI
 {
-    public abstract void Act();
-}
-
-public class AI<T> : AI where T : Actor
-{
-    private readonly T _actor;
-    private readonly IPlanner<T> _planner;
-    private readonly Personality<T> _personality;
+    private readonly Actor _actor;
+    private readonly IPlanner _planner;
+    private readonly Personality _personality;
     private Agenda _agenda;
 
-    public AI(T actor, IPlanner<T> planner, Personality<T> personality)
+    public AI(Actor actor, IPlanner planner, Personality personality)
     {
         _actor = actor;
         _planner = planner;
@@ -18,7 +13,7 @@ public class AI<T> : AI where T : Actor
         _agenda = new Agenda();
     }
 
-    public override void Act()
+    public void Act()
     {
         _agenda = _planner.Plan(_actor, _agenda);
 

@@ -1,6 +1,6 @@
-﻿public class AlwaysAdvance<T> : IPlanner<T> where T : Actor
+﻿public class AlwaysAdvance : IPlanner
 {
-    public Agenda Plan(T actor, Agenda previousAgenda)
+    public Agenda Plan(Actor actor, Agenda previousAgenda)
     {
         return new Agenda
         {

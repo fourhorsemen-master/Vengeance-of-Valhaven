@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 
 [Behaviour("Attack Player", AIAction.Attack)]
-public class AttackPlayer<T> : Behaviour<T> where T : Actor
+public class AttackPlayer : Behaviour
 {
     public AttackPlayer(float[] args) : base(args) { }
 
-    public override void Behave(T actor)
+    public override void Behave(Actor actor)
     {
         Debug.Log("Attacking player...");
     }

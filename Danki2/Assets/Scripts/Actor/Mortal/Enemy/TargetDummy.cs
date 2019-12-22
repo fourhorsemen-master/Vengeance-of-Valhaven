@@ -3,19 +3,19 @@ using UnityEngine;
 
 public class TargetDummy : Enemy
 {
-    private AI<TargetDummy> _ai;
+    private AI _ai;
 
     protected override void Awake()
     {
         base.Awake();
 
-        IPlanner<TargetDummy> planner = new AlwaysAdvance<TargetDummy>();
-        Personality<TargetDummy> personality = new Personality<TargetDummy>
+        IPlanner planner = new AlwaysAdvance();
+        Personality personality = new Personality
         {
-            { AIAction.Advance, new FollowPlayerAtDistance<TargetDummy>(new float[] { 5f }) }
+            { AIAction.Advance, new FollowPlayerAtDistance(new float[] { 5f }) }
         };
 
-        _ai = new AI<TargetDummy>(
+        _ai = new AI(
             this,
             planner,
             personality
