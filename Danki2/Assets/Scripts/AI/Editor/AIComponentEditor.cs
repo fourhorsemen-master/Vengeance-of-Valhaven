@@ -13,6 +13,7 @@ public class AIComponentEditor : Editor
         {
             BehaviourScanner.Scan();
             LogBehaviourData();
+            InstantiateBehaviours();
         }
     }
 
@@ -31,6 +32,16 @@ public class AIComponentEditor : Editor
 
             Debug.Log(message);
         }
+    }
 
+    private void InstantiateBehaviours()
+    {
+        foreach (AIAction action in Enum.GetValues(typeof(AIAction)))
+        {
+            float[] test = new float[] { 5 };
+
+            var data = BehaviourScanner.GetDataByAction(action)[0];
+            Activator.CreateInstance(data.Type, test);
+        }
     }
 }

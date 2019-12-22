@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [Behaviour("Follow Player", AIAction.Advance)]
 public class FollowPlayer<T> : Behaviour<T> where T : Actor
 {
-    public FollowPlayer(List<float> args) : base(args) { } 
+    public FollowPlayer(float[] args) : base(args) { } 
 
     public override void Behave(T actor)
     {

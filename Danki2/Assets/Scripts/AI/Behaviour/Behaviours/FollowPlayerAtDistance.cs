@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [Behaviour("Follow Player At Distance", AIAction.Advance)]
 public class FollowPlayerAtDistance<T> : Behaviour<T> where T : Actor
 {
     private readonly float _followDistance;
 
-    public FollowPlayerAtDistance(List<float> args) : base(args) {
+    public FollowPlayerAtDistance(float[] args) : base(args) {
         _followDistance = args[0];
     }
 

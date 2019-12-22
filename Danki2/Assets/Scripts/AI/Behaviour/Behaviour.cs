@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-
-public abstract class Behaviour<T> where T : Actor
+﻿public abstract class Behaviour<T> where T : Actor
 {
-    protected Behaviour(List<float> args) { }
+    protected Behaviour(float[] args) { }
 
     public abstract void Behave(T actor);
 }
