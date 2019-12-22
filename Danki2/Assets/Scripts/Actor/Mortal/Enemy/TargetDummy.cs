@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class TargetDummy : Enemy
 {
@@ -11,7 +12,7 @@ public class TargetDummy : Enemy
         IPlanner<TargetDummy> planner = new AlwaysAdvance<TargetDummy>();
         Personality<TargetDummy> personality = new Personality<TargetDummy>
         {
-            { AIAction.Advance, new FollowPlayerAtDistance<TargetDummy>() }
+            { AIAction.Advance, new FollowPlayerAtDistance<TargetDummy>(new List<float>() { 5f }) }
         };
 
         _ai = new AI<TargetDummy>(

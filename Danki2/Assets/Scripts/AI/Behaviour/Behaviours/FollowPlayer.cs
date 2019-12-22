@@ -1,9 +1,12 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 [Behaviour("Follow Player", AIAction.Advance)]
-public class FollowPlayer<T> : IBehaviour<T> where T : Actor
+public class FollowPlayer<T> : Behaviour<T> where T : Actor
 {
-    public void Behave(T actor)
+    public FollowPlayer(List<float> args) : base(args) { } 
+
+    public override void Behave(T actor)
     {
         // We wouldn't want to be finding the player every frame in the real
         // world, this is just an example.
