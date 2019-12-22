@@ -3,9 +3,10 @@
 [Behaviour("Follow Player At Distance", AIAction.Advance)]
 public class FollowPlayerAtDistance : Behaviour
 {
-    private readonly float _followDistance;
+    private float _followDistance;
 
-    public FollowPlayerAtDistance(float[] args) : base(args) {
+    public override void Initialise(float[] args)
+    {
         _followDistance = args[0];
     }
 

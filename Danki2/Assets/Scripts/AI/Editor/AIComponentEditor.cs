@@ -41,7 +41,7 @@ public class AIComponentEditor : Editor
             float[] test = new float[] { 5 };
 
             var data = BehaviourScanner.GetDataByAction(action)[0];
-            Activator.CreateInstance(data.Type, test);
+            Activator.CreateInstance(data.Behaviour, test);
         }
     }
 }

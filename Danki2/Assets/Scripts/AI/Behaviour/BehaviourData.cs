@@ -4,12 +4,12 @@ public class BehaviourData
 {
     public string DisplayValue { get; }
     public AIAction Action { get; }
-    public Type Type { get; }
+    public Type Behaviour { get; }
 
     public BehaviourData(AttributeData<BehaviourAttribute> attributeData)
     {
         DisplayValue = attributeData.Attribute.DisplayValue;
         Action = attributeData.Attribute.Action;
-        Type = attributeData.Type;
+        Behaviour = attributeData.Type;
     }
 }
