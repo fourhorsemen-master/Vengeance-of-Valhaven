@@ -36,6 +36,11 @@ public class MovementManager
             : Vector3.Normalize(_moveDirection) * speedStat;
 
         _rigidbody.MovePosition(_rigidbody.position + movementVector * Time.deltaTime);
+        if (!movementVector.Equals(Vector3.zero))
+        {
+            _rigidbody.MoveRotation(Quaternion.LookRotation(movementVector));
+        }
+
         _moveDirection = Vector3.zero;
     }
 
