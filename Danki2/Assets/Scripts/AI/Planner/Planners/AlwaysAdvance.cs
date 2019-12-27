@@ -1,4 +1,5 @@
-﻿public class AlwaysAdvance : Planner
+﻿[Planner("Always Advance")]
+public class AlwaysAdvance : Planner
 {
     public override Agenda Plan(Actor actor, Agenda previousAgenda)
     {

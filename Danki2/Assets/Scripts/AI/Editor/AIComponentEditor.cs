@@ -37,11 +37,16 @@ public class AIComponentEditor : Editor
             aIComponent._serializablePersonality = serializablePersonality;
         }
 
-        if (GUILayout.Button("Log Attribute Values"))
+        if (GUILayout.Button("Log Behaviour Attribute Values"))
         {
             BehaviourScanner.Scan();
             LogBehaviourData();
-            InstantiateBehaviours();
+        }
+
+        if (GUILayout.Button("Log Planner Attribute Values"))
+        {
+            PlannerScanner.Scan();
+            LogPlannerData();
         }
 
         if (GUI.changed)
@@ -67,14 +72,16 @@ public class AIComponentEditor : Editor
         }
     }
 
-    private void InstantiateBehaviours()
+    private void LogPlannerData()
     {
-        foreach (AIAction action in Enum.GetValues(typeof(AIAction)))
+        string message = "planners found: " + PlannerScanner.PlannerData.Count;
+        if (PlannerScanner.PlannerData.Count > 0) message += ": ";
+        foreach (PlannerData data in PlannerScanner.PlannerData)
         {
-            float[] test = new float[] { 5 };
-
-            var data = BehaviourScanner.GetDataByAction(action)[0];
-            Activator.CreateInstance(data.Behaviour, test);
+            message += data.DisplayValue + ", ";
         }
+        message.Remove(message.Length - 2);
+
+        Debug.Log(message);
     }
 }
