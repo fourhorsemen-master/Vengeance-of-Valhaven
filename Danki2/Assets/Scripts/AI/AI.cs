@@ -1,11 +1,11 @@
 ﻿public class AI
 {
     private readonly Actor _actor;
-    private readonly IPlanner _planner;
+    private readonly Planner _planner;
     private readonly Personality _personality;
     private Agenda _agenda;
 
-    public AI(Actor actor, IPlanner planner, Personality personality)
+    public AI(Actor actor, Planner planner, Personality personality)
     {
         _actor = actor;
         _planner = planner;

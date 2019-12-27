@@ -1,6 +1,6 @@
-﻿public class AlwaysAdvance : IPlanner
+﻿public class AlwaysAdvance : Planner
 {
-    public Agenda Plan(Actor actor, Agenda previousAgenda)
+    public override Agenda Plan(Actor actor, Agenda previousAgenda)
     {
         return new Agenda
         {

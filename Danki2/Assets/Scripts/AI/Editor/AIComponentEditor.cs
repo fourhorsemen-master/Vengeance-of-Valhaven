@@ -9,11 +9,44 @@ public class AIComponentEditor : Editor
     {
         base.OnInspectorGUI();
 
+        AIComponent aIComponent = (AIComponent)target;
+
+        if (GUILayout.Button("Add Follow Player AI"))
+        {
+            aIComponent._serializablePlanner = new SerializablePlanner(
+                typeof(AlwaysAdvance), new float[0]
+            );
+
+            SerializablePersonality serializablePersonality = new SerializablePersonality(new SerializableBehaviour());
+            serializablePersonality[AIAction.Advance] = new SerializableBehaviour(
+                typeof(FollowPlayer), new float[0]
+            );
+            aIComponent._serializablePersonality = serializablePersonality;
+        }
+
+        if (GUILayout.Button("Add Follow Player At Distance AI"))
+        {
+            aIComponent._serializablePlanner = new SerializablePlanner(
+                typeof(AlwaysAdvance), new float[0]
+            );
+
+            SerializablePersonality serializablePersonality = new SerializablePersonality(new SerializableBehaviour());
+            serializablePersonality[AIAction.Advance] = new SerializableBehaviour(
+                typeof(FollowPlayerAtDistance), new float[] { 5 }
+            );
+            aIComponent._serializablePersonality = serializablePersonality;
+        }
+
         if (GUILayout.Button("Log Attribute Values"))
         {
             BehaviourScanner.Scan();
             LogBehaviourData();
             InstantiateBehaviours();
+        }
+
+        if (GUI.changed)
+        {
+            EditorUtility.SetDirty(target);
         }
     }
 
