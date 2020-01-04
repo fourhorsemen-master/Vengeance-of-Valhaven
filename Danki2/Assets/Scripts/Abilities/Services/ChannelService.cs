@@ -3,7 +3,8 @@
 public class ChannelService
 {
     private Channel _currentChannel;
-    private float _remainingDuration;
+    public float RemainingDuration { get; private set; }
+    public float TotalDuration => _currentChannel.Duration;
 
     public ChannelService()
     {
@@ -16,13 +17,13 @@ public class ChannelService
     {
         if (!Active)
         {
-            _remainingDuration = 0f;
+            RemainingDuration = 0f;
             return;
         };
 
-        this._remainingDuration = Mathf.Max(0f, _remainingDuration - Time.deltaTime);
+        this.RemainingDuration = Mathf.Max(0f, RemainingDuration - Time.deltaTime);
 
-        if (_remainingDuration > 0f)
+        if (RemainingDuration > 0f)
         {
             _currentChannel.Continue();
         }
@@ -36,7 +37,7 @@ public class ChannelService
     public void Start(Channel channel)
     {
         _currentChannel = channel;
-        _remainingDuration = _currentChannel.Duration;
+        RemainingDuration = _currentChannel.Duration;
         Active = true;
         _currentChannel.Start();
     }
@@ -46,7 +47,7 @@ public class ChannelService
         if (!Active) return;
 
         _currentChannel.Cancel();
-        _remainingDuration = 0f;
+        RemainingDuration = 0f;
         Active = false;
     }
 }
