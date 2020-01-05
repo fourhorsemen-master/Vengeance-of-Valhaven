@@ -14,6 +14,10 @@ public class MouseGamePositionFinder : Singleton<MouseGamePositionFinder>
         _plane = new Plane(Vector3.up, _planeHeight * Vector3.up);
     }
 
+    /// <summary>
+    /// Returns position of mouse when projected to a horizontal plane at a height of 1.25
+    /// </summary>
+    /// <returns></returns>
     public Vector3 GetMouseGamePosition()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
