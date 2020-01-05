@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public static class BehaviourScanner
 {
     public static List<BehaviourData> BehaviourData { get; private set; } = new List<BehaviourData>();
+    public static Dictionary<AIAction, List<BehaviourData>> BehaviourDataByAction { get; private set; } = new Dictionary<AIAction, List<BehaviourData>>();
 
     public static void Scan()
     {
@@ -21,14 +23,19 @@ public static class BehaviourScanner
                 Debug.LogError($"Found behaviour attribute on class that does not extend Behaviour: {attributeData.Type.Name}");
             }
         }
+
+        BehaviourDataByAction.Clear();
+        foreach (AIAction action in Enum.GetValues(typeof(AIAction))) {
+            BehaviourDataByAction.Add(action, GetDataByAction(action));
+        }
     }
 
-    public static List<BehaviourData> GetDataByAction(AIAction action)
+    private static List<BehaviourData> GetDataByAction(AIAction action)
     {
         return (
             from BehaviourData data
             in BehaviourData
-            where data.Action.Equals(action)
+            where data.Actions.Contains(action)
             select data
         ).ToList();
     }

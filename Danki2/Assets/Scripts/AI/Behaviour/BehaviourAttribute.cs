@@ -4,11 +4,13 @@
 public class BehaviourAttribute : Attribute
 {
     public string DisplayValue { get; }
-    public AIAction Action { get; }
+    public AIAction[] Actions { get; }
+    public string[] Args { get; }
 
-    public BehaviourAttribute(string displayValue, AIAction action)
+    public BehaviourAttribute(string displayValue, AIAction[] actions, string[] args)
     {
         DisplayValue = displayValue;
-        Action = action;
+        Actions = actions;
+        Args = args;
     }
 }
