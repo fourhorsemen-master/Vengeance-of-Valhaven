@@ -6,22 +6,22 @@ public class AIComponent : MonoBehaviour
     private Actor _actor = null;
 
     [HideInInspector]
-    public SerializablePlanner _serializablePlanner = new SerializablePlanner();
+    public SerializablePlanner serializablePlanner = new SerializablePlanner();
 
     [HideInInspector]
-    public SerializablePersonality _serializablePersonality = new SerializablePersonality(new SerializableBehaviour());
+    public SerializablePersonality serializablePersonality = new SerializablePersonality(new SerializableBehaviour());
 
     private Agenda _agenda = new Agenda();
 
     private void Update()
     {
-        _agenda = _serializablePlanner.planner.Plan(_actor, _agenda);
+        _agenda = serializablePlanner.planner.Plan(_actor, _agenda);
 
         foreach (AIAction action in _agenda.Keys)
         {
             if (_agenda[action])
             {
-                _serializablePersonality[action].behaviour.Behave(_actor);
+                serializablePersonality[action].behaviour.Behave(_actor);
             }
         }
     }

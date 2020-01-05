@@ -15,7 +15,7 @@ public class SerializableBehaviour : ISerializationCallbackReceiver
     public SerializableBehaviour()
     {
         behaviour = new NoOpBehaviour();
-        _serializableBehaviourType = new SerializableType(typeof(NoOpBehaviour));
+        _serializableBehaviourType = new SerializableType(behaviour.GetType());
         _args = new float[0];
     }
 

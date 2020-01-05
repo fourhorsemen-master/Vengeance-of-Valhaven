@@ -15,7 +15,7 @@ public class SerializablePlanner : ISerializationCallbackReceiver
     public SerializablePlanner()
     {
         planner = new NoOpPlanner();
-        _serializablePlannerType = new SerializableType(typeof(NoOpPlanner));
+        _serializablePlannerType = new SerializableType(planner.GetType());
         _args = new float[0];
     }
 

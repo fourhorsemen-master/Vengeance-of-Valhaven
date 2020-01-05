@@ -13,28 +13,24 @@ public class AIComponentEditor : Editor
 
         if (GUILayout.Button("Add Follow Player AI"))
         {
-            aIComponent._serializablePlanner = new SerializablePlanner(
+            aIComponent.serializablePlanner = new SerializablePlanner(
                 typeof(AlwaysAdvance), new float[0]
             );
 
-            SerializablePersonality serializablePersonality = new SerializablePersonality(new SerializableBehaviour());
-            serializablePersonality[AIAction.Advance] = new SerializableBehaviour(
+            aIComponent.serializablePersonality[AIAction.Advance] = new SerializableBehaviour(
                 typeof(FollowPlayer), new float[0]
             );
-            aIComponent._serializablePersonality = serializablePersonality;
         }
 
         if (GUILayout.Button("Add Follow Player At Distance AI"))
         {
-            aIComponent._serializablePlanner = new SerializablePlanner(
+            aIComponent.serializablePlanner = new SerializablePlanner(
                 typeof(AlwaysAdvance), new float[0]
             );
 
-            SerializablePersonality serializablePersonality = new SerializablePersonality(new SerializableBehaviour());
-            serializablePersonality[AIAction.Advance] = new SerializableBehaviour(
+            aIComponent.serializablePersonality[AIAction.Advance] = new SerializableBehaviour(
                 typeof(FollowPlayerAtDistance), new float[] { 5 }
             );
-            aIComponent._serializablePersonality = serializablePersonality;
         }
 
         if (GUILayout.Button("Log Behaviour Attribute Values"))
