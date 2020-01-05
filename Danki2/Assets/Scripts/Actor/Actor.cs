@@ -41,16 +41,31 @@ public abstract class Actor : MonoBehaviour
         _effectTracker.AddEffect(effect);
     }
 
-    public void LockMovement(float duration, float speed, Vector3 direction)
+    /// <summary>
+    /// Lock the Actors movement for a duration.
+    /// </summary>
+    /// <param name="duration"></param>
+    /// <param name="speed"></param>
+    /// <param name="direction"></param>
+    /// <param name="override">Whether to override any existing movement lock. Defaults to false.</param>
+    public void LockMovement(float duration, float speed, Vector3 direction, bool @override = false)
     {
-        _movementManager.LockMovement(duration, speed, direction);
+        _movementManager.LockMovement(duration, speed, direction, @override);
     }
 
+    /// <summary>
+    /// Moves the actor with the direction of the provided direction vector.
+    /// </summary>
+    /// <param name="vec"></param>
     public void MoveAlong(Vector3 vec)
     {
         _movementManager.MoveAlong(vec);
     }
 
+    /// <summary>
+    /// Moves the actor toward the provided position vector.
+    /// </summary>
+    /// <param name="vec"></param>
     public void MoveToward(Vector3 target)
     {
         _movementManager.MoveToward(target);

@@ -39,8 +39,10 @@ public class MovementManager
         _moveDirection = Vector3.zero;
     }
 
-    public void LockMovement(float duration, float speed, Vector3 direction)
+    public void LockMovement(float duration, float speed, Vector3 direction, bool @override = false)
     {
+        if (_moveLockOn && !@override) return;
+
         _moveLockRemainingDuration = duration;
         _moveLockSpeed = speed;
         _moveLockDirection = direction;
