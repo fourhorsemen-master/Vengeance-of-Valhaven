@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
 [Behaviour("Attack Player", AIAction.Attack)]
-public class AttackPlayer<T> : IBehaviour<T> where T : Actor
+public class AttackPlayer : Behaviour
 {
-    public void Behave(T actor)
+    public override void Behave(Actor actor)
     {
         Debug.Log("Attacking player...");
     }

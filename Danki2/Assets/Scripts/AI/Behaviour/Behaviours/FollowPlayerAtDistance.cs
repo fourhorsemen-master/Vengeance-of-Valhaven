@@ -1,11 +1,16 @@
 ﻿using UnityEngine;
 
 [Behaviour("Follow Player At Distance", AIAction.Advance)]
-public class FollowPlayerAtDistance<T> : IBehaviour<T> where T : Actor
+public class FollowPlayerAtDistance : Behaviour
 {
-    private static readonly float _followDistance = 5;
+    private float _followDistance;
 
-    public void Behave(T actor)
+    public override void Initialise(float[] args)
+    {
+        _followDistance = args[0];
+    }
+
+    public override void Behave(Actor actor)
     {
         // We wouldn't want to be finding the player every frame in the real
         // world, this is just an example.

@@ -1,6 +1,7 @@
-﻿public class AlwaysAdvance<T> : IPlanner<T> where T : Actor
+﻿[Planner("Always Advance")]
+public class AlwaysAdvance : Planner
 {
-    public Agenda Plan(T actor, Agenda previousAgenda)
+    public override Agenda Plan(Actor actor, Agenda previousAgenda)
     {
         return new Agenda
         {

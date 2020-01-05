@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1205525132003439251}
   - component: {fileID: -889224334092729796}
   - component: {fileID: -4764890829987599381}
-  - component: {fileID: -463689407945673299}
+  - component: {fileID: 2857256790376552586}
   m_Layer: 0
   m_Name: TargetDummy
   m_TagString: Untagged
@@ -127,7 +127,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &-463689407945673299
+--- !u!114 &2857256790376552586
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -139,3 +139,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19514c5d500c2bd459b1f556adf129a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _actor: {fileID: -889224334092729796}
+  serializablePlanner:
+    _serializablePlannerType:
+      _serializedType: AlwaysAdvance, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+    _args: []
+  serializablePersonality:
+    _keys: 000000000100000002000000030000000400000005000000
+    _values:
+    - _serializableBehaviourType:
+        _serializedType: NoOpBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+      _args: []
+    - _serializableBehaviourType:
+        _serializedType: NoOpBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+      _args: []
+    - _serializableBehaviourType:
+        _serializedType: NoOpBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+      _args: []
+    - _serializableBehaviourType:
+        _serializedType: FollowPlayerAtDistance, Assembly-CSharp, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+      _args:
+      - 5
+    - _serializableBehaviourType:
+        _serializedType: NoOpBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+      _args: []
+    - _serializableBehaviourType:
+        _serializedType: NoOpBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+      _args: []
