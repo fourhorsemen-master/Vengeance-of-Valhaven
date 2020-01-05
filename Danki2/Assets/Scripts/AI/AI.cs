@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class AIComponent : MonoBehaviour
+public class AI : MonoBehaviour
 {
     [SerializeField]
     private Actor _actor = null;

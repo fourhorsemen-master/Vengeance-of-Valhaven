@@ -2,33 +2,33 @@
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(AIComponent))]
-public class AIComponentEditor : Editor
+[CustomEditor(typeof(AI))]
+public class AIEditor : Editor
 {
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
 
-        AIComponent aIComponent = (AIComponent)target;
+        AI ai = (AI)target;
 
         if (GUILayout.Button("Add Follow Player AI"))
         {
-            aIComponent.serializablePlanner = new SerializablePlanner(
+            ai.serializablePlanner = new SerializablePlanner(
                 typeof(AlwaysAdvance), new float[0]
             );
 
-            aIComponent.serializablePersonality[AIAction.Advance] = new SerializableBehaviour(
+            ai.serializablePersonality[AIAction.Advance] = new SerializableBehaviour(
                 typeof(FollowPlayer), new float[0]
             );
         }
 
         if (GUILayout.Button("Add Follow Player At Distance AI"))
         {
-            aIComponent.serializablePlanner = new SerializablePlanner(
+            ai.serializablePlanner = new SerializablePlanner(
                 typeof(AlwaysAdvance), new float[0]
             );
 
-            aIComponent.serializablePersonality[AIAction.Advance] = new SerializableBehaviour(
+            ai.serializablePersonality[AIAction.Advance] = new SerializableBehaviour(
                 typeof(FollowPlayerAtDistance), new float[] { 5 }
             );
         }
