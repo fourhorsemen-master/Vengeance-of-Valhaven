@@ -36,11 +36,18 @@ public class MovementManager
             : Vector3.Normalize(_moveDirection) * speedStat;
 
         _rigidbody.MovePosition(_rigidbody.position + movementVector * Time.deltaTime);
+        if (!movementVector.Equals(Vector3.zero))
+        {
+            _rigidbody.MoveRotation(Quaternion.LookRotation(movementVector));
+        }
+
         _moveDirection = Vector3.zero;
     }
 
-    public void LockMovement(float duration, float speed, Vector3 direction)
+    public void LockMovement(float duration, float speed, Vector3 direction, bool @override = false)
     {
+        if (_moveLockOn && !@override) return;
+
         _moveLockRemainingDuration = duration;
         _moveLockSpeed = speed;
         _moveLockDirection = direction;
