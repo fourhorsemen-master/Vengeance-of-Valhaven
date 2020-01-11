@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class CooldownBar : Bar
+﻿public class CooldownBar : Bar
 {
     Player _player;
 

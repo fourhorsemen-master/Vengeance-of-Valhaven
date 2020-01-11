@@ -39,20 +39,22 @@ public class Player : Mortal
     [HideInInspector]
     public float RemainingAbilityCooldown { get; private set; } = 0f;
     [HideInInspector]
-    public ChannelService ChannelService { get; private set; }
-    [HideInInspector]
     public CastingStatus CastingStatus { get; private set; } = CastingStatus.Ready;
 
     private float _remainingDashCooldown = 0f;
     private AbilityTree _abilityTree;
+    private ChannelService _channelService;
     private ActionControlState _previousActionControlState = ActionControlState.None;
     private ActionControlState _currentActionControlState = ActionControlState.None;
+
+    public float RemainingChannelDuration => _channelService.RemainingDuration;
+    public float TotalChannelDuration => _channelService.TotalDuration;
 
     protected override void Awake()
     {
         base.Awake();
 
-        ChannelService = new ChannelService();
+        _channelService = new ChannelService();
 
         _abilityTree = AbilityTreeFactory.CreateTree(
             AbilityTreeFactory.CreateNode(
@@ -75,7 +77,7 @@ public class Player : Mortal
         TickDashCooldown();
         TickAbilityCooldown();
 
-        ChannelService.Update();
+        _channelService.Update();
     }
 
     protected override void LateUpdate()
@@ -123,13 +125,13 @@ public class Player : Mortal
         {
             case CastingCommand.ContinueChannel:
                 // Handle case where channel has ended naturally.
-                if (!ChannelService.Active)
+                if (!_channelService.Active)
                 {
                     CastingStatus = RemainingAbilityCooldown <= 0f ? CastingStatus.Ready : CastingStatus.Cooldown;
                 }
                 break;
             case CastingCommand.CancelChannel:
-                ChannelService.Cancel();
+                _channelService.Cancel();
                 CastingStatus = RemainingAbilityCooldown <= 0f ? CastingStatus.Ready : CastingStatus.Cooldown;
 
                 // Ability whiffed, reset tree. TODO: Make a method out of this including feedback for player. 
@@ -166,7 +168,7 @@ public class Player : Mortal
         if (Ability.TryGetAsChannelBuilder(abilityReference, out var channelBuilder))
         {
             var channel = channelBuilder.Invoke(abilityContext);
-            ChannelService.Start(channel);
+            _channelService.Start(channel);
 
             CastingStatus = direction == Direction.Left
                 ? CastingStatus.ChannelingLeft

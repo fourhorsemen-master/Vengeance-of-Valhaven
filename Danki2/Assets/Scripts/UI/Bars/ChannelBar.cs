@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class ChannelBar : Bar
+﻿public class ChannelBar : Bar
 {
     Player _player;
 
@@ -23,6 +19,6 @@ public class ChannelBar : Bar
             return;
         }
 
-        SetWidth(_player.ChannelService.RemainingDuration / _player.ChannelService.TotalDuration);
+        SetWidth(_player.RemainingChannelDuration / _player.TotalChannelDuration);
     }
 }
