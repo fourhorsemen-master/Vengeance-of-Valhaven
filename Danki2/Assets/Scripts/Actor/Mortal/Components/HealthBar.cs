@@ -3,8 +3,9 @@ using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
-    public Image _healthBar;
-    public Mortal _mortal;
+    [SerializeField]
+    private Image _healthBar;
+    public Mortal mortal;
 
     void Update()
     {
@@ -13,7 +14,7 @@ public class HealthBar : MonoBehaviour
             return;
         }
 
-        if (_mortal.Health <= 0)
+        if (mortal.Health <= 0)
         {
             _healthBar.canvas.enabled = false;
             return;
@@ -22,8 +23,8 @@ public class HealthBar : MonoBehaviour
         FaceCamera();
 
         // Update the remaining health display
-        float maxHealth = _mortal.GetStat(Stat.MaxHealth);
-        _healthBar.transform.localScale = new Vector3(_mortal.Health / maxHealth, 1f, 1f);
+        float maxHealth = mortal.GetStat(Stat.MaxHealth);
+        _healthBar.transform.localScale = new Vector3(mortal.Health / maxHealth, 1f, 1f);
     }
 
     /// <summary>
