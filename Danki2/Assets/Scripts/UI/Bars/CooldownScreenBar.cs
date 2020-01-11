@@ -1,4 +1,4 @@
-﻿public class CooldownBar : Bar
+﻿public class CooldownScreenBar : ScreenBar
 {
     Player _player;
 

@@ -1,4 +1,4 @@
-﻿public class ChannelBar : Bar
+﻿public class ChannelScreenBar : ScreenBar
 {
     Player _player;
 

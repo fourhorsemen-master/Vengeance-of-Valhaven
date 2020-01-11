@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class HealthBar : Bar
+public class HealthScreenBar : ScreenBar
 {
     Player _player;
 

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Bar : MonoBehaviour
+public class ScreenBar : MonoBehaviour
 {
     protected void SetWidth(float width)
     {
