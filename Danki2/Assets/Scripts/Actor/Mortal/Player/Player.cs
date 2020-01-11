@@ -36,13 +36,19 @@ public class Player : Mortal
     [HideInInspector]
     public float dashSpeedMultiplier = 3f;
 
+    [HideInInspector]
+    public float RemainingAbilityCooldown { get; private set; } = 0f;
+    [HideInInspector]
+    public CastingStatus CastingStatus { get; private set; } = CastingStatus.Ready;
+
     private float _remainingDashCooldown = 0f;
-    private float _remainingAbilityCooldown = 0f;
     private AbilityTree _abilityTree;
     private ChannelService _channelService;
-    private CastingStatus _castingStatus = CastingStatus.Ready;
     private ActionControlState _previousActionControlState = ActionControlState.None;
     private ActionControlState _currentActionControlState = ActionControlState.None;
+
+    public float RemainingChannelDuration => _channelService.RemainingDuration;
+    public float TotalChannelDuration => _channelService.TotalDuration;
 
     protected override void Awake()
     {
@@ -88,10 +94,10 @@ public class Player : Mortal
 
     private void TickAbilityCooldown()
     {
-        _remainingAbilityCooldown = Mathf.Max(0f, _remainingAbilityCooldown - Time.deltaTime);
-        if (_remainingAbilityCooldown == 0f && _castingStatus == CastingStatus.Cooldown)
+        RemainingAbilityCooldown = Mathf.Max(0f, RemainingAbilityCooldown - Time.deltaTime);
+        if (RemainingAbilityCooldown == 0f && CastingStatus == CastingStatus.Cooldown)
         {
-            _castingStatus = CastingStatus.Ready;
+            CastingStatus = CastingStatus.Ready;
         }
     }
 
@@ -111,7 +117,7 @@ public class Player : Mortal
 
     private void HandleAbilities()
     {
-        var castingCommand = ControlMatrix.GetCastingCommand(_castingStatus, _previousActionControlState, _currentActionControlState);
+        var castingCommand = ControlMatrix.GetCastingCommand(CastingStatus, _previousActionControlState, _currentActionControlState);
         _previousActionControlState = _currentActionControlState;
         _currentActionControlState = ActionControlState.None;
 
@@ -121,12 +127,12 @@ public class Player : Mortal
                 // Handle case where channel has ended naturally.
                 if (!_channelService.Active)
                 {
-                    _castingStatus = _remainingAbilityCooldown <= 0f ? CastingStatus.Ready : CastingStatus.Cooldown;
+                    CastingStatus = RemainingAbilityCooldown <= 0f ? CastingStatus.Ready : CastingStatus.Cooldown;
                 }
                 break;
             case CastingCommand.CancelChannel:
                 _channelService.Cancel();
-                _castingStatus = _remainingAbilityCooldown <= 0f ? CastingStatus.Ready : CastingStatus.Cooldown;
+                CastingStatus = RemainingAbilityCooldown <= 0f ? CastingStatus.Ready : CastingStatus.Cooldown;
 
                 // Ability whiffed, reset tree. TODO: Make a method out of this including feedback for player. 
                 _abilityTree.Reset();
@@ -156,7 +162,7 @@ public class Player : Mortal
             var instantCast = instantCastbuilder.Invoke(abilityContext);
             instantCast.Cast();
 
-            _castingStatus = CastingStatus.Cooldown;
+            CastingStatus = CastingStatus.Cooldown;
         }
 
         if (Ability.TryGetAsChannelBuilder(abilityReference, out var channelBuilder))
@@ -164,12 +170,12 @@ public class Player : Mortal
             var channel = channelBuilder.Invoke(abilityContext);
             _channelService.Start(channel);
 
-            _castingStatus = direction == Direction.Left
+            CastingStatus = direction == Direction.Left
                 ? CastingStatus.ChannelingLeft
                 : CastingStatus.ChannelingRight;
         }
 
-        _remainingAbilityCooldown = abilityCooldown;
+        RemainingAbilityCooldown = abilityCooldown;
     }
 
     protected override void OnDeath()
