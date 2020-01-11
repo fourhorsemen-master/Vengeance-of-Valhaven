@@ -7,38 +7,35 @@ public class SerializableBehaviour : ISerializationCallbackReceiver
     public Behaviour behaviour;
 
     [SerializeField]
-    private SerializableType _serializableBehaviourType;
+    private SerializableType _serializedType;
 
     [SerializeField]
-    private float[] _args;
+    private float[] _serializedArgs;
 
     public SerializableBehaviour()
     {
-        behaviour = new NoOpBehaviour();
-        _serializableBehaviourType = new SerializableType(behaviour.GetType());
-        _args = new float[0];
+        InitializeBehaviour(typeof(NoOpBehaviour), new float[0]);
     }
 
     public SerializableBehaviour(Type behaviourType, float[] args)
     {
-        _serializableBehaviourType = new SerializableType(behaviourType);
-        _args = args;
-
-        InitializeBehaviour();
+        InitializeBehaviour(behaviourType, args);
     }
 
     public void OnAfterDeserialize()
     {
-        InitializeBehaviour();
-    }
-
-    private void InitializeBehaviour()
-    {
-        behaviour = (Behaviour)Activator.CreateInstance(_serializableBehaviourType.Type);
-        behaviour.Initialise(_args);
+        InitializeBehaviour(_serializedType.Type, _serializedArgs);
     }
 
     public void OnBeforeSerialize()
     {
+        _serializedArgs = behaviour.Args;
+        _serializedType = new SerializableType(behaviour.GetType());
+    }
+
+    private void InitializeBehaviour(Type behaviourType, float[] args)
+    {
+        behaviour = (Behaviour)Activator.CreateInstance(behaviourType);
+        behaviour.Args = args;
     }
 }

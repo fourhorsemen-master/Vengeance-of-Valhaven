@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1205525132003439251}
   - component: {fileID: -889224334092729796}
   - component: {fileID: -4764890829987599381}
-  - component: {fileID: 2857256790376552586}
+  - component: {fileID: 1071051205997691132}
   m_Layer: 0
   m_Name: TargetDummy
   m_TagString: Untagged
@@ -127,7 +127,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &2857256790376552586
+--- !u!114 &1071051205997691132
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -148,28 +148,28 @@ MonoBehaviour:
   serializablePersonality:
     _keys: 000000000100000002000000030000000400000005000000
     _values:
-    - _serializableBehaviourType:
+    - _serializedType:
         _serializedType: NoOpBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
-      _args: []
-    - _serializableBehaviourType:
+      _serializedArgs: []
+    - _serializedType:
         _serializedType: NoOpBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
-      _args: []
-    - _serializableBehaviourType:
+      _serializedArgs: []
+    - _serializedType:
         _serializedType: NoOpBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
-      _args: []
-    - _serializableBehaviourType:
+      _serializedArgs: []
+    - _serializedType:
         _serializedType: FollowPlayerAtDistance, Assembly-CSharp, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      _args:
-      - 5
-    - _serializableBehaviourType:
+      _serializedArgs:
+      - 4.26
+    - _serializedType:
         _serializedType: NoOpBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
-      _args: []
-    - _serializableBehaviourType:
+      _serializedArgs: []
+    - _serializedType:
         _serializedType: NoOpBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
-      _args: []
+      _serializedArgs: []

@@ -1,5 +1,17 @@
 ﻿public abstract class Behaviour
 {
-    public virtual void Initialise(float[] args) { }
+    private float[] _args;
+    public float[] Args
+    {
+        get { return _args; }
+        set
+        {
+            _args = value;
+            Initialise();
+        }
+    }
+
+    protected virtual void Initialise() { }
+
     public abstract void Behave(Actor actor);
 }

@@ -7,37 +7,23 @@ using UnityEngine;
 [CustomEditor(typeof(AI))]
 public class AIEditor : Editor
 {
+    private bool hasRunInitialScan = false;
+
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
 
         AI ai = (AI)target;
 
-        ScanButtons();
+        if (!hasRunInitialScan)
+        {
+            Scan();
+            hasRunInitialScan = true;
+        }
+
+        ScanButton();
         BehaviourSelection(ai);
         PlannerSelection(ai);
-
-        //if (GUILayout.Button("Add Follow Player AI"))
-        //{
-        //    ai.serializablePlanner = new SerializablePlanner(
-        //        typeof(AlwaysAdvance), new float[0]
-        //    );
-
-        //    ai.serializablePersonality[AIAction.Advance] = new SerializableBehaviour(
-        //        typeof(FollowPlayer), new float[0]
-        //    );
-        //}
-
-        //if (GUILayout.Button("Add Follow Player At Distance AI"))
-        //{
-        //    ai.serializablePlanner = new SerializablePlanner(
-        //        typeof(AlwaysAdvance), new float[0]
-        //    );
-
-        //    ai.serializablePersonality[AIAction.Advance] = new SerializableBehaviour(
-        //        typeof(FollowPlayerAtDistance), new float[] { 5 }
-        //    );
-        //}
 
         if (GUI.changed)
         {
@@ -45,19 +31,20 @@ public class AIEditor : Editor
         }
     }
 
-    private void ScanButtons()
+    private void ScanButton()
     {
         EditorGUILayout.LabelField("Scanning", EditorStyles.boldLabel);
 
-        if (GUILayout.Button("Scan For Behaviours"))
+        if (GUILayout.Button("Scan"))
         {
-            BehaviourScanner.Scan();
+            Scan();
         }
+    }
 
-        if (GUILayout.Button("Scan For Planners"))
-        {
-            PlannerScanner.Scan();
-        }
+    private void Scan()
+    {
+        BehaviourScanner.Scan();
+        PlannerScanner.Scan();
     }
 
     private void BehaviourSelection(AI ai)
@@ -74,7 +61,7 @@ public class AIEditor : Editor
     {
         if (BehaviourScanner.BehaviourDataByAction.TryGetValue(action, out List<BehaviourData> dataList))
         {
-            int selectedIndex = dataList.FindIndex(data => data.Behaviour.Equals(ai.serializablePersonality[action]._serializableBehaviourType.Type));
+            int currentIndex = dataList.FindIndex(data => data.Behaviour.Equals(ai.serializablePersonality[action].behaviour.GetType()));
 
             string[] displayedOptions = (
                 from BehaviourData data
@@ -82,12 +69,38 @@ public class AIEditor : Editor
                 select data.DisplayValue
             ).ToArray();
 
-            EditorGUILayout.Popup(action.ToString(), selectedIndex, displayedOptions);
+            int newIndex = EditorGUILayout.Popup(action.ToString(), currentIndex, displayedOptions);
+
+            BehaviourData selectedData = dataList[newIndex];
+            if (newIndex != currentIndex)
+            {
+                ai.serializablePersonality[action] = new SerializableBehaviour(
+                    selectedData.Behaviour,
+                    Enumerable.Repeat(0f, selectedData.args.Length).ToArray()
+                );
+            }
+
+            EditorGUI.indentLevel++;
+            float[] currentArgs = ai.serializablePersonality[action].behaviour.Args;
+            float[] newArgs = new float[currentArgs.Length];
+            for (int i = 0; i < selectedData.args.Length; i++)
+            {
+                string arg = selectedData.args[i];
+                newArgs[i] = EditorGUILayout.FloatField(arg, currentArgs[i]);
+            }
+
+            ai.serializablePersonality[action].behaviour.Args = newArgs;
+            EditorGUI.indentLevel--;
         }
     }
 
     private void PlannerSelection(AI ai)
     {
         EditorGUILayout.LabelField("Planner", EditorStyles.boldLabel);
+
+        if (GUILayout.Button("Add Always Advance"))
+        {
+            ai.serializablePlanner = new SerializablePlanner(typeof(AlwaysAdvance), new float[0]);
+        }
     }
 }

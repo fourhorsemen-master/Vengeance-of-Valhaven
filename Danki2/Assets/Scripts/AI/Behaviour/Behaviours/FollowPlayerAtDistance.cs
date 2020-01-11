@@ -5,9 +5,9 @@ public class FollowPlayerAtDistance : Behaviour
 {
     private float _followDistance;
 
-    public override void Initialise(float[] args)
+    protected override void Initialise()
     {
-        _followDistance = args[0];
+        _followDistance = Args[0];
     }
 
     public override void Behave(Actor actor)
