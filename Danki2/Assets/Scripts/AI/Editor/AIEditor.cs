@@ -9,11 +9,13 @@ public class AIEditor : Editor
 {
     private bool hasRunInitialScan = false;
 
+    private AI _ai = null;
+
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
 
-        AI ai = (AI)target;
+        _ai = (AI)target;
 
         if (!hasRunInitialScan)
         {
@@ -22,8 +24,8 @@ public class AIEditor : Editor
         }
 
         ScanButton();
-        BehaviourSelection(ai);
-        PlannerSelection(ai);
+        BehaviourSelection();
+        PlannerSelection();
 
         if (GUI.changed)
         {
@@ -47,60 +49,71 @@ public class AIEditor : Editor
         PlannerScanner.Scan();
     }
 
-    private void BehaviourSelection(AI ai)
+    private void BehaviourSelection()
     {
         EditorGUILayout.LabelField("Behaviours", EditorStyles.boldLabel);
 
         foreach (AIAction action in Enum.GetValues(typeof(AIAction)))
         {
-            EditBehaviour(ai, action);
+            EditBehaviour(action);
         }
     }
 
-    private void EditBehaviour(AI ai, AIAction action)
+    private void EditBehaviour(AIAction action)
     {
         if (BehaviourScanner.BehaviourDataByAction.TryGetValue(action, out List<BehaviourData> dataList))
         {
-            int currentIndex = dataList.FindIndex(data => data.Behaviour.Equals(ai.serializablePersonality[action].behaviour.GetType()));
-
-            string[] displayedOptions = (
-                from BehaviourData data
-                in dataList
-                select data.DisplayValue
-            ).ToArray();
-
-            int newIndex = EditorGUILayout.Popup(action.ToString(), currentIndex, displayedOptions);
-
-            BehaviourData selectedData = dataList[newIndex];
-            if (newIndex != currentIndex)
-            {
-                ai.serializablePersonality[action] = new SerializableBehaviour(
-                    selectedData.Behaviour,
-                    Enumerable.Repeat(0f, selectedData.args.Length).ToArray()
-                );
-            }
-
-            EditorGUI.indentLevel++;
-            float[] currentArgs = ai.serializablePersonality[action].behaviour.Args;
-            float[] newArgs = new float[currentArgs.Length];
-            for (int i = 0; i < selectedData.args.Length; i++)
-            {
-                string arg = selectedData.args[i];
-                newArgs[i] = EditorGUILayout.FloatField(arg, currentArgs[i]);
-            }
-
-            ai.serializablePersonality[action].behaviour.Args = newArgs;
-            EditorGUI.indentLevel--;
+            BehaviourData selectedData = BehaviourTypeDropdown(dataList, action);
+            BehaviourArgsEdit(selectedData, action);
         }
     }
 
-    private void PlannerSelection(AI ai)
+    private BehaviourData BehaviourTypeDropdown(List<BehaviourData> dataList, AIAction action)
+    {
+        int currentIndex = dataList.FindIndex(data => data.Behaviour.Equals(_ai.serializablePersonality[action].behaviour.GetType()));
+
+        string[] displayedOptions = (
+            from BehaviourData data
+            in dataList
+            select data.DisplayValue
+        ).ToArray();
+
+        int newIndex = EditorGUILayout.Popup(action.ToString(), currentIndex, displayedOptions);
+
+        BehaviourData selectedData = dataList[newIndex];
+        if (newIndex != currentIndex)
+        {
+            _ai.serializablePersonality[action] = new SerializableBehaviour(
+                selectedData.Behaviour,
+                Enumerable.Repeat(0f, selectedData.args.Length).ToArray()
+            );
+        }
+
+        return selectedData;
+    }
+
+    private void BehaviourArgsEdit(BehaviourData selectedData, AIAction action)
+    {
+        EditorGUI.indentLevel++;
+        float[] currentArgs = _ai.serializablePersonality[action].behaviour.Args;
+        float[] newArgs = new float[currentArgs.Length];
+        for (int i = 0; i < selectedData.args.Length; i++)
+        {
+            string arg = selectedData.args[i];
+            newArgs[i] = EditorGUILayout.FloatField(arg, currentArgs[i]);
+        }
+
+        _ai.serializablePersonality[action].behaviour.Args = newArgs;
+        EditorGUI.indentLevel--;
+    }
+
+    private void PlannerSelection()
     {
         EditorGUILayout.LabelField("Planner", EditorStyles.boldLabel);
 
         if (GUILayout.Button("Add Always Advance"))
         {
-            ai.serializablePlanner = new SerializablePlanner(typeof(AlwaysAdvance), new float[0]);
+            _ai.serializablePlanner = new SerializablePlanner(typeof(AlwaysAdvance), new float[0]);
         }
     }
 }
