@@ -9,7 +9,13 @@ public class HealthBar : MonoBehaviour
 
     void Update()
     {
-        if (_healthBar == null || _healthBar.canvas == null)
+        if (_healthBar == null)
+        {
+            Debug.LogError("No image found for health bar");
+            return;
+        }
+
+        if (_healthBar.canvas == null)
         {
             return;
         }
@@ -20,22 +26,8 @@ public class HealthBar : MonoBehaviour
             return;
         }
 
-        FaceCamera();
-
         // Update the remaining health display
         float maxHealth = mortal.GetStat(Stat.MaxHealth);
         _healthBar.transform.localScale = new Vector3(mortal.Health / maxHealth, 1f, 1f);
-    }
-
-    /// <summary>
-    /// Rotate the health bar to face the camera, but lock the y-rotation
-    /// </summary>
-    private void FaceCamera()
-    {
-        var healthBarPosition = _healthBar.canvas.transform.position;
-        var cameraPosition = Camera.main.transform.position;
-        var lookAtPosition = 2 * healthBarPosition - cameraPosition;
-        lookAtPosition.x = healthBarPosition.x;
-        _healthBar.canvas.transform.LookAt(lookAtPosition);
     }
 }
