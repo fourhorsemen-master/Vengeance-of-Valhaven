@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class ShieldBash : InstantCast
+﻿public class ShieldBash : InstantCast
 {
     private readonly AbilityContext _context;
 
