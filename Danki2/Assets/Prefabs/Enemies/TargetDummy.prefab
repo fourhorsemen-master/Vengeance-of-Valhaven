@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1205525132003439251}
   - component: {fileID: -889224334092729796}
   - component: {fileID: -4764890829987599381}
+  - component: {fileID: 5025163088681609029}
   m_Layer: 0
   m_Name: TargetDummy
   m_TagString: Untagged
@@ -110,7 +111,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseStats:
     _keys: 000000000100000002000000
-    _values: 1c0000000000000000000000
+    _values: 1c0000000400000000000000
 --- !u!54 &-4764890829987599381
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -127,6 +128,52 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &5025163088681609029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7671979934665123146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19514c5d500c2bd459b1f556adf129a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _actor: {fileID: -889224334092729796}
+  serializablePlanner:
+    _serializablePlannerType:
+      _serializedType: AlwaysAdvance, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+    _args: []
+  serializablePersonality:
+    _keys: 000000000100000002000000030000000400000005000000
+    _values:
+    - _serializedType:
+        _serializedType: NoOpBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+      _serializedArgs: []
+    - _serializedType:
+        _serializedType: NoOpBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+      _serializedArgs: []
+    - _serializedType:
+        _serializedType: NoOpBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+      _serializedArgs: []
+    - _serializedType:
+        _serializedType: FollowPlayerAtDistance, Assembly-CSharp, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+      _serializedArgs:
+      - 10
+    - _serializedType:
+        _serializedType: NoOpBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+      _serializedArgs: []
+    - _serializedType:
+        _serializedType: NoOpBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+      _serializedArgs: []
 --- !u!1001 &7672001718829370057
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -134,11 +181,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5486683292105767561}
     m_Modifications:
-    - target: {fileID: 5647927768590009777, guid: eeb7c8dc7550f0e4fb4f8c457b7fe4ad,
-        type: 3}
-      propertyPath: m_Name
-      value: FloatingHealthbar
-      objectReference: {fileID: 0}
     - target: {fileID: 5647927768590009773, guid: eeb7c8dc7550f0e4fb4f8c457b7fe4ad,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -243,6 +285,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5647927768590009777, guid: eeb7c8dc7550f0e4fb4f8c457b7fe4ad,
+        type: 3}
+      propertyPath: m_Name
+      value: FloatingHealthbar
       objectReference: {fileID: 0}
     - target: {fileID: 8532059053608374381, guid: eeb7c8dc7550f0e4fb4f8c457b7fe4ad,
         type: 3}
