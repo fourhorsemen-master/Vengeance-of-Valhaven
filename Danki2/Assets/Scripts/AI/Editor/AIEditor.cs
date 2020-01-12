@@ -11,19 +11,19 @@ public class AIEditor : Editor
 
     private AI _ai = null;
 
+    private void OnValidate()
+    {
+        ScanIfNotScanned();
+    }
+
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
 
         _ai = (AI)target;
 
-        if (!hasRunInitialScan)
-        {
-            Scan();
-            hasRunInitialScan = true;
-        }
+        ScanIfNotScanned();
 
-        ScanButton();
         BehaviourSelection();
         PlannerSelection();
 
@@ -33,20 +33,14 @@ public class AIEditor : Editor
         }
     }
 
-    private void ScanButton()
+    private void ScanIfNotScanned()
     {
-        EditorGUILayout.LabelField("Scanning", EditorStyles.boldLabel);
-
-        if (GUILayout.Button("Scan"))
+        if (!hasRunInitialScan)
         {
-            Scan();
+            BehaviourScanner.Scan();
+            PlannerScanner.Scan();
+            hasRunInitialScan = true;
         }
-    }
-
-    private void Scan()
-    {
-        BehaviourScanner.Scan();
-        PlannerScanner.Scan();
     }
 
     private void BehaviourSelection()
@@ -70,7 +64,8 @@ public class AIEditor : Editor
 
     private BehaviourData BehaviourTypeDropdown(List<BehaviourData> dataList, AIAction action)
     {
-        int currentIndex = dataList.FindIndex(data => data.Behaviour.Equals(_ai.serializablePersonality[action].behaviour.GetType()));
+        Type currentBehaviour = _ai.serializablePersonality[action].behaviour.GetType();
+        int currentIndex = dataList.FindIndex(data => data.Behaviour.Equals(currentBehaviour));
 
         string[] displayedOptions = (
             from BehaviourData data
@@ -85,7 +80,7 @@ public class AIEditor : Editor
         {
             _ai.serializablePersonality[action] = new SerializableBehaviour(
                 selectedData.Behaviour,
-                Enumerable.Repeat(0f, selectedData.args.Length).ToArray()
+                new float[selectedData.args.Length]
             );
         }
 

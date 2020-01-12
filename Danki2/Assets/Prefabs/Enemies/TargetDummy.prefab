@@ -142,10 +142,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _actor: {fileID: -889224334092729796}
   serializablePlanner:
-    _serializablePlannerType:
+    _serializedType:
       _serializedType: AlwaysAdvance, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
-    _args: []
+    _serializedArgs: []
   serializablePersonality:
     _keys: 000000000100000002000000030000000400000005000000
     _values:
@@ -165,7 +165,7 @@ MonoBehaviour:
         _serializedType: FollowPlayerAtDistance, Assembly-CSharp, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
       _serializedArgs:
-      - 10
+      - 5
     - _serializedType:
         _serializedType: NoOpBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null

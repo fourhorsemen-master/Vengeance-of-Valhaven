@@ -29,8 +29,8 @@ public class SerializableBehaviour : ISerializationCallbackReceiver
 
     public void OnBeforeSerialize()
     {
-        _serializedArgs = behaviour.Args;
         _serializedType = new SerializableType(behaviour.GetType());
+        _serializedArgs = behaviour.Args;
     }
 
     private void InitializeBehaviour(Type behaviourType, float[] args)
