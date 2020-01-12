@@ -41,10 +41,16 @@ public class CustomCamera : MonoBehaviour
     private void FollowTarget()
     {
         float zDistanceFromFloorIntersect = height / (Mathf.Tan(Mathf.Deg2Rad * angle));
-        Vector3 mousepoint = MouseGamePositionFinder.Instance.GetMouseGamePosition();
-        desiredPosition.x = Mathf.Lerp(target.transform.position.x, mousepoint.x, mouseFollowFactor);
-        desiredPosition.y = target.transform.position.y + height;
-        desiredPosition.z = Mathf.Lerp(target.transform.position.z - zDistanceFromFloorIntersect, mousepoint.z, mouseFollowFactor);
+        var targetPosition = target.transform.position;
+
+        var mouseOffsetH = Input.mousePosition.x / Screen.width - 0.5f;
+        var mouseOffsetV = Input.mousePosition.y / Screen.height - 0.5f;
+
+        desiredPosition.Set(
+            targetPosition.x + mouseOffsetH * mouseFollowFactor,
+            targetPosition.y + height,
+            targetPosition.z - zDistanceFromFloorIntersect + mouseOffsetV * mouseFollowFactor
+        );
 
         transform.position = Vector3.Lerp(transform.position, desiredPosition, 1f - smoothFactor);
     }
