@@ -102,6 +102,12 @@ public class AIEditor : Editor
     {
         EditorGUILayout.LabelField("Planners", EditorStyles.boldLabel);
 
+        PlannerData selectedData = PlannerTypeDropdown();
+        PlannerArgsEdit(selectedData);
+    }
+
+    private PlannerData PlannerTypeDropdown()
+    {
         List<PlannerData> dataList = PlannerScanner.PlannerData;
 
         Type currentPlanner = _ai.serializablePlanner.planner.GetType();
@@ -113,13 +119,28 @@ public class AIEditor : Editor
 
         int newIndex = EditorGUILayout.Popup("Planner", currentIndex, displayedOptions);
 
+        PlannerData selectedData = dataList[newIndex];
         if (newIndex != currentIndex)
         {
-            PlannerData selectedData = dataList[newIndex];
             _ai.serializablePlanner = new SerializablePlanner(
                 selectedData.Planner,
                 new float[selectedData.Args.Length]
             );
         }
+
+        return selectedData;
+    }
+
+    private void PlannerArgsEdit(PlannerData selectedData)
+    {
+        EditorGUI.indentLevel++;
+        float[] currentArgs = _ai.serializablePlanner.planner.Args;
+
+        float[] newArgs = selectedData.Args
+            .Zip(currentArgs, (label, currentValue) => EditorGUILayout.FloatField(label, currentValue))
+            .ToArray();
+
+        _ai.serializablePlanner.planner.Args = newArgs;
+        EditorGUI.indentLevel--;
     }
 }

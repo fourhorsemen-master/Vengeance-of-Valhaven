@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1205525132003439251}
   - component: {fileID: -889224334092729796}
   - component: {fileID: -4764890829987599381}
-  - component: {fileID: 5025163088681609029}
+  - component: {fileID: 7186620898767273474}
   m_Layer: 0
   m_Name: TargetDummy
   m_TagString: Untagged
@@ -128,7 +128,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &5025163088681609029
+--- !u!114 &7186620898767273474
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -145,7 +145,8 @@ MonoBehaviour:
     _serializedType:
       _serializedType: AlwaysAdvance, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
-    _serializedArgs: []
+    _serializedArgs:
+    - 0.5
   serializablePersonality:
     _keys: 000000000100000002000000030000000400000005000000
     _values:
@@ -165,7 +166,7 @@ MonoBehaviour:
         _serializedType: FollowPlayerAtDistance, Assembly-CSharp, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
       _serializedArgs:
-      - 5
+      - 4.53
     - _serializedType:
         _serializedType: NoOpBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
@@ -181,6 +182,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5486683292105767561}
     m_Modifications:
+    - target: {fileID: 5647927768590009777, guid: eeb7c8dc7550f0e4fb4f8c457b7fe4ad,
+        type: 3}
+      propertyPath: m_Name
+      value: FloatingHealthbar
+      objectReference: {fileID: 0}
     - target: {fileID: 5647927768590009773, guid: eeb7c8dc7550f0e4fb4f8c457b7fe4ad,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -285,11 +291,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5647927768590009777, guid: eeb7c8dc7550f0e4fb4f8c457b7fe4ad,
-        type: 3}
-      propertyPath: m_Name
-      value: FloatingHealthbar
       objectReference: {fileID: 0}
     - target: {fileID: 8532059053608374381, guid: eeb7c8dc7550f0e4fb4f8c457b7fe4ad,
         type: 3}
