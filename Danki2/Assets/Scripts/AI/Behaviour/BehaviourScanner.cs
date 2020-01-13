@@ -24,19 +24,23 @@ public static class BehaviourScanner
             }
         }
 
+        SortBehaviourData();
+
         BehaviourDataByAction.Clear();
         foreach (AIAction action in Enum.GetValues(typeof(AIAction))) {
             BehaviourDataByAction.Add(action, GetDataByAction(action));
         }
     }
 
+    private static void SortBehaviourData()
+    {
+        BehaviourData.OrderBy(d => d.Behaviour.Name);
+    }
+
     private static List<BehaviourData> GetDataByAction(AIAction action)
     {
-        return (
-            from BehaviourData data
-            in BehaviourData
-            where data.Actions.Contains(action)
-            select data
-        ).ToList();
+        return BehaviourData
+            .Where(d => d.Actions.Contains(action))
+            .ToList();
     }
 }

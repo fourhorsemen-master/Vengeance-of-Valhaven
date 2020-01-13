@@ -67,11 +67,9 @@ public class AIEditor : Editor
         Type currentBehaviour = _ai.serializablePersonality[action].behaviour.GetType();
         int currentIndex = dataList.FindIndex(data => data.Behaviour.Equals(currentBehaviour));
 
-        string[] displayedOptions = (
-            from BehaviourData data
-            in dataList
-            select data.DisplayValue
-        ).ToArray();
+        string[] displayedOptions = dataList
+            .Select(d => d.DisplayValue)
+            .ToArray();
 
         int newIndex = EditorGUILayout.Popup(action.ToString(), currentIndex, displayedOptions);
 
@@ -91,12 +89,10 @@ public class AIEditor : Editor
     {
         EditorGUI.indentLevel++;
         float[] currentArgs = _ai.serializablePersonality[action].behaviour.Args;
-        float[] newArgs = new float[currentArgs.Length];
-        for (int i = 0; i < selectedData.args.Length; i++)
-        {
-            string arg = selectedData.args[i];
-            newArgs[i] = EditorGUILayout.FloatField(arg, currentArgs[i]);
-        }
+
+        float[] newArgs = selectedData.args
+            .Zip(currentArgs, (label, currentValue) => EditorGUILayout.FloatField(label, currentValue))
+            .ToArray();
 
         _ai.serializablePersonality[action].behaviour.Args = newArgs;
         EditorGUI.indentLevel--;
