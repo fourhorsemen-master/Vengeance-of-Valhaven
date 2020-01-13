@@ -5,8 +5,8 @@ using UnityEngine;
 
 public static class BehaviourScanner
 {
-    public static List<BehaviourData> BehaviourData { get; private set; } = new List<BehaviourData>();
-    public static Dictionary<AIAction, List<BehaviourData>> BehaviourDataByAction { get; private set; } = new Dictionary<AIAction, List<BehaviourData>>();
+    public static List<AttributeData<BehaviourAttribute>> BehaviourData { get; private set; } = new List<AttributeData<BehaviourAttribute>>();
+    public static Dictionary<AIAction, List<AttributeData<BehaviourAttribute>>> BehaviourDataByAction { get; private set; } = new Dictionary<AIAction, List<AttributeData<BehaviourAttribute>>>();
 
     public static void Scan()
     {
@@ -16,7 +16,7 @@ public static class BehaviourScanner
         {
             if (attributeData.Type.IsSubclassOf(typeof(Behaviour)))
             {
-                BehaviourData.Add(new BehaviourData(attributeData));
+                BehaviourData.Add(attributeData);
             }
             else
             {
@@ -34,13 +34,13 @@ public static class BehaviourScanner
 
     private static void SortBehaviourData()
     {
-        BehaviourData.OrderBy(d => d.Behaviour.Name);
+        BehaviourData.OrderBy(d => d.Type.Name);
     }
 
-    private static List<BehaviourData> GetDataByAction(AIAction action)
+    private static List<AttributeData<BehaviourAttribute>> GetDataByAction(AIAction action)
     {
         return BehaviourData
-            .Where(d => d.Actions.Contains(action))
+            .Where(d => d.Attribute.Actions.Contains(action))
             .ToList();
     }
 }
