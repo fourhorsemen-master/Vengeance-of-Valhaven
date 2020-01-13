@@ -65,7 +65,7 @@ public class AIEditor : Editor
     private BehaviourData BehaviourTypeDropdown(List<BehaviourData> dataList, AIAction action)
     {
         Type currentBehaviour = _ai.serializablePersonality[action].behaviour.GetType();
-        int currentIndex = dataList.FindIndex(data => data.Behaviour.Equals(currentBehaviour));
+        int currentIndex = dataList.FindIndex(d => d.Behaviour.Equals(currentBehaviour));
 
         string[] displayedOptions = dataList
             .Select(d => d.DisplayValue)
@@ -78,7 +78,7 @@ public class AIEditor : Editor
         {
             _ai.serializablePersonality[action] = new SerializableBehaviour(
                 selectedData.Behaviour,
-                new float[selectedData.args.Length]
+                new float[selectedData.Args.Length]
             );
         }
 
@@ -90,7 +90,7 @@ public class AIEditor : Editor
         EditorGUI.indentLevel++;
         float[] currentArgs = _ai.serializablePersonality[action].behaviour.Args;
 
-        float[] newArgs = selectedData.args
+        float[] newArgs = selectedData.Args
             .Zip(currentArgs, (label, currentValue) => EditorGUILayout.FloatField(label, currentValue))
             .ToArray();
 
@@ -100,11 +100,26 @@ public class AIEditor : Editor
 
     private void PlannerSelection()
     {
-        EditorGUILayout.LabelField("Planner", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField("Planners", EditorStyles.boldLabel);
 
-        if (GUILayout.Button("Add Always Advance"))
+        List<PlannerData> dataList = PlannerScanner.PlannerData;
+
+        Type currentPlanner = _ai.serializablePlanner.planner.GetType();
+        int currentIndex = dataList.FindIndex(d => d.Planner.Equals(currentPlanner));
+
+        string[] displayedOptions = dataList
+            .Select(d => d.DisplayValue)
+            .ToArray();
+
+        int newIndex = EditorGUILayout.Popup("Planner", currentIndex, displayedOptions);
+
+        if (newIndex != currentIndex)
         {
-            _ai.serializablePlanner = new SerializablePlanner(typeof(AlwaysAdvance), new float[0]);
+            PlannerData selectedData = dataList[newIndex];
+            _ai.serializablePlanner = new SerializablePlanner(
+                selectedData.Planner,
+                new float[selectedData.Args.Length]
+            );
         }
     }
 }
