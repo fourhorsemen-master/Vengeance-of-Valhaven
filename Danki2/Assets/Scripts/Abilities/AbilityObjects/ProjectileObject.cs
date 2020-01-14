@@ -6,6 +6,12 @@ public abstract class ProjectileObject : MonoBehaviour
     protected Actor _caster;
     protected float _speed;
     protected Action<GameObject> _collisionCallback;
+    private AudioSource _audioSource;
+
+    private void Start()
+    {
+        _audioSource = gameObject.GetComponent<AudioSource>();
+    }
 
     /// <summary>
     /// To be called after instantiation. Subclasses will have their own Initialise methods with extra paramaters which will call this first.
@@ -18,6 +24,8 @@ public abstract class ProjectileObject : MonoBehaviour
         _caster = caster;
         _collisionCallback = collisionCallback;
         _speed = speed;
+
+        _audioSource.Play();
     }
 
     private void Update()
