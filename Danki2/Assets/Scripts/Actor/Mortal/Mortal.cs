@@ -2,15 +2,17 @@
 
 public abstract class Mortal : Actor
 {
-    public int Health { get; private set; }
+    private float _health;
+
+    public int Health => Mathf.CeilToInt(_health);
 
     public bool Dead { get; private set; }
 
-    public void ModifyHealth(int healthChange)
+    public void ModifyHealth(float healthChange)
     {
         if (Dead) return;
 
-        Health = Mathf.Min(Health + healthChange, (int)GetStat(Stat.MaxHealth));
+        _health = Mathf.Min(_health + healthChange, GetStat(Stat.MaxHealth));
     }
 
     protected override void Awake()
@@ -18,7 +20,7 @@ public abstract class Mortal : Actor
         base.Awake();
 
         // Note that if health is less than 1 you'll die on frame 1.
-        Health = (int)GetStat(Stat.MaxHealth);
+        _health = GetStat(Stat.MaxHealth);
         Dead = false;
     }
 
@@ -26,7 +28,7 @@ public abstract class Mortal : Actor
     {
         base.Update();
 
-        if (Health <= 0 && !Dead)
+        if (_health <= 0f && !Dead)
         {
             OnDeath();
             Dead = true;
