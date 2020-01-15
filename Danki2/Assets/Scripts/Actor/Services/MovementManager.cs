@@ -2,6 +2,8 @@
 
 public class MovementManager
 {
+    const float rotationSmoothing = 0.1f;
+
     private Actor _actor;
     private Rigidbody _rigidbody;
     private float _moveLockRemainingDuration;
@@ -36,10 +38,8 @@ public class MovementManager
             : Vector3.Normalize(_moveDirection) * speedStat;
 
         _rigidbody.MovePosition(_rigidbody.position + movementVector * Time.deltaTime);
-        if (!movementVector.Equals(Vector3.zero))
-        {
-            _rigidbody.MoveRotation(Quaternion.LookRotation(movementVector));
-        }
+
+        RotateForwards(movementVector);
 
         _moveDirection = Vector3.zero;
     }
@@ -63,5 +63,14 @@ public class MovementManager
     {
         var vecToMove = target - _rigidbody.position;
         MoveAlong(vecToMove);
+    }
+
+    private void RotateForwards(Vector3 movementVector)
+    {
+        if (!movementVector.Equals(Vector3.zero))
+        {
+            var desiredRotation = Quaternion.LookRotation(movementVector);
+            _rigidbody.rotation = Quaternion.Lerp(_rigidbody.rotation, desiredRotation, rotationSmoothing);
+        }
     }
 }
