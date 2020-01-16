@@ -1,17 +1,4 @@
-﻿public abstract class Planner
+﻿public abstract class Planner : AIElement
 {
-    private float[] _args;
-    public float[] Args
-    {
-        get { return _args; }
-        set
-        {
-            _args = value;
-            Initilize();
-        }
-    }
-
-    public virtual void Initilize() { }
-
     public abstract Agenda Plan(Actor actor, Agenda previousAgenda);
 }

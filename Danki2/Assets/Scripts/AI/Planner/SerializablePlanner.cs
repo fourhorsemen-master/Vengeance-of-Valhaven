@@ -1,41 +1,16 @@
 ﻿using System;
-using UnityEngine;
 
 [Serializable]
-public class SerializablePlanner : ISerializationCallbackReceiver
+public class SerializablePlanner : SerializableAIElement<Planner>
 {
-    public Planner planner;
+    private Type _noOpType = typeof(NoOpPlanner);
+    protected override Type NoOpType => _noOpType;
 
-    [SerializeField]
-    private SerializableType _serializedType;
-
-    [SerializeField]
-    private float[] _serializedArgs;
-
-    public SerializablePlanner()
+    public SerializablePlanner() : base()
     {
-        InitializePlanner(typeof(NoOpPlanner), new float[0]);
     }
 
-    public SerializablePlanner(Type plannerType, float[] args)
+    public SerializablePlanner(Type plannerType, float[] args) : base(plannerType, args)
     {
-        InitializePlanner(plannerType, args);
-    }
-
-    public void OnAfterDeserialize()
-    {
-        InitializePlanner(_serializedType.Type, _serializedArgs);
-    }
-
-    public void OnBeforeSerialize()
-    {
-        _serializedType = new SerializableType(planner.GetType());
-        _serializedArgs = planner.Args;
-    }
-
-    private void InitializePlanner(Type plannerType, float[] args)
-    {
-        planner = (Planner)Activator.CreateInstance(plannerType);
-        planner.Args = args;
     }
 }

@@ -1,41 +1,16 @@
 ﻿using System;
-using UnityEngine;
 
 [Serializable]
-public class SerializableBehaviour : ISerializationCallbackReceiver
+public class SerializableBehaviour : SerializableAIElement<Behaviour>
 {
-    public Behaviour behaviour;
+    private Type _noOpType = typeof(NoOpBehaviour);
+    protected override Type NoOpType => _noOpType;
 
-    [SerializeField]
-    private SerializableType _serializedType;
-
-    [SerializeField]
-    private float[] _serializedArgs;
-
-    public SerializableBehaviour()
+    public SerializableBehaviour() : base()
     {
-        InitializeBehaviour(typeof(NoOpBehaviour), new float[0]);
     }
 
-    public SerializableBehaviour(Type behaviourType, float[] args)
+    public SerializableBehaviour(Type plannerType, float[] args) : base(plannerType, args)
     {
-        InitializeBehaviour(behaviourType, args);
-    }
-
-    public void OnAfterDeserialize()
-    {
-        InitializeBehaviour(_serializedType.Type, _serializedArgs);
-    }
-
-    public void OnBeforeSerialize()
-    {
-        _serializedType = new SerializableType(behaviour.GetType());
-        _serializedArgs = behaviour.Args;
-    }
-
-    private void InitializeBehaviour(Type behaviourType, float[] args)
-    {
-        behaviour = (Behaviour)Activator.CreateInstance(behaviourType);
-        behaviour.Args = args;
     }
 }

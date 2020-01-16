@@ -24,6 +24,11 @@ public class AIEditor : Editor
 
         ScanIfNotScanned();
 
+        if (GUILayout.Button("Scan"))
+        {
+            Scan();
+        }
+
         BehaviourSelection();
         PlannerSelection();
 
@@ -37,10 +42,15 @@ public class AIEditor : Editor
     {
         if (!hasRunInitialScan)
         {
-            BehaviourScanner.Scan();
-            PlannerScanner.Scan();
+            Scan();
             hasRunInitialScan = true;
         }
+    }
+
+    private void Scan()
+    {
+        BehaviourScanner.Scan();
+        PlannerScanner.Scan();
     }
 
     private void BehaviourSelection()
@@ -57,90 +67,157 @@ public class AIEditor : Editor
     {
         if (BehaviourScanner.BehaviourDataByAction.TryGetValue(action, out List<AttributeData<BehaviourAttribute>> dataList))
         {
-            AttributeData<BehaviourAttribute> selectedData = BehaviourTypeDropdown(dataList, action);
-            BehaviourArgsEdit(selectedData, action);
-        }
-    }
-
-    private AttributeData<BehaviourAttribute> BehaviourTypeDropdown(List<AttributeData<BehaviourAttribute>> dataList, AIAction action)
-    {
-        Type currentBehaviour = _ai.serializablePersonality[action].behaviour.GetType();
-        int currentIndex = dataList.FindIndex(d => d.Type.Equals(currentBehaviour));
-
-        string[] displayedOptions = dataList
-            .Select(d => d.Attribute.DisplayValue)
-            .ToArray();
-
-        int newIndex = EditorGUILayout.Popup(action.ToString(), currentIndex, displayedOptions);
-
-        AttributeData<BehaviourAttribute> selectedData = dataList[newIndex];
-        if (newIndex != currentIndex)
-        {
-            _ai.serializablePersonality[action] = new SerializableBehaviour(
-                selectedData.Type,
-                new float[selectedData.Attribute.Args.Length]
+            AttributeData<BehaviourAttribute> selectedData = DropdownEdit(
+                dataList,
+                _ai.serializablePersonality[action].aiElement,
+                action.ToString(),
+                newData => {
+                    _ai.serializablePersonality[action] = new SerializableBehaviour(
+                        newData.Type,
+                        new float[newData.Attribute.ArgLabels.Length]
+                    );
+                }
             );
+            //_ai.serializablePersonality[action] = new SerializableBehaviour(
+            //    selectedData.Type,
+            //    new float[selectedData.Attribute.ArgLabels.Length]
+            //);
+            ArgsEdit(_ai.serializablePersonality[action].aiElement, selectedData.Attribute);
+
+
+
+            //AttributeData<PlannerAttribute> selectedData = DropdownEdit(
+            //    PlannerScanner.PlannerData,
+            //    _ai.serializablePlanner.aiElement.GetType(),
+            //    "Planner"
+            //);
+            //_ai.serializablePlanner = new SerializablePlanner(
+            //    selectedData.Type,
+            //    new float[selectedData.Attribute.ArgLabels.Length]
+            //);
+            //ArgsEdit(_ai.serializablePlanner.aiElement, selectedData.Attribute);
         }
-
-        return selectedData;
     }
 
-    private void BehaviourArgsEdit(AttributeData<BehaviourAttribute> selectedData, AIAction action)
-    {
-        EditorGUI.indentLevel++;
-        float[] currentArgs = _ai.serializablePersonality[action].behaviour.Args;
+    //private AttributeData<BehaviourAttribute> BehaviourTypeDropdown(List<AttributeData<BehaviourAttribute>> dataList, AIAction action)
+    //{
+    //    Type currentBehaviour = _ai.serializablePersonality[action].behaviour.GetType();
+    //    int currentIndex = dataList.FindIndex(d => d.Type.Equals(currentBehaviour));
 
-        float[] newArgs = selectedData.Attribute.Args
-            .Zip(currentArgs, (label, currentValue) => EditorGUILayout.FloatField(label, currentValue))
-            .ToArray();
+    //    string[] displayedOptions = dataList
+    //        .Select(d => d.Attribute.DisplayValue)
+    //        .ToArray();
 
-        _ai.serializablePersonality[action].behaviour.Args = newArgs;
-        EditorGUI.indentLevel--;
-    }
+    //    int newIndex = EditorGUILayout.Popup(action.ToString(), currentIndex, displayedOptions);
+
+    //    AttributeData<BehaviourAttribute> selectedData = dataList[newIndex];
+    //    if (newIndex != currentIndex)
+    //    {
+    //        _ai.serializablePersonality[action] = new SerializableBehaviour(
+    //            selectedData.Type,
+    //            new float[selectedData.Attribute.ArgLabels.Length]
+    //        );
+    //    }
+
+    //    return selectedData;
+    //}
 
     private void PlannerSelection()
     {
         EditorGUILayout.LabelField("Planners", EditorStyles.boldLabel);
 
-        AttributeData<PlannerAttribute> selectedData = PlannerTypeDropdown();
-        PlannerArgsEdit(selectedData);
+        AttributeData<PlannerAttribute> selectedData = DropdownEdit(
+            PlannerScanner.PlannerData,
+            _ai.serializablePlanner.aiElement,
+            "Planner",
+            newData => {
+                _ai.serializablePlanner = new SerializablePlanner(
+                    newData.Type,
+                    new float[newData.Attribute.ArgLabels.Length]
+                );
+            }
+        );
+        //_ai.serializablePlanner = new SerializablePlanner(
+        //    selectedData.Type,
+        //    new float[selectedData.Attribute.ArgLabels.Length]
+        //);
+        ArgsEdit(_ai.serializablePlanner.aiElement, selectedData.Attribute);
     }
 
-    private AttributeData<PlannerAttribute> PlannerTypeDropdown()
-    {
-        List<AttributeData<PlannerAttribute>> dataList = PlannerScanner.PlannerData;
+    #region
+    //private AttributeData<PlannerAttribute> PlannerTypeDropdown()
+    //{
+    //    List<AttributeData<PlannerAttribute>> dataList = PlannerScanner.PlannerData;
 
-        Type currentPlanner = _ai.serializablePlanner.planner.GetType();
-        int currentIndex = dataList.FindIndex(d => d.Type.Equals(currentPlanner));
+    //    Type currentPlanner = _ai.serializablePlanner.planner.GetType();
+    //    int currentIndex = dataList.FindIndex(d => d.Type.Equals(currentPlanner));
+
+    //    string[] displayedOptions = dataList
+    //        .Select(d => d.Attribute.DisplayValue)
+    //        .ToArray();
+
+    //    int newIndex = EditorGUILayout.Popup("Planner", currentIndex, displayedOptions);
+
+    //    AttributeData<PlannerAttribute> selectedData = dataList[newIndex];
+    //    if (newIndex != currentIndex)
+    //    {
+    //        _ai.serializablePlanner = new SerializablePlanner(
+    //            selectedData.Type,
+    //            new float[selectedData.Attribute.ArgLabels.Length]
+    //        );
+    //    }
+
+    //    return selectedData;
+    //}
+    #endregion
+
+    private AttributeData<T> DropdownEdit<T>(
+        List<AttributeData<T>> dataList,
+        AIElement aiElement,
+        string label,
+        Action<AttributeData<T>> dataChangeCallback
+    ) where T : AIAttribute
+    {
+        int currentIndex = dataList.FindIndex(d => d.Type.Equals(aiElement.GetType()));
 
         string[] displayedOptions = dataList
             .Select(d => d.Attribute.DisplayValue)
             .ToArray();
 
-        int newIndex = EditorGUILayout.Popup("Planner", currentIndex, displayedOptions);
+        int newIndex = EditorGUILayout.Popup(label, currentIndex, displayedOptions);
 
-        AttributeData<PlannerAttribute> selectedData = dataList[newIndex];
         if (newIndex != currentIndex)
         {
-            _ai.serializablePlanner = new SerializablePlanner(
-                selectedData.Type,
-                new float[selectedData.Attribute.Args.Length]
-            );
+            dataChangeCallback.Invoke(dataList[newIndex]);
+            //aiElement = (AIElement)Activator.CreateInstance(
+            //    selected
+            //    aiElement.GetType(),
+            //    new object[] { aiElement.GetType(), new float[aiElement.Args.Length] }
+            //);
         }
 
-        return selectedData;
+        return dataList[newIndex];
+        //if (newIndex != currentIndex)
+        //{
+        //    _ai.serializablePlanner = new SerializablePlanner(
+        //        selectedData.Type,
+        //        new float[selectedData.Attribute.ArgLabels.Length]
+        //    );
+        //}
+
+        //return selectedData;
     }
 
-    private void PlannerArgsEdit(AttributeData<PlannerAttribute> selectedData)
+    private void ArgsEdit(AIElement toUpdate, AIAttribute toGetLabelsFrom)
     {
         EditorGUI.indentLevel++;
-        float[] currentArgs = _ai.serializablePlanner.planner.Args;
+        float[] currentArgs = toUpdate.Args;
 
-        float[] newArgs = selectedData.Attribute.Args
+        float[] newArgs = toGetLabelsFrom.ArgLabels
             .Zip(currentArgs, (label, currentValue) => EditorGUILayout.FloatField(label, currentValue))
             .ToArray();
 
-        _ai.serializablePlanner.planner.Args = newArgs;
+        toUpdate.Args = newArgs;
         EditorGUI.indentLevel--;
     }
 }

@@ -1,5 +1,6 @@
 ﻿[Behaviour(
     "No Op Behaviour",
+    new string[0],
     new AIAction[] {
         AIAction.FindTarget,
         AIAction.Attack,
@@ -7,8 +8,7 @@
         AIAction.Advance,
         AIAction.Retreat,
         AIAction.Evade
-    },
-    new string[0]
+    }
 )]
 public class NoOpBehaviour : Behaviour
 {

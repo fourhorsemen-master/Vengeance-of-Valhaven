@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 
-[Behaviour("Follow Player At Distance", new AIAction[] { AIAction.Advance }, new string[] { "followDistance" })]
+[Behaviour("Follow Player At Distance", new string[] { "followDistance" }, new AIAction[] { AIAction.Advance })]
 public class FollowPlayerAtDistance : Behaviour
 {
     private float _followDistance;
 
-    protected override void Initialise()
+    public override void Initialize()
     {
         _followDistance = Args[0];
     }

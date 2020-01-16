@@ -1,16 +1,12 @@
 ﻿using System;
 
 [AttributeUsage(AttributeTargets.Class)]
-public class BehaviourAttribute : Attribute
+public class BehaviourAttribute : AIAttribute
 {
-    public string DisplayValue { get; }
     public AIAction[] Actions { get; }
-    public string[] Args { get; }
 
-    public BehaviourAttribute(string displayValue, AIAction[] actions, string[] args)
+    public BehaviourAttribute(string displayValue, string[] argLabels, AIAction[] actions) : base(displayValue, argLabels)
     {
-        DisplayValue = displayValue;
         Actions = actions;
-        Args = args;
     }
 }

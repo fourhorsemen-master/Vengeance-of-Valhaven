@@ -5,7 +5,7 @@ public class AlwaysAdvance : Planner
 {
     private float _chance;
 
-    public override void Initilize()
+    public override void Initialize()
     {
         _chance = Args[0];
     }

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[Behaviour("Follow Player", new AIAction[] { AIAction.Advance }, new string[0])]
+[Behaviour("Follow Player", new string[0], new AIAction[] { AIAction.Advance })]
 public class FollowPlayer : Behaviour
 {
     public override void Behave(Actor actor)
