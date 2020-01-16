@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public static class PlannerScanner
@@ -20,5 +22,12 @@ public static class PlannerScanner
                 Debug.LogError($"Found planner attribute on class that does not extend Planner: {attributeData.Type.Name}");
             }
         }
+
+        SortPlannerData();
+    }
+
+    private static void SortPlannerData()
+    {
+        PlannerData.OrderBy(d => d.Type.Name);
     }
 }
