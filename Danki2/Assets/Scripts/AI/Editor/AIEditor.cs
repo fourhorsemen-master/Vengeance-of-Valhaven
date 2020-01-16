@@ -27,6 +27,11 @@ public class AIEditor : Editor
         BehaviourSelection();
         PlannerSelection();
 
+        if (GUILayout.Button("Rescan AI"))
+        {
+            Scan();
+        }
+
         if (GUI.changed)
         {
             EditorUtility.SetDirty(target);
@@ -127,7 +132,10 @@ public class AIEditor : Editor
             .Zip(currentArgs, (label, currentValue) => EditorGUILayout.FloatField(label, currentValue))
             .ToArray();
 
-        toUpdate.Args = newArgs;
+        if (!Enumerable.SequenceEqual(currentArgs, newArgs))
+        {
+            toUpdate.Args = newArgs;
+        }
         EditorGUI.indentLevel--;
     }
 }
