@@ -1,5 +1,4 @@
-﻿public abstract class Behaviour
+﻿public abstract class Behaviour : AIElement
 {
-    public virtual void Initialise(float[] args) { }
     public abstract void Behave(Actor actor);
 }

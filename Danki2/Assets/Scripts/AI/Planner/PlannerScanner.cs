@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public static class PlannerScanner
 {
-    public static List<PlannerData> PlannerData { get; private set; } = new List<PlannerData>();
+    public static List<AttributeData<PlannerAttribute>> PlannerData { get; private set; } = new List<AttributeData<PlannerAttribute>>();
 
     public static void Scan()
     {
@@ -13,12 +15,19 @@ public static class PlannerScanner
         {
             if (attributeData.Type.IsSubclassOf(typeof(Planner)))
             {
-                PlannerData.Add(new PlannerData(attributeData));
+                PlannerData.Add(attributeData);
             }
             else
             {
                 Debug.LogError($"Found planner attribute on class that does not extend Planner: {attributeData.Type.Name}");
             }
         }
+
+        SortPlannerData();
+    }
+
+    private static void SortPlannerData()
+    {
+        PlannerData.OrderBy(d => d.Type.Name);
     }
 }

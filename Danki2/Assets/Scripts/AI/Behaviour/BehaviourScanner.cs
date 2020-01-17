@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public static class BehaviourScanner
 {
-    public static List<BehaviourData> BehaviourData { get; private set; } = new List<BehaviourData>();
+    public static List<AttributeData<BehaviourAttribute>> BehaviourData { get; private set; } = new List<AttributeData<BehaviourAttribute>>();
+    public static Dictionary<AIAction, List<AttributeData<BehaviourAttribute>>> BehaviourDataByAction { get; private set; } = new Dictionary<AIAction, List<AttributeData<BehaviourAttribute>>>();
 
     public static void Scan()
     {
@@ -14,22 +16,31 @@ public static class BehaviourScanner
         {
             if (attributeData.Type.IsSubclassOf(typeof(Behaviour)))
             {
-                BehaviourData.Add(new BehaviourData(attributeData));
+                BehaviourData.Add(attributeData);
             }
             else
             {
                 Debug.LogError($"Found behaviour attribute on class that does not extend Behaviour: {attributeData.Type.Name}");
             }
         }
+
+        SortBehaviourData();
+
+        BehaviourDataByAction.Clear();
+        foreach (AIAction action in Enum.GetValues(typeof(AIAction))) {
+            BehaviourDataByAction.Add(action, GetDataByAction(action));
+        }
     }
 
-    public static List<BehaviourData> GetDataByAction(AIAction action)
+    private static void SortBehaviourData()
     {
-        return (
-            from BehaviourData data
-            in BehaviourData
-            where data.Action.Equals(action)
-            select data
-        ).ToList();
+        BehaviourData.OrderBy(d => d.Type.Name);
+    }
+
+    private static List<AttributeData<BehaviourAttribute>> GetDataByAction(AIAction action)
+    {
+        return BehaviourData
+            .Where(d => d.Attribute.Actions.Contains(action))
+            .ToList();
     }
 }

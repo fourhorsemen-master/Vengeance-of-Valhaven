@@ -1,48 +1,35 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(AI))]
 public class AIEditor : Editor
 {
+    private bool hasRunInitialScan = false;
+
+    private AI _ai = null;
+
+    private void OnValidate()
+    {
+        ScanIfNotScanned();
+    }
+
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
 
-        AI ai = (AI)target;
+        _ai = (AI)target;
 
-        if (GUILayout.Button("Add Follow Player AI"))
+        ScanIfNotScanned();
+
+        BehaviourSelection();
+        PlannerSelection();
+
+        if (GUILayout.Button("Rescan AI"))
         {
-            ai.serializablePlanner = new SerializablePlanner(
-                typeof(AlwaysAdvance), new float[0]
-            );
-
-            ai.serializablePersonality[AIAction.Advance] = new SerializableBehaviour(
-                typeof(FollowPlayer), new float[0]
-            );
-        }
-
-        if (GUILayout.Button("Add Follow Player At Distance AI"))
-        {
-            ai.serializablePlanner = new SerializablePlanner(
-                typeof(AlwaysAdvance), new float[0]
-            );
-
-            ai.serializablePersonality[AIAction.Advance] = new SerializableBehaviour(
-                typeof(FollowPlayerAtDistance), new float[] { 5 }
-            );
-        }
-
-        if (GUILayout.Button("Log Behaviour Attribute Values"))
-        {
-            BehaviourScanner.Scan();
-            LogBehaviourData();
-        }
-
-        if (GUILayout.Button("Log Planner Attribute Values"))
-        {
-            PlannerScanner.Scan();
-            LogPlannerData();
+            Scan();
         }
 
         if (GUI.changed)
@@ -51,33 +38,104 @@ public class AIEditor : Editor
         }
     }
 
-    private void LogBehaviourData()
+    private void ScanIfNotScanned()
     {
-        foreach (AIAction action in Enum.GetValues(typeof(AIAction)))
+        if (!hasRunInitialScan)
         {
-            var data = BehaviourScanner.GetDataByAction(action);
-            string message = action.ToString() + " behaviours found: " + data.Count;
-            if (data.Count > 0) message += ": ";
-            foreach (var d in data)
-            {
-                message += d.DisplayValue + ", ";
-            }
-            message.Remove(message.Length - 2);
-
-            Debug.Log(message);
+            Scan();
+            hasRunInitialScan = true;
         }
     }
 
-    private void LogPlannerData()
+    private void Scan()
     {
-        string message = "planners found: " + PlannerScanner.PlannerData.Count;
-        if (PlannerScanner.PlannerData.Count > 0) message += ": ";
-        foreach (PlannerData data in PlannerScanner.PlannerData)
-        {
-            message += data.DisplayValue + ", ";
-        }
-        message.Remove(message.Length - 2);
+        BehaviourScanner.Scan();
+        PlannerScanner.Scan();
+    }
 
-        Debug.Log(message);
+    private void BehaviourSelection()
+    {
+        EditorGUILayout.LabelField("Behaviours", EditorStyles.boldLabel);
+
+        foreach (AIAction action in Enum.GetValues(typeof(AIAction)))
+        {
+            EditBehaviour(action);
+        }
+    }
+
+    private void EditBehaviour(AIAction action)
+    {
+        if (BehaviourScanner.BehaviourDataByAction.TryGetValue(action, out List<AttributeData<BehaviourAttribute>> dataList))
+        {
+            AttributeData<BehaviourAttribute> selectedData = DropdownEdit(
+                dataList,
+                _ai.serializablePersonality[action].aiElement,
+                action.ToString(),
+                newData => {
+                    _ai.serializablePersonality[action] = new SerializableBehaviour(
+                        newData.Type,
+                        new float[newData.Attribute.ArgLabels.Length]
+                    );
+                }
+            );
+            ArgsEdit(_ai.serializablePersonality[action].aiElement, selectedData.Attribute);
+        }
+    }
+
+    private void PlannerSelection()
+    {
+        EditorGUILayout.LabelField("Planners", EditorStyles.boldLabel);
+
+        AttributeData<PlannerAttribute> selectedData = DropdownEdit(
+            PlannerScanner.PlannerData,
+            _ai.serializablePlanner.aiElement,
+            "Planner",
+            newData => {
+                _ai.serializablePlanner = new SerializablePlanner(
+                    newData.Type,
+                    new float[newData.Attribute.ArgLabels.Length]
+                );
+            }
+        );
+        ArgsEdit(_ai.serializablePlanner.aiElement, selectedData.Attribute);
+    }
+
+    private AttributeData<T> DropdownEdit<T>(
+        List<AttributeData<T>> dataList,
+        AIElement aiElement,
+        string label,
+        Action<AttributeData<T>> dataChangeCallback
+    ) where T : AIAttribute
+    {
+        int currentIndex = dataList.FindIndex(d => d.Type.Equals(aiElement.GetType()));
+
+        string[] displayedOptions = dataList
+            .Select(d => d.Attribute.DisplayValue)
+            .ToArray();
+
+        int newIndex = EditorGUILayout.Popup(label, currentIndex, displayedOptions);
+
+        if (newIndex != currentIndex)
+        {
+            dataChangeCallback.Invoke(dataList[newIndex]);
+        }
+
+        return dataList[newIndex];
+    }
+
+    private void ArgsEdit(AIElement toUpdate, AIAttribute toGetLabelsFrom)
+    {
+        EditorGUI.indentLevel++;
+        float[] currentArgs = toUpdate.Args;
+
+        float[] newArgs = toGetLabelsFrom.ArgLabels
+            .Zip(currentArgs, (label, currentValue) => EditorGUILayout.FloatField(label, currentValue))
+            .ToArray();
+
+        if (!Enumerable.SequenceEqual(currentArgs, newArgs))
+        {
+            toUpdate.Args = newArgs;
+        }
+        EditorGUI.indentLevel--;
     }
 }

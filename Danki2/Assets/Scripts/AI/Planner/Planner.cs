@@ -1,5 +1,4 @@
-﻿public abstract class Planner
+﻿public abstract class Planner : AIElement
 {
-    public virtual void Initilize(float[] args) { }
     public abstract Agenda Plan(Actor actor, Agenda previousAgenda);
 }

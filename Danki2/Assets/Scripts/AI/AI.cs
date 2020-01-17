@@ -15,13 +15,13 @@ public class AI : MonoBehaviour
 
     private void Update()
     {
-        _agenda = serializablePlanner.planner.Plan(_actor, _agenda);
+        _agenda = serializablePlanner.aiElement.Plan(_actor, _agenda);
 
         foreach (AIAction action in _agenda.Keys)
         {
             if (_agenda[action])
             {
-                serializablePersonality[action].behaviour.Behave(_actor);
+                serializablePersonality[action].aiElement.Behave(_actor);
             }
         }
     }

@@ -1,12 +1,9 @@
 ﻿using System;
 
 [AttributeUsage(AttributeTargets.Class)]
-public class PlannerAttribute : Attribute
+public class PlannerAttribute : AIAttribute
 {
-    public string DisplayValue { get; }
-
-    public PlannerAttribute(string displayValue)
+    public PlannerAttribute(string displayValue, string[] argLabels) : base(displayValue, argLabels)
     {
-        DisplayValue = displayValue;
     }
 }
