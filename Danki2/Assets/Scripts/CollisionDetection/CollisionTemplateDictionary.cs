@@ -1,12 +1,14 @@
-﻿using UnityEngine;
+﻿using System;
+using Object = UnityEngine.Object;
 
-public class CollisionTemplateDictionary : SerializableEnumDictionary<CollisionTemplate, GameObject>
+[Serializable]
+public class CollisionTemplateDictionary : SerializableEnumDictionary<CollisionTemplate, Object>
 {
-    public CollisionTemplateDictionary(GameObject defaultValue) : base(defaultValue)
+    public CollisionTemplateDictionary(Object defaultValue) : base(defaultValue)
     {
     }
 
-    public CollisionTemplateDictionary(SerializableEnumDictionary<CollisionTemplate, GameObject> dictionary) : base(dictionary)
+    public CollisionTemplateDictionary(SerializableEnumDictionary<CollisionTemplate, Object> dictionary) : base(dictionary)
     {
     }
 }
