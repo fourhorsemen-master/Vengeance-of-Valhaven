@@ -40,8 +40,6 @@ public class CameraShake
             direction.z = rndZ;
         }
 
-        TickDuration();
-
         return direction;
     }
 

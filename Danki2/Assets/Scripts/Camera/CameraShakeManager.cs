@@ -1,28 +1,28 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
+using System.Linq;
 using UnityEngine;
 
 
 public class CameraShakeManager
 {
-    private CameraShake[] camShakes;
+    private CameraShake[] _camShakes;
 
     public CameraShakeManager(int poolSize)
     {
-        camShakes = new CameraShake[poolSize];
+        _camShakes = new CameraShake[poolSize];
 
         for (int i = 0; i < poolSize; i++)
         {
-            camShakes[i] = new CameraShake();
+            _camShakes[i] = new CameraShake();
         }
     }
 
     public Vector3 GetShakeVector()
     {
         float maxStrength = float.MinValue;
-        CameraShake strongestShake = default;
+        CameraShake strongestShake = null;
 
-        foreach (CameraShake cs in camShakes)
+        foreach (CameraShake cs in _camShakes)
         {
             if (cs.Duration > 0f && cs.Strength > maxStrength)
             {
@@ -31,27 +31,26 @@ public class CameraShakeManager
             }
         }
 
-        if (strongestShake != default)
-        {
-            return strongestShake.GetShakeVector();
-        }
+        return strongestShake?.GetShakeVector() ?? Vector3.zero;
+    }
 
-        return Vector3.zero;
+    public void ApplyShake(Transform transform)
+    {
+        transform.Translate(GetShakeVector(), Space.World);
+        _camShakes.ToList().ForEach(cs => cs.TickDuration());
     }
 
     public void AddCameraShake(float strength, float duration, float frequency = CameraShake.DefaultInterval)
     {
-        if (!TryGetExpiredCameraShake(out var cameraShake))
+        if (TryGetExpiredCameraShake(out var cameraShake))
         {
-            return;
+            cameraShake.Set(strength, duration, frequency);
         }
-
-        cameraShake.Set(strength, duration, frequency);
     }
 
     private bool TryGetExpiredCameraShake(out CameraShake expiredShake)
     {
-        foreach (CameraShake cs in camShakes)
+        foreach (CameraShake cs in _camShakes)
         {
             if (cs.Duration <= 0f)
             {
@@ -60,7 +59,7 @@ public class CameraShakeManager
             }
         }
 
-        expiredShake = default;
+        expiredShake = null;
         return false;
     }
 }

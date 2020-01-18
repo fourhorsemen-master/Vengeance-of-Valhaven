@@ -23,6 +23,7 @@ public class CustomCamera : MonoBehaviour
 
     private void Update()
     {
+        // TODO: Remove the following test key.
         if (Input.GetKeyDown(KeyCode.O))
         {
             shakeManager.AddCameraShake(15f, 0.3f);
@@ -30,7 +31,7 @@ public class CustomCamera : MonoBehaviour
 
         UpdateRotation();
         FollowTarget();
-        transform.Translate(shakeManager.GetShakeVector(), Space.World);
+        shakeManager.ApplyShake(transform);
     }
 
     private void UpdateRotation()
@@ -47,9 +48,9 @@ public class CustomCamera : MonoBehaviour
         var mouseOffsetV = Input.mousePosition.y / Screen.height - 0.5f;
 
         desiredPosition.Set(
-            targetPosition.x + mouseOffsetH * mouseFollowFactor,
+            targetPosition.x + (mouseOffsetH * mouseFollowFactor),
             targetPosition.y + height,
-            targetPosition.z - zDistanceFromFloorIntersect + mouseOffsetV * mouseFollowFactor
+            targetPosition.z - zDistanceFromFloorIntersect + (mouseOffsetV * mouseFollowFactor)
         );
 
         transform.position = Vector3.Lerp(transform.position, desiredPosition, 1f - smoothFactor);
