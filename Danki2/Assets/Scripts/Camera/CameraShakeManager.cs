@@ -17,7 +17,7 @@ public class CameraShakeManager
         }
     }
 
-    public Vector3 GetShakeVector()
+    private Vector3 GetShakeVector()
     {
         float maxStrength = float.MinValue;
         CameraShake strongestShake = null;
@@ -40,11 +40,11 @@ public class CameraShakeManager
         _camShakes.ToList().ForEach(cs => cs.TickDuration());
     }
 
-    public void AddCameraShake(float strength, float duration, float frequency = CameraShake.DefaultInterval)
+    public void AddCameraShake(float strength, float duration, float interval = CameraShake.DefaultInterval)
     {
         if (TryGetExpiredCameraShake(out var cameraShake))
         {
-            cameraShake.Set(strength, duration, frequency);
+            cameraShake.Set(strength, duration, interval);
         }
     }
 
