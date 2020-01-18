@@ -1,7 +1,6 @@
 ﻿using System;
 using UnityEditor;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 [CustomEditor(typeof(CollisionTemplateManager))]
 public class CollisionTemplateManagerEditor : Editor
@@ -12,10 +11,10 @@ public class CollisionTemplateManagerEditor : Editor
 
         foreach (CollisionTemplate template in Enum.GetValues(typeof(CollisionTemplate)))
         {
-            collisionTemplateManager.prefabLookup[template] = EditorGUILayout.ObjectField(
+            collisionTemplateManager.prefabLookup[template] = (Collider)EditorGUILayout.ObjectField(
                 template.ToString(),
                 collisionTemplateManager.prefabLookup[template],
-                typeof(Object),
+                typeof(Collider),
                 false,
                 null
             );
