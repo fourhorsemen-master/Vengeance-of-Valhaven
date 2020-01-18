@@ -2,10 +2,8 @@
 
 public static class GameObjectExtensions
 {
-    public static bool TryGetComponent<T>(this GameObject @object, out T component)
-        where T : MonoBehaviour
+    public static void SetLayer(this GameObject gameObject, Layer layer)
     {
-        component = @object.GetComponent<T>();
-        return component != null;
+        gameObject.layer = (int)layer;
     }
 }
