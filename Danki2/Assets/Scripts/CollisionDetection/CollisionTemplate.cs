@@ -1,4 +1,4 @@
 ﻿public enum CollisionTemplate
 {
-    Wedge90
+    Sphere,
 }
