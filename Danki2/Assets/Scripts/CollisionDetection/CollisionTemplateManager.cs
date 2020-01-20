@@ -29,26 +29,22 @@ public class CollisionTemplateManager : Singleton<CollisionTemplateManager>
     {
         Collider templateInstance = instanceLookup[template];
         templateInstance.transform.localScale = Vector3.one * scale;
-        templateInstance.transform.position = position;
-        templateInstance.transform.rotation = rotation;
 
-        Mortal[] mortals = FindObjectsOfType<Mortal>();
-        Collider[] mortalColliders = mortals.Select(a => a.GetComponent<Collider>()).ToArray();
-
-        List<Mortal> collidingMortals = new List<Mortal>();
-
-        foreach (var mc in mortals.Zip(mortalColliders, (m, c) => new { mortal = m, collider = c }))
-        {
-            if (Physics.ComputePenetration(
-                mc.collider, mc.collider.transform.position, mc.collider.transform.rotation,
-                templateInstance, templateInstance.transform.position, templateInstance.transform.rotation,
-                out _, out _
-            ))
-            {
-                collidingMortals.Add(mc.mortal);
-            }
-        }
-
-        return collidingMortals;
+        return RoomManager.Instance.MortalCache
+            .Where(mortalCacheItem =>
+                {
+                    return Physics.ComputePenetration(
+                        mortalCacheItem.Collider,
+                        mortalCacheItem.Collider.transform.position,
+                        mortalCacheItem.Collider.transform.rotation,
+                        templateInstance,
+                        position,
+                        rotation,
+                        out _,
+                        out _
+                    );
+                })
+            .Select(mortalCacheItem => mortalCacheItem.Mortal)
+            .ToList();
     }
 }
