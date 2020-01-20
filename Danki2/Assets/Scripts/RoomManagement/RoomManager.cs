@@ -10,7 +10,18 @@ public class RoomManager : Singleton<RoomManager>
     {
         Mortal[] mortals = FindObjectsOfType<Mortal>();
         MortalCache = mortals
-            .Select(m => new MortalCacheItem(m, m.GetComponent<Collider>()))
+            .Select(mortal =>
+            {
+                if (mortal.TryGetComponent<Collider>(out Collider collider))
+                {
+                    return new MortalCacheItem(mortal, collider);
+                }
+                else
+                {
+                    Debug.LogError($"Found mortal, of type {mortal.GetType()}, without a collider");
+                    return null;
+                }
+            })
             .ToList();
     }
 }
