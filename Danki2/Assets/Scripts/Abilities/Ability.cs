@@ -7,6 +7,7 @@ public enum AbilityReference
     ShieldBash,
     Whirlwind,
     Fireball,
+    DaggerThrow,
     Bite,
     Pounce,
 }
@@ -25,6 +26,7 @@ public class Ability
         { AbilityReference.Slash, c => new Slash(c) },
         { AbilityReference.ShieldBash, c => new ShieldBash(c) },
         { AbilityReference.Fireball, c => new Fireball(c) },
+        { AbilityReference.DaggerThrow, c => new DaggerThrow(c) },
         { AbilityReference.Bite, c => new Bite(c) },
     };
 
