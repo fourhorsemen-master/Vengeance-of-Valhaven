@@ -12,7 +12,7 @@
 )]
 public class NoOpBehaviour : Behaviour
 {
-    public override void Behave(Actor actor)
+    public override void Behave(AI ai, Actor actor)
     {
     }
 }

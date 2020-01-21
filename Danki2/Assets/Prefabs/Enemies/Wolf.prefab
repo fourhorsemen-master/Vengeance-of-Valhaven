@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2369984067544073560}
   - component: {fileID: 5134676781764737243}
   - component: {fileID: -1347520900970919038}
+  - component: {fileID: 3467548966888005537}
   m_Layer: 0
   m_Name: Wolf
   m_TagString: Untagged
@@ -125,7 +126,56 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseStats:
     _keys: 000000000100000002000000
-    _values: 0a0000000f00000005000000
+    _values: 1f0000000f00000005000000
+--- !u!114 &3467548966888005537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8501680027219967870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19514c5d500c2bd459b1f556adf129a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _actor: {fileID: -1347520900970919038}
+  serializablePlanner:
+    _serializedType:
+      _serializedType: WolfPlanner, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+    _serializedArgs:
+    - 2
+  serializablePersonality:
+    _keys: 000000000100000002000000030000000400000005000000
+    _values:
+    - _serializedType:
+        _serializedType: FindPlayer, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+      _serializedArgs:
+      - 2
+    - _serializedType:
+        _serializedType: FollowTargetAtDistance, Assembly-CSharp, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+      _serializedArgs:
+      - 1
+    - _serializedType:
+        _serializedType: NoOpBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+      _serializedArgs: []
+    - _serializedType:
+        _serializedType: NoOpBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+      _serializedArgs: []
+    - _serializedType:
+        _serializedType: RetreatFromTarget, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+      _serializedArgs: []
+    - _serializedType:
+        _serializedType: NoOpBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+      _serializedArgs: []
+  Target: {fileID: 0}
 --- !u!1001 &2645369042069280362
 PrefabInstance:
   m_ObjectHideFlags: 0

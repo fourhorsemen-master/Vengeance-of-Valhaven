@@ -10,7 +10,7 @@ public class AlwaysAdvance : Planner
         _chance = Args[0];
     }
 
-    public override Agenda Plan(Actor actor, Agenda previousAgenda)
+    public override Agenda Plan(AI ai, Actor actor, Agenda previousAgenda)
     {
         Agenda agenda = new Agenda();
 

@@ -11,17 +11,20 @@ public class AI : MonoBehaviour
     [HideInInspector]
     public SerializablePersonality serializablePersonality = new SerializablePersonality(new SerializableBehaviour());
 
+    [HideInInspector]
+    public Actor Target = null;
+
     private Agenda _agenda = new Agenda();
 
     private void Update()
     {
-        _agenda = serializablePlanner.aiElement.Plan(_actor, _agenda);
+        _agenda = serializablePlanner.aiElement.Plan(this, _actor, _agenda);
 
         foreach (AIAction action in _agenda.Keys)
         {
             if (_agenda[action])
             {
-                serializablePersonality[action].aiElement.Behave(_actor);
+                serializablePersonality[action].aiElement.Behave(this, _actor);
             }
         }
     }
