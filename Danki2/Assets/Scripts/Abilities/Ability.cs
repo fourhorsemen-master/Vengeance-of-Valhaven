@@ -7,7 +7,9 @@ public enum AbilityReference
     ShieldBash,
     Whirlwind,
     Fireball,
-    DaggerThrow
+    DaggerThrow,
+    Bite,
+    Pounce,
 }
 
 public class Ability
@@ -25,11 +27,13 @@ public class Ability
         { AbilityReference.ShieldBash, c => new ShieldBash(c) },
         { AbilityReference.Fireball, c => new Fireball(c) },
         { AbilityReference.DaggerThrow, c => new DaggerThrow(c) },
+        { AbilityReference.Bite, c => new Bite(c) },
     };
 
     private static Dictionary<AbilityReference, Func<AbilityContext, Channel>> _channels = new Dictionary<AbilityReference, Func<AbilityContext, Channel>>
     {
         { AbilityReference.Whirlwind, c => new Whirlwind(c) },
+        { AbilityReference.Pounce, c => new Pounce(c) },
     };
 
     public static bool TryGetAsInstantCastBuilder(AbilityReference abilityRef, out Func<AbilityContext, InstantCast> ability)
