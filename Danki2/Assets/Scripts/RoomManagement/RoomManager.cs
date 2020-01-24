@@ -12,16 +12,15 @@ public class RoomManager : Singleton<RoomManager>
         MortalCache = mortals
             .Select(mortal =>
             {
-                if (mortal.TryGetComponent<Collider>(out Collider collider))
-                {
-                    return new MortalCacheItem(mortal, collider);
-                }
-                else
+                if (!mortal.TryGetComponent(out Collider collider))
                 {
                     Debug.LogError($"Found mortal, of type {mortal.GetType()}, without a collider");
                     return null;
                 }
+
+                return new MortalCacheItem(mortal, collider);
             })
+            .Where(i => i != null)
             .ToList();
     }
 }

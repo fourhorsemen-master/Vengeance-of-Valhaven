@@ -31,19 +31,16 @@ public class CollisionTemplateManager : Singleton<CollisionTemplateManager>
         templateInstance.transform.localScale = Vector3.one * scale;
 
         return RoomManager.Instance.MortalCache
-            .Where(mortalCacheItem =>
-                {
-                    return Physics.ComputePenetration(
-                        mortalCacheItem.Collider,
-                        mortalCacheItem.Collider.transform.position,
-                        mortalCacheItem.Collider.transform.rotation,
-                        templateInstance,
-                        position,
-                        rotation,
-                        out _,
-                        out _
-                    );
-                })
+            .Where(mortalCacheItem => Physics.ComputePenetration(
+                mortalCacheItem.Collider,
+                mortalCacheItem.Collider.transform.position,
+                mortalCacheItem.Collider.transform.rotation,
+                templateInstance,
+                position,
+                rotation,
+                out _,
+                out _
+            ))
             .Select(mortalCacheItem => mortalCacheItem.Mortal)
             .ToList();
     }
