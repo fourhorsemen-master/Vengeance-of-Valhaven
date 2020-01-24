@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class HealthBar : MonoBehaviour
 {
     [SerializeField]
-    private Image _healthBar;
+    private Image _healthBar = null;
     public Mortal mortal;
 
     void Update()

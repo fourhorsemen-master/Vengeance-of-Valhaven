@@ -63,7 +63,7 @@ public class Player : Mortal
                 AbilityTreeFactory.CreateNode(AbilityReference.Whirlwind)
             ),
             AbilityTreeFactory.CreateNode(
-                AbilityReference.ShieldBash,
+                AbilityReference.DaggerThrow,
                 AbilityTreeFactory.CreateNode(AbilityReference.Slash),
                 AbilityTreeFactory.CreateNode(AbilityReference.ShieldBash)
             )
