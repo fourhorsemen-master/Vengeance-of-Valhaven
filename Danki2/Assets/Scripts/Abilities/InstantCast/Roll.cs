@@ -6,6 +6,9 @@ public class Roll : InstantCast
     {
     }
 
+    private static readonly float rollSpeedMultiplier = 4f;
+    private static readonly float rollDuration = 0.15f;
+
     public override void Cast()
     {
         Actor caster = Context.Owner;
@@ -14,8 +17,8 @@ public class Roll : InstantCast
         targetPosition.y = caster.transform.position.y;
 
         caster.LockMovement(
-            0.15f,
-            caster.GetStat(Stat.Speed) * 4,
+            rollDuration,
+            caster.GetStat(Stat.Speed) * rollSpeedMultiplier,
             targetPosition,
             passThrough: true
         );
