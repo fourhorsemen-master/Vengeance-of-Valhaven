@@ -20,10 +20,10 @@ public class Fireball : InstantCast
 
     public void OnCollision(GameObject gameObject)
     {
-        if (gameObject.TryGetComponent<Mortal>(out var mortal))
+        if (gameObject.TryGetComponent<Actor>(out var actor))
         {
             var strength = Context.Owner.GetStat(Stat.Strength);
-            mortal.ModifyHealth(-strength);
+            actor.ModifyHealth(-strength);
         }
     }
 }

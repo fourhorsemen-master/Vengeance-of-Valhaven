@@ -4,21 +4,21 @@ using UnityEngine;
 
 public class RoomManager : Singleton<RoomManager>
 {
-    public List<MortalCacheItem> MortalCache { get; private set; }
+    public List<ActorCacheItem> ActorCache { get; private set; }
 
     private void Start()
     {
-        Mortal[] mortals = FindObjectsOfType<Mortal>();
-        MortalCache = mortals
-            .Select(mortal =>
+        Actor[] actors = FindObjectsOfType<Actor>();
+        ActorCache = actors
+            .Select(actor =>
             {
-                if (!mortal.TryGetComponent(out Collider collider))
+                if (!actor.TryGetComponent(out Collider collider))
                 {
-                    Debug.LogError($"Found mortal, of type {mortal.GetType()}, without a collider");
+                    Debug.LogError($"Found actor, of type {actor.GetType()}, without a collider");
                     return null;
                 }
 
-                return new MortalCacheItem(mortal, collider);
+                return new ActorCacheItem(actor, collider);
             })
             .Where(i => i != null)
             .ToList();

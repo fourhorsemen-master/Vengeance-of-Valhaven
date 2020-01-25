@@ -9,10 +9,17 @@ public abstract class Actor : MonoBehaviour
     private EffectTracker _effectTracker;
     private MovementManager _movementManager;
 
+    private float _health;
+    public int Health => Mathf.CeilToInt(_health);
+    public bool Dead { get; private set; }
+
     protected virtual void Awake()
     {
         _statsManager = new StatsManager(baseStats);
         _effectTracker = new EffectTracker(this, _statsManager);
+
+        _health = GetStat(Stat.MaxHealth);
+        Dead = false;
     }
 
     protected virtual void Start()
@@ -24,6 +31,12 @@ public abstract class Actor : MonoBehaviour
     protected virtual void Update()
     {
         _effectTracker.ProcessEffects();
+
+        if (_health <= 0f && !Dead)
+        {
+            OnDeath();
+            Dead = true;
+        }
     }
 
     protected virtual void LateUpdate()
@@ -70,4 +83,13 @@ public abstract class Actor : MonoBehaviour
     {
         _movementManager.MoveToward(target);
     }
+
+    public void ModifyHealth(float healthChange)
+    {
+        if (Dead) return;
+
+        _health = Mathf.Min(_health + healthChange, GetStat(Stat.MaxHealth));
+    }
+
+    protected abstract void OnDeath();
 }

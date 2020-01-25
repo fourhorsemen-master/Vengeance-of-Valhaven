@@ -5,7 +5,7 @@ public class HealthBar : MonoBehaviour
 {
     [SerializeField]
     private Image _healthBar = null;
-    public Mortal mortal;
+    public Actor actor;
 
     void Update()
     {
@@ -20,14 +20,14 @@ public class HealthBar : MonoBehaviour
             return;
         }
 
-        if (mortal.Health <= 0)
+        if (actor.Health <= 0)
         {
             _healthBar.canvas.enabled = false;
             return;
         }
 
         // Update the remaining health display
-        float maxHealth = mortal.GetStat(Stat.MaxHealth);
-        _healthBar.transform.localScale = new Vector3(mortal.Health / maxHealth, 1f, 1f);
+        float maxHealth = actor.GetStat(Stat.MaxHealth);
+        _healthBar.transform.localScale = new Vector3(actor.Health / maxHealth, 1f, 1f);
     }
 }

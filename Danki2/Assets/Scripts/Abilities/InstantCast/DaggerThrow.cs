@@ -20,11 +20,11 @@ class DaggerThrow : InstantCast
 
     public void OnCollision(GameObject gameObject)
     {
-        if (gameObject.TryGetComponent<Mortal>(out var mortal))
+        if (gameObject.TryGetComponent<Actor>(out var actor))
         {
             var strength = Context.Owner.GetStat(Stat.Strength);
-            mortal.ModifyHealth(-strength/2);
-            mortal.AddEffect(new DOT(5, 2));
+            actor.ModifyHealth(-strength/2);
+            actor.AddEffect(new DOT(5, 2));
         }
     }
 }

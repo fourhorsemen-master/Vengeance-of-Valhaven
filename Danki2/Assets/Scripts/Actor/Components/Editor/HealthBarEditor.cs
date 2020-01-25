@@ -9,6 +9,6 @@ public class HealthBarEditor : Editor
     public override void OnInspectorGUI()
     {
         HealthBar healthBar = (HealthBar)target;
-        healthBar.mortal = (Mortal)EditorGUILayout.ObjectField("Mortal", healthBar.mortal, typeof(Mortal), true, null);
+        healthBar.actor = (Actor)EditorGUILayout.ObjectField("Actor", healthBar.actor, typeof(Actor), true, null);
     }
 }
