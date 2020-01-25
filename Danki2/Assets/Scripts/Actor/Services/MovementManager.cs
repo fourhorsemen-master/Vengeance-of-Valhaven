@@ -29,7 +29,11 @@ public class MovementManager
     public void ExecuteMovement()
     {
         _moveLockRemainingDuration = Mathf.Max(0f, _moveLockRemainingDuration - Time.deltaTime);
-        _moveLockOn = _moveLockRemainingDuration > 0 ? _moveLockOn : false;
+        if (_moveLockRemainingDuration <= 0)
+        {
+            _moveLockOn = false;
+            _actor.gameObject.SetLayer(Layer.Default);
+        }
 
         var speedStat = _actor.GetStat(Stat.Speed);
 
@@ -44,9 +48,13 @@ public class MovementManager
         _moveDirection = Vector3.zero;
     }
 
-    public void LockMovement(float duration, float speed, Vector3 direction, bool @override = false)
+    public void LockMovement(float duration, float speed, Vector3 direction, bool @override = false, bool passThrough = false)
     {
         if (_moveLockOn && !@override) return;
+        if (passThrough)
+        {
+            _actor.gameObject.SetLayer(Layer.Ethereal);
+        }
 
         _moveLockRemainingDuration = duration;
         _moveLockSpeed = speed;

@@ -48,9 +48,9 @@ public abstract class Actor : MonoBehaviour
     /// <param name="speed"></param>
     /// <param name="direction"></param>
     /// <param name="override">Whether to override any existing movement lock. Defaults to false.</param>
-    public void LockMovement(float duration, float speed, Vector3 direction, bool @override = false)
+    public void LockMovement(float duration, float speed, Vector3 direction, bool @override = false, bool passThrough = false)
     {
-        _movementManager.LockMovement(duration, speed, direction, @override);
+        _movementManager.LockMovement(duration, speed, direction, @override, passThrough);
     }
 
     /// <summary>

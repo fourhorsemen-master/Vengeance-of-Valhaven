@@ -10,6 +10,7 @@ public enum AbilityReference
     DaggerThrow,
     Bite,
     Pounce,
+    Roll,
 }
 
 public class Ability
@@ -28,6 +29,7 @@ public class Ability
         { AbilityReference.Fireball, c => new Fireball(c) },
         { AbilityReference.DaggerThrow, c => new DaggerThrow(c) },
         { AbilityReference.Bite, c => new Bite(c) },
+        { AbilityReference.Roll, c => new Roll(c) },
     };
 
     private static Dictionary<AbilityReference, Func<AbilityContext, Channel>> _channels = new Dictionary<AbilityReference, Func<AbilityContext, Channel>>

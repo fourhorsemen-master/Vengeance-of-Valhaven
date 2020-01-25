@@ -59,7 +59,7 @@ public class Player : Mortal
         _abilityTree = AbilityTreeFactory.CreateTree(
             AbilityTreeFactory.CreateNode(
                 AbilityReference.Fireball,
-                AbilityTreeFactory.CreateNode(AbilityReference.ShieldBash),
+                AbilityTreeFactory.CreateNode(AbilityReference.Roll),
                 AbilityTreeFactory.CreateNode(AbilityReference.Whirlwind)
             ),
             AbilityTreeFactory.CreateNode(
