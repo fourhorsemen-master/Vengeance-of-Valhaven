@@ -1,35 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using UnityEngine;
 
-public abstract class AI
+public class AI : MonoBehaviour
 {
-    public abstract void Act();
-}
+    [SerializeField]
+    private Actor _actor = null;
 
-public class AI<T> : AI where T : Actor
-{
-    private readonly T _actor;
-    private readonly Func<T, Agenda, Agenda> _plan;
-    private readonly Dictionary<AIAction, Action<T>> _personality;
-    private Agenda _agenda;
+    [HideInInspector]
+    public SerializablePlanner serializablePlanner = new SerializablePlanner();
 
-    public AI(T actor, Func<T, Agenda, Agenda> plan, Personality<T> personality)
+    [HideInInspector]
+    public SerializablePersonality serializablePersonality = new SerializablePersonality(new SerializableBehaviour());
+
+    private Agenda _agenda = new Agenda();
+
+    private void Update()
     {
-        _actor = actor;
-        _plan = plan;
-        _personality = personality;
-        _agenda = new Agenda();
-    }
+        _agenda = serializablePlanner.aiElement.Plan(_actor, _agenda);
 
-    public override void Act()
-    {
-        _agenda = _plan(_actor, _agenda);
-
-        foreach (AIAction key in _agenda.Keys)
+        foreach (AIAction action in _agenda.Keys)
         {
-            if (_agenda[key] && _personality.TryGetValue(key, out var behaviour))
+            if (_agenda[action])
             {
-                behaviour(_actor);
+                serializablePersonality[action].aiElement.Behave(_actor);
             }
         }
     }
