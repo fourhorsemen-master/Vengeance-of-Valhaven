@@ -1,3 +1,3 @@
-﻿public abstract class Enemy : Mortal
+﻿public abstract class Enemy : Actor
 {
 }

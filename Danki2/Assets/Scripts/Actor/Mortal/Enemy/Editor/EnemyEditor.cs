@@ -1,1 +1,1 @@
-﻿public class EnemyEditor : MortalEditor {}
+﻿public class EnemyEditor : ActorEditor {}

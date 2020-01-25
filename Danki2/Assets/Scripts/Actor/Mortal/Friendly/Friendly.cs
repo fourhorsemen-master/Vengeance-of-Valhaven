@@ -1,3 +1,3 @@
-﻿public abstract class Friendly : Mortal
+﻿public abstract class Friendly : Actor
 {
 }

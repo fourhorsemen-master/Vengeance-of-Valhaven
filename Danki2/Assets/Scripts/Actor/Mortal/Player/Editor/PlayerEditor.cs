@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [CustomEditor(typeof(Player))]
-public class PlayerEditor : MortalEditor
+public class PlayerEditor : ActorEditor
 {
     public override void OnInspectorGUI()
     {

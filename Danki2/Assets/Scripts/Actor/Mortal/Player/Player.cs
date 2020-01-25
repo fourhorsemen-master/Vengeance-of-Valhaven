@@ -25,7 +25,7 @@ public enum ActionControlState
     None
 }
 
-public class Player : Mortal
+public class Player : Actor
 {
     [HideInInspector]
     public float abilityCooldown = 1f;

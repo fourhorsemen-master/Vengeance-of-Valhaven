@@ -1,1 +1,1 @@
-﻿public class FriendlyEditor : MortalEditor {}
+﻿public class FriendlyEditor : ActorEditor {}
