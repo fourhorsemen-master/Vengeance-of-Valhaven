@@ -22,6 +22,11 @@ public class Fireball : InstantCast
     {
         if (gameObject.TryGetComponent<Actor>(out var actor))
         {
+            if (!actor.Opposes(Context.Owner))
+            {
+                return;
+            }
+
             var strength = Context.Owner.GetStat(Stat.Strength);
             actor.ModifyHealth(-strength);
         }

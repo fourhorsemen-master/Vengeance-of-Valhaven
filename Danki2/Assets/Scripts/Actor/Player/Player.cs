@@ -70,6 +70,13 @@ public class Player : Actor
         );
     }
 
+    protected override void Start()
+    {
+        base.Start();
+
+        this.gameObject.tag = "Player";
+    }
+
     protected override void Update()
     {
         base.Update();
