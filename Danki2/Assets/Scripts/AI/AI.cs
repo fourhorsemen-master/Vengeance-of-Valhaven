@@ -15,6 +15,8 @@ public class AI : MonoBehaviour
 
     private void Update()
     {
+        if (_actor.Dead) return;
+
         _agenda = serializablePlanner.aiElement.Plan(_actor, _agenda);
 
         foreach (AIAction action in _agenda.Keys)
