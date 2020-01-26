@@ -9,8 +9,7 @@
 
     protected override void UpdateAction(Actor actor, float deltaTime)
     {
-        var mortal = (Mortal)actor;
-        mortal.ModifyHealth(-_dps * deltaTime);
+        actor.ModifyHealth(-_dps * deltaTime);
     }
 }
 

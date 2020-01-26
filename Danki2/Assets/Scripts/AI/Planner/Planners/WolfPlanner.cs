@@ -15,7 +15,6 @@ public class WolfPlanner : Planner
 
     public override Agenda Plan(AI ai, Actor actor, Agenda previousAgenda)
     {
-        Mortal mortal = (Mortal)actor;
         Agenda agenda = new Agenda();
 
         _retreatTimer -= Time.deltaTime;
@@ -35,10 +34,10 @@ public class WolfPlanner : Planner
             return agenda;
         }
 
-        int maxHealth = mortal.GetStat(Stat.MaxHealth);
+        int maxHealth = actor.GetStat(Stat.MaxHealth);
         if (
-            (_retreatCount < 1 && mortal.Health < 0.5 * maxHealth) 
-            || (_retreatCount < 2 && mortal.Health < 0.2 * maxHealth)
+            (_retreatCount < 1 && actor.Health < 0.5 * maxHealth) 
+            || (_retreatCount < 2 && actor.Health < 0.2 * maxHealth)
         )
         {
             agenda.Add(AIAction.Retreat, true);

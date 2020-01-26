@@ -9,10 +9,17 @@ public abstract class Actor : MonoBehaviour
     private EffectTracker _effectTracker;
     private MovementManager _movementManager;
 
+    private float _health;
+    public int Health => Mathf.CeilToInt(_health);
+    public bool Dead { get; private set; }
+
     protected virtual void Awake()
     {
         _statsManager = new StatsManager(baseStats);
         _effectTracker = new EffectTracker(this, _statsManager);
+
+        _health = GetStat(Stat.MaxHealth);
+        Dead = false;
     }
 
     protected virtual void Start()
@@ -24,6 +31,12 @@ public abstract class Actor : MonoBehaviour
     protected virtual void Update()
     {
         _effectTracker.ProcessEffects();
+
+        if (_health <= 0f && !Dead)
+        {
+            OnDeath();
+            Dead = true;
+        }
     }
 
     protected virtual void LateUpdate()
@@ -48,9 +61,9 @@ public abstract class Actor : MonoBehaviour
     /// <param name="speed"></param>
     /// <param name="direction"></param>
     /// <param name="override">Whether to override any existing movement lock. Defaults to false.</param>
-    public void LockMovement(float duration, float speed, Vector3 direction, bool @override = false)
+    public void LockMovement(float duration, float speed, Vector3 direction, bool @override = false, bool passThrough = false)
     {
-        _movementManager.LockMovement(duration, speed, direction, @override);
+        _movementManager.LockMovement(duration, speed, direction, @override, passThrough);
     }
 
     /// <summary>
@@ -70,4 +83,13 @@ public abstract class Actor : MonoBehaviour
     {
         _movementManager.MoveToward(target);
     }
+
+    public void ModifyHealth(float healthChange)
+    {
+        if (Dead) return;
+
+        _health = Mathf.Min(_health + healthChange, GetStat(Stat.MaxHealth));
+    }
+
+    protected abstract void OnDeath();
 }

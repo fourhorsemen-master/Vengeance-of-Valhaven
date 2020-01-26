@@ -8,4 +8,9 @@ public static class GameObjectExtensions
         component = @object.GetComponent<T>();
         return component != null;
     }
+
+    public static void SetLayer(this GameObject gameObject, Layer layer)
+    {
+        gameObject.layer = (int)layer;
+    }
 }
