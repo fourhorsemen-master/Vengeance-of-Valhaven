@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
-[Planner("Wolf Planner", new string[] { "Retreat Duration" })]
-public class WolfPlanner : Planner
+[Planner("Retreat when wounded", new string[] { "Retreat Duration" })]
+public class RetreatWhenWounded : Planner
 {
     private int _retreatCount = 0;
     private bool _isRetreating = false;
