@@ -8,16 +8,20 @@ public abstract class Actor : MonoBehaviour
     private StatsManager _statsManager;
     private EffectTracker _effectTracker;
     private MovementManager _movementManager;
+    protected ChannelService _channelService;
 
     private float _health;
     public int Health => Mathf.CeilToInt(_health);
     public bool Dead { get; private set; }
     public bool IsDamaged => Health < GetStat(Stat.MaxHealth);
+    public float RemainingChannelDuration => _channelService.RemainingDuration;
+    public float TotalChannelDuration => _channelService.TotalDuration;
 
     protected virtual void Awake()
     {
         _statsManager = new StatsManager(baseStats);
         _effectTracker = new EffectTracker(this, _statsManager);
+        _channelService = new ChannelService();
 
         _health = GetStat(Stat.MaxHealth);
         Dead = false;
@@ -32,6 +36,7 @@ public abstract class Actor : MonoBehaviour
     protected virtual void Update()
     {
         _effectTracker.ProcessEffects();
+        _channelService.Update();
 
         if (_health <= 0f && !Dead)
         {
@@ -90,6 +95,16 @@ public abstract class Actor : MonoBehaviour
         if (Dead) return;
 
         _health = Mathf.Min(_health + healthChange, GetStat(Stat.MaxHealth));
+    }
+
+    public void StartChannel(Channel channel)
+    {
+        _channelService.Start(channel);
+    }
+
+    public void CancelChannel()
+    {
+        _channelService.Cancel();
     }
 
     protected abstract void OnDeath();

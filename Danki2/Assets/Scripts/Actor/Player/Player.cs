@@ -43,18 +43,13 @@ public class Player : Actor
 
     private float _remainingDashCooldown = 0f;
     private AbilityTree _abilityTree;
-    private ChannelService _channelService;
+    
     private ActionControlState _previousActionControlState = ActionControlState.None;
     private ActionControlState _currentActionControlState = ActionControlState.None;
-
-    public float RemainingChannelDuration => _channelService.RemainingDuration;
-    public float TotalChannelDuration => _channelService.TotalDuration;
 
     protected override void Awake()
     {
         base.Awake();
-
-        _channelService = new ChannelService();
 
         _abilityTree = AbilityTreeFactory.CreateTree(
             AbilityTreeFactory.CreateNode(
@@ -76,8 +71,6 @@ public class Player : Actor
 
         TickDashCooldown();
         TickAbilityCooldown();
-
-        _channelService.Update();
     }
 
     protected override void LateUpdate()

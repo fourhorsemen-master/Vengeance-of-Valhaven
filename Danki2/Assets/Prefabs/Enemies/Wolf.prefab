@@ -159,7 +159,9 @@ MonoBehaviour:
     - _serializedType:
         _serializedType: WolfAttack, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
-      _serializedArgs: []
+      _serializedArgs:
+      - 2
+      - 5
     - _serializedType:
         _serializedType: NoOpBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
@@ -168,7 +170,7 @@ MonoBehaviour:
         _serializedType: FollowTargetAtDistance, Assembly-CSharp, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
       _serializedArgs:
-      - 2
+      - 1.9
     - _serializedType:
         _serializedType: RetreatFromTarget, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
