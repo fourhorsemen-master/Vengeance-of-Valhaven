@@ -27,7 +27,7 @@ public class WolfFindPlayer : Behaviour
             actor.transform.position
         );
 
-        if (distanceToTarget < _aggroRange)
+        if (distanceToTarget < _aggroRange || actor.IsDamaged)
         {
             ai.Target = _target;
             CallFriends(_target, actor);
@@ -49,7 +49,7 @@ public class WolfFindPlayer : Behaviour
         foreach (Wolf wolf in friends)
         {
             float distance = Vector3.Distance(
-                target.transform.position,
+                actor.transform.position,
                 wolf.transform.position
             );
 

@@ -12,6 +12,7 @@ public abstract class Actor : MonoBehaviour
     private float _health;
     public int Health => Mathf.CeilToInt(_health);
     public bool Dead { get; private set; }
+    public bool IsDamaged => Health < GetStat(Stat.MaxHealth);
 
     protected virtual void Awake()
     {
