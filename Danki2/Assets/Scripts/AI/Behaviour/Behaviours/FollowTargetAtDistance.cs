@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[Behaviour("Follow Target At Distance", new string[] { "followDistance" }, new AIAction[] { AIAction.Advance, AIAction.Attack })]
+[Behaviour("Follow Target At Distance", new string[] { "Follow distance" }, new AIAction[] { AIAction.Advance })]
 public class FollowTargetAtDistance : Behaviour
 {
     private float _followDistance;
