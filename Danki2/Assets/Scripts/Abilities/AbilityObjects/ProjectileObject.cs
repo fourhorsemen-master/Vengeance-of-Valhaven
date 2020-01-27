@@ -25,12 +25,10 @@ public abstract class ProjectileObject : MonoBehaviour
         transform.position += transform.forward * _speed * Time.deltaTime;
     }
 
-    private void OnTriggerEnter(Collider other)
+    protected virtual void OnTriggerEnter(Collider other)
     {
         if (other.gameObject == _caster.gameObject) return;
 
         _collisionCallback(other.gameObject);
-
-        Destroy(gameObject);
     }
 }

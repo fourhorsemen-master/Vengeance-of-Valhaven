@@ -18,7 +18,7 @@ class DaggerThrow : InstantCast
         DaggerObject.Fire(Context.Owner, OnCollision, _daggerSpeed, position, rotation);
     }
 
-    public void OnCollision(GameObject gameObject)
+    protected void OnCollision(GameObject gameObject)
     {
         if (gameObject.TryGetComponent<Actor>(out var actor))
         {
