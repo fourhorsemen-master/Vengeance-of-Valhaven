@@ -47,6 +47,7 @@ public class Player : Actor
     private ActionControlState _previousActionControlState = ActionControlState.None;
     private ActionControlState _currentActionControlState = ActionControlState.None;
 
+    public override ActorType Type => ActorType.Player;
     public float RemainingChannelDuration => _channelService.RemainingDuration;
     public float TotalChannelDuration => _channelService.TotalDuration;
 

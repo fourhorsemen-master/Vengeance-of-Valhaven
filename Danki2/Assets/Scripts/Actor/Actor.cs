@@ -13,6 +13,8 @@ public abstract class Actor : MonoBehaviour
     public int Health => Mathf.CeilToInt(_health);
     public bool Dead { get; private set; }
 
+    public abstract ActorType Type { get; }
+
     protected virtual void Awake()
     {
         _statsManager = new StatsManager(baseStats);
