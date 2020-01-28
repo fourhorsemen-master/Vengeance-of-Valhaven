@@ -91,5 +91,10 @@ public abstract class Actor : MonoBehaviour
         _health = Mathf.Min(_health + healthChange, GetStat(Stat.MaxHealth));
     }
 
+    public bool Opposes(Actor target)
+    {
+        return tag != target.tag;
+    }
+
     protected abstract void OnDeath();
 }
