@@ -4,6 +4,6 @@
     {
         base.Start();
 
-        this.gameObject.tag = "Enemy";
+        this.gameObject.tag = Tags.Enemy;
     }
 }

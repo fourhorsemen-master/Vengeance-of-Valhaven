@@ -74,7 +74,7 @@ public class Player : Actor
     {
         base.Start();
 
-        this.gameObject.tag = "Player";
+        this.gameObject.tag = Tags.Player;
     }
 
     protected override void Update()
