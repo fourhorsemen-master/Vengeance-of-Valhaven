@@ -17,6 +17,8 @@ public abstract class Actor : MonoBehaviour
     public float RemainingChannelDuration => _channelService.RemainingDuration;
     public float TotalChannelDuration => _channelService.TotalDuration;
 
+    public abstract ActorType Type { get; }
+
     protected virtual void Awake()
     {
         _statsManager = new StatsManager(baseStats);

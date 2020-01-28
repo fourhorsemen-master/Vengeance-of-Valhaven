@@ -47,6 +47,8 @@ public class Player : Actor
     private ActionControlState _previousActionControlState = ActionControlState.None;
     private ActionControlState _currentActionControlState = ActionControlState.None;
 
+    public override ActorType Type => ActorType.Player;
+
     protected override void Awake()
     {
         base.Awake();
