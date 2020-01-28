@@ -26,7 +26,7 @@ public class Slash : InstantCast
             Quaternion.LookRotation(target - position)
         ).ForEach(actor =>
         {
-            if (true) // TODO: Should check Context.Owner.opposes(actor)...
+            if (owner.Opposes(actor))
             {
                 actor.ModifyHealth(-damage);
             }
