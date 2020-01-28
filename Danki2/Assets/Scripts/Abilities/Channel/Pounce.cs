@@ -13,7 +13,10 @@ public class Pounce : Channel
     public override void Start()
     {
         Debug.Log("Pounce start");
-        Context.Owner.LockMovement(Duration, 0f, Context.TargetPosition - Context.Owner.transform.position);
+        Context.Owner.LockMovement(Duration,
+            0f,
+            (Context.TargetPosition - Context.Owner.transform.position)
+        );
     }
 
     public override void Continue()
@@ -29,6 +32,10 @@ public class Pounce : Channel
     public override void End()
     {
         Debug.Log("Pounce end");
-        Context.Owner.LockMovement(0.5f, Context.Owner.GetStat(Stat.Speed) * 2f, Context.TargetPosition - Context.Owner.transform.position, true);
+        Context.Owner.LockMovement(0.5f,
+            Context.Owner.GetStat(Stat.Speed) * 2f,
+            (Context.TargetPosition - Context.Owner.transform.position),
+            true
+        );
     }
 }

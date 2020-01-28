@@ -49,7 +49,10 @@ public abstract class Actor : MonoBehaviour
 
     protected virtual void LateUpdate()
     {
-        _movementManager.ExecuteMovement();
+        if (!Dead)
+        {
+            _movementManager.ExecuteMovement();
+        }
     }
 
     public int GetStat(Stat stat)
