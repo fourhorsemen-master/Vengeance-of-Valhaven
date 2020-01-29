@@ -15,7 +15,8 @@ public class MouseGamePositionFinder : Singleton<MouseGamePositionFinder>
     }
 
     /// <summary>
-    /// Returns position of mouse when projected to a horizontal plane at a height of 1.25
+    /// Returns position of mouse when projected to a horizontal plane at the height set on
+    /// this component.
     /// </summary>
     /// <returns></returns>
     public Vector3 GetMouseGamePosition()
@@ -31,5 +32,17 @@ public class MouseGamePositionFinder : Singleton<MouseGamePositionFinder>
             Debug.LogError("Unable to find mouse position in world");
             return default;
         }
+    }
+
+    /// <summary>
+    /// Returns the position of the mouse when projected onto the horizontal plane, of the
+    /// height set on this component, and then casts down to the floor.
+    /// </summary>
+    /// <returns></returns>
+    public Vector3 GetFlooredMouseGamePosition()
+    {
+        Vector3 mouseGamePosition = GetMouseGamePosition();
+        mouseGamePosition.y = 0;
+        return mouseGamePosition;
     }
 }

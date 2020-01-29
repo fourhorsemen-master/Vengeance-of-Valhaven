@@ -59,7 +59,7 @@ public class Player : Actor
 
         _abilityTree = AbilityTreeFactory.CreateTree(
             AbilityTreeFactory.CreateNode(
-                AbilityReference.Fireball,
+                AbilityReference.Slash,
                 AbilityTreeFactory.CreateNode(AbilityReference.Roll),
                 AbilityTreeFactory.CreateNode(AbilityReference.Whirlwind)
             ),
