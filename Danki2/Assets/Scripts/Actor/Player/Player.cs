@@ -55,7 +55,7 @@ public class Player : Actor
 
         _abilityTree = AbilityTreeFactory.CreateTree(
             AbilityTreeFactory.CreateNode(
-                AbilityReference.Fireball,
+                AbilityReference.Slash,
                 AbilityTreeFactory.CreateNode(AbilityReference.Roll),
                 AbilityTreeFactory.CreateNode(AbilityReference.Whirlwind)
             ),
@@ -65,6 +65,13 @@ public class Player : Actor
                 AbilityTreeFactory.CreateNode(AbilityReference.ShieldBash)
             )
         );
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+
+        this.gameObject.tag = Tags.Player;
     }
 
     protected override void Update()

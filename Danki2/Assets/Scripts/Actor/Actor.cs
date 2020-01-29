@@ -111,6 +111,11 @@ public abstract class Actor : MonoBehaviour
     {
         _channelService.Cancel();
     }
+        
+    public bool Opposes(Actor target)
+    {
+        return tag != target.tag;
+    }
 
     protected abstract void OnDeath();
 }
