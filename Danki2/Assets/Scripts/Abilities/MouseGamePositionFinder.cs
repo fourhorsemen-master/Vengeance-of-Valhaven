@@ -39,7 +39,7 @@ public class MouseGamePositionFinder : Singleton<MouseGamePositionFinder>
     /// height set on this component, and then casts down to the floor.
     /// </summary>
     /// <returns></returns>
-    public Vector3 GetMouseFlooredMouseGamePosition()
+    public Vector3 GetFlooredMouseGamePosition()
     {
         Vector3 mouseGamePosition = GetMouseGamePosition();
         mouseGamePosition.y = 0;
