@@ -67,12 +67,12 @@ public class WolfFindPlayer : Behaviour
     private IEnumerator AlertFriend(Wolf friend, Player target)
     {
         yield return new WaitForSeconds(1f);
-
-        if (friend.TryGetComponent(out AI ai))
+ 
+        if (friend.TryGetComponent(out AI ai)
+            && ai.Target != target)
         {
             ai.Target = target;
+            friend.Howl();
         }
-
-        friend.Howl();
     }
 }
