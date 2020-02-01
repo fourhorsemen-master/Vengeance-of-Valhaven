@@ -25,6 +25,9 @@ public class FollowTargetAtDistance : Behaviour
         if (distanceToTarget > _followDistance)
         {
             actor.MoveToward(ai.Target.transform.position);
+        } else
+        {
+            actor.FixNextRotation(ai.Target.transform.position - actor.transform.position);
         }
     }
 }
