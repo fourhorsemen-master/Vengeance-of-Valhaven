@@ -11,6 +11,7 @@ public class MovementManager
     private bool _moveLockOn;
     private Vector3 _moveLockDirection;
     private Vector3 _moveDirection;
+    private Vector3 _nextRotation;
 
     public MovementManager(Actor actor, Rigidbody rigidbody)
     {
@@ -21,7 +22,8 @@ public class MovementManager
         _moveLockOn = false;
         _moveLockDirection = Vector3.one;
         _moveDirection = Vector3.zero;
-    }
+        _nextRotation = Vector3.zero;
+}
 
     /// <summary>
     /// Called by the Actor component during orchestration.
@@ -43,12 +45,20 @@ public class MovementManager
 
         _rigidbody.MovePosition(_rigidbody.position + movementVector * Time.deltaTime);
 
-        RotateForwards(movementVector);
+        if (_nextRotation == Vector3.zero)
+        {
+            RotateTorwards(movementVector);
+        }
+        else
+        {
+            RotateTorwards(_nextRotation);
+        }
 
+        _nextRotation = Vector3.zero;
         _moveDirection = Vector3.zero;
     }
 
-    public void LockMovement(float duration, float speed, Vector3 direction, bool @override = false, bool passThrough = false)
+    public void LockMovement(float duration, float speed, Vector3 direction, bool rotateForwards = true, bool @override = false, bool passThrough = false)
     {
         if (_moveLockOn && !@override) return;
         if (passThrough)
@@ -56,10 +66,20 @@ public class MovementManager
             _actor.gameObject.SetLayer(Layer.Ethereal);
         }
 
+        if (rotateForwards)
+        {
+            _rigidbody.rotation = Quaternion.LookRotation(direction);
+        }
+
         _moveLockRemainingDuration = duration;
         _moveLockSpeed = speed;
         _moveLockDirection = direction;
         _moveLockOn = true;
+    }
+
+    public void Root(float duration, Vector3 faceDirection, bool @override = false)
+    {
+        LockMovement(duration, 0f, faceDirection, true, @override);
     }
 
     public void MoveAlong(Vector3 vec)
@@ -73,11 +93,16 @@ public class MovementManager
         MoveAlong(vecToMove);
     }
 
-    private void RotateForwards(Vector3 movementVector)
+    public void FixNextRotation(Vector3 direction)
     {
-        if (!movementVector.Equals(Vector3.zero))
+        _nextRotation = direction;
+    }
+
+    private void RotateTorwards(Vector3 direction)
+    {
+        if (!direction.Equals(Vector3.zero))
         {
-            var desiredRotation = Quaternion.LookRotation(movementVector);
+            var desiredRotation = Quaternion.LookRotation(direction);
             _rigidbody.rotation = Quaternion.Lerp(_rigidbody.rotation, desiredRotation, rotationSmoothing);
         }
     }
