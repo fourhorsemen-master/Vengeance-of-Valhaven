@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -58,11 +59,20 @@ public class WolfFindPlayer : Behaviour
 
             if (distance < _howlRange)
             {
-                if (friend.TryGetComponent(out AI ai))
-                {
-                    ai.Target = target;
-                }
+                wolf.StartCoroutine(AlertFriend(friend, target));
             }
         }
+    }
+
+    private IEnumerator AlertFriend(Wolf friend, Player target)
+    {
+        yield return new WaitForSeconds(1f);
+
+        if (friend.TryGetComponent(out AI ai))
+        {
+            ai.Target = target;
+        }
+
+        friend.Howl();
     }
 }
