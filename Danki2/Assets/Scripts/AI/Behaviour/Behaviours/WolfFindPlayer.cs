@@ -17,6 +17,8 @@ public class WolfFindPlayer : Behaviour
 
     public override void Behave(AI ai, Actor actor)
     {
+        Wolf wolf = (Wolf)actor;
+
         if (!_target)
         {
             _target = GameObject.FindObjectOfType<Player>();
@@ -24,38 +26,39 @@ public class WolfFindPlayer : Behaviour
 
         float distanceToTarget = Vector3.Distance(
             _target.transform.position,
-            actor.transform.position
+            wolf.transform.position
         );
 
-        if (distanceToTarget < _aggroRange || actor.IsDamaged)
+        if (distanceToTarget < _aggroRange || wolf.IsDamaged)
         {
             ai.Target = _target;
-            CallFriends(_target, actor);
+            CallFriends(_target, wolf);
         }
     }
 
     private void CallFriends(Player target, Actor actor)
     {
-        actor.GetComponent<AudioSource>().Play();
+        Wolf wolf = (Wolf)actor;
+        wolf.Howl();
 
         IEnumerable<Wolf> friends = RoomManager.Instance.ActorCache
             .Select(item =>
             {
-                bool isWolf = item.Actor.TryGetComponent(out Wolf wolf);
-                return isWolf ? wolf : null;
+                bool isWolf = item.Actor.TryGetComponent(out Wolf friend);
+                return isWolf ? friend : null;
             })
-            .Where(wolf => wolf != null);
+            .Where(friend => friend != null);
 
-        foreach (Wolf wolf in friends)
+        foreach (Wolf friend in friends)
         {
             float distance = Vector3.Distance(
-                actor.transform.position,
-                wolf.transform.position
+                wolf.transform.position,
+                friend.transform.position
             );
 
             if (distance < _howlRange)
             {
-                if (wolf.TryGetComponent(out AI ai))
+                if (friend.TryGetComponent(out AI ai))
                 {
                     ai.Target = target;
                 }

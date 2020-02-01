@@ -2,7 +2,14 @@
 
 public class Wolf : Enemy
 {
+    public AudioSource howl;
+
     public override ActorType Type => ActorType.Wolf;
+
+    public void Howl()
+    {
+        howl.Play();
+    }
 
     protected override void OnDeath()
     {
