@@ -1063,7 +1063,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0.03125, y: 0.09765625, z: 0.0234375, w: -0.02734375}
+  m_BoundingSphereOverride: {x: 0, y: 9.1837e-41, z: -1.177e-42, w: -5.98e-43}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -2484,7 +2484,7 @@ PrefabInstance:
     - target: {fileID: 8063099716140605082, guid: 8260e327074f77341b478fa6713a9540,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 12.654175
+      value: -6.34
       objectReference: {fileID: 0}
     - target: {fileID: 8063099716140605082, guid: 8260e327074f77341b478fa6713a9540,
         type: 3}
@@ -2525,6 +2525,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3467548966888005537, guid: 8260e327074f77341b478fa6713a9540,
+        type: 3}
+      propertyPath: serializablePersonality._values.Array.data[1]._serializedArgs.Array.data[1]
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3467548966888005537, guid: 8260e327074f77341b478fa6713a9540,
+        type: 3}
+      propertyPath: serializablePersonality._values.Array.data[1]._serializedArgs.Array.data[0]
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8260e327074f77341b478fa6713a9540, type: 3}

@@ -34,6 +34,6 @@ public class Bite : InstantCast
             }
         });
 
-        owner.Root(_finalRootDuration, target - position);
+        owner.Root(_finalRootDuration, owner.transform.forward);
     }
 }

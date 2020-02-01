@@ -10,7 +10,7 @@ public class Pounce : Channel
     private float _initialRootDuration = 0.3f;
     private float _initialRootTimer = 0f;
     private bool _pounceStarted = false;
-    private float _finalRootDuration = 1f;
+    private float _finalRootDuration = 0.3f;
 
     public static float Range => 10f;
 
@@ -35,10 +35,15 @@ public class Pounce : Channel
             return;
         }
 
+        _pounceStarted = true;
+
+        var targetPosition = Context.TargetPosition;
+        targetPosition.y = Context.Owner.transform.position.y;
+
         Context.Owner.LockMovement(
             (Duration - _initialRootDuration),
             Context.Owner.GetStat(Stat.Speed) * 3f,
-            (Context.TargetPosition - Context.Owner.transform.position),
+            (targetPosition - Context.Owner.transform.position),
             @override: true
         );
     }
@@ -73,6 +78,6 @@ public class Pounce : Channel
             }
         });
 
-        owner.Root(_finalRootDuration, target - position, true);
+        owner.Root(_finalRootDuration, owner.transform.forward, true);
     }
 }

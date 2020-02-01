@@ -51,6 +51,7 @@ public class WolfAttack : Behaviour
             {
                 Channel pounce = new Pounce(new AbilityContext(actor, ai.Target.transform.position));
                 actor.StartChannel(pounce);
+                _biteRemainingCooldown = _biteTotalCooldown;
                 _pounceRemainingCooldown = _pounceTotalCooldown;
             }
             return;
