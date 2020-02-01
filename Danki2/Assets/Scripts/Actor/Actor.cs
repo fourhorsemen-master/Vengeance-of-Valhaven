@@ -62,10 +62,12 @@ public abstract class Actor : MonoBehaviour
     /// <param name="duration"></param>
     /// <param name="speed"></param>
     /// <param name="direction"></param>
+    /// <param name="rotateForwards"></param>
     /// <param name="override">Whether to override any existing movement lock. Defaults to false.</param>
-    public void LockMovement(float duration, float speed, Vector3 direction, bool @override = false, bool passThrough = false)
+    /// <param name="passThrough"></param>
+    public void LockMovement(float duration, float speed, Vector3 direction, bool rotateForwards = true, bool @override = false, bool passThrough = false)
     {
-        _movementManager.LockMovement(duration, speed, direction, @override, passThrough);
+        _movementManager.LockMovement(duration, speed, direction, rotateForwards, @override, passThrough);
     }
 
     /// <summary>
