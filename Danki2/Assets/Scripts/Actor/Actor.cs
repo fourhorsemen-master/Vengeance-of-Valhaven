@@ -86,6 +86,26 @@ public abstract class Actor : MonoBehaviour
         _movementManager.MoveToward(target);
     }
 
+    /// <summary>
+    /// Fix the rotation we lerp towards on the next frame.
+    /// </summary>
+    /// <param name="direction"></param>
+    public void FixNextRotation(Vector3 direction)
+    {
+        _movementManager.FixNextRotation(direction);
+    }
+
+    /// <summary>
+    /// Lock actor's position but not it's rotation.
+    /// </summary>
+    /// <param name="duration"></param>
+    /// <param name="faceDirection">Initial direction to face.</param>
+    /// <param name="override"></param>
+    public void Root(float duration, Vector3 faceDirection, bool @override = false)
+    {
+        _movementManager.Root(duration, faceDirection, @override);
+    }
+
     public void ModifyHealth(float healthChange)
     {
         if (Dead) return;
