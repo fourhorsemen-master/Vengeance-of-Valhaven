@@ -3,6 +3,7 @@
 public class Bite : InstantCast
 {
     public static readonly float Range = 2f;
+    private float _finalRootDuration = 0.5f;
 
     public Bite(AbilityContext context) : base(context)
     {
@@ -10,6 +11,8 @@ public class Bite : InstantCast
 
     public override void Cast()
     {
+        Debug.Log("Casting Bite");
+        
         Actor owner = Context.Owner;
 
         Vector3 position = owner.transform.position;
@@ -31,6 +34,6 @@ public class Bite : InstantCast
             }
         });
 
-        owner.Root(0.5f, Context.TargetPosition - Context.Owner.transform.position);
+        owner.Root(_finalRootDuration, target - position);
     }
 }
