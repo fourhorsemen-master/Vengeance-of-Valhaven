@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class ProjectileObject : MonoBehaviour
 {
-    private Actor _caster;
+    protected Actor _caster;
     private float _speed;
     private Action<GameObject> _collisionCallback;
     private bool _isSticky = false;
