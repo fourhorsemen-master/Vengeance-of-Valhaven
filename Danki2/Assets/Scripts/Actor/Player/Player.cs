@@ -47,6 +47,7 @@ public class Player : Actor
     private ActionControlState _previousActionControlState = ActionControlState.None;
     private ActionControlState _currentActionControlState = ActionControlState.None;
 
+    public override ActorType Type => ActorType.Player;
     public float RemainingChannelDuration => _channelService.RemainingDuration;
     public float TotalChannelDuration => _channelService.TotalDuration;
 
@@ -58,7 +59,7 @@ public class Player : Actor
 
         _abilityTree = AbilityTreeFactory.CreateTree(
             AbilityTreeFactory.CreateNode(
-                AbilityReference.Fireball,
+                AbilityReference.Slash,
                 AbilityTreeFactory.CreateNode(AbilityReference.Roll),
                 AbilityTreeFactory.CreateNode(AbilityReference.Whirlwind)
             ),
@@ -68,6 +69,13 @@ public class Player : Actor
                 AbilityTreeFactory.CreateNode(AbilityReference.ShieldBash)
             )
         );
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+
+        this.gameObject.tag = Tags.Player;
     }
 
     protected override void Update()

@@ -13,6 +13,8 @@ public abstract class Actor : MonoBehaviour
     public int Health => Mathf.CeilToInt(_health);
     public bool Dead { get; private set; }
 
+    public abstract ActorType Type { get; }
+
     protected virtual void Awake()
     {
         _statsManager = new StatsManager(baseStats);
@@ -89,6 +91,11 @@ public abstract class Actor : MonoBehaviour
         if (Dead) return;
 
         _health = Mathf.Min(_health + healthChange, GetStat(Stat.MaxHealth));
+    }
+
+    public bool Opposes(Actor target)
+    {
+        return tag != target.tag;
     }
 
     protected abstract void OnDeath();

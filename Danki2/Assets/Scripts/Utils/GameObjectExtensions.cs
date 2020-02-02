@@ -13,4 +13,9 @@ public static class GameObjectExtensions
     {
         gameObject.layer = (int)layer;
     }
+
+    public static bool IsActor(this GameObject gameObject)
+    {
+        return gameObject.tag == Tags.Player || gameObject.tag == Tags.Enemy;
+    }
 }
