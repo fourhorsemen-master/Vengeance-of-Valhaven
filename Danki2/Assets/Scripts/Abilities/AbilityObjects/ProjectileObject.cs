@@ -27,8 +27,10 @@ public abstract class ProjectileObject : MonoBehaviour
 
     protected virtual void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject == _caster.gameObject) return;
+        if (GameObject.ReferenceEquals(_caster.gameObject, other.gameObject)) return;
 
         _collisionCallback(other.gameObject);
+
+        Destroy(gameObject);
     }
 }

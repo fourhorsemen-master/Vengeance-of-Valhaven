@@ -13,12 +13,17 @@ public class DaggerObject : ProjectileObject
 
     override protected void OnTriggerEnter(Collider other)
     {
-        if (!other.GetComponent<Player>())
+        if (!GameObject.ReferenceEquals(_caster.gameObject, other.gameObject))
         {
+            Rigidbody rb = gameObject.GetComponent<Rigidbody>();
+            Destroy(rb);
             transform.SetParent(other.transform);
             _speed = 0f;
         }
-        base.OnTriggerEnter(other);
+        
+        if (other.gameObject == _caster.gameObject) return;
+
+        _collisionCallback(other.gameObject);
         StartCoroutine(Dissapear());
     }
 
