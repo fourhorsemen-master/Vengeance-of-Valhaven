@@ -31,5 +31,7 @@ public class Slash : InstantCast
                 actor.ModifyHealth(-damage);
             }
         });
+
+        GameObject.Instantiate(AbilityObjectPrefabLookup.Instance.SlashObjectPrefab, owner.transform);
     }
 }
