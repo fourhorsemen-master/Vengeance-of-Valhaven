@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public abstract class ProjectileObject : MonoBehaviour
 {
-    protected Actor _caster;
-    protected float _speed;
-    protected Action<GameObject> _collisionCallback;
+    private Actor _caster;
+    private float _speed;
+    private Action<GameObject> _collisionCallback;
+    private bool _isSticky = false;
+    private float _stickTime = 0f;
 
     /// <summary>
     /// To be called after instantiation. Subclasses will have their own Initialise methods with extra paramaters which will call this first.
@@ -13,11 +16,19 @@ public abstract class ProjectileObject : MonoBehaviour
     /// <param name="caster"></param>
     /// <param name="collisionCallback"></param>
     /// <param name="speed"></param>
-    protected void InitialiseProjectile(Actor caster, Action<GameObject> collisionCallback, float speed)
+    protected ProjectileObject InitialiseProjectile(Actor caster, Action<GameObject> collisionCallback, float speed)
     {
         _caster = caster;
         _collisionCallback = collisionCallback;
         _speed = speed;
+
+        return this;
+    }
+
+    public void SetSticky(float stickTime)
+    {
+        _isSticky = true;
+        _stickTime = stickTime;
     }
 
     private void Update()
@@ -31,6 +42,23 @@ public abstract class ProjectileObject : MonoBehaviour
 
         _collisionCallback(other.gameObject);
 
+        if (!_isSticky)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Rigidbody rb = gameObject.GetComponent<Rigidbody>();
+        Destroy(rb);
+        transform.SetParent(other.transform);
+        _speed = 0f;
+
+        StartCoroutine(DissapearAfter(_stickTime));
+    }
+
+    IEnumerator DissapearAfter(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
         Destroy(gameObject);
     }
 }
