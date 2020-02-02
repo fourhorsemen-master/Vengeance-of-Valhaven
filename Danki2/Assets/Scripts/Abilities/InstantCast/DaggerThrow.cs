@@ -2,7 +2,7 @@
 
 class DaggerThrow : InstantCast
 {
-    private static readonly float _daggerSpeed = 10f;
+    private static readonly float _daggerSpeed = 20f;
     private static readonly Vector3 _positionTransform = new Vector3(0, 1.25f, 0);
 
     public DaggerThrow(AbilityContext context) : base(context)
