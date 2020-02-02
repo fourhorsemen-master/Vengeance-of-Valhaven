@@ -9,6 +9,8 @@ public class CollisionTemplateManager : Singleton<CollisionTemplateManager>
 
     private readonly CollisionTemplateDictionary instanceLookup = new CollisionTemplateDictionary((Collider)null);
 
+    private readonly Dictionary<Collider, bool> MeshColliderCheck = new Dictionary<Collider, bool> { };
+
     protected override void Awake()
     {
         base.Awake();
@@ -22,6 +24,11 @@ public class CollisionTemplateManager : Singleton<CollisionTemplateManager>
                 continue;
             }
             instanceLookup[template] = Instantiate(prefab, Vector3.zero, Quaternion.identity);
+
+            MeshColliderCheck.Add(
+                prefab,
+                prefab.gameObject.TryGetComponent<MeshCollider>(out var meshCollider)
+            );
         }
     }
 
@@ -29,6 +36,14 @@ public class CollisionTemplateManager : Singleton<CollisionTemplateManager>
     {
         Collider templateInstance = instanceLookup[template];
         templateInstance.transform.localScale = Vector3.one * scale;
+
+        if (MeshColliderCheck[templateInstance])
+        {
+            var meshCollider = (MeshCollider)templateInstance;
+            var temp = meshCollider.sharedMesh;
+            meshCollider.sharedMesh = null;
+            meshCollider.sharedMesh = temp;
+        }
 
         return RoomManager.Instance.ActorCache
             .Where(actorCacheItem => Physics.ComputePenetration(
