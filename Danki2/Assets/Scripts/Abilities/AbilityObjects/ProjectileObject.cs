@@ -40,6 +40,8 @@ public abstract class ProjectileObject : MonoBehaviour
     {
         if (GameObject.ReferenceEquals(_caster.gameObject, other.gameObject)) return;
 
+        Debug.Log(other.gameObject.name.ToString());
+
         _collisionCallback(other.gameObject);
 
         if (!_isSticky)
@@ -50,6 +52,8 @@ public abstract class ProjectileObject : MonoBehaviour
 
         Rigidbody rb = gameObject.GetComponent<Rigidbody>();
         Destroy(rb);
+        Collider coll = gameObject.GetComponent<Collider>();
+        Destroy(coll);
         transform.SetParent(other.transform);
         _speed = 0f;
 
