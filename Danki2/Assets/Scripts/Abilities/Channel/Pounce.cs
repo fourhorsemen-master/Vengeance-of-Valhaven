@@ -13,6 +13,7 @@ public class Pounce : Channel
     private float _finalRootDuration = 0.3f;
 
     public static float Range => 10f;
+    public static readonly float PounceSpeedMultiplier = 3f;
 
     public override void Start()
     {
@@ -37,12 +38,12 @@ public class Pounce : Channel
 
         _pounceStarted = true;
 
-        var targetPosition = Context.TargetPosition;
+        Vector3 targetPosition = Context.TargetPosition;
         targetPosition.y = Context.Owner.transform.position.y;
 
         Context.Owner.LockMovement(
             (Duration - _initialRootDuration),
-            Context.Owner.GetStat(Stat.Speed) * 3f,
+            Context.Owner.GetStat(Stat.Speed) * PounceSpeedMultiplier,
             (targetPosition - Context.Owner.transform.position),
             @override: true
         );

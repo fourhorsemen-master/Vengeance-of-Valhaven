@@ -7,7 +7,6 @@ public class WolfFindPlayer : Behaviour
 {
     private float _aggroRange;
     private float _howlRange;
-    private Player _target = null;
 
     public override void Initialize()
     {
@@ -18,27 +17,22 @@ public class WolfFindPlayer : Behaviour
     public override void Behave(AI ai, Actor actor)
     {
         Wolf wolf = (Wolf)actor;
-
-        if (!_target)
-        {
-            _target = GameObject.FindObjectOfType<Player>();
-        }
+        Player target = RoomManager.Instance.Player;
 
         float distanceToTarget = Vector3.Distance(
-            _target.transform.position,
+            target.transform.position,
             wolf.transform.position
         );
 
         if (distanceToTarget < _aggroRange || wolf.IsDamaged)
         {
-            ai.Target = _target;
-            CallFriends(_target, wolf);
+            ai.Target = target;
+            CallFriends(target, wolf);
         }
     }
 
-    private void CallFriends(Player target, Actor actor)
+    private void CallFriends(Player target, Wolf wolf)
     {
-        Wolf wolf = (Wolf)actor;
         wolf.Howl();
 
         IEnumerable<Wolf> friends = RoomManager.Instance.ActorCache
