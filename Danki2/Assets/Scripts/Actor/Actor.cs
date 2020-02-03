@@ -62,10 +62,12 @@ public abstract class Actor : MonoBehaviour
     /// <param name="duration"></param>
     /// <param name="speed"></param>
     /// <param name="direction"></param>
+    /// <param name="rotateForwards"></param>
     /// <param name="override">Whether to override any existing movement lock. Defaults to false.</param>
-    public void LockMovement(float duration, float speed, Vector3 direction, bool @override = false, bool passThrough = false)
+    /// <param name="passThrough"></param>
+    public void LockMovement(float duration, float speed, Vector3 direction, bool rotateForwards = true, bool @override = false, bool passThrough = false)
     {
-        _movementManager.LockMovement(duration, speed, direction, @override, passThrough);
+        _movementManager.LockMovement(duration, speed, direction, rotateForwards, @override, passThrough);
     }
 
     /// <summary>
@@ -84,6 +86,26 @@ public abstract class Actor : MonoBehaviour
     public void MoveToward(Vector3 target)
     {
         _movementManager.MoveToward(target);
+    }
+
+    /// <summary>
+    /// Fix the rotation we lerp towards on the next frame.
+    /// </summary>
+    /// <param name="direction"></param>
+    public void FixNextRotation(Vector3 direction)
+    {
+        _movementManager.FixNextRotation(direction);
+    }
+
+    /// <summary>
+    /// Lock actor's position but not it's rotation.
+    /// </summary>
+    /// <param name="duration"></param>
+    /// <param name="faceDirection">Initial direction to face.</param>
+    /// <param name="override"></param>
+    public void Root(float duration, Vector3 faceDirection, bool @override = false)
+    {
+        _movementManager.Root(duration, faceDirection, @override);
     }
 
     public void ModifyHealth(float healthChange)
