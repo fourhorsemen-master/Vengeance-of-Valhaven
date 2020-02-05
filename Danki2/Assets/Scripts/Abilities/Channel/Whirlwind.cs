@@ -3,10 +3,10 @@
 public class Whirlwind : Channel
 {
     private static readonly float spinRange = 2;
-    private static readonly float spinDpsMultiplier = 0.5f;
+    private static readonly float spinDpsMultiplier = 0.3f;
     private static readonly float slowMultiplier = 0.5f;
-    private static readonly float finishRange = 3f;
-    private static readonly float finishDamageMultiplier = 2;
+    private static readonly float finishRange = 3;
+    private static readonly float finishDamageMultiplier = 1;
 
     public Whirlwind(AbilityContext context) : base(context) { }
 
@@ -29,6 +29,20 @@ public class Whirlwind : Channel
 
     private void AOE(float size, float damageMultiplier)
     {
+        Actor owner = Context.Owner;
+        float damage = owner.GetStat(Stat.Strength) * damageMultiplier;
 
+        CollisionTemplateManager.Instance.GetCollidingActors(
+            CollisionTemplate.Cylinder,
+            size,
+            owner.transform.position,
+            Quaternion.identity
+        ).ForEach(actor =>
+        {
+            if (actor.Opposes(owner))
+            {
+                actor.ModifyHealth(-damage);
+            }
+        });
     }
 }
