@@ -1,13 +1,16 @@
 ﻿using UnityEngine;
 
-[Behaviour("Wolf Attack", new string[] { "Bite Cooldown", "Pounce Cooldown" }, new AIAction[] { AIAction.Attack })]
+[Behaviour("Wolf Attack", new string[] {  }, new AIAction[] { AIAction.Attack })]
 public class WolfAttack : Behaviour
 {
     public override void Behave(Actor actor)
     {
         Wolf wolf = (Wolf)actor;
 
-        if (!wolf.biteOffCooldown || !wolf.Target)
+        if (!wolf.BiteOffCooldown
+            || !wolf.Target
+            || wolf.RemainingChannelDuration > 0
+        ) 
         {
             return;
         }
@@ -23,7 +26,7 @@ public class WolfAttack : Behaviour
             return;
         }
 
-        if (!wolf.pounceOffCooldown && distanceToTarget < Pounce.Range)
+        if (wolf.PounceOffCooldown && distanceToTarget < Pounce.Range)
         {
             wolf.Pounce();
             return;

@@ -128,7 +128,11 @@ MonoBehaviour:
   baseStats:
     _keys: 000000000100000002000000
     _values: 1f0000000500000002000000
+  Target: {fileID: 0}
   howl: {fileID: -3268726625634297962}
+  howlRange: 10
+  _biteTotalCooldown: 3
+  _pounceTotalCooldown: 6
 --- !u!114 &3467548966888005537
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -161,8 +165,8 @@ MonoBehaviour:
         _serializedType: WolfAttack, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
       _serializedArgs:
-      - 2
-      - 5
+      - 0
+      - 0
     - _serializedType:
         _serializedType: NoOpBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
@@ -180,7 +184,6 @@ MonoBehaviour:
         _serializedType: NoOpBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
       _serializedArgs: []
-  Target: {fileID: 0}
 --- !u!82 &-3268726625634297962
 AudioSource:
   m_ObjectHideFlags: 0
