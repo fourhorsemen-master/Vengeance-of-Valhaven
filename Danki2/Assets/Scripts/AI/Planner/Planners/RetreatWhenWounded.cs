@@ -13,7 +13,7 @@ public class RetreatWhenWounded : Planner
         _retreatDuration = Args[0];
     }
 
-    public override Agenda Plan(AI ai, Actor actor, Agenda previousAgenda)
+    public override Agenda Plan(Actor actor, Agenda previousAgenda)
     {
         Agenda agenda = new Agenda();
 
@@ -21,7 +21,7 @@ public class RetreatWhenWounded : Planner
         _isRetreating = _isRetreating && _retreatTimer > 0f;
 
         // Find Target Behaviour
-        if (!ai.Target)
+        if (!actor.Target)
         {
             agenda.Add(AIAction.FindTarget, true);
             return agenda;

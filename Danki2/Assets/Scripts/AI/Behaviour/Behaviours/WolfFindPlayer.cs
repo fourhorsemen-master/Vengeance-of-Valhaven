@@ -14,7 +14,7 @@ public class WolfFindPlayer : Behaviour
         _howlRange = Args[1];
     }
 
-    public override void Behave(AI ai, Actor actor)
+    public override void Behave(Actor actor)
     {
         Wolf wolf = (Wolf)actor;
         Player target = RoomManager.Instance.Player;
@@ -26,7 +26,7 @@ public class WolfFindPlayer : Behaviour
 
         if (distanceToTarget < _aggroRange || wolf.IsDamaged)
         {
-            ai.Target = target;
+            wolf.Target = target;
             CallFriends(target, wolf);
         }
     }
@@ -54,7 +54,7 @@ public class WolfFindPlayer : Behaviour
             {
                 if (friend.TryGetComponent(out AI ai))
                 {
-                    ai.Target = target;
+                    wolf.Target = target;
                 }
             }
         }

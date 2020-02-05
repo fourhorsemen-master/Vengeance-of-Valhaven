@@ -10,7 +10,7 @@ public class FindPlayer : Behaviour
         _aggroRange = Args[0];
     }
 
-    public override void Behave(AI ai, Actor actor)
+    public override void Behave(Actor actor)
     {
         Debug.Log("Finding player...");
 
@@ -23,7 +23,7 @@ public class FindPlayer : Behaviour
 
         if (distanceToTarget < _aggroRange)
         {
-            ai.Target = target;
+            actor.Target = target;
         }
     }
 }

@@ -3,57 +3,29 @@
 [Behaviour("Wolf Attack", new string[] { "Bite Cooldown", "Pounce Cooldown" }, new AIAction[] { AIAction.Attack })]
 public class WolfAttack : Behaviour
 {
-    private float _biteTotalCooldown;
-    private float _pounceTotalCooldown;
-
-    private float _biteRemainingCooldown = 0f;
-    private float _pounceRemainingCooldown = 0f;
-
-    public override void Initialize()
+    public override void Behave(Actor actor)
     {
-        _biteTotalCooldown = Args[0];
-        _pounceTotalCooldown = Args[1];
-    }
+        Wolf wolf = (Wolf)actor;
 
-    public override void Behave(AI ai, Actor actor)
-    {
-        _biteRemainingCooldown -= Time.deltaTime;
-        _pounceRemainingCooldown -= Time.deltaTime;
-
-        if (actor.RemainingChannelDuration > 0)
-        {
-            return;
-        }
-
-        if (!ai.Target)
+        if (!wolf.biteOffCooldown || !wolf.Target)
         {
             return;
         }
 
         float distanceToTarget = Vector3.Distance(
-            actor.transform.position,
-            ai.Target.transform.position
+            wolf.transform.position,
+            wolf.Target.transform.position
         );
 
         if (distanceToTarget < Bite.Range)
         {
-            if (_biteRemainingCooldown <= 0)
-            {
-                new Bite(new AbilityContext(actor, ai.Target.transform.position)).Cast();
-                _biteRemainingCooldown = _biteTotalCooldown;
-            }
+            wolf.Bite();
             return;
         }
 
-        if (distanceToTarget < Pounce.Range)
+        if (!wolf.pounceOffCooldown && distanceToTarget < Pounce.Range)
         {
-            if (_pounceRemainingCooldown <= 0)
-            {
-                Channel pounce = new Pounce(new AbilityContext(actor, ai.Target.transform.position));
-                actor.StartChannel(pounce);
-                _biteRemainingCooldown = _biteTotalCooldown;
-                _pounceRemainingCooldown = _pounceTotalCooldown;
-            }
+            wolf.Pounce();
             return;
         }
 

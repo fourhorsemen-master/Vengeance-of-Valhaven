@@ -4,6 +4,8 @@ public abstract class Actor : MonoBehaviour
 {
     [HideInInspector]
     public Stats baseStats = new Stats(0);
+    [HideInInspector]
+    public Actor Target = null;
 
     private StatsManager _statsManager;
     private EffectTracker _effectTracker;
