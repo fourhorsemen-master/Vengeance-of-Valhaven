@@ -6,11 +6,11 @@
     
     public abstract float Duration { get; }
 
-    public abstract void Start();
+    public virtual void Start() { }
 
-    public abstract void Continue();
+    public virtual void Continue() { }
 
-    public abstract void Cancel();
+    public virtual void Cancel() { }
 
-    public abstract void End();
+    public virtual void End() { }
 }

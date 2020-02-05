@@ -2,29 +2,33 @@
 
 public class Whirlwind : Channel
 {
-    public Whirlwind(AbilityContext context) : base(context)
-    {
-    }
+    private static readonly float spinRange = 2;
+    private static readonly float spinDpsMultiplier = 0.5f;
+    private static readonly float slowMultiplier = 0.5f;
+    private static readonly float finishRange = 3f;
+    private static readonly float finishDamageMultiplier = 2;
+
+    public Whirlwind(AbilityContext context) : base(context) { }
 
     public override float Duration => 3f;
 
     public override void Start()
     {
-        Debug.Log("Whirlwind start");
+        AOE(spinRange, spinDpsMultiplier * Time.deltaTime);
     }
 
     public override void Continue()
     {
-        Debug.Log("Whirlwind continuing");
-    }
-
-    public override void Cancel()
-    {
-        Debug.Log("Whirlwind cancelled");
+        AOE(spinRange, spinDpsMultiplier * Time.deltaTime);
     }
 
     public override void End()
     {
-        Debug.Log("Whirlwind end");
+        AOE(finishRange, finishDamageMultiplier);
+    }
+
+    private void AOE(float size, float damageMultiplier)
+    {
+
     }
 }
