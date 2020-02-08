@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class CollisionTemplateManager : Singleton<CollisionTemplateManager>
 {
-    public CollisionTemplateDictionary prefabLookup = new CollisionTemplateDictionary((Collider)null);
+    public CollisionTemplateDictionary prefabLookup = new CollisionTemplateDictionary((MeshCollider)null);
 
-    private readonly CollisionTemplateDictionary instanceLookup = new CollisionTemplateDictionary((Collider)null);
+    private readonly CollisionTemplateDictionary instanceLookup = new CollisionTemplateDictionary((MeshCollider)null);
 
     protected override void Awake()
     {
@@ -15,7 +15,7 @@ public class CollisionTemplateManager : Singleton<CollisionTemplateManager>
 
         foreach (CollisionTemplate template in Enum.GetValues(typeof(CollisionTemplate)))
         {
-            Collider prefab = prefabLookup[template];
+            MeshCollider prefab = prefabLookup[template];
             if (prefab == null)
             {
                 Debug.LogError($"No prefab found for template: {template.ToString()}");
@@ -27,14 +27,13 @@ public class CollisionTemplateManager : Singleton<CollisionTemplateManager>
 
     public List<Actor> GetCollidingActors(CollisionTemplate template, float scale, Vector3 position, Quaternion rotation)
     {
-        Collider templateInstance = instanceLookup[template];
-        templateInstance.transform.localScale = Vector3.one * scale;
+        MeshCollider templateInstance = instanceLookup[template];
 
-        if (templateInstance.gameObject.TryGetComponent<MeshCollider>(out var meshCollider))
+        float currentScale = templateInstance.transform.localScale.magnitude;
+        if (currentScale != scale)
         {
-            var temp = meshCollider.sharedMesh;
-            meshCollider.sharedMesh = null;
-            meshCollider.sharedMesh = temp;
+            templateInstance.transform.localScale = Vector3.one * scale;
+            ResetMesh(templateInstance);
         }
 
         return RoomManager.Instance.ActorCache
@@ -50,5 +49,16 @@ public class CollisionTemplateManager : Singleton<CollisionTemplateManager>
             ))
             .Select(actorCacheItem => actorCacheItem.Actor)
             .ToList();
+    }
+
+    /// <summary>
+    /// After changing the scale of a transform, collider components take more than a frame to update. This method manually reapplies the collider mesh, forcing immediate recalculation of scale.
+    /// </summary>
+    /// <param name="templateInstance"></param>
+    private void ResetMesh(MeshCollider templateInstance)
+    {
+        var temp = templateInstance.sharedMesh;
+        templateInstance.sharedMesh = null;
+        templateInstance.sharedMesh = temp;
     }
 }

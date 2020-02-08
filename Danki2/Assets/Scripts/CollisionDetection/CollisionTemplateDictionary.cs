@@ -2,13 +2,13 @@
 using UnityEngine;
 
 [Serializable]
-public class CollisionTemplateDictionary : SerializableEnumDictionary<CollisionTemplate, Collider>
+public class CollisionTemplateDictionary : SerializableEnumDictionary<CollisionTemplate, MeshCollider>
 {
-    public CollisionTemplateDictionary(Collider defaultValue) : base(defaultValue)
+    public CollisionTemplateDictionary(MeshCollider defaultValue) : base(defaultValue)
     {
     }
 
-    public CollisionTemplateDictionary(SerializableEnumDictionary<CollisionTemplate, Collider> dictionary) : base(dictionary)
+    public CollisionTemplateDictionary(SerializableEnumDictionary<CollisionTemplate, MeshCollider> dictionary) : base(dictionary)
     {
     }
 }
