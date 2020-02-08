@@ -20,10 +20,12 @@ public class WolfAttack : Behaviour
 
     public override void Behave(AI ai, Actor actor)
     {
+        Wolf wolf = (Wolf)actor;
+
         _biteRemainingCooldown -= Time.deltaTime;
         _pounceRemainingCooldown -= Time.deltaTime;
 
-        if (actor.RemainingChannelDuration > 0)
+        if (wolf.RemainingChannelDuration > 0)
         {
             return;
         }
@@ -34,7 +36,7 @@ public class WolfAttack : Behaviour
         }
 
         float distanceToTarget = Vector3.Distance(
-            actor.transform.position,
+            wolf.transform.position,
             ai.Target.transform.position
         );
 
@@ -42,10 +44,13 @@ public class WolfAttack : Behaviour
         {
             if (_biteRemainingCooldown <= 0)
             {
-                new Bite(new AbilityContext(actor, ai.Target.transform.position)).Cast();
+                new Bite(new AbilityContext(wolf, ai.Target.transform.position)).Cast();
                 _biteRemainingCooldown = _biteTotalCooldown;
             }
-            return;
+            else if (_biteRemainingCooldown <= 0.5)
+            {
+                wolf.ShowWarning(0.5f);
+            }
         }
 
         if (distanceToTarget < Pounce.Range
@@ -53,12 +58,12 @@ public class WolfAttack : Behaviour
         {
             if (_pounceRemainingCooldown <= 0)
             {
-                Channel pounce = new Pounce(new AbilityContext(actor, ai.Target.transform.position));
-                actor.StartChannel(pounce);
+                wolf.ShowWarning(0.3f);
+                Channel pounce = new Pounce(new AbilityContext(wolf, ai.Target.transform.position));
+                wolf.StartChannel(pounce);
                 _biteRemainingCooldown = _biteTotalCooldown;
                 _pounceRemainingCooldown = _pounceTotalCooldown;
             }
-            return;
         }
 
     }
