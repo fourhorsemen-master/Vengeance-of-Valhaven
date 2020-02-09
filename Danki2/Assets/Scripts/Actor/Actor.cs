@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 
 public abstract class Actor : MonoBehaviour
@@ -139,5 +141,18 @@ public abstract class Actor : MonoBehaviour
         return tag != target.tag;
     }
 
+    public void WaitAndCast(float waitTime, Func<InstantCast> abilityFactory)
+    {
+        StartCoroutine(
+            WaitAndCastCoroutine(waitTime, abilityFactory)
+        );
+    }
+
     protected abstract void OnDeath();
+
+    IEnumerator WaitAndCastCoroutine(float waitTime, Func<InstantCast> abilityFactory)
+    {
+        yield return new WaitForSeconds(waitTime);
+        abilityFactory.Invoke().Cast();
+    }
 }
