@@ -30,12 +30,12 @@ public class Ability
         { AbilityReference.DaggerThrow, c => new DaggerThrow(c) },
         { AbilityReference.Bite, c => new Bite(c) },
         { AbilityReference.Roll, c => new Roll(c) },
+        { AbilityReference.Pounce, c => new Pounce(c) },
     };
 
     private static Dictionary<AbilityReference, Func<AbilityContext, Channel>> _channels = new Dictionary<AbilityReference, Func<AbilityContext, Channel>>
     {
         { AbilityReference.Whirlwind, c => new Whirlwind(c) },
-        { AbilityReference.Pounce, c => new Pounce(c) },
     };
 
     public static bool TryGetAsInstantCastBuilder(AbilityReference abilityRef, out Func<AbilityContext, InstantCast> ability)

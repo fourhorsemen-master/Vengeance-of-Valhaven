@@ -1,10 +1,10 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 [Behaviour("Wolf Attack", new string[] { "Bite Cooldown", "Pounce Cooldown", "Pounce Min Range" }, new AIAction[] { AIAction.Attack })]
 public class WolfAttack : Behaviour
 {
     private float _biteCastTime = 0.5f;
+    private float _pounceCastTime = 0.5f;
 
     private float _biteTotalCooldown;
     private float _pounceTotalCooldown;
@@ -27,11 +27,6 @@ public class WolfAttack : Behaviour
 
         _biteRemainingCooldown -= Time.deltaTime;
         _pounceRemainingCooldown -= Time.deltaTime;
-
-        if (wolf.RemainingChannelDuration > 0)
-        {
-            return;
-        }
 
         if (!ai.Target)
         {
@@ -61,9 +56,11 @@ public class WolfAttack : Behaviour
         {
             if (_pounceRemainingCooldown <= 0)
             {
-                wolf.ShowWarning(0.3f);
-                Channel pounce = new Pounce(new AbilityContext(wolf, ai.Target.transform.position));
-                wolf.StartChannel(pounce);
+                wolf.ShowWarning(_pounceCastTime);
+                wolf.WaitAndCast(_pounceCastTime, () =>
+                    new Pounce(new AbilityContext(wolf, ai.Target.transform.position))
+                );
+
                 _biteRemainingCooldown = _biteTotalCooldown;
                 _pounceRemainingCooldown = _pounceTotalCooldown;
             }

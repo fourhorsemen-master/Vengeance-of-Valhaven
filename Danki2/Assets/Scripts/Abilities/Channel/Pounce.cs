@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-public class Pounce : Channel
+public class PounceOld : Channel
 {
-    public Pounce(AbilityContext context) : base(context)
+    public PounceOld(AbilityContext context) : base(context)
     {
     }
 
@@ -55,18 +55,15 @@ public class Pounce : Channel
 
     public override void End()
     {
-        Debug.Log("Pounce end");
 
         Actor owner = Context.Owner;
-
-        Vector3 position = owner.transform.position;
 
         float damage = owner.GetStat(Stat.Strength);
 
         CollisionTemplateManager.Instance.GetCollidingActors(
             CollisionTemplate.Wedge90,
             Range,
-            position,
+            owner.transform.position,
             Quaternion.LookRotation(owner.transform.forward)
         ).ForEach(actor =>
         {
