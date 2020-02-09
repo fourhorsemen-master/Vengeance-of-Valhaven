@@ -60,8 +60,6 @@ public class Pounce : Channel
         Actor owner = Context.Owner;
 
         Vector3 position = owner.transform.position;
-        Vector3 target = Context.TargetPosition;
-        target.y = 0;
 
         float damage = owner.GetStat(Stat.Strength);
 
@@ -69,9 +67,10 @@ public class Pounce : Channel
             CollisionTemplate.Wedge90,
             Range,
             position,
-            Quaternion.LookRotation(target - position)
+            Quaternion.LookRotation(owner.transform.forward)
         ).ForEach(actor =>
         {
+            Debug.Log(actor.tag);
             if (owner.Opposes(actor))
             {
                 actor.ModifyHealth(-damage);
