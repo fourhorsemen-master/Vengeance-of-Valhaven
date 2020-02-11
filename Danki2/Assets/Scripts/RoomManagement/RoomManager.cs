@@ -5,6 +5,7 @@ using UnityEngine;
 public class RoomManager : Singleton<RoomManager>
 {
     public List<ActorCacheItem> ActorCache { get; private set; }
+    public Player Player { get; private set; }
 
     private void Start()
     {
@@ -16,6 +17,11 @@ public class RoomManager : Singleton<RoomManager>
                 {
                     Debug.LogError($"Found actor, of type {actor.GetType()}, without a collider");
                     return null;
+                }
+
+                if (actor.Type == ActorType.Player)
+                {
+                    Player = (Player)actor;
                 }
 
                 return new ActorCacheItem(actor, collider);

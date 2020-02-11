@@ -4,14 +4,20 @@ public abstract class Actor : MonoBehaviour
 {
     [HideInInspector]
     public Stats baseStats = new Stats(0);
+    [HideInInspector]
+    public Actor Target = null;
 
     private StatsManager _statsManager;
     private EffectTracker _effectTracker;
     private MovementManager _movementManager;
+    protected ChannelService _channelService;
 
     private float _health;
     public int Health => Mathf.CeilToInt(_health);
     public bool Dead { get; private set; }
+    public bool IsDamaged => Health < GetStat(Stat.MaxHealth);
+    public float RemainingChannelDuration => _channelService.RemainingDuration;
+    public float TotalChannelDuration => _channelService.TotalDuration;
 
     public abstract ActorType Type { get; }
 
@@ -19,6 +25,7 @@ public abstract class Actor : MonoBehaviour
     {
         _statsManager = new StatsManager(baseStats);
         _effectTracker = new EffectTracker(this, _statsManager);
+        _channelService = new ChannelService();
 
         _health = GetStat(Stat.MaxHealth);
         Dead = false;
@@ -33,6 +40,7 @@ public abstract class Actor : MonoBehaviour
     protected virtual void Update()
     {
         _effectTracker.ProcessEffects();
+        _channelService.Update();
 
         if (_health <= 0f && !Dead)
         {
@@ -43,7 +51,10 @@ public abstract class Actor : MonoBehaviour
 
     protected virtual void LateUpdate()
     {
-        _movementManager.ExecuteMovement();
+        if (!Dead)
+        {
+            _movementManager.ExecuteMovement();
+        }
     }
 
     public int GetStat(Stat stat)
@@ -115,6 +126,16 @@ public abstract class Actor : MonoBehaviour
         _health = Mathf.Min(_health + healthChange, GetStat(Stat.MaxHealth));
     }
 
+    public void StartChannel(Channel channel)
+    {
+        _channelService.Start(channel);
+    }
+
+    public void CancelChannel()
+    {
+        _channelService.Cancel();
+    }
+        
     public bool Opposes(Actor target)
     {
         return tag != target.tag;

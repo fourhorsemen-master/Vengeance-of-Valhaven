@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 2369984067544073560}
   - component: {fileID: 5134676781764737243}
   - component: {fileID: -1347520900970919038}
+  - component: {fileID: 3467548966888005537}
+  - component: {fileID: -3268726625634297962}
   m_Layer: 0
   m_Name: Wolf
   m_TagString: Untagged
@@ -125,7 +127,159 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseStats:
     _keys: 000000000100000002000000
-    _values: 0a0000000f00000005000000
+    _values: 1f0000000500000002000000
+  Target: {fileID: 0}
+  howl: {fileID: -3268726625634297962}
+  howlRange: 10
+  _biteTotalCooldown: 3
+  _pounceTotalCooldown: 6
+--- !u!114 &3467548966888005537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8501680027219967870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19514c5d500c2bd459b1f556adf129a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _actor: {fileID: -1347520900970919038}
+  serializablePlanner:
+    _serializedType:
+      _serializedType: RetreatWhenWounded, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+    _serializedArgs:
+    - 2
+  serializablePersonality:
+    _keys: 000000000100000002000000030000000400000005000000
+    _values:
+    - _serializedType:
+        _serializedType: WolfFindPlayer, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+      _serializedArgs:
+      - 10
+      - 15
+    - _serializedType:
+        _serializedType: WolfAttack, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+      _serializedArgs:
+      - 0
+      - 0
+    - _serializedType:
+        _serializedType: NoOpBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+      _serializedArgs: []
+    - _serializedType:
+        _serializedType: FollowTargetAtDistance, Assembly-CSharp, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+      _serializedArgs:
+      - 1.9
+    - _serializedType:
+        _serializedType: RetreatFromTarget, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+      _serializedArgs: []
+    - _serializedType:
+        _serializedType: NoOpBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+      _serializedArgs: []
+--- !u!82 &-3268726625634297962
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8501680027219967870}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 5b4b4a2a76147e544afb5bfebe74f8f5, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &2645369042069280362
 PrefabInstance:
   m_ObjectHideFlags: 0

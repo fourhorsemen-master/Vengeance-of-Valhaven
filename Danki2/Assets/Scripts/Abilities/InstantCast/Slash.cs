@@ -2,7 +2,7 @@
 
 public class Slash : InstantCast
 {
-    private static readonly float range = 4;
+    private static readonly float range = 4f;
     private static readonly float damageMultiplyer = 1.5f;
 
     public Slash(AbilityContext context) : base(context)
