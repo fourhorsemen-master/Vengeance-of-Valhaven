@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class WarningSign : MonoBehaviour
 {
     [SerializeField]
-    private Text _exclaimationMark;
+    private Text _exclaimationMark = null;
 
     public void Start()
     {

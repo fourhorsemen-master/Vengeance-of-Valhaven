@@ -10,24 +10,24 @@ public class FollowTargetAtDistance : Behaviour
         _followDistance = Args[0];
     }
 
-    public override void Behave(AI ai, Actor actor)
+    public override void Behave(Actor actor)
     {
-        if (!ai.Target)
+        if (!actor.Target)
         {
             return;
         }
 
         float distanceToTarget = Vector3.Distance(
             actor.transform.position,
-            ai.Target.transform.position
+            actor.Target.transform.position
         );
 
         if (distanceToTarget > _followDistance)
         {
-            actor.MoveToward(ai.Target.transform.position);
+            actor.MoveToward(actor.Target.transform.position);
         } else
         {
-            actor.FixNextRotation(ai.Target.transform.position - actor.transform.position);
+            actor.FixNextRotation(actor.Target.transform.position - actor.transform.position);
         }
     }
 }

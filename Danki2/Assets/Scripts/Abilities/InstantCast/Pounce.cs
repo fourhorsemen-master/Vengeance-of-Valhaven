@@ -8,6 +8,7 @@ public class Pounce : InstantCast
     private float _finalRootDuration = 0.3f;
     private float _damageRadius = 2f;
 
+    public static float MinRange = 5f;
     public static float Range => 10f;
 
     public Pounce(AbilityContext context) : base(context)

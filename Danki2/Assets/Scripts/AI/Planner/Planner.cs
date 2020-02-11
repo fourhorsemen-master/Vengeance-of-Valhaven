@@ -1,4 +1,4 @@
 ﻿public abstract class Planner : AIElement
 {
-    public abstract Agenda Plan(AI ai, Actor actor, Agenda previousAgenda);
+    public abstract Agenda Plan(Actor actor, Agenda previousAgenda);
 }

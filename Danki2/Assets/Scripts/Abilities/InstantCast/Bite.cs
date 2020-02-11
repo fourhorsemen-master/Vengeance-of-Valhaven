@@ -3,7 +3,7 @@
 public class Bite : InstantCast
 {
     public static readonly float Range = 2f;
-    private float _finalRootDuration = 0.5f;
+    public static readonly float FinalRootDuration = 0.5f;
 
     public Bite(AbilityContext context) : base(context)
     {
@@ -34,6 +34,6 @@ public class Bite : InstantCast
             }
         });
 
-        owner.Root(_finalRootDuration, owner.transform.forward);
+        owner.Root(FinalRootDuration, owner.transform.forward);
     }
 }

@@ -1,69 +1,36 @@
 ﻿using UnityEngine;
 
-[Behaviour("Wolf Attack", new string[] { "Bite Cooldown", "Pounce Cooldown", "Pounce Min Range" }, new AIAction[] { AIAction.Attack })]
+[Behaviour("Wolf Attack", new string[] {  }, new AIAction[] { AIAction.Attack })]
 public class WolfAttack : Behaviour
 {
-    private float _biteCastTime = 0.5f;
-    private float _pounceCastTime = 0.5f;
-
-    private float _biteTotalCooldown;
-    private float _pounceTotalCooldown;
-
-    private float _biteRemainingCooldown = 0f;
-    private float _pounceRemainingCooldown = 0f;
-
-    private float _pounceMinimumRange;
-
-    public override void Initialize()
-    {
-        _biteTotalCooldown = Args[0];
-        _pounceTotalCooldown = Args[1];
-        _pounceMinimumRange = Args[2];
-    }
-
-    public override void Behave(AI ai, Actor actor)
+    public override void Behave(Actor actor)
     {
         Wolf wolf = (Wolf)actor;
 
-        _biteRemainingCooldown -= Time.deltaTime;
-        _pounceRemainingCooldown -= Time.deltaTime;
-
-        if (!ai.Target)
+        if (!wolf.Target) 
         {
             return;
         }
 
         float distanceToTarget = Vector3.Distance(
             wolf.transform.position,
-            ai.Target.transform.position
+            wolf.Target.transform.position
         );
 
-        if (distanceToTarget < Bite.Range)
+        if (wolf.BiteOffCooldown && distanceToTarget < Bite.Range)
         {
-            if (_biteRemainingCooldown <= 0)
-            {
-                wolf.ShowWarning(_biteCastTime);
-                wolf.WaitAndCast(_biteCastTime, () =>
-                    new Bite(new AbilityContext(wolf, ai.Target.transform.position))
-                );
-
-                _biteRemainingCooldown = _biteTotalCooldown;
-            }
+            wolf.Bite();
+            return;
         }
 
-        if (distanceToTarget < Pounce.Range
-            && _pounceMinimumRange < distanceToTarget)
+        if (
+            wolf.PounceOffCooldown
+            && distanceToTarget < Pounce.Range
+            && distanceToTarget > Pounce.MinRange
+        )
         {
-            if (_pounceRemainingCooldown <= 0)
-            {
-                wolf.ShowWarning(_pounceCastTime);
-                wolf.WaitAndCast(_pounceCastTime, () =>
-                    new Pounce(new AbilityContext(wolf, ai.Target.transform.position))
-                );
-
-                _biteRemainingCooldown = _biteTotalCooldown;
-                _pounceRemainingCooldown = _pounceTotalCooldown;
-            }
+            wolf.Pounce();
+            return;
         }
 
     }
