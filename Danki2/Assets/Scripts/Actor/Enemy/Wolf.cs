@@ -72,12 +72,22 @@ public class Wolf : Enemy
 
     public void Bite()
     {
+        if (_biteRemainingCooldown > 0)
+        {
+            return;
+        }
+
         new Bite(new AbilityContext(this, Target.transform.position)).Cast();
-        _biteRemainingCooldown += _biteTotalCooldown;
+        _biteRemainingCooldown = _biteTotalCooldown;
     }
 
     public void Pounce()
     {
+        if (_pounceRemaningCooldown > 0)
+        {
+            return;
+        }
+
         StartChannel(
             new Pounce(
                 new AbilityContext(
@@ -86,8 +96,8 @@ public class Wolf : Enemy
                 )
             )
         );
-        _biteRemainingCooldown += _biteTotalCooldown;
-        _pounceRemaningCooldown += _pounceTotalCooldown;
+        _biteRemainingCooldown = _biteTotalCooldown;
+        _pounceRemaningCooldown = _pounceTotalCooldown;
     }
 
     public void CallFriends(Player player)
