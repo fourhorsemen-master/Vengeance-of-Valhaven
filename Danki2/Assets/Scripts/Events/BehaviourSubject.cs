@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
+/// <summary>
+/// A stream of events that will emit an initial value and requires one for construction.
+/// </summary>
 public class BehaviourSubject<T> : IObservable<T>
 {
     private T currentValue;
