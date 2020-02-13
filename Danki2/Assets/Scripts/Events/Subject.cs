@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-public class Observable<T>
+public class Subject<T> : IObservable<T>
 {
     private readonly List<Action<T>> actions = new List<Action<T>>();
 
