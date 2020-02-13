@@ -11,10 +11,10 @@ public class CollisionTemplateManagerEditor : Editor
 
         foreach (CollisionTemplate template in Enum.GetValues(typeof(CollisionTemplate)))
         {
-            collisionTemplateManager.prefabLookup[template] = (Collider)EditorGUILayout.ObjectField(
+            collisionTemplateManager.prefabLookup[template] = (MeshCollider)EditorGUILayout.ObjectField(
                 template.ToString(),
                 collisionTemplateManager.prefabLookup[template],
-                typeof(Collider),
+                typeof(MeshCollider),
                 false,
                 null
             );
