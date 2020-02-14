@@ -9,7 +9,7 @@ public class Wolf : Enemy
     public bool BiteOffCooldown => _biteRemainingCooldown <= 0f;
     public bool PounceOffCooldown => _pounceRemaningCooldown <= 0f;
 
-    public Observable<Wolf> OnHowl { get; private set; } = new Observable<Wolf>();
+    public Subject<Wolf> OnHowl { get; private set; } = new Subject<Wolf>();
 
     [SerializeField]
     private float _biteTotalCooldown = 0f;
