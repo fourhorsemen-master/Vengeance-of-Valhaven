@@ -2,12 +2,8 @@
 
 public class HealthScreenBar : ScreenBar
 {
-    Player _player;
-
-    void Awake()
-    {
-        _player = FindObjectOfType<Player>();
-    }
+    [SerializeField]
+    private Player _player = null;
 
     void Update()
     {
