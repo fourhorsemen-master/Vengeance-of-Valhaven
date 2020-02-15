@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public enum CastingStatus
 {
@@ -56,7 +57,10 @@ public class Player : Actor
         _abilityTree = AbilityTreeFactory.CreateTree(
             AbilityTreeFactory.CreateNode(
                 AbilityReference.Slash,
-                AbilityTreeFactory.CreateNode(AbilityReference.Roll),
+                AbilityTreeFactory.CreateNode(
+                    AbilityReference.Roll,
+                    rightChild: AbilityTreeFactory.CreateNode(AbilityReference.DaggerThrow)
+                ),
                 AbilityTreeFactory.CreateNode(AbilityReference.Whirlwind)
             ),
             AbilityTreeFactory.CreateNode(
@@ -148,11 +152,20 @@ public class Player : Actor
         }
     }
 
+    public void SubscribeToTreeWalk(Action<Node> callback)
+    {
+        _abilityTree.TreeWalkSubject.Subscribe(callback);
+    }
+
     private void BranchAndCast(Direction direction)
     {
-        if (!_abilityTree.CanWalk(direction))
+        RemainingAbilityCooldown = abilityCooldown;
+
+        if (!_abilityTree.CanWalkDirection(direction))
         {
+            // Whiffed!
             _abilityTree.Reset();
+            return;
         }
 
         var abilityReference = _abilityTree.Walk(direction);
@@ -177,7 +190,11 @@ public class Player : Actor
                 : CastingStatus.ChannelingRight;
         }
 
-        RemainingAbilityCooldown = abilityCooldown;
+        if (!_abilityTree.CanWalk())
+        {
+            _abilityTree.Reset();
+            return;
+        }
     }
 
     protected override void OnDeath()
