@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
-public class Observable<T>
+/// <summary>
+/// A stream of events that will not emit an initial value and does not require one for construction.
+/// </summary>
+public class Subject<T> : IObservable<T>
 {
     private readonly List<Action<T>> actions = new List<Action<T>>();
 

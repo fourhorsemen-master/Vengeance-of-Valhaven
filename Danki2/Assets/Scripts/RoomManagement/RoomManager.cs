@@ -7,8 +7,10 @@ public class RoomManager : Singleton<RoomManager>
     public List<ActorCacheItem> ActorCache { get; private set; }
     public Player Player { get; private set; }
 
-    private void Start()
+    protected override void Awake()
     {
+        base.Awake();
+
         Actor[] actors = FindObjectsOfType<Actor>();
         ActorCache = actors
             .Select(actor =>
