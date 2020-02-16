@@ -62,7 +62,7 @@ public class Player : Actor
             AbilityTreeFactory.CreateNode(
                 AbilityReference.DaggerThrow,
                 AbilityTreeFactory.CreateNode(AbilityReference.Slash),
-                AbilityTreeFactory.CreateNode(AbilityReference.ShieldBash)
+                AbilityTreeFactory.CreateNode(AbilityReference.Roll)
             )
         );
     }
