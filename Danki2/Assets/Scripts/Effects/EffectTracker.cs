@@ -52,23 +52,6 @@ public class EffectTracker : StatPipe
         }
     }
 
-    public float ProcessStat(Stat stat, float value)
-    {
-        var processedValue = value;
-
-        foreach (EffectWithDuration effectWithDuration in _activeEffects)
-        {
-            processedValue = effectWithDuration.Effect.ProcessStat(stat, processedValue);
-        }
-
-        foreach (Effect passiveEffect in _passiveEffects.Values)
-        {
-            processedValue = passiveEffect.ProcessStat(stat, processedValue);
-        }
-
-        return processedValue;
-    }
-
     public void AddActiveEffect(Effect effect, float duration)
     {
         _activeEffects.Add(new EffectWithDuration(effect, duration));
@@ -89,5 +72,22 @@ public class EffectTracker : StatPipe
         _passiveEffects[effectId].Finish(_actor);
         _passiveEffects.Remove(effectId);
         _statsManager.ClearCache();
+    }
+
+    public float ProcessStat(Stat stat, float value)
+    {
+        var processedValue = value;
+
+        foreach (EffectWithDuration effectWithDuration in _activeEffects)
+        {
+            processedValue = effectWithDuration.Effect.ProcessStat(stat, processedValue);
+        }
+
+        foreach (Effect passiveEffect in _passiveEffects.Values)
+        {
+            processedValue = passiveEffect.ProcessStat(stat, processedValue);
+        }
+
+        return processedValue;
     }
 }
