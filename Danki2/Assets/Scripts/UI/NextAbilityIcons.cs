@@ -29,7 +29,6 @@ public class NextAbilityIcons : MonoBehaviour
 
     private void TreeWalkCallback(Node node)
     {
-        Debug.Log(node.Ability.ToString());
         SetSpritesForDirection(node, Direction.Left, _leftAbilityIcon, _leftAbilityFrame);
         SetSpritesForDirection(node, Direction.Right, _rightAbilityIcon, _rightAbilityFrame);
     }

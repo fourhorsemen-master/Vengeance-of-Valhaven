@@ -69,6 +69,12 @@ public class EffectTracker : StatPipe
 
     public void RemovePassiveEffect(Guid effectId)
     {
+        if (!_passiveEffects.ContainsKey(effectId))
+        {
+            Debug.LogError($"Tried to remove passive effect with id that could not be found. Id: {effectId.ToString()}");
+            return;
+        }
+
         _passiveEffects[effectId].Finish(_actor);
         _passiveEffects.Remove(effectId);
         _statsManager.ClearCache();

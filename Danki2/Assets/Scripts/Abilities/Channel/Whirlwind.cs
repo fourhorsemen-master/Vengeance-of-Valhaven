@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class Whirlwind : Channel
 {
-    private static readonly float spinRange = 2;
-    private static readonly float spinDpsMultiplier = 0.3f;
-    private static readonly float slowMultiplier = 0.5f;
-    private static readonly float finishRange = 3;
-    private static readonly float finishDamageMultiplier = 1;
+    private static readonly float _spinRange = 2;
+    private static readonly float _spinDpsMultiplier = 0.3f;
+    private static readonly float _selfSlowMultiplier = 0.5f;
+    private static readonly float _finishRange = 3;
+    private static readonly float _finishDamageMultiplier = 1;
 
     private Guid slowEffectId;
 
@@ -17,13 +17,13 @@ public class Whirlwind : Channel
 
     public override void Start()
     {
-        AOE(spinRange, spinDpsMultiplier * Time.deltaTime);
-        slowEffectId = Context.Owner.AddPassiveEffect(new Slow(slowMultiplier));
+        AOE(_spinRange, _spinDpsMultiplier * Time.deltaTime);
+        slowEffectId = Context.Owner.AddPassiveEffect(new Slow(_selfSlowMultiplier));
     }
 
     public override void Continue()
     {
-        AOE(spinRange, spinDpsMultiplier * Time.deltaTime);
+        AOE(_spinRange, _spinDpsMultiplier * Time.deltaTime);
     }
 
     public override void Cancel()
@@ -33,18 +33,18 @@ public class Whirlwind : Channel
 
     public override void End()
     {
-        AOE(finishRange, finishDamageMultiplier);
+        AOE(_finishRange, _finishDamageMultiplier);
         Context.Owner.RemovePassiveEffect(slowEffectId);
     }
 
-    private void AOE(float size, float damageMultiplier)
+    private void AOE(float radius, float damageMultiplier)
     {
         Actor owner = Context.Owner;
         float damage = owner.GetStat(Stat.Strength) * damageMultiplier;
 
         CollisionTemplateManager.Instance.GetCollidingActors(
             CollisionTemplate.Cylinder,
-            size,
+            radius,
             owner.transform.position,
             Quaternion.identity
         ).ForEach(actor =>
