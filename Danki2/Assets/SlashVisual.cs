@@ -49,6 +49,7 @@ public class SlashVisual : MonoBehaviour
         else
         {
             Debug.Log("Visual object attempting to update but has not started correctly. Check scene for visual objects, and remove them.");
+            Destroy(gameObject);
         }
         
     }
