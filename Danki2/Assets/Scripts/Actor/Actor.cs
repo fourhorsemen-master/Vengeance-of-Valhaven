@@ -62,9 +62,9 @@ public abstract class Actor : MonoBehaviour
         return _statsManager[stat];
     }
 
-    public void AddEffect(Effect effect)
+    public void AddEffect(Effect effect, float duration)
     {
-        _effectTracker.AddEffect(effect);
+        _effectTracker.AddActiveEffect(effect, duration);
     }
 
     /// <summary>

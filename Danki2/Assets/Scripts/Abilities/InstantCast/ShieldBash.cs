@@ -9,6 +9,6 @@
 
     public override void Cast()
     {
-        _context.Owner.AddEffect(new Slow(1.5f, 0.5f));
+        _context.Owner.AddEffect(new Slow(0.5f), 1.5f);
     }
 }
