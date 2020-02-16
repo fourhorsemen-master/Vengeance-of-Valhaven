@@ -56,9 +56,14 @@ public class EffectTracker : StatPipe
     {
         var processedValue = value;
 
-        foreach (EffectWithDuration activeEffect in _activeEffects)
+        foreach (EffectWithDuration effectWithDuration in _activeEffects)
         {
-            processedValue = activeEffect.Effect.ProcessStat(stat, processedValue);
+            processedValue = effectWithDuration.Effect.ProcessStat(stat, processedValue);
+        }
+
+        foreach (Effect passiveEffect in _passiveEffects.Values)
+        {
+            processedValue = passiveEffect.ProcessStat(stat, processedValue);
         }
 
         return processedValue;
@@ -72,11 +77,14 @@ public class EffectTracker : StatPipe
 
     public Guid AddPassiveEffect(Effect effect)
     {
-        return Guid.NewGuid();
+        Guid effectId = Guid.NewGuid();
+        _passiveEffects.Add(effectId, effect);
+        return effectId;
     }
 
     public void RemovePassiveEffect(Guid effectId)
     {
-
+        _passiveEffects[effectId].Finish(_actor);
+        _passiveEffects.Remove(effectId);
     }
 }
