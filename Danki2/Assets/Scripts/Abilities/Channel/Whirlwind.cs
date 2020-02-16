@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Whirlwind : Channel
 {
@@ -8,6 +9,8 @@ public class Whirlwind : Channel
     private static readonly float finishRange = 3;
     private static readonly float finishDamageMultiplier = 1;
 
+    private Guid slowEffectId;
+
     public Whirlwind(AbilityContext context) : base(context) { }
 
     public override float Duration => 3f;
@@ -15,6 +18,7 @@ public class Whirlwind : Channel
     public override void Start()
     {
         AOE(spinRange, spinDpsMultiplier * Time.deltaTime);
+        slowEffectId = Context.Owner.AddPassiveEffect(new Slow(0.1f));
     }
 
     public override void Continue()
@@ -22,9 +26,15 @@ public class Whirlwind : Channel
         AOE(spinRange, spinDpsMultiplier * Time.deltaTime);
     }
 
+    public override void Cancel()
+    {
+        Context.Owner.RemovePassiveEffect(slowEffectId);
+    }
+
     public override void End()
     {
         AOE(finishRange, finishDamageMultiplier);
+        Context.Owner.RemovePassiveEffect(slowEffectId);
     }
 
     private void AOE(float size, float damageMultiplier)

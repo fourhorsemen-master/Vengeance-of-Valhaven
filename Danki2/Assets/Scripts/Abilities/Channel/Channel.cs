@@ -1,4 +1,6 @@
-﻿public abstract class Channel : Ability
+﻿using UnityEngine;
+
+public abstract class Channel : Ability
 {
     public Channel(AbilityContext context) : base(context)
     {
