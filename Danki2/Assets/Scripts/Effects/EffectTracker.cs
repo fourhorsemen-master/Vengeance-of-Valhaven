@@ -79,6 +79,8 @@ public class EffectTracker : StatPipe
     {
         Guid effectId = Guid.NewGuid();
         _passiveEffects.Add(effectId, effect);
+        _statsManager.ClearCache();
+
         return effectId;
     }
 
@@ -86,5 +88,6 @@ public class EffectTracker : StatPipe
     {
         _passiveEffects[effectId].Finish(_actor);
         _passiveEffects.Remove(effectId);
+        _statsManager.ClearCache();
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public abstract class Actor : MonoBehaviour
@@ -62,9 +63,19 @@ public abstract class Actor : MonoBehaviour
         return _statsManager[stat];
     }
 
-    public void AddEffect(Effect effect, float duration)
+    public void AddActiveEffect(Effect effect, float duration)
     {
         _effectTracker.AddActiveEffect(effect, duration);
+    }
+
+    public Guid AddPassiveEffect(Effect effect)
+    {
+        return _effectTracker.AddPassiveEffect(effect);
+    }
+
+    public void RemovePassiveEffect(Guid effectId)
+    {
+        _effectTracker.RemovePassiveEffect(effectId);
     }
 
     /// <summary>
