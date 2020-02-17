@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1353031905564476246}
   m_Layer: 0
-  m_Name: VIS_Slash
+  m_Name: SlashObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -122,5 +122,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f219b0ccea6af4e4693f9d62c892b6dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotSpeed: 350
-  fadeSpeed: 4
+  _rotationSpeed: 350
+  _duration: 0.2
