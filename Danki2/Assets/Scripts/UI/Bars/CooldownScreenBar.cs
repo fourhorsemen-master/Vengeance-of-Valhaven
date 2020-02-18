@@ -1,11 +1,13 @@
-﻿public class CooldownScreenBar : ScreenBar
+﻿using UnityEngine;
+
+public class CooldownScreenBar : ScreenBar
 {
-    Player _player;
+    [SerializeField]
+    private Player _player = null;
 
     void Awake()
     {
         SetWidth(0f);
-        _player = FindObjectOfType<Player>();
     }
 
     void Update()
