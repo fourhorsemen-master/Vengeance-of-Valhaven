@@ -31,7 +31,7 @@ class DaggerThrow : InstantCast
 
             var strength = Context.Owner.GetStat(Stat.Strength);
             actor.ModifyHealth(-strength/2);
-            actor.AddEffect(new DOT(5, 2));
+            actor.AddActiveEffect(new DOT(2), 5);
         }
     }
 }

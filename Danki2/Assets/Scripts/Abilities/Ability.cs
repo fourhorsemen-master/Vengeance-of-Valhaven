@@ -1,17 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 
-public enum AbilityReference
-{
-    Slash,
-    Whirlwind,
-    Fireball,
-    DaggerThrow,
-    Bite,
-    Pounce,
-    Roll,
-}
-
 public class Ability
 {
     public Ability(AbilityContext context)

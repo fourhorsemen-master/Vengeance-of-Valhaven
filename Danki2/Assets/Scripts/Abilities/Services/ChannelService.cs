@@ -40,6 +40,7 @@ public class ChannelService
         RemainingDuration = _currentChannel.Duration;
         Active = true;
         _currentChannel.Start();
+        _currentChannel.Continue();
     }
 
     public void Cancel()

@@ -10,7 +10,7 @@ public abstract class Actor : MonoBehaviour
     public Actor Target = null;
 
     private StatsManager _statsManager;
-    private EffectTracker _effectTracker;
+    private EffectManager _effectManager;
     private MovementManager _movementManager;
     protected ChannelService _channelService;
 
@@ -26,7 +26,7 @@ public abstract class Actor : MonoBehaviour
     protected virtual void Awake()
     {
         _statsManager = new StatsManager(baseStats);
-        _effectTracker = new EffectTracker(this, _statsManager);
+        _effectManager = new EffectManager(this, _statsManager);
         _channelService = new ChannelService();
 
         _health = GetStat(Stat.MaxHealth);
@@ -41,7 +41,7 @@ public abstract class Actor : MonoBehaviour
 
     protected virtual void Update()
     {
-        _effectTracker.ProcessEffects();
+        _effectManager.ProcessEffects();
         _channelService.Update();
 
         if (_health <= 0f && !Dead)
@@ -64,9 +64,34 @@ public abstract class Actor : MonoBehaviour
         return _statsManager[stat];
     }
 
-    public void AddEffect(Effect effect)
+    /// <summary>
+    /// Adds an active effect to the actor, this effect will last for the given duration.
+    /// </summary>
+    /// <param name="effect"> The effect to add. </param>
+    /// <param name="duration"> The duration of the effect. </param>
+    public void AddActiveEffect(Effect effect, float duration)
     {
-        _effectTracker.AddEffect(effect);
+        _effectManager.AddActiveEffect(effect, duration);
+    }
+
+    /// <summary>
+    /// Adds a passive effect to the actor. The passive effect can be removed using the returned Guid.
+    /// </summary>
+    /// <param name="effect"> The effect to add. </param>
+    /// <returns> The Guid to use to remove the effect. </returns>
+    public Guid AddPassiveEffect(Effect effect)
+    {
+        return _effectManager.AddPassiveEffect(effect);
+    }
+
+    /// <summary>
+    /// This will remove the effect with the given Guid from the actor. This id is the one returned from
+    /// the AddPassiveEffect method.
+    /// </summary>
+    /// <param name="effectId"> The id of the effect to remove. </param>
+    public void RemovePassiveEffect(Guid effectId)
+    {
+        _effectManager.RemovePassiveEffect(effectId);
     }
 
     /// <summary>
