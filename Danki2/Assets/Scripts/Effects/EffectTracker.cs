@@ -20,17 +20,16 @@ public class EffectTracker : StatPipe
         
     public void ProcessEffects()
     {
-        ProcessActiveEffects();
-        ProcessPassiveEffects();
+        ForEachEffect(e => e.Update(_actor));
+        TickActiveEffects();
     }
 
-    private void ProcessActiveEffects()
+    private void TickActiveEffects()
     {
-        var someExpired = false;
+        bool someExpired = false;
 
         _activeEffects = _activeEffects.FindAll(activeEffect =>
         {
-            activeEffect.Effect.Update(_actor);
             activeEffect.RemainingDuration -= Time.deltaTime;
             if (activeEffect.RemainingDuration <= 0)
             {
@@ -42,14 +41,6 @@ public class EffectTracker : StatPipe
         });
 
         if (someExpired) _statsManager.ClearCache();
-    }
-
-    private void ProcessPassiveEffects()
-    {
-        foreach (Effect effect in _passiveEffects.Values)
-        {
-            effect.Update(_actor);
-        }
     }
 
     public void AddActiveEffect(Effect effect, float duration)
@@ -84,16 +75,21 @@ public class EffectTracker : StatPipe
     {
         var processedValue = value;
 
+        ForEachEffect(e => processedValue = e.ProcessStat(stat, processedValue));
+
+        return processedValue;
+    }
+
+    private void ForEachEffect(Action<Effect> action)
+    {
         foreach (EffectWithDuration effectWithDuration in _activeEffects)
         {
-            processedValue = effectWithDuration.Effect.ProcessStat(stat, processedValue);
+            action.Invoke(effectWithDuration.Effect);
         }
 
         foreach (Effect passiveEffect in _passiveEffects.Values)
         {
-            processedValue = passiveEffect.ProcessStat(stat, processedValue);
+            action.Invoke(passiveEffect);
         }
-
-        return processedValue;
     }
 }

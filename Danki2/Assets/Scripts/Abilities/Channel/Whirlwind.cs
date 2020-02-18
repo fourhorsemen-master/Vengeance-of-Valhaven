@@ -17,7 +17,6 @@ public class Whirlwind : Channel
 
     public override void Start()
     {
-        AOE(_spinRange, _spinDpsMultiplier * Time.deltaTime);
         slowEffectId = Context.Owner.AddPassiveEffect(new Slow(_selfSlowMultiplier));
     }
 
