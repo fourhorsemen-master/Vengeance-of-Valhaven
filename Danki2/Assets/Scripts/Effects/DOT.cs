@@ -1,15 +1,17 @@
-﻿class DOT : Effect
+﻿using UnityEngine;
+
+class DOT : Effect
 {
     private readonly float _dps;
 
-    public DOT(float duration, float dps) : base(duration)
+    public DOT(float dps)
     {
         _dps = dps;
     }
 
-    protected override void UpdateAction(Actor actor, float deltaTime)
+    public override void Update(Actor actor)
     {
-        actor.ModifyHealth(-_dps * deltaTime);
+        actor.ModifyHealth(-_dps * Time.deltaTime);
     }
 }
 
