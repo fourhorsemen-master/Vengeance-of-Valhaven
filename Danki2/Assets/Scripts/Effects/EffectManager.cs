@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EffectTracker : StatPipe
+public class EffectManager : StatPipe
 {
     private List<EffectWithDuration> _activeEffects;
     private Dictionary<Guid, Effect> _passiveEffects;
     private readonly Actor _actor;
     private readonly StatsManager _statsManager;
 
-    public EffectTracker(Actor actor, StatsManager statsManager)
+    public EffectManager(Actor actor, StatsManager statsManager)
     {
         _activeEffects = new List<EffectWithDuration>();
         _passiveEffects = new Dictionary<Guid, Effect>();
