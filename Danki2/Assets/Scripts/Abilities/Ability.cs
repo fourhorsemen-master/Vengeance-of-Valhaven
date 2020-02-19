@@ -1,18 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 
-public enum AbilityReference
-{
-    Slash,
-    ShieldBash,
-    Whirlwind,
-    Fireball,
-    DaggerThrow,
-    Bite,
-    Pounce,
-    Roll,
-}
-
 public class Ability
 {
     public Ability(AbilityContext context)
@@ -25,7 +13,6 @@ public class Ability
     private static Dictionary<AbilityReference, Func<AbilityContext, InstantCast>> _instantCasts = new Dictionary<AbilityReference, Func<AbilityContext, InstantCast>>
     {
         { AbilityReference.Slash, c => new Slash(c) },
-        { AbilityReference.ShieldBash, c => new ShieldBash(c) },
         { AbilityReference.Fireball, c => new Fireball(c) },
         { AbilityReference.DaggerThrow, c => new DaggerThrow(c) },
         { AbilityReference.Bite, c => new Bite(c) },

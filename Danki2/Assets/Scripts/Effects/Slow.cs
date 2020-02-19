@@ -2,7 +2,7 @@
 {
     private readonly float _slowMultiplier;
 
-    public Slow(float duration, float slowMultiplier) : base(duration)
+    public Slow(float slowMultiplier)
     {
         _slowMultiplier = slowMultiplier;
     }

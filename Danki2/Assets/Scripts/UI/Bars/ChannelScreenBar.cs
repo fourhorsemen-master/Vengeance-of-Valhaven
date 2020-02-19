@@ -1,11 +1,13 @@
-﻿public class ChannelScreenBar : ScreenBar
+﻿using UnityEngine;
+
+public class ChannelScreenBar : ScreenBar
 {
-    Player _player;
+    [SerializeField]
+    private Player _player = null;
 
     void Awake()
     {
         SetWidth(0f);
-        _player = FindObjectOfType<Player>();
     }
 
     void Update()
