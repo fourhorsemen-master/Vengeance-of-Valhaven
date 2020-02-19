@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 
 [Behaviour("Wolf Find Player", new string[] { "Aggro Range" }, new AIAction[] { AIAction.FindTarget })]
 public class WolfFindPlayer : Behaviour

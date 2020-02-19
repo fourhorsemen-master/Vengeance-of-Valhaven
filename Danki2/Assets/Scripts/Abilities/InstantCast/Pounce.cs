@@ -3,13 +3,11 @@ using UnityEngine;
 
 public class Pounce : InstantCast
 {
+    // The ai casting this ability should determine cast range
     private float _movementDuration = 0.5f;
     private float _movementSpeedMultiplier = 3f;
     private float _finalRootDuration = 0.3f;
     private float _damageRadius = 2f;
-
-    public static float MinRange = 5f;
-    public static float Range => 10f;
 
     public Pounce(AbilityContext context) : base(context)
     {
@@ -17,7 +15,7 @@ public class Pounce : InstantCast
 
     public override void Cast()
     {
-        var targetPosition = Context.TargetPosition;
+        Vector3 targetPosition = Context.TargetPosition;
         targetPosition.y = Context.Owner.transform.position.y;
 
         Context.Owner.LockMovement(
@@ -28,13 +26,13 @@ public class Pounce : InstantCast
         );
 
         Context.Owner.StartCoroutine(
-            DealDamageCoroutine(_movementDuration)
+            DealDamageCoroutine()
         );
     }
 
-    private IEnumerator DealDamageCoroutine(float waitTime)
+    private IEnumerator DealDamageCoroutine()
     {
-        yield return new WaitForSeconds(waitTime);
+        yield return new WaitForSeconds(_movementDuration);
 
         Actor owner = Context.Owner;
 
@@ -47,7 +45,6 @@ public class Pounce : InstantCast
             Quaternion.LookRotation(owner.transform.forward)
         ).ForEach(actor =>
         {
-            Debug.Log(actor.tag);
             if (owner.Opposes(actor))
             {
                 actor.ModifyHealth(-damage);

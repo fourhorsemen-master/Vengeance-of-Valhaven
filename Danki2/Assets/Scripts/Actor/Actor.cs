@@ -149,12 +149,12 @@ public abstract class Actor : MonoBehaviour
             WaitAndCastCoroutine(waitTime, abilityFactory)
         );
     }
-
-    protected abstract void OnDeath();
-
-    IEnumerator WaitAndCastCoroutine(float waitTime, Func<InstantCast> abilityFactory)
+    
+    private IEnumerator WaitAndCastCoroutine(float waitTime, Func<InstantCast> abilityFactory)
     {
         yield return new WaitForSeconds(waitTime);
         abilityFactory.Invoke().Cast();
     }
+
+    protected abstract void OnDeath();
 }

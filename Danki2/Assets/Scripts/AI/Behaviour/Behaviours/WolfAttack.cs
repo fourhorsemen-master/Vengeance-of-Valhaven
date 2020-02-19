@@ -1,8 +1,17 @@
 ﻿using UnityEngine;
 
-[Behaviour("Wolf Attack", new string[] {  }, new AIAction[] { AIAction.Attack })]
+[Behaviour("Wolf Attack", new string[] { "Pounce minimum range", "Pounce maximum range" }, new AIAction[] { AIAction.Attack })]
 public class WolfAttack : Behaviour
 {
+    private float _pounceMinRange;
+    private float _pounceMaxRange;
+
+    public override void Initialize()
+    {
+        _pounceMinRange = Args[0];
+        _pounceMaxRange = Args[1];
+    }
+
     public override void Behave(Actor actor)
     {
         Wolf wolf = (Wolf)actor;
@@ -25,8 +34,8 @@ public class WolfAttack : Behaviour
 
         if (
             wolf.PounceOffCooldown
-            && distanceToTarget < Pounce.Range
-            && distanceToTarget > Pounce.MinRange
+            && distanceToTarget < _pounceMaxRange
+            && distanceToTarget > _pounceMinRange
         )
         {
             wolf.Pounce();
