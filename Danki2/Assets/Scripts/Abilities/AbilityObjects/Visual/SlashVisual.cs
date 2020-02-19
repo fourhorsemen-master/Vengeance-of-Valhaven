@@ -26,7 +26,8 @@ public class SlashVisual : MonoBehaviour
 
     void Update()
     {
-        if (_duration < 0f) Destroy(gameObject); 
+        //We are a child object, so destroy parent.
+        if (_remainingDuration < 0f) Destroy(transform.parent.gameObject); 
 
         UpdateVisual();
     }
