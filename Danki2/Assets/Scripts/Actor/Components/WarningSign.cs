@@ -9,6 +9,8 @@ public class WarningSign : MonoBehaviour
     [SerializeField]
     private Text _exclaimationMark = null;
 
+    private static readonly float _duration = 0.5f;
+
     public void Start()
     {
         if (_exclaimationMark == null)
@@ -23,18 +25,20 @@ public class WarningSign : MonoBehaviour
         }
 
         _exclaimationMark.enabled = false;
+
+        _enemy.OnTelegraph.Subscribe(ShowWarning);
     }
 
-    public void ShowWarning(float duration)
+    private void ShowWarning()
     {
         StopAllCoroutines();
         _exclaimationMark.enabled = true;
-        StartCoroutine(HideWarningAfter(duration));
+        StartCoroutine(HideWarningAfter());
     }
 
-    IEnumerator HideWarningAfter(float seconds)
+    private IEnumerator HideWarningAfter()
     {
-        yield return new WaitForSeconds(seconds);
+        yield return new WaitForSeconds(_duration);
         _exclaimationMark.enabled = false;
     }
 }
