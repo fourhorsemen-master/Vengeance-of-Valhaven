@@ -3,7 +3,6 @@
 public class Wolf : Enemy
 {
     public AudioSource howl;
-    public WarningSign warningSign;
 
     public override ActorType Type => ActorType.Wolf;
     public float howlRange = 10f;
@@ -83,7 +82,6 @@ public class Wolf : Enemy
             return;
         }
 
-        ShowWarning(_biteCastTime);
         WaitAndCast(_biteCastTime, () =>
             new Bite(new AbilityContext(this, Target.transform.position))
         );
@@ -97,7 +95,6 @@ public class Wolf : Enemy
             return;
         }
 
-        ShowWarning(_pounceCastTime);
         WaitAndCast(_pounceCastTime, () =>
             new Pounce(new AbilityContext(this, Target.transform.position))
         );
@@ -115,11 +112,6 @@ public class Wolf : Enemy
     private void Howl()
     {
         howl.Play();
-    }
-
-    public void ShowWarning(float duration)
-    {
-        warningSign.ShowWarning(duration);
     }
 
     protected override void OnDeath()
