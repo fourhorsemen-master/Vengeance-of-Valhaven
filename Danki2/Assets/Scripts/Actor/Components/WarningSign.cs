@@ -5,6 +5,8 @@ using UnityEngine.UI;
 public class WarningSign : MonoBehaviour
 {
     [SerializeField]
+    private Enemy _enemy = null;
+    [SerializeField]
     private Text _exclaimationMark = null;
 
     public void Start()

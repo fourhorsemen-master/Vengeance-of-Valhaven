@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using UnityEngine;
 
 public abstract class Actor : MonoBehaviour
@@ -166,19 +165,6 @@ public abstract class Actor : MonoBehaviour
     public bool Opposes(Actor target)
     {
         return tag != target.tag;
-    }
-
-    public void WaitAndCast(float waitTime, Func<InstantCast> abilityFactory)
-    {
-        StartCoroutine(
-            WaitAndCastCoroutine(waitTime, abilityFactory)
-        );
-    }
-    
-    private IEnumerator WaitAndCastCoroutine(float waitTime, Func<InstantCast> abilityFactory)
-    {
-        yield return new WaitForSeconds(waitTime);
-        abilityFactory.Invoke().Cast();
     }
 
     protected abstract void OnDeath();
