@@ -4,7 +4,7 @@ using UnityEngine;
 public class Lunge : InstantCast
 {
     private static readonly float _lungeDuration = 0.2f;
-    private static readonly float _speedMultiplier = 6f;
+    private static readonly float _lungeSpeedMultiplier = 6f;
     private static readonly float _stunRange = 4f;
     private static readonly float _stunDuration = 2f;
 
@@ -21,22 +21,22 @@ public class Lunge : InstantCast
 
         owner.LockMovement(
             _lungeDuration,
-            owner.GetStat(Stat.Speed) * _speedMultiplier,
+            owner.GetStat(Stat.Speed) * _lungeSpeedMultiplier,
             direction,
             passThrough: true
         );
 
-        owner.StartCoroutine(Stun(direction, owner));
+        owner.StartCoroutine(StunAfter(direction, owner));
     }
 
-    private IEnumerator Stun(Vector3 direction, Actor owner)
+    private IEnumerator StunAfter(Vector3 direction, Actor owner)
     {
         yield return new WaitForSeconds(_lungeDuration);
 
         CollisionTemplateManager.Instance.GetCollidingActors(
             CollisionTemplate.Wedge90,
             _stunRange,
-            Context.Owner.transform.position,
+            owner.transform.position,
             Quaternion.LookRotation(direction)
         ).ForEach(actor =>
         {
