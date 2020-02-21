@@ -6,7 +6,7 @@ public class Lunge : InstantCast
     private static readonly float _lungeDuration = 0.2f;
     private static readonly float _lungeSpeedMultiplier = 6f;
     private static readonly float _stunRange = 4f;
-    private static readonly float _stunDuration = 2f;
+    private static readonly float _stunDuration = 3f;
 
     public Lunge(AbilityContext context) : base(context)
     {
