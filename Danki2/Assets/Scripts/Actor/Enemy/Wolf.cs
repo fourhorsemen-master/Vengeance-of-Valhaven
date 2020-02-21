@@ -12,6 +12,11 @@ public class Wolf : Enemy
     public Subject<Wolf> OnHowl { get; private set; } = new Subject<Wolf>();
 
     [SerializeField]
+    private float _biteCastTime = 0f;
+    [SerializeField]
+    private float _pounceCastTime = 0f;
+
+    [SerializeField]
     private float _biteTotalCooldown = 0f;
     [SerializeField]
     private float _pounceTotalCooldown = 0f;
@@ -77,7 +82,9 @@ public class Wolf : Enemy
             return;
         }
 
-        new Bite(new AbilityContext(this, Target.transform.position)).Cast();
+        WaitAndCast(_biteCastTime, () =>
+            new Bite(new AbilityContext(this, Target.transform.position))
+        );
         _biteRemainingCooldown = _biteTotalCooldown;
     }
 
@@ -88,13 +95,8 @@ public class Wolf : Enemy
             return;
         }
 
-        StartChannel(
-            new Pounce(
-                new AbilityContext(
-                    this,
-                    Target.transform.position
-                )
-            )
+        WaitAndCast(_pounceCastTime, () =>
+            new Pounce(new AbilityContext(this, Target.transform.position))
         );
         _biteRemainingCooldown = _biteTotalCooldown;
         _pounceRemaningCooldown = _pounceTotalCooldown;
