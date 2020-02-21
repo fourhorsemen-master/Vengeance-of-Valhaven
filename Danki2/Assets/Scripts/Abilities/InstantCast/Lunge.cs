@@ -42,12 +42,7 @@ public class Lunge : InstantCast
         {
             if (owner.Opposes(actor))
             {
-                actor.LockMovement(
-                    _stunDuration,
-                    0,
-                    Vector3.zero,
-                    @override: true
-                );
+                actor.AddActiveEffect(new Stun(_stunDuration), _stunDuration);
             }
         });
     }
