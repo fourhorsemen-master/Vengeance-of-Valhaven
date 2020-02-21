@@ -64,7 +64,7 @@ public class Player : Actor
                 AbilityTreeFactory.CreateNode(AbilityReference.Whirlwind)
             ),
             AbilityTreeFactory.CreateNode(
-                AbilityReference.DaggerThrow,
+                AbilityReference.Lunge,
                 AbilityTreeFactory.CreateNode(AbilityReference.Slash),
                 AbilityTreeFactory.CreateNode(AbilityReference.Roll)
             )
