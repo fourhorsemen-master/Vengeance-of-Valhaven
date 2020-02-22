@@ -15,7 +15,7 @@ public class BiteObject : StaticObject
 
     public static void Create(Vector3 position, Quaternion rotation)
     {
-        var prefab = AbilityObjectPrefabLookup.Instance.BiteObjectPrefab;
+        BiteObject prefab = AbilityObjectPrefabLookup.Instance.BiteObjectPrefab;
         Instantiate(prefab, position, rotation);
     }
 }
