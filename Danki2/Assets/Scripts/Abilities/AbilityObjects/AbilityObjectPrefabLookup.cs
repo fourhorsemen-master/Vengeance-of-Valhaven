@@ -8,6 +8,10 @@ public class AbilityObjectPrefabLookup : Singleton<AbilityObjectPrefabLookup>
     [SerializeField]
     private DaggerObject _daggerObjectPrefab = null;
 
+    [SerializeField]
+    private BiteObject _biteObjectPrefab = null;
+
     public FireballObject FireballObjectPrefab { get => _fireballObjectPrefab; }
     public DaggerObject DaggerObjectPrefab { get => _daggerObjectPrefab; }
+    public BiteObject BiteObjectPrefab { get => _biteObjectPrefab; }
 }
