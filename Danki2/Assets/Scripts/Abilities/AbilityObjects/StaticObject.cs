@@ -8,7 +8,7 @@ public abstract class StaticObject : MonoBehaviour
         StartCoroutine(DissapearAfter(stickTime));
     }
 
-    IEnumerator DissapearAfter(float seconds)
+    private IEnumerator DissapearAfter(float seconds)
     {
         yield return new WaitForSeconds(seconds);
         Destroy(gameObject);
