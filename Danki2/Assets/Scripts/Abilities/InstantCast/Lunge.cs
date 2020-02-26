@@ -5,8 +5,9 @@ public class Lunge : InstantCast
 {
     private static readonly float _lungeDuration = 0.2f;
     private static readonly float _lungeSpeedMultiplier = 6f;
-    private static readonly float _stunRange = 4f;
-    private static readonly float _stunDuration = 3f;
+    private static readonly float _lungeDamageMultiplier = 0.5f;
+    private static readonly float _stunRange = 2f;
+    private static readonly float _stunDuration = 0.5f;
 
     public Lunge(AbilityContext context) : base(context)
     {
@@ -26,12 +27,14 @@ public class Lunge : InstantCast
             passThrough: true
         );
 
-        owner.StartCoroutine(StunAfter(direction, owner));
+        owner.StartCoroutine(StunAndDamageAfter(direction, owner));
     }
 
-    private IEnumerator StunAfter(Vector3 direction, Actor owner)
+    private IEnumerator StunAndDamageAfter(Vector3 direction, Actor owner)
     {
         yield return new WaitForSeconds(_lungeDuration);
+
+        float damage = owner.GetStat(Stat.Strength) * _lungeDamageMultiplier;
 
         CollisionTemplateManager.Instance.GetCollidingActors(
             CollisionTemplate.Wedge90,
@@ -43,6 +46,7 @@ public class Lunge : InstantCast
             if (owner.Opposes(actor))
             {
                 actor.AddActiveEffect(new Stun(_stunDuration), _stunDuration);
+                actor.ModifyHealth(-damage);
             }
         });
     }
