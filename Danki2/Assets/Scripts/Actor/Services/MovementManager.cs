@@ -45,7 +45,7 @@ public class MovementManager
 
         _rigidbody.MovePosition(_rigidbody.position + movementVector * Time.deltaTime);
 
-        if (_nextRotation == Vector3.zero)
+        if (_nextRotation == Vector3.zero || (_moveLockOn && movementVector.magnitude > 0))
         {
             RotateTorwards(movementVector);
         }

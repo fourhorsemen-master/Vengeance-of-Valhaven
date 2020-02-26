@@ -26,5 +26,9 @@ public class FollowTargetAtDistance : Behaviour
         {
             actor.MoveToward(actor.Target.transform.position);
         }
+        else
+        {
+            actor.FixNextRotation(actor.Target.transform.position - actor.transform.position);
+        }
     }
 }

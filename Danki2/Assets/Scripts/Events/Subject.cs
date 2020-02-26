@@ -18,3 +18,18 @@ public class Subject<T> : IObservable<T>
         actions.ForEach(a => a.Invoke(value));
     }
 }
+
+public class Subject : IObservable
+{
+    private readonly List<Action> actions = new List<Action>();
+
+    public void Subscribe(Action action)
+    {
+        actions.Add(action);
+    }
+
+    public void Next()
+    {
+        actions.ForEach(a => a.Invoke());
+    }
+}
