@@ -7,4 +7,5 @@
     Bite,
     Pounce,
     Roll,
+    Smash,
 }

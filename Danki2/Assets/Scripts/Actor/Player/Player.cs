@@ -56,7 +56,7 @@ public class Player : Actor
 
         _abilityTree = AbilityTreeFactory.CreateTree(
             AbilityTreeFactory.CreateNode(
-                AbilityReference.Slash,
+                AbilityReference.Smash,
                 AbilityTreeFactory.CreateNode(
                     AbilityReference.Roll,
                     rightChild: AbilityTreeFactory.CreateNode(AbilityReference.DaggerThrow)
