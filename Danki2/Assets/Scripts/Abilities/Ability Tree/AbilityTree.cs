@@ -4,12 +4,16 @@
 
     private Node _currentNode;
 
+    public int MaxDepth { get; }
+
     public BehaviourSubject<Node> TreeWalkSubject { get; }
 
     protected AbilityTree(Node rootNode)
     {
         _rootNode = rootNode;
         _currentNode = _rootNode;
+
+        MaxDepth = _rootNode.MaxDepth();
 
         TreeWalkSubject = new BehaviourSubject<Node>(_currentNode);
     }
