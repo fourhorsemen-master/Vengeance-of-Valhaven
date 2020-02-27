@@ -18,10 +18,13 @@ public class SlashVisual : MonoBehaviour
 
     private void Start()
     {
+        transform.parent = null;
         _remainingDuration = _duration;
         _meshRenderer = gameObject.GetComponent<MeshRenderer>();
         _meshRenderer.material.SetColor("Color", _desiredColor);
         _meshRenderer.enabled = true;
+
+        transform.LookAt(MouseGamePositionFinder.Instance.GetFlooredMouseGamePosition());
     }
 
     void Update()
