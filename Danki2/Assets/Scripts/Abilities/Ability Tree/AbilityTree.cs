@@ -16,9 +16,11 @@
     {
         _rootNode = rootNode;
         _currentNode = _rootNode;
-        _currentDepth = 1;
+        _currentDepth = 0;
 
-        MaxDepth = _rootNode.MaxDepth();
+        // The root node counts itself when calculating depth, as it is just the same as any
+        // other node. But in terms of the ability tree, we want to discount it.
+        MaxDepth = _rootNode.MaxDepth() - 1;
 
         TreeWalkSubject = new BehaviourSubject<Node>(_currentNode);
         CurrentDepthSubject = new BehaviourSubject<int>(_currentDepth);
@@ -55,7 +57,7 @@
         _currentNode = _rootNode;
         TreeWalkSubject.Next(_currentNode);
 
-        _currentDepth = 1;
+        _currentDepth = 0;
         CurrentDepthSubject.Next(_currentDepth);
     }
 }

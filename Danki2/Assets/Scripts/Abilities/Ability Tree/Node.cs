@@ -13,7 +13,7 @@ public abstract class Node
 
     protected Node(AbilityReference ability)
     {
-        this.Ability = ability;
+        Ability = ability;
     }
 
     public bool HasChild(Direction direction)
