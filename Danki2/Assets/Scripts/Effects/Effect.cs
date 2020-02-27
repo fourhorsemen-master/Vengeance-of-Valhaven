@@ -1,5 +1,10 @@
 ﻿public abstract class Effect
 {
+    public virtual void Start(Actor actor)
+    {
+
+    }
+
     public virtual void Update(Actor actor)
     {
 

@@ -45,12 +45,15 @@ public class EffectManager : StatPipe
 
     public void AddActiveEffect(Effect effect, float duration)
     {
+        effect.Start(_actor);
         _activeEffects.Add(new EffectWithDuration(effect, duration));
         _statsManager.ClearCache();
     }
 
     public Guid AddPassiveEffect(Effect effect)
     {
+        effect.Start(_actor);
+
         Guid effectId = Guid.NewGuid();
         _passiveEffects.Add(effectId, effect);
         _statsManager.ClearCache();
