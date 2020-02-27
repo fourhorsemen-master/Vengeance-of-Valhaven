@@ -17,8 +17,9 @@ public class Smash : InstantCast
         Vector3 position = owner.transform.position;
         Vector3 target = Context.TargetPosition;
         target.y = 0;
-        Vector3 direction = (target - position).normalized;
-        Vector3 center = position + (direction * _distanceFromCaster);
+
+        Vector3 directionToTarget = target == position ? Vector3.right : (target - position).normalized;
+        Vector3 center = position + (directionToTarget * _distanceFromCaster);
 
         float damage = owner.GetStat(Stat.Strength) * _damageMultiplier;
 
