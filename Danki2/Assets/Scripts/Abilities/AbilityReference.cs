@@ -7,5 +7,6 @@
     Bite,
     Pounce,
     Roll,
-    Lunge
+    Lunge,
+    Smash
 }
