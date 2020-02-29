@@ -13,7 +13,7 @@ public class Whirlwind : Channel
 
     public Whirlwind(AbilityContext context) : base(context) { }
 
-    public override float Duration => 3f;
+    public override float Duration => 2f;
 
     public override void Start()
     {
