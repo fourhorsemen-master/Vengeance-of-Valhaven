@@ -32,7 +32,6 @@ public class SlashVisual : MonoBehaviour
         if (_remainingDuration < 0f)
         {
             Destroy(transform.parent.gameObject);
-            Destroy(gameObject);
         }
 
         UpdateVisual();
