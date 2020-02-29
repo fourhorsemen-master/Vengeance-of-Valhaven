@@ -18,7 +18,6 @@ public class SlashVisual : MonoBehaviour
 
     private void Start()
     {
-        transform.parent = null;
         _remainingDuration = _duration;
         _meshRenderer = gameObject.GetComponent<MeshRenderer>();
         _meshRenderer.material.SetColor("Color", _desiredColor);
@@ -30,7 +29,11 @@ public class SlashVisual : MonoBehaviour
     void Update()
     {
         //We are a child object, so destroy parent.
-        if (_remainingDuration < 0f) Destroy(transform.parent.gameObject); 
+        if (_remainingDuration < 0f)
+        {
+            Destroy(transform.parent.gameObject);
+            Destroy(gameObject);
+        }
 
         UpdateVisual();
     }
