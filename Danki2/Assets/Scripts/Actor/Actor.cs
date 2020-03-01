@@ -4,7 +4,7 @@ using UnityEngine;
 public abstract class Actor : MonoBehaviour
 {
     [HideInInspector]
-    public Stats baseStats = new Stats(0);
+    public StatsDictionary baseStats = new StatsDictionary(0);
     [HideInInspector]
     public Actor Target = null;
 
