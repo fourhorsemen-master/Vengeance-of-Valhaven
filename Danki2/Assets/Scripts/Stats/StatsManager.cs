@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 public class StatsManager
 {
-    private readonly Stats _baseStats;
+    private readonly StatsDictionary _baseStats;
     private readonly Dictionary<Stat, int> _cache;
     private List<StatPipe> _pipes;
 
-    public StatsManager(Stats baseStats)
+    public StatsManager(StatsDictionary baseStats)
     {
         _baseStats = baseStats;
         _cache = new Dictionary<Stat, int>();
