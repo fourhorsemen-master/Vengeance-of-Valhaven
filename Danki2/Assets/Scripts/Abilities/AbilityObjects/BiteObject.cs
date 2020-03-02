@@ -4,11 +4,16 @@ using UnityEngine;
 public class BiteObject : StaticAbilityObject
 {
     public AudioSource biteSound = null;
+    public override float StickTime { get; set; }
 
-    public void Start()
+    public void Awake()
     {
-        float stickTime = biteSound.clip.length;
-        InitialiseAbility(stickTime);
+        StickTime = biteSound.clip.length;
+    }
+
+    protected override void Start()
+    {
+        base.Start();
 
         biteSound.Play();
     }

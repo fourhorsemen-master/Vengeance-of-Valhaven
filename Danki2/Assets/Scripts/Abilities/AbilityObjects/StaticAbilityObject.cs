@@ -3,9 +3,11 @@ using UnityEngine;
 
 public abstract class StaticAbilityObject : MonoBehaviour
 {
-    protected void InitialiseAbility(float stickTime)
+    public abstract float StickTime { get; set; }
+
+    protected virtual void Start()
     {
-        StartCoroutine(DissapearAfter(stickTime));
+        StartCoroutine(DissapearAfter(StickTime));
     }
 
     private IEnumerator DissapearAfter(float seconds)
