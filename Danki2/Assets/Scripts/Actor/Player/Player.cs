@@ -59,14 +59,14 @@ public class Player : Actor
                 AbilityReference.Slash,
                 AbilityTreeFactory.CreateNode(
                     AbilityReference.Roll,
-                    rightChild: AbilityTreeFactory.CreateNode(AbilityReference.DaggerThrow)
+                    rightChild: AbilityTreeFactory.CreateNode(AbilityReference.Smash)
                 ),
                 AbilityTreeFactory.CreateNode(AbilityReference.Whirlwind)
             ),
             AbilityTreeFactory.CreateNode(
-                AbilityReference.DaggerThrow,
+                AbilityReference.Lunge,
                 AbilityTreeFactory.CreateNode(AbilityReference.Slash),
-                AbilityTreeFactory.CreateNode(AbilityReference.Roll)
+                AbilityTreeFactory.CreateNode(AbilityReference.Whirlwind)
             )
         );
     }

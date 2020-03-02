@@ -25,6 +25,10 @@ public class CollisionTemplateManager : Singleton<CollisionTemplateManager>
         }
     }
 
+    public List<Actor> GetCollidingActors(CollisionTemplate template, float scale, Vector3 position) {
+        return GetCollidingActors(template, scale, position, Quaternion.identity);
+    }
+
     public List<Actor> GetCollidingActors(CollisionTemplate template, float scale, Vector3 position, Quaternion rotation)
     {
         MeshCollider templateInstance = instanceLookup[template];

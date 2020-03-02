@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public abstract class Node
 {
@@ -12,7 +13,7 @@ public abstract class Node
 
     protected Node(AbilityReference ability)
     {
-        this.Ability = ability;
+        Ability = ability;
     }
 
     public bool HasChild(Direction direction)
@@ -28,5 +29,22 @@ public abstract class Node
     public void SetChild(Direction direction, Node value)
     {
         _children[direction] = value;
+    }
+
+    public int MaxDepth()
+    {
+        int maxLeftDepth = 0;
+        if (HasChild(Direction.Left))
+        {
+            maxLeftDepth = GetChild(Direction.Left).MaxDepth();
+        }
+
+        int maxRightDepth = 0;
+        if (HasChild(Direction.Right))
+        {
+            maxRightDepth = GetChild(Direction.Right).MaxDepth();
+        }
+
+        return Mathf.Max(maxLeftDepth, maxRightDepth) + 1;
     }
 }

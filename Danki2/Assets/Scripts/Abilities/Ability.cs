@@ -17,7 +17,9 @@ public class Ability
         { AbilityReference.DaggerThrow, c => new DaggerThrow(c) },
         { AbilityReference.Bite, c => new Bite(c) },
         { AbilityReference.Roll, c => new Roll(c) },
+        { AbilityReference.Lunge, c => new Lunge(c) },
         { AbilityReference.Pounce, c => new Pounce(c) },
+        { AbilityReference.Smash, c => new Smash(c) },
     };
 
     private static Dictionary<AbilityReference, Func<AbilityContext, Channel>> _channels = new Dictionary<AbilityReference, Func<AbilityContext, Channel>>
