@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public abstract class StaticObject : MonoBehaviour
+public abstract class StaticAbilityObject : MonoBehaviour
 {
     protected void InitialiseAbility(float stickTime)
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class BiteObject : StaticObject
+public class BiteObject : StaticAbilityObject
 {
     public AudioSource biteSound = null;
 
