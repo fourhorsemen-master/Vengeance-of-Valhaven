@@ -2,6 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Maps enum keys to values in a way that the editor can read and write.
+/// </summary>
+/// <typeparam name="TEnumKey">
+///     We can only add new values to the end of the enum when it part of a SerializableEnumDictionary.
+///     Make sure this is stated in a comment on the enum.
+/// </typeparam>
+/// <typeparam name="TValue"></typeparam>
 [Serializable]
 public class SerializableEnumDictionary<TEnumKey, TValue> : ISerializationCallbackReceiver where TEnumKey : Enum
 {

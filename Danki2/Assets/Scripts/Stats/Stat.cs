@@ -1,8 +1,8 @@
 ﻿// Warning: because this enum is a key in an SerializableEnumDictionary:
 // Only add new values to the end of this enum.
-public enum CollisionTemplate
+public enum Stat
 {
-    Sphere,
-    Wedge90,
-    Cylinder,
+    MaxHealth,
+    Speed,
+    Strength
 }

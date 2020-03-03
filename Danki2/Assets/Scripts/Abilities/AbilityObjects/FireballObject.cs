@@ -5,7 +5,7 @@ public class FireballObject : ProjectileObject
 {
     public static void Fire(Actor caster, Action<GameObject> collisionCallback, float speed, Vector3 position, Quaternion rotation)
     {
-        var prefab = AbilityObjectPrefabLookup.Instance.FireballObjectPrefab;
+        FireballObject prefab = AbilityObjectPrefabLookup.Instance.FireballObjectPrefab;
         Instantiate(prefab, position, rotation)
             .InitialiseProjectile(caster, collisionCallback, speed);
     }

@@ -10,9 +10,7 @@ public class Bite : InstantCast
     }
 
     public override void Cast()
-    {
-        Debug.Log("Casting Bite");
-        
+    {  
         Actor owner = Context.Owner;
 
         Vector3 position = owner.transform.position;
@@ -34,6 +32,7 @@ public class Bite : InstantCast
             }
         });
 
+        BiteObject.Create(position, Quaternion.LookRotation(target - position));
         owner.Root(FinalRootDuration, owner.transform.forward);
     }
 }
