@@ -15,15 +15,18 @@ public class Pounce : InstantCast
 
     public override void Cast()
     {
-        Vector3 targetPosition = Context.TargetPosition;
-        targetPosition.y = Context.Owner.transform.position.y;
+        Vector3 position = Context.Owner.transform.position;
+        Vector3 target = Context.TargetPosition;
+        target.y = position.y;
 
         Context.Owner.LockMovement(
             _movementDuration,
             Context.Owner.GetStat(Stat.Speed) * _movementSpeedMultiplier,
-            targetPosition - Context.Owner.transform.position,
+            target - Context.Owner.transform.position,
             @override: true
         );
+
+        PounceObject.Create(position, Quaternion.LookRotation(target - position));
 
         Context.Owner.StartCoroutine(
             DealDamageCoroutine()

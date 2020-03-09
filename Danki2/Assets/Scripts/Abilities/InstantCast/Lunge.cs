@@ -16,9 +16,11 @@ public class Lunge : InstantCast
     public override void Cast()
     {
         Actor owner = Context.Owner;
+        Vector3 position = owner.transform.position;
+        Vector3 target = Context.TargetPosition;
 
-        Vector3 direction = Context.TargetPosition - owner.transform.position;
-        direction.y = owner.transform.position.y;
+        Vector3 direction = target - position;
+        direction.y = position.y;
 
         owner.LockMovement(
             _lungeDuration,
@@ -26,6 +28,8 @@ public class Lunge : InstantCast
             direction,
             passThrough: true
         );
+
+        LungeObject.Create(position, Quaternion.LookRotation(target - position));
 
         owner.StartCoroutine(StunAndDamageAfter(direction, owner));
     }

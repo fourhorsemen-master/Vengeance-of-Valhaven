@@ -18,6 +18,10 @@ public class Whirlwind : Channel
     public override void Start()
     {
         slowEffectId = Context.Owner.AddPassiveEffect(new Slow(_selfSlowMultiplier));
+
+        Vector3 position = Context.Owner.transform.position;
+        Vector3 target = Context.TargetPosition;
+        WhirlwindObject.Create(position, Quaternion.LookRotation(target - position));
     }
 
     public override void Continue()
