@@ -1,18 +1,32 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
-public class WhirlwindObject : StaticAbilityObject
+public class WhirlwindObject : MonoBehaviour
 {
+    private const float _soundInterval = 0.35f;
+    private const float _minVolume = 0.4f;
+    private const float _maxVolume = 1f;
+
     public AudioSource whirlwindSound = null;
-    public override float StickTime { get; set; }
 
-    public void Awake()
-    {
-        StickTime = whirlwindSound.clip.length;
-    }
-
-    public static void Create(Vector3 position, Quaternion rotation)
+    public static WhirlwindObject Create(Vector3 position, Quaternion rotation)
     {
         WhirlwindObject prefab = AbilityObjectPrefabLookup.Instance.WhirlwindObjectPrefab;
-        Instantiate(prefab, position, rotation);
+        return Instantiate(prefab, position, rotation);
+    }
+
+    public void Start()
+    {
+        StartCoroutine(PlaySoundAndWait(_soundInterval));
+    }
+
+    private IEnumerator PlaySoundAndWait(float soundInterval)
+    {
+        while(true)
+        {
+            whirlwindSound.volume = Random.Range(_minVolume, _maxVolume);
+            whirlwindSound.Play();
+            yield return new WaitForSeconds(soundInterval);
+        }
     }
 }
