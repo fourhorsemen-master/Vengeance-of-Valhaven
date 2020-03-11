@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class Bite : InstantCast
 {
     public static readonly float Range = 2f;
     public static readonly float FinalRootDuration = 0.5f;
+    public static readonly float DelayBeforeDamage = 0.75f;
 
     public Bite(AbilityContext context) : base(context)
     {
@@ -19,11 +21,22 @@ public class Bite : InstantCast
 
         float damage = owner.GetStat(Stat.Strength);
 
+        IEnumerator coroutine = DelayDamage(DelayBeforeDamage, position, target, owner, damage);
+        owner.StartCoroutine(coroutine);
+
+        GameObject.Instantiate(AbilityObjectPrefabLookup.Instance.BiteObjectPrefab, owner.transform);
+        owner.Root(FinalRootDuration, owner.transform.forward);
+    }
+
+    private IEnumerator DelayDamage(float waitTime, Vector3 position, Vector3 targetPosition, Actor owner, float damage )
+    {
+        yield return new WaitForSeconds(waitTime);
+
         CollisionTemplateManager.Instance.GetCollidingActors(
             CollisionTemplate.Wedge90,
             Range,
             position,
-            Quaternion.LookRotation(target - position)
+            Quaternion.LookRotation(targetPosition - position)
         ).ForEach(actor =>
         {
             if (owner.Opposes(actor))
@@ -31,8 +44,5 @@ public class Bite : InstantCast
                 actor.ModifyHealth(-damage);
             }
         });
-
-        BiteObject.Create(position, Quaternion.LookRotation(target - position));
-        owner.Root(FinalRootDuration, owner.transform.forward);
     }
 }

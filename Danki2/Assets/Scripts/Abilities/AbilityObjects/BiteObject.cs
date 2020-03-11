@@ -1,10 +1,13 @@
-﻿using System;
+﻿using System.Collections;
 using UnityEngine;
 
 public class BiteObject : StaticAbilityObject
 {
     public AudioSource biteSound = null;
     public override float StickTime { get; set; }
+
+    [SerializeField]
+    private Collider collider = null;
 
     public void Awake()
     {
@@ -16,11 +19,17 @@ public class BiteObject : StaticAbilityObject
         base.Start();
 
         biteSound.Play();
+
+        DelayCollider(0.5f);
     }
 
-    public static void Create(Vector3 position, Quaternion rotation)
+    private IEnumerator DelayCollider( float waitTime )
     {
-        BiteObject prefab = AbilityObjectPrefabLookup.Instance.BiteObjectPrefab;
-        Instantiate(prefab, position, rotation);
+        yield return new WaitForSeconds(waitTime);
+
+        if(collider)
+        {
+            collider.enabled = true;
+        }
     }
 }
