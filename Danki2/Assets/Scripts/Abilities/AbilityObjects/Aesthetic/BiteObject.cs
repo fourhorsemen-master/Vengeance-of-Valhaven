@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BiteObject : StaticAbilityObject
 {
@@ -9,13 +8,6 @@ public class BiteObject : StaticAbilityObject
     public void Awake()
     {
         StickTime = biteSound.clip.length;
-    }
-
-    protected override void Start()
-    {
-        base.Start();
-
-        biteSound.Play();
     }
 
     public static void Create(Vector3 position, Quaternion rotation)
