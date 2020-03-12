@@ -34,5 +34,7 @@ public class Smash : InstantCast
                 actor.ModifyHealth(-damage);
             }
         });
+
+        SmashObject.Create(position, Quaternion.LookRotation(target - position));
     }
 }
