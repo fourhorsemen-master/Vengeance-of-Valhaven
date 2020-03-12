@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SlashVisual : MonoBehaviour
 {
+    public AudioSource slashSound = null;
 
     [SerializeField]
     private float _rotationSpeed = 0f;
@@ -24,6 +25,8 @@ public class SlashVisual : MonoBehaviour
         _meshRenderer.enabled = true;
 
         transform.LookAt(MouseGamePositionFinder.Instance.GetFlooredMouseGamePosition());
+
+        slashSound.Play();
     }
 
     void Update()
