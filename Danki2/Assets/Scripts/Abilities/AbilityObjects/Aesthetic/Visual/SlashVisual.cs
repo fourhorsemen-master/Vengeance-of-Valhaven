@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class SlashVisual : MonoBehaviour
 {
-
     [SerializeField]
     private float _rotationSpeed = 0f;
 
