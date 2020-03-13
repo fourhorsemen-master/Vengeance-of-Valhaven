@@ -1,20 +1,12 @@
 ﻿using UnityEngine;
 
-public abstract class Node
+public class Node
 {
     [SerializeField]
     private AbilityTreeChildren _children = new AbilityTreeChildren((Node)null);
 
+    [SerializeField]
     private AbilityReference _ability;
-
-    protected Node()
-    {
-    }
-
-    protected Node(AbilityReference ability)
-    {
-        _ability = ability;
-    }
 
     public bool HasChild(Direction direction)
     {

@@ -1,4 +1,4 @@
-﻿public abstract class AbilityTree
+﻿public class AbilityTree
 {
     private readonly Node _rootNode;
 
@@ -12,7 +12,7 @@
 
     public BehaviourSubject<int> CurrentDepthSubject { get; }
 
-    protected AbilityTree(Node rootNode)
+    public AbilityTree(Node rootNode)
     {
         _rootNode = rootNode;
         _currentNode = _rootNode;
