@@ -42,7 +42,7 @@ public class NextAbilityIcons : MonoBehaviour
             return;
         }
 
-        AbilityReference ability = node.GetChild(direction).Ability;
+        AbilityReference ability = node.GetChild(direction).GetAbility();
         Sprite iconSprite = AbilityIconManager.Instance.GetIcon(ability);
         icon.sprite = iconSprite;
         icon.enabled = true;

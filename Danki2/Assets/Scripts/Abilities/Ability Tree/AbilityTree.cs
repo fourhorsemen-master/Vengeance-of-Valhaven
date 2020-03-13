@@ -38,7 +38,7 @@
 
     public AbilityReference GetAbility(Direction direction)
     {
-        return _currentNode.GetChild(direction).Ability;
+        return _currentNode.GetChild(direction).GetAbility();
     }
 
     public AbilityReference Walk(Direction direction)
@@ -49,7 +49,7 @@
         _currentDepth++;
         CurrentDepthSubject.Next(_currentDepth);
 
-        return _currentNode.Ability;
+        return _currentNode.GetAbility();
     }
 
     public void Reset()

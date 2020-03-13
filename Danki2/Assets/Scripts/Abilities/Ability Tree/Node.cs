@@ -5,7 +5,7 @@ public abstract class Node
     [SerializeField]
     private AbilityTreeChildren _children = new AbilityTreeChildren((Node)null);
 
-    public AbilityReference Ability { get; }
+    private AbilityReference _ability;
 
     protected Node()
     {
@@ -13,7 +13,7 @@ public abstract class Node
 
     protected Node(AbilityReference ability)
     {
-        Ability = ability;
+        _ability = ability;
     }
 
     public bool HasChild(Direction direction)
@@ -29,6 +29,16 @@ public abstract class Node
     public void SetChild(Direction direction, Node value)
     {
         _children[direction] = value;
+    }
+
+    public AbilityReference GetAbility()
+    {
+        return _ability;
+    }
+
+    public void SetAbility(AbilityReference ability)
+    {
+        _ability = ability;
     }
 
     public int MaxDepth()
