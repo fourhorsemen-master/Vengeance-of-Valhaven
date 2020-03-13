@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public abstract class Node
 {
-    private readonly Dictionary<Direction, Node> _children = new Dictionary<Direction, Node>();
+    [SerializeField]
+    private AbilityTreeChildren _children = new AbilityTreeChildren((Node)null);
 
     public AbilityReference Ability { get; }
 
@@ -18,7 +18,7 @@ public abstract class Node
 
     public bool HasChild(Direction direction)
     {
-        return _children.TryGetValue(direction, out _);
+        return _children[direction] != null;
     }
 
     public Node GetChild(Direction direction)
