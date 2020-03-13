@@ -51,4 +51,12 @@ public class Node
 
         return Mathf.Max(maxLeftDepth, maxRightDepth) + 1;
     }
+
+    public void IterateDown(Action<Node> callback)
+    {
+        callback.Invoke(this);
+
+        if (HasChild(Direction.Left)) GetChild(Direction.Left).IterateDown(callback);
+        if (HasChild(Direction.Right)) GetChild(Direction.Right).IterateDown(callback);
+    }
 }

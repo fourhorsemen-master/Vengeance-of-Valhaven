@@ -68,4 +68,12 @@ public class AbilityTree
         _currentDepth = 0;
         CurrentDepthSubject.Next(_currentDepth);
     }
+
+    public void IterateDown(Action<Node> callback, bool includeRoot = false)
+    {
+        if (includeRoot) callback.Invoke(_rootNode);
+
+        GetChild(Direction.Left).IterateDown(callback);
+        GetChild(Direction.Right).IterateDown(callback);
+    }
 }
