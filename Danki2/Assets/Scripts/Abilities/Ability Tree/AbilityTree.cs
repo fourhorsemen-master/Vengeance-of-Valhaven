@@ -1,5 +1,10 @@
-﻿public class AbilityTree
+﻿using System;
+using UnityEngine;
+
+[Serializable]
+public class AbilityTree
 {
+    [SerializeField]
     private Node _rootNode;
 
     private Node _currentNode;
@@ -24,9 +29,9 @@
         CurrentDepthSubject = new BehaviourSubject<int>(_currentDepth);
     }
 
-    public Node GetRootNode()
+    public Node GetChild(Direction direction)
     {
-        return _rootNode;
+        return _rootNode.GetChild(direction);
     }
 
     public bool CanWalkDirection(Direction direction)
