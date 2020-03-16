@@ -26,6 +26,9 @@ public class AbilityObjectPrefabLookup : Singleton<AbilityObjectPrefabLookup>
     [SerializeField]
     private WhirlwindObject _whirlwindObjectPrefab = null;
 
+    [SerializeField]
+    private RollObject _rollObjectPrefab = null;
+
     public FireballObject FireballObjectPrefab { get => _fireballObjectPrefab; }
     public DaggerObject DaggerObjectPrefab { get => _daggerObjectPrefab; }
     public BiteObject BiteObjectPrefab { get => _biteObjectPrefab; }
@@ -34,4 +37,5 @@ public class AbilityObjectPrefabLookup : Singleton<AbilityObjectPrefabLookup>
     public SmashObject SmashObjectPrefab { get => _smashObjectPrefab; }
     public WhirlwindObject WhirlwindObjectPrefab { get => _whirlwindObjectPrefab; }
     public GameObject SlashObjectPrefab { get => _slashObjectPrefab; }
+    public RollObject RollObjectPrefab { get => _rollObjectPrefab; }
 }
