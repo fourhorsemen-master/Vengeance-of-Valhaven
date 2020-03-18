@@ -43,8 +43,10 @@ public class Player : Actor
     public CastingStatus CastingStatus { get; private set; } = CastingStatus.Ready;
 
     private float _remainingDashCooldown = 0f;
-    public AbilityTree AbilityTree { get; private set; }
-    
+
+    [HideInInspector]
+    public AbilityTree AbilityTree = AbilityTreeFactory.Default();
+
     private ActionControlState _previousActionControlState = ActionControlState.None;
     private ActionControlState _currentActionControlState = ActionControlState.None;
 
@@ -54,21 +56,22 @@ public class Player : Actor
     {
         base.Awake();
 
-        AbilityTree = AbilityTreeFactory.CreateTree(
-            AbilityTreeFactory.CreateNode(
-                AbilityReference.Slash,
-                AbilityTreeFactory.CreateNode(
-                    AbilityReference.Roll,
-                    rightChild: AbilityTreeFactory.CreateNode(AbilityReference.Smash)
-                ),
-                AbilityTreeFactory.CreateNode(AbilityReference.Whirlwind)
-            ),
-            AbilityTreeFactory.CreateNode(
-                AbilityReference.Lunge,
-                AbilityTreeFactory.CreateNode(AbilityReference.Slash),
-                AbilityTreeFactory.CreateNode(AbilityReference.Whirlwind)
-            )
-        );
+        //_abilityTree = AbilityTreeFactory.CreateTree(AbilityTreeFactory.CreateNode(AbilityReference.Lunge), AbilityTreeFactory.CreateNode(AbilityReference.Slash));
+        //AbilityTree = AbilityTreeFactory.CreateTree(
+        //    AbilityTreeFactory.CreateNode(
+        //        AbilityReference.Slash,
+        //        AbilityTreeFactory.CreateNode(
+        //            AbilityReference.Roll,
+        //            rightChild: AbilityTreeFactory.CreateNode(AbilityReference.Smash)
+        //        ),
+        //        AbilityTreeFactory.CreateNode(AbilityReference.Whirlwind)
+        //    ),
+        //    AbilityTreeFactory.CreateNode(
+        //        AbilityReference.Lunge,
+        //        AbilityTreeFactory.CreateNode(AbilityReference.Slash),
+        //        AbilityTreeFactory.CreateNode(AbilityReference.Whirlwind)
+        //    )
+        //);
     }
 
     protected override void Start()

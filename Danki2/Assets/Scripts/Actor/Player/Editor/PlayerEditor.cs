@@ -4,11 +4,15 @@ using UnityEngine;
 [CustomEditor(typeof(Player))]
 public class PlayerEditor : ActorEditor
 {
+    private AbilityTreeEditor _abilityTreeEditor = new AbilityTreeEditor();
+
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
 
         Player player = (Player)target;
+
+        _abilityTreeEditor.Edit(player);
 
         EditorGUILayout.LabelField("Abilities", EditorStyles.boldLabel);
         EditorGUI.indentLevel++;

@@ -17,4 +17,9 @@
         node.SetChild(Direction.Right, rightChild);
         return node;
     }
+
+    public static AbilityTree Default()
+    {
+        return CreateTree(CreateNode(default),CreateNode(default));
+    }
 }
