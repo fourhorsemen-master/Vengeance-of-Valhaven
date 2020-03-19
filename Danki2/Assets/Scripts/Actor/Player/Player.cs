@@ -43,7 +43,7 @@ public class Player : Actor
     public CastingStatus CastingStatus { get; private set; } = CastingStatus.Ready;
 
     private float _remainingDashCooldown = 0f;
-    private AbilityTree _abilityTree;
+    public AbilityTree AbilityTree { get; private set; }
     
     private ActionControlState _previousActionControlState = ActionControlState.None;
     private ActionControlState _currentActionControlState = ActionControlState.None;
@@ -54,7 +54,7 @@ public class Player : Actor
     {
         base.Awake();
 
-        _abilityTree = AbilityTreeFactory.CreateTree(
+        AbilityTree = AbilityTreeFactory.CreateTree(
             AbilityTreeFactory.CreateNode(
                 AbilityReference.Slash,
                 AbilityTreeFactory.CreateNode(
@@ -141,7 +141,7 @@ public class Player : Actor
                 CastingStatus = RemainingAbilityCooldown <= 0f ? CastingStatus.Ready : CastingStatus.Cooldown;
 
                 // Ability whiffed, reset tree. TODO: Make a method out of this including feedback for player. 
-                _abilityTree.Reset();
+                AbilityTree.Reset();
                 break;
             case CastingCommand.CastLeft:
                 BranchAndCast(Direction.Left);
@@ -154,21 +154,21 @@ public class Player : Actor
 
     public void SubscribeToTreeWalk(Action<Node> callback)
     {
-        _abilityTree.TreeWalkSubject.Subscribe(callback);
+        AbilityTree.TreeWalkSubject.Subscribe(callback);
     }
 
     private void BranchAndCast(Direction direction)
     {
         RemainingAbilityCooldown = abilityCooldown;
 
-        if (!_abilityTree.CanWalkDirection(direction))
+        if (!AbilityTree.CanWalkDirection(direction))
         {
             // Whiffed!
-            _abilityTree.Reset();
+            AbilityTree.Reset();
             return;
         }
 
-        var abilityReference = _abilityTree.Walk(direction);
+        var abilityReference = AbilityTree.Walk(direction);
 
         var abilityContext = new AbilityContext(this, MouseGamePositionFinder.Instance.GetMouseGamePosition());
 
@@ -190,9 +190,9 @@ public class Player : Actor
                 : CastingStatus.ChannelingRight;
         }
 
-        if (!_abilityTree.CanWalk())
+        if (!AbilityTree.CanWalk())
         {
-            _abilityTree.Reset();
+            AbilityTree.Reset();
             return;
         }
     }
