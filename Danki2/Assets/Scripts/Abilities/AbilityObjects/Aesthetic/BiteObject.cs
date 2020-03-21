@@ -10,11 +10,4 @@ public class BiteObject : StaticAbilityObject
     {
         StickTime = biteSound.clip.length;
     }
-
-    protected override void Start()
-    {
-        base.Start();
-
-        biteSound.Play();
-    }
 }

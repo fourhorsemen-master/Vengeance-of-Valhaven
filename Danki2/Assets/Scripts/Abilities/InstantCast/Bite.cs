@@ -28,9 +28,9 @@ public class Bite : InstantCast
         owner.Root(FinalRootDuration, owner.transform.forward);
     }
 
-    private IEnumerator DelayDamage(float waitTime, Vector3 position, Vector3 targetPosition, Actor owner, float damage )
+    private IEnumerator DelayDamage( Vector3 position, Vector3 targetPosition, Actor owner, float damage )
     {
-        yield return new WaitForSeconds(waitTime);
+        yield return new WaitForSeconds(DelayBeforeDamage);
 
         CollisionTemplateManager.Instance.GetCollidingActors(
             CollisionTemplate.Wedge90,
