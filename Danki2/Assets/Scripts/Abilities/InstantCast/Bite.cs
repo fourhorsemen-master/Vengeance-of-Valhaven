@@ -21,10 +21,10 @@ public class Bite : InstantCast
 
         float damage = owner.GetStat(Stat.Strength);
 
-        IEnumerator coroutine = DelayDamage(DelayBeforeDamage, position, target, owner, damage);
+        IEnumerator coroutine = DelayDamage( position, target, owner, damage);
         owner.StartCoroutine(coroutine);
 
-        GameObject.Instantiate(AbilityObjectPrefabLookup.Instance.BiteObjectPrefab, owner.transform);
+        BiteObject.Create(owner.transform.position, owner.transform.rotation);
         owner.Root(FinalRootDuration, owner.transform.forward);
     }
 
