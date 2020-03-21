@@ -15,21 +15,20 @@ public class Bite : InstantCast
     {  
         Actor owner = Context.Owner;
 
-        Vector3 position = owner.transform.position;
-        Vector3 target = Context.TargetPosition;
-        target.y = 0;
-
-        float damage = owner.GetStat(Stat.Strength);
-
-        IEnumerator coroutine = DelayDamage( position, target, owner, damage);
+        IEnumerator coroutine = DelayDamage(owner);
         owner.StartCoroutine(coroutine);
 
-        BiteObject.Create(owner.transform.position, owner.transform.rotation);
+        BiteObject.Create(owner.transform);
         owner.Root(FinalRootDuration, owner.transform.forward);
     }
 
-    private IEnumerator DelayDamage( Vector3 position, Vector3 targetPosition, Actor owner, float damage )
+    private IEnumerator DelayDamage( Actor owner )
     {
+        float damage = owner.GetStat(Stat.Strength);
+        Vector3 position = owner.transform.position;
+        Vector3 targetPosition = Context.TargetPosition;
+        targetPosition.y = 0f;
+
         yield return new WaitForSeconds(DelayBeforeDamage);
 
         CollisionTemplateManager.Instance.GetCollidingActors(

@@ -11,9 +11,9 @@ public class BiteObject : StaticAbilityObject
         StickTime = biteSound.clip.length;
     }
 
-    public static void Create(Vector3 position, Quaternion rotation)
+    public static void Create(Transform casterTransform)
     {
         BiteObject prefab = AbilityObjectPrefabLookup.Instance.BiteObjectPrefab;
-        Instantiate(prefab, position, rotation);
+        Instantiate(prefab, casterTransform);
     }
 }
