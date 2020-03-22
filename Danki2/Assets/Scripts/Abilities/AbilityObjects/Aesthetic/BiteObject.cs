@@ -1,4 +1,4 @@
-﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public class BiteObject : StaticAbilityObject
@@ -11,16 +11,9 @@ public class BiteObject : StaticAbilityObject
         StickTime = biteSound.clip.length;
     }
 
-    protected override void Start()
-    {
-        base.Start();
-
-        biteSound.Play();
-    }
-
-    public static void Create(Vector3 position, Quaternion rotation)
+    public static void Create(Transform casterTransform)
     {
         BiteObject prefab = AbilityObjectPrefabLookup.Instance.BiteObjectPrefab;
-        Instantiate(prefab, position, rotation);
+        Instantiate(prefab, casterTransform);
     }
 }
