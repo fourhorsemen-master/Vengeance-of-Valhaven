@@ -2,8 +2,12 @@
 
 class DaggerThrow : InstantCast
 {
-    private static readonly float _daggerSpeed = 20f;
-    private static readonly Vector3 _positionTransform = new Vector3(0, 1.25f, 0);
+    private static readonly float daggerSpeed = 20f;
+    private static readonly float impactDamageMultiplier = 0.5f;
+    private static readonly float damagePerTickMultiplier = 0.5f;
+    private static readonly float damageTickInterval = 1f;
+    private static readonly float dotDuration = 3f;
+    private static readonly Vector3 positionTransform = new Vector3(0, 1.25f, 0);
 
     public DaggerThrow(AbilityContext context) : base(context)
     {
@@ -12,10 +16,10 @@ class DaggerThrow : InstantCast
 
     public override void Cast()
     {
-        Vector3 position = Context.Owner.transform.position + _positionTransform;
+        Vector3 position = Context.Owner.transform.position + positionTransform;
         Vector3 target = Context.TargetPosition;
         Quaternion rotation = Quaternion.LookRotation(target - position);
-        DaggerObject.Fire(Context.Owner, OnCollision, _daggerSpeed, position, rotation);
+        DaggerObject.Fire(Context.Owner, OnCollision, daggerSpeed, position, rotation);
     }
 
     protected void OnCollision(GameObject gameObject)
@@ -29,9 +33,13 @@ class DaggerThrow : InstantCast
                 return;
             }
 
-            var strength = Context.Owner.GetStat(Stat.Strength);
-            actor.ModifyHealth(-strength/2);
-            actor.AddActiveEffect(new DOT(2), 5);
+            int strength = Context.Owner.GetStat(Stat.Strength);
+
+            float impactDamage = strength * impactDamageMultiplier;
+            actor.ModifyHealth(-impactDamage);
+
+            float damagePerTick = strength * damagePerTickMultiplier;
+            actor.AddActiveEffect(new DOT(damagePerTick, damageTickInterval), dotDuration);
         }
     }
 }
