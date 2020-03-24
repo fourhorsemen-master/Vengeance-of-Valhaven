@@ -5,5 +5,6 @@
     IgnoreRaycast = 2,
     Water = 4,
     UI = 5,
-    Ethereal =8,
+    Ethereal = 8,
+    Floor = 9,
 }
