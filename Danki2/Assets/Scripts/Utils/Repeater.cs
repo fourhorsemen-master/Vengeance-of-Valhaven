@@ -15,16 +15,12 @@ public class Repeater
 
     /// <param name="interval">How often to run the action, given in seconds</param>
     /// <param name="action">The action to run</param>
-    /// <param name="runOnStart">
-    /// Whether to run the action when the repeater is created. If false then the action
-    /// won't run until the fist time the interval passes.
-    /// </param>
-    public Repeater(float interval, Action action, bool runOnStart = true)
+    /// <param name="startDelay">The length of time to delay the first run of the action</param>
+    public Repeater(float interval, Action action, float startDelay = 0)
     {
         this.interval = interval;
         this.action = action;
-
-        if (runOnStart) action.Invoke();
+        this.currentTime = interval - startDelay;
     }
 
     public void Update()

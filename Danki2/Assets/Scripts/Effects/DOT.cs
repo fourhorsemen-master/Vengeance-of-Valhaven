@@ -15,7 +15,7 @@ class DOT : Effect
 
     public override void Start(Actor actor)
     {
-        repeater = new Repeater(tickInterval, () => actor.ModifyHealth(-damagePerTick), false);
+        repeater = new Repeater(tickInterval, () => actor.ModifyHealth(-damagePerTick), tickInterval);
     }
 
     public override void Update(Actor actor)
