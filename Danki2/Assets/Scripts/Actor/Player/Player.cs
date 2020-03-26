@@ -126,7 +126,6 @@ public class Player : Actor
     {
         yield return new WaitForSeconds(dashDuration * 2);
         trailRenderer.emitting = false;
-
     }
 
     public void SetCurrentControlState(ActionControlState controlState)
