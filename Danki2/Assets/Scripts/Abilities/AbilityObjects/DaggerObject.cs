@@ -19,7 +19,10 @@ public class DaggerObject : ProjectileObject
 
         _collisionSound.Play();
 
-        TrailRenderer tr = gameObject.GetComponentInChildren<TrailRenderer>();
-        Destroy(tr);
+        if (other.tag != Tags.Player)
+        {
+            TrailRenderer tr = gameObject.GetComponentInChildren<TrailRenderer>();
+            Destroy(tr);
+        }
     }
 }
