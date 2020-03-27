@@ -42,6 +42,8 @@ public class Player : Actor
     [HideInInspector]
     public CastingStatus CastingStatus { get; private set; } = CastingStatus.Ready;
 
+    private float _abilityTimeoutLimit = 5f;
+    private float _abilityTimeout;
     private float _remainingDashCooldown = 0f;
     public AbilityTree AbilityTree { get; private set; }
     
@@ -123,6 +125,15 @@ public class Player : Actor
 
     private void HandleAbilities()
     {
+        if(_abilityTimeout <= 0)
+        {
+            AbilityTree.Reset();
+            _abilityTimeout = _abilityTimeoutLimit;
+            return;
+        }
+
+        _abilityTimeout -= Time.deltaTime;
+
         var castingCommand = ControlMatrix.GetCastingCommand(CastingStatus, _previousActionControlState, _currentActionControlState);
         _previousActionControlState = _currentActionControlState;
         _currentActionControlState = ActionControlState.None;
@@ -160,6 +171,7 @@ public class Player : Actor
     private void BranchAndCast(Direction direction)
     {
         RemainingAbilityCooldown = abilityCooldown;
+        _abilityTimeout = _abilityTimeoutLimit;
 
         if (!AbilityTree.CanWalkDirection(direction))
         {
