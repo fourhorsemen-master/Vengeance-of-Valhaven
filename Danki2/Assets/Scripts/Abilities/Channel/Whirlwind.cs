@@ -3,15 +3,19 @@ using UnityEngine;
 
 public class Whirlwind : Channel
 {
-    private static readonly float _spinRange = 2;
-    private static readonly float _spinDpsMultiplier = 0.3f;
-    private static readonly float _selfSlowMultiplier = 0.5f;
-    private static readonly float _finishRange = 3;
-    private static readonly float _finishDamageMultiplier = 1;
+    private const float spinRange = 2;
+    private const float spinDamageMultiplier = 0.3f;
+    private const float spinDamageInterval = 0.35f;
+    private const float spinDamageStartDelay = 0.1f;
+    private const float selfSlowMultiplier = 0.5f;
+    private const float finishRange = 3;
+    private const float finishDamageMultiplier = 1;
 
     private WhirlwindObject _whirlwindObject;
 
     private Guid slowEffectId;
+
+    private Repeater repeater;
 
     public Whirlwind(AbilityContext context) : base(context) { }
 
@@ -19,7 +23,8 @@ public class Whirlwind : Channel
 
     public override void Start()
     {
-        slowEffectId = Context.Owner.AddPassiveEffect(new Slow(_selfSlowMultiplier));
+        slowEffectId = Context.Owner.AddPassiveEffect(new Slow(selfSlowMultiplier));
+        repeater = new Repeater(spinDamageInterval, () => AOE(spinRange, spinDamageMultiplier), spinDamageStartDelay);
 
         Vector3 position = Context.Owner.transform.position;
         Vector3 target = Context.TargetPosition;
@@ -28,7 +33,7 @@ public class Whirlwind : Channel
 
     public override void Continue()
     {
-        AOE(_spinRange, _spinDpsMultiplier * Time.deltaTime);
+        repeater.Update();
     }
 
     public override void Cancel()
@@ -39,7 +44,7 @@ public class Whirlwind : Channel
 
     public override void End()
     {
-        AOE(_finishRange, _finishDamageMultiplier);
+        AOE(finishRange, finishDamageMultiplier);
         Context.Owner.RemovePassiveEffect(slowEffectId);
         GameObject.Destroy(_whirlwindObject);
     }

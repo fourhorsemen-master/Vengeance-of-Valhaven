@@ -67,7 +67,7 @@ public class Player : Actor
             ),
             AbilityTreeFactory.CreateNode(
                 AbilityReference.Lunge,
-                AbilityTreeFactory.CreateNode(AbilityReference.Slash),
+                AbilityTreeFactory.CreateNode(AbilityReference.DaggerThrow),
                 AbilityTreeFactory.CreateNode(AbilityReference.Whirlwind)
             )
         );

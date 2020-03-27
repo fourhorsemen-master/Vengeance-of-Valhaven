@@ -46,7 +46,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8501680027219967870}
-  m_Mesh: {fileID: -2432090755550338912, guid: 71f18d132203ec442900951399d2edf0, type: 3}
+  m_Mesh: {fileID: -2432090755550338912, guid: f9f19f5c61150a54db66db485fa8ab9d, type: 3}
 --- !u!23 &2427766876654344830
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -3033667219593020291, guid: 71f18d132203ec442900951399d2edf0, type: 3}
+  - {fileID: 2100000, guid: 6ea005422e17a374eb906dcf347717af, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -97,7 +97,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.654938, y: 1.066088, z: 2.027631}
-  m_Center: {x: 0, y: 0.531008, z: 0.07696152}
+  m_Center: {x: 0, y: 0.56, z: 0.07696152}
 --- !u!54 &5134676781764737243
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -416,16 +416,16 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0.583
       objectReference: {fileID: 0}
-    - target: {fileID: 4786451031857272853, guid: 6dbad747eebf9a548b7db47011b6855f,
-        type: 3}
-      propertyPath: m_DynamicPixelsPerUnit
-      value: 100
-      objectReference: {fileID: 0}
     - target: {fileID: 6207019259679190454, guid: 6dbad747eebf9a548b7db47011b6855f,
         type: 3}
       propertyPath: _enemy
       value: 
       objectReference: {fileID: -1347520900970919038}
+    - target: {fileID: 4786451031857272853, guid: 6dbad747eebf9a548b7db47011b6855f,
+        type: 3}
+      propertyPath: m_DynamicPixelsPerUnit
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6dbad747eebf9a548b7db47011b6855f, type: 3}
 --- !u!1 &8929788184142976845 stripped

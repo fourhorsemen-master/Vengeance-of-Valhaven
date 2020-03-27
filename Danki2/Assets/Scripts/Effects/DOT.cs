@@ -2,16 +2,24 @@
 
 class DOT : Effect
 {
-    private readonly float _dps;
+    private readonly float damagePerTick;
+    private readonly float tickInterval;
 
-    public DOT(float dps)
+    private Repeater repeater;
+
+    public DOT(float damagePerTick, float tickInterval)
     {
-        _dps = dps;
+        this.damagePerTick = damagePerTick;
+        this.tickInterval = tickInterval;
+    }
+
+    public override void Start(Actor actor)
+    {
+        repeater = new Repeater(tickInterval, () => actor.ModifyHealth(-damagePerTick), tickInterval);
     }
 
     public override void Update(Actor actor)
     {
-        actor.ModifyHealth(-_dps * Time.deltaTime);
+        repeater.Update();
     }
 }
-
