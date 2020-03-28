@@ -17,16 +17,10 @@ public class WhirlwindObject : MonoBehaviour
 
     public void Start()
     {
-        StartCoroutine(PlaySoundAndWait(_soundInterval));
-    }
-
-    private IEnumerator PlaySoundAndWait(float soundInterval)
-    {
-        while(true)
+        this.ActOnInterval(_soundInterval, () => 
         {
             whirlwindSound.volume = Random.Range(_minVolume, _maxVolume);
             whirlwindSound.Play();
-            yield return new WaitForSeconds(soundInterval);
-        }
+        });
     }
 }
