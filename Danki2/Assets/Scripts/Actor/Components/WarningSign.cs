@@ -32,13 +32,11 @@ public class WarningSign : MonoBehaviour
     private void ShowWarning()
     {
         StopAllCoroutines();
-        _exclaimationMark.enabled = true;
-        StartCoroutine(HideWarningAfter());
-    }
 
-    private IEnumerator HideWarningAfter()
-    {
-        yield return new WaitForSeconds(_duration);
-        _exclaimationMark.enabled = false;
+        _exclaimationMark.enabled = true;
+        this.WaitAndAct(_duration, () =>
+        {
+            _exclaimationMark.enabled = false;
+        });
     }
 }

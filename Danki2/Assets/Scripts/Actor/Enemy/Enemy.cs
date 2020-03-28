@@ -17,14 +17,6 @@ public abstract class Enemy : Actor
     {
         OnTelegraph.Next();
 
-        StartCoroutine(
-            WaitAndCastCoroutine(waitTime, abilityFactory)
-        );
-    }
-
-    private IEnumerator WaitAndCastCoroutine(float waitTime, Func<InstantCast> abilityFactory)
-    {
-        yield return new WaitForSeconds(waitTime);
-        abilityFactory.Invoke().Cast();
+        this.WaitAndAct(waitTime, () => abilityFactory.Invoke().Cast());
     }
 }

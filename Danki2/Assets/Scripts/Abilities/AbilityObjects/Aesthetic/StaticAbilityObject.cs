@@ -7,12 +7,6 @@ public abstract class StaticAbilityObject : MonoBehaviour
 
     protected virtual void Start()
     {
-        StartCoroutine(DissapearAfter(StickTime));
-    }
-
-    private IEnumerator DissapearAfter(float seconds)
-    {
-        yield return new WaitForSeconds(seconds);
-        Destroy(gameObject);
+        this.WaitAndAct(StickTime, () => Destroy(gameObject));
     }
 }

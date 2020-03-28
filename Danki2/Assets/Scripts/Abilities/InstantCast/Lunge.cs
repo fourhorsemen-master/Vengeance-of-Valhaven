@@ -31,27 +31,23 @@ public class Lunge : InstantCast
 
         LungeObject.Create(position, Quaternion.LookRotation(target - position));
 
-        owner.StartCoroutine(StunAndDamageAfter(direction, owner));
-    }
-
-    private IEnumerator StunAndDamageAfter(Vector3 direction, Actor owner)
-    {
-        yield return new WaitForSeconds(_lungeDuration);
-
-        float damage = owner.GetStat(Stat.Strength) * _lungeDamageMultiplier;
-
-        CollisionTemplateManager.Instance.GetCollidingActors(
-            CollisionTemplate.Wedge90,
-            _stunRange,
-            owner.transform.position,
-            Quaternion.LookRotation(direction)
-        ).ForEach(actor =>
+        owner.WaitAndAct(_lungeDuration, () =>
         {
-            if (owner.Opposes(actor))
+            float damage = owner.GetStat(Stat.Strength) * _lungeDamageMultiplier;
+
+            CollisionTemplateManager.Instance.GetCollidingActors(
+                CollisionTemplate.Wedge90,
+                _stunRange,
+                owner.transform.position,
+                Quaternion.LookRotation(direction)
+            ).ForEach(actor =>
             {
-                actor.AddActiveEffect(new Stun(_stunDuration), _stunDuration);
-                actor.ModifyHealth(-damage);
-            }
+                if (owner.Opposes(actor))
+                {
+                    actor.AddActiveEffect(new Stun(_stunDuration), _stunDuration);
+                    actor.ModifyHealth(-damage);
+                }
+            });
         });
     }
 }

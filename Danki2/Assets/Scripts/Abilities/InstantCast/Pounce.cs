@@ -15,45 +15,38 @@ public class Pounce : InstantCast
 
     public override void Cast()
     {
-        Vector3 position = Context.Owner.transform.position;
+        Actor owner = Context.Owner;
+        Vector3 position = owner.transform.position;
         Vector3 target = Context.TargetPosition;
         target.y = position.y;
 
-        Context.Owner.LockMovement(
+        owner.LockMovement(
             _movementDuration,
-            Context.Owner.GetStat(Stat.Speed) * _movementSpeedMultiplier,
-            target - Context.Owner.transform.position,
+            owner.GetStat(Stat.Speed) * _movementSpeedMultiplier,
+            target - owner.transform.position,
             @override: true
         );
 
         PounceObject.Create(position, Quaternion.LookRotation(target - position));
 
-        Context.Owner.StartCoroutine(
-            DealDamageCoroutine()
-        );
-    }
-
-    private IEnumerator DealDamageCoroutine()
-    {
-        yield return new WaitForSeconds(_movementDuration);
-
-        Actor owner = Context.Owner;
-
-        float damage = owner.GetStat(Stat.Strength);
-
-        CollisionTemplateManager.Instance.GetCollidingActors(
-            CollisionTemplate.Wedge90,
-            _damageRadius,
-            owner.transform.position,
-            Quaternion.LookRotation(owner.transform.forward)
-        ).ForEach(actor =>
+        owner.WaitAndAct(_movementDuration, () =>
         {
-            if (owner.Opposes(actor))
-            {
-                actor.ModifyHealth(-damage);
-            }
-        });
+            float damage = owner.GetStat(Stat.Strength);
 
-        owner.Root(_finalRootDuration, owner.transform.forward, true);
+            CollisionTemplateManager.Instance.GetCollidingActors(
+                CollisionTemplate.Wedge90,
+                _damageRadius,
+                owner.transform.position,
+                Quaternion.LookRotation(owner.transform.forward)
+            ).ForEach(actor =>
+            {
+                if (owner.Opposes(actor))
+                {
+                    actor.ModifyHealth(-damage);
+                }
+            });
+
+            owner.Root(_finalRootDuration, owner.transform.forward, true);
+        });
     }
 }
