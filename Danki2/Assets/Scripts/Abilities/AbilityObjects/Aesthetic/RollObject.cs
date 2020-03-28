@@ -10,9 +10,9 @@ public class RollObject : StaticAbilityObject
         StickTime = rollSound.clip.length;
     }
 
-    public static void Create(Vector3 position, Quaternion rotation)
+    public static void Create(Transform casterTransform)
     {
         RollObject prefab = AbilityObjectPrefabLookup.Instance.RollObjectPrefab;
-        Instantiate(prefab, position, rotation);
+        Instantiate(prefab, casterTransform);
     }
 }
