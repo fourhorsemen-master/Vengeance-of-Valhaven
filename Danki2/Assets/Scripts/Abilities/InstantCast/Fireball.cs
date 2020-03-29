@@ -18,7 +18,7 @@ public class Fireball : InstantCast
         FireballObject.Fire(Context.Owner, OnCollision, FireballSpeed, position, rotation);
     }
 
-    public void OnCollision(GameObject gameObject)
+    private void OnCollision(GameObject gameObject)
     {
         if (gameObject.IsActor())
         {

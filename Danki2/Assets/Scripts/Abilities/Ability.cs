@@ -3,13 +3,6 @@ using System.Collections.Generic;
 
 public class Ability
 {
-    public Ability(AbilityContext context)
-    {
-        Context = context;
-    }
-
-    public AbilityContext Context { get; }
-
     private static Dictionary<AbilityReference, Func<AbilityContext, InstantCast>> _instantCasts = new Dictionary<AbilityReference, Func<AbilityContext, InstantCast>>
     {
         { AbilityReference.Slash, c => new Slash(c) },
@@ -26,6 +19,13 @@ public class Ability
     {
         { AbilityReference.Whirlwind, c => new Whirlwind(c) },
     };
+
+    public AbilityContext Context { get; }
+
+    public Ability(AbilityContext context)
+    {
+        Context = context;
+    }
 
     public static bool TryGetAsInstantCastBuilder(AbilityReference abilityRef, out Func<AbilityContext, InstantCast> ability)
     {

@@ -1,11 +1,11 @@
 ﻿public abstract class Channel : Ability
 {
+    public abstract float Duration { get; }
+
     public Channel(AbilityContext context) : base(context)
     {
     }
     
-    public abstract float Duration { get; }
-
     public virtual void Start() { }
 
     public virtual void Continue() { }

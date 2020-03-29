@@ -17,9 +17,9 @@ public class Whirlwind : Channel
 
     private Repeater repeater;
 
-    public Whirlwind(AbilityContext context) : base(context) { }
-
     public override float Duration => 2f;
+
+    public Whirlwind(AbilityContext context) : base(context) { }
 
     public override void Start()
     {

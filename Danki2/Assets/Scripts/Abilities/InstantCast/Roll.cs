@@ -2,12 +2,12 @@
 
 public class Roll : InstantCast
 {
+    private const float RollSpeedMultiplier = 4f;
+    private const float RollDuration = 0.15f;
+
     public Roll(AbilityContext context) : base(context)
     {
     }
-
-    private const float RollSpeedMultiplier = 4f;
-    private const float RollDuration = 0.15f;
 
     public override void Cast()
     {
