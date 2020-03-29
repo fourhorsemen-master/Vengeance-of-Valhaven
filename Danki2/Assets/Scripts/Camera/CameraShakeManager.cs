@@ -16,6 +16,20 @@ public class CameraShakeManager
         }
     }
 
+    public void ApplyShake(Transform transform)
+    {
+        transform.Translate(GetShakeVector(), Space.World);
+        _camShakes.ToList().ForEach(cs => cs.TickDuration());
+    }
+
+    public void AddCameraShake(float strength, float duration, float interval = CameraShake.DefaultInterval)
+    {
+        if (TryGetExpiredCameraShake(out CameraShake cameraShake))
+        {
+            cameraShake.Set(strength, duration, interval);
+        }
+    }
+
     private Vector3 GetShakeVector()
     {
         float maxStrength = float.MinValue;
@@ -31,20 +45,6 @@ public class CameraShakeManager
         }
 
         return strongestShake?.GetShakeVector() ?? Vector3.zero;
-    }
-
-    public void ApplyShake(Transform transform)
-    {
-        transform.Translate(GetShakeVector(), Space.World);
-        _camShakes.ToList().ForEach(cs => cs.TickDuration());
-    }
-
-    public void AddCameraShake(float strength, float duration, float interval = CameraShake.DefaultInterval)
-    {
-        if (TryGetExpiredCameraShake(out CameraShake cameraShake))
-        {
-            cameraShake.Set(strength, duration, interval);
-        }
     }
 
     private bool TryGetExpiredCameraShake(out CameraShake expiredShake)
