@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-class DOT : Effect
+﻿class DOT : Effect
 {
     private readonly float damagePerTick;
     private readonly float tickInterval;

@@ -3,6 +3,7 @@
 public class LungeObject : StaticAbilityObject
 {
     public AudioSource lungeSound = null;
+
     public override float StickTime { get; set; }
 
     public void Awake()

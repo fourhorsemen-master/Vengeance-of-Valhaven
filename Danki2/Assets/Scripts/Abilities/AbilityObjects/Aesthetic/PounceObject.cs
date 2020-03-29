@@ -3,6 +3,7 @@
 public class PounceObject : StaticAbilityObject
 {
     public AudioSource pounceSound = null;
+
     public override float StickTime { get; set; }
 
     public void Awake()
