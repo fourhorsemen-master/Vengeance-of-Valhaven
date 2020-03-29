@@ -1,4 +1,4 @@
 ﻿public interface StatPipe
 {
-    public float ProcessStat(Stat stat, float value);
+    float ProcessStat(Stat stat, float value);
 }
