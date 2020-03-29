@@ -2,31 +2,6 @@
 using UnityEngine;
 using System.Collections;
 
-public enum CastingStatus
-{
-    ChannelingLeft,
-    ChannelingRight,
-    Cooldown,
-    Ready
-}
-
-public enum CastingCommand
-{
-    ContinueChannel,
-    CancelChannel,
-    CastLeft,
-    CastRight,
-    None
-}
-
-public enum ActionControlState
-{
-    Left,
-    Right,
-    Both,
-    None
-}
-
 public class Player : Actor
 {
     [HideInInspector]
