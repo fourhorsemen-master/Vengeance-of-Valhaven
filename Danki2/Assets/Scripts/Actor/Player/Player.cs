@@ -52,7 +52,7 @@ public class Player : Actor
     public override ActorType Type => ActorType.Player;
 
     [SerializeField]
-    private TrailRenderer trailRenderer;
+    private TrailRenderer trailRenderer = null;
 
     protected override void Awake()
     {
