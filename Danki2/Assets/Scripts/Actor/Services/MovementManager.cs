@@ -2,7 +2,7 @@
 
 public class MovementManager
 {
-    const float rotationSmoothing = 0.1f;
+    private const float RotationSmoothing = 0.1f;
 
     private Actor _actor;
     private Rigidbody _rigidbody;
@@ -103,7 +103,7 @@ public class MovementManager
         if (!direction.Equals(Vector3.zero))
         {
             Quaternion desiredRotation = Quaternion.LookRotation(direction);
-            _rigidbody.rotation = Quaternion.Lerp(_rigidbody.rotation, desiredRotation, rotationSmoothing);
+            _rigidbody.rotation = Quaternion.Lerp(_rigidbody.rotation, desiredRotation, RotationSmoothing);
         }
     }
 }

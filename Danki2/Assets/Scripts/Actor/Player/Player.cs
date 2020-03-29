@@ -13,21 +13,21 @@ public class Player : Actor
     [HideInInspector]
     public float dashSpeedMultiplier = 3f;
 
+    private float _remainingDashCooldown = 0f;
+
+    private ActionControlState _previousActionControlState = ActionControlState.None;
+    private ActionControlState _currentActionControlState = ActionControlState.None;
+
+    [SerializeField]
+    private TrailRenderer trailRenderer = null;
+
     [HideInInspector]
     public float RemainingAbilityCooldown { get; private set; } = 0f;
     [HideInInspector]
     public CastingStatus CastingStatus { get; private set; } = CastingStatus.Ready;
-
-    private float _remainingDashCooldown = 0f;
     public AbilityTree AbilityTree { get; private set; }
-    
-    private ActionControlState _previousActionControlState = ActionControlState.None;
-    private ActionControlState _currentActionControlState = ActionControlState.None;
 
     public override ActorType Type => ActorType.Player;
-
-    [SerializeField]
-    private TrailRenderer trailRenderer = null;
 
     protected override void Awake()
     {
@@ -72,6 +72,33 @@ public class Player : Actor
         HandleAbilities();
     }
 
+    public void Dash(Vector3 direction)
+    {
+        if (_remainingDashCooldown <= 0)
+        {
+            LockMovement(dashDuration, GetStat(Stat.Speed) * dashSpeedMultiplier, direction);
+            _remainingDashCooldown = totalDashCooldown;
+            trailRenderer.emitting = true;
+            StartCoroutine(EndDashVisualAfterDelay());
+        }
+    }
+
+    public void SetCurrentControlState(ActionControlState controlState)
+    {
+        _currentActionControlState = controlState;
+    }
+
+    public void SubscribeToTreeWalk(Action<Node> callback)
+    {
+        AbilityTree.TreeWalkSubject.Subscribe(callback);
+    }
+
+    protected override void OnDeath()
+    {
+        // TODO: Implement Player death.
+        Debug.Log("The player died");
+    }
+
     private void TickDashCooldown()
     {
         _remainingDashCooldown = Mathf.Max(0f, _remainingDashCooldown - Time.deltaTime);
@@ -86,26 +113,10 @@ public class Player : Actor
         }
     }
 
-    public void Dash(Vector3 direction)
-    {
-        if (_remainingDashCooldown <= 0)
-        {
-            LockMovement(dashDuration, GetStat(Stat.Speed) * dashSpeedMultiplier, direction);
-            _remainingDashCooldown = totalDashCooldown;
-            trailRenderer.emitting = true;
-            StartCoroutine(EndDashVisualAfterDelay());
-        }
-    }
-
     private IEnumerator EndDashVisualAfterDelay()
     {
         yield return new WaitForSeconds(dashDuration * 2);
         trailRenderer.emitting = false;
-    }
-
-    public void SetCurrentControlState(ActionControlState controlState)
-    {
-        _currentActionControlState = controlState;
     }
 
     private void HandleAbilities()
@@ -142,11 +153,6 @@ public class Player : Actor
                 BranchAndCast(Direction.Right);
                 break;
         }
-    }
-
-    public void SubscribeToTreeWalk(Action<Node> callback)
-    {
-        AbilityTree.TreeWalkSubject.Subscribe(callback);
     }
 
     private void BranchAndCast(Direction direction)
@@ -190,11 +196,5 @@ public class Player : Actor
             AbilityTree.Reset();
             return;
         }
-    }
-
-    protected override void OnDeath()
-    {
-        // TODO: Implement Player death.
-        Debug.Log("The player died");
     }
 }

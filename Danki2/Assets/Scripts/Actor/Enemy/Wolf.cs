@@ -2,15 +2,6 @@
 
 public class Wolf : Enemy
 {
-    public AudioSource howl;
-
-    public override ActorType Type => ActorType.Wolf;
-    public float howlRange = 10f;
-    public bool BiteOffCooldown => _biteRemainingCooldown <= 0f;
-    public bool PounceOffCooldown => _pounceRemaningCooldown <= 0f;
-
-    public Subject<Wolf> OnHowl { get; private set; } = new Subject<Wolf>();
-
     [SerializeField]
     private float _biteCastTime = 0f;
     [SerializeField]
@@ -23,6 +14,15 @@ public class Wolf : Enemy
 
     private float _biteRemainingCooldown = 0f;
     private float _pounceRemaningCooldown = 0f;
+
+    public AudioSource howl;
+
+    private const float HowlRange = 10f;
+    public override ActorType Type => ActorType.Wolf;
+    public bool BiteOffCooldown => _biteRemainingCooldown <= 0f;
+    public bool PounceOffCooldown => _pounceRemaningCooldown <= 0f;
+
+    public Subject<Wolf> OnHowl { get; private set; } = new Subject<Wolf>();
 
     protected override void Start()
     {
@@ -43,7 +43,7 @@ public class Wolf : Enemy
                     other.transform.position
                 );
 
-                if (distance < howlRange)
+                if (distance < HowlRange)
                 {
                     Target = other.Target;
                     Howl();
@@ -109,14 +109,14 @@ public class Wolf : Enemy
         OnHowl.Next(this);
     }
 
-    private void Howl()
-    {
-        howl.Play();
-    }
-
     protected override void OnDeath()
     {
         gameObject.GetComponent<Rigidbody>().velocity = Vector3.up * 2;
         transform.Rotate(Vector3.forward, 90f);
+    }
+
+    private void Howl()
+    {
+        howl.Play();
     }
 }
