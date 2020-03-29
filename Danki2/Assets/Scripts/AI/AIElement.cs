@@ -1,6 +1,7 @@
 ﻿public abstract class AIElement
 {
     private float[] _args;
+
     public float[] Args
     {
         get { return _args; }
