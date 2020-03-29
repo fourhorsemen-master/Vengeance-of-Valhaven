@@ -9,7 +9,7 @@ public class WarningSign : MonoBehaviour
     [SerializeField]
     private Text _exclaimationMark = null;
 
-    private static readonly float _duration = 0.5f;
+    private const float Duration = 0.5f;
 
     public void Start()
     {
@@ -34,7 +34,7 @@ public class WarningSign : MonoBehaviour
         StopAllCoroutines();
 
         _exclaimationMark.enabled = true;
-        this.WaitAndAct(_duration, () =>
+        this.WaitAndAct(Duration, () =>
         {
             _exclaimationMark.enabled = false;
         });

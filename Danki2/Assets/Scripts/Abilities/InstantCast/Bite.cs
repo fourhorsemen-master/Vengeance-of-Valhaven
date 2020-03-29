@@ -2,9 +2,9 @@
 using System.Collections;
 public class Bite : InstantCast
 {
-    public static readonly float Range = 2f;
-    public static readonly float FinalRootDuration = 0.5f;
-    public static readonly float DelayBeforeDamage = 0.75f;
+    public const float Range = 2f;
+    private const float FinalRootDuration = 0.5f;
+    private const float DelayBeforeDamage = 0.75f;
 
     public Bite(AbilityContext context) : base(context)
     {
