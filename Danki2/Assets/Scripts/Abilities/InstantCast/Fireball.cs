@@ -29,7 +29,7 @@ public class Fireball : InstantCast
                 return;
             }
 
-            var strength = Context.Owner.GetStat(Stat.Strength);
+            int strength = Context.Owner.GetStat(Stat.Strength);
             actor.ModifyHealth(-strength);
         }
     }

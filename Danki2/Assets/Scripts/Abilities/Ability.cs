@@ -29,13 +29,13 @@ public class Ability
 
     public static bool TryGetAsInstantCastBuilder(AbilityReference abilityRef, out Func<AbilityContext, InstantCast> ability)
     {
-        var isInstantCast = _instantCasts.TryGetValue(abilityRef, out ability);
+        bool isInstantCast = _instantCasts.TryGetValue(abilityRef, out ability);
         return isInstantCast;
     }
 
     public static bool TryGetAsChannelBuilder(AbilityReference abilityRef, out Func<AbilityContext, Channel> ability)
     {
-        var isChannel = _channels.TryGetValue(abilityRef, out ability);
+        bool isChannel = _channels.TryGetValue(abilityRef, out ability);
         return isChannel;
     }
 }

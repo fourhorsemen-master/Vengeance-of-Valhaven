@@ -42,7 +42,7 @@ public class CameraShakeManager
 
     public void AddCameraShake(float strength, float duration, float interval = CameraShake.DefaultInterval)
     {
-        if (TryGetExpiredCameraShake(out var cameraShake))
+        if (TryGetExpiredCameraShake(out CameraShake cameraShake))
         {
             cameraShake.Set(strength, duration, interval);
         }

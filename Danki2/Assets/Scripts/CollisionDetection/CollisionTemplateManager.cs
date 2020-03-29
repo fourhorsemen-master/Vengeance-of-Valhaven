@@ -61,7 +61,7 @@ public class CollisionTemplateManager : Singleton<CollisionTemplateManager>
     /// <param name="templateInstance"></param>
     private void ResetMesh(MeshCollider templateInstance)
     {
-        var temp = templateInstance.sharedMesh;
+        Mesh temp = templateInstance.sharedMesh;
         templateInstance.sharedMesh = null;
         templateInstance.sharedMesh = temp;
     }

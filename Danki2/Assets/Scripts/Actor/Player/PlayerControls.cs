@@ -13,7 +13,7 @@ public class PlayerControls : MonoBehaviour
 
     private void HandleMovement()
     {
-        var moveDirection = Vector3.zero;
+        Vector3 moveDirection = Vector3.zero;
 
         if (Input.GetAxis("Horizontal") > 0) moveDirection.x += 1f;
         if (Input.GetAxis("Horizontal") < 0) moveDirection.x -= 1f;
@@ -30,10 +30,10 @@ public class PlayerControls : MonoBehaviour
 
     private void HandleAbilities()
     {
-        var left = Input.GetAxis("Left Action") > 0;
-        var right = Input.GetAxis("Right Action") > 0;
+        bool left = Input.GetAxis("Left Action") > 0;
+        bool right = Input.GetAxis("Right Action") > 0;
 
-        var currentControlState = left
+        ActionControlState currentControlState = left
             ? (right ? ActionControlState.Both : ActionControlState.Left)
             : (right ? ActionControlState.Right : ActionControlState.None);
 

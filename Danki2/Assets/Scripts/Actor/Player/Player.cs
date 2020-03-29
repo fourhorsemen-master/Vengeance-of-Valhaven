@@ -135,7 +135,12 @@ public class Player : Actor
 
     private void HandleAbilities()
     {
-        var castingCommand = ControlMatrix.GetCastingCommand(CastingStatus, _previousActionControlState, _currentActionControlState);
+        CastingCommand castingCommand = ControlMatrix.GetCastingCommand(
+            CastingStatus,
+            _previousActionControlState,
+            _currentActionControlState
+        );
+
         _previousActionControlState = _currentActionControlState;
         _currentActionControlState = ActionControlState.None;
 
@@ -180,21 +185,24 @@ public class Player : Actor
             return;
         }
 
-        var abilityReference = AbilityTree.Walk(direction);
+        AbilityReference abilityReference = AbilityTree.Walk(direction);
 
-        var abilityContext = new AbilityContext(this, MouseGamePositionFinder.Instance.GetMouseGamePosition());
+        AbilityContext abilityContext = new AbilityContext(
+            this,
+            MouseGamePositionFinder.Instance.GetMouseGamePosition()
+        );
 
-        if (Ability.TryGetAsInstantCastBuilder(abilityReference, out var instantCastbuilder))
+        if (Ability.TryGetAsInstantCastBuilder(abilityReference, out Func<AbilityContext, InstantCast> instantCastbuilder))
         {
-            var instantCast = instantCastbuilder.Invoke(abilityContext);
+            InstantCast instantCast = instantCastbuilder.Invoke(abilityContext);
             instantCast.Cast();
 
             CastingStatus = CastingStatus.Cooldown;
         }
 
-        if (Ability.TryGetAsChannelBuilder(abilityReference, out var channelBuilder))
+        if (Ability.TryGetAsChannelBuilder(abilityReference, out Func<AbilityContext, Channel> channelBuilder))
         {
-            var channel = channelBuilder.Invoke(abilityContext);
+            Channel channel = channelBuilder.Invoke(abilityContext);
             _channelService.Start(channel);
 
             CastingStatus = direction == Direction.Left

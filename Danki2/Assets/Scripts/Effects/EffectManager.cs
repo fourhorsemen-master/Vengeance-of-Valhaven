@@ -76,7 +76,7 @@ public class EffectManager : StatPipe
 
     public float ProcessStat(Stat stat, float value)
     {
-        var processedValue = value;
+        float processedValue = value;
 
         ForEachEffect(e => processedValue = e.ProcessStat(stat, processedValue));
 

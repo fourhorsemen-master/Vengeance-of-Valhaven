@@ -34,7 +34,7 @@ public abstract class Actor : MonoBehaviour
 
     protected virtual void Start()
     {
-        var rigidBody = gameObject.GetComponent<Rigidbody>();
+        Rigidbody rigidBody = gameObject.GetComponent<Rigidbody>();
         _movementManager = new MovementManager(this, rigidBody);
     }
 
