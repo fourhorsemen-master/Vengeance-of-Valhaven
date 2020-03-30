@@ -23,6 +23,6 @@ public class Roll : InstantCast
             passThrough: true
         );
 
-        RollObject.Create(caster.transform.position, Quaternion.LookRotation(caster.transform.position));
+        RollObject.Create(caster.transform);
     }
 }

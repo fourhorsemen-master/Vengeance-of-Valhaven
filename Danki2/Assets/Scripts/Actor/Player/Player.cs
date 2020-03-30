@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using System.Collections;
 
 public enum CastingStatus
 {
@@ -51,6 +52,9 @@ public class Player : Actor
     private ActionControlState _currentActionControlState = ActionControlState.None;
 
     public override ActorType Type => ActorType.Player;
+
+    [SerializeField]
+    private TrailRenderer trailRenderer;
 
     protected override void Awake()
     {
@@ -115,7 +119,15 @@ public class Player : Actor
         {
             LockMovement(dashDuration, GetStat(Stat.Speed) * dashSpeedMultiplier, direction);
             _remainingDashCooldown = totalDashCooldown;
+            trailRenderer.emitting = true;
+            StartCoroutine(EndDashVisualAfterDelay());
         }
+    }
+
+    private IEnumerator EndDashVisualAfterDelay()
+    {
+        yield return new WaitForSeconds(dashDuration * 2);
+        trailRenderer.emitting = false;
     }
 
     public void SetCurrentControlState(ActionControlState controlState)
