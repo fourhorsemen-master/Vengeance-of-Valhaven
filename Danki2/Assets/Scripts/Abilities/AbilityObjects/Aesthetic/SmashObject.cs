@@ -3,6 +3,7 @@
 public class SmashObject : StaticAbilityObject
 {
     public AudioSource smashSound = null;
+
     public override float StickTime { get; set; }
 
     public void Awake()

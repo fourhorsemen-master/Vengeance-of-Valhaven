@@ -2,9 +2,9 @@
 
 public class Smash : InstantCast
 {
-    private static readonly float _distanceFromCaster = 1f;
-    private static readonly float _radius = 1f;
-    private static readonly float _damageMultiplier = 2f;
+    private const float DistanceFromCaster = 1f;
+    private const float Radius = 1f;
+    private const float DamageMultiplier = 2f;
 
     public Smash(AbilityContext context) : base(context)
     {
@@ -19,13 +19,13 @@ public class Smash : InstantCast
         target.y = 0;
 
         Vector3 directionToTarget = target == position ? Vector3.right : (target - position).normalized;
-        Vector3 center = position + (directionToTarget * _distanceFromCaster);
+        Vector3 center = position + (directionToTarget * DistanceFromCaster);
 
-        float damage = owner.GetStat(Stat.Strength) * _damageMultiplier;
+        float damage = owner.GetStat(Stat.Strength) * DamageMultiplier;
 
         CollisionTemplateManager.Instance.GetCollidingActors(
             CollisionTemplate.Cylinder,
-            _radius,
+            Radius,
             center
         ).ForEach(actor =>
         {

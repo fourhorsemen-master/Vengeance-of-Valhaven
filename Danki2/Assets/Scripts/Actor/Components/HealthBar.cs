@@ -7,7 +7,7 @@ public class HealthBar : MonoBehaviour
     private Image _healthBar = null;
     public Actor actor;
 
-    void Update()
+    private void Update()
     {
         if (_healthBar == null)
         {

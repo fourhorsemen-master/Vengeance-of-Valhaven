@@ -3,6 +3,7 @@
 public class RollObject : StaticAbilityObject
 {
     public AudioSource rollSound = null;
+
     public override float StickTime { get; set; }
 
     public void Awake()

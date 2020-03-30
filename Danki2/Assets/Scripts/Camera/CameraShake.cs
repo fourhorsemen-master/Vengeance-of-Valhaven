@@ -1,14 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CameraShake
 {
     public const float DefaultInterval = 1 / 60f;
+
+    private float intervalTimer;
+
     public float Strength { get; private set; }
     public float Duration { get; private set; }
     public float Interval { get; private set; }
-    private float intervalTimer;
 
     public CameraShake()
     {

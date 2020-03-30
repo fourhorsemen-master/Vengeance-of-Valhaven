@@ -2,31 +2,6 @@
 using UnityEngine;
 using System.Collections;
 
-public enum CastingStatus
-{
-    ChannelingLeft,
-    ChannelingRight,
-    Cooldown,
-    Ready
-}
-
-public enum CastingCommand
-{
-    ContinueChannel,
-    CancelChannel,
-    CastLeft,
-    CastRight,
-    None
-}
-
-public enum ActionControlState
-{
-    Left,
-    Right,
-    Both,
-    None
-}
-
 public class Player : Actor
 {
     [HideInInspector]
@@ -38,23 +13,24 @@ public class Player : Actor
     [HideInInspector]
     public float dashSpeedMultiplier = 3f;
 
+    private float _remainingDashCooldown = 0f;
+    private float _abilityTimeoutLimit = 5f;
+    private float _abilityTimeout;
+
+    private ActionControlState _previousActionControlState = ActionControlState.None;
+    private ActionControlState _currentActionControlState = ActionControlState.None;
+
+    [SerializeField]
+    private TrailRenderer trailRenderer = null;
+
     [HideInInspector]
     public float RemainingAbilityCooldown { get; private set; } = 0f;
     [HideInInspector]
     public CastingStatus CastingStatus { get; private set; } = CastingStatus.Ready;
 
-    private float _abilityTimeoutLimit = 5f;
-    private float _abilityTimeout;
-    private float _remainingDashCooldown = 0f;
     public AbilityTree AbilityTree { get; private set; }
-    
-    private ActionControlState _previousActionControlState = ActionControlState.None;
-    private ActionControlState _currentActionControlState = ActionControlState.None;
 
     public override ActorType Type => ActorType.Player;
-
-    [SerializeField]
-    private TrailRenderer trailRenderer;
 
     protected override void Awake()
     {
@@ -99,6 +75,33 @@ public class Player : Actor
         HandleAbilities();
     }
 
+    public void Dash(Vector3 direction)
+    {
+        if (_remainingDashCooldown <= 0)
+        {
+            LockMovement(dashDuration, GetStat(Stat.Speed) * dashSpeedMultiplier, direction);
+            _remainingDashCooldown = totalDashCooldown;
+            trailRenderer.emitting = true;
+            StartCoroutine(EndDashVisualAfterDelay());
+        }
+    }
+
+    public void SetCurrentControlState(ActionControlState controlState)
+    {
+        _currentActionControlState = controlState;
+    }
+
+    public void SubscribeToTreeWalk(Action<Node> callback)
+    {
+        AbilityTree.TreeWalkSubject.Subscribe(callback);
+    }
+
+    protected override void OnDeath()
+    {
+        // TODO: Implement Player death.
+        Debug.Log("The player died");
+    }
+
     private void TickDashCooldown()
     {
         _remainingDashCooldown = Mathf.Max(0f, _remainingDashCooldown - Time.deltaTime);
@@ -113,26 +116,10 @@ public class Player : Actor
         }
     }
 
-    public void Dash(Vector3 direction)
-    {
-        if (_remainingDashCooldown <= 0)
-        {
-            LockMovement(dashDuration, GetStat(Stat.Speed) * dashSpeedMultiplier, direction);
-            _remainingDashCooldown = totalDashCooldown;
-            trailRenderer.emitting = true;
-            StartCoroutine(EndDashVisualAfterDelay());
-        }
-    }
-
     private IEnumerator EndDashVisualAfterDelay()
     {
         yield return new WaitForSeconds(dashDuration * 2);
         trailRenderer.emitting = false;
-    }
-
-    public void SetCurrentControlState(ActionControlState controlState)
-    {
-        _currentActionControlState = controlState;
     }
 
     private void HandleAbilities()
@@ -146,7 +133,12 @@ public class Player : Actor
 
         _abilityTimeout -= Time.deltaTime;
 
-        var castingCommand = ControlMatrix.GetCastingCommand(CastingStatus, _previousActionControlState, _currentActionControlState);
+        CastingCommand castingCommand = ControlMatrix.GetCastingCommand(
+            CastingStatus,
+            _previousActionControlState,
+            _currentActionControlState
+        );
+
         _previousActionControlState = _currentActionControlState;
         _currentActionControlState = ActionControlState.None;
 
@@ -175,11 +167,6 @@ public class Player : Actor
         }
     }
 
-    public void SubscribeToTreeWalk(Action<Node> callback)
-    {
-        AbilityTree.TreeWalkSubject.Subscribe(callback);
-    }
-
     private void BranchAndCast(Direction direction)
     {
         RemainingAbilityCooldown = abilityCooldown;
@@ -192,21 +179,24 @@ public class Player : Actor
             return;
         }
 
-        var abilityReference = AbilityTree.Walk(direction);
+        AbilityReference abilityReference = AbilityTree.Walk(direction);
 
-        var abilityContext = new AbilityContext(this, MouseGamePositionFinder.Instance.GetMouseGamePosition());
+        AbilityContext abilityContext = new AbilityContext(
+            this,
+            MouseGamePositionFinder.Instance.GetMouseGamePosition()
+        );
 
-        if (Ability.TryGetAsInstantCastBuilder(abilityReference, out var instantCastbuilder))
+        if (Ability.TryGetAsInstantCastBuilder(abilityReference, out Func<AbilityContext, InstantCast> instantCastbuilder))
         {
-            var instantCast = instantCastbuilder.Invoke(abilityContext);
+            InstantCast instantCast = instantCastbuilder.Invoke(abilityContext);
             instantCast.Cast();
 
             CastingStatus = CastingStatus.Cooldown;
         }
 
-        if (Ability.TryGetAsChannelBuilder(abilityReference, out var channelBuilder))
+        if (Ability.TryGetAsChannelBuilder(abilityReference, out Func<AbilityContext, Channel> channelBuilder))
         {
-            var channel = channelBuilder.Invoke(abilityContext);
+            Channel channel = channelBuilder.Invoke(abilityContext);
             _channelService.Start(channel);
 
             CastingStatus = direction == Direction.Left
@@ -219,11 +209,5 @@ public class Player : Actor
             AbilityTree.Reset();
             return;
         }
-    }
-
-    protected override void OnDeath()
-    {
-        // TODO: Implement Player death.
-        Debug.Log("The player died");
     }
 }

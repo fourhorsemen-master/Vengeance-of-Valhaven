@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SlashVisual : MonoBehaviour
 {
@@ -25,7 +23,7 @@ public class SlashVisual : MonoBehaviour
         transform.LookAt(MouseGamePositionFinder.Instance.GetFlooredMouseGamePosition());
     }
 
-    void Update()
+    private void Update()
     {
         //We are a child object, so destroy parent.
         if (_remainingDuration < 0f)

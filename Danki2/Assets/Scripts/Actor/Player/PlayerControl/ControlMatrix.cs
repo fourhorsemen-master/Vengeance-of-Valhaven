@@ -4,8 +4,8 @@ public class ControlMatrix
 {
     public static CastingCommand GetCastingCommand(CastingStatus previousStatus, ActionControlState previousControl, ActionControlState currentControl)
     {
-        var layer = _controlMatrix[previousStatus];
-        var row = layer[previousControl];
+        Layer layer = _controlMatrix[previousStatus];
+        Row row = layer[previousControl];
 
         return row[currentControl];
     }
