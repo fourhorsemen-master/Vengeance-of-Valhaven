@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
 
 
@@ -14,6 +13,20 @@ public class CameraShakeManager
         for (int i = 0; i < poolSize; i++)
         {
             _camShakes[i] = new CameraShake();
+        }
+    }
+
+    public void ApplyShake(Transform transform)
+    {
+        transform.Translate(GetShakeVector(), Space.World);
+        _camShakes.ToList().ForEach(cs => cs.TickDuration());
+    }
+
+    public void AddCameraShake(float strength, float duration, float interval = CameraShake.DefaultInterval)
+    {
+        if (TryGetExpiredCameraShake(out CameraShake cameraShake))
+        {
+            cameraShake.Set(strength, duration, interval);
         }
     }
 
@@ -32,20 +45,6 @@ public class CameraShakeManager
         }
 
         return strongestShake?.GetShakeVector() ?? Vector3.zero;
-    }
-
-    public void ApplyShake(Transform transform)
-    {
-        transform.Translate(GetShakeVector(), Space.World);
-        _camShakes.ToList().ForEach(cs => cs.TickDuration());
-    }
-
-    public void AddCameraShake(float strength, float duration, float interval = CameraShake.DefaultInterval)
-    {
-        if (TryGetExpiredCameraShake(out var cameraShake))
-        {
-            cameraShake.Set(strength, duration, interval);
-        }
     }
 
     private bool TryGetExpiredCameraShake(out CameraShake expiredShake)

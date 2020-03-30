@@ -3,15 +3,15 @@ using UnityEngine;
 
 public abstract class SerializableAIElement<T> : ISerializationCallbackReceiver where T : AIElement
 {
-    public T aiElement;
-
-    protected abstract Type NoOpType { get; }
+    public T AiElement { get; set; }
 
     [SerializeField]
     private SerializableType _serializedType;
 
     [SerializeField]
     private float[] _serializedArgs;
+
+    protected abstract Type NoOpType { get; }
 
     public SerializableAIElement()
     {
@@ -30,13 +30,13 @@ public abstract class SerializableAIElement<T> : ISerializationCallbackReceiver 
 
     public void OnBeforeSerialize()
     {
-        _serializedType = new SerializableType(aiElement.GetType());
-        _serializedArgs = aiElement.Args;
+        _serializedType = new SerializableType(AiElement.GetType());
+        _serializedArgs = AiElement.Args;
     }
 
     private void Initialize(Type type, float[] args)
     {
-        aiElement = (T)Activator.CreateInstance(type);
-        aiElement.Args = args;
+        AiElement = (T)Activator.CreateInstance(type);
+        AiElement.Args = args;
     }
 }

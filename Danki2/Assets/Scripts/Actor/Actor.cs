@@ -5,8 +5,6 @@ public abstract class Actor : MonoBehaviour
 {
     [HideInInspector]
     public StatsDictionary baseStats = new StatsDictionary(0);
-    [HideInInspector]
-    public Actor Target = null;
 
     private StatsManager _statsManager;
     private EffectManager _effectManager;
@@ -14,6 +12,8 @@ public abstract class Actor : MonoBehaviour
     protected ChannelService _channelService;
 
     private float _health;
+
+    public Actor Target { get; set; } = null;
     public int Health => Mathf.CeilToInt(_health);
     public bool Dead { get; private set; }
     public bool IsDamaged => Health < GetStat(Stat.MaxHealth);
@@ -34,7 +34,7 @@ public abstract class Actor : MonoBehaviour
 
     protected virtual void Start()
     {
-        var rigidBody = gameObject.GetComponent<Rigidbody>();
+        Rigidbody rigidBody = gameObject.GetComponent<Rigidbody>();
         _movementManager = new MovementManager(this, rigidBody);
     }
 

@@ -24,25 +24,6 @@ public class EffectManager : StatPipe
         TickActiveEffects();
     }
 
-    private void TickActiveEffects()
-    {
-        bool someExpired = false;
-
-        _activeEffects = _activeEffects.FindAll(activeEffect =>
-        {
-            activeEffect.RemainingDuration -= Time.deltaTime;
-            if (activeEffect.RemainingDuration <= 0)
-            {
-                activeEffect.Effect.Finish(_actor);
-                someExpired = true;
-                return false;
-            }
-            return true;
-        });
-
-        if (someExpired) _statsManager.ClearCache();
-    }
-
     public void AddActiveEffect(Effect effect, float duration)
     {
         effect.Start(_actor);
@@ -76,11 +57,30 @@ public class EffectManager : StatPipe
 
     public float ProcessStat(Stat stat, float value)
     {
-        var processedValue = value;
+        float processedValue = value;
 
         ForEachEffect(e => processedValue = e.ProcessStat(stat, processedValue));
 
         return processedValue;
+    }
+
+    private void TickActiveEffects()
+    {
+        bool someExpired = false;
+
+        _activeEffects = _activeEffects.FindAll(activeEffect =>
+        {
+            activeEffect.RemainingDuration -= Time.deltaTime;
+            if (activeEffect.RemainingDuration <= 0)
+            {
+                activeEffect.Effect.Finish(_actor);
+                someExpired = true;
+                return false;
+            }
+            return true;
+        });
+
+        if (someExpired) _statsManager.ClearCache();
     }
 
     private void ForEachEffect(Action<Effect> action)

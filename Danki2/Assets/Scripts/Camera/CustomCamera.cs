@@ -21,6 +21,11 @@ public class CustomCamera : MonoBehaviour
 
     private CameraShakeManager shakeManager = new CameraShakeManager(4);
 
+    public void AddShake(float strength, float duration, float interval = CameraShake.DefaultInterval)
+    {
+        shakeManager.AddCameraShake(strength, duration, interval);
+    }
+
     private void Update()
     {
         // TODO: Remove the following test key.
@@ -42,10 +47,10 @@ public class CustomCamera : MonoBehaviour
     private void FollowTarget()
     {
         float zDistanceFromFloorIntersect = height / (Mathf.Tan(Mathf.Deg2Rad * angle));
-        var targetPosition = target.transform.position;
+        Vector3 targetPosition = target.transform.position;
 
-        var mouseOffsetH = Input.mousePosition.x / Screen.width - 0.5f;
-        var mouseOffsetV = Input.mousePosition.y / Screen.height - 0.5f;
+        float mouseOffsetH = Input.mousePosition.x / Screen.width - 0.5f;
+        float mouseOffsetV = Input.mousePosition.y / Screen.height - 0.5f;
 
         desiredPosition.Set(
             targetPosition.x + (mouseOffsetH * mouseFollowFactor),
@@ -54,10 +59,5 @@ public class CustomCamera : MonoBehaviour
         );
 
         transform.position = Vector3.Lerp(transform.position, desiredPosition, 1f - smoothFactor);
-    }
-
-    public void AddShake(float strength, float duration, float interval = CameraShake.DefaultInterval)
-    {
-        shakeManager.AddCameraShake(strength, duration, interval);
     }
 }

@@ -2,6 +2,9 @@
 
 public class AbilityContext
 {
+    public Actor Owner { get; }
+    public Vector3 TargetPosition { get; }
+
     public AbilityContext(
         Actor owner,
         Vector3 targetPosition
@@ -9,9 +12,5 @@ public class AbilityContext
     {
         Owner = owner;
         TargetPosition = targetPosition;
-
     }
-
-    public Actor Owner { get; }
-    public Vector3 TargetPosition { get; }
 }

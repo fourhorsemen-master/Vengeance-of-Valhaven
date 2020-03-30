@@ -69,7 +69,7 @@ public class AIEditor : Editor
         {
             AttributeData<BehaviourAttribute> selectedData = DropdownEdit(
                 dataList,
-                _ai.serializablePersonality[action].aiElement,
+                _ai.serializablePersonality[action].AiElement,
                 action.ToString(),
                 newData => {
                     _ai.serializablePersonality[action] = new SerializableBehaviour(
@@ -78,7 +78,7 @@ public class AIEditor : Editor
                     );
                 }
             );
-            ArgsEdit(_ai.serializablePersonality[action].aiElement, selectedData.Attribute);
+            ArgsEdit(_ai.serializablePersonality[action].AiElement, selectedData.Attribute);
         }
     }
 
@@ -88,7 +88,7 @@ public class AIEditor : Editor
 
         AttributeData<PlannerAttribute> selectedData = DropdownEdit(
             PlannerScanner.PlannerData,
-            _ai.serializablePlanner.aiElement,
+            _ai.serializablePlanner.AiElement,
             "Planner",
             newData => {
                 _ai.serializablePlanner = new SerializablePlanner(
@@ -97,7 +97,7 @@ public class AIEditor : Editor
                 );
             }
         );
-        ArgsEdit(_ai.serializablePlanner.aiElement, selectedData.Attribute);
+        ArgsEdit(_ai.serializablePlanner.AiElement, selectedData.Attribute);
     }
 
     private AttributeData<T> DropdownEdit<T>(

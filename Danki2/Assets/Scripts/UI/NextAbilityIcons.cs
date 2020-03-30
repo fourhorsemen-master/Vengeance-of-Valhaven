@@ -21,7 +21,7 @@ public class NextAbilityIcons : MonoBehaviour
     [SerializeField]
     private Sprite _activeAbilityFrameSprite = null;
 
-    void Start()
+    private void Start()
     {
         _player = RoomManager.Instance.Player;
         _player.SubscribeToTreeWalk(TreeWalkCallback);

@@ -1,13 +1,12 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Lunge : InstantCast
 {
-    private static readonly float _lungeDuration = 0.2f;
-    private static readonly float _lungeSpeedMultiplier = 6f;
-    private static readonly float _lungeDamageMultiplier = 0.5f;
-    private static readonly float _stunRange = 2f;
-    private static readonly float _stunDuration = 0.5f;
+    private const float LungeDuration = 0.2f;
+    private const float LungeSpeedMultiplier = 6f;
+    private const float LungeDamageMultiplier = 0.5f;
+    private const float StunRange = 2f;
+    private const float StunDuration = 0.5f;
 
     public Lunge(AbilityContext context) : base(context)
     {
@@ -23,28 +22,28 @@ public class Lunge : InstantCast
         direction.y = position.y;
 
         owner.LockMovement(
-            _lungeDuration,
-            owner.GetStat(Stat.Speed) * _lungeSpeedMultiplier,
+            LungeDuration,
+            owner.GetStat(Stat.Speed) * LungeSpeedMultiplier,
             direction,
             passThrough: true
         );
 
         LungeObject.Create(position, Quaternion.LookRotation(target - position));
 
-        owner.WaitAndAct(_lungeDuration, () =>
+        owner.WaitAndAct(LungeDuration, () =>
         {
-            float damage = owner.GetStat(Stat.Strength) * _lungeDamageMultiplier;
+            float damage = owner.GetStat(Stat.Strength) * LungeDamageMultiplier;
 
             CollisionTemplateManager.Instance.GetCollidingActors(
                 CollisionTemplate.Wedge90,
-                _stunRange,
+                StunRange,
                 owner.transform.position,
                 Quaternion.LookRotation(direction)
             ).ForEach(actor =>
             {
                 if (owner.Opposes(actor))
                 {
-                    actor.AddActiveEffect(new Stun(_stunDuration), _stunDuration);
+                    actor.AddActiveEffect(new Stun(StunDuration), StunDuration);
                     actor.ModifyHealth(-damage);
                 }
             });

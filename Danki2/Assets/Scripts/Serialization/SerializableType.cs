@@ -4,10 +4,10 @@ using UnityEngine;
 [Serializable]
 public class SerializableType : ISerializationCallbackReceiver
 {
-    public Type Type { get; private set; }
-
     [SerializeField]
     private string _serializedType;
+
+    public Type Type { get; private set; }
 
     public SerializableType(Type type)
     {

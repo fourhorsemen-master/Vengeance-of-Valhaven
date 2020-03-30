@@ -5,12 +5,12 @@ public class CooldownScreenBar : ScreenBar
     [SerializeField]
     private Player _player = null;
 
-    void Awake()
+    private void Awake()
     {
         SetWidth(0f);
     }
 
-    void Update()
+    private void Update()
     {
         SetWidth(_player.RemainingAbilityCooldown / _player.abilityCooldown);
     }

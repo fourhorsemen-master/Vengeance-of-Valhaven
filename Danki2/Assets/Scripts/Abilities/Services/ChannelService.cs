@@ -3,6 +3,8 @@
 public class ChannelService
 {
     private Channel _currentChannel;
+
+    public bool Active { get; private set; }
     public float RemainingDuration { get; private set; }
     public float TotalDuration => _currentChannel.Duration;
 
@@ -10,8 +12,6 @@ public class ChannelService
     {
         Active = false;
     }
-
-    public bool Active { get; private set; }
 
     public void Update()
     {

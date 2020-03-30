@@ -2,8 +2,8 @@
 
 public class Slash : InstantCast
 {
-    private static readonly float range = 4f;
-    private static readonly float damageMultiplyer = 1.5f;
+    private const float Range = 4f;
+    private const float DamageMultiplier = 1.5f;
 
     public Slash(AbilityContext context) : base(context)
     {
@@ -17,11 +17,11 @@ public class Slash : InstantCast
         Vector3 target = Context.TargetPosition;
         target.y = 0;
 
-        float damage = owner.GetStat(Stat.Strength) * damageMultiplyer;
+        float damage = owner.GetStat(Stat.Strength) * DamageMultiplier;
 
         CollisionTemplateManager.Instance.GetCollidingActors(
             CollisionTemplate.Wedge90,
-            range,
+            Range,
             position,
             Quaternion.LookRotation(target - position)
         ).ForEach(actor =>

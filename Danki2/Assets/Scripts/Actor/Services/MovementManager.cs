@@ -2,7 +2,7 @@
 
 public class MovementManager
 {
-    const float rotationSmoothing = 0.1f;
+    private const float RotationSmoothing = 0.1f;
 
     private Actor _actor;
     private Rigidbody _rigidbody;
@@ -37,9 +37,9 @@ public class MovementManager
             _actor.gameObject.SetLayer(Layer.Default);
         }
 
-        var speedStat = _actor.GetStat(Stat.Speed);
+        int speedStat = _actor.GetStat(Stat.Speed);
 
-        var movementVector = _moveLockOn
+        Vector3 movementVector = _moveLockOn
             ? Vector3.Normalize(_moveLockDirection) * _moveLockSpeed
             : Vector3.Normalize(_moveDirection) * speedStat;
 
@@ -89,7 +89,7 @@ public class MovementManager
 
     public void MoveToward(Vector3 target)
     {
-        var vecToMove = target - _rigidbody.position;
+        Vector3 vecToMove = target - _rigidbody.position;
         MoveAlong(vecToMove);
     }
 
@@ -102,8 +102,8 @@ public class MovementManager
     {
         if (!direction.Equals(Vector3.zero))
         {
-            var desiredRotation = Quaternion.LookRotation(direction);
-            _rigidbody.rotation = Quaternion.Lerp(_rigidbody.rotation, desiredRotation, rotationSmoothing);
+            Quaternion desiredRotation = Quaternion.LookRotation(direction);
+            _rigidbody.rotation = Quaternion.Lerp(_rigidbody.rotation, desiredRotation, RotationSmoothing);
         }
     }
 }

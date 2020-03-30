@@ -23,10 +23,10 @@ public class StatsManager
             }
             else
             {
-                var pipelineValue = (float)_baseStats[stat];
+                float pipelineValue = _baseStats[stat];
                 _pipes.ForEach(p => pipelineValue = p.ProcessStat(stat, pipelineValue));
 
-                var statValue = (int)Math.Ceiling(pipelineValue);
+                int statValue = (int)Math.Ceiling(pipelineValue);
                 _cache.Add(stat, statValue);
                 return statValue;
             }
