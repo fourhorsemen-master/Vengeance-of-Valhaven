@@ -14,8 +14,9 @@ public class Player : Actor
     public float dashSpeedMultiplier = 3f;
 
     private float _remainingDashCooldown = 0f;
-    private float _abilityTimeoutLimit = 5f;
-    private float _abilityTimeout;
+
+    private float AbilityTimeout;
+    private const float AbilityTimeoutLimit = 5f;
 
     private ActionControlState _previousActionControlState = ActionControlState.None;
     private ActionControlState _currentActionControlState = ActionControlState.None;
@@ -124,14 +125,14 @@ public class Player : Actor
 
     private void HandleAbilities()
     {
-        if(_abilityTimeout <= 0)
+        if(this.AbilityTimeout <= 0)
         {
             AbilityTree.Reset();
-            _abilityTimeout = _abilityTimeoutLimit;
+            this.AbilityTimeout = AbilityTimeoutLimit;
             return;
         }
 
-        _abilityTimeout -= Time.deltaTime;
+        this.AbilityTimeout -= Time.deltaTime;
 
         CastingCommand castingCommand = ControlMatrix.GetCastingCommand(
             CastingStatus,
@@ -170,7 +171,7 @@ public class Player : Actor
     private void BranchAndCast(Direction direction)
     {
         RemainingAbilityCooldown = abilityCooldown;
-        _abilityTimeout = _abilityTimeoutLimit;
+        this.AbilityTimeout = AbilityTimeoutLimit;
 
         if (!AbilityTree.CanWalkDirection(direction))
         {
