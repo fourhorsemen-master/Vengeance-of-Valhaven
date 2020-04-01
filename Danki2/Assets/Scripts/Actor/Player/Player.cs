@@ -12,11 +12,12 @@ public class Player : Actor
     public float dashDuration = 0.2f;
     [HideInInspector]
     public float dashSpeedMultiplier = 3f;
+    [HideInInspector]
+    public float abilityTimeoutLimit = 5f;
 
     private float _remainingDashCooldown = 0f;
 
     private Coroutine AbilityTimeout;
-    private const float AbilityTimeoutLimit = 5f;
 
     private ActionControlState _previousActionControlState = ActionControlState.None;
     private ActionControlState _currentActionControlState = ActionControlState.None;
@@ -142,7 +143,7 @@ public class Player : Actor
 
     private IEnumerator AbilityTimeOutCounter()
     {
-        yield return new WaitForSeconds(AbilityTimeoutLimit);
+        yield return new WaitForSeconds(abilityTimeoutLimit);
         AbilityTree.Reset();
     }
 
