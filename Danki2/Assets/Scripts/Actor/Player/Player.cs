@@ -15,7 +15,7 @@ public class Player : Actor
 
     private float _remainingDashCooldown = 0f;
 
-    private float AbilityTimeout;
+    private Coroutine AbilityTimeout;
     private const float AbilityTimeoutLimit = 5f;
 
     private ActionControlState _previousActionControlState = ActionControlState.None;
@@ -59,6 +59,14 @@ public class Player : Actor
         base.Start();
 
         this.gameObject.tag = Tags.Player;
+
+        AbilityTimeout = StartCoroutine(AbilityTimeOutCounter());
+
+        SubscribeToTreeWalk((_) => 
+        {
+            StopCoroutine(AbilityTimeout);
+            AbilityTimeout = StartCoroutine(AbilityTimeOutCounter());
+        });
     }
 
     protected override void Update()
@@ -117,6 +125,12 @@ public class Player : Actor
         }
     }
 
+    private IEnumerator AbilityTimeOutCounter()
+    {
+        yield return new WaitForSeconds(AbilityTimeoutLimit);
+        AbilityTree.Reset();
+    }
+
     private IEnumerator EndDashVisualAfterDelay()
     {
         yield return new WaitForSeconds(dashDuration * 2);
@@ -125,15 +139,6 @@ public class Player : Actor
 
     private void HandleAbilities()
     {
-        if(this.AbilityTimeout <= 0)
-        {
-            AbilityTree.Reset();
-            this.AbilityTimeout = AbilityTimeoutLimit;
-            return;
-        }
-
-        this.AbilityTimeout -= Time.deltaTime;
-
         CastingCommand castingCommand = ControlMatrix.GetCastingCommand(
             CastingStatus,
             _previousActionControlState,
@@ -171,7 +176,6 @@ public class Player : Actor
     private void BranchAndCast(Direction direction)
     {
         RemainingAbilityCooldown = abilityCooldown;
-        this.AbilityTimeout = AbilityTimeoutLimit;
 
         if (!AbilityTree.CanWalkDirection(direction))
         {
