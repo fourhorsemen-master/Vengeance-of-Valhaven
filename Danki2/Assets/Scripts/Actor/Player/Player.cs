@@ -60,18 +60,7 @@ public class Player : Actor
 
         this.gameObject.tag = Tags.Player;
 
-        SubscribeToTreeDepth((int treeDepth) => 
-        {
-            if(AbilityTimeout != null)
-            {
-                StopCoroutine(AbilityTimeout);
-            }
-
-            if(treeDepth > 0)
-            {
-                AbilityTimeout = StartCoroutine(AbilityTimeOutCounter());
-            }
-        });
+        AbilityTimeoutSubscription();
     }
 
     protected override void Update()
@@ -119,6 +108,22 @@ public class Player : Actor
     {
         // TODO: Implement Player death.
         Debug.Log("The player died");
+    }
+
+    private void AbilityTimeoutSubscription()
+    {
+        SubscribeToTreeDepth((int treeDepth) =>
+        {
+            if (AbilityTimeout != null)
+            {
+                StopCoroutine(AbilityTimeout);
+            }
+
+            if (treeDepth > 0)
+            {
+                AbilityTimeout = StartCoroutine(AbilityTimeOutCounter());
+            }
+        });
     }
 
     private void TickDashCooldown()
