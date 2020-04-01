@@ -60,12 +60,17 @@ public class Player : Actor
 
         this.gameObject.tag = Tags.Player;
 
-        AbilityTimeout = StartCoroutine(AbilityTimeOutCounter());
-
-        SubscribeToTreeWalk((_) => 
+        SubscribeToTreeDepth((int treeDepth) => 
         {
-            StopCoroutine(AbilityTimeout);
-            AbilityTimeout = StartCoroutine(AbilityTimeOutCounter());
+            if(AbilityTimeout != null)
+            {
+                StopCoroutine(AbilityTimeout);
+            }
+
+            if(treeDepth > 0)
+            {
+                AbilityTimeout = StartCoroutine(AbilityTimeOutCounter());
+            }
         });
     }
 
@@ -98,6 +103,11 @@ public class Player : Actor
     public void SetCurrentControlState(ActionControlState controlState)
     {
         _currentActionControlState = controlState;
+    }
+
+    public void SubscribeToTreeDepth(Action<int> callback)
+    {
+        AbilityTree.CurrentDepthSubject.Subscribe(callback);
     }
 
     public void SubscribeToTreeWalk(Action<Node> callback)
