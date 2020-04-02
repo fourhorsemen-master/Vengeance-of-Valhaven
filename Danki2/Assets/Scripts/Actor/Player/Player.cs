@@ -95,11 +95,6 @@ public class Player : Actor
         _currentActionControlState = controlState;
     }
 
-    public void SubscribeToTreeDepth(Action<int> callback)
-    {
-        AbilityTree.CurrentDepthSubject.Subscribe(callback);
-    }
-
     public void SubscribeToTreeWalk(Action<Node> callback)
     {
         AbilityTree.TreeWalkSubject.Subscribe(callback);
@@ -113,7 +108,7 @@ public class Player : Actor
 
     private void AbilityTimeoutSubscription()
     {
-        SubscribeToTreeDepth((int treeDepth) =>
+        AbilityTree.CurrentDepthSubject.Subscribe((int treeDepth) =>
         {
             if (AbilityTimeout != null)
             {
@@ -122,9 +117,15 @@ public class Player : Actor
 
             if (treeDepth > 0)
             {
-                AbilityTimeout = StartCoroutine(AbilityTimeOutCounter());
+                AbilityTimeout = StartCoroutine(AbilityTimeoutCounter());
             }
         });
+    }
+
+    private IEnumerator AbilityTimeoutCounter()
+    {
+        yield return new WaitForSeconds(abilityTimeoutLimit);
+        AbilityTree.Reset();
     }
 
     private void TickDashCooldown()
@@ -139,12 +140,6 @@ public class Player : Actor
         {
             CastingStatus = CastingStatus.Ready;
         }
-    }
-
-    private IEnumerator AbilityTimeOutCounter()
-    {
-        yield return new WaitForSeconds(abilityTimeoutLimit);
-        AbilityTree.Reset();
     }
 
     private IEnumerator EndDashVisualAfterDelay()
