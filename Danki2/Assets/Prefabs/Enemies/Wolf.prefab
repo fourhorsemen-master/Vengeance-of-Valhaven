@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8501680027219967870
+--- !u!1 &7022103997868426109
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,52 +8,45 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8063099716140605082}
-  - component: {fileID: 6103281026837504358}
-  - component: {fileID: 2427766876654344830}
-  - component: {fileID: 2369984067544073560}
-  - component: {fileID: 5134676781764737243}
-  - component: {fileID: -1347520900970919038}
-  - component: {fileID: 3467548966888005537}
-  - component: {fileID: -3268726625634297962}
+  - component: {fileID: 6597226782508476723}
+  - component: {fileID: 5261240601009263029}
+  - component: {fileID: 8846998314425226291}
   m_Layer: 0
-  m_Name: Wolf
+  m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8063099716140605082
+--- !u!4 &6597226782508476723
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8501680027219967870}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3, y: 0, z: -2}
+  m_GameObject: {fileID: 7022103997868426109}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.054358006}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 7698698235359368135}
-  - {fileID: 8424895632497386272}
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_Children: []
+  m_Father: {fileID: 8063099716140605082}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &6103281026837504358
+--- !u!33 &5261240601009263029
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8501680027219967870}
+  m_GameObject: {fileID: 7022103997868426109}
   m_Mesh: {fileID: -2432090755550338912, guid: f9f19f5c61150a54db66db485fa8ab9d, type: 3}
---- !u!23 &2427766876654344830
+--- !u!23 &8846998314425226291
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8501680027219967870}
+  m_GameObject: {fileID: 7022103997868426109}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -85,6 +78,44 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!1 &8501680027219967870
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8063099716140605082}
+  - component: {fileID: 2369984067544073560}
+  - component: {fileID: 5134676781764737243}
+  - component: {fileID: -1347520900970919038}
+  - component: {fileID: 3467548966888005537}
+  - component: {fileID: -3268726625634297962}
+  m_Layer: 0
+  m_Name: Wolf
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8063099716140605082
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8501680027219967870}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3, y: 0, z: -2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 7698698235359368135}
+  - {fileID: 8424895632497386272}
+  - {fileID: 6597226782508476723}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &2369984067544073560
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -129,13 +160,11 @@ MonoBehaviour:
   baseStats:
     _keys: 000000000100000002000000
     _values: 1f0000000500000002000000
-  Target: {fileID: 0}
-  howl: {fileID: -3268726625634297962}
-  howlRange: 10
   _biteCastTime: 0.5
   _pounceCastTime: 0.5
   _biteTotalCooldown: 3
   _pounceTotalCooldown: 6
+  howl: {fileID: -3268726625634297962}
 --- !u!114 &3467548966888005537
 MonoBehaviour:
   m_ObjectHideFlags: 0
