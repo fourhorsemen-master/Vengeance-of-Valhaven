@@ -21,6 +21,8 @@ public class Player : Actor
     private ActionControlState currentActionControlState = ActionControlState.None;
 
     private Coroutine abilityTimeout;
+
+    private Vector3 mousePosition;
     
     [SerializeField]
     private TrailRenderer trailRenderer = null;
@@ -66,7 +68,8 @@ public class Player : Actor
 
     protected override void Update()
     {
-        ChannelTarget = MouseGamePositionFinder.Instance.GetMouseGamePosition();
+        mousePosition = MouseGamePositionFinder.Instance.GetMouseGamePosition();
+        ChannelTarget = mousePosition;
         base.Update();
 
         TickDashCooldown();
@@ -109,7 +112,7 @@ public class Player : Actor
 
     private void AbilityTimeoutSubscription()
     {
-        AbilityTree.CurrentDepthSubject.Subscribe((int treeDepth) =>
+        AbilityTree.CurrentDepthSubject.Subscribe(treeDepth =>
         {
             if (abilityTimeout != null)
             {
@@ -197,18 +200,17 @@ public class Player : Actor
         }
 
         Ability ability = AbilityTree.Walk(direction);
-        Vector3 targetPosition = MouseGamePositionFinder.Instance.GetMouseGamePosition();
 
         if (ability is InstantCast instantCast)
         {
-            Cast(instantCast, targetPosition);
+            Cast(instantCast, mousePosition);
 
             CastingStatus = CastingStatus.Cooldown;
         }
 
         if (ability is Channel channel)
         {
-            _channelService.Start(channel, targetPosition);
+            _channelService.Start(channel, mousePosition);
 
             CastingStatus = direction == Direction.Left
                 ? CastingStatus.ChannelingLeft
@@ -218,14 +220,6 @@ public class Player : Actor
         if (!AbilityTree.CanWalk())
         {
             AbilityTree.Reset();
-        }
-    }
-
-    public void Test(Ability ability)
-    {
-        if (ability is InstantCast instantCast)
-        {
-            Cast(instantCast, Vector3.back);
         }
     }
 }
