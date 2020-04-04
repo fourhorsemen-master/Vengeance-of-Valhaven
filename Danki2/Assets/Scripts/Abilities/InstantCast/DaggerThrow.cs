@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 class DaggerThrow : InstantCast
 {
@@ -9,37 +10,42 @@ class DaggerThrow : InstantCast
     private const float DotDuration = 3f;
     private static readonly Vector3 positionTransform = new Vector3(0, 1.25f, 0);
 
-    public DaggerThrow(AbilityContext context) : base(context)
-    {
+    public override AbilityReference AbilityReference => AbilityReference.DaggerThrow;
 
-    }
-
-    public override void Cast()
+    public override void Cast(AbilityContext context)
     {
-        Vector3 position = Context.Owner.transform.position + positionTransform;
-        Vector3 target = Context.TargetPosition;
+        Vector3 position = context.Owner.transform.position + positionTransform;
+        Vector3 target = context.TargetPosition;
         Quaternion rotation = Quaternion.LookRotation(target - position);
-        DaggerObject.Fire(Context.Owner, OnCollision, DaggerSpeed, position, rotation);
+
+        DaggerObject.Fire(
+            context.Owner,
+            BuildCollisionCallback(context),
+            DaggerSpeed,
+            position,
+            rotation
+        );
     }
 
-    private void OnCollision(GameObject gameObject)
+    private Action<GameObject> BuildCollisionCallback(AbilityContext context)
     {
-        if (gameObject.IsActor())
-        {
-            Actor actor = gameObject.GetComponent<Actor>();
+        return o => OnCollision(o, context);
+    }
 
-            if (!actor.Opposes(Context.Owner))
-            {
-                return;
-            }
+    private void OnCollision(GameObject gameObject, AbilityContext context)
+    {
+        if (!gameObject.IsActor()) return;
 
-            int strength = Context.Owner.GetStat(Stat.Strength);
+        Actor actor = gameObject.GetComponent<Actor>();
 
-            float impactDamage = strength * ImpactDamageMultiplier;
-            actor.ModifyHealth(-impactDamage);
+        if (!actor.Opposes(context.Owner)) return;
 
-            float damagePerTick = strength * DamagePerTickMultiplier;
-            actor.AddActiveEffect(new DOT(damagePerTick, DamageTickInterval), DotDuration);
-        }
+        int strength = context.Owner.GetStat(Stat.Strength);
+
+        float impactDamage = strength * ImpactDamageMultiplier;
+        actor.ModifyHealth(-impactDamage);
+
+        float damagePerTick = strength * DamagePerTickMultiplier;
+        actor.AddActiveEffect(new DOT(damagePerTick, DamageTickInterval), DotDuration);
     }
 }

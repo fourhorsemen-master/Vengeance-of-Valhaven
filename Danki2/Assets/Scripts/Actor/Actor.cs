@@ -10,6 +10,7 @@ public abstract class Actor : MonoBehaviour
     private EffectManager _effectManager;
     private MovementManager _movementManager;
     protected ChannelService _channelService;
+    private InstantCastService instantCastService;
 
     private float _health;
 
@@ -21,12 +22,15 @@ public abstract class Actor : MonoBehaviour
     public float TotalChannelDuration => _channelService.TotalDuration;
 
     public abstract ActorType Type { get; }
+    
+    public Vector3 ChannelTarget { get; set; }
 
     protected virtual void Awake()
     {
         _statsManager = new StatsManager(baseStats);
         _effectManager = new EffectManager(this, _statsManager);
-        _channelService = new ChannelService();
+        _channelService = new ChannelService(this);
+        instantCastService = new InstantCastService(this);
 
         _health = GetStat(Stat.MaxHealth);
         Dead = false;
@@ -41,7 +45,7 @@ public abstract class Actor : MonoBehaviour
     protected virtual void Update()
     {
         _effectManager.ProcessEffects();
-        _channelService.Update();
+        _channelService.Update(ChannelTarget);
 
         if (_health <= 0f && !Dead)
         {
@@ -119,7 +123,7 @@ public abstract class Actor : MonoBehaviour
     /// <summary>
     /// Moves the actor toward the provided position vector.
     /// </summary>
-    /// <param name="vec"></param>
+    /// <param name="target"></param>
     public void MoveToward(Vector3 target)
     {
         _movementManager.MoveToward(target);
@@ -152,19 +156,24 @@ public abstract class Actor : MonoBehaviour
         _health = Mathf.Min(_health + healthChange, GetStat(Stat.MaxHealth));
     }
 
-    public void StartChannel(Channel channel)
+    public void StartChannel(Channel channel, Vector3 targetPosition)
     {
-        _channelService.Start(channel);
+        _channelService.Start(channel, targetPosition);
     }
 
-    public void CancelChannel()
+    public void CancelChannel(Vector3 targetPosition)
     {
-        _channelService.Cancel();
+        _channelService.Cancel(targetPosition);
+    }
+
+    public void Cast(InstantCast instantCast, Vector3 targetPosition)
+    {
+        instantCastService.Cast(instantCast ,targetPosition);
     }
         
     public bool Opposes(Actor target)
     {
-        return tag != target.tag;
+        return !CompareTag(target.tag);
     }
 
     protected abstract void OnDeath();

@@ -8,15 +8,13 @@ public class Lunge : InstantCast
     private const float StunRange = 2f;
     private const float StunDuration = 0.5f;
 
-    public Lunge(AbilityContext context) : base(context)
-    {
-    }
+    public override AbilityReference AbilityReference => AbilityReference.Lunge;
 
-    public override void Cast()
+    public override void Cast(AbilityContext context)
     {
-        Actor owner = Context.Owner;
+        Actor owner = context.Owner;
         Vector3 position = owner.transform.position;
-        Vector3 target = Context.TargetPosition;
+        Vector3 target = context.TargetPosition;
 
         Vector3 direction = target - position;
         direction.y = position.y;

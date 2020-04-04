@@ -1,10 +1,10 @@
 ﻿public abstract class AbilityTree
 {
-    private readonly Node _rootNode;
+    private readonly Node rootNode;
 
-    private Node _currentNode;
+    private Node currentNode;
 
-    private int _currentDepth;
+    private int currentDepth;
 
     public int MaxDepth { get; }
 
@@ -14,50 +14,50 @@
 
     protected AbilityTree(Node rootNode)
     {
-        _rootNode = rootNode;
-        _currentNode = _rootNode;
-        _currentDepth = 0;
+        this.rootNode = rootNode;
+        currentNode = this.rootNode;
+        currentDepth = 0;
 
         // The root node counts itself when calculating depth, as it is just the same as any
         // other node. But in terms of the ability tree, we want to discount it.
-        MaxDepth = _rootNode.MaxDepth() - 1;
+        MaxDepth = this.rootNode.MaxDepth() - 1;
 
-        TreeWalkSubject = new BehaviourSubject<Node>(_currentNode);
-        CurrentDepthSubject = new BehaviourSubject<int>(_currentDepth);
+        TreeWalkSubject = new BehaviourSubject<Node>(currentNode);
+        CurrentDepthSubject = new BehaviourSubject<int>(currentDepth);
     }
 
     public bool CanWalkDirection(Direction direction)
     {
-        return _currentNode.HasChild(direction);
+        return currentNode.HasChild(direction);
     }
 
     public bool CanWalk()
     {
-        return _currentNode.HasChild(Direction.Left) || _currentNode.HasChild(Direction.Right);
+        return currentNode.HasChild(Direction.Left) || currentNode.HasChild(Direction.Right);
     }
 
-    public AbilityReference GetAbility(Direction direction)
+    public Ability GetAbility(Direction direction)
     {
-        return _currentNode.GetChild(direction).Ability;
+        return currentNode.GetChild(direction).Ability;
     }
 
-    public AbilityReference Walk(Direction direction)
+    public Ability Walk(Direction direction)
     {
-        _currentNode = _currentNode.GetChild(direction);
-        TreeWalkSubject.Next(_currentNode);
+        currentNode = currentNode.GetChild(direction);
+        TreeWalkSubject.Next(currentNode);
 
-        _currentDepth++;
-        CurrentDepthSubject.Next(_currentDepth);
+        currentDepth++;
+        CurrentDepthSubject.Next(currentDepth);
 
-        return _currentNode.Ability;
+        return currentNode.Ability;
     }
 
     public void Reset()
     {
-        _currentNode = _rootNode;
-        TreeWalkSubject.Next(_currentNode);
+        currentNode = rootNode;
+        TreeWalkSubject.Next(currentNode);
 
-        _currentDepth = 0;
-        CurrentDepthSubject.Next(_currentDepth);
+        currentDepth = 0;
+        CurrentDepthSubject.Next(currentDepth);
     }
 }

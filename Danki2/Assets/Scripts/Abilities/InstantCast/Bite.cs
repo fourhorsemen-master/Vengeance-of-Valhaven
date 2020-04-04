@@ -5,16 +5,14 @@ public class Bite : InstantCast
     private const float FinalRootDuration = 0.5f;
     private const float DelayBeforeDamage = 0.75f;
 
-    public Bite(AbilityContext context) : base(context)
-    {
-    }
+    public override AbilityReference AbilityReference => AbilityReference.Bite;
 
-    public override void Cast()
+    public override void Cast(AbilityContext context)
     {  
-        Actor owner = Context.Owner;
+        Actor owner = context.Owner;
         float damage = owner.GetStat(Stat.Strength);
         Vector3 position = owner.transform.position;
-        Vector3 targetPosition = Context.TargetPosition;
+        Vector3 targetPosition = context.TargetPosition;
         targetPosition.y = 0f;
 
         owner.WaitAndAct(DelayBeforeDamage, () =>

@@ -8,21 +8,19 @@ public class Pounce : InstantCast
     private float _finalRootDuration = 0.3f;
     private float _damageRadius = 2f;
 
-    public Pounce(AbilityContext context) : base(context)
-    {
-    }
+    public override AbilityReference AbilityReference => AbilityReference.Pounce;
 
-    public override void Cast()
+    public override void Cast(AbilityContext context)
     {
-        Actor owner = Context.Owner;
+        Actor owner = context.Owner;
         Vector3 position = owner.transform.position;
-        Vector3 target = Context.TargetPosition;
+        Vector3 target = context.TargetPosition;
         target.y = position.y;
 
         owner.LockMovement(
             _movementDuration,
             owner.GetStat(Stat.Speed) * _movementSpeedMultiplier,
-            target - owner.transform.position,
+            target - position,
             @override: true
         );
 

@@ -1,19 +1,19 @@
 ﻿using UnityEngine;
 
-public class ChannelService
+public class ChannelService : AbilityService
 {
-    private Channel _currentChannel;
+    private Channel currentChannel;
 
     public bool Active { get; private set; }
     public float RemainingDuration { get; private set; }
-    public float TotalDuration => _currentChannel.Duration;
+    public float TotalDuration => currentChannel.Duration;
 
-    public ChannelService()
+    public ChannelService(Actor owner) : base(owner)
     {
         Active = false;
     }
 
-    public void Update()
+    public void Update(Vector3 targetPosition)
     {
         if (!Active)
         {
@@ -25,29 +25,30 @@ public class ChannelService
 
         if (RemainingDuration > 0f)
         {
-            _currentChannel.Continue();
+            currentChannel.Continue(GetAbilityContext(targetPosition));
         }
         else
         {
-            _currentChannel.End();
+            currentChannel.End(GetAbilityContext(targetPosition));
             Active = false;
         }
     }
 
-    public void Start(Channel channel)
+    public void Start(Channel channel, Vector3 targetPosition)
     {
-        _currentChannel = channel;
-        RemainingDuration = _currentChannel.Duration;
+        currentChannel = channel;
+        RemainingDuration = currentChannel.Duration;
         Active = true;
-        _currentChannel.Start();
-        _currentChannel.Continue();
+        AbilityContext abilityContext = GetAbilityContext(targetPosition);
+        currentChannel.Start(abilityContext);
+        currentChannel.Continue(abilityContext);
     }
 
-    public void Cancel()
+    public void Cancel(Vector3 targetPosition)
     {
         if (!Active) return;
 
-        _currentChannel.Cancel();
+        currentChannel.Cancel(GetAbilityContext(targetPosition));
         RemainingDuration = 0f;
         Active = false;
     }

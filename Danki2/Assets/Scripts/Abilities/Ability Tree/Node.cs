@@ -3,32 +3,32 @@ using UnityEngine;
 
 public abstract class Node
 {
-    private readonly Dictionary<Direction, Node> _children = new Dictionary<Direction, Node>();
+    private readonly Dictionary<Direction, Node> children = new Dictionary<Direction, Node>();
 
-    public AbilityReference Ability { get; }
+    public Ability Ability { get; }
 
     protected Node()
     {
     }
 
-    protected Node(AbilityReference ability)
+    protected Node(Ability ability)
     {
         Ability = ability;
     }
 
     public bool HasChild(Direction direction)
     {
-        return _children.TryGetValue(direction, out _);
+        return children.TryGetValue(direction, out _);
     }
 
     public Node GetChild(Direction direction)
     {
-        return _children[direction];
+        return children[direction];
     }
 
     public void SetChild(Direction direction, Node value)
     {
-        _children[direction] = value;
+        children[direction] = value;
     }
 
     public int MaxDepth()

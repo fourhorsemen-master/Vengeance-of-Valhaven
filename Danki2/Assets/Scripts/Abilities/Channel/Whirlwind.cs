@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public class Whirlwind : Channel
 {
@@ -11,47 +12,45 @@ public class Whirlwind : Channel
     private const float finishRange = 3;
     private const float finishDamageMultiplier = 1;
 
-    private WhirlwindObject _whirlwindObject;
+    private WhirlwindObject whirlwindObject;
 
     private Guid slowEffectId;
 
     private Repeater repeater;
 
+    public override AbilityReference AbilityReference => AbilityReference.Whirlwind;
     public override float Duration => 2f;
 
-    public Whirlwind(AbilityContext context) : base(context) { }
-
-    public override void Start()
+    public override void Start(AbilityContext context)
     {
-        slowEffectId = Context.Owner.AddPassiveEffect(new Slow(selfSlowMultiplier));
-        repeater = new Repeater(spinDamageInterval, () => AOE(spinRange, spinDamageMultiplier), spinDamageStartDelay);
+        slowEffectId = context.Owner.AddPassiveEffect(new Slow(selfSlowMultiplier));
+        repeater = new Repeater(spinDamageInterval, () => AOE(spinRange, spinDamageMultiplier, context.Owner), spinDamageStartDelay);
 
-        Vector3 position = Context.Owner.transform.position;
-        Vector3 target = Context.TargetPosition;
-        _whirlwindObject = WhirlwindObject.Create(position, Quaternion.LookRotation(target - position));
+        Vector3 position = context.Owner.transform.position;
+        Vector3 target = context.TargetPosition;
+        whirlwindObject = WhirlwindObject.Create(position, Quaternion.LookRotation(target - position));
     }
 
-    public override void Continue()
+    public override void Continue(AbilityContext context)
     {
         repeater.Update();
     }
 
-    public override void Cancel()
+    public override void Cancel(AbilityContext context)
     {
-        Context.Owner.RemovePassiveEffect(slowEffectId);
-        GameObject.Destroy(_whirlwindObject);
+        context.Owner.RemovePassiveEffect(slowEffectId);
+        Object.Destroy(whirlwindObject);
     }
 
-    public override void End()
+    public override void End(AbilityContext context)
     {
-        AOE(finishRange, finishDamageMultiplier);
-        Context.Owner.RemovePassiveEffect(slowEffectId);
-        GameObject.Destroy(_whirlwindObject);
+        AOE(finishRange, finishDamageMultiplier, context.Owner);
+        context.Owner.RemovePassiveEffect(slowEffectId);
+        Object.Destroy(whirlwindObject);
     }
 
-    private void AOE(float radius, float damageMultiplier)
+    private void AOE(float radius, float damageMultiplier, Actor owner)
     {
-        Actor owner = Context.Owner;
         float damage = owner.GetStat(Stat.Strength) * damageMultiplier;
 
         CollisionTemplateManager.Instance.GetCollidingActors(

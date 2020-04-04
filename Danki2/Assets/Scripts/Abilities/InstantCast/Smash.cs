@@ -6,16 +6,14 @@ public class Smash : InstantCast
     private const float Radius = 1f;
     private const float DamageMultiplier = 2f;
 
-    public Smash(AbilityContext context) : base(context)
-    {
-    }
+    public override AbilityReference AbilityReference => AbilityReference.Smash;
 
-    public override void Cast()
+    public override void Cast(AbilityContext context)
     {
-        Actor owner = Context.Owner;
+        Actor owner = context.Owner;
 
         Vector3 position = owner.transform.position;
-        Vector3 target = Context.TargetPosition;
+        Vector3 target = context.TargetPosition;
         target.y = 0;
 
         Vector3 directionToTarget = target == position ? Vector3.right : (target - position).normalized;

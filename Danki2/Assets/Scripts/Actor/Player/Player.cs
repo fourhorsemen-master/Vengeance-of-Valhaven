@@ -13,10 +13,10 @@ public class Player : Actor
     [HideInInspector]
     public float dashSpeedMultiplier = 3f;
 
-    private float _remainingDashCooldown = 0f;
+    private float remainingDashCooldown = 0f;
 
-    private ActionControlState _previousActionControlState = ActionControlState.None;
-    private ActionControlState _currentActionControlState = ActionControlState.None;
+    private ActionControlState previousActionControlState = ActionControlState.None;
+    private ActionControlState currentActionControlState = ActionControlState.None;
 
     [SerializeField]
     private TrailRenderer trailRenderer = null;
@@ -35,17 +35,17 @@ public class Player : Actor
 
         AbilityTree = AbilityTreeFactory.CreateTree(
             AbilityTreeFactory.CreateNode(
-                AbilityReference.Slash,
+                new Slash(),
                 AbilityTreeFactory.CreateNode(
-                    AbilityReference.Roll,
-                    rightChild: AbilityTreeFactory.CreateNode(AbilityReference.Smash)
+                    new Roll(),
+                    rightChild: AbilityTreeFactory.CreateNode(new Smash())
                 ),
-                AbilityTreeFactory.CreateNode(AbilityReference.Whirlwind)
+                AbilityTreeFactory.CreateNode(new Whirlwind())
             ),
             AbilityTreeFactory.CreateNode(
-                AbilityReference.Lunge,
-                AbilityTreeFactory.CreateNode(AbilityReference.DaggerThrow),
-                AbilityTreeFactory.CreateNode(AbilityReference.Whirlwind)
+                new Lunge(),
+                AbilityTreeFactory.CreateNode(new DaggerThrow()),
+                AbilityTreeFactory.CreateNode(new Whirlwind())
             )
         );
     }
@@ -59,6 +59,7 @@ public class Player : Actor
 
     protected override void Update()
     {
+        ChannelTarget = MouseGamePositionFinder.Instance.GetMouseGamePosition();
         base.Update();
 
         TickDashCooldown();
@@ -74,10 +75,10 @@ public class Player : Actor
 
     public void Dash(Vector3 direction)
     {
-        if (_remainingDashCooldown <= 0)
+        if (remainingDashCooldown <= 0)
         {
             LockMovement(dashDuration, GetStat(Stat.Speed) * dashSpeedMultiplier, direction);
-            _remainingDashCooldown = totalDashCooldown;
+            remainingDashCooldown = totalDashCooldown;
             trailRenderer.emitting = true;
             StartCoroutine(EndDashVisualAfterDelay());
         }
@@ -85,7 +86,7 @@ public class Player : Actor
 
     public void SetCurrentControlState(ActionControlState controlState)
     {
-        _currentActionControlState = controlState;
+        currentActionControlState = controlState;
     }
 
     public void SubscribeToTreeWalk(Action<Node> callback)
@@ -101,7 +102,7 @@ public class Player : Actor
 
     private void TickDashCooldown()
     {
-        _remainingDashCooldown = Mathf.Max(0f, _remainingDashCooldown - Time.deltaTime);
+        remainingDashCooldown = Mathf.Max(0f, remainingDashCooldown - Time.deltaTime);
     }
 
     private void TickAbilityCooldown()
@@ -123,12 +124,12 @@ public class Player : Actor
     {
         CastingCommand castingCommand = ControlMatrix.GetCastingCommand(
             CastingStatus,
-            _previousActionControlState,
-            _currentActionControlState
+            previousActionControlState,
+            currentActionControlState
         );
 
-        _previousActionControlState = _currentActionControlState;
-        _currentActionControlState = ActionControlState.None;
+        previousActionControlState = currentActionControlState;
+        currentActionControlState = ActionControlState.None;
 
         switch (castingCommand)
         {
@@ -140,7 +141,7 @@ public class Player : Actor
                 }
                 break;
             case CastingCommand.CancelChannel:
-                _channelService.Cancel();
+                _channelService.Cancel(ChannelTarget);
                 CastingStatus = RemainingAbilityCooldown <= 0f ? CastingStatus.Ready : CastingStatus.Cooldown;
 
                 // Ability whiffed, reset tree. TODO: Make a method out of this including feedback for player. 
@@ -166,25 +167,19 @@ public class Player : Actor
             return;
         }
 
-        AbilityReference abilityReference = AbilityTree.Walk(direction);
+        Ability ability = AbilityTree.Walk(direction);
+        Vector3 targetPosition = MouseGamePositionFinder.Instance.GetMouseGamePosition();
 
-        AbilityContext abilityContext = new AbilityContext(
-            this,
-            MouseGamePositionFinder.Instance.GetMouseGamePosition()
-        );
-
-        if (Ability.TryGetAsInstantCastBuilder(abilityReference, out Func<AbilityContext, InstantCast> instantCastbuilder))
+        if (ability is InstantCast instantCast)
         {
-            InstantCast instantCast = instantCastbuilder.Invoke(abilityContext);
-            instantCast.Cast();
+            Cast(instantCast, targetPosition);
 
             CastingStatus = CastingStatus.Cooldown;
         }
 
-        if (Ability.TryGetAsChannelBuilder(abilityReference, out Func<AbilityContext, Channel> channelBuilder))
+        if (ability is Channel channel)
         {
-            Channel channel = channelBuilder.Invoke(abilityContext);
-            _channelService.Start(channel);
+            _channelService.Start(channel, targetPosition);
 
             CastingStatus = direction == Direction.Left
                 ? CastingStatus.ChannelingLeft
@@ -194,7 +189,14 @@ public class Player : Actor
         if (!AbilityTree.CanWalk())
         {
             AbilityTree.Reset();
-            return;
+        }
+    }
+
+    public void Test(Ability ability)
+    {
+        if (ability is InstantCast instantCast)
+        {
+            Cast(instantCast, Vector3.back);
         }
     }
 }

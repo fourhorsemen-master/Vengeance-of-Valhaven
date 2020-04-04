@@ -1,16 +1,14 @@
 ﻿public abstract class Channel : Ability
 {
+    public override AbilityType AbilityType => AbilityType.Channel;
+
     public abstract float Duration { get; }
-
-    public Channel(AbilityContext context) : base(context)
-    {
-    }
     
-    public virtual void Start() { }
+    public virtual void Start(AbilityContext context) { }
 
-    public virtual void Continue() { }
+    public virtual void Continue(AbilityContext context) { }
 
-    public virtual void Cancel() { }
+    public virtual void Cancel(AbilityContext context) { }
 
-    public virtual void End() { }
+    public virtual void End(AbilityContext context) { }
 }

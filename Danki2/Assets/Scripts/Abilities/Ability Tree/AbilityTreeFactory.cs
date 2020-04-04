@@ -9,7 +9,7 @@
         return new AbilityTreeImplementation(rootNode);
     }
 
-    public static Node CreateNode(AbilityReference ability, Node leftChild = null, Node rightChild = null)
+    public static Node CreateNode(Ability ability, Node leftChild = null, Node rightChild = null)
     {
         Node node = new NodeImplementation(ability);
         if (leftChild != null) node.SetChild(Direction.Left, leftChild);
@@ -33,7 +33,7 @@
         {
         }
 
-        public NodeImplementation(AbilityReference ability) : base(ability)
+        public NodeImplementation(Ability ability) : base(ability)
         {
         }
     }

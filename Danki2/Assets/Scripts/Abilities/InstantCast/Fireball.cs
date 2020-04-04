@@ -1,36 +1,44 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Fireball : InstantCast
 {
     private const float FireballSpeed = 5;
-    private static readonly Vector3 _positionTransform = new Vector3(0, 1.25f, 0);
+    private static readonly Vector3 positionTransform = new Vector3(0, 1.25f, 0);
 
-    public Fireball(AbilityContext context) : base(context)
+    public override AbilityReference AbilityReference => AbilityReference.Fireball;
+
+    public override void Cast(AbilityContext context)
     {
-
-    }
-
-    public override void Cast()
-    {
-        Vector3 position = Context.Owner.transform.position + _positionTransform;
-        Vector3 target = Context.TargetPosition;
+        Vector3 position = context.Owner.transform.position + positionTransform;
+        Vector3 target = context.TargetPosition;
         Quaternion rotation = Quaternion.LookRotation(target - position);
-        FireballObject.Fire(Context.Owner, OnCollision, FireballSpeed, position, rotation);
+        FireballObject.Fire(
+            context.Owner,
+            BuildCollisionCallback(context),
+            FireballSpeed,
+            position,
+            rotation
+        );
     }
 
-    private void OnCollision(GameObject gameObject)
+    private Action<GameObject> BuildCollisionCallback(AbilityContext context)
     {
-        if (gameObject.IsActor())
+        return o => OnCollision(o, context);
+    }
+
+    private void OnCollision(GameObject gameObject, AbilityContext context)
+    {
+        if (!gameObject.IsActor()) return;
+
+        Actor actor = gameObject.GetComponent<Actor>();
+
+        if (!actor.Opposes(context.Owner))
         {
-            Actor actor = gameObject.GetComponent<Actor>();
-
-            if (!actor.Opposes(Context.Owner))
-            {
-                return;
-            }
-
-            int strength = Context.Owner.GetStat(Stat.Strength);
-            actor.ModifyHealth(-strength);
+            return;
         }
+
+        int strength = context.Owner.GetStat(Stat.Strength);
+        actor.ModifyHealth(-strength);
     }
 }

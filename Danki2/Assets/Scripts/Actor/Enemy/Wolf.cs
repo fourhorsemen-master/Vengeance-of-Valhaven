@@ -12,15 +12,15 @@ public class Wolf : Enemy
     [SerializeField]
     private float _pounceTotalCooldown = 0f;
 
-    private float _biteRemainingCooldown = 0f;
-    private float _pounceRemaningCooldown = 0f;
+    private float biteRemainingCooldown = 0f;
+    private float pounceRemainingCooldown = 0f;
 
     public AudioSource howl;
 
     private const float HowlRange = 10f;
     public override ActorType Type => ActorType.Wolf;
-    public bool BiteOffCooldown => _biteRemainingCooldown <= 0f;
-    public bool PounceOffCooldown => _pounceRemaningCooldown <= 0f;
+    public bool BiteOffCooldown => biteRemainingCooldown <= 0f;
+    public bool PounceOffCooldown => pounceRemainingCooldown <= 0f;
 
     public Subject<Wolf> OnHowl { get; private set; } = new Subject<Wolf>();
 
@@ -58,48 +58,44 @@ public class Wolf : Enemy
 
         if (!BiteOffCooldown)
         {
-            _biteRemainingCooldown -= Time.deltaTime;
-            if (_biteRemainingCooldown <= 0f)
+            biteRemainingCooldown -= Time.deltaTime;
+            if (biteRemainingCooldown <= 0f)
             {
-                _biteRemainingCooldown = 0f;
+                biteRemainingCooldown = 0f;
             }
         }
 
         if (!PounceOffCooldown)
         {
-            _pounceRemaningCooldown -= Time.deltaTime;
-            if (_pounceRemaningCooldown <= 0f)
+            pounceRemainingCooldown -= Time.deltaTime;
+            if (pounceRemainingCooldown <= 0f)
             {
-                _pounceRemaningCooldown = 0f;
+                pounceRemainingCooldown = 0f;
             }
         }
     }
 
     public void Bite()
     {
-        if (_biteRemainingCooldown > 0)
+        if (biteRemainingCooldown > 0)
         {
             return;
         }
 
-        WaitAndCast(_biteCastTime, () =>
-            new Bite(new AbilityContext(this, Target.transform.position))
-        );
-        _biteRemainingCooldown = _biteTotalCooldown;
+        WaitAndCast(_biteCastTime, new Bite(), Target.transform.position);
+        biteRemainingCooldown = _biteTotalCooldown;
     }
 
     public void Pounce()
     {
-        if (_pounceRemaningCooldown > 0)
+        if (pounceRemainingCooldown > 0)
         {
             return;
         }
 
-        WaitAndCast(_pounceCastTime, () =>
-            new Pounce(new AbilityContext(this, Target.transform.position))
-        );
-        _biteRemainingCooldown = _biteTotalCooldown;
-        _pounceRemaningCooldown = _pounceTotalCooldown;
+        WaitAndCast(_pounceCastTime, new Pounce(), Target.transform.position);
+        biteRemainingCooldown = _biteTotalCooldown;
+        pounceRemainingCooldown = _pounceTotalCooldown;
     }
 
     public void CallFriends(Player player)

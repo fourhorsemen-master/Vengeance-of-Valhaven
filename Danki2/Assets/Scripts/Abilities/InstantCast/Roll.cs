@@ -5,16 +5,15 @@ public class Roll : InstantCast
     private const float RollSpeedMultiplier = 4f;
     private const float RollDuration = 0.15f;
 
-    public Roll(AbilityContext context) : base(context)
-    {
-    }
+    public override AbilityReference AbilityReference => AbilityReference.Roll;
 
-    public override void Cast()
+    public override void Cast(AbilityContext context)
     {
-        Actor caster = Context.Owner;
+        Actor caster = context.Owner;
 
-        Vector3 targetPosition = Context.TargetPosition - caster.transform.position;
-        targetPosition.y = caster.transform.position.y;
+        var position = caster.transform.position;
+        Vector3 targetPosition = context.TargetPosition - position;
+        targetPosition.y = position.y;
 
         caster.LockMovement(
             RollDuration,
