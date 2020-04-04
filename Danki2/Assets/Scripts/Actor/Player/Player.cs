@@ -12,8 +12,12 @@ public class Player : Actor
     public float dashDuration = 0.2f;
     [HideInInspector]
     public float dashSpeedMultiplier = 3f;
+    [HideInInspector]
+    public float abilityTimeoutLimit = 5f;
 
     private float _remainingDashCooldown = 0f;
+
+    private Coroutine AbilityTimeout;
 
     private ActionControlState _previousActionControlState = ActionControlState.None;
     private ActionControlState _currentActionControlState = ActionControlState.None;
@@ -25,6 +29,7 @@ public class Player : Actor
     public float RemainingAbilityCooldown { get; private set; } = 0f;
     [HideInInspector]
     public CastingStatus CastingStatus { get; private set; } = CastingStatus.Ready;
+
     public AbilityTree AbilityTree { get; private set; }
 
     public override ActorType Type => ActorType.Player;
@@ -55,6 +60,8 @@ public class Player : Actor
         base.Start();
 
         this.gameObject.tag = Tags.Player;
+
+        AbilityTimeoutSubscription();
     }
 
     protected override void Update()
@@ -97,6 +104,28 @@ public class Player : Actor
     {
         // TODO: Implement Player death.
         Debug.Log("The player died");
+    }
+
+    private void AbilityTimeoutSubscription()
+    {
+        AbilityTree.CurrentDepthSubject.Subscribe((int treeDepth) =>
+        {
+            if (AbilityTimeout != null)
+            {
+                StopCoroutine(AbilityTimeout);
+            }
+
+            if (treeDepth > 0)
+            {
+                AbilityTimeout = StartCoroutine(AbilityTimeoutCounter());
+            }
+        });
+    }
+
+    private IEnumerator AbilityTimeoutCounter()
+    {
+        yield return new WaitForSeconds(abilityTimeoutLimit);
+        AbilityTree.Reset();
     }
 
     private void TickDashCooldown()

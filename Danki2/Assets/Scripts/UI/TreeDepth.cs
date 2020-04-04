@@ -10,6 +10,8 @@ public class TreeDepth : MonoBehaviour
 
     private float _spriteWidth;
     private float _spriteHeight;
+    private float abilityTimeOutLimit;
+    private int currentTreeDepth;
 
     private void Awake()
     {
@@ -20,9 +22,23 @@ public class TreeDepth : MonoBehaviour
     private void Start()
     {
         _player = RoomManager.Instance.Player;
+        this.abilityTimeOutLimit = _player.abilityTimeoutLimit;
+
         _player.AbilityTree.CurrentDepthSubject.Subscribe(newDepth =>
         {
-            _repeatingImage.rectTransform.sizeDelta = new Vector2(newDepth * _spriteWidth, _spriteHeight);
+            _repeatingImage.rectTransform.sizeDelta = new Vector2((newDepth) * _spriteWidth, _spriteHeight);
+            _repeatingImage.SetOpacity(1f);
+            this.currentTreeDepth = newDepth;
         });
+    }
+
+    private void Update()
+    {
+        float opacity = _repeatingImage.color.a;
+        
+        if(this.currentTreeDepth > 0)
+        {
+            _repeatingImage.SetOpacity(opacity - (Time.deltaTime / abilityTimeOutLimit));
+        }
     }
 }

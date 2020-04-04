@@ -13,6 +13,7 @@ public class PlayerEditor : ActorEditor
         EditorGUILayout.LabelField("Abilities", EditorStyles.boldLabel);
         EditorGUI.indentLevel++;
             player.abilityCooldown = EditorGUILayout.Slider("Cooldown", player.abilityCooldown, 0, 2);
+            player.abilityTimeoutLimit = EditorGUILayout.Slider("Timeout", player.abilityTimeoutLimit, 2, 10);
         EditorGUI.indentLevel--;
 
         EditorGUILayout.LabelField("Dash", EditorStyles.boldLabel);
