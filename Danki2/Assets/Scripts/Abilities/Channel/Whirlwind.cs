@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 public class Whirlwind : Channel
 {
@@ -39,14 +38,14 @@ public class Whirlwind : Channel
     public override void Cancel(AbilityContext context)
     {
         context.Owner.RemovePassiveEffect(slowEffectId);
-        Object.Destroy(whirlwindObject);
+        GameObject.Destroy(whirlwindObject);
     }
 
     public override void End(AbilityContext context)
     {
         AOE(finishRange, finishDamageMultiplier, context.Owner);
         context.Owner.RemovePassiveEffect(slowEffectId);
-        Object.Destroy(whirlwindObject);
+        GameObject.Destroy(whirlwindObject);
     }
 
     private void AOE(float radius, float damageMultiplier, Actor owner)
