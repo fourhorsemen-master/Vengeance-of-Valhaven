@@ -15,6 +15,9 @@ public class Wolf : Enemy
     private float biteRemainingCooldown = 0f;
     private float pounceRemainingCooldown = 0f;
 
+    private readonly Bite bite = new Bite();
+    private readonly Pounce pounce = new Pounce();
+
     public AudioSource howl;
 
     private const float HowlRange = 10f;
@@ -82,7 +85,7 @@ public class Wolf : Enemy
             return;
         }
 
-        WaitAndCast(_biteCastTime, new Bite(), Target.transform.position);
+        WaitAndCast(_biteCastTime, bite, Target.transform.position);
         biteRemainingCooldown = _biteTotalCooldown;
     }
 
@@ -93,7 +96,7 @@ public class Wolf : Enemy
             return;
         }
 
-        WaitAndCast(_pounceCastTime, new Pounce(), Target.transform.position);
+        WaitAndCast(_pounceCastTime, pounce, Target.transform.position);
         biteRemainingCooldown = _biteTotalCooldown;
         pounceRemainingCooldown = _pounceTotalCooldown;
     }
