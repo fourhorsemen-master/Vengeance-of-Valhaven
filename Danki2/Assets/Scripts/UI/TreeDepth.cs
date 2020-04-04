@@ -26,7 +26,7 @@ public class TreeDepth : MonoBehaviour
 
         _player.AbilityTree.CurrentDepthSubject.Subscribe(newDepth =>
         {
-            _repeatingImage.rectTransform.sizeDelta = new Vector2((newDepth + 1) * _spriteWidth, _spriteHeight);
+            _repeatingImage.rectTransform.sizeDelta = new Vector2((newDepth) * _spriteWidth, _spriteHeight);
             _repeatingImage.SetOpacity(1f);
             this.currentTreeDepth = newDepth;
         });
