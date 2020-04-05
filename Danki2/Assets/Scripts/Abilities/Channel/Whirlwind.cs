@@ -28,7 +28,7 @@ public class Whirlwind : Channel
 
         Vector3 position = Context.Owner.transform.position;
         Vector3 target = Context.TargetPosition;
-        _whirlwindObject = WhirlwindObject.Create(position, Quaternion.LookRotation(target - position));
+        _whirlwindObject = WhirlwindObject.Create(Context.Owner.transform);
     }
 
     public override void Continue()
@@ -39,14 +39,14 @@ public class Whirlwind : Channel
     public override void Cancel()
     {
         Context.Owner.RemovePassiveEffect(slowEffectId);
-        GameObject.Destroy(_whirlwindObject);
+        _whirlwindObject.DestroyWhirlwind();
     }
 
     public override void End()
     {
         AOE(finishRange, finishDamageMultiplier);
         Context.Owner.RemovePassiveEffect(slowEffectId);
-        GameObject.Destroy(_whirlwindObject);
+        _whirlwindObject.DestroyWhirlwind();
     }
 
     private void AOE(float radius, float damageMultiplier)
