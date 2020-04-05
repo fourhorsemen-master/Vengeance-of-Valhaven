@@ -20,16 +20,11 @@ class DaggerThrow : InstantCast
 
         DaggerObject.Fire(
             context.Owner,
-            BuildCollisionCallback(context),
+            o => OnCollision(o, context),
             DaggerSpeed,
             position,
             rotation
         );
-    }
-
-    private Action<GameObject> BuildCollisionCallback(AbilityContext context)
-    {
-        return o => OnCollision(o, context);
     }
 
     private void OnCollision(GameObject gameObject, AbilityContext context)

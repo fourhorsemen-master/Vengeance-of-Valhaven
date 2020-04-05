@@ -15,16 +15,11 @@ public class Fireball : InstantCast
         Quaternion rotation = Quaternion.LookRotation(target - position);
         FireballObject.Fire(
             context.Owner,
-            BuildCollisionCallback(context),
+            o => OnCollision(o, context),
             FireballSpeed,
             position,
             rotation
         );
-    }
-
-    private Action<GameObject> BuildCollisionCallback(AbilityContext context)
-    {
-        return o => OnCollision(o, context);
     }
 
     private void OnCollision(GameObject gameObject, AbilityContext context)
