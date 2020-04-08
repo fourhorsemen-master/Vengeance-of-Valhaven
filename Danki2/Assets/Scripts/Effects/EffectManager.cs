@@ -87,12 +87,12 @@ public class EffectManager : StatPipe
     {
         foreach (EffectWithDuration effectWithDuration in _activeEffects)
         {
-            action.Invoke(effectWithDuration.Effect);
+            action(effectWithDuration.Effect);
         }
 
         foreach (Effect passiveEffect in _passiveEffects.Values)
         {
-            action.Invoke(passiveEffect);
+            action(passiveEffect);
         }
     }
 }
