@@ -6,91 +6,63 @@ public abstract class Actor : MonoBehaviour
     [HideInInspector]
     public StatsDictionary baseStats = new StatsDictionary(0);
 
-    private StatsManager _statsManager;
-    private EffectManager _effectManager;
-    private MovementManager _movementManager;
-    protected ChannelService _channelService;
+    protected ChannelService channelService;
+    private StatsManager statsManager;
+    private MovementManager movementManager;
+    private Subject updateSubscription = new Subject();
 
-    private float _health;
+    private float health;
 
+    public EffectManager EffectManager { get; private set; }
     public Actor Target { get; set; } = null;
-    public int Health => Mathf.CeilToInt(_health);
+    public int Health => Mathf.CeilToInt(health);
     public bool Dead { get; private set; }
     public bool IsDamaged => Health < GetStat(Stat.MaxHealth);
-    public float RemainingChannelDuration => _channelService.RemainingDuration;
-    public float TotalChannelDuration => _channelService.TotalDuration;
+    public float RemainingChannelDuration => this.channelService.RemainingDuration;
+    public float TotalChannelDuration => this.channelService.TotalDuration;
 
     public abstract ActorType Type { get; }
 
     protected virtual void Awake()
     {
-        _statsManager = new StatsManager(baseStats);
-        _effectManager = new EffectManager(this, _statsManager);
-        _channelService = new ChannelService();
+        this.statsManager = new StatsManager(baseStats);
+        this.EffectManager = new EffectManager(this, updateSubscription, statsManager);
+        this.channelService = new ChannelService(updateSubscription);
 
-        _health = GetStat(Stat.MaxHealth);
+        health = GetStat(Stat.MaxHealth);
         Dead = false;
     }
 
     protected virtual void Start()
     {
         Rigidbody rigidBody = gameObject.GetComponent<Rigidbody>();
-        _movementManager = new MovementManager(this, rigidBody);
+        this.movementManager = new MovementManager(this, rigidBody);
     }
 
     protected virtual void Update()
     {
-        _effectManager.ProcessEffects();
-        _channelService.Update();
-
-        if (_health <= 0f && !Dead)
+        if (health <= 0f && !Dead)
         {
             OnDeath();
             Dead = true;
         }
+
+        if (Dead) return;
+
+        this.updateSubscription.Next();
     }
 
     protected virtual void LateUpdate()
     {
         if (!Dead)
         {
-            _movementManager.ExecuteMovement();
+            this.movementManager.ExecuteMovement();
         }
     }
 
     public int GetStat(Stat stat)
     {
-        return _statsManager[stat];
-    }
-
-    /// <summary>
-    /// Adds an active effect to the actor, this effect will last for the given duration.
-    /// </summary>
-    /// <param name="effect"> The effect to add. </param>
-    /// <param name="duration"> The duration of the effect. </param>
-    public void AddActiveEffect(Effect effect, float duration)
-    {
-        _effectManager.AddActiveEffect(effect, duration);
-    }
-
-    /// <summary>
-    /// Adds a passive effect to the actor. The passive effect can be removed using the returned Guid.
-    /// </summary>
-    /// <param name="effect"> The effect to add. </param>
-    /// <returns> The Guid to use to remove the effect. </returns>
-    public Guid AddPassiveEffect(Effect effect)
-    {
-        return _effectManager.AddPassiveEffect(effect);
-    }
-
-    /// <summary>
-    /// This will remove the effect with the given Guid from the actor. This id is the one returned from
-    /// the AddPassiveEffect method.
-    /// </summary>
-    /// <param name="effectId"> The id of the effect to remove. </param>
-    public void RemovePassiveEffect(Guid effectId)
-    {
-        _effectManager.RemovePassiveEffect(effectId);
+        return statsManager[stat];
     }
 
     /// <summary>
@@ -104,7 +76,7 @@ public abstract class Actor : MonoBehaviour
     /// <param name="passThrough"></param>
     public void LockMovement(float duration, float speed, Vector3 direction, bool rotateForwards = true, bool @override = false, bool passThrough = false)
     {
-        _movementManager.LockMovement(duration, speed, direction, rotateForwards, @override, passThrough);
+        this.movementManager.LockMovement(duration, speed, direction, rotateForwards, @override, passThrough);
     }
 
     /// <summary>
@@ -113,7 +85,7 @@ public abstract class Actor : MonoBehaviour
     /// <param name="vec"></param>
     public void MoveAlong(Vector3 vec)
     {
-        _movementManager.MoveAlong(vec);
+        this.movementManager.MoveAlong(vec);
     }
 
     /// <summary>
@@ -122,7 +94,7 @@ public abstract class Actor : MonoBehaviour
     /// <param name="vec"></param>
     public void MoveToward(Vector3 target)
     {
-        _movementManager.MoveToward(target);
+        this.movementManager.MoveToward(target);
     }
 
     /// <summary>
@@ -131,7 +103,7 @@ public abstract class Actor : MonoBehaviour
     /// <param name="direction"></param>
     public void FixNextRotation(Vector3 direction)
     {
-        _movementManager.FixNextRotation(direction);
+        this.movementManager.FixNextRotation(direction);
     }
 
     /// <summary>
@@ -142,24 +114,14 @@ public abstract class Actor : MonoBehaviour
     /// <param name="override"></param>
     public void Root(float duration, Vector3 faceDirection, bool @override = false)
     {
-        _movementManager.Root(duration, faceDirection, @override);
+        this.movementManager.Root(duration, faceDirection, @override);
     }
 
     public void ModifyHealth(float healthChange)
     {
         if (Dead) return;
 
-        _health = Mathf.Min(_health + healthChange, GetStat(Stat.MaxHealth));
-    }
-
-    public void StartChannel(Channel channel)
-    {
-        _channelService.Start(channel);
-    }
-
-    public void CancelChannel()
-    {
-        _channelService.Cancel();
+        health = Mathf.Min(health + healthChange, GetStat(Stat.MaxHealth));
     }
         
     public bool Opposes(Actor target)
