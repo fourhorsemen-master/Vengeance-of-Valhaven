@@ -22,7 +22,7 @@ public class Ability
         { AbilityReference.Whirlwind, (c, b) => new Whirlwind(c, b) },
     };
 
-    private readonly Action<bool> completionCallback;
+    protected readonly Action<bool> completionCallback;
 
     public AbilityContext Context { get; }
 
@@ -48,15 +48,5 @@ public class Ability
     {
         bool isChannel = _channels.TryGetValue(abilityRef, out ability);
         return isChannel;
-    }
-
-    protected void Whiffed()
-    {
-        this.completionCallback.Invoke(false);
-    }
-
-    protected void Succeeded()
-    {
-        this.completionCallback.Invoke(true);
     }
 }

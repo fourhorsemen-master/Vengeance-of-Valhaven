@@ -83,7 +83,7 @@ public class Wolf : Enemy
         }
 
         WaitAndCast(_biteCastTime, () =>
-            new Bite(new AbilityContext(this, Target.transform.position))
+            new Bite(new AbilityContext(this, Target.transform.position), b => { })
         );
         _biteRemainingCooldown = _biteTotalCooldown;
     }
@@ -96,7 +96,7 @@ public class Wolf : Enemy
         }
 
         WaitAndCast(_pounceCastTime, () =>
-            new Pounce(new AbilityContext(this, Target.transform.position))
+            new Pounce(new AbilityContext(this, Target.transform.position), b => { })
         );
         _biteRemainingCooldown = _biteTotalCooldown;
         _pounceRemaningCooldown = _pounceTotalCooldown;

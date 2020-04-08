@@ -31,7 +31,7 @@ class DaggerThrow : InstantCast
 
             if (!actor.Opposes(Context.Owner))
             {
-                Whiffed();
+                completionCallback(false);
                 return;
             }
 
@@ -43,7 +43,7 @@ class DaggerThrow : InstantCast
             float damagePerTick = strength * DamagePerTickMultiplier;
             actor.AddActiveEffect(new DOT(damagePerTick, DamageTickInterval), DotDuration);
 
-            Succeeded();
+            completionCallback(true);
         }
     }
 }

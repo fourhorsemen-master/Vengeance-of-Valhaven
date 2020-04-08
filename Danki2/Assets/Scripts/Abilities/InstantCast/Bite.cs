@@ -37,14 +37,7 @@ public class Bite : InstantCast
                 }
             });
 
-            if(hasDealtDamage)
-            {
-                Succeeded();
-            } 
-            else
-            {
-                Whiffed();
-            }
+            this.completionCallback(hasDealtDamage);
         });
 
         BiteObject.Create(owner.transform);
