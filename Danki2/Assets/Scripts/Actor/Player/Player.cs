@@ -18,6 +18,7 @@ public class Player : Actor
     private float _remainingDashCooldown = 0f;
     private Direction lastCastDirection;
     private bool whiffed = true;
+    private int abilityIndex = 0;
 
     private Coroutine _abilityTimeout = null;
 
@@ -202,6 +203,8 @@ public class Player : Actor
             return;
         }
 
+        this.abilityIndex += 1;
+
         RemainingAbilityCooldown = abilityCooldown;
         this.lastCastDirection = direction;
         if (_abilityTimeout != null)
@@ -218,7 +221,7 @@ public class Player : Actor
 
         if (Ability.TryGetAsInstantCastBuilder(abilityReference, out var instantCastbuilder))
         {
-            InstantCast instantCast = instantCastbuilder(abilityContext, AbilitySuccessCallback);
+            InstantCast instantCast = instantCastbuilder(abilityContext, AbilitySuccessCallback(this.abilityIndex));
             instantCast.Cast();
 
             CastingStatus = CastingStatus.Cooldown;
@@ -226,7 +229,7 @@ public class Player : Actor
 
         if (Ability.TryGetAsChannelBuilder(abilityReference, out var channelBuilder))
         {
-            Channel channel = channelBuilder(abilityContext, AbilitySuccessCallback);
+            Channel channel = channelBuilder(abilityContext, AbilitySuccessCallback(this.abilityIndex));
             _channelService.Start(channel);
 
             CastingStatus = direction == Direction.Left
@@ -235,8 +238,14 @@ public class Player : Actor
         }
     }
 
-    private void AbilitySuccessCallback(bool successful)
+    private Action<bool> AbilitySuccessCallback(int abilityIndex)
     {
-        this.whiffed = !successful;
+        return successful =>
+        {
+            if (abilityIndex == this.abilityIndex)
+            {
+                this.whiffed = !successful;
+            }
+        };
     }
 }
