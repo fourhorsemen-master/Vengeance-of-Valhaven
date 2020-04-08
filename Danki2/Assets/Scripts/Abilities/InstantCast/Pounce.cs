@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Pounce : InstantCast
 {
@@ -8,7 +9,8 @@ public class Pounce : InstantCast
     private float _finalRootDuration = 0.3f;
     private float _damageRadius = 2f;
 
-    public Pounce(AbilityContext context) : base(context)
+    public Pounce(AbilityContext context, Action<bool> completionCallback)
+        : base(context, completionCallback)
     {
     }
 

@@ -1,13 +1,14 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Fireball : InstantCast
 {
     private const float FireballSpeed = 5;
     private static readonly Vector3 _positionTransform = new Vector3(0, 1.25f, 0);
 
-    public Fireball(AbilityContext context) : base(context)
+    public Fireball(AbilityContext context, Action<bool> completionCallback)
+        : base(context, completionCallback)
     {
-
     }
 
     public override void Cast()

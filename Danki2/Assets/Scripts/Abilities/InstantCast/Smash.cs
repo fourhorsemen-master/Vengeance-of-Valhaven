@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Smash : InstantCast
 {
@@ -6,7 +7,8 @@ public class Smash : InstantCast
     private const float Radius = 1f;
     private const float DamageMultiplier = 2f;
 
-    public Smash(AbilityContext context) : base(context)
+    public Smash(AbilityContext context, Action<bool> completionCallback)
+        : base(context, completionCallback)
     {
     }
 

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Lunge : InstantCast
 {
@@ -8,7 +9,8 @@ public class Lunge : InstantCast
     private const float StunRange = 2f;
     private const float StunDuration = 0.5f;
 
-    public Lunge(AbilityContext context) : base(context)
+    public Lunge(AbilityContext context, Action<bool> completionCallback)
+        : base(context, completionCallback)
     {
     }
 

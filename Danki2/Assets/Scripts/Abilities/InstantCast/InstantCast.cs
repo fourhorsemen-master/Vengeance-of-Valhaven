@@ -1,6 +1,9 @@
-﻿public abstract class InstantCast : Ability
+﻿using System;
+
+public abstract class InstantCast : Ability
 {
-    public InstantCast(AbilityContext context) : base(context)
+    public InstantCast(AbilityContext context, Action<bool> completionCallback) 
+        : base(context, completionCallback)
     {
     }
 

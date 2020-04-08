@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 class DaggerThrow : InstantCast
 {
@@ -9,9 +10,9 @@ class DaggerThrow : InstantCast
     private const float DotDuration = 3f;
     private static readonly Vector3 positionTransform = new Vector3(0, 1.25f, 0);
 
-    public DaggerThrow(AbilityContext context) : base(context)
+    public DaggerThrow(AbilityContext context, Action<bool> completionCallback)
+        : base(context, completionCallback)
     {
-
     }
 
     public override void Cast()

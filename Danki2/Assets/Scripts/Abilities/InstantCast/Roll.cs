@@ -1,11 +1,13 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Roll : InstantCast
 {
     private const float RollSpeedMultiplier = 4f;
     private const float RollDuration = 0.15f;
 
-    public Roll(AbilityContext context) : base(context)
+    public Roll(AbilityContext context, Action<bool> completionCallback)
+        : base(context, completionCallback)
     {
     }
 

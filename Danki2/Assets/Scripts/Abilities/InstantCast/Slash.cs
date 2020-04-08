@@ -1,11 +1,13 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Slash : InstantCast
 {
     private const float Range = 4f;
     private const float DamageMultiplier = 1.5f;
 
-    public Slash(AbilityContext context) : base(context)
+    public Slash(AbilityContext context, Action<bool> completionCallback)
+        : base(context, completionCallback)
     {
     }
 

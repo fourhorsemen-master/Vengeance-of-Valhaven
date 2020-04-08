@@ -20,11 +20,14 @@ public class Ability
         { AbilityReference.Whirlwind, c => new Whirlwind(c) },
     };
 
+    protected readonly Action<bool> completionCallback;
+
     public AbilityContext Context { get; }
 
-    public Ability(AbilityContext context)
+    public Ability(AbilityContext context, Action<bool> completionCallback)
     {
         Context = context;
+        this.completionCallback = completionCallback;
     }
 
     public static bool TryGetAsInstantCastBuilder(AbilityReference abilityRef, out Func<AbilityContext, InstantCast> ability)

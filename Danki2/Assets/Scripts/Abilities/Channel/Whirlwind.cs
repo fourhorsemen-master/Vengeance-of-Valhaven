@@ -21,7 +21,10 @@ public class Whirlwind : Channel
 
     public override float Duration => 2f;
 
-    public Whirlwind(AbilityContext context) : base(context) { }
+    public Whirlwind(AbilityContext context, Action<bool> completionCallback)
+        : base(context, completionCallback)
+    {
+    }
 
     public override void Start()
     {
