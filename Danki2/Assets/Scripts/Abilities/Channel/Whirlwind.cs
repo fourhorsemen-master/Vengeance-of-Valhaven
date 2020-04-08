@@ -11,6 +11,8 @@ public class Whirlwind : Channel
     private const float finishRange = 3;
     private const float finishDamageMultiplier = 1;
 
+    private bool hasHitActor = false;
+
     private WhirlwindObject _whirlwindObject;
 
     private Guid slowEffectId;
@@ -36,17 +38,19 @@ public class Whirlwind : Channel
         repeater.Update();
     }
 
-    public override void Cancel()
+    public override bool Cancel()
     {
         Context.Owner.RemovePassiveEffect(slowEffectId);
         GameObject.Destroy(_whirlwindObject);
+        return hasHitActor;
     }
 
-    public override void End()
+    public override bool End()
     {
         AOE(finishRange, finishDamageMultiplier);
         Context.Owner.RemovePassiveEffect(slowEffectId);
         GameObject.Destroy(_whirlwindObject);
+        return hasHitActor;
     }
 
     private void AOE(float radius, float damageMultiplier)
@@ -64,6 +68,7 @@ public class Whirlwind : Channel
             if (actor.Opposes(owner))
             {
                 actor.ModifyHealth(-damage);
+                hasHitActor = true;
             }
         });
     }

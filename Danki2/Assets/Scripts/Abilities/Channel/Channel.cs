@@ -10,7 +10,9 @@
 
     public virtual void Continue() { }
 
-    public virtual void Cancel() { }
+    /// The return boolean value indicates whether the cast was successful.
+    public abstract bool Cancel();
 
-    public virtual void End() { }
+    /// The return boolean value indicates whether the cast was successful.
+    public abstract bool End();
 }
