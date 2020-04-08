@@ -16,6 +16,8 @@ public class Player : Actor
     public float abilityTimeoutLimit = 5f;
 
     private float _remainingDashCooldown = 0f;
+    private Direction lastCastDirection;
+    private bool whiffed = true;
 
     private Coroutine AbilityTimeout;
 
@@ -135,11 +137,24 @@ public class Player : Actor
 
     private void TickAbilityCooldown()
     {
+        if (_channelService.Active) return;
+
         RemainingAbilityCooldown = Mathf.Max(0f, RemainingAbilityCooldown - Time.deltaTime);
-        if (RemainingAbilityCooldown == 0f && CastingStatus == CastingStatus.Cooldown)
+
+        if (RemainingAbilityCooldown > 0f || CastingStatus != CastingStatus.Cooldown) return;
+
+        CastingStatus = CastingStatus.Ready;
+        if (!AbilityTree.CanWalk() || this.whiffed)
         {
-            CastingStatus = CastingStatus.Ready;
+            AbilityTree.Reset();
+            return;
         }
+        else
+        {
+            AbilityTree.Walk(this.lastCastDirection);
+        }
+
+        this.whiffed = true;
     }
 
     private IEnumerator EndDashVisualAfterDelay()
@@ -171,9 +186,6 @@ public class Player : Actor
             case CastingCommand.CancelChannel:
                 _channelService.Cancel();
                 CastingStatus = RemainingAbilityCooldown <= 0f ? CastingStatus.Ready : CastingStatus.Cooldown;
-
-                // Ability whiffed, reset tree. TODO: Make a method out of this including feedback for player. 
-                AbilityTree.Reset();
                 break;
             case CastingCommand.CastLeft:
                 BranchAndCast(Direction.Left);
@@ -190,12 +202,14 @@ public class Player : Actor
 
         if (!AbilityTree.CanWalkDirection(direction))
         {
-            // Whiffed!
-            AbilityTree.Reset();
+            // Feedback to user that there is no ability here.
             return;
         }
 
-        AbilityReference abilityReference = AbilityTree.Walk(direction);
+        this.lastCastDirection = direction;
+        StopCoroutine(AbilityTimeout);
+
+        AbilityReference abilityReference = AbilityTree.GetAbility(direction);
 
         AbilityContext abilityContext = new AbilityContext(
             this,
@@ -204,7 +218,7 @@ public class Player : Actor
 
         if (Ability.TryGetAsInstantCastBuilder(abilityReference, out var instantCastbuilder))
         {
-            InstantCast instantCast = instantCastbuilder(abilityContext, b => { });
+            InstantCast instantCast = instantCastbuilder(abilityContext, AbilitySuccessCallback);
             instantCast.Cast();
 
             CastingStatus = CastingStatus.Cooldown;
@@ -212,18 +226,17 @@ public class Player : Actor
 
         if (Ability.TryGetAsChannelBuilder(abilityReference, out var channelBuilder))
         {
-            Channel channel = channelBuilder(abilityContext, b => { });
+            Channel channel = channelBuilder(abilityContext, AbilitySuccessCallback);
             _channelService.Start(channel);
 
             CastingStatus = direction == Direction.Left
                 ? CastingStatus.ChannelingLeft
                 : CastingStatus.ChannelingRight;
         }
+    }
 
-        if (!AbilityTree.CanWalk())
-        {
-            AbilityTree.Reset();
-            return;
-        }
+    private void AbilitySuccessCallback(bool successful)
+    {
+        this.whiffed = successful;
     }
 }

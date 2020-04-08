@@ -20,6 +20,7 @@ public class Slash : InstantCast
         target.y = 0;
 
         float damage = owner.GetStat(Stat.Strength) * DamageMultiplier;
+        bool hasDealtDamage = false;
 
         CollisionTemplateManager.Instance.GetCollidingActors(
             CollisionTemplate.Wedge90,
@@ -31,8 +32,11 @@ public class Slash : InstantCast
             if (owner.Opposes(actor))
             {
                 actor.ModifyHealth(-damage);
+                hasDealtDamage = true;
             }
         });
+
+        this.completionCallback(hasDealtDamage);
 
         GameObject.Instantiate(AbilityObjectPrefabLookup.Instance.SlashObjectPrefab, owner.transform);
     }
