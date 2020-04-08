@@ -35,6 +35,7 @@ public class Lunge : InstantCast
         owner.WaitAndAct(LungeDuration, () =>
         {
             float damage = owner.GetStat(Stat.Strength) * LungeDamageMultiplier;
+            bool hasDealtDamage = false;
 
             CollisionTemplateManager.Instance.GetCollidingActors(
                 CollisionTemplate.Wedge90,
@@ -47,8 +48,11 @@ public class Lunge : InstantCast
                 {
                     actor.AddActiveEffect(new Stun(StunDuration), StunDuration);
                     actor.ModifyHealth(-damage);
+                    hasDealtDamage = true;
                 }
             });
+
+            this.completionCallback(hasDealtDamage);
         });
     }
 }

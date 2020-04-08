@@ -26,5 +26,7 @@ public class Roll : InstantCast
         );
 
         RollObject.Create(caster.transform);
+
+        this.completionCallback(true);
     }
 }

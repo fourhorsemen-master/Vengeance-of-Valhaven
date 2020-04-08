@@ -19,7 +19,7 @@ public class Player : Actor
     private Direction lastCastDirection;
     private bool whiffed = true;
 
-    private Coroutine AbilityTimeout;
+    private Coroutine _abilityTimeout = null;
 
     private ActionControlState _previousActionControlState = ActionControlState.None;
     private ActionControlState _currentActionControlState = ActionControlState.None;
@@ -112,14 +112,14 @@ public class Player : Actor
     {
         AbilityTree.CurrentDepthSubject.Subscribe((int treeDepth) =>
         {
-            if (AbilityTimeout != null)
+            if (_abilityTimeout != null)
             {
-                StopCoroutine(AbilityTimeout);
+                StopCoroutine(_abilityTimeout);
             }
 
             if (treeDepth > 0)
             {
-                AbilityTimeout = StartCoroutine(AbilityTimeoutCounter());
+                _abilityTimeout = StartCoroutine(AbilityTimeoutCounter());
             }
         });
     }
@@ -144,14 +144,12 @@ public class Player : Actor
         if (RemainingAbilityCooldown > 0f || CastingStatus != CastingStatus.Cooldown) return;
 
         CastingStatus = CastingStatus.Ready;
+        AbilityTree.Walk(this.lastCastDirection);
+
         if (!AbilityTree.CanWalk() || this.whiffed)
         {
             AbilityTree.Reset();
             return;
-        }
-        else
-        {
-            AbilityTree.Walk(this.lastCastDirection);
         }
 
         this.whiffed = true;
@@ -198,16 +196,18 @@ public class Player : Actor
 
     private void BranchAndCast(Direction direction)
     {
-        RemainingAbilityCooldown = abilityCooldown;
-
         if (!AbilityTree.CanWalkDirection(direction))
         {
             // Feedback to user that there is no ability here.
             return;
         }
 
+        RemainingAbilityCooldown = abilityCooldown;
         this.lastCastDirection = direction;
-        StopCoroutine(AbilityTimeout);
+        if (_abilityTimeout != null)
+        {
+            StopCoroutine(_abilityTimeout);
+        }
 
         AbilityReference abilityReference = AbilityTree.GetAbility(direction);
 
@@ -237,6 +237,6 @@ public class Player : Actor
 
     private void AbilitySuccessCallback(bool successful)
     {
-        this.whiffed = successful;
+        this.whiffed = !successful;
     }
 }
