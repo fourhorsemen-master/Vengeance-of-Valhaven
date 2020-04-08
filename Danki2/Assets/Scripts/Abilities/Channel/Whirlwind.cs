@@ -41,19 +41,17 @@ public class Whirlwind : Channel
         repeater.Update();
     }
 
-    public override bool Cancel()
+    public override void Cancel()
     {
         Context.Owner.RemovePassiveEffect(slowEffectId);
         GameObject.Destroy(_whirlwindObject);
-        return hasHitActor;
     }
 
-    public override bool End()
+    public override void End()
     {
         AOE(finishRange, finishDamageMultiplier);
         Context.Owner.RemovePassiveEffect(slowEffectId);
         GameObject.Destroy(_whirlwindObject);
-        return hasHitActor;
     }
 
     private void AOE(float radius, float damageMultiplier)
@@ -74,5 +72,7 @@ public class Whirlwind : Channel
                 hasHitActor = true;
             }
         });
+
+        this.completionCallback(hasHitActor);
     }
 }

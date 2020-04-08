@@ -27,11 +27,14 @@ public class Fireball : InstantCast
 
             if (!actor.Opposes(Context.Owner))
             {
+                completionCallback(false);
                 return;
             }
 
             int strength = Context.Owner.GetStat(Stat.Strength);
             actor.ModifyHealth(-strength);
+
+            completionCallback(true);
         }
     }
 }

@@ -33,6 +33,7 @@ public class Pounce : InstantCast
         owner.WaitAndAct(_movementDuration, () =>
         {
             float damage = owner.GetStat(Stat.Strength);
+            bool hasDealtDamage = false;
 
             CollisionTemplateManager.Instance.GetCollidingActors(
                 CollisionTemplate.Wedge90,
@@ -44,10 +45,12 @@ public class Pounce : InstantCast
                 if (owner.Opposes(actor))
                 {
                     actor.ModifyHealth(-damage);
+                    hasDealtDamage = true;
                 }
             });
 
             owner.Root(_finalRootDuration, owner.transform.forward, true);
+            this.completionCallback(hasDealtDamage);
         });
     }
 }

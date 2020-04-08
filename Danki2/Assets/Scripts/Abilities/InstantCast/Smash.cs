@@ -24,6 +24,7 @@ public class Smash : InstantCast
         Vector3 center = position + (directionToTarget * DistanceFromCaster);
 
         float damage = owner.GetStat(Stat.Strength) * DamageMultiplier;
+        bool hasDealtDamage = false;
 
         CollisionTemplateManager.Instance.GetCollidingActors(
             CollisionTemplate.Cylinder,
@@ -34,9 +35,11 @@ public class Smash : InstantCast
             if (owner.Opposes(actor))
             {
                 actor.ModifyHealth(-damage);
+                hasDealtDamage = true;
             }
         });
 
         SmashObject.Create(position, Quaternion.LookRotation(target - position));
+        this.completionCallback(hasDealtDamage);
     }
 }

@@ -13,9 +13,7 @@ public abstract class Channel : Ability
 
     public virtual void Continue() { }
 
-    /// The return boolean value indicates whether the cast was successful.
-    public abstract bool Cancel();
+    public virtual void Cancel() { }
 
-    /// The return boolean value indicates whether the cast was successful.
-    public abstract bool End();
+    public virtual void End() { }
 }
