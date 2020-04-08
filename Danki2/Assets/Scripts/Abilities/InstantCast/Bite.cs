@@ -21,6 +21,8 @@ public class Bite : InstantCast
 
         owner.WaitAndAct(DelayBeforeDamage, () =>
         {
+            bool hasDealtDamage = false;
+
             CollisionTemplateManager.Instance.GetCollidingActors(
                 CollisionTemplate.Wedge90,
                 Range,
@@ -31,8 +33,18 @@ public class Bite : InstantCast
                 if (owner.Opposes(actor))
                 {
                     actor.ModifyHealth(-damage);
+                    hasDealtDamage = true;
                 }
             });
+
+            if(hasDealtDamage)
+            {
+                Succeeded();
+            } 
+            else
+            {
+                Whiffed();
+            }
         });
 
         BiteObject.Create(owner.transform);
