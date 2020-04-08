@@ -17,13 +17,13 @@ public class BehaviourSubject<T> : IObservable<T>
 
     public void Subscribe(Action<T> action)
     {
-        action.Invoke(currentValue);
+        action(currentValue);
         actions.Add(action);
     }
 
     public void Next(T value)
     {
         currentValue = value;
-        actions.ForEach(a => a.Invoke(currentValue));
+        actions.ForEach(a => a(currentValue));
     }
 }

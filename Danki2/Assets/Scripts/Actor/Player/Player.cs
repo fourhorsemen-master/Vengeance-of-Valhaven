@@ -204,7 +204,7 @@ public class Player : Actor
 
         if (Ability.TryGetAsInstantCastBuilder(abilityReference, out Func<AbilityContext, InstantCast> instantCastbuilder))
         {
-            InstantCast instantCast = instantCastbuilder.Invoke(abilityContext);
+            InstantCast instantCast = instantCastbuilder(abilityContext);
             instantCast.Cast();
 
             CastingStatus = CastingStatus.Cooldown;
@@ -212,7 +212,7 @@ public class Player : Actor
 
         if (Ability.TryGetAsChannelBuilder(abilityReference, out Func<AbilityContext, Channel> channelBuilder))
         {
-            Channel channel = channelBuilder.Invoke(abilityContext);
+            Channel channel = channelBuilder(abilityContext);
             _channelService.Start(channel);
 
             CastingStatus = direction == Direction.Left
