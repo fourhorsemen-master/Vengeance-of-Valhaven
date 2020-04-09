@@ -27,9 +27,9 @@ public abstract class Actor : MonoBehaviour
     protected virtual void Awake()
     {
         this.statsManager = new StatsManager(baseStats);
-        EffectManager = new EffectManager(this, updateSubject, statsManager);
-        ChannelService = new ChannelService(updateSubject);
-        MovementManager = new MovementManager(this, updateSubject, this.navmeshAgent);
+        EffectManager = new EffectManager(this, this.updateSubject, this.statsManager);
+        ChannelService = new ChannelService(this.updateSubject);
+        MovementManager = new MovementManager(this, this.updateSubject, this.navmeshAgent);
 
         health = GetStat(Stat.MaxHealth);
         Dead = false;
@@ -51,19 +51,19 @@ public abstract class Actor : MonoBehaviour
 
     public int GetStat(Stat stat)
     {
-        return statsManager[stat];
+        return this.statsManager[stat];
     }
 
     public void ModifyHealth(float healthChange)
     {
         if (Dead) return;
 
-        health = Mathf.Min(health + healthChange, GetStat(Stat.MaxHealth));
+        this.health = Mathf.Min(this.health + healthChange, GetStat(Stat.MaxHealth));
     }
         
     public bool Opposes(Actor target)
     {
-        return tag != target.tag;
+        return this.tag != target.tag;
     }
 
     protected abstract void OnDeath();
