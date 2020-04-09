@@ -5,7 +5,6 @@ public class Pounce : InstantCast
     // The ai casting this ability should determine cast range
     private float _movementDuration = 0.5f;
     private float _movementSpeedMultiplier = 3f;
-    private float _finalRootDuration = 0.3f;
     private float _damageRadius = 2f;
 
     public Pounce(AbilityContext context) : base(context)
@@ -18,12 +17,13 @@ public class Pounce : InstantCast
         Vector3 position = owner.transform.position;
         Vector3 target = Context.TargetPosition;
         target.y = position.y;
+        Vector3 direction = target - owner.transform.position;
 
-        owner.LockMovement(
+        owner.MovementManager.LockMovement(
             _movementDuration,
             owner.GetStat(Stat.Speed) * _movementSpeedMultiplier,
-            target - owner.transform.position,
-            @override: true
+            direction,
+            direction
         );
 
         PounceObject.Create(position, Quaternion.LookRotation(target - position));
@@ -45,7 +45,7 @@ public class Pounce : InstantCast
                 }
             });
 
-            owner.Root(_finalRootDuration, owner.transform.forward, true);
+            owner.MovementManager.Stun(0.3f);
         });
     }
 }

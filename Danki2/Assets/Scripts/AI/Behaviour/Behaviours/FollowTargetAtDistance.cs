@@ -24,11 +24,12 @@ public class FollowTargetAtDistance : Behaviour
 
         if (distanceToTarget > _followDistance)
         {
-            actor.MoveToward(actor.Target.transform.position);
+            actor.MovementManager.SetDestination(actor.Target.transform.position);
         }
         else
         {
-            actor.FixNextRotation(actor.Target.transform.position - actor.transform.position);
+            actor.MovementManager.ClearDestination();
+            actor.MovementManager.Watch(actor.Target.transform);
         }
     }
 }

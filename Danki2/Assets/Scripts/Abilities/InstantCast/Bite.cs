@@ -2,7 +2,6 @@
 public class Bite : InstantCast
 {
     public const float Range = 2f;
-    private const float FinalRootDuration = 0.5f;
     private const float DelayBeforeDamage = 0.75f;
 
     public Bite(AbilityContext context) : base(context)
@@ -34,6 +33,6 @@ public class Bite : InstantCast
         });
 
         BiteObject.Create(owner.transform);
-        owner.Root(FinalRootDuration, owner.transform.forward);
+        owner.MovementManager.Stun(0.3f);
     }
 }

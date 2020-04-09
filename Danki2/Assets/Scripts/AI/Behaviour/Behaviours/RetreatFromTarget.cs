@@ -5,7 +5,9 @@ public class RetreatFromTarget : Behaviour
     {
         if (actor.Target)
         {
-            actor.MoveToward((2 * actor.transform.position) - actor.Target.transform.position);
+            actor.MovementManager.SetDestination(
+                (2 * actor.transform.position) - actor.Target.transform.position
+            );
         }
     }
 }
