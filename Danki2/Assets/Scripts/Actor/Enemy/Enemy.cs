@@ -15,6 +15,6 @@ public abstract class Enemy : Actor
     {
         OnTelegraph.Next();
 
-        this.WaitAndAct(waitTime, () => abilityFactory.Invoke().Cast());
+        this.WaitAndAct(waitTime, () => abilityFactory().Cast());
     }
 }

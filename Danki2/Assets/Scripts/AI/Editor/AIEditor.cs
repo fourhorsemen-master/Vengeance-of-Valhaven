@@ -117,7 +117,7 @@ public class AIEditor : Editor
 
         if (newIndex != currentIndex)
         {
-            dataChangeCallback.Invoke(dataList[newIndex]);
+            dataChangeCallback(dataList[newIndex]);
         }
 
         return dataList[newIndex];

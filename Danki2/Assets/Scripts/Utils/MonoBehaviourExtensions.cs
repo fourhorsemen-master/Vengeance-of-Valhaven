@@ -18,7 +18,7 @@ public static class MonoBehaviourExtensions
     {
         yield return new WaitForSeconds(delay);
 
-        action.Invoke();
+        action();
     }
 
     private static IEnumerator IntervalAction(float interval, Action action, float startDelay)
@@ -27,7 +27,7 @@ public static class MonoBehaviourExtensions
 
         while(true)
         {
-            action.Invoke();
+            action();
             yield return new WaitForSeconds(interval);
         }
     }

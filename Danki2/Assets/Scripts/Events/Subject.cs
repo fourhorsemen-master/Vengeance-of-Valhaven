@@ -15,7 +15,7 @@ public class Subject<T> : IObservable<T>
 
     public void Next(T value)
     {
-        actions.ForEach(a => a.Invoke(value));
+        actions.ForEach(a => a(value));
     }
 }
 
@@ -30,6 +30,6 @@ public class Subject : IObservable
 
     public void Next()
     {
-        actions.ForEach(a => a.Invoke());
+        actions.ForEach(a => a());
     }
 }
