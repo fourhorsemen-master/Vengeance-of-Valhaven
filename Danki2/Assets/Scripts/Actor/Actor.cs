@@ -39,6 +39,7 @@ public abstract class Actor : MonoBehaviour
     {
         if (health <= 0f && !Dead)
         {
+            MovementManager.ClearDestination();
             OnDeath();
             Dead = true;
         }
