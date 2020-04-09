@@ -8,9 +8,9 @@ public class ChannelService
     public float RemainingDuration { get; private set; }
     public float TotalDuration => _currentChannel.Duration;
 
-    public ChannelService(Subject updateSubscription)
+    public ChannelService(Subject updateSubject)
     {
-        updateSubscription.Subscribe(() =>
+        updateSubject.Subscribe(() =>
         {
             if (!Active)
             {

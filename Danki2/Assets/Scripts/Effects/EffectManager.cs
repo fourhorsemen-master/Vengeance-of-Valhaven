@@ -9,14 +9,14 @@ public class EffectManager : StatPipe
     private readonly Actor _actor;
     private readonly StatsManager _statsManager;
 
-    public EffectManager(Actor actor, Subject updateSubscription, StatsManager statsManager)
+    public EffectManager(Actor actor, Subject updateSubject, StatsManager statsManager)
     {
         _activeEffects = new List<EffectWithDuration>();
         _passiveEffects = new Dictionary<Guid, Effect>();
         _actor = actor;
         _statsManager = statsManager;
         _statsManager.RegisterPipe(this);
-        updateSubscription.Subscribe(() =>
+        updateSubject.Subscribe(() =>
         {
             ForEachEffect(e => e.Update(_actor));
             TickActiveEffects();

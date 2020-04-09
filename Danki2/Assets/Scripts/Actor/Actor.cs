@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public abstract class Actor : MonoBehaviour
@@ -6,28 +5,26 @@ public abstract class Actor : MonoBehaviour
     [HideInInspector]
     public StatsDictionary baseStats = new StatsDictionary(0);
 
-    protected ChannelService channelService;
     private StatsManager statsManager;
     private MovementManager movementManager;
-    private Subject updateSubscription = new Subject();
+    private Subject updateSubject = new Subject();
 
     private float health;
 
+    public ChannelService ChannelService { get; private set; }
     public EffectManager EffectManager { get; private set; }
     public Actor Target { get; set; } = null;
     public int Health => Mathf.CeilToInt(health);
     public bool Dead { get; private set; }
     public bool IsDamaged => Health < GetStat(Stat.MaxHealth);
-    public float RemainingChannelDuration => this.channelService.RemainingDuration;
-    public float TotalChannelDuration => this.channelService.TotalDuration;
 
     public abstract ActorType Type { get; }
 
     protected virtual void Awake()
     {
         this.statsManager = new StatsManager(baseStats);
-        this.EffectManager = new EffectManager(this, updateSubscription, statsManager);
-        this.channelService = new ChannelService(updateSubscription);
+        EffectManager = new EffectManager(this, updateSubject, statsManager);
+        ChannelService = new ChannelService(updateSubject);
 
         health = GetStat(Stat.MaxHealth);
         Dead = false;
@@ -49,7 +46,7 @@ public abstract class Actor : MonoBehaviour
 
         if (Dead) return;
 
-        this.updateSubscription.Next();
+        this.updateSubject.Next();
     }
 
     protected virtual void LateUpdate()
