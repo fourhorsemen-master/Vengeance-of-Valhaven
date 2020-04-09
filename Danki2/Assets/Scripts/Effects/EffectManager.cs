@@ -9,21 +9,25 @@ public class EffectManager : StatPipe
     private readonly Actor _actor;
     private readonly StatsManager _statsManager;
 
-    public EffectManager(Actor actor, StatsManager statsManager)
+    public EffectManager(Actor actor, Subject updateSubject, StatsManager statsManager)
     {
         _activeEffects = new List<EffectWithDuration>();
         _passiveEffects = new Dictionary<Guid, Effect>();
         _actor = actor;
         _statsManager = statsManager;
         _statsManager.RegisterPipe(this);
-    }
-        
-    public void ProcessEffects()
-    {
-        ForEachEffect(e => e.Update(_actor));
-        TickActiveEffects();
+        updateSubject.Subscribe(() =>
+        {
+            ForEachEffect(e => e.Update(_actor));
+            TickActiveEffects();
+        });
     }
 
+    /// <summary>
+    /// Adds an active effect to the actor, this effect will last for the given duration.
+    /// </summary>
+    /// <param name="effect"> The effect to add. </param>
+    /// <param name="duration"> The duration of the effect. </param>
     public void AddActiveEffect(Effect effect, float duration)
     {
         effect.Start(_actor);
@@ -31,6 +35,11 @@ public class EffectManager : StatPipe
         _statsManager.ClearCache();
     }
 
+    /// <summary>
+    /// Adds a passive effect to the actor. The passive effect can be removed using the returned Guid.
+    /// </summary>
+    /// <param name="effect"> The effect to add. </param>
+    /// <returns> The Guid to use to remove the effect. </returns>
     public Guid AddPassiveEffect(Effect effect)
     {
         effect.Start(_actor);
@@ -42,6 +51,11 @@ public class EffectManager : StatPipe
         return effectId;
     }
 
+    /// <summary>
+    /// This will remove the effect with the given Guid from the actor. This id is the one returned from
+    /// the AddPassiveEffect method.
+    /// </summary>
+    /// <param name="effectId"> The id of the effect to remove. </param>
     public void RemovePassiveEffect(Guid effectId)
     {
         if (!_passiveEffects.ContainsKey(effectId))
