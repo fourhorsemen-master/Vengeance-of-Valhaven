@@ -18,7 +18,8 @@ public class Player : Actor
     private float _remainingDashCooldown = 0f;
     private Direction lastCastDirection;
     private bool whiffed = true;
-    private int abilityIndex = 0;
+    private bool recievedCastFeedback = false;
+    private int castIndex = 0;
 
     private Coroutine _abilityTimeout = null;
 
@@ -34,6 +35,8 @@ public class Player : Actor
     public CastingStatus CastingStatus { get; private set; } = CastingStatus.Ready;
 
     public AbilityTree AbilityTree { get; private set; }
+
+    public Subject<Tuple<bool, Direction>> AbilityCompletionSubject { get; } = new Subject<Tuple<bool, Direction>>();
 
     public override ActorType Type => ActorType.Player;
 
@@ -129,6 +132,8 @@ public class Player : Actor
     {
         yield return new WaitForSeconds(abilityTimeoutLimit);
         AbilityTree.Reset();
+        this.whiffed = true;
+        this.recievedCastFeedback = false;
     }
 
     private void TickDashCooldown()
@@ -150,10 +155,10 @@ public class Player : Actor
         if (!AbilityTree.CanWalk() || this.whiffed)
         {
             AbilityTree.Reset();
-            return;
         }
 
         this.whiffed = true;
+        this.recievedCastFeedback = false;
     }
 
     private IEnumerator EndDashVisualAfterDelay()
@@ -203,7 +208,7 @@ public class Player : Actor
             return;
         }
 
-        this.abilityIndex += 1;
+        this.castIndex += 1;
 
         RemainingAbilityCooldown = abilityCooldown;
         this.lastCastDirection = direction;
@@ -221,7 +226,7 @@ public class Player : Actor
 
         if (Ability.TryGetAsInstantCastBuilder(abilityReference, out var instantCastbuilder))
         {
-            InstantCast instantCast = instantCastbuilder(abilityContext, AbilitySuccessCallback(this.abilityIndex));
+            InstantCast instantCast = instantCastbuilder(abilityContext, AbilitySuccessCallback(this.castIndex));
             instantCast.Cast();
 
             CastingStatus = CastingStatus.Cooldown;
@@ -229,7 +234,7 @@ public class Player : Actor
 
         if (Ability.TryGetAsChannelBuilder(abilityReference, out var channelBuilder))
         {
-            Channel channel = channelBuilder(abilityContext, AbilitySuccessCallback(this.abilityIndex));
+            Channel channel = channelBuilder(abilityContext, AbilitySuccessCallback(this.castIndex));
             _channelService.Start(channel);
 
             CastingStatus = direction == Direction.Left
@@ -238,13 +243,17 @@ public class Player : Actor
         }
     }
 
-    private Action<bool> AbilitySuccessCallback(int abilityIndex)
+    private Action<bool> AbilitySuccessCallback(int castIndex)
     {
         return successful =>
         {
-            if (abilityIndex == this.abilityIndex)
+            if (castIndex == this.castIndex && !recievedCastFeedback)
             {
+                this.recievedCastFeedback = true;
                 this.whiffed = !successful;
+                this.AbilityCompletionSubject.Next(
+                    new Tuple<bool, Direction>(successful, this.lastCastDirection)
+                );
             }
         };
     }

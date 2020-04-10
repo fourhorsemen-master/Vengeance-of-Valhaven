@@ -43,6 +43,8 @@ public class Whirlwind : Channel
 
     public override void Cancel()
     {
+        if (!this.hasHitActor) this.completionCallback(false);
+
         Context.Owner.RemovePassiveEffect(slowEffectId);
         GameObject.Destroy(_whirlwindObject);
     }
@@ -50,6 +52,8 @@ public class Whirlwind : Channel
     public override void End()
     {
         AOE(finishRange, finishDamageMultiplier);
+
+        if (!this.hasHitActor) this.completionCallback(false);
         Context.Owner.RemovePassiveEffect(slowEffectId);
         GameObject.Destroy(_whirlwindObject);
     }
@@ -69,10 +73,10 @@ public class Whirlwind : Channel
             if (actor.Opposes(owner))
             {
                 actor.ModifyHealth(-damage);
-                hasHitActor = true;
+                this.hasHitActor = true;
             }
         });
 
-        this.completionCallback(hasHitActor);
+        if (this.hasHitActor) this.completionCallback(true);
     }
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class NextAbilityIcons : MonoBehaviour
@@ -25,6 +26,16 @@ public class NextAbilityIcons : MonoBehaviour
     {
         _player = RoomManager.Instance.Player;
         _player.SubscribeToTreeWalk(TreeWalkCallback);
+        _player.AbilityCompletionSubject.Subscribe(IndicateAbilityCompletion);
+    }
+
+    private void IndicateAbilityCompletion(Tuple<bool, Direction> successDirectionTuple)
+    {
+        bool success = successDirectionTuple.Item1;
+        Direction direction = successDirectionTuple.Item2;
+
+        Image icon = direction == Direction.Left ? _leftAbilityFrame : _rightAbilityFrame;
+        icon.color = success ? Color.green : Color.red;
     }
 
     private void TreeWalkCallback(Node node)
@@ -35,6 +46,8 @@ public class NextAbilityIcons : MonoBehaviour
 
     private void SetSpritesForDirection(Node node, Direction direction, Image icon, Image frame)
     {
+        frame.color = Color.white;
+
         if (!node.HasChild(direction))
         {
             icon.enabled = false;
