@@ -6,30 +6,46 @@ using System.Collections.Generic;
 /// </summary>
 public class Subject<T> : IObservable<T>
 {
-    private readonly List<Action<T>> actions = new List<Action<T>>();
+    private readonly List<Subscription<T>> subscriptions = new List<Subscription<T>>();
 
-    public void Subscribe(Action<T> action)
+    public Subscription<T> Subscribe(Action<T> action)
     {
-        actions.Add(action);
+        Subscription<T> subscription = new Subscription<T>(action);
+        subscriptions.Add(subscription);
+
+        return subscription;
     }
 
     public void Next(T value)
     {
-        actions.ForEach(a => a(value));
+        subscriptions.RemoveAll(s =>
+        {
+            if (!s.Unsubscribed) s.Action(value);
+
+            return s.Unsubscribed;
+        });
     }
 }
 
 public class Subject : IObservable
 {
-    private readonly List<Action> actions = new List<Action>();
+    private readonly List<Subscription> subscriptions = new List<Subscription>();
 
-    public void Subscribe(Action action)
+    public Subscription Subscribe(Action action)
     {
-        actions.Add(action);
+        Subscription subscription = new Subscription(action);
+        subscriptions.Add(subscription);
+
+        return subscription;
     }
 
     public void Next()
     {
-        actions.ForEach(a => a());
+        subscriptions.RemoveAll(s =>
+        {
+            if (!s.Unsubscribed) s.Action();
+
+            return s.Unsubscribed;
+        });
     }
 }

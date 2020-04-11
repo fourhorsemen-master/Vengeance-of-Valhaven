@@ -8,22 +8,32 @@ public class BehaviourSubject<T> : IObservable<T>
 {
     private T currentValue;
 
-    private readonly List<Action<T>> actions = new List<Action<T>>();
+    private readonly List<Subscription<T>> subscriptions = new List<Subscription<T>>();
 
     public BehaviourSubject(T initialValue)
     {
         currentValue = initialValue;
     }
 
-    public void Subscribe(Action<T> action)
+    public Subscription<T> Subscribe(Action<T> action)
     {
         action(currentValue);
-        actions.Add(action);
+
+        Subscription<T> subscription = new Subscription<T>(action);
+        subscriptions.Add(subscription);
+
+        return subscription;
     }
 
     public void Next(T value)
     {
         currentValue = value;
-        actions.ForEach(a => a(currentValue));
+
+        subscriptions.RemoveAll(s =>
+        {
+            if (!s.Unsubscribed) s.Action(currentValue);
+
+            return s.Unsubscribed;
+        });
     }
 }

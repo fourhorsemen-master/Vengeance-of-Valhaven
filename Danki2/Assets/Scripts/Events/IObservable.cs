@@ -6,12 +6,12 @@
 /// <typeparam name="T"> The type of object that will be emitted. </typeparam>
 public interface IObservable<T>
 {
-    void Subscribe(Action<T> action);
+    Subscription<T> Subscribe(Action<T> action);
     void Next(T value);
 }
 
 public interface IObservable
 {
-    void Subscribe(Action action);
+    Subscription Subscribe(Action action);
     void Next();
 }
