@@ -24,10 +24,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.1.0
 
       - name: Cache
-        uses: actions/cache@v1.1.0
+        uses: actions/cache@v1.1.2
         with:
           path: ${{ matrix.projectPath }}/Library
           key: Library-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
@@ -43,7 +43,7 @@ jobs:
           targetPlatform: ${{ matrix.targetPlatform }}
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v1.0.0
         with:
           name: Build
           path: build
