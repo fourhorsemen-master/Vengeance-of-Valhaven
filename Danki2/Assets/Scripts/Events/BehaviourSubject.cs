@@ -4,6 +4,7 @@ using System.Collections.Generic;
 /// <summary>
 /// A stream of events that will emit an initial value and requires one for construction.
 /// </summary>
+/// <typeparam name="T"> The type of object that will be emitted by this subject. </typeparam>
 public class BehaviourSubject<T> : IObservable<T>
 {
     private T currentValue;
@@ -15,6 +16,7 @@ public class BehaviourSubject<T> : IObservable<T>
         currentValue = initialValue;
     }
 
+    /// <inheritdoc/>
     public Subscription<T> Subscribe(Action<T> action)
     {
         action(currentValue);
@@ -25,6 +27,7 @@ public class BehaviourSubject<T> : IObservable<T>
         return subscription;
     }
 
+    /// <inheritdoc/>
     public void Next(T value)
     {
         currentValue = value;
