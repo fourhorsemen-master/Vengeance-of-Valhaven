@@ -22,7 +22,6 @@ public class Subject : IObservable
     {
         subscriptions.RemoveAll(s =>
         {
-            s.Unsubscribe();
             if (!s.Unsubscribed) s.Action();
 
             return s.Unsubscribed;
