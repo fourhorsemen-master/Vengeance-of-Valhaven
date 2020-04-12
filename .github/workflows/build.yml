@@ -3,7 +3,7 @@ name: Build
 on:
   push:
     branches:
-      - ci-build-setup-v2
+      - master
 
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
@@ -12,6 +12,7 @@ jobs:
   build:
     name: Build for ${{ matrix.targetPlatform }} on version ${{ matrix.unityVersion }}
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     strategy:
       matrix:
         projectPath:
@@ -20,10 +21,9 @@ jobs:
           - 2019.2.0f1
         targetPlatform:
           - StandaloneWindows64
-    timeout-minutes: 30
 
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v2.1.0
 
       - name: Cache
@@ -35,14 +35,14 @@ jobs:
             Library-${{ matrix.projectPath }}-
             Library-
 
-      - name: Build project
+      - name: Build
         uses: webbertakken/unity-builder@v0.12
         with:
           projectPath: ${{ matrix.projectPath }}
           unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
 
-      - name: Upload artifacts
+      - name: Upload Artifacts
         uses: actions/upload-artifact@v1.0.0
         with:
           name: Build
