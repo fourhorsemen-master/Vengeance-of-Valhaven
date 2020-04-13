@@ -28,7 +28,7 @@ public class Whirlwind : Channel
 
         Vector3 position = Context.Owner.transform.position;
         Vector3 target = Context.TargetPosition;
-        _whirlwindObject = WhirlwindObject.Create(Context.Owner.transform);
+        whirlwindObject = WhirlwindObject.Create(Context.Owner.transform);
     }
 
     public override void Continue()
