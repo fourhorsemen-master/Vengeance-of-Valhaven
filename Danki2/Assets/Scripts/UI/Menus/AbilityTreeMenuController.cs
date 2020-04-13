@@ -31,7 +31,7 @@ public class AbilityTreeMenuController : MonoBehaviour
             if (item.Value > 0)
             {
                 GameObject abilityPanel = Instantiate(this.abilityPanelPrefab, Vector3.zero, Quaternion.identity);
-                abilityPanel.transform.SetParent(this.abilityTreeContent.transform);
+                abilityPanel.transform.SetParent(this.abilityTreeContent.transform, false);
 
                 abilityPanel.GetComponent<AbilityPanel>().InitialisePanel(item.Key, item.Value);
 
