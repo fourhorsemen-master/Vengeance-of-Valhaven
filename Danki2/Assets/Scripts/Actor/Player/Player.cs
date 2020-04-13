@@ -163,13 +163,13 @@ public class Player : Actor
         {
             case CastingCommand.ContinueChannel:
                 // Handle case where channel has ended naturally.
-                if (!_channelService.Active)
+                if (!ChannelService.Active)
                 {
                     CastingStatus = RemainingAbilityCooldown <= 0f ? CastingStatus.Ready : CastingStatus.Cooldown;
                 }
                 break;
             case CastingCommand.CancelChannel:
-                _channelService.Cancel();
+                ChannelService.Cancel();
                 CastingStatus = RemainingAbilityCooldown <= 0f ? CastingStatus.Ready : CastingStatus.Cooldown;
 
                 // Ability whiffed, reset tree. TODO: Make a method out of this including feedback for player. 
@@ -204,7 +204,7 @@ public class Player : Actor
 
         if (Ability.TryGetAsInstantCastBuilder(abilityReference, out Func<AbilityContext, InstantCast> instantCastbuilder))
         {
-            InstantCast instantCast = instantCastbuilder.Invoke(abilityContext);
+            InstantCast instantCast = instantCastbuilder(abilityContext);
             instantCast.Cast();
 
             CastingStatus = CastingStatus.Cooldown;
@@ -212,8 +212,8 @@ public class Player : Actor
 
         if (Ability.TryGetAsChannelBuilder(abilityReference, out Func<AbilityContext, Channel> channelBuilder))
         {
-            Channel channel = channelBuilder.Invoke(abilityContext);
-            _channelService.Start(channel);
+            Channel channel = channelBuilder(abilityContext);
+            ChannelService.Start(channel);
 
             CastingStatus = direction == Direction.Left
                 ? CastingStatus.ChannelingLeft
