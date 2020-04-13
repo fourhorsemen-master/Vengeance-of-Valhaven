@@ -3,6 +3,7 @@ public class Bite : InstantCast
 {
     public const float Range = 2f;
     private const float DelayBeforeDamage = 0.75f;
+    private const float PauseDuration = 0.3f;
 
     public Bite(AbilityContext context) : base(context)
     {
@@ -33,6 +34,6 @@ public class Bite : InstantCast
         });
 
         BiteObject.Create(owner.transform);
-        owner.MovementManager.Stun(0.3f);
+        owner.MovementManager.Stun(PauseDuration);
     }
 }

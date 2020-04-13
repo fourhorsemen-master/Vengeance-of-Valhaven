@@ -15,7 +15,7 @@ public class Roll : InstantCast
         Vector3 position = owner.transform.position;
         Vector3 target = Context.TargetPosition;
         target.y = position.y;
-        Vector3 direction = target - owner.transform.position;
+        Vector3 direction = target - position;
 
         owner.MovementManager.LockMovement(
             RollDuration,

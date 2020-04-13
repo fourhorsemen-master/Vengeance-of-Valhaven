@@ -10,7 +10,7 @@ public abstract class Actor : MonoBehaviour
     private NavMeshAgent navmeshAgent = null;
 
     private StatsManager statsManager;
-    private Subject updateSubject = new Subject();
+    private readonly Subject updateSubject = new Subject();
 
     private float health;
 
