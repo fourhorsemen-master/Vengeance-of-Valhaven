@@ -11,7 +11,7 @@ public class Whirlwind : Channel
     private const float finishRange = 3;
     private const float finishDamageMultiplier = 1;
 
-    private WhirlwindObject _whirlwindObject;
+    private WhirlwindObject whirlwindObject;
 
     private Guid slowEffectId;
 
@@ -23,12 +23,12 @@ public class Whirlwind : Channel
 
     public override void Start()
     {
-        slowEffectId = Context.Owner.AddPassiveEffect(new Slow(selfSlowMultiplier));
+        slowEffectId = Context.Owner.EffectManager.AddPassiveEffect(new Slow(selfSlowMultiplier));
         repeater = new Repeater(spinDamageInterval, () => AOE(spinRange, spinDamageMultiplier), spinDamageStartDelay);
 
         Vector3 position = Context.Owner.transform.position;
         Vector3 target = Context.TargetPosition;
-        _whirlwindObject = WhirlwindObject.Create(position, Quaternion.LookRotation(target - position));
+        whirlwindObject = WhirlwindObject.Create(Context.Owner.transform);
     }
 
     public override void Continue()
@@ -38,15 +38,15 @@ public class Whirlwind : Channel
 
     public override void Cancel()
     {
-        Context.Owner.RemovePassiveEffect(slowEffectId);
-        GameObject.Destroy(_whirlwindObject);
+        Context.Owner.EffectManager.RemovePassiveEffect(slowEffectId);
+        whirlwindObject.DestroyWhirlwind();
     }
 
     public override void End()
     {
         AOE(finishRange, finishDamageMultiplier);
-        Context.Owner.RemovePassiveEffect(slowEffectId);
-        GameObject.Destroy(_whirlwindObject);
+        Context.Owner.EffectManager.RemovePassiveEffect(slowEffectId);
+        whirlwindObject.DestroyWhirlwind();
     }
 
     private void AOE(float radius, float damageMultiplier)

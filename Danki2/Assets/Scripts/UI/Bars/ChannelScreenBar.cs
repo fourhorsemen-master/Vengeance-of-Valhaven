@@ -3,7 +3,7 @@
 public class ChannelScreenBar : ScreenBar
 {
     [SerializeField]
-    private Player _player = null;
+    private Player player = null;
 
     private void Awake()
     {
@@ -13,14 +13,15 @@ public class ChannelScreenBar : ScreenBar
     private void Update()
     {
         if (
-            _player.CastingStatus != CastingStatus.ChannelingLeft
-            && _player.CastingStatus != CastingStatus.ChannelingRight
+            this.player.CastingStatus != CastingStatus.ChannelingLeft
+            && this.player.CastingStatus != CastingStatus.ChannelingRight
         )
         {
             SetWidth(0f);
             return;
         }
 
-        SetWidth(_player.RemainingChannelDuration / _player.TotalChannelDuration);
+        ChannelService channelService = this.player.ChannelService;
+        SetWidth(channelService.RemainingDuration / channelService.TotalDuration);
     }
 }

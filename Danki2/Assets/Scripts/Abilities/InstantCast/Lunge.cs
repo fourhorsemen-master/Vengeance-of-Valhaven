@@ -43,7 +43,7 @@ public class Lunge : InstantCast
             {
                 if (owner.Opposes(actor))
                 {
-                    actor.AddActiveEffect(new Stun(StunDuration), StunDuration);
+                    actor.EffectManager.AddActiveEffect(new Stun(StunDuration), StunDuration);
                     actor.ModifyHealth(-damage);
                 }
             });
