@@ -4,13 +4,13 @@ using UnityEngine.UI;
 public class AbilityPanel : MonoBehaviour
 {
     [SerializeField]
-    private Image iconPanelImage;
+    private Image iconPanelImage = null;
 
     [SerializeField]
-    private Text namePanelText;
+    private Text namePanelText = null;
 
     [SerializeField]
-    private Text quantityPanelText;
+    private Text quantityPanelText = null;
 
     public void InitialisePanel(AbilityReference ability, int quantity)
     {

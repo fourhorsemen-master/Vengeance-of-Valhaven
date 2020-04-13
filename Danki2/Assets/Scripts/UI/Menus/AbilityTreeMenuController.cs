@@ -5,13 +5,13 @@ using UnityEngine;
 public class AbilityTreeMenuController : MonoBehaviour
 {
     [SerializeField]
-    private Player player;
+    private Player player = null;
 
     [SerializeField]
-    private GameObject abilityTreeContent;
+    private GameObject abilityTreeContent = null;
 
     [SerializeField]
-    private GameObject abilityPanelPrefab;
+    private GameObject abilityPanelPrefab = null;
 
     void Start()
     {
@@ -31,7 +31,7 @@ public class AbilityTreeMenuController : MonoBehaviour
             if (item.Value > 0)
             {
                 GameObject abilityPanel = Instantiate(this.abilityPanelPrefab, Vector3.zero, Quaternion.identity);
-                abilityPanel.transform.parent = this.abilityTreeContent.transform;
+                abilityPanel.transform.SetParent(this.abilityTreeContent.transform);
 
                 abilityPanel.GetComponent<AbilityPanel>().InitialisePanel(item.Key, item.Value);
 
