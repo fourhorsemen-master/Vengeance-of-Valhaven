@@ -5,18 +5,15 @@ using UnityEngine;
 
 public class StateManager<T> where T : Enum
 {
-    private readonly EnumDictionary<T, ISet<T>> transitions = new EnumDictionary<T, ISet<T>>(new HashSet<T>());
+    private readonly EnumDictionary<T, ISet<T>> transitions = new EnumDictionary<T, ISet<T>>(() => new HashSet<T>());
+    private Action transitionAction;
 
     public T CurrentState { get; private set; }
-    public Action TransitionAction { get; } = () => { };
 
     public StateManager(T initialState, Action transitionAction = null)
     {
         CurrentState = initialState;
-        if (transitionAction != null)
-        {
-            TransitionAction = transitionAction;
-        }
+        this.transitionAction = transitionAction ?? (() => { });
     }
 
     public StateManager<T> WithTransition(T from, T to)
@@ -39,6 +36,6 @@ public class StateManager<T> where T : Enum
         }
 
         CurrentState = to;
-        TransitionAction();
+        transitionAction();
     }
 }
