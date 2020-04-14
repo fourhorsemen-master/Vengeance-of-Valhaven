@@ -11,18 +11,19 @@ public class Roll : InstantCast
 
     public override void Cast()
     {
-        Actor caster = Context.Owner;
+        Actor owner = Context.Owner;
+        Vector3 position = owner.transform.position;
+        Vector3 target = Context.TargetPosition;
+        target.y = position.y;
+        Vector3 direction = target - position;
 
-        Vector3 targetPosition = Context.TargetPosition - caster.transform.position;
-        targetPosition.y = caster.transform.position.y;
-
-        caster.LockMovement(
+        owner.MovementManager.LockMovement(
             RollDuration,
-            caster.GetStat(Stat.Speed) * RollSpeedMultiplier,
-            targetPosition,
-            passThrough: true
+            owner.GetStat(Stat.Speed) * RollSpeedMultiplier,
+            direction,
+            direction
         );
 
-        RollObject.Create(caster.transform);
+        RollObject.Create(owner.transform);
     }
 }
