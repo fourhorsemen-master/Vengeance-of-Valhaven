@@ -2,12 +2,16 @@
 
 public class ChannelScreenBar : ScreenBar
 {
-    [SerializeField]
-    private Player player = null;
+    private Player player;
 
     private void Awake()
     {
         SetWidth(0f);
+    }
+
+    private void Start()
+    {
+        this.player = RoomManager.Instance.Player;
     }
 
     private void Update()
