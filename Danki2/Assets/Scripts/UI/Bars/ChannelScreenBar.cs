@@ -1,8 +1,7 @@
-﻿using UnityEngine;
-
-public class ChannelScreenBar : ScreenBar
+﻿public class ChannelScreenBar : ScreenBar
 {
     private Player player;
+    private ChannelService channelService;
 
     private void Awake()
     {
@@ -12,6 +11,7 @@ public class ChannelScreenBar : ScreenBar
     private void Start()
     {
         this.player = RoomManager.Instance.Player;
+        this.channelService = this.player.ChannelService;
     }
 
     private void Update()
@@ -24,8 +24,7 @@ public class ChannelScreenBar : ScreenBar
             SetWidth(0f);
             return;
         }
-
-        ChannelService channelService = this.player.ChannelService;
-        SetWidth(channelService.RemainingDuration / channelService.TotalDuration);
+                
+        SetWidth(this.channelService.RemainingDuration / this.channelService.TotalDuration);
     }
 }

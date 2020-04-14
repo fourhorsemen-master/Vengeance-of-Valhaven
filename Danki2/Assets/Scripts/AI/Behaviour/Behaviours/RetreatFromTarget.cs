@@ -5,7 +5,7 @@ public class RetreatFromTarget : Behaviour
     {
         if (actor.Target)
         {
-            actor.MovementManager.SetDestination(
+            actor.MovementManager.StartPathfinding(
                 (2 * actor.transform.position) - actor.Target.transform.position
             );
         }

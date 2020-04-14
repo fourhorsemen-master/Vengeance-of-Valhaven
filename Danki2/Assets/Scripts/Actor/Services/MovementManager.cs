@@ -28,7 +28,11 @@ public class MovementManager
         updateSubject.Subscribe(UpdateMovement);
     }
 
-    public void SetDestination(Vector3 destination)
+    /// <summary>
+    /// Path towards the destination using navmesh pathfinding unless rooted, stunned or movement locked.
+    /// </summary>
+    /// <param name="destination"></param>
+    public void StartPathfinding(Vector3 destination)
     {
         if (this.stunned || this.rooted || this.movementLocked) return;
 
@@ -39,6 +43,10 @@ public class MovementManager
         this.navMeshAgent.SetDestination(destination);
     }
 
+    /// <summary>
+    /// Move along the navmesh in the given direction unless rooted, stunned or movement locked.
+    /// </summary>
+    /// <param name="direction"></param>
     public void Move(Vector3 direction)
     {
         if (this.stunned || this.rooted || this.movementLocked) return;
@@ -47,22 +55,30 @@ public class MovementManager
 
         ClearWatch();
 
-        this.navMeshAgent.Move(direction.normalized * Time.deltaTime * actor.GetStat(Stat.Speed));
+        this.navMeshAgent.Move(direction.normalized * (Time.deltaTime * actor.GetStat(Stat.Speed)));
 
-        RotateTorwards(direction);
+        RotateTowards(direction);
     }
 
+    /// <summary>
+    /// Rotate the actor to face the target until we begin movement.
+    /// </summary>
+    /// <param name="watchTarget"></param>
     public void Watch(Transform watchTarget)
     {
         this.watchTarget = watchTarget;
         this.watching = true;
     }
 
-    public void ClearDestination()
+    public void StopPathfinding()
     {
         this.navMeshAgent.ResetPath();
     }
 
+    /// <summary>
+    /// Lock the position and rotation for the given duration.
+    /// </summary>
+    /// <param name="duration"></param>
     public void Stun(float duration)
     {
         if (this.stunned && duration < this.remainingStunDuration) return;
@@ -70,24 +86,35 @@ public class MovementManager
         ClearRoot();
         ClearMovementLock();
 
-        ClearDestination();
+        StopPathfinding();
         this.stunned = true;
         this.navMeshAgent.isStopped = true;
         this.remainingStunDuration = duration;
     }
 
+    /// <summary>
+    /// Lock the position for the given duration (can still rotate).
+    /// </summary>
+    /// <param name="duration"></param>
     public void Root(float duration)
     {
         if (this.stunned || (this.rooted && duration < this.remainingRootDuration)) return;
 
         ClearMovementLock();
 
-        ClearDestination();
+        StopPathfinding();
         this.rooted = true;
         this.navMeshAgent.isStopped = true;
         this.remainingRootDuration = duration;
     }
 
+    /// <summary>
+    /// Lock movement velocity for a given duration with a fixed rotation.
+    /// </summary>
+    /// <param name="duration"></param>
+    /// <param name="speed"></param>
+    /// <param name="direction"></param>
+    /// <param name="rotation">The rotation to maintain for the duration.</param>
     public void LockMovement(float duration, float speed, Vector3 direction, Vector3 rotation)
     {
         if (this.stunned || this.rooted || this.movementLocked) return;
@@ -106,7 +133,7 @@ public class MovementManager
 
         if (this.watching && !this.stunned && !this.movementLocked)
         {
-            RotateTorwards(watchTarget.position - this.actor.transform.position);
+            RotateTowards(watchTarget.position - this.actor.transform.position);
         }
 
         if (this.stunned)
@@ -123,7 +150,7 @@ public class MovementManager
 
         if (this.movementLocked)
         {
-            this.navMeshAgent.Move(movementLockDirection * Time.deltaTime * movementLockSpeed);
+            this.navMeshAgent.Move(movementLockDirection * (Time.deltaTime * movementLockSpeed));
 
             this.remainingMovementLockDuration -= Time.deltaTime;
             if (this.remainingMovementLockDuration < 0f) ClearMovementLock();
@@ -158,7 +185,7 @@ public class MovementManager
         this.watching = false;
     }
 
-    private void RotateTorwards(Vector3 direction)
+    private void RotateTowards(Vector3 direction)
     {
         if (!direction.Equals(Vector3.zero))
         {
