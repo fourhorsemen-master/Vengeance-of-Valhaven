@@ -11,21 +11,30 @@ public class MovementManager
     private Transform watchTarget = null;
     private bool watching = false;
 
-    private bool stunned = false;
-    private bool rooted = false;
-    private bool movementLocked = false;
     private Vector3 movementLockDirection;
     private float movementLockSpeed;
 
-    private float remainingStunDuration = 0f;
-    private float remainingRootDuration = 0f;
-    private float remainingMovementLockDuration = 0f;
+    private float remainingStatusDuration = 0f;
+
+    private StateManager<MovementStatus> movementStatusManager;
+    private MovementStatus MovementStatus => this.movementStatusManager.CurrentState;
 
     public MovementManager(Actor actor, Subject updateSubject, NavMeshAgent navMeshAgent)
     {
         this.actor = actor;
         this.navMeshAgent = navMeshAgent;
         updateSubject.Subscribe(UpdateMovement);
+
+        this.movementStatusManager = new StateManager<MovementStatus>(MovementStatus.AbleToMove, ClearMovementStatus)
+            .WithTransition(MovementStatus.AbleToMove, MovementStatus.Stunned)
+            .WithTransition(MovementStatus.AbleToMove, MovementStatus.Rooted)
+            .WithTransition(MovementStatus.AbleToMove, MovementStatus.MovementLocked)
+            .WithTransition(MovementStatus.Stunned, MovementStatus.AbleToMove)
+            .WithTransition(MovementStatus.Rooted, MovementStatus.AbleToMove)
+            .WithTransition(MovementStatus.Rooted, MovementStatus.Stunned)
+            .WithTransition(MovementStatus.MovementLocked, MovementStatus.AbleToMove)
+            .WithTransition(MovementStatus.MovementLocked, MovementStatus.Stunned)
+            .WithTransition(MovementStatus.MovementLocked, MovementStatus.Rooted);
     }
 
     /// <summary>
@@ -34,7 +43,7 @@ public class MovementManager
     /// <param name="destination"></param>
     public void StartPathfinding(Vector3 destination)
     {
-        if (this.stunned || this.rooted || this.movementLocked) return;
+        if (MovementStatus != MovementStatus.AbleToMove) return;
 
         if (this.navMeshAgent.destination == destination) return;
 
@@ -49,7 +58,7 @@ public class MovementManager
     /// <param name="direction"></param>
     public void Move(Vector3 direction)
     {
-        if (this.stunned || this.rooted || this.movementLocked) return;
+        if (MovementStatus != MovementStatus.AbleToMove) return;
 
         if (direction == Vector3.zero) return;
 
@@ -81,15 +90,15 @@ public class MovementManager
     /// <param name="duration"></param>
     public void Stun(float duration)
     {
-        if (this.stunned && duration < this.remainingStunDuration) return;
+        if (
+            !this.movementStatusManager.CanTransition(MovementStatus.Stunned)
+            || (MovementStatus == MovementStatus.Stunned && duration < this.remainingStatusDuration)
+        ) return;
 
-        ClearRoot();
-        ClearMovementLock();
-
+        this.movementStatusManager.Transition(MovementStatus.Stunned);
         StopPathfinding();
-        this.stunned = true;
         this.navMeshAgent.isStopped = true;
-        this.remainingStunDuration = duration;
+        this.remainingStatusDuration = duration;
     }
 
     /// <summary>
@@ -98,14 +107,15 @@ public class MovementManager
     /// <param name="duration"></param>
     public void Root(float duration)
     {
-        if (this.stunned || (this.rooted && duration < this.remainingRootDuration)) return;
+        if (
+            !this.movementStatusManager.CanTransition(MovementStatus.Rooted) 
+            || (MovementStatus == MovementStatus.Rooted && duration < this.remainingStatusDuration)
+        ) return;
 
-        ClearMovementLock();
-
+        this.movementStatusManager.Transition(MovementStatus.Rooted);
         StopPathfinding();
-        this.rooted = true;
         this.navMeshAgent.isStopped = true;
-        this.remainingRootDuration = duration;
+        this.remainingStatusDuration = duration;
     }
 
     /// <summary>
@@ -117,10 +127,10 @@ public class MovementManager
     /// <param name="rotation">The rotation to maintain for the duration.</param>
     public void LockMovement(float duration, float speed, Vector3 direction, Vector3 rotation)
     {
-        if (this.stunned || this.rooted || this.movementLocked) return;
+        if (!this.movementStatusManager.CanTransition(MovementStatus.MovementLocked)) return;
 
-        this.movementLocked = true;
-        this.remainingMovementLockDuration = duration;
+        this.movementStatusManager.Transition(MovementStatus.MovementLocked);
+        this.remainingStatusDuration = duration;
         this.movementLockSpeed = speed;
         this.movementLockDirection = direction.normalized;
 
@@ -131,52 +141,36 @@ public class MovementManager
     {
         this.navMeshAgent.speed = this.actor.GetStat(Stat.Speed);
 
-        if (this.watching && !this.stunned && !this.movementLocked)
+        if (
+            this.watching 
+            && MovementStatus != MovementStatus.Stunned 
+            && MovementStatus != MovementStatus.MovementLocked
+        )
         {
             RotateTowards(watchTarget.position - this.actor.transform.position);
         }
 
-        if (this.stunned)
-        {
-            this.remainingStunDuration -= Time.deltaTime;
-            if (this.remainingStunDuration < 0f) ClearStun();
-        }
-
-        if (this.rooted)
-        {
-            this.remainingRootDuration -= Time.deltaTime;
-            if (this.remainingRootDuration < 0f) ClearRoot();
-        }
-
-        if (this.movementLocked)
+        if (MovementStatus == MovementStatus.MovementLocked)
         {
             this.navMeshAgent.Move(movementLockDirection * (Time.deltaTime * movementLockSpeed));
+        }
 
-            this.remainingMovementLockDuration -= Time.deltaTime;
-            if (this.remainingMovementLockDuration < 0f) ClearMovementLock();
+        if (MovementStatus != MovementStatus.AbleToMove)
+        {
+            this.remainingStatusDuration -= Time.deltaTime;
+            if (this.remainingStatusDuration < 0f)
+            {
+                this.movementStatusManager.Transition(MovementStatus.AbleToMove);
+            }
         }
     }
 
-    private void ClearMovementLock()
+    private void ClearMovementStatus()
     {
-        this.movementLocked = false;
-        this.remainingMovementLockDuration = 0f;
+        this.remainingStatusDuration = 0f;
+        this.navMeshAgent.isStopped = false;
         this.movementLockSpeed = 0f;
         this.movementLockDirection = Vector3.zero;
-    }
-
-    private void ClearRoot()
-    {
-        this.rooted = false;
-        this.remainingRootDuration = 0f;
-        this.navMeshAgent.isStopped = false;
-    }
-
-    private void ClearStun()
-    {
-        this.stunned = false;
-        this.remainingStunDuration = 0f;
-        this.navMeshAgent.isStopped = false;
     }
 
     private void ClearWatch()
