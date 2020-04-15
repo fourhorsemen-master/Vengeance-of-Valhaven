@@ -1,109 +1,190 @@
 ﻿using UnityEngine;
+using UnityEngine.AI;
 
 public class MovementManager
 {
-    private const float RotationSmoothing = 0.1f;
+    private readonly Actor actor;
+    private readonly NavMeshAgent navMeshAgent;
 
-    private Actor _actor;
-    private Rigidbody _rigidbody;
-    private float _moveLockRemainingDuration;
-    private float _moveLockSpeed;
-    private bool _moveLockOn;
-    private Vector3 _moveLockDirection;
-    private Vector3 _moveDirection;
-    private Vector3 _nextRotation;
+    private const float RotationSmoothing = 0.05f;
 
-    public MovementManager(Actor actor, Rigidbody rigidbody)
+    private Transform watchTarget = null;
+    private bool watching = false;
+
+    private Vector3 movementLockDirection;
+    private float movementLockSpeed;
+
+    private float remainingStatusDuration = 0f;
+
+    private StateManager<MovementStatus> movementStatusManager;
+    private MovementStatus MovementStatus => this.movementStatusManager.CurrentState;
+
+    public MovementManager(Actor actor, Subject updateSubject, NavMeshAgent navMeshAgent)
     {
-        _actor = actor;
-        _rigidbody = rigidbody;
-        _moveLockRemainingDuration = 0f;
-        _moveLockSpeed = 0f;
-        _moveLockOn = false;
-        _moveLockDirection = Vector3.one;
-        _moveDirection = Vector3.zero;
-        _nextRotation = Vector3.zero;
-}
+        this.actor = actor;
+        this.navMeshAgent = navMeshAgent;
+        updateSubject.Subscribe(UpdateMovement);
+
+        this.movementStatusManager = new StateManager<MovementStatus>(MovementStatus.AbleToMove, ClearMovementStatus)
+            .WithTransition(MovementStatus.AbleToMove, MovementStatus.Stunned)
+            .WithTransition(MovementStatus.AbleToMove, MovementStatus.Rooted)
+            .WithTransition(MovementStatus.AbleToMove, MovementStatus.MovementLocked)
+            .WithTransition(MovementStatus.Stunned, MovementStatus.AbleToMove)
+            .WithTransition(MovementStatus.Rooted, MovementStatus.AbleToMove)
+            .WithTransition(MovementStatus.Rooted, MovementStatus.Stunned)
+            .WithTransition(MovementStatus.MovementLocked, MovementStatus.AbleToMove)
+            .WithTransition(MovementStatus.MovementLocked, MovementStatus.Stunned)
+            .WithTransition(MovementStatus.MovementLocked, MovementStatus.Rooted);
+    }
 
     /// <summary>
-    /// Called by the Actor component during orchestration.
+    /// Path towards the destination using navmesh pathfinding unless rooted, stunned or movement locked.
     /// </summary>
-    public void ExecuteMovement()
+    /// <param name="destination"></param>
+    public void StartPathfinding(Vector3 destination)
     {
-        _moveLockRemainingDuration = Mathf.Max(0f, _moveLockRemainingDuration - Time.deltaTime);
-        if (_moveLockRemainingDuration <= 0)
+        if (MovementStatus != MovementStatus.AbleToMove) return;
+
+        if (this.navMeshAgent.destination == destination) return;
+
+        ClearWatch();
+
+        this.navMeshAgent.SetDestination(destination);
+    }
+
+    /// <summary>
+    /// Move along the navmesh in the given direction unless rooted, stunned or movement locked.
+    /// </summary>
+    /// <param name="direction"></param>
+    public void Move(Vector3 direction)
+    {
+        if (MovementStatus != MovementStatus.AbleToMove) return;
+
+        if (direction == Vector3.zero) return;
+
+        ClearWatch();
+
+        this.navMeshAgent.Move(direction.normalized * (Time.deltaTime * actor.GetStat(Stat.Speed)));
+
+        RotateTowards(direction);
+    }
+
+    /// <summary>
+    /// Rotate the actor to face the target until we begin movement.
+    /// </summary>
+    /// <param name="watchTarget"></param>
+    public void Watch(Transform watchTarget)
+    {
+        this.watchTarget = watchTarget;
+        this.watching = true;
+    }
+
+    public void StopPathfinding()
+    {
+        this.navMeshAgent.ResetPath();
+    }
+
+    /// <summary>
+    /// Lock the position and rotation for the given duration.
+    /// </summary>
+    /// <param name="duration"></param>
+    public void Stun(float duration)
+    {
+        if (
+            !this.movementStatusManager.CanTransition(MovementStatus.Stunned)
+            || (MovementStatus == MovementStatus.Stunned && duration < this.remainingStatusDuration)
+        ) return;
+
+        this.movementStatusManager.Transition(MovementStatus.Stunned);
+        StopPathfinding();
+        this.navMeshAgent.isStopped = true;
+        this.remainingStatusDuration = duration;
+    }
+
+    /// <summary>
+    /// Lock the position for the given duration (can still rotate).
+    /// </summary>
+    /// <param name="duration"></param>
+    public void Root(float duration)
+    {
+        if (
+            !this.movementStatusManager.CanTransition(MovementStatus.Rooted) 
+            || (MovementStatus == MovementStatus.Rooted && duration < this.remainingStatusDuration)
+        ) return;
+
+        this.movementStatusManager.Transition(MovementStatus.Rooted);
+        StopPathfinding();
+        this.navMeshAgent.isStopped = true;
+        this.remainingStatusDuration = duration;
+    }
+
+    /// <summary>
+    /// Lock movement velocity for a given duration with a fixed rotation.
+    /// </summary>
+    /// <param name="duration"></param>
+    /// <param name="speed"></param>
+    /// <param name="direction"></param>
+    /// <param name="rotation">The rotation to maintain for the duration.</param>
+    public void LockMovement(float duration, float speed, Vector3 direction, Vector3 rotation)
+    {
+        if (!this.movementStatusManager.CanTransition(MovementStatus.MovementLocked)) return;
+
+        this.movementStatusManager.Transition(MovementStatus.MovementLocked);
+        this.remainingStatusDuration = duration;
+        this.movementLockSpeed = speed;
+        this.movementLockDirection = direction.normalized;
+
+        this.actor.transform.rotation = Quaternion.LookRotation(rotation);
+    }
+
+    private void UpdateMovement()
+    {
+        this.navMeshAgent.speed = this.actor.GetStat(Stat.Speed);
+
+        if (
+            this.watching 
+            && MovementStatus != MovementStatus.Stunned 
+            && MovementStatus != MovementStatus.MovementLocked
+        )
         {
-            _moveLockOn = false;
-            _actor.gameObject.SetLayer(Layer.Default);
+            RotateTowards(watchTarget.position - this.actor.transform.position);
         }
 
-        int speedStat = _actor.GetStat(Stat.Speed);
-
-        Vector3 movementVector = _moveLockOn
-            ? Vector3.Normalize(_moveLockDirection) * _moveLockSpeed
-            : Vector3.Normalize(_moveDirection) * speedStat;
-
-        _rigidbody.MovePosition(_rigidbody.position + movementVector * Time.deltaTime);
-
-        if (_nextRotation == Vector3.zero || (_moveLockOn && movementVector.magnitude > 0))
+        if (MovementStatus == MovementStatus.MovementLocked)
         {
-            RotateTorwards(movementVector);
-        }
-        else
-        {
-            RotateTorwards(_nextRotation);
+            this.navMeshAgent.Move(movementLockDirection * (Time.deltaTime * movementLockSpeed));
         }
 
-        _nextRotation = Vector3.zero;
-        _moveDirection = Vector3.zero;
-    }
-
-    public void LockMovement(float duration, float speed, Vector3 direction, bool rotateForwards = true, bool @override = false, bool passThrough = false)
-    {
-        if (_moveLockOn && !@override) return;
-        if (passThrough)
+        if (MovementStatus != MovementStatus.AbleToMove)
         {
-            _actor.gameObject.SetLayer(Layer.Ethereal);
+            this.remainingStatusDuration -= Time.deltaTime;
+            if (this.remainingStatusDuration < 0f)
+            {
+                this.movementStatusManager.Transition(MovementStatus.AbleToMove);
+            }
         }
-
-        if (rotateForwards)
-        {
-            _rigidbody.rotation = Quaternion.LookRotation(direction);
-        }
-
-        _moveLockRemainingDuration = duration;
-        _moveLockSpeed = speed;
-        _moveLockDirection = direction;
-        _moveLockOn = true;
     }
 
-    public void Root(float duration, Vector3 faceDirection, bool @override = false)
+    private void ClearMovementStatus()
     {
-        LockMovement(duration, 0f, faceDirection, true, @override);
+        this.remainingStatusDuration = 0f;
+        this.navMeshAgent.isStopped = false;
+        this.movementLockSpeed = 0f;
+        this.movementLockDirection = Vector3.zero;
     }
 
-    public void MoveAlong(Vector3 vec)
+    private void ClearWatch()
     {
-        _moveDirection = vec;
+        this.watchTarget = null;
+        this.watching = false;
     }
 
-    public void MoveToward(Vector3 target)
-    {
-        Vector3 vecToMove = target - _rigidbody.position;
-        MoveAlong(vecToMove);
-    }
-
-    public void FixNextRotation(Vector3 direction)
-    {
-        _nextRotation = direction;
-    }
-
-    private void RotateTorwards(Vector3 direction)
+    private void RotateTowards(Vector3 direction)
     {
         if (!direction.Equals(Vector3.zero))
         {
             Quaternion desiredRotation = Quaternion.LookRotation(direction);
-            _rigidbody.rotation = Quaternion.Lerp(_rigidbody.rotation, desiredRotation, RotationSmoothing);
+            this.actor.transform.rotation = Quaternion.Lerp(actor.transform.rotation, desiredRotation, RotationSmoothing);
         }
     }
 }

@@ -25,7 +25,7 @@ public class PlayerControls : MonoBehaviour
             _player.Dash(moveDirection);
         }
 
-        _player.MoveAlong(moveDirection);
+        _player.MovementManager.Move(moveDirection);
     }
 
     private void HandleAbilities()

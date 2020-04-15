@@ -4,10 +4,8 @@ public abstract class Enemy : Actor
 {
     public Subject OnTelegraph { get; private set; } = new Subject();
 
-    protected override void Start()
+    protected virtual void Start()
     {
-        base.Start();
-
         this.gameObject.tag = Tags.Enemy;
     }
 

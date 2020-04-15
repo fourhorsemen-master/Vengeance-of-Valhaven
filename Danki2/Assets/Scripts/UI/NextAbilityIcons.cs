@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class NextAbilityIcons : MonoBehaviour
 {
-    private Player _player;
+    private Player player;
 
     // Image components
     [SerializeField]
@@ -23,8 +23,8 @@ public class NextAbilityIcons : MonoBehaviour
 
     private void Start()
     {
-        _player = RoomManager.Instance.Player;
-        _player.SubscribeToTreeWalk(TreeWalkCallback);
+        this.player = RoomManager.Instance.Player;
+        this.player.SubscribeToTreeWalk(TreeWalkCallback);
     }
 
     private void TreeWalkCallback(Node node)
