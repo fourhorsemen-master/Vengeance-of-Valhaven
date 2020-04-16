@@ -2,11 +2,15 @@
 
 public class HealthScreenBar : ScreenBar
 {
-    [SerializeField]
-    private Player _player = null;
+    private Player player;
+
+    private void Start()
+    {
+        this.player = RoomManager.Instance.Player;
+    }
 
     private void Update()
     {
-        SetWidth(Mathf.Max(_player.Health, 0f) / _player.GetStat(Stat.MaxHealth));
+        SetWidth(Mathf.Max(this.player.Health, 0f) / this.player.GetStat(Stat.MaxHealth));
     }
 }
