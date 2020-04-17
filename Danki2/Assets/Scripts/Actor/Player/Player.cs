@@ -16,27 +16,13 @@ public class Player : Actor
     public float abilityTimeoutLimit = 5f;
 
     private float remainingDashCooldown = 0f;
-    private Direction lastCastDirection;
-    private bool whiffed = true;
-    private bool recievedCastFeedback = false;
-    private int castIndex = 0;
-
-    private Coroutine abilityTimeout = null;
-
-    private ActionControlState previousActionControlState = ActionControlState.None;
-    private ActionControlState currentActionControlState = ActionControlState.None;
 
     [SerializeField]
     private TrailRenderer trailRenderer = null;
 
-    [HideInInspector]
-    public float RemainingAbilityCooldown { get; private set; } = 0f;
-    [HideInInspector]
-    public CastingStatus CastingStatus { get; private set; } = CastingStatus.Ready;
-
     public AbilityTree AbilityTree { get; private set; }
 
-    public Subject<Tuple<bool, Direction>> AbilityCompletionSubject { get; } = new Subject<Tuple<bool, Direction>>();
+    public AbilityManager AbilityManager { get; private set; }
 
     public override ActorType Type => ActorType.Player;
 
@@ -59,13 +45,13 @@ public class Player : Actor
                 AbilityTreeFactory.CreateNode(AbilityReference.Whirlwind)
             )
         );
+
+        AbilityManager = new AbilityManager(this, abilityTimeoutLimit, abilityCooldown, updateSubject, lateUpdateSubject);
     }
 
     protected void Start()
     {
         this.gameObject.tag = Tags.Player;
-
-        AbilityTimeoutSubscription();
     }
 
     protected override void Update()
@@ -73,12 +59,6 @@ public class Player : Actor
         base.Update();
 
         TickDashCooldown();
-        TickAbilityCooldown();
-    }
-
-    protected void LateUpdate()
-    {
-        HandleAbilities();
     }
 
     public void Dash(Vector3 direction)
@@ -97,39 +77,10 @@ public class Player : Actor
         }
     }
 
-    public void SetCurrentControlState(ActionControlState controlState)
-    {
-        currentActionControlState = controlState;
-    }
-
     protected override void OnDeath()
     {
         // TODO: Implement Player death.
         Debug.Log("The player died");
-    }
-
-    private void AbilityTimeoutSubscription()
-    {
-        AbilityTree.CurrentDepthSubject.Subscribe((int treeDepth) =>
-        {
-            if (abilityTimeout != null)
-            {
-                StopCoroutine(abilityTimeout);
-            }
-
-            if (treeDepth > 0)
-            {
-                abilityTimeout = StartCoroutine(AbilityTimeoutCounter());
-            }
-        });
-    }
-
-    private IEnumerator AbilityTimeoutCounter()
-    {
-        yield return new WaitForSeconds(abilityTimeoutLimit);
-        AbilityTree.Reset();
-        whiffed = true;
-        recievedCastFeedback = false;
     }
 
     private void TickDashCooldown()
@@ -137,120 +88,9 @@ public class Player : Actor
         remainingDashCooldown = Mathf.Max(0f, remainingDashCooldown - Time.deltaTime);
     }
 
-    private void TickAbilityCooldown()
-    {
-        if (ChannelService.Active) return;
-
-        RemainingAbilityCooldown = Mathf.Max(0f, RemainingAbilityCooldown - Time.deltaTime);
-
-        if (RemainingAbilityCooldown > 0f || CastingStatus != CastingStatus.Cooldown) return;
-
-        CastingStatus = CastingStatus.Ready;
-        AbilityTree.Walk(lastCastDirection);
-
-        if (!AbilityTree.CanWalk() || whiffed)
-        {
-            AbilityTree.Reset();
-        }
-
-        whiffed = true;
-        recievedCastFeedback = false;
-    }
-
     private IEnumerator EndDashVisualAfterDelay()
     {
         yield return new WaitForSeconds(dashDuration * 2);
         trailRenderer.emitting = false;
-    }
-
-    private void HandleAbilities()
-    {
-        CastingCommand castingCommand = ControlMatrix.GetCastingCommand(
-            CastingStatus,
-            previousActionControlState,
-            currentActionControlState
-        );
-
-        previousActionControlState = currentActionControlState;
-        currentActionControlState = ActionControlState.None;
-
-        switch (castingCommand)
-        {
-            case CastingCommand.ContinueChannel:
-                // Handle case where channel has ended naturally.
-                if (!ChannelService.Active)
-                {
-                    CastingStatus = RemainingAbilityCooldown <= 0f ? CastingStatus.Ready : CastingStatus.Cooldown;
-                }
-                break;
-            case CastingCommand.CancelChannel:
-                ChannelService.Cancel();
-                CastingStatus = RemainingAbilityCooldown <= 0f ? CastingStatus.Ready : CastingStatus.Cooldown;
-                break;
-            case CastingCommand.CastLeft:
-                BranchAndCast(Direction.Left);
-                break;
-            case CastingCommand.CastRight:
-                BranchAndCast(Direction.Right);
-                break;
-        }
-    }
-
-    private void BranchAndCast(Direction direction)
-    {
-        if (!AbilityTree.CanWalkDirection(direction))
-        {
-            // Feedback to user that there is no ability here.
-            return;
-        }
-
-        castIndex += 1;
-
-        RemainingAbilityCooldown = abilityCooldown;
-        lastCastDirection = direction;
-        if (abilityTimeout != null)
-        {
-            StopCoroutine(abilityTimeout);
-        }
-
-        AbilityReference abilityReference = AbilityTree.GetAbility(direction);
-
-        AbilityContext abilityContext = new AbilityContext(
-            this,
-            MouseGamePositionFinder.Instance.GetMouseGamePosition()
-        );
-
-        if (Ability.TryGetAsInstantCastBuilder(abilityReference, out var instantCastbuilder))
-        {
-            InstantCast instantCast = instantCastbuilder(abilityContext, AbilitySuccessCallback(castIndex));
-            instantCast.Cast();
-
-            CastingStatus = CastingStatus.Cooldown;
-        }
-
-        if (Ability.TryGetAsChannelBuilder(abilityReference, out var channelBuilder))
-        {
-            Channel channel = channelBuilder(abilityContext, AbilitySuccessCallback(castIndex));
-            ChannelService.Start(channel);
-
-            CastingStatus = direction == Direction.Left
-                ? CastingStatus.ChannelingLeft
-                : CastingStatus.ChannelingRight;
-        }
-    }
-
-    private Action<bool> AbilitySuccessCallback(int castIndex)
-    {
-        return successful =>
-        {
-            if (castIndex == this.castIndex && !recievedCastFeedback)
-            {
-                recievedCastFeedback = true;
-                whiffed = !successful;
-                AbilityCompletionSubject.Next(
-                    new Tuple<bool, Direction>(successful, lastCastDirection)
-                );
-            }
-        };
     }
 }
