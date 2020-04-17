@@ -17,6 +17,7 @@ public abstract class Actor : MonoBehaviour
     public ChannelService ChannelService { get; private set; }
     public EffectManager EffectManager { get; private set; }
     public MovementManager MovementManager { get; private set; }
+    public InterruptionManager InterruptionManager { get; private set; }
     public Actor Target { get; set; } = null;
     public int Health => Mathf.CeilToInt(health);
     public bool Dead { get; private set; }
@@ -28,7 +29,8 @@ public abstract class Actor : MonoBehaviour
     {
         this.statsManager = new StatsManager(baseStats);
         EffectManager = new EffectManager(this, this.updateSubject, this.statsManager);
-        ChannelService = new ChannelService(this.updateSubject);
+        InterruptionManager = new InterruptionManager();
+        ChannelService = new ChannelService(this.updateSubject, this.InterruptionManager);
         MovementManager = new MovementManager(this, this.updateSubject, this.navmeshAgent);
 
         health = GetStat(Stat.MaxHealth);
