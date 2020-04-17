@@ -8,8 +8,10 @@ public class ChannelService
     public float RemainingDuration { get; private set; }
     public float TotalDuration => _currentChannel.Duration;
 
-    public ChannelService(Subject updateSubject)
+    public ChannelService(Subject updateSubject, InterruptionManager interruptionManager)
     {
+        interruptionManager.Register(InterruptionType.Soft, () => Cancel());
+        
         updateSubject.Subscribe(() =>
         {
             if (!Active)
