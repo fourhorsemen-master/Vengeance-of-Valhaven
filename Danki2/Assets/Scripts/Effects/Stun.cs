@@ -12,5 +12,6 @@ public class Stun : Effect
     public override void Start(Actor actor)
     {
         actor.MovementManager.Stun(this.duration);
+        actor.InterruptionManager.Interrupt(InterruptionType.Hard);
     }
 }

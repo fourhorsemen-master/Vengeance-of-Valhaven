@@ -29,9 +29,9 @@ public abstract class Actor : MonoBehaviour
     {
         this.statsManager = new StatsManager(baseStats);
         EffectManager = new EffectManager(this, this.updateSubject, this.statsManager);
-        ChannelService = new ChannelService(this.updateSubject);
-        MovementManager = new MovementManager(this, this.updateSubject, this.navmeshAgent);
         InterruptionManager = new InterruptionManager();
+        ChannelService = new ChannelService(this.updateSubject, this.InterruptionManager);
+        MovementManager = new MovementManager(this, this.updateSubject, this.navmeshAgent);
 
         health = GetStat(Stat.MaxHealth);
         Dead = false;
