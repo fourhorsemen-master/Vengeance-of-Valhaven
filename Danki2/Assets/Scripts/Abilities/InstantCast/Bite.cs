@@ -29,6 +29,7 @@ public class Bite : InstantCast
                 if (owner.Opposes(actor))
                 {
                     actor.ModifyHealth(-damage);
+                    actor.InterruptionManager.Interrupt(InterruptionType.Soft);
                 }
             });
         });
