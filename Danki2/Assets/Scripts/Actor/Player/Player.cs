@@ -102,11 +102,6 @@ public class Player : Actor
         currentActionControlState = controlState;
     }
 
-    public void SubscribeToTreeWalk(Action<Node> callback)
-    {
-        AbilityTree.TreeWalkSubject.Subscribe(callback);
-    }
-
     protected override void OnDeath()
     {
         // TODO: Implement Player death.
