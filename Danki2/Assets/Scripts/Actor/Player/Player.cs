@@ -15,16 +15,16 @@ public class Player : Actor
     [HideInInspector]
     public float abilityTimeoutLimit = 5f;
 
-    private float _remainingDashCooldown = 0f;
+    private float remainingDashCooldown = 0f;
     private Direction lastCastDirection;
     private bool whiffed = true;
     private bool recievedCastFeedback = false;
     private int castIndex = 0;
 
-    private Coroutine _abilityTimeout = null;
+    private Coroutine abilityTimeout = null;
 
-    private ActionControlState _previousActionControlState = ActionControlState.None;
-    private ActionControlState _currentActionControlState = ActionControlState.None;
+    private ActionControlState previousActionControlState = ActionControlState.None;
+    private ActionControlState currentActionControlState = ActionControlState.None;
 
     [SerializeField]
     private TrailRenderer trailRenderer = null;
@@ -83,7 +83,7 @@ public class Player : Actor
 
     public void Dash(Vector3 direction)
     {
-        if (_remainingDashCooldown <= 0)
+        if (remainingDashCooldown <= 0)
         {
             MovementManager.LockMovement(
                 dashDuration,
@@ -91,7 +91,7 @@ public class Player : Actor
                 direction,
                 direction
             );
-            _remainingDashCooldown = totalDashCooldown;
+            remainingDashCooldown = totalDashCooldown;
             trailRenderer.emitting = true;
             StartCoroutine(EndDashVisualAfterDelay());
         }
@@ -99,7 +99,7 @@ public class Player : Actor
 
     public void SetCurrentControlState(ActionControlState controlState)
     {
-        _currentActionControlState = controlState;
+        currentActionControlState = controlState;
     }
 
     public void SubscribeToTreeWalk(Action<Node> callback)
@@ -117,14 +117,14 @@ public class Player : Actor
     {
         AbilityTree.CurrentDepthSubject.Subscribe((int treeDepth) =>
         {
-            if (_abilityTimeout != null)
+            if (abilityTimeout != null)
             {
-                StopCoroutine(_abilityTimeout);
+                StopCoroutine(abilityTimeout);
             }
 
             if (treeDepth > 0)
             {
-                _abilityTimeout = StartCoroutine(AbilityTimeoutCounter());
+                abilityTimeout = StartCoroutine(AbilityTimeoutCounter());
             }
         });
     }
@@ -133,13 +133,13 @@ public class Player : Actor
     {
         yield return new WaitForSeconds(abilityTimeoutLimit);
         AbilityTree.Reset();
-        this.whiffed = true;
-        this.recievedCastFeedback = false;
+        whiffed = true;
+        recievedCastFeedback = false;
     }
 
     private void TickDashCooldown()
     {
-        _remainingDashCooldown = Mathf.Max(0f, _remainingDashCooldown - Time.deltaTime);
+        remainingDashCooldown = Mathf.Max(0f, remainingDashCooldown - Time.deltaTime);
     }
 
     private void TickAbilityCooldown()
@@ -151,15 +151,15 @@ public class Player : Actor
         if (RemainingAbilityCooldown > 0f || CastingStatus != CastingStatus.Cooldown) return;
 
         CastingStatus = CastingStatus.Ready;
-        AbilityTree.Walk(this.lastCastDirection);
+        AbilityTree.Walk(lastCastDirection);
 
-        if (!AbilityTree.CanWalk() || this.whiffed)
+        if (!AbilityTree.CanWalk() || whiffed)
         {
             AbilityTree.Reset();
         }
 
-        this.whiffed = true;
-        this.recievedCastFeedback = false;
+        whiffed = true;
+        recievedCastFeedback = false;
     }
 
     private IEnumerator EndDashVisualAfterDelay()
@@ -172,12 +172,12 @@ public class Player : Actor
     {
         CastingCommand castingCommand = ControlMatrix.GetCastingCommand(
             CastingStatus,
-            _previousActionControlState,
-            _currentActionControlState
+            previousActionControlState,
+            currentActionControlState
         );
 
-        _previousActionControlState = _currentActionControlState;
-        _currentActionControlState = ActionControlState.None;
+        previousActionControlState = currentActionControlState;
+        currentActionControlState = ActionControlState.None;
 
         switch (castingCommand)
         {
@@ -209,13 +209,13 @@ public class Player : Actor
             return;
         }
 
-        this.castIndex += 1;
+        castIndex += 1;
 
         RemainingAbilityCooldown = abilityCooldown;
-        this.lastCastDirection = direction;
-        if (_abilityTimeout != null)
+        lastCastDirection = direction;
+        if (abilityTimeout != null)
         {
-            StopCoroutine(_abilityTimeout);
+            StopCoroutine(abilityTimeout);
         }
 
         AbilityReference abilityReference = AbilityTree.GetAbility(direction);
@@ -227,7 +227,7 @@ public class Player : Actor
 
         if (Ability.TryGetAsInstantCastBuilder(abilityReference, out var instantCastbuilder))
         {
-            InstantCast instantCast = instantCastbuilder(abilityContext, AbilitySuccessCallback(this.castIndex));
+            InstantCast instantCast = instantCastbuilder(abilityContext, AbilitySuccessCallback(castIndex));
             instantCast.Cast();
 
             CastingStatus = CastingStatus.Cooldown;
@@ -235,7 +235,7 @@ public class Player : Actor
 
         if (Ability.TryGetAsChannelBuilder(abilityReference, out var channelBuilder))
         {
-            Channel channel = channelBuilder(abilityContext, AbilitySuccessCallback(this.castIndex));
+            Channel channel = channelBuilder(abilityContext, AbilitySuccessCallback(castIndex));
             ChannelService.Start(channel);
 
             CastingStatus = direction == Direction.Left
@@ -250,10 +250,10 @@ public class Player : Actor
         {
             if (castIndex == this.castIndex && !recievedCastFeedback)
             {
-                this.recievedCastFeedback = true;
-                this.whiffed = !successful;
-                this.AbilityCompletionSubject.Next(
-                    new Tuple<bool, Direction>(successful, this.lastCastDirection)
+                recievedCastFeedback = true;
+                whiffed = !successful;
+                AbilityCompletionSubject.Next(
+                    new Tuple<bool, Direction>(successful, lastCastDirection)
                 );
             }
         };
