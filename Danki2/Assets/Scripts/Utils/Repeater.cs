@@ -31,7 +31,7 @@ public class Repeater
         // still gets called the right number of times.
         while (currentTime >= interval)
         {
-            action.Invoke();
+            action();
             currentTime -= interval;
         }
     }

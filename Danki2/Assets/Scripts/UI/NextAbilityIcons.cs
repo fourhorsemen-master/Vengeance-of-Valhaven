@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class NextAbilityIcons : MonoBehaviour
 {
-    private Player _player;
+    private Player player;
 
     // Image components
     [SerializeField]
@@ -24,9 +24,9 @@ public class NextAbilityIcons : MonoBehaviour
 
     private void Start()
     {
-        _player = RoomManager.Instance.Player;
-        _player.SubscribeToTreeWalk(TreeWalkCallback);
-        _player.AbilityCompletionSubject.Subscribe(IndicateAbilityCompletion);
+        player = RoomManager.Instance.Player;
+        player.SubscribeToTreeWalk(TreeWalkCallback);
+        player.AbilityCompletionSubject.Subscribe(IndicateAbilityCompletion);
     }
 
     private void IndicateAbilityCompletion(Tuple<bool, Direction> successDirectionTuple)

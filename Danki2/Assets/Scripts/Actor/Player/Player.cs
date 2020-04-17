@@ -61,10 +61,8 @@ public class Player : Actor
         );
     }
 
-    protected override void Start()
+    protected void Start()
     {
-        base.Start();
-
         this.gameObject.tag = Tags.Player;
 
         AbilityTimeoutSubscription();
@@ -78,10 +76,8 @@ public class Player : Actor
         TickAbilityCooldown();
     }
 
-    protected override void LateUpdate()
+    protected void LateUpdate()
     {
-        base.LateUpdate();
-
         HandleAbilities();
     }
 
@@ -89,7 +85,12 @@ public class Player : Actor
     {
         if (_remainingDashCooldown <= 0)
         {
-            LockMovement(dashDuration, GetStat(Stat.Speed) * dashSpeedMultiplier, direction);
+            MovementManager.LockMovement(
+                dashDuration,
+                GetStat(Stat.Speed) * dashSpeedMultiplier,
+                direction,
+                direction
+            );
             _remainingDashCooldown = totalDashCooldown;
             trailRenderer.emitting = true;
             StartCoroutine(EndDashVisualAfterDelay());
@@ -143,7 +144,7 @@ public class Player : Actor
 
     private void TickAbilityCooldown()
     {
-        if (_channelService.Active) return;
+        if (ChannelService.Active) return;
 
         RemainingAbilityCooldown = Mathf.Max(0f, RemainingAbilityCooldown - Time.deltaTime);
 
@@ -182,13 +183,13 @@ public class Player : Actor
         {
             case CastingCommand.ContinueChannel:
                 // Handle case where channel has ended naturally.
-                if (!_channelService.Active)
+                if (!ChannelService.Active)
                 {
                     CastingStatus = RemainingAbilityCooldown <= 0f ? CastingStatus.Ready : CastingStatus.Cooldown;
                 }
                 break;
             case CastingCommand.CancelChannel:
-                _channelService.Cancel();
+                ChannelService.Cancel();
                 CastingStatus = RemainingAbilityCooldown <= 0f ? CastingStatus.Ready : CastingStatus.Cooldown;
                 break;
             case CastingCommand.CastLeft:
@@ -235,7 +236,7 @@ public class Player : Actor
         if (Ability.TryGetAsChannelBuilder(abilityReference, out var channelBuilder))
         {
             Channel channel = channelBuilder(abilityContext, AbilitySuccessCallback(this.castIndex));
-            _channelService.Start(channel);
+            ChannelService.Start(channel);
 
             CastingStatus = direction == Direction.Left
                 ? CastingStatus.ChannelingLeft

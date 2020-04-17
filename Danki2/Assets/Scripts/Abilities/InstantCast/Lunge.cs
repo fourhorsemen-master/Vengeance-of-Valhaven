@@ -23,11 +23,11 @@ public class Lunge : InstantCast
         Vector3 direction = target - position;
         direction.y = position.y;
 
-        owner.LockMovement(
+        owner.MovementManager.LockMovement(
             LungeDuration,
             owner.GetStat(Stat.Speed) * LungeSpeedMultiplier,
             direction,
-            passThrough: true
+            direction
         );
 
         LungeObject.Create(position, Quaternion.LookRotation(target - position));
@@ -46,7 +46,7 @@ public class Lunge : InstantCast
             {
                 if (owner.Opposes(actor))
                 {
-                    actor.AddActiveEffect(new Stun(StunDuration), StunDuration);
+                    actor.EffectManager.AddActiveEffect(new Stun(StunDuration), StunDuration);
                     actor.ModifyHealth(-damage);
                     hasDealtDamage = true;
                 }

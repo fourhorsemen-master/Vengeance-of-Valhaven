@@ -421,6 +421,7 @@ GameObject:
   - component: {fileID: 1191838369}
   - component: {fileID: -5201030127241623248}
   - component: {fileID: -7333941826244338973}
+  - component: {fileID: 6918691881617835041}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -454,7 +455,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4777388720977389772}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2
@@ -491,10 +492,12 @@ MonoBehaviour:
   baseStats:
     _keys: 000000000100000002000000
     _values: 14000000040000000a000000
+  navmeshAgent: {fileID: 6918691881617835041}
   abilityCooldown: 1
   totalDashCooldown: 1
   dashDuration: 0.2
   dashSpeedMultiplier: 6
+  abilityTimeoutLimit: 5
   trailRenderer: {fileID: 1618317697}
 --- !u!114 &-7333941826244338973
 MonoBehaviour:
@@ -509,6 +512,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _player: {fileID: -5201030127241623248}
+--- !u!195 &6918691881617835041
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4777388720977389772}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1001 &790736082507517775
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -576,6 +601,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -2416733968201007103, guid: 38261334574d27247be8109271cf838b,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: f76ae783e4dd21f4d950630914721a85, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 38261334574d27247be8109271cf838b, type: 3}
 --- !u!4 &5729694221588784213 stripped

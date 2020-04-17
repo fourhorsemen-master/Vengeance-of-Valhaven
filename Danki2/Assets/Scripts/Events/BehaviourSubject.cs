@@ -4,26 +4,39 @@ using System.Collections.Generic;
 /// <summary>
 /// A stream of events that will emit an initial value and requires one for construction.
 /// </summary>
+/// <typeparam name="T"> The type of object that will be emitted by this subject. </typeparam>
 public class BehaviourSubject<T> : IObservable<T>
 {
     private T currentValue;
 
-    private readonly List<Action<T>> actions = new List<Action<T>>();
+    private readonly List<Subscription<T>> subscriptions = new List<Subscription<T>>();
 
     public BehaviourSubject(T initialValue)
     {
         currentValue = initialValue;
     }
 
-    public void Subscribe(Action<T> action)
+    /// <inheritdoc/>
+    public Subscription<T> Subscribe(Action<T> action)
     {
-        action.Invoke(currentValue);
-        actions.Add(action);
+        action(currentValue);
+
+        Subscription<T> subscription = new Subscription<T>(action);
+        subscriptions.Add(subscription);
+
+        return subscription;
     }
 
+    /// <inheritdoc/>
     public void Next(T value)
     {
         currentValue = value;
-        actions.ForEach(a => a.Invoke(currentValue));
+
+        subscriptions.RemoveAll(s =>
+        {
+            if (!s.Unsubscribed) s.Action(currentValue);
+
+            return s.Unsubscribed;
+        });
     }
 }

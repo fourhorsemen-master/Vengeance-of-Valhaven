@@ -1,26 +1,30 @@
-﻿using UnityEngine;
-
-public class ChannelScreenBar : ScreenBar
+﻿public class ChannelScreenBar : ScreenBar
 {
-    [SerializeField]
-    private Player _player = null;
+    private Player player;
+    private ChannelService channelService;
 
     private void Awake()
     {
         SetWidth(0f);
     }
 
+    private void Start()
+    {
+        this.player = RoomManager.Instance.Player;
+        this.channelService = this.player.ChannelService;
+    }
+
     private void Update()
     {
         if (
-            _player.CastingStatus != CastingStatus.ChannelingLeft
-            && _player.CastingStatus != CastingStatus.ChannelingRight
+            this.player.CastingStatus != CastingStatus.ChannelingLeft
+            && this.player.CastingStatus != CastingStatus.ChannelingRight
         )
         {
             SetWidth(0f);
             return;
         }
-
-        SetWidth(_player.RemainingChannelDuration / _player.TotalChannelDuration);
+                
+        SetWidth(this.channelService.RemainingDuration / this.channelService.TotalDuration);
     }
 }

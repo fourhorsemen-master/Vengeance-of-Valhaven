@@ -3,8 +3,8 @@ using UnityEngine;
 public class Bite : InstantCast
 {
     public const float Range = 2f;
-    private const float FinalRootDuration = 0.5f;
     private const float DelayBeforeDamage = 0.75f;
+    private const float PauseDuration = 0.3f;
 
     public Bite(AbilityContext context, Action<bool> completionCallback)
         : base(context, completionCallback)
@@ -41,6 +41,6 @@ public class Bite : InstantCast
         });
 
         BiteObject.Create(owner.transform);
-        owner.Root(FinalRootDuration, owner.transform.forward);
+        owner.MovementManager.Stun(PauseDuration);
     }
 }

@@ -2,16 +2,20 @@
 
 public class CooldownScreenBar : ScreenBar
 {
-    [SerializeField]
-    private Player _player = null;
+    private Player player;
 
     private void Awake()
     {
         SetWidth(0f);
     }
 
+    private void Start()
+    {
+        this.player = RoomManager.Instance.Player;
+    }
+
     private void Update()
     {
-        SetWidth(_player.RemainingAbilityCooldown / _player.abilityCooldown);
+        SetWidth(this.player.RemainingAbilityCooldown / this.player.abilityCooldown);
     }
 }
