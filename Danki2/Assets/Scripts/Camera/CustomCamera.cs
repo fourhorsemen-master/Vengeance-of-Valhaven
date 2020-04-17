@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class CustomCamera : MonoBehaviour
+public class CustomCamera : Singleton<CustomCamera>
 {
     [SerializeField]
     private GameObject target = null;
@@ -28,12 +28,6 @@ public class CustomCamera : MonoBehaviour
 
     private void Update()
     {
-        // TODO: Remove the following test key.
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            shakeManager.AddCameraShake(15f, 0.3f);
-        }
-
         UpdateRotation();
         FollowTarget();
         shakeManager.ApplyShake(transform);

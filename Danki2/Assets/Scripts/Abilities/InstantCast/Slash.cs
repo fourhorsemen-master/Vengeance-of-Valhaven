@@ -4,6 +4,7 @@ public class Slash : InstantCast
 {
     private const float Range = 4f;
     private const float DamageMultiplier = 1.5f;
+    private const float PauseDuration = 0.3f;
 
     public Slash(AbilityContext context) : base(context)
     {
@@ -18,6 +19,7 @@ public class Slash : InstantCast
         target.y = 0;
 
         float damage = owner.GetStat(Stat.Strength) * DamageMultiplier;
+        bool hasHit = false;
 
         CollisionTemplateManager.Instance.GetCollidingActors(
             CollisionTemplate.Wedge90,
@@ -29,9 +31,19 @@ public class Slash : InstantCast
             if (owner.Opposes(actor))
             {
                 actor.ModifyHealth(-damage);
+                hasHit = true;
             }
         });
 
-        GameObject.Instantiate(AbilityObjectPrefabLookup.Instance.SlashObjectPrefab, owner.transform);
+        GameObject slashObject = GameObject.Instantiate(AbilityObjectPrefabLookup.Instance.SlashObjectPrefab, owner.transform);
+
+        owner.MovementManager.LookAt(target);
+        owner.MovementManager.Stun(PauseDuration);
+
+        if (hasHit)
+        {
+            CustomCamera.Instance.AddShake(8f, 0.1f);
+            slashObject.GetComponent<SlashObject>().PlayThudSound();
+        }
     }
 }
