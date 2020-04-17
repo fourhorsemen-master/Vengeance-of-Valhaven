@@ -71,10 +71,8 @@ public class Player : Actor
         );
     }
 
-    protected override void Start()
+    protected void Start()
     {
-        base.Start();
-
         this.gameObject.tag = Tags.Player;
 
         AbilityTimeoutSubscription();
@@ -88,10 +86,8 @@ public class Player : Actor
         TickAbilityCooldown();
     }
 
-    protected override void LateUpdate()
+    protected void LateUpdate()
     {
-        base.LateUpdate();
-
         HandleAbilities();
     }
 
@@ -99,7 +95,12 @@ public class Player : Actor
     {
         if (_remainingDashCooldown <= 0)
         {
-            LockMovement(dashDuration, GetStat(Stat.Speed) * dashSpeedMultiplier, direction);
+            MovementManager.LockMovement(
+                dashDuration,
+                GetStat(Stat.Speed) * dashSpeedMultiplier,
+                direction,
+                direction
+            );
             _remainingDashCooldown = totalDashCooldown;
             trailRenderer.emitting = true;
             StartCoroutine(EndDashVisualAfterDelay());

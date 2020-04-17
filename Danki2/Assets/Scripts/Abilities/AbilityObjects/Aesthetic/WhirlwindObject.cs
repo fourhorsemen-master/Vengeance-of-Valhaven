@@ -1,25 +1,46 @@
 ﻿using UnityEngine;
+using UnityEngine.Experimental.VFX;
 
 public class WhirlwindObject : MonoBehaviour
 {
-    private const float _soundInterval = 0.35f;
-    private const float _minVolume = 0.4f;
-    private const float _maxVolume = 1f;
+    private const float soundInterval = 0.35f;
+    private const float minVolume = 0.4f;
+    private const float maxVolume = 1f;
+    private const float particleDissapationPeriod = 0.4f;
 
-    public AudioSource whirlwindSound = null;
+    private bool isDissipating = false;
 
-    public static WhirlwindObject Create(Vector3 position, Quaternion rotation)
+    private VisualEffect pfx;
+
+    [SerializeField]
+    private AudioSource whirlwindSound = null;
+
+    public static WhirlwindObject Create(Transform casterTransform)
     {
         WhirlwindObject prefab = AbilityObjectPrefabLookup.Instance.WhirlwindObjectPrefab;
-        return Instantiate(prefab, position, rotation);
+        return Instantiate(prefab, casterTransform);
+    }
+
+    public void DestroyWhirlwind()
+    {
+        pfx.Stop();
+        whirlwindSound.Stop();
+        isDissipating = true;
+        Destroy(gameObject, particleDissapationPeriod);
     }
 
     public void Start()
     {
-        this.ActOnInterval(_soundInterval, () => 
+
+        pfx = gameObject.GetComponent<VisualEffect>();
+
+        this.ActOnInterval(soundInterval, () =>
         {
-            whirlwindSound.volume = Random.Range(_minVolume, _maxVolume);
-            whirlwindSound.Play();
+            if (!isDissipating)
+            { 
+                whirlwindSound.volume = Random.Range(minVolume, maxVolume);
+                whirlwindSound.Play();
+            }
         });
     }
 }
