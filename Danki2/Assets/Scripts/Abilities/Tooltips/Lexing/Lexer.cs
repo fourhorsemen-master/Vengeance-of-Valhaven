@@ -17,7 +17,8 @@ public class Lexer
             if (IsString(c))
             {
                 currentString += c;
-            } else if (IsBrace(c))
+            }
+            else if (IsBrace(c))
             {
                 if (!currentString.Equals(""))
                 {
@@ -25,7 +26,7 @@ public class Lexer
                     currentString = "";
                 }
 
-                tokens.Add(new Token(TokenType.Brace, c.ToString()));
+                tokens.Add(new Token(GetBraceType(c), c.ToString()));
             }
         }
 
@@ -45,5 +46,10 @@ public class Lexer
     private bool IsBrace(char c)
     {
         return c.Equals(OpenBrace) || c.Equals(CloseBrace);
+    }
+
+    private TokenType GetBraceType(char brace)
+    {
+        return brace.Equals(OpenBrace) ? TokenType.OpenBrace : TokenType.CloseBrace;
     }
 }

@@ -1,5 +1,6 @@
 ﻿public enum TokenType
 {
     String,
-    Brace
+    OpenBrace,
+    CloseBrace
 }
