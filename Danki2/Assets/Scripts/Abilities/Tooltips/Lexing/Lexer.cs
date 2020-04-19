@@ -5,8 +5,6 @@ public class Lexer
     private const char OpenBrace = '{';
     private const char CloseBrace = '}';
 
-    private readonly string test = "Deals {DAMAGE} damage to targets in a cone.";
-    
     /// <summary>
     /// Turns a tooltip into a list of tokens. A token represents a distinct part of our tooltip templating
     /// language, for example, and open brace "{". The Lexer does not care about the syntax being correct,
