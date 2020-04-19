@@ -52,7 +52,7 @@ public class Whirlwind : Channel
     private void AOE(float radius, float damageMultiplier)
     {
         Actor owner = Context.Owner;
-        float damage = owner.GetStat(Stat.Strength) * damageMultiplier;
+        int damage = Mathf.CeilToInt(owner.GetStat(Stat.Strength) * damageMultiplier);
 
         CollisionTemplateManager.Instance.GetCollidingActors(
             CollisionTemplate.Cylinder,

@@ -31,7 +31,7 @@ public class Pounce : InstantCast
 
         owner.WaitAndAct(MovementDuration, () =>
         {
-            float damage = owner.GetStat(Stat.Strength);
+            int damage = Mathf.CeilToInt(owner.GetStat(Stat.Strength));
 
             CollisionTemplateManager.Instance.GetCollidingActors(
                 CollisionTemplate.Wedge90,

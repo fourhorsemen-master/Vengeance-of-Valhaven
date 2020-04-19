@@ -1,11 +1,11 @@
 ﻿class DOT : Effect
 {
-    private readonly float damagePerTick;
+    private readonly int damagePerTick;
     private readonly float tickInterval;
 
     private Repeater repeater;
 
-    public DOT(float damagePerTick, float tickInterval)
+    public DOT(int damagePerTick, float tickInterval)
     {
         this.damagePerTick = damagePerTick;
         this.tickInterval = tickInterval;
