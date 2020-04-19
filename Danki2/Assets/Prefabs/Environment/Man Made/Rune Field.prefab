@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5821190553751013172}
   - component: {fileID: 6995271765128502144}
   - component: {fileID: 266719204102536470}
+  - component: {fileID: 8575504195053733329}
   m_Layer: 0
   m_Name: Rune (large)
   m_TagString: Untagged
@@ -78,6 +79,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &8575504195053733329
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374432231043907327}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_Mesh: {fileID: -2432090755550338912, guid: 7ba28a5c52e83814cb570de219606fc5, type: 3}
 --- !u!1 &1421848423094359314
 GameObject:
   m_ObjectHideFlags: 0
@@ -123,6 +138,7 @@ GameObject:
   - component: {fileID: 2917279048064150169}
   - component: {fileID: 6453039072192438787}
   - component: {fileID: 8757169571553153944}
+  - component: {fileID: 6193418159026564962}
   m_Layer: 0
   m_Name: Rune (small)
   m_TagString: Untagged
@@ -190,6 +206,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &6193418159026564962
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3454712102100829655}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_Mesh: {fileID: -2432090755550338912, guid: 7ba28a5c52e83814cb570de219606fc5, type: 3}
 --- !u!1 &6455322400819013518
 GameObject:
   m_ObjectHideFlags: 0
@@ -201,6 +231,7 @@ GameObject:
   - component: {fileID: 6307686676881369894}
   - component: {fileID: 528448780019246638}
   - component: {fileID: 837677041131319261}
+  - component: {fileID: 1278382302117898700}
   m_Layer: 0
   m_Name: Rune (medium)
   m_TagString: Untagged
@@ -268,6 +299,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &1278382302117898700
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6455322400819013518}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_Mesh: {fileID: -2432090755550338912, guid: 7ba28a5c52e83814cb570de219606fc5, type: 3}
 --- !u!1 &8881785406251407108
 GameObject:
   m_ObjectHideFlags: 0
