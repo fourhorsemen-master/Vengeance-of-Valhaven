@@ -21,7 +21,7 @@ public class Smash : InstantCast
         Vector3 directionToTarget = target == position ? Vector3.right : (target - position).normalized;
         Vector3 center = position + (directionToTarget * DistanceFromCaster);
 
-        float damage = owner.GetStat(Stat.Strength) * DamageMultiplier;
+        int damage = Mathf.CeilToInt(owner.GetStat(Stat.Strength) * DamageMultiplier);
 
         CollisionTemplateManager.Instance.GetCollidingActors(
             CollisionTemplate.Cylinder,

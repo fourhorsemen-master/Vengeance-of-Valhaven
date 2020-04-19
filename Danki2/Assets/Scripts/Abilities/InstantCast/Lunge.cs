@@ -32,7 +32,7 @@ public class Lunge : InstantCast
 
         owner.WaitAndAct(LungeDuration, () =>
         {
-            float damage = owner.GetStat(Stat.Strength) * LungeDamageMultiplier;
+            int damage = Mathf.CeilToInt(owner.GetStat(Stat.Strength) * LungeDamageMultiplier);
 
             CollisionTemplateManager.Instance.GetCollidingActors(
                 CollisionTemplate.Wedge90,
