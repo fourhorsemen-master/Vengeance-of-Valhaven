@@ -2,6 +2,14 @@
 
 public class Parser
 {
+    /// <summary>
+    /// Parses a list of tokens into a list of templated tooltip segments. This list is a representation of the
+    /// parts of the tooltip that can be used to bind in the explicit values required for rendering.
+    ///
+    /// NOTE: This assumes that the tokens passed in have been validated to have the correct syntax.
+    /// </summary>
+    /// <param name="tokens"> The tokens to parse. </param>
+    /// <returns> The list of templated tooltip segments. </returns>
     public List<TemplatedTooltipSegment> Parse(List<Token> tokens)
     {
         List<TemplatedTooltipSegment> templatedTooltipSegments = new List<TemplatedTooltipSegment>();

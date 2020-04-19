@@ -1,4 +1,7 @@
-﻿public enum BindableProperty
+﻿/// <summary>
+/// Represents the properties that can be bound in to our tooltip strings.
+/// </summary>
+public enum BindableProperty
 {
     Damage,
     Heal,

@@ -2,6 +2,13 @@
 
 public class TokenValidator
 {
+    /// <summary>
+    /// Validates that a list of given tokens has valid syntax. This is so that the parser can make certain
+    /// assumptions about the tokens. For example, that an open brace "{" is followed by a valid bindable
+    /// property and then followed by a closing brace "}".
+    /// </summary>
+    /// <param name="tokens"> The tokens to validate </param>
+    /// <returns> Whether the given tokens have valid syntax. </returns>
     public bool HasValidSyntax(List<Token> tokens)
     {
         for (int i = 0; i < tokens.Count; i++)
