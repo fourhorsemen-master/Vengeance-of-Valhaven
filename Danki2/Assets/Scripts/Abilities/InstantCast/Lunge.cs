@@ -3,13 +3,15 @@ using UnityEngine;
 
 public class Lunge : InstantCast
 {
+    public static readonly AbilityData BaseAbilityData = new AbilityData(0, 0, 0);
+
     private const float LungeDuration = 0.2f;
     private const float LungeSpeedMultiplier = 6f;
     private const float LungeDamageMultiplier = 0.5f;
     private const float StunRange = 2f;
     private const float StunDuration = 0.5f;
 
-    public Lunge(AbilityContext context) : base(context)
+    public Lunge(AbilityContext context, AbilityData abilityData) : base(context, abilityData)
     {
     }
 

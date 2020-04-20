@@ -3,10 +3,12 @@ using UnityEngine;
 
 public class Slash : InstantCast
 {
+    public static readonly AbilityData BaseAbilityData = new AbilityData(0, 0, 0);
+    
     private const float Range = 4f;
     private const float DamageMultiplier = 1.5f;
 
-    public Slash(AbilityContext context) : base(context)
+    public Slash(AbilityContext context, AbilityData abilityData) : base(context, abilityData)
     {
     }
 

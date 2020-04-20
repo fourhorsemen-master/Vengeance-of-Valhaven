@@ -3,11 +3,13 @@ using UnityEngine;
 
 public class Smash : InstantCast
 {
+    public static readonly AbilityData BaseAbilityData = new AbilityData(0, 0, 0);
+
     private const float DistanceFromCaster = 1f;
     private const float Radius = 1f;
     private const float DamageMultiplier = 2f;
 
-    public Smash(AbilityContext context) : base(context)
+    public Smash(AbilityContext context, AbilityData abilityData) : base(context, abilityData)
     {
     }
 

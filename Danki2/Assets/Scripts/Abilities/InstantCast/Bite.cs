@@ -2,11 +2,13 @@
 using UnityEngine;
 public class Bite : InstantCast
 {
+    public static readonly AbilityData BaseAbilityData = new AbilityData(0, 0, 0);
+
     public const float Range = 2f;
     private const float DelayBeforeDamage = 0.75f;
     private const float PauseDuration = 0.3f;
 
-    public Bite(AbilityContext context) : base(context)
+    public Bite(AbilityContext context, AbilityData abilityData) : base(context, abilityData)
     {
     }
 

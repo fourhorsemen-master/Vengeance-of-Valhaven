@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class Whirlwind : Channel
 {
+    public static readonly AbilityData BaseAbilityData = new AbilityData(0, 0, 0);
+
     private const float spinRange = 2;
     private const float spinDamageMultiplier = 0.3f;
     private const float spinDamageInterval = 0.35f;
@@ -20,7 +22,7 @@ public class Whirlwind : Channel
 
     public override float Duration => 2f;
 
-    public Whirlwind(AbilityContext context) : base(context)
+    public Whirlwind(AbilityContext context, AbilityData abilityData) : base(context, abilityData)
     {
     }
 

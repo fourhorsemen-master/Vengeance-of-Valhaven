@@ -3,13 +3,15 @@ using UnityEngine;
 
 public class Pounce : InstantCast
 {
+    public static readonly AbilityData BaseAbilityData = new AbilityData(0, 0, 0);
+
     // The ai casting this ability should determine cast range
     private const float MovementDuration = 0.5f;
     private const float MovementSpeedMultiplier = 3f;
     private const float DamageRadius = 2f;
     private const float PauseDuration = 0.3f;
 
-    public Pounce(AbilityContext context) : base(context)
+    public Pounce(AbilityContext context, AbilityData abilityData) : base(context, abilityData)
     {
     }
 

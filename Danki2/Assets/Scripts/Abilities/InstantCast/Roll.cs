@@ -3,10 +3,12 @@ using UnityEngine;
 
 public class Roll : InstantCast
 {
+    public static readonly AbilityData BaseAbilityData = new AbilityData(0, 0, 0);
+
     private const float RollSpeedMultiplier = 4f;
     private const float RollDuration = 0.15f;
 
-    public Roll(AbilityContext context) : base(context)
+    public Roll(AbilityContext context, AbilityData abilityData) : base(context, abilityData)
     {
     }
 

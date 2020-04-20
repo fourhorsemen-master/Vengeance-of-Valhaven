@@ -3,6 +3,8 @@ using UnityEngine;
 
 class DaggerThrow : InstantCast
 {
+    public static readonly AbilityData BaseAbilityData = new AbilityData(0, 0, 0);
+
     private const float DaggerSpeed = 20f;
     private const float ImpactDamageMultiplier = 0.5f;
     private const float DamagePerTickMultiplier = 0.5f;
@@ -10,7 +12,7 @@ class DaggerThrow : InstantCast
     private const float DotDuration = 3f;
     private static readonly Vector3 positionTransform = new Vector3(0, 1.25f, 0);
 
-    public DaggerThrow(AbilityContext context) : base(context)
+    public DaggerThrow(AbilityContext context, AbilityData abilityData) : base(context, abilityData)
     {
     }
 
