@@ -4,7 +4,7 @@ public abstract class Channel : Ability
 {
     public abstract float Duration { get; }
 
-    public Channel(AbilityContext context) : base(context)
+    protected Channel(AbilityContext context) : base(context)
     {
     }
     

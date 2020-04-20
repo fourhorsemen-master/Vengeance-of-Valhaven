@@ -2,7 +2,7 @@
 
 public abstract class InstantCast : Ability
 {
-    public InstantCast(AbilityContext context) : base(context)
+    protected InstantCast(AbilityContext context) : base(context)
     {
     }
 
