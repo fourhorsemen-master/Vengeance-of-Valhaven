@@ -4,9 +4,9 @@ using UnityEngine;
 
 public static class MonoBehaviourExtensions
 {
-    public static void WaitAndAct(this MonoBehaviour monoBehaviour, float waitTime, Action action)
+    public static Coroutine WaitAndAct(this MonoBehaviour monoBehaviour, float waitTime, Action action)
     {
-        monoBehaviour.StartCoroutine(DelayedAction(waitTime, action));
+        return monoBehaviour.StartCoroutine(DelayedAction(waitTime, action));
     }
 
     public static void ActOnInterval(this MonoBehaviour monoBehaviour, float interval, Action action, float startDelay = 0f)

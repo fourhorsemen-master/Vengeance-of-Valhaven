@@ -26,7 +26,7 @@ public class NextAbilityIcons : MonoBehaviour
     {
         player = RoomManager.Instance.Player;
         player.AbilityTree.TreeWalkSubject.Subscribe(TreeWalkCallback);
-        player.AbilityCompletionSubject.Subscribe(IndicateAbilityCompletion);
+        player.AbilityManager.AbilityCompletionSubject.Subscribe(IndicateAbilityCompletion);
     }
 
     private void IndicateAbilityCompletion(Tuple<bool, Direction> successDirectionTuple)
