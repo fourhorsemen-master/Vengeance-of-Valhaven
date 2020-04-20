@@ -10,7 +10,8 @@ public abstract class Actor : MonoBehaviour
     private NavMeshAgent navmeshAgent = null;
 
     private StatsManager statsManager;
-    private readonly Subject updateSubject = new Subject();
+    protected readonly Subject updateSubject = new Subject();
+    protected readonly Subject lateUpdateSubject = new Subject();
 
     public ChannelService ChannelService { get; private set; }
     public EffectManager EffectManager { get; private set; }
@@ -47,6 +48,11 @@ public abstract class Actor : MonoBehaviour
         if (Dead) return;
 
         updateSubject.Next();
+    }
+
+    protected virtual void LateUpdate()
+    {
+        this.lateUpdateSubject.Next();
     }
 
     public int GetStat(Stat stat)
