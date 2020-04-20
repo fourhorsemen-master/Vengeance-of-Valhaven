@@ -18,8 +18,7 @@ public class Player : Actor
     private float remainingDashCooldown = 0f;
     private Direction lastCastDirection;
     private bool whiffed = true;
-    private bool recievedCastFeedback = false;
-    private int castIndex = 0;
+    private Subscription<bool> abilityFeedbackSubscription;
 
     private Coroutine abilityTimeout = null;
 
@@ -129,7 +128,6 @@ public class Player : Actor
         yield return new WaitForSeconds(abilityTimeoutLimit);
         AbilityTree.Reset();
         whiffed = true;
-        recievedCastFeedback = false;
     }
 
     private void TickDashCooldown()
@@ -145,6 +143,8 @@ public class Player : Actor
 
         if (RemainingAbilityCooldown > 0f || CastingStatus != CastingStatus.Cooldown) return;
 
+        abilityFeedbackSubscription.Unsubscribe();
+
         CastingStatus = CastingStatus.Ready;
         AbilityTree.Walk(lastCastDirection);
 
@@ -154,7 +154,6 @@ public class Player : Actor
         }
 
         whiffed = true;
-        recievedCastFeedback = false;
     }
 
     private IEnumerator EndDashVisualAfterDelay()
@@ -204,8 +203,6 @@ public class Player : Actor
             return;
         }
 
-        castIndex += 1;
-
         RemainingAbilityCooldown = abilityCooldown;
         lastCastDirection = direction;
         if (abilityTimeout != null)
@@ -223,10 +220,10 @@ public class Player : Actor
         if (Ability.TryGetInstantCast(
                 abilityReference,
                 abilityContext,
-                AbilitySuccessCallback(castIndex),
                 out InstantCast instantCast
         ))
         {
+            abilityFeedbackSubscription = instantCast.SuccessFeedbackSubject.Subscribe(AbilityFeedbackSubscription);
             instantCast.Cast();
             CastingStatus = CastingStatus.Cooldown;
         }
@@ -234,10 +231,10 @@ public class Player : Actor
         if (Ability.TryGetChannel(
                 abilityReference,
                 abilityContext,
-                AbilitySuccessCallback(castIndex),
                 out Channel channel
         ))
         {
+            abilityFeedbackSubscription = channel.SuccessFeedbackSubject.Subscribe(AbilityFeedbackSubscription);
             ChannelService.Start(channel);
             CastingStatus = direction == Direction.Left
                 ? CastingStatus.ChannelingLeft
@@ -245,18 +242,12 @@ public class Player : Actor
         }
     }
 
-    private Action<bool> AbilitySuccessCallback(int castIndex)
+    private void AbilityFeedbackSubscription(bool successful)
     {
-        return successful =>
-        {
-            if (castIndex == this.castIndex && !recievedCastFeedback)
-            {
-                recievedCastFeedback = true;
-                whiffed = !successful;
-                AbilityCompletionSubject.Next(
-                    new Tuple<bool, Direction>(successful, lastCastDirection)
-                );
-            }
-        };
+        abilityFeedbackSubscription.Unsubscribe();
+        whiffed = !successful;
+        AbilityCompletionSubject.Next(
+            new Tuple<bool, Direction>(successful, lastCastDirection)
+        );
     }
 }

@@ -3,45 +3,40 @@ using System.Collections.Generic;
 
 public class Ability
 {
-    private static Dictionary<AbilityReference, Func<AbilityContext, Action<bool>, InstantCast>> instantCasts 
-        = new Dictionary<AbilityReference, Func<AbilityContext, Action<bool>, InstantCast>>
+    private static Dictionary<AbilityReference, Func<AbilityContext, InstantCast>> instantCasts 
+        = new Dictionary<AbilityReference, Func<AbilityContext, InstantCast>>
     {
-        { AbilityReference.Slash, (c, b) => new Slash(c, b) },
-        { AbilityReference.Fireball, (c, b) => new Fireball(c, b) },
-        { AbilityReference.DaggerThrow, (c, b) => new DaggerThrow(c, b) },
-        { AbilityReference.Bite, (c, b) => new Bite(c, b) },
-        { AbilityReference.Roll, (c, b) => new Roll(c, b) },
-        { AbilityReference.Lunge, (c, b) => new Lunge(c, b) },
-        { AbilityReference.Pounce, (c, b) => new Pounce(c, b) },
-        { AbilityReference.Smash, (c, b) => new Smash(c, b) },
+        { AbilityReference.Slash, (c) => new Slash(c) },
+        { AbilityReference.Fireball, (c) => new Fireball(c) },
+        { AbilityReference.DaggerThrow, (c) => new DaggerThrow(c) },
+        { AbilityReference.Bite, (c) => new Bite(c) },
+        { AbilityReference.Roll, (c) => new Roll(c) },
+        { AbilityReference.Lunge, (c) => new Lunge(c) },
+        { AbilityReference.Pounce, (c) => new Pounce(c) },
+        { AbilityReference.Smash, (c) => new Smash(c) },
     };
 
-    private static Dictionary<AbilityReference, Func<AbilityContext, Action<bool>, Channel>> channels 
-        = new Dictionary<AbilityReference, Func<AbilityContext, Action<bool>, Channel>>
+    private static Dictionary<AbilityReference, Func<AbilityContext, Channel>> channels 
+        = new Dictionary<AbilityReference, Func<AbilityContext, Channel>>
     {
-        { AbilityReference.Whirlwind, (c, b) => new Whirlwind(c, b) },
+        { AbilityReference.Whirlwind, (c) => new Whirlwind(c) },
     };
 
-    protected readonly Action<bool> isSuccessfulCallback;
+    public Subject<bool> SuccessFeedbackSubject { get; }
 
     public AbilityContext Context { get; }
 
-    public Ability(AbilityContext context, Action<bool> completionCallback)
+    public Ability(AbilityContext context)
     {
         Context = context;
-        this.isSuccessfulCallback = completionCallback;
+        SuccessFeedbackSubject = new Subject<bool>();
     }
 
-    public static bool TryGetInstantCast(
-        AbilityReference abilityReference,
-        AbilityContext abilityContext,
-        Action<bool> completionCallback,
-        out InstantCast ability
-    )
+    public static bool TryGetInstantCast(AbilityReference abilityReference, AbilityContext abilityContext, out InstantCast ability)
     {
         if (instantCasts.ContainsKey(abilityReference))
         {
-            ability = instantCasts[abilityReference](abilityContext, completionCallback);
+            ability = instantCasts[abilityReference](abilityContext);
             return true;
         }
 
@@ -49,16 +44,11 @@ public class Ability
         return false;
     }
 
-    public static bool TryGetChannel(
-        AbilityReference abilityReference,
-        AbilityContext abilityContext,
-        Action<bool> completionCallback,
-        out Channel ability
-    )
+    public static bool TryGetChannel(AbilityReference abilityReference, AbilityContext abilityContext, out Channel ability)
     {
         if (channels.ContainsKey(abilityReference))
         {
-            ability = channels[abilityReference](abilityContext, completionCallback);
+            ability = channels[abilityReference](abilityContext);
             return true;
         }
 

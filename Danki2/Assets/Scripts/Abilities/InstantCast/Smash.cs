@@ -7,8 +7,7 @@ public class Smash : InstantCast
     private const float Radius = 1f;
     private const float DamageMultiplier = 2f;
 
-    public Smash(AbilityContext context, Action<bool> completionCallback)
-        : base(context, completionCallback)
+    public Smash(AbilityContext context) : base(context)
     {
     }
 
@@ -40,6 +39,6 @@ public class Smash : InstantCast
         });
 
         SmashObject.Create(position, Quaternion.LookRotation(target - position));
-        this.isSuccessfulCallback(hasDealtDamage);
+        SuccessFeedbackSubject.Next(hasDealtDamage);
     }
 }

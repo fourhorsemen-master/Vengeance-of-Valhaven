@@ -9,8 +9,7 @@ public class Lunge : InstantCast
     private const float StunRange = 2f;
     private const float StunDuration = 0.5f;
 
-    public Lunge(AbilityContext context, Action<bool> completionCallback)
-        : base(context, completionCallback)
+    public Lunge(AbilityContext context) : base(context)
     {
     }
 
@@ -52,7 +51,7 @@ public class Lunge : InstantCast
                 }
             });
 
-            this.isSuccessfulCallback(hasDealtDamage);
+            SuccessFeedbackSubject.Next(hasDealtDamage);
         });
     }
 }

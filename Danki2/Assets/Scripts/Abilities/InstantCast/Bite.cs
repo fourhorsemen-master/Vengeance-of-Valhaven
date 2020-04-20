@@ -6,8 +6,7 @@ public class Bite : InstantCast
     private const float DelayBeforeDamage = 0.75f;
     private const float PauseDuration = 0.3f;
 
-    public Bite(AbilityContext context, Action<bool> completionCallback)
-        : base(context, completionCallback)
+    public Bite(AbilityContext context) : base(context)
     {
     }
 
@@ -38,7 +37,7 @@ public class Bite : InstantCast
                 }
             });
 
-            this.isSuccessfulCallback(hasDealtDamage);
+            SuccessFeedbackSubject.Next(hasDealtDamage);
         });
 
         BiteObject.Create(owner.transform);

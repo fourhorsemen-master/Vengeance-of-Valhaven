@@ -6,8 +6,7 @@ public class Roll : InstantCast
     private const float RollSpeedMultiplier = 4f;
     private const float RollDuration = 0.15f;
 
-    public Roll(AbilityContext context, Action<bool> completionCallback)
-        : base(context, completionCallback)
+    public Roll(AbilityContext context) : base(context)
     {
     }
 
@@ -28,6 +27,6 @@ public class Roll : InstantCast
 
         RollObject.Create(owner.transform);
 
-        this.isSuccessfulCallback(true);
+        SuccessFeedbackSubject.Next(true);
     }
 }

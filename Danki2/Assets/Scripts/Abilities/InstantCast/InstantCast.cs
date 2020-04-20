@@ -2,8 +2,7 @@
 
 public abstract class InstantCast : Ability
 {
-    public InstantCast(AbilityContext context, Action<bool> completionCallback) 
-        : base(context, completionCallback)
+    public InstantCast(AbilityContext context) : base(context)
     {
     }
 
