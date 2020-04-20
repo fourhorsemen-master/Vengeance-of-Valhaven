@@ -36,5 +36,9 @@ public class Fireball : InstantCast
 
             completionCallback(true);
         }
+        else
+        {
+            completionCallback(false);
+        }
     }
 }

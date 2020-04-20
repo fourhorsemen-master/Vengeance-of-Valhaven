@@ -45,5 +45,9 @@ class DaggerThrow : InstantCast
 
             completionCallback(true);
         }
+        else
+        {
+            completionCallback(false);
+        }
     }
 }
