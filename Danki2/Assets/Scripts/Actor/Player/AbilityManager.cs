@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using UnityEngine;
 
 public class AbilityManager
@@ -9,12 +8,12 @@ public class AbilityManager
     private readonly float abilityCooldown;
     private Direction lastCastDirection;
     private bool whiffed = true;
-    private bool recievedCastFeedback = false;
-    private int castIndex = 0;
     private Coroutine abilityTimeout = null;
-    private ActionControlState previousActionControlState = ActionControlState.None;
+    private Subscription<bool> abilityFeedbackSubscription;
 
+    private ActionControlState previousActionControlState = ActionControlState.None;
     public ActionControlState currentActionControlState { get; set; } = ActionControlState.None;
+
     public float RemainingAbilityCooldown { get; private set; } = 0f;
     public CastingStatus CastingStatus { get; private set; } = CastingStatus.Ready;
     public Subject<Tuple<bool, Direction>> AbilityCompletionSubject { get; } = new Subject<Tuple<bool, Direction>>();
@@ -35,7 +34,7 @@ public class AbilityManager
     {
         currentActionControlState = controlState;
     }
-
+    
     private void TickAbilityCooldown()
     {
         if (player.ChannelService.Active) return;
@@ -43,6 +42,8 @@ public class AbilityManager
         RemainingAbilityCooldown = Mathf.Max(0f, RemainingAbilityCooldown - Time.deltaTime);
 
         if (RemainingAbilityCooldown > 0f || CastingStatus != CastingStatus.Cooldown) return;
+
+        abilityFeedbackSubscription.Unsubscribe();
 
         CastingStatus = CastingStatus.Ready;
         player.AbilityTree.Walk(lastCastDirection);
@@ -53,7 +54,6 @@ public class AbilityManager
         }
 
         whiffed = true;
-        recievedCastFeedback = false;
     }
 
     private void AbilityTimeoutSubscription()
@@ -71,7 +71,6 @@ public class AbilityManager
                 {
                     player.AbilityTree.Reset();
                     whiffed = true;
-                    recievedCastFeedback = false;
                 });
             }
         });
@@ -118,8 +117,6 @@ public class AbilityManager
             return;
         }
 
-        castIndex += 1;
-
         RemainingAbilityCooldown = abilityCooldown;
         lastCastDirection = direction;
         if (abilityTimeout != null)
@@ -134,37 +131,37 @@ public class AbilityManager
             MouseGamePositionFinder.Instance.GetMouseGamePosition()
         );
 
-        if (Ability.TryGetAsInstantCastBuilder(abilityReference, out var instantCastbuilder))
+        if (Ability.TryGetInstantCast(
+                abilityReference,
+                abilityContext,
+                out InstantCast instantCast
+        ))
         {
-            InstantCast instantCast = instantCastbuilder(abilityContext, AbilitySuccessCallback(castIndex));
+            abilityFeedbackSubscription = instantCast.SuccessFeedbackSubject.Subscribe(AbilityFeedbackSubscription);
             instantCast.Cast();
-
             CastingStatus = CastingStatus.Cooldown;
         }
 
-        if (Ability.TryGetAsChannelBuilder(abilityReference, out var channelBuilder))
+        if (Ability.TryGetChannel(
+                abilityReference,
+                abilityContext,
+                out Channel channel
+        ))
         {
-            Channel channel = channelBuilder(abilityContext, AbilitySuccessCallback(castIndex));
+            abilityFeedbackSubscription = channel.SuccessFeedbackSubject.Subscribe(AbilityFeedbackSubscription);
             player.ChannelService.Start(channel);
-
             CastingStatus = direction == Direction.Left
                 ? CastingStatus.ChannelingLeft
                 : CastingStatus.ChannelingRight;
         }
     }
 
-    private Action<bool> AbilitySuccessCallback(int castIndex)
+    private void AbilityFeedbackSubscription(bool successful)
     {
-        return successful =>
-        {
-            if (castIndex == this.castIndex && !recievedCastFeedback)
-            {
-                recievedCastFeedback = true;
-                whiffed = !successful;
-                AbilityCompletionSubject.Next(
-                    new Tuple<bool, Direction>(successful, lastCastDirection)
-                );
-            }
-        };
+        abilityFeedbackSubscription.Unsubscribe();
+        whiffed = !successful;
+        AbilityCompletionSubject.Next(
+            new Tuple<bool, Direction>(successful, lastCastDirection)
+        );
     }
 }

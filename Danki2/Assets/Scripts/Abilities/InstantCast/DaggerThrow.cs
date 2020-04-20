@@ -10,8 +10,7 @@ class DaggerThrow : InstantCast
     private const float DotDuration = 3f;
     private static readonly Vector3 positionTransform = new Vector3(0, 1.25f, 0);
 
-    public DaggerThrow(AbilityContext context, Action<bool> completionCallback)
-        : base(context, completionCallback)
+    public DaggerThrow(AbilityContext context) : base(context)
     {
     }
 
@@ -31,19 +30,23 @@ class DaggerThrow : InstantCast
 
             if (!actor.Opposes(Context.Owner))
             {
-                completionCallback(false);
+                SuccessFeedbackSubject.Next(false);
                 return;
             }
 
             int strength = Context.Owner.GetStat(Stat.Strength);
 
-            float impactDamage = strength * ImpactDamageMultiplier;
+            int impactDamage = Mathf.CeilToInt(strength * ImpactDamageMultiplier);
             actor.ModifyHealth(-impactDamage);
 
-            float damagePerTick = strength * DamagePerTickMultiplier;
+            int damagePerTick = Mathf.CeilToInt(strength * DamagePerTickMultiplier);
             actor.EffectManager.AddActiveEffect(new DOT(damagePerTick, DamageTickInterval), DotDuration);
 
-            completionCallback(true);
+            SuccessFeedbackSubject.Next(true);
+        }
+        else
+        {
+            SuccessFeedbackSubject.Next(false);
         }
     }
 }

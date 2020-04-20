@@ -20,8 +20,7 @@ public class Whirlwind : Channel
 
     public override float Duration => 2f;
 
-    public Whirlwind(AbilityContext context, Action<bool> completionCallback)
-        : base(context, completionCallback)
+    public Whirlwind(AbilityContext context) : base(context)
     {
     }
 
@@ -42,7 +41,7 @@ public class Whirlwind : Channel
 
     public override void Cancel()
     {
-        if (!this.hasHitActor) this.completionCallback(false);
+        if (!this.hasHitActor) SuccessFeedbackSubject.Next(false);
 
         Context.Owner.EffectManager.RemovePassiveEffect(slowEffectId);
         whirlwindObject.DestroyWhirlwind();
@@ -52,7 +51,7 @@ public class Whirlwind : Channel
     {
         AOE(finishRange, finishDamageMultiplier);
 
-        if (!this.hasHitActor) this.completionCallback(false);
+        if (!this.hasHitActor) SuccessFeedbackSubject.Next(false);
 
         Context.Owner.EffectManager.RemovePassiveEffect(slowEffectId);
         whirlwindObject.DestroyWhirlwind();
@@ -61,7 +60,7 @@ public class Whirlwind : Channel
     private void AOE(float radius, float damageMultiplier)
     {
         Actor owner = Context.Owner;
-        float damage = owner.GetStat(Stat.Strength) * damageMultiplier;
+        int damage = Mathf.CeilToInt(owner.GetStat(Stat.Strength) * damageMultiplier);
 
         CollisionTemplateManager.Instance.GetCollidingActors(
             CollisionTemplate.Cylinder,
@@ -77,6 +76,6 @@ public class Whirlwind : Channel
             }
         });
 
-        if (this.hasHitActor) this.completionCallback(true);
+        if (this.hasHitActor) SuccessFeedbackSubject.Next(true);
     }
 }

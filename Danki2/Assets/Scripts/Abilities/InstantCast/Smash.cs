@@ -7,8 +7,7 @@ public class Smash : InstantCast
     private const float Radius = 1f;
     private const float DamageMultiplier = 2f;
 
-    public Smash(AbilityContext context, Action<bool> completionCallback)
-        : base(context, completionCallback)
+    public Smash(AbilityContext context) : base(context)
     {
     }
 
@@ -23,7 +22,7 @@ public class Smash : InstantCast
         Vector3 directionToTarget = target == position ? Vector3.right : (target - position).normalized;
         Vector3 center = position + (directionToTarget * DistanceFromCaster);
 
-        float damage = owner.GetStat(Stat.Strength) * DamageMultiplier;
+        int damage = Mathf.CeilToInt(owner.GetStat(Stat.Strength) * DamageMultiplier);
         bool hasDealtDamage = false;
 
         CollisionTemplateManager.Instance.GetCollidingActors(
@@ -40,6 +39,6 @@ public class Smash : InstantCast
         });
 
         SmashObject.Create(position, Quaternion.LookRotation(target - position));
-        this.completionCallback(hasDealtDamage);
+        SuccessFeedbackSubject.Next(hasDealtDamage);
     }
 }

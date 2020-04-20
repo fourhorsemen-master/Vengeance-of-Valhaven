@@ -9,8 +9,7 @@ public class Pounce : InstantCast
     private const float DamageRadius = 2f;
     private const float PauseDuration = 0.3f;
 
-    public Pounce(AbilityContext context, Action<bool> completionCallback)
-        : base(context, completionCallback)
+    public Pounce(AbilityContext context) : base(context)
     {
     }
 
@@ -33,7 +32,7 @@ public class Pounce : InstantCast
 
         owner.WaitAndAct(MovementDuration, () =>
         {
-            float damage = owner.GetStat(Stat.Strength);
+            int damage = Mathf.CeilToInt(owner.GetStat(Stat.Strength));
             bool hasDealtDamage = false;
 
             CollisionTemplateManager.Instance.GetCollidingActors(
@@ -51,7 +50,7 @@ public class Pounce : InstantCast
             });
 
             owner.MovementManager.Stun(PauseDuration);
-            this.completionCallback(hasDealtDamage);
+            SuccessFeedbackSubject.Next(hasDealtDamage);
         });
     }
 }

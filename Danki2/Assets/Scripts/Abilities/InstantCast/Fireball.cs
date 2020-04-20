@@ -6,8 +6,7 @@ public class Fireball : InstantCast
     private const float FireballSpeed = 5;
     private static readonly Vector3 _positionTransform = new Vector3(0, 1.25f, 0);
 
-    public Fireball(AbilityContext context, Action<bool> completionCallback)
-        : base(context, completionCallback)
+    public Fireball(AbilityContext context) : base(context)
     {
     }
 
@@ -27,14 +26,18 @@ public class Fireball : InstantCast
 
             if (!actor.Opposes(Context.Owner))
             {
-                completionCallback(false);
+                SuccessFeedbackSubject.Next(false);
                 return;
             }
 
             int strength = Context.Owner.GetStat(Stat.Strength);
             actor.ModifyHealth(-strength);
 
-            completionCallback(true);
+            SuccessFeedbackSubject.Next(true);
+        }
+        else
+        {
+            SuccessFeedbackSubject.Next(false);
         }
     }
 }

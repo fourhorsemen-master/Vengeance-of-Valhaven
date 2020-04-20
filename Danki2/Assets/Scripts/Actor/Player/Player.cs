@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
 public class Player : Actor
@@ -51,7 +50,7 @@ public class Player : Actor
 
     protected void Start()
     {
-        this.gameObject.tag = Tags.Player;
+        gameObject.tag = Tags.Player;
     }
 
     protected override void Update()

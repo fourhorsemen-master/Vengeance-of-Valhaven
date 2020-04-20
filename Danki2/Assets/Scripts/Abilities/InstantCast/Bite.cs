@@ -6,15 +6,14 @@ public class Bite : InstantCast
     private const float DelayBeforeDamage = 0.75f;
     private const float PauseDuration = 0.3f;
 
-    public Bite(AbilityContext context, Action<bool> completionCallback)
-        : base(context, completionCallback)
+    public Bite(AbilityContext context) : base(context)
     {
     }
 
     public override void Cast()
     {  
         Actor owner = Context.Owner;
-        float damage = owner.GetStat(Stat.Strength);
+        int damage = owner.GetStat(Stat.Strength);
         Vector3 position = owner.transform.position;
         Vector3 targetPosition = Context.TargetPosition;
         targetPosition.y = 0f;
@@ -38,7 +37,7 @@ public class Bite : InstantCast
                 }
             });
 
-            this.completionCallback(hasDealtDamage);
+            SuccessFeedbackSubject.Next(hasDealtDamage);
         });
 
         BiteObject.Create(owner.transform);

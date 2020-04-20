@@ -4,8 +4,7 @@ public abstract class Channel : Ability
 {
     public abstract float Duration { get; }
 
-    public Channel(AbilityContext context, Action<bool> completionCallback) 
-        : base(context, completionCallback)
+    public Channel(AbilityContext context) : base(context)
     {
     }
     
