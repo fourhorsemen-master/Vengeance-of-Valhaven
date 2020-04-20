@@ -20,7 +20,10 @@ public class SlashVisual : MonoBehaviour
         _meshRenderer.material.SetColor("Color", _desiredColor);
         _meshRenderer.enabled = true;
 
-        transform.LookAt(MouseGamePositionFinder.Instance.GetFlooredMouseGamePosition());
+
+        Vector3 mousePosition = MouseGamePositionFinder.Instance.GetMouseGamePosition();
+        mousePosition.y = transform.position.y;
+        transform.LookAt(mousePosition);
     }
 
     private void Update()
