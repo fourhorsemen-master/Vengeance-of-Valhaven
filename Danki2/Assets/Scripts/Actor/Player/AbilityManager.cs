@@ -6,13 +6,13 @@ public class AbilityManager
 	private readonly Player player;
     private readonly float abilityTimeoutLimit;
     private readonly float abilityCooldown;
+
     private Direction lastCastDirection;
     private bool whiffed = true;
     private Coroutine abilityTimeout = null;
     private Subscription<bool> abilityFeedbackSubscription;
-
     private ActionControlState previousActionControlState = ActionControlState.None;
-    public ActionControlState currentActionControlState { get; set; } = ActionControlState.None;
+    private ActionControlState currentActionControlState = ActionControlState.None;
 
     public float RemainingAbilityCooldown { get; private set; } = 0f;
     public CastingStatus CastingStatus { get; private set; } = CastingStatus.Ready;
