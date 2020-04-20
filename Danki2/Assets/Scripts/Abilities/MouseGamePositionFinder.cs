@@ -1,48 +1,34 @@
 ﻿using UnityEngine;
+using UnityEngine.AI;
 
 public class MouseGamePositionFinder : Singleton<MouseGamePositionFinder>
 {
     [SerializeField]
-    private float _planeHeight = 0;
-
-    private Plane _plane;
-
-    protected override void Awake()
-    {
-        base.Awake();
-
-        _plane = new Plane(Vector3.up, _planeHeight * Vector3.up);
-    }
+    private float heightOffset = 0;
 
     /// <summary>
-    /// Returns position of mouse when projected to a horizontal plane at the height set on
-    /// this component.
+    /// Returns the position that a ray from the camera to the mouse collides with a collider, factoring in an offset height.
     /// </summary>
     /// <returns></returns>
     public Vector3 GetMouseGamePosition()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        if (_plane.Raycast(ray, out float enter))
+        if (Physics.Raycast(ray, out RaycastHit raycastHit))
         {
-            return ray.GetPoint(enter);
+            if (NavMesh.SamplePosition(raycastHit.point, out NavMeshHit navMeshHit, heightOffset, NavMesh.AllAreas))
+            {
+                Vector3 position = navMeshHit.position;
+                position.y += heightOffset;
+                return position;
+            }
+
+            return raycastHit.point;
         }
         else
         {
             Debug.LogError("Unable to find mouse position in world");
             return default;
         }
-    }
-
-    /// <summary>
-    /// Returns the position of the mouse when projected onto the horizontal plane, of the
-    /// height set on this component, and then casts down to the floor.
-    /// </summary>
-    /// <returns></returns>
-    public Vector3 GetFlooredMouseGamePosition()
-    {
-        Vector3 mouseGamePosition = GetMouseGamePosition();
-        mouseGamePosition.y = 0;
-        return mouseGamePosition;
     }
 }
