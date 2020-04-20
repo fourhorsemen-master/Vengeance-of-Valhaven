@@ -31,8 +31,7 @@ public class NextAbilityIcons : MonoBehaviour
 
     private void IndicateAbilityCompletion(Tuple<bool, Direction> successDirectionTuple)
     {
-        bool success = successDirectionTuple.Item1;
-        Direction direction = successDirectionTuple.Item2;
+        (bool success, Direction direction) = successDirectionTuple;
 
         Image icon = direction == Direction.Left ? _leftAbilityFrame : _rightAbilityFrame;
         icon.color = success ? Color.green : Color.red;
