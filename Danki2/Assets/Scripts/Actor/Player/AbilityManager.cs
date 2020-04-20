@@ -131,7 +131,7 @@ public class AbilityManager
             MouseGamePositionFinder.Instance.GetMouseGamePosition()
         );
 
-        if (Ability.TryGetInstantCast(
+        if (AbilityLookup.TryGetInstantCast(
                 abilityReference,
                 abilityContext,
                 out InstantCast instantCast
@@ -142,7 +142,7 @@ public class AbilityManager
             CastingStatus = CastingStatus.Cooldown;
         }
 
-        if (Ability.TryGetChannel(
+        if (AbilityLookup.TryGetChannel(
                 abilityReference,
                 abilityContext,
                 out Channel channel
