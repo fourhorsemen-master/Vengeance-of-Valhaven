@@ -12,14 +12,12 @@ public abstract class Actor : MonoBehaviour
     private StatsManager statsManager;
     private readonly Subject updateSubject = new Subject();
 
-    private float health;
-
     public ChannelService ChannelService { get; private set; }
     public EffectManager EffectManager { get; private set; }
     public MovementManager MovementManager { get; private set; }
     public InterruptionManager InterruptionManager { get; private set; }
     public Actor Target { get; set; } = null;
-    public int Health => Mathf.CeilToInt(health);
+    public int Health { get; private set; }
     public bool Dead { get; private set; }
     public bool IsDamaged => Health < GetStat(Stat.MaxHealth);
 
@@ -27,19 +25,19 @@ public abstract class Actor : MonoBehaviour
 
     protected virtual void Awake()
     {
-        this.statsManager = new StatsManager(baseStats);
-        EffectManager = new EffectManager(this, this.updateSubject, this.statsManager);
+        statsManager = new StatsManager(baseStats);
+        EffectManager = new EffectManager(this, updateSubject, statsManager);
         InterruptionManager = new InterruptionManager();
-        ChannelService = new ChannelService(this.updateSubject, this.InterruptionManager);
-        MovementManager = new MovementManager(this, this.updateSubject, this.navmeshAgent);
+        ChannelService = new ChannelService(updateSubject, InterruptionManager);
+        MovementManager = new MovementManager(this, updateSubject, navmeshAgent);
 
-        health = GetStat(Stat.MaxHealth);
+        Health = GetStat(Stat.MaxHealth);
         Dead = false;
     }
 
     protected virtual void Update()
     {
-        if (health <= 0f && !Dead)
+        if (Health <= 0 && !Dead)
         {
             MovementManager.StopPathfinding();
             OnDeath();
@@ -48,24 +46,24 @@ public abstract class Actor : MonoBehaviour
 
         if (Dead) return;
 
-        this.updateSubject.Next();
+        updateSubject.Next();
     }
 
     public int GetStat(Stat stat)
     {
-        return this.statsManager[stat];
+        return statsManager[stat];
     }
 
-    public void ModifyHealth(float healthChange)
+    public void ModifyHealth(int healthChange)
     {
         if (Dead) return;
 
-        this.health = Mathf.Min(this.health + healthChange, GetStat(Stat.MaxHealth));
+        Health = Mathf.Min(Health + healthChange, GetStat(Stat.MaxHealth));
     }
         
     public bool Opposes(Actor target)
     {
-        return this.tag != target.tag;
+        return tag != target.tag;
     }
 
     protected abstract void OnDeath();

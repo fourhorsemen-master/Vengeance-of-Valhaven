@@ -17,7 +17,7 @@ public class Slash : InstantCast
         Vector3 target = Context.TargetPosition;
         target.y = 0;
 
-        float damage = owner.GetStat(Stat.Strength) * DamageMultiplier;
+        int damage = Mathf.CeilToInt(owner.GetStat(Stat.Strength) * DamageMultiplier);
 
         CollisionTemplateManager.Instance.GetCollidingActors(
             CollisionTemplate.Wedge90,
