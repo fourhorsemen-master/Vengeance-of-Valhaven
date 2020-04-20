@@ -220,19 +220,25 @@ public class Player : Actor
             MouseGamePositionFinder.Instance.GetMouseGamePosition()
         );
 
-        if (Ability.TryGetAsInstantCastBuilder(abilityReference, out var instantCastbuilder))
+        if (Ability.TryGetInstantCast(
+                abilityReference,
+                abilityContext,
+                AbilitySuccessCallback(castIndex),
+                out InstantCast instantCast
+        ))
         {
-            InstantCast instantCast = instantCastbuilder(abilityContext, AbilitySuccessCallback(castIndex));
             instantCast.Cast();
-
             CastingStatus = CastingStatus.Cooldown;
         }
 
-        if (Ability.TryGetAsChannelBuilder(abilityReference, out var channelBuilder))
+        if (Ability.TryGetChannel(
+                abilityReference,
+                abilityContext,
+                AbilitySuccessCallback(castIndex),
+                out Channel channel
+        ))
         {
-            Channel channel = channelBuilder(abilityContext, AbilitySuccessCallback(castIndex));
             ChannelService.Start(channel);
-
             CastingStatus = direction == Direction.Left
                 ? CastingStatus.ChannelingLeft
                 : CastingStatus.ChannelingRight;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class Ability
 {
-    private static Dictionary<AbilityReference, Func<AbilityContext, Action<bool>, InstantCast>> _instantCasts 
+    private static Dictionary<AbilityReference, Func<AbilityContext, Action<bool>, InstantCast>> instantCasts 
         = new Dictionary<AbilityReference, Func<AbilityContext, Action<bool>, InstantCast>>
     {
         { AbilityReference.Slash, (c, b) => new Slash(c, b) },
@@ -16,7 +16,7 @@ public class Ability
         { AbilityReference.Smash, (c, b) => new Smash(c, b) },
     };
 
-    private static Dictionary<AbilityReference, Func<AbilityContext, Action<bool>, Channel>> _channels 
+    private static Dictionary<AbilityReference, Func<AbilityContext, Action<bool>, Channel>> channels 
         = new Dictionary<AbilityReference, Func<AbilityContext, Action<bool>, Channel>>
     {
         { AbilityReference.Whirlwind, (c, b) => new Whirlwind(c, b) },
@@ -32,21 +32,37 @@ public class Ability
         this.isSuccessfulCallback = completionCallback;
     }
 
-    public static bool TryGetAsInstantCastBuilder(
-        AbilityReference abilityRef, 
-        out Func<AbilityContext, Action<bool>, InstantCast> ability
+    public static bool TryGetInstantCast(
+        AbilityReference abilityReference,
+        AbilityContext abilityContext,
+        Action<bool> completionCallback,
+        out InstantCast ability
     )
     {
-        bool isInstantCast = _instantCasts.TryGetValue(abilityRef, out ability);
-        return isInstantCast;
+        if (instantCasts.ContainsKey(abilityReference))
+        {
+            ability = instantCasts[abilityReference](abilityContext, completionCallback);
+            return true;
+        }
+
+        ability = null;
+        return false;
     }
 
-    public static bool TryGetAsChannelBuilder(
-        AbilityReference abilityRef, 
-        out Func<AbilityContext, Action<bool>, Channel> ability
+    public static bool TryGetChannel(
+        AbilityReference abilityReference,
+        AbilityContext abilityContext,
+        Action<bool> completionCallback,
+        out Channel ability
     )
     {
-        bool isChannel = _channels.TryGetValue(abilityRef, out ability);
-        return isChannel;
+        if (channels.ContainsKey(abilityReference))
+        {
+            ability = channels[abilityReference](abilityContext, completionCallback);
+            return true;
+        }
+
+        ability = null;
+        return false;
     }
 }
