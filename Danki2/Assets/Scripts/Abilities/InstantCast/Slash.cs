@@ -36,7 +36,7 @@ public class Slash : InstantCast
             }
         });
 
-        this.completionCallback(hasDealtDamage);
+        this.isSuccessfulCallback(hasDealtDamage);
 
         GameObject.Instantiate(AbilityObjectPrefabLookup.Instance.SlashObjectPrefab, owner.transform);
     }

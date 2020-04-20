@@ -31,7 +31,7 @@ class DaggerThrow : InstantCast
 
             if (!actor.Opposes(Context.Owner))
             {
-                completionCallback(false);
+                isSuccessfulCallback(false);
                 return;
             }
 
@@ -43,11 +43,11 @@ class DaggerThrow : InstantCast
             int damagePerTick = Mathf.CeilToInt(strength * DamagePerTickMultiplier);
             actor.EffectManager.AddActiveEffect(new DOT(damagePerTick, DamageTickInterval), DotDuration);
 
-            completionCallback(true);
+            isSuccessfulCallback(true);
         }
         else
         {
-            completionCallback(false);
+            isSuccessfulCallback(false);
         }
     }
 }

@@ -52,7 +52,7 @@ public class Lunge : InstantCast
                 }
             });
 
-            this.completionCallback(hasDealtDamage);
+            this.isSuccessfulCallback(hasDealtDamage);
         });
     }
 }

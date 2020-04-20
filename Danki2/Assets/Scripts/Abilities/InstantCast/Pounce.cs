@@ -51,7 +51,7 @@ public class Pounce : InstantCast
             });
 
             owner.MovementManager.Stun(PauseDuration);
-            this.completionCallback(hasDealtDamage);
+            this.isSuccessfulCallback(hasDealtDamage);
         });
     }
 }

@@ -38,7 +38,7 @@ public class Bite : InstantCast
                 }
             });
 
-            this.completionCallback(hasDealtDamage);
+            this.isSuccessfulCallback(hasDealtDamage);
         });
 
         BiteObject.Create(owner.transform);

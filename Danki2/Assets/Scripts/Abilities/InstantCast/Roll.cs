@@ -28,6 +28,6 @@ public class Roll : InstantCast
 
         RollObject.Create(owner.transform);
 
-        this.completionCallback(true);
+        this.isSuccessfulCallback(true);
     }
 }

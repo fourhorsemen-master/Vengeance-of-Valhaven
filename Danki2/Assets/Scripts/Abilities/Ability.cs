@@ -22,14 +22,14 @@ public class Ability
         { AbilityReference.Whirlwind, (c, b) => new Whirlwind(c, b) },
     };
 
-    protected readonly Action<bool> completionCallback;
+    protected readonly Action<bool> isSuccessfulCallback;
 
     public AbilityContext Context { get; }
 
     public Ability(AbilityContext context, Action<bool> completionCallback)
     {
         Context = context;
-        this.completionCallback = completionCallback;
+        this.isSuccessfulCallback = completionCallback;
     }
 
     public static bool TryGetAsInstantCastBuilder(

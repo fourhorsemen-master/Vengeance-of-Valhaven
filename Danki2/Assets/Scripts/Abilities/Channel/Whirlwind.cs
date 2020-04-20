@@ -42,7 +42,7 @@ public class Whirlwind : Channel
 
     public override void Cancel()
     {
-        if (!this.hasHitActor) this.completionCallback(false);
+        if (!this.hasHitActor) this.isSuccessfulCallback(false);
 
         Context.Owner.EffectManager.RemovePassiveEffect(slowEffectId);
         whirlwindObject.DestroyWhirlwind();
@@ -52,7 +52,7 @@ public class Whirlwind : Channel
     {
         AOE(finishRange, finishDamageMultiplier);
 
-        if (!this.hasHitActor) this.completionCallback(false);
+        if (!this.hasHitActor) this.isSuccessfulCallback(false);
 
         Context.Owner.EffectManager.RemovePassiveEffect(slowEffectId);
         whirlwindObject.DestroyWhirlwind();
@@ -77,6 +77,6 @@ public class Whirlwind : Channel
             }
         });
 
-        if (this.hasHitActor) this.completionCallback(true);
+        if (this.hasHitActor) this.isSuccessfulCallback(true);
     }
 }

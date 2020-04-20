@@ -40,6 +40,6 @@ public class Smash : InstantCast
         });
 
         SmashObject.Create(position, Quaternion.LookRotation(target - position));
-        this.completionCallback(hasDealtDamage);
+        this.isSuccessfulCallback(hasDealtDamage);
     }
 }
