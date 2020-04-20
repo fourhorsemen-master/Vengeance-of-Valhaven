@@ -11,11 +11,11 @@ public class CooldownScreenBar : ScreenBar
 
     private void Start()
     {
-        this.player = RoomManager.Instance.Player;
+        player = RoomManager.Instance.Player;
     }
 
     private void Update()
     {
-        SetWidth(this.player.RemainingAbilityCooldown / this.player.abilityCooldown);
+        SetWidth(player.AbilityManager.RemainingAbilityCooldown / player.abilityCooldown);
     }
 }

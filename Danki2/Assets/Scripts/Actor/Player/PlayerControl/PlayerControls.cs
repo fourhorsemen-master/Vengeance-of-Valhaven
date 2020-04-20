@@ -40,6 +40,6 @@ public class PlayerControls : MonoBehaviour
             ? (right ? ActionControlState.Both : ActionControlState.Left)
             : (right ? ActionControlState.Right : ActionControlState.None);
 
-        _player.SetCurrentControlState(currentControlState);
+        _player.AbilityManager.SetCurrentControlState(currentControlState);
     }
 }
