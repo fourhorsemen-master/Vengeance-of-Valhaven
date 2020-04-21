@@ -15,8 +15,13 @@ public class Bite : InstantCast
         Actor owner = Context.Owner;
         int damage = owner.GetStat(Stat.Strength);
         Vector3 position = owner.transform.position;
-        Vector3 targetPosition = Context.TargetPosition;
-        targetPosition.y = 0f;
+        Vector3 target = Context.TargetPosition;
+        target.y = 0f;
+
+        BiteObject.Create(owner.transform);
+
+        owner.MovementManager.LookAt(target);
+        owner.MovementManager.Stun(DelayBeforeDamage + PauseDuration);
 
         owner.WaitAndAct(DelayBeforeDamage, () =>
         {
@@ -26,7 +31,7 @@ public class Bite : InstantCast
                 CollisionTemplate.Wedge90,
                 Range,
                 position,
-                Quaternion.LookRotation(targetPosition - position)
+                Quaternion.LookRotation(target - position)
             ).ForEach(actor =>
             {
                 if (owner.Opposes(actor))
@@ -38,9 +43,12 @@ public class Bite : InstantCast
             });
 
             SuccessFeedbackSubject.Next(hasDealtDamage);
+
+            if (hasDealtDamage)
+            {
+                CustomCamera.Instance.AddShake(8f, 0.1f);
+            }
         });
 
-        BiteObject.Create(owner.transform);
-        owner.MovementManager.Stun(PauseDuration);
     }
 }
