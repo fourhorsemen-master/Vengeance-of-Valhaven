@@ -16,7 +16,8 @@ public class Slash : InstantCast
 
         Vector3 position = owner.transform.position;
         Vector3 target = Context.TargetPosition;
-        target.y = 0;
+        Vector3 castDirection = target - position;
+        castDirection.y = 0f;
 
         int damage = Mathf.CeilToInt(owner.GetStat(Stat.Strength) * DamageMultiplier);
         bool hasDealtDamage = false;
@@ -25,7 +26,7 @@ public class Slash : InstantCast
             CollisionTemplate.Wedge90,
             Range,
             position,
-            Quaternion.LookRotation(target - position)
+            Quaternion.LookRotation(castDirection)
         ).ForEach(actor =>
         {
             if (owner.Opposes(actor))
@@ -37,6 +38,10 @@ public class Slash : InstantCast
 
         SuccessFeedbackSubject.Next(hasDealtDamage);
 
-        GameObject.Instantiate(AbilityObjectPrefabLookup.Instance.SlashObjectPrefab, owner.transform);
+        GameObject.Instantiate(
+            AbilityObjectPrefabLookup.Instance.SlashObjectPrefab, 
+            position, 
+            Quaternion.LookRotation(castDirection)
+        );
     }
 }
