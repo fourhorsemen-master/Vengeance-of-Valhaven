@@ -10,21 +10,21 @@
 
     private void Start()
     {
-        this.player = RoomManager.Instance.Player;
-        this.channelService = this.player.ChannelService;
+        player = RoomManager.Instance.Player;
+        channelService = player.ChannelService;
     }
 
     private void Update()
     {
         if (
-            this.player.CastingStatus != CastingStatus.ChannelingLeft
-            && this.player.CastingStatus != CastingStatus.ChannelingRight
+            player.AbilityManager.CastingStatus != CastingStatus.ChannelingLeft
+            && player.AbilityManager.CastingStatus != CastingStatus.ChannelingRight
         )
         {
             SetWidth(0f);
             return;
         }
                 
-        SetWidth(this.channelService.RemainingDuration / this.channelService.TotalDuration);
+        SetWidth(channelService.RemainingDuration / channelService.TotalDuration);
     }
 }

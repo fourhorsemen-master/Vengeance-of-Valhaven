@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 public class Bite : InstantCast
 {
     public const float Range = 2f;
@@ -12,13 +13,15 @@ public class Bite : InstantCast
     public override void Cast()
     {  
         Actor owner = Context.Owner;
-        float damage = owner.GetStat(Stat.Strength);
+        int damage = owner.GetStat(Stat.Strength);
         Vector3 position = owner.transform.position;
         Vector3 targetPosition = Context.TargetPosition;
         targetPosition.y = 0f;
 
         owner.WaitAndAct(DelayBeforeDamage, () =>
         {
+            bool hasDealtDamage = false;
+
             CollisionTemplateManager.Instance.GetCollidingActors(
                 CollisionTemplate.Wedge90,
                 Range,
@@ -29,9 +32,12 @@ public class Bite : InstantCast
                 if (owner.Opposes(actor))
                 {
                     actor.ModifyHealth(-damage);
+                    hasDealtDamage = true;
                     actor.InterruptionManager.Interrupt(InterruptionType.Soft);
                 }
             });
+
+            SuccessFeedbackSubject.Next(hasDealtDamage);
         });
 
         BiteObject.Create(owner.transform);

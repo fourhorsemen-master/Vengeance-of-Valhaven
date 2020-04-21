@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Lunge : InstantCast
 {
@@ -32,7 +33,8 @@ public class Lunge : InstantCast
 
         owner.WaitAndAct(LungeDuration, () =>
         {
-            float damage = owner.GetStat(Stat.Strength) * LungeDamageMultiplier;
+            int damage = Mathf.CeilToInt(owner.GetStat(Stat.Strength) * LungeDamageMultiplier);
+            bool hasDealtDamage = false;
 
             CollisionTemplateManager.Instance.GetCollidingActors(
                 CollisionTemplate.Wedge90,
@@ -45,8 +47,11 @@ public class Lunge : InstantCast
                 {
                     actor.EffectManager.AddActiveEffect(new Stun(StunDuration), StunDuration);
                     actor.ModifyHealth(-damage);
+                    hasDealtDamage = true;
                 }
             });
+
+            SuccessFeedbackSubject.Next(hasDealtDamage);
         });
     }
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Smash : InstantCast
 {
@@ -21,7 +22,8 @@ public class Smash : InstantCast
         Vector3 directionToTarget = target == position ? Vector3.right : (target - position).normalized;
         Vector3 center = position + (directionToTarget * DistanceFromCaster);
 
-        float damage = owner.GetStat(Stat.Strength) * DamageMultiplier;
+        int damage = Mathf.CeilToInt(owner.GetStat(Stat.Strength) * DamageMultiplier);
+        bool hasDealtDamage = false;
 
         CollisionTemplateManager.Instance.GetCollidingActors(
             CollisionTemplate.Cylinder,
@@ -32,9 +34,11 @@ public class Smash : InstantCast
             if (owner.Opposes(actor))
             {
                 actor.ModifyHealth(-damage);
+                hasDealtDamage = true;
             }
         });
 
         SmashObject.Create(position, Quaternion.LookRotation(target - position));
+        SuccessFeedbackSubject.Next(hasDealtDamage);
     }
 }

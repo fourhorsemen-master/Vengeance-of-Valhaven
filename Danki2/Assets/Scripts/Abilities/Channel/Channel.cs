@@ -1,4 +1,6 @@
-﻿public abstract class Channel : Ability
+﻿using System;
+
+public abstract class Channel : Ability
 {
     public abstract float Duration { get; }
 

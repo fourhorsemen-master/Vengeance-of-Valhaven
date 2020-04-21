@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Pounce : InstantCast
 {
@@ -31,7 +32,8 @@ public class Pounce : InstantCast
 
         owner.WaitAndAct(MovementDuration, () =>
         {
-            float damage = owner.GetStat(Stat.Strength);
+            int damage = Mathf.CeilToInt(owner.GetStat(Stat.Strength));
+            bool hasDealtDamage = false;
 
             CollisionTemplateManager.Instance.GetCollidingActors(
                 CollisionTemplate.Wedge90,
@@ -43,10 +45,12 @@ public class Pounce : InstantCast
                 if (owner.Opposes(actor))
                 {
                     actor.ModifyHealth(-damage);
+                    hasDealtDamage = true;
                 }
             });
 
             owner.MovementManager.Stun(PauseDuration);
+            SuccessFeedbackSubject.Next(hasDealtDamage);
         });
     }
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 class DaggerThrow : InstantCast
 {
@@ -11,7 +12,6 @@ class DaggerThrow : InstantCast
 
     public DaggerThrow(AbilityContext context) : base(context)
     {
-
     }
 
     public override void Cast()
@@ -30,16 +30,23 @@ class DaggerThrow : InstantCast
 
             if (!actor.Opposes(Context.Owner))
             {
+                SuccessFeedbackSubject.Next(false);
                 return;
             }
 
             int strength = Context.Owner.GetStat(Stat.Strength);
 
-            float impactDamage = strength * ImpactDamageMultiplier;
+            int impactDamage = Mathf.CeilToInt(strength * ImpactDamageMultiplier);
             actor.ModifyHealth(-impactDamage);
 
-            float damagePerTick = strength * DamagePerTickMultiplier;
+            int damagePerTick = Mathf.CeilToInt(strength * DamagePerTickMultiplier);
             actor.EffectManager.AddActiveEffect(new DOT(damagePerTick, DamageTickInterval), DotDuration);
+
+            SuccessFeedbackSubject.Next(true);
+        }
+        else
+        {
+            SuccessFeedbackSubject.Next(false);
         }
     }
 }

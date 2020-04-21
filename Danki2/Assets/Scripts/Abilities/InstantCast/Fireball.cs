@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Fireball : InstantCast
 {
@@ -7,7 +8,6 @@ public class Fireball : InstantCast
 
     public Fireball(AbilityContext context) : base(context)
     {
-
     }
 
     public override void Cast()
@@ -26,11 +26,18 @@ public class Fireball : InstantCast
 
             if (!actor.Opposes(Context.Owner))
             {
+                SuccessFeedbackSubject.Next(false);
                 return;
             }
 
             int strength = Context.Owner.GetStat(Stat.Strength);
             actor.ModifyHealth(-strength);
+
+            SuccessFeedbackSubject.Next(true);
+        }
+        else
+        {
+            SuccessFeedbackSubject.Next(false);
         }
     }
 }
