@@ -20,6 +20,8 @@ public class Fireball : InstantCast
 
     private void OnCollision(GameObject gameObject)
     {
+        CustomCamera.Instance.AddShake(8f, 0.1f);
+
         if (gameObject.IsActor())
         {
             Actor actor = gameObject.GetComponent<Actor>();
