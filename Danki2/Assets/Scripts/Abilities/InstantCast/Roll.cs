@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Roll : InstantCast
 {
@@ -25,5 +26,7 @@ public class Roll : InstantCast
         );
 
         RollObject.Create(owner.transform);
+
+        SuccessFeedbackSubject.Next(true);
     }
 }
