@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class SlashObject : MonoBehaviour
 {
@@ -12,11 +13,17 @@ public class SlashObject : MonoBehaviour
     private MeshRenderer meshRenderer = null;
 
     [SerializeField]
-    private AudioSource thudAudioSource = null;
+    private AudioSource hitAudioSource = null;
 
     private float remainingDuration;
 
     private Color desiredColor = new Color(1f, 1f, 1f, 0f);
+
+    internal static GameObject Create(Vector3 position, Quaternion rotation)
+    {
+        GameObject prefab = AbilityObjectPrefabLookup.Instance.SlashObjectPrefab;
+        return Instantiate(prefab, position, rotation);
+    }
 
     private void Start()
     {
@@ -37,9 +44,9 @@ public class SlashObject : MonoBehaviour
         UpdateVisual();
     }
 
-    public void PlayThudSound()
+    public void PlayHitSound()
     {
-        thudAudioSource.Play();
+        hitAudioSource.Play();
     }
 
     private void UpdateVisual()

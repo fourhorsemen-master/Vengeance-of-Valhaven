@@ -2,19 +2,25 @@
 
 public class LungeObject : StaticAbilityObject
 {
-    public AudioSource lungeSound = null;
+    [SerializeField]
+    private AudioSource hitAudioSource = null;
 
     public override float StickTime { get; set; }
 
     public void Awake()
     {
-        StickTime = lungeSound.clip.length;
+        StickTime = 2f;
     }
 
-    public static void Create(Vector3 position, Quaternion rotation)
+    public static LungeObject Create(Vector3 position, Quaternion rotation)
     {
         LungeObject prefab = AbilityObjectPrefabLookup.Instance.LungeObjectPrefab;
-        Instantiate(prefab, position, rotation);
+        return Instantiate(prefab, position, rotation);
+    }
+
+    public void PlayHitSound()
+    {
+        hitAudioSource.Play();
     }
 }
 
