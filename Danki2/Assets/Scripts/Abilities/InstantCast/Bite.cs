@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 public class Bite : InstantCast
 {
     public const float Range = 2f;
