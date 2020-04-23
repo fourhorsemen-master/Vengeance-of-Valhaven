@@ -76,6 +76,10 @@ public class Whirlwind : Channel
             }
         });
 
-        if (this.hasHitActor) SuccessFeedbackSubject.Next(true);
+        if (this.hasHitActor)
+        {
+            CustomCamera.Instance.AddShake(8f, 0.05f);
+            SuccessFeedbackSubject.Next(true);
+        }
     }
 }
