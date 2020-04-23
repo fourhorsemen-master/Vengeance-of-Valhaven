@@ -71,6 +71,7 @@ public class AbilityManager
                 {
                     player.AbilityTree.Reset();
                     whiffed = true;
+                    player.whiffAudio.Play();
                 });
             }
         });
@@ -160,6 +161,7 @@ public class AbilityManager
     {
         abilityFeedbackSubscription.Unsubscribe();
         whiffed = !successful;
+        if (whiffed) player.whiffAudio.Play();
         AbilityCompletionSubject.Next(
             new Tuple<bool, Direction>(successful, lastCastDirection)
         );
