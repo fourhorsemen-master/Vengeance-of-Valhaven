@@ -45,7 +45,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7530e4b4cabc4eb44978a094f9432183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lungeAudioSource: {fileID: 3245929211051171592}
   hitAudioSource: {fileID: 3016582522621824033}
 --- !u!82 &3245929211051171592
 AudioSource:
@@ -153,9 +152,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 040f6f32e7c084c4382d5f7bda4d524e, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 83afe0b9c19829d40a6994da72883f14, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.8
   m_Pitch: 1
   Loop: 0
   Mute: 0
