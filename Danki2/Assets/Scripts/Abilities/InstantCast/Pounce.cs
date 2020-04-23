@@ -49,8 +49,13 @@ public class Pounce : InstantCast
                 }
             });
 
-            owner.MovementManager.Stun(PauseDuration);
             SuccessFeedbackSubject.Next(hasDealtDamage);
+            owner.MovementManager.Stun(PauseDuration);
+
+            if (hasDealtDamage)
+            {
+                CustomCamera.Instance.AddShake(8f, 0.1f);
+            }
         });
     }
 }
