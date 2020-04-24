@@ -4,7 +4,7 @@ using UnityEngine;
 public class Slash : InstantCast
 {
     private const float Range = 4f;
-    private const float DamageMultiplier = 1.5f;
+    private const int Damage = 5;
 
     public Slash(AbilityContext context) : base(context)
     {
@@ -18,7 +18,6 @@ public class Slash : InstantCast
         Vector3 target = Context.TargetPosition;
         target.y = 0;
 
-        int damage = Mathf.CeilToInt(owner.GetStat(Stat.Power) * DamageMultiplier);
         bool hasDealtDamage = false;
 
         CollisionTemplateManager.Instance.GetCollidingActors(
@@ -30,7 +29,7 @@ public class Slash : InstantCast
         {
             if (owner.Opposes(actor))
             {
-                actor.ModifyHealth(-damage);
+                actor.ModifyHealth(-Damage);
                 hasDealtDamage = true;
             }
         });

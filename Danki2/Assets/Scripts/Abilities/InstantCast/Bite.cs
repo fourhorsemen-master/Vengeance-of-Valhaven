@@ -2,6 +2,7 @@
 using UnityEngine;
 public class Bite : InstantCast
 {
+    public const int Damage = 5;
     public const float Range = 2f;
     private const float DelayBeforeDamage = 0.75f;
     private const float PauseDuration = 0.3f;
@@ -13,7 +14,6 @@ public class Bite : InstantCast
     public override void Cast()
     {  
         Actor owner = Context.Owner;
-        int damage = owner.GetStat(Stat.Power);
         Vector3 position = owner.transform.position;
         Vector3 targetPosition = Context.TargetPosition;
         targetPosition.y = 0f;
@@ -31,7 +31,7 @@ public class Bite : InstantCast
             {
                 if (owner.Opposes(actor))
                 {
-                    actor.ModifyHealth(-damage);
+                    actor.ModifyHealth(-Damage);
                     hasDealtDamage = true;
                     actor.InterruptionManager.Interrupt(InterruptionType.Soft);
                 }

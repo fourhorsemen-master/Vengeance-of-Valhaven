@@ -4,7 +4,7 @@ using UnityEngine;
 class DaggerThrow : InstantCast
 {
     private const float DaggerSpeed = 20f;
-    private const float ImpactDamageMultiplier = 0.5f;
+    private const int ImpactDamage = 2;
     private const float DamagePerTickMultiplier = 0.5f;
     private const float DamageTickInterval = 1f;
     private const float DotDuration = 3f;
@@ -36,8 +36,7 @@ class DaggerThrow : InstantCast
 
             int strength = Context.Owner.GetStat(Stat.Power);
 
-            int impactDamage = Mathf.CeilToInt(strength * ImpactDamageMultiplier);
-            actor.ModifyHealth(-impactDamage);
+            actor.ModifyHealth(-ImpactDamage);
 
             int damagePerTick = Mathf.CeilToInt(strength * DamagePerTickMultiplier);
             actor.EffectManager.AddActiveEffect(new DOT(damagePerTick, DamageTickInterval), DotDuration);
