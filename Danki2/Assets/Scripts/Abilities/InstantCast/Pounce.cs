@@ -32,7 +32,7 @@ public class Pounce : InstantCast
 
         owner.WaitAndAct(MovementDuration, () =>
         {
-            int damage = Mathf.CeilToInt(owner.GetStat(Stat.Strength));
+            int damage = Mathf.CeilToInt(owner.GetStat(Stat.Power));
             bool hasDealtDamage = false;
 
             CollisionTemplateManager.Instance.GetCollidingActors(

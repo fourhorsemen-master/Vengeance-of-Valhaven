@@ -34,7 +34,7 @@ class DaggerThrow : InstantCast
                 return;
             }
 
-            int strength = Context.Owner.GetStat(Stat.Strength);
+            int strength = Context.Owner.GetStat(Stat.Power);
 
             int impactDamage = Mathf.CeilToInt(strength * ImpactDamageMultiplier);
             actor.ModifyHealth(-impactDamage);

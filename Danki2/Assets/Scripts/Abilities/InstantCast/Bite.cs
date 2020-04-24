@@ -13,7 +13,7 @@ public class Bite : InstantCast
     public override void Cast()
     {  
         Actor owner = Context.Owner;
-        int damage = owner.GetStat(Stat.Strength);
+        int damage = owner.GetStat(Stat.Power);
         Vector3 position = owner.transform.position;
         Vector3 targetPosition = Context.TargetPosition;
         targetPosition.y = 0f;
