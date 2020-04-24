@@ -6,6 +6,8 @@ public class MouseGamePositionFinder : Singleton<MouseGamePositionFinder>
     [SerializeField]
     private float heightOffset = 0;
 
+    private Plane plane = new Plane(Vector3.down, 0f);
+
     /// <summary>
     /// Casts a ray from the camera through the mouse to get the position where it collides with a collider.
     /// If this point is close to the navMesh we take the closest navMesh position and add a y-offset.
@@ -46,8 +48,8 @@ public class MouseGamePositionFinder : Singleton<MouseGamePositionFinder>
     public Vector3 GetMousePlanePosition(float planeHeight, bool includeOffset = false)
     {
         if (includeOffset) planeHeight += heightOffset;
+        plane.distance = planeHeight;
 
-        Plane plane = new Plane(Vector3.down, planeHeight);
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         plane.Raycast(ray, out float distanceAlongRay);
 
