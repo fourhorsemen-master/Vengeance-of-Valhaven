@@ -19,6 +19,8 @@ public class Player : Actor
     [SerializeField]
     private TrailRenderer trailRenderer = null;
 
+    public AudioSource whiffAudio = null;
+
     public AbilityTree AbilityTree { get; private set; }
 
     public AbilityManager AbilityManager { get; private set; }
