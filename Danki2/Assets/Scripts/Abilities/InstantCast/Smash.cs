@@ -37,7 +37,7 @@ public class Smash : InstantCast
             }
         });
 
-        CustomCamera.Instance.AddShake(12f, 0.2f);
+        CustomCamera.Instance.AddShake(ShakeIntensity.High);
         SmashObject.Create(position, Quaternion.LookRotation(target - position));
 
         SuccessFeedbackSubject.Next(hasDealtDamage);

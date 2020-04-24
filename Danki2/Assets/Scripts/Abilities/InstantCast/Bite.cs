@@ -45,7 +45,7 @@ public class Bite : InstantCast
 
             if (hasDealtDamage)
             {
-                CustomCamera.Instance.AddShake(8f, 0.1f);
+                CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
             }
         });
 

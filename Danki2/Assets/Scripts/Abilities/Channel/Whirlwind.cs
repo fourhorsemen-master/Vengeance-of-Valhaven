@@ -78,7 +78,7 @@ public class Whirlwind : Channel
 
         if (this.hasHitActor)
         {
-            CustomCamera.Instance.AddShake(8f, 0.05f);
+            CustomCamera.Instance.AddShake(ShakeIntensity.Low);
             SuccessFeedbackSubject.Next(true);
         }
     }

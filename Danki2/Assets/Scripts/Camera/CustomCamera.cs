@@ -21,9 +21,20 @@ public class CustomCamera : Singleton<CustomCamera>
 
     private CameraShakeManager shakeManager = new CameraShakeManager(4);
 
-    public void AddShake(float strength, float duration, float interval = CameraShake.DefaultInterval)
+    public void AddShake(ShakeIntensity intensity)
     {
-        shakeManager.AddCameraShake(strength, duration, interval);
+        switch (intensity)
+        {
+            case ShakeIntensity.Low:
+                shakeManager.AddCameraShake(8f, 0.05f);
+                break;
+            case ShakeIntensity.Medium:
+                shakeManager.AddCameraShake(10f, 0.1f);
+                break;
+            case ShakeIntensity.High:
+                shakeManager.AddCameraShake(12f, 0.2f);
+                break;
+        }
     }
 
     private void Update()

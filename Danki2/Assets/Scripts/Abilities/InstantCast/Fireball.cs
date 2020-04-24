@@ -19,7 +19,7 @@ public class Fireball : InstantCast
 
     private void OnCollision(GameObject gameObject)
     {
-        CustomCamera.Instance.AddShake(12f, 0.2f);
+        CustomCamera.Instance.AddShake(ShakeIntensity.High);
 
         if (gameObject.IsActor())
         {
