@@ -39,7 +39,8 @@ public class AbilityManager
     {
         if (player.ChannelService.Active) return;
 
-        RemainingAbilityCooldown = Mathf.Max(0f, RemainingAbilityCooldown - Time.deltaTime);
+        float decrement = whiffed ? Time.deltaTime / 2 : Time.deltaTime;
+        RemainingAbilityCooldown = Mathf.Max(0f, RemainingAbilityCooldown - decrement);
 
         if (RemainingAbilityCooldown > 0f || CastingStatus != CastingStatus.Cooldown) return;
 
