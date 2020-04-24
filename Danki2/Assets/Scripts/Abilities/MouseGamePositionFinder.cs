@@ -21,10 +21,13 @@ public class MouseGamePositionFinder : Singleton<MouseGamePositionFinder>
             return false;
         }
 
-        if (NavMesh.SamplePosition(raycastHit.point, out NavMeshHit navMeshHit, heightOffset, NavMesh.AllAreas))
+        if (NavMesh.SamplePosition(raycastHit.point, out _, 0.65f, NavMesh.AllAreas))
         {
-            position = navMeshHit.position;
-            position.y += heightOffset;
+            position = raycastHit.point;
+            Vector3 positionToCamera = Camera.main.transform.position - position;
+            Vector3 offset = positionToCamera * heightOffset / positionToCamera.y;
+
+            position += offset;
         }
         else
         {
@@ -44,7 +47,7 @@ public class MouseGamePositionFinder : Singleton<MouseGamePositionFinder>
     {
         if (includeOffset) planeHeight += heightOffset;
 
-        Plane plane = new Plane(Vector3.up, planeHeight);
+        Plane plane = new Plane(Vector3.down, planeHeight);
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         plane.Raycast(ray, out float distanceAlongRay);
 
