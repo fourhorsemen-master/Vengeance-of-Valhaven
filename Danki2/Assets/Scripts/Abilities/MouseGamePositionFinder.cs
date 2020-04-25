@@ -6,11 +6,15 @@ public class MouseGamePositionFinder : Singleton<MouseGamePositionFinder>
     [SerializeField]
     private float heightOffset = 0;
 
+    [SerializeField]
+    private float navmeshClearance = 0;
+
     private Plane plane = new Plane(Vector3.down, 0f);
 
     /// <summary>
     /// Casts a ray from the camera through the mouse to get the position where it collides with a collider.
-    /// If this point is close to the navMesh we take the closest navMesh position and add a y-offset.
+    /// If this point is close to the navMesh, we add a vector that moves the point towards the camera such that y-value is increased by heightOffset.
+    /// This is so that if you click on the 'floor', you'll fire horizontally.
     /// </summary>
     /// <returns>True if the mouse is within the scene.</returns>
     public bool TryGetMouseGamePosition(out Vector3 position)
@@ -23,7 +27,7 @@ public class MouseGamePositionFinder : Singleton<MouseGamePositionFinder>
             return false;
         }
 
-        if (NavMesh.SamplePosition(raycastHit.point, out _, 0.65f, NavMesh.AllAreas))
+        if (NavMesh.SamplePosition(raycastHit.point, out _, navmeshClearance, NavMesh.AllAreas))
         {
             position = raycastHit.point;
             Vector3 positionToCamera = Camera.main.transform.position - position;
