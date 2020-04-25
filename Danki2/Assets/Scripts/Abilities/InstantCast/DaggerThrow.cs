@@ -5,7 +5,7 @@ class DaggerThrow : InstantCast
 {
     private const float DaggerSpeed = 20f;
     private const int ImpactDamage = 2;
-    private const float DamagePerTickMultiplier = 0.5f;
+    private const int TickDamage = 1;
     private const float DamageTickInterval = 1f;
     private const float DotDuration = 3f;
     private static readonly Vector3 positionTransform = new Vector3(0, 1.25f, 0);
@@ -37,9 +37,7 @@ class DaggerThrow : InstantCast
             int strength = Context.Owner.GetStat(Stat.Power);
 
             actor.ModifyHealth(-ImpactDamage);
-
-            int damagePerTick = Mathf.CeilToInt(strength * DamagePerTickMultiplier);
-            actor.EffectManager.AddActiveEffect(new DOT(damagePerTick, DamageTickInterval), DotDuration);
+            actor.EffectManager.AddActiveEffect(new DOT(TickDamage, DamageTickInterval), DotDuration);
 
             SuccessFeedbackSubject.Next(true);
         }
