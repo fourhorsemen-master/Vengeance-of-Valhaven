@@ -30,7 +30,7 @@ public class Slash : InstantCast
         {
             if (owner.Opposes(actor))
             {
-                actor.ModifyHealth(-damage);
+                owner.DamageTarget(actor, damage);
                 hasDealtDamage = true;
             }
         });

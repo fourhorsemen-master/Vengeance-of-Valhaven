@@ -30,8 +30,7 @@ public class Fireball : InstantCast
                 return;
             }
 
-            int strength = Context.Owner.GetStat(Stat.Strength);
-            actor.ModifyHealth(-strength);
+            Context.Owner.DamageTarget(actor, 5);
 
             SuccessFeedbackSubject.Next(true);
         }

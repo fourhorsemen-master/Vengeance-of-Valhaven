@@ -30,8 +30,8 @@ public class RetreatWhenWounded : Planner
 
         int maxHealth = actor.GetStat(Stat.MaxHealth);
         if (
-            (retreatCount < 1 && actor.Health < 0.5 * maxHealth) 
-            || (retreatCount < 2 && actor.Health < 0.2 * maxHealth)
+            (retreatCount < 1 && actor.HealthManager.Health < 0.5 * maxHealth) 
+            || (retreatCount < 2 && actor.HealthManager.Health < 0.2 * maxHealth)
         )
         {
             agenda.Add(AIAction.Retreat, true);

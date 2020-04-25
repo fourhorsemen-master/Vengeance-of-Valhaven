@@ -37,7 +37,7 @@ class DaggerThrow : InstantCast
             int strength = Context.Owner.GetStat(Stat.Strength);
 
             int impactDamage = Mathf.CeilToInt(strength * ImpactDamageMultiplier);
-            actor.ModifyHealth(-impactDamage);
+            Context.Owner.DamageTarget(actor, impactDamage);
 
             int damagePerTick = Mathf.CeilToInt(strength * DamagePerTickMultiplier);
             actor.EffectManager.AddActiveEffect(new DOT(damagePerTick, DamageTickInterval), DotDuration);

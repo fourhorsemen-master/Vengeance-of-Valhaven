@@ -31,7 +31,7 @@ public class Bite : InstantCast
             {
                 if (owner.Opposes(actor))
                 {
-                    actor.ModifyHealth(-damage);
+                    owner.DamageTarget(actor, damage);
                     hasDealtDamage = true;
                 }
             });
