@@ -80,7 +80,7 @@ public abstract class Actor : MonoBehaviour
         target.HealthManager.DealDamage(damage);
     }
 
-    public void InterruptableDelayedAction(float delay, Action action, InterruptionType interruptionType)
+    public void InterruptableAction(float delay, InterruptionType interruptionType, Action action)
     {
         Coroutine coroutine = this.WaitAndAct(delay, action);
         InterruptionManager.Register(interruptionType, () => StopCoroutine(coroutine));

@@ -30,27 +30,31 @@ public class Pounce : InstantCast
 
         PounceObject.Create(position, Quaternion.LookRotation(target - position));
 
-        owner.WaitAndAct(MovementDuration, () =>
-        {
-            int damage = Mathf.CeilToInt(owner.GetStat(Stat.Strength));
-            bool hasDealtDamage = false;
-
-            CollisionTemplateManager.Instance.GetCollidingActors(
-                CollisionTemplate.Wedge90,
-                DamageRadius,
-                owner.transform.position,
-                Quaternion.LookRotation(owner.transform.forward)
-            ).ForEach(actor =>
+        owner.InterruptableAction(
+            MovementDuration,
+            InterruptionType.Hard,
+            () =>
             {
-                if (owner.Opposes(actor))
-                {
-                    owner.DamageTarget(actor, damage);
-                    hasDealtDamage = true;
-                }
-            });
+                int damage = Mathf.CeilToInt(owner.GetStat(Stat.Strength));
+                bool hasDealtDamage = false;
 
-            owner.MovementManager.Stun(PauseDuration);
-            SuccessFeedbackSubject.Next(hasDealtDamage);
-        });
+                CollisionTemplateManager.Instance.GetCollidingActors(
+                    CollisionTemplate.Wedge90,
+                    DamageRadius,
+                    owner.transform.position,
+                    Quaternion.LookRotation(owner.transform.forward)
+                ).ForEach(actor =>
+                {
+                    if (owner.Opposes(actor))
+                    {
+                        owner.DamageTarget(actor, damage);
+                        hasDealtDamage = true;
+                    }
+                });
+
+                owner.MovementManager.Stun(PauseDuration);
+                SuccessFeedbackSubject.Next(hasDealtDamage);
+            }
+        );
     }
 }

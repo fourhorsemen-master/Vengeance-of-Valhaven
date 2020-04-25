@@ -31,27 +31,31 @@ public class Lunge : InstantCast
 
         LungeObject.Create(position, Quaternion.LookRotation(target - position));
 
-        owner.WaitAndAct(LungeDuration, () =>
-        {
-            int damage = Mathf.CeilToInt(owner.GetStat(Stat.Strength) * LungeDamageMultiplier);
-            bool hasDealtDamage = false;
-
-            CollisionTemplateManager.Instance.GetCollidingActors(
-                CollisionTemplate.Wedge90,
-                StunRange,
-                owner.transform.position,
-                Quaternion.LookRotation(direction)
-            ).ForEach(actor =>
+        owner.InterruptableAction(
+            LungeDuration,
+            InterruptionType.Hard,
+            () =>
             {
-                if (owner.Opposes(actor))
-                {
-                    actor.EffectManager.AddActiveEffect(new Stun(StunDuration), StunDuration);
-                    owner.DamageTarget(actor, damage);
-                    hasDealtDamage = true;
-                }
-            });
+                int damage = Mathf.CeilToInt(owner.GetStat(Stat.Strength) * LungeDamageMultiplier);
+                bool hasDealtDamage = false;
 
-            SuccessFeedbackSubject.Next(hasDealtDamage);
-        });
+                CollisionTemplateManager.Instance.GetCollidingActors(
+                    CollisionTemplate.Wedge90,
+                    StunRange,
+                    owner.transform.position,
+                    Quaternion.LookRotation(direction)
+                ).ForEach(actor =>
+                {
+                    if (owner.Opposes(actor))
+                    {
+                        actor.EffectManager.AddActiveEffect(new Stun(StunDuration), StunDuration);
+                        owner.DamageTarget(actor, damage);
+                        hasDealtDamage = true;
+                    }
+                });
+
+                SuccessFeedbackSubject.Next(hasDealtDamage);
+            }
+        );
     }
 }
