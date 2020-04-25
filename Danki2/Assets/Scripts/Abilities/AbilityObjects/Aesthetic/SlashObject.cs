@@ -18,9 +18,9 @@ public class SlashObject : MonoBehaviour
 
     private Color desiredColor = new Color(1f, 1f, 1f, 0f);
 
-    internal static GameObject Create(Vector3 position, Quaternion rotation)
+    internal static SlashObject Create(Vector3 position, Quaternion rotation)
     {
-        GameObject prefab = AbilityObjectPrefabLookup.Instance.SlashObjectPrefab;
+        SlashObject prefab = AbilityObjectPrefabLookup.Instance.SlashObjectPrefab;
         return Instantiate(prefab, position, rotation);
     }
 

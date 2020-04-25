@@ -1556,6 +1556,12 @@ MonoBehaviour:
   angle: 50
   mouseFollowFactor: 0.396
   smoothFactor: 0
+  smallShakeStrength: 8
+  smallShakeDuration: 0.05
+  mediumShakeStrength: 10
+  mediumShakeDuration: 0.1
+  bigShakeStrength: 12
+  bigShakeDuration: 0.2
 --- !u!114 &963194230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1578,7 +1584,7 @@ MonoBehaviour:
   antialiasing: 0
   SMAAQuality: 2
   dithering: 0
-  stopNaNs: 0
+  stopNaNs: 1
   physicalParameters:
     m_Iso: 200
     m_ShutterSpeed: 0.005
@@ -4309,5 +4315,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1316990105569241792, guid: 1a3e0825134a04e43a77f81f2b5e032b,
+        type: 3}
+      propertyPath: _slashObjectPrefab
+      value: 
+      objectReference: {fileID: 6142925563846780318, guid: dc9ea3706a8f6034090eae056b99e5f1,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a3e0825134a04e43a77f81f2b5e032b, type: 3}

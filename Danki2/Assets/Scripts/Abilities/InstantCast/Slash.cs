@@ -37,7 +37,7 @@ public class Slash : InstantCast
 
         SuccessFeedbackSubject.Next(hasDealtDamage);
 
-        GameObject slashObject = SlashObject.Create(position, Quaternion.LookRotation(target - position));
+        SlashObject slashObject = SlashObject.Create(position, Quaternion.LookRotation(target - position));
 
         owner.MovementManager.LookAt(target);
         owner.MovementManager.Stun(PauseDuration);
@@ -45,7 +45,7 @@ public class Slash : InstantCast
         if (hasDealtDamage)
         {
             CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
-            slashObject.GetComponent<SlashObject>().PlayHitSound();
+            slashObject.PlayHitSound();
         }
     }
 }

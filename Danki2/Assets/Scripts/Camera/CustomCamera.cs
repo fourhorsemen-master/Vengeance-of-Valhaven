@@ -2,6 +2,7 @@
 
 public class CustomCamera : Singleton<CustomCamera>
 {
+    // Camera settings
     [SerializeField]
     private GameObject target = null;
 
@@ -17,6 +18,26 @@ public class CustomCamera : Singleton<CustomCamera>
     [SerializeField, Range(0f, 1f)]
     private float smoothFactor = 0f;
 
+    // Shake levels
+    [SerializeField, Range(0, 50)]
+    private float smallShakeStrength = 10;
+
+    [SerializeField, Range(0, 1)]
+    private float smallShakeDuration = 10;
+
+    [SerializeField, Range(0, 50)]
+    private float mediumShakeStrength = 10;
+
+    [SerializeField, Range(0, 1)]
+    private float mediumShakeDuration = 10;
+
+    [SerializeField, Range(0, 50)]
+    private float bigShakeStrength = 10;
+
+    [SerializeField, Range(0, 1)]
+    private float bigShakeDuration = 10;
+
+
     private Vector3 desiredPosition;
 
     private CameraShakeManager shakeManager = new CameraShakeManager(4);
@@ -26,13 +47,13 @@ public class CustomCamera : Singleton<CustomCamera>
         switch (intensity)
         {
             case ShakeIntensity.Low:
-                shakeManager.AddCameraShake(8f, 0.05f);
+                shakeManager.AddCameraShake(smallShakeStrength, smallShakeDuration);
                 break;
             case ShakeIntensity.Medium:
-                shakeManager.AddCameraShake(10f, 0.1f);
+                shakeManager.AddCameraShake(mediumShakeStrength, mediumShakeDuration);
                 break;
             case ShakeIntensity.High:
-                shakeManager.AddCameraShake(12f, 0.2f);
+                shakeManager.AddCameraShake(bigShakeStrength, bigShakeDuration);
                 break;
         }
     }

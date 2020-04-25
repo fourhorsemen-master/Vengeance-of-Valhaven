@@ -57,7 +57,7 @@ public class Lunge : InstantCast
             if (hasDealtDamage)
             {
                 CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
-                lungeObject.GetComponent<LungeObject>().PlayHitSound();
+                lungeObject.PlayHitSound();
             }
         });
     }
