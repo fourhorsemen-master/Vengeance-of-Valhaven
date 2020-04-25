@@ -33,7 +33,6 @@ public class Bite : InstantCast
                 {
                     actor.ModifyHealth(-damage);
                     hasDealtDamage = true;
-                    actor.InterruptionManager.Interrupt(InterruptionType.Soft);
                 }
             });
 
