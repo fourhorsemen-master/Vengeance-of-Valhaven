@@ -24,7 +24,7 @@ public class Player : Actor
 
     public AbilityTree AbilityTree { get; private set; }
 
-    public Dictionary<AbilityReference, int> AbilityInventory { get; private set; }
+    public EnumDictionary<AbilityReference, int> AbilityInventory { get; private set; }
     
     public AbilityManager AbilityManager { get; private set; }
 
@@ -34,18 +34,15 @@ public class Player : Actor
     {
         base.Awake();
 
-        AbilityInventory = new Dictionary<AbilityReference, int>
-        {
-            { AbilityReference.Bite, 1 },
-            { AbilityReference.Pounce, 2 },
-            { AbilityReference.Slash, 3 },
-            { AbilityReference.Roll, 4 },
-            { AbilityReference.DaggerThrow, 5 },
-            { AbilityReference.Lunge, 6 },
-            { AbilityReference.Smash, 7 },
-            { AbilityReference.Fireball, 8 },
-            { AbilityReference.Whirlwind, 9 },
-        };
+        AbilityInventory = new EnumDictionary<AbilityReference, int>(0);
+        AbilityInventory[AbilityReference.Bite] = 1;
+        AbilityInventory[AbilityReference.Pounce] = 2;
+        AbilityInventory[AbilityReference.Slash] = 3;
+        AbilityInventory[AbilityReference.Roll] = 4;
+        AbilityInventory[AbilityReference.DaggerThrow] = 5;
+        AbilityInventory[AbilityReference.Lunge] = 6;
+        AbilityInventory[AbilityReference.Smash] = 7;
+        AbilityInventory[AbilityReference.Whirlwind] = 9;
 
         AbilityTree = AbilityTreeFactory.CreateTree(
             AbilityTreeFactory.CreateNode(

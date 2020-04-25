@@ -4,40 +4,37 @@ using UnityEngine;
 
 public class AbilityTreeMenuController : MonoBehaviour
 {
-    [SerializeField]
-    private Player player = null;
+    private Player player;
 
     [SerializeField]
     private GameObject abilityTreeContent = null;
 
     [SerializeField]
-    private GameObject abilityPanelPrefab = null;
+    private AbilityPanel abilityPanelPrefab = null;
 
     void Start()
     {
+        player = RoomManager.Instance.Player;
+
         PopulateAbilityList();
     }
 
     private void PopulateAbilityList()
     {
         //destroy all current panels
-        foreach (Transform child in this.abilityTreeContent.transform)
+        foreach (Transform child in abilityTreeContent.transform)
         {
             Destroy(child.gameObject);
         }
 
-        foreach (KeyValuePair<AbilityReference, int> item in this.player.AbilityInventory)
+        foreach (KeyValuePair<AbilityReference, int> item in player.AbilityInventory)
         {
             if (item.Value > 0)
             {
-                GameObject abilityPanel = Instantiate(this.abilityPanelPrefab, Vector3.zero, Quaternion.identity);
-                abilityPanel.transform.SetParent(this.abilityTreeContent.transform, false);
+                AbilityPanel abilityPanel = Instantiate(abilityPanelPrefab, Vector3.zero, Quaternion.identity);
+                abilityPanel.transform.SetParent(abilityTreeContent.transform, false);
 
-                abilityPanel.GetComponent<AbilityPanel>().InitialisePanel(item.Key, item.Value);
-
-                // determine Vector3 location for abilityPanel
-
-                // link to icon, name and quantity - do on abilityPanel script where it can reference children
+                abilityPanel.Initialise(item.Key, item.Value);
             }
         }
     }

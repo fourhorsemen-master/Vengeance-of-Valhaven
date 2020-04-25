@@ -12,7 +12,7 @@ public class AbilityPanel : MonoBehaviour
     [SerializeField]
     private Text quantityPanelText = null;
 
-    public void InitialisePanel(AbilityReference ability, int quantity)
+    public void Initialise(AbilityReference ability, int quantity)
     {
         iconPanelImage.sprite = AbilityIconManager.Instance.GetIcon(ability);
 
