@@ -39,7 +39,8 @@ public class AbilityManager
     {
         if (player.ChannelService.Active) return;
 
-        RemainingAbilityCooldown = Mathf.Max(0f, RemainingAbilityCooldown - Time.deltaTime);
+        float decrement = whiffed ? Time.deltaTime / 2 : Time.deltaTime;
+        RemainingAbilityCooldown = Mathf.Max(0f, RemainingAbilityCooldown - decrement);
 
         if (RemainingAbilityCooldown > 0f || CastingStatus != CastingStatus.Cooldown) return;
 
@@ -71,6 +72,7 @@ public class AbilityManager
                 {
                     player.AbilityTree.Reset();
                     whiffed = true;
+                    player.whiffAudio.Play();
                 });
             }
         });
@@ -160,6 +162,7 @@ public class AbilityManager
     {
         abilityFeedbackSubscription.Unsubscribe();
         whiffed = !successful;
+        if (whiffed) player.whiffAudio.Play();
         AbilityCompletionSubject.Next(
             new Tuple<bool, Direction>(successful, lastCastDirection)
         );
