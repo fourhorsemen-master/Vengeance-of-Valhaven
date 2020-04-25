@@ -6,6 +6,7 @@ public class AbilityManager
 	private readonly Player player;
     private readonly float abilityTimeoutLimit;
     private readonly float abilityCooldown;
+    private float remainingAbilityCooldown = 0f;
 
     private Direction lastCastDirection;
     private bool whiffed = true;
@@ -14,7 +15,7 @@ public class AbilityManager
     private ActionControlState previousActionControlState = ActionControlState.None;
     private ActionControlState currentActionControlState = ActionControlState.None;
 
-    public float RemainingAbilityCooldown { get; private set; } = 0f;
+    public float RemainingCooldownProportion => remainingAbilityCooldown / abilityCooldown;
     public CastingStatus CastingStatus { get; private set; } = CastingStatus.Ready;
     public Subject<Tuple<bool, Direction>> AbilityCompletionSubject { get; } = new Subject<Tuple<bool, Direction>>();
 
@@ -40,9 +41,9 @@ public class AbilityManager
         if (player.ChannelService.Active) return;
 
         float decrement = whiffed ? Time.deltaTime / 2 : Time.deltaTime;
-        RemainingAbilityCooldown = Mathf.Max(0f, RemainingAbilityCooldown - decrement);
+        remainingAbilityCooldown = Mathf.Max(0f, remainingAbilityCooldown - decrement);
 
-        if (RemainingAbilityCooldown > 0f || CastingStatus != CastingStatus.Cooldown) return;
+        if (remainingAbilityCooldown > 0f || CastingStatus != CastingStatus.Cooldown) return;
 
         abilityFeedbackSubscription.Unsubscribe();
 
@@ -95,12 +96,12 @@ public class AbilityManager
                 // Handle case where channel has ended naturally.
                 if (!player.ChannelService.Active)
                 {
-                    CastingStatus = RemainingAbilityCooldown <= 0f ? CastingStatus.Ready : CastingStatus.Cooldown;
+                    CastingStatus = remainingAbilityCooldown <= 0f ? CastingStatus.Ready : CastingStatus.Cooldown;
                 }
                 break;
             case CastingCommand.CancelChannel:
                 player.ChannelService.Cancel();
-                CastingStatus = RemainingAbilityCooldown <= 0f ? CastingStatus.Ready : CastingStatus.Cooldown;
+                CastingStatus = remainingAbilityCooldown <= 0f ? CastingStatus.Ready : CastingStatus.Cooldown;
                 break;
             case CastingCommand.CastLeft:
                 BranchAndCast(Direction.Left);
@@ -119,7 +120,7 @@ public class AbilityManager
             return;
         }
 
-        RemainingAbilityCooldown = abilityCooldown;
+        remainingAbilityCooldown = abilityCooldown;
         lastCastDirection = direction;
         if (abilityTimeout != null)
         {

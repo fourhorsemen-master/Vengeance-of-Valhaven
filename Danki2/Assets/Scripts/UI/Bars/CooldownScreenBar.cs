@@ -16,6 +16,6 @@ public class CooldownScreenBar : ScreenBar
 
     private void Update()
     {
-        SetWidth(player.AbilityManager.RemainingAbilityCooldown / player.abilityCooldown);
+        //SetWidth(player.AbilityManager.remainingAbilityCooldown / player.abilityCooldown);
     }
 }
