@@ -4,5 +4,7 @@ public enum Stat
 {
     MaxHealth,
     Speed,
-    Strength
+    Power,
+    Defence,
+    Recovery,
 }

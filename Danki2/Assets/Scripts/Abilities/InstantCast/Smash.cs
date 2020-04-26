@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Smash : InstantCast
 {
@@ -7,7 +6,7 @@ public class Smash : InstantCast
 
     private const float DistanceFromCaster = 1f;
     private const float Radius = 1f;
-    private const float DamageMultiplier = 2f;
+    private const int Damage = 10;
 
     public Smash(AbilityContext context, AbilityData abilityData) : base(context, abilityData)
     {
@@ -24,7 +23,6 @@ public class Smash : InstantCast
         Vector3 directionToTarget = target == position ? Vector3.right : (target - position).normalized;
         Vector3 center = position + (directionToTarget * DistanceFromCaster);
 
-        int damage = Mathf.CeilToInt(owner.GetStat(Stat.Strength) * DamageMultiplier);
         bool hasDealtDamage = false;
 
         CollisionTemplateManager.Instance.GetCollidingActors(
@@ -35,12 +33,14 @@ public class Smash : InstantCast
         {
             if (owner.Opposes(actor))
             {
-                actor.ModifyHealth(-damage);
+                actor.ModifyHealth(-Damage);
                 hasDealtDamage = true;
             }
         });
 
+        CustomCamera.Instance.AddShake(ShakeIntensity.High);
         SmashObject.Create(position, Quaternion.LookRotation(target - position));
+
         SuccessFeedbackSubject.Next(hasDealtDamage);
     }
 }

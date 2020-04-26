@@ -115,7 +115,7 @@ public class AbilityManager
     {
         if (!player.AbilityTree.CanWalkDirection(direction))
         {
-            // Feedback to user that there is no ability here.
+            // TODO: Feedback to user that there is no ability here.
             return;
         }
 
@@ -128,10 +128,14 @@ public class AbilityManager
 
         AbilityReference abilityReference = player.AbilityTree.GetAbility(direction);
 
-        AbilityContext abilityContext = new AbilityContext(
-            player,
-            MouseGamePositionFinder.Instance.GetMouseGamePosition()
-        );
+        // We try to get the mouse game position in scene for the AbilityContext.
+        if (!MouseGamePositionFinder.Instance.TryGetMouseGamePosition(out Vector3 mousePosition))
+        {
+            // If the mouse is outside the scene, we use the mouse position on a horizontal plane at the players height.
+            mousePosition = MouseGamePositionFinder.Instance.GetMousePlanePosition(player.transform.position.y, true);
+        }
+
+        AbilityContext abilityContext = new AbilityContext(player, mousePosition);
 
         if (AbilityLookup.TryGetInstantCast(
                 abilityReference,

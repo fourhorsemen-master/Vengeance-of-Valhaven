@@ -6,12 +6,12 @@ public class Whirlwind : Channel
     public static readonly AbilityData BaseAbilityData = new AbilityData(0, 0, 0);
 
     private const float spinRange = 2;
-    private const float spinDamageMultiplier = 0.3f;
+    private const int spinDamage = 3;
     private const float spinDamageInterval = 0.35f;
     private const float spinDamageStartDelay = 0.1f;
     private const float selfSlowMultiplier = 0.5f;
     private const float finishRange = 3;
-    private const float finishDamageMultiplier = 1;
+    private const int finishDamage = 5;
 
     private bool hasHitActor = false;
     private WhirlwindObject whirlwindObject;
@@ -29,7 +29,7 @@ public class Whirlwind : Channel
     public override void Start()
     {
         slowEffectId = Context.Owner.EffectManager.AddPassiveEffect(new Slow(selfSlowMultiplier));
-        repeater = new Repeater(spinDamageInterval, () => AOE(spinRange, spinDamageMultiplier), spinDamageStartDelay);
+        repeater = new Repeater(spinDamageInterval, () => AOE(spinRange, spinDamage), spinDamageStartDelay);
 
         Vector3 position = Context.Owner.transform.position;
         Vector3 target = Context.TargetPosition;
@@ -43,7 +43,7 @@ public class Whirlwind : Channel
 
     public override void Cancel()
     {
-        if (!this.hasHitActor) SuccessFeedbackSubject.Next(false);
+        if (!hasHitActor) SuccessFeedbackSubject.Next(false);
 
         Context.Owner.EffectManager.RemovePassiveEffect(slowEffectId);
         whirlwindObject.DestroyWhirlwind();
@@ -51,18 +51,18 @@ public class Whirlwind : Channel
 
     public override void End()
     {
-        AOE(finishRange, finishDamageMultiplier);
+        AOE(finishRange, finishDamage);
 
-        if (!this.hasHitActor) SuccessFeedbackSubject.Next(false);
+        if (!hasHitActor) SuccessFeedbackSubject.Next(false);
 
         Context.Owner.EffectManager.RemovePassiveEffect(slowEffectId);
         whirlwindObject.DestroyWhirlwind();
     }
 
-    private void AOE(float radius, float damageMultiplier)
+    private void AOE(float radius, int damage)
     {
         Actor owner = Context.Owner;
-        int damage = Mathf.CeilToInt(owner.GetStat(Stat.Strength) * damageMultiplier);
+        bool actorsHit = false;
 
         CollisionTemplateManager.Instance.GetCollidingActors(
             CollisionTemplate.Cylinder,
@@ -74,10 +74,15 @@ public class Whirlwind : Channel
             if (actor.Opposes(owner))
             {
                 actor.ModifyHealth(-damage);
-                this.hasHitActor = true;
+                actorsHit = true;
             }
         });
 
-        if (this.hasHitActor) SuccessFeedbackSubject.Next(true);
+        if (actorsHit)
+        {
+            CustomCamera.Instance.AddShake(ShakeIntensity.Low);
+            hasHitActor = true;
+            SuccessFeedbackSubject.Next(true);
+        }
     }
 }

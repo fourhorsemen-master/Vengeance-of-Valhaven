@@ -1,13 +1,12 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 class DaggerThrow : InstantCast
 {
     public static readonly AbilityData BaseAbilityData = new AbilityData(0, 0, 0);
 
     private const float DaggerSpeed = 20f;
-    private const float ImpactDamageMultiplier = 0.5f;
-    private const float DamagePerTickMultiplier = 0.5f;
+    private const int ImpactDamage = 2;
+    private const int TickDamage = 1;
     private const float DamageTickInterval = 1f;
     private const float DotDuration = 3f;
     private static readonly Vector3 positionTransform = new Vector3(0, 1.25f, 0);
@@ -36,13 +35,10 @@ class DaggerThrow : InstantCast
                 return;
             }
 
-            int strength = Context.Owner.GetStat(Stat.Strength);
+            int strength = Context.Owner.GetStat(Stat.Power);
 
-            int impactDamage = Mathf.CeilToInt(strength * ImpactDamageMultiplier);
-            actor.ModifyHealth(-impactDamage);
-
-            int damagePerTick = Mathf.CeilToInt(strength * DamagePerTickMultiplier);
-            actor.EffectManager.AddActiveEffect(new DOT(damagePerTick, DamageTickInterval), DotDuration);
+            actor.ModifyHealth(-ImpactDamage);
+            actor.EffectManager.AddActiveEffect(new DOT(TickDamage, DamageTickInterval), DotDuration);
 
             SuccessFeedbackSubject.Next(true);
         }

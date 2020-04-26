@@ -1,9 +1,9 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 public class Bite : InstantCast
 {
     public static readonly AbilityData BaseAbilityData = new AbilityData(0, 0, 0);
 
+    public const int Damage = 5;
     public const float Range = 2f;
     private const float DelayBeforeDamage = 0.75f;
     private const float PauseDuration = 0.3f;
@@ -15,10 +15,14 @@ public class Bite : InstantCast
     public override void Cast()
     {  
         Actor owner = Context.Owner;
-        int damage = owner.GetStat(Stat.Strength);
         Vector3 position = owner.transform.position;
-        Vector3 targetPosition = Context.TargetPosition;
-        targetPosition.y = 0f;
+        Vector3 target = Context.TargetPosition;
+        target.y = 0f;
+
+        BiteObject.Create(owner.transform);
+
+        owner.MovementManager.LookAt(target);
+        owner.MovementManager.Stun(DelayBeforeDamage + PauseDuration);
 
         owner.WaitAndAct(DelayBeforeDamage, () =>
         {
@@ -28,21 +32,24 @@ public class Bite : InstantCast
                 CollisionTemplate.Wedge90,
                 Range,
                 position,
-                Quaternion.LookRotation(targetPosition - position)
+                Quaternion.LookRotation(target - position)
             ).ForEach(actor =>
             {
                 if (owner.Opposes(actor))
                 {
-                    actor.ModifyHealth(-damage);
+                    actor.ModifyHealth(-Damage);
                     hasDealtDamage = true;
                     actor.InterruptionManager.Interrupt(InterruptionType.Soft);
                 }
             });
 
             SuccessFeedbackSubject.Next(hasDealtDamage);
+
+            if (hasDealtDamage)
+            {
+                CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
+            }
         });
 
-        BiteObject.Create(owner.transform);
-        owner.MovementManager.Stun(PauseDuration);
     }
 }

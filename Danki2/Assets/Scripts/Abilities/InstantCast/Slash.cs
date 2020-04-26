@@ -1,12 +1,12 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Slash : InstantCast
 {
     public static readonly AbilityData BaseAbilityData = new AbilityData(0, 0, 0);
     
     private const float Range = 4f;
-    private const float DamageMultiplier = 1.5f;
+    private const float PauseDuration = 0.3f;
+    private const int Damage = 5;
 
     public Slash(AbilityContext context, AbilityData abilityData) : base(context, abilityData)
     {
@@ -18,27 +18,36 @@ public class Slash : InstantCast
 
         Vector3 position = owner.transform.position;
         Vector3 target = Context.TargetPosition;
-        target.y = 0;
+        Vector3 castDirection = target - position;
+        castDirection.y = 0f;
 
-        int damage = Mathf.CeilToInt(owner.GetStat(Stat.Strength) * DamageMultiplier);
         bool hasDealtDamage = false;
 
         CollisionTemplateManager.Instance.GetCollidingActors(
             CollisionTemplate.Wedge90,
             Range,
             position,
-            Quaternion.LookRotation(target - position)
+            Quaternion.LookRotation(castDirection)
         ).ForEach(actor =>
         {
             if (owner.Opposes(actor))
             {
-                actor.ModifyHealth(-damage);
+                actor.ModifyHealth(-Damage);
                 hasDealtDamage = true;
             }
         });
 
         SuccessFeedbackSubject.Next(hasDealtDamage);
 
-        GameObject.Instantiate(AbilityObjectPrefabLookup.Instance.SlashObjectPrefab, owner.transform);
+        SlashObject slashObject = SlashObject.Create(position, Quaternion.LookRotation(castDirection));
+
+        owner.MovementManager.LookAt(target);
+        owner.MovementManager.Stun(PauseDuration);
+
+        if (hasDealtDamage)
+        {
+            CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
+            slashObject.PlayHitSound();
+        }
     }
 }

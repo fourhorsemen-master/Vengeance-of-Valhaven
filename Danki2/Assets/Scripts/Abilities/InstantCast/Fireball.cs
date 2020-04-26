@@ -1,10 +1,10 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Fireball : InstantCast
 {
     public static readonly AbilityData BaseAbilityData = new AbilityData(0, 0, 0);
 
+    private const int Damage = 5;
     private const float FireballSpeed = 5;
     private static readonly Vector3 _positionTransform = new Vector3(0, 1.25f, 0);
 
@@ -22,6 +22,8 @@ public class Fireball : InstantCast
 
     private void OnCollision(GameObject gameObject)
     {
+        CustomCamera.Instance.AddShake(ShakeIntensity.High);
+
         if (gameObject.IsActor())
         {
             Actor actor = gameObject.GetComponent<Actor>();
@@ -32,8 +34,7 @@ public class Fireball : InstantCast
                 return;
             }
 
-            int strength = Context.Owner.GetStat(Stat.Strength);
-            actor.ModifyHealth(-strength);
+            actor.ModifyHealth(-Damage);
 
             SuccessFeedbackSubject.Next(true);
         }

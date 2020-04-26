@@ -70,13 +70,22 @@ public class MovementManager
     }
 
     /// <summary>
-    /// Rotate the actor to face the target until we begin movement.
+    /// Lerp rotate the actor to face the target until we begin movement.
     /// </summary>
     /// <param name="watchTarget"></param>
     public void Watch(Transform watchTarget)
     {
         this.watchTarget = watchTarget;
         this.watching = true;
+    }
+
+    /// <summary>
+    /// Snap rotate the actor to face the position.
+    /// </summary>
+    /// <param name="position"></param>
+    public void LookAt(Vector3 position)
+    {
+        actor.transform.rotation = Quaternion.LookRotation(position - actor.transform.position);
     }
 
     public void StopPathfinding()
