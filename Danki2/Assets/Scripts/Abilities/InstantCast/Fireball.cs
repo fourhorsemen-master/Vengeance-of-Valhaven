@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Fireball : InstantCast
 {
+    private const int Damage = 5;
     private const float FireballSpeed = 5;
     private static readonly Vector3 _positionTransform = new Vector3(0, 1.25f, 0);
 
@@ -30,8 +31,7 @@ public class Fireball : InstantCast
                 return;
             }
 
-            int strength = Context.Owner.GetStat(Stat.Strength);
-            actor.ModifyHealth(-strength);
+            actor.ModifyHealth(-Damage);
 
             SuccessFeedbackSubject.Next(true);
         }
