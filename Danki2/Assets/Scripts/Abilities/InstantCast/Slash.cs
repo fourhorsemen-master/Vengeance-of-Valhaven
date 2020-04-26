@@ -1,9 +1,9 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Slash : InstantCast
 {
     private const float Range = 4f;
+    private const float PauseDuration = 0.3f;
     private const int Damage = 5;
 
     public Slash(AbilityContext context) : base(context)
@@ -37,10 +37,15 @@ public class Slash : InstantCast
 
         SuccessFeedbackSubject.Next(hasDealtDamage);
 
-        GameObject.Instantiate(
-            AbilityObjectPrefabLookup.Instance.SlashObjectPrefab, 
-            position, 
-            Quaternion.LookRotation(castDirection)
-        );
+        SlashObject slashObject = SlashObject.Create(position, Quaternion.LookRotation(castDirection));
+
+        owner.MovementManager.LookAt(target);
+        owner.MovementManager.Stun(PauseDuration);
+
+        if (hasDealtDamage)
+        {
+            CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
+            slashObject.PlayHitSound();
+        }
     }
 }

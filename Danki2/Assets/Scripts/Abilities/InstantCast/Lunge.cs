@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Lunge : InstantCast
 {
@@ -8,6 +7,7 @@ public class Lunge : InstantCast
     private const int Damage = 4;
     private const float StunRange = 2f;
     private const float StunDuration = 0.5f;
+    private const float PauseDuration = 0.3f;
 
     public Lunge(AbilityContext context) : base(context)
     {
@@ -29,7 +29,7 @@ public class Lunge : InstantCast
             direction
         );
 
-        LungeObject.Create(position, Quaternion.LookRotation(target - position));
+        LungeObject lungeObject = LungeObject.Create(position, Quaternion.LookRotation(target - position));
 
         owner.InterruptableAction(
             LungeDuration,
@@ -54,6 +54,13 @@ public class Lunge : InstantCast
                 });
 
                 SuccessFeedbackSubject.Next(hasDealtDamage);
+                owner.MovementManager.Stun(PauseDuration);
+
+                if (hasDealtDamage)
+                {
+                    CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
+                    lungeObject.PlayHitSound();
+                }
             }
         );
     }

@@ -41,7 +41,7 @@ public class Whirlwind : Channel
 
     public override void Cancel()
     {
-        if (!this.hasHitActor) SuccessFeedbackSubject.Next(false);
+        if (!hasHitActor) SuccessFeedbackSubject.Next(false);
 
         Context.Owner.EffectManager.RemovePassiveEffect(slowEffectId);
         whirlwindObject.DestroyWhirlwind();
@@ -51,7 +51,7 @@ public class Whirlwind : Channel
     {
         AOE(finishRange, finishDamage);
 
-        if (!this.hasHitActor) SuccessFeedbackSubject.Next(false);
+        if (!hasHitActor) SuccessFeedbackSubject.Next(false);
 
         Context.Owner.EffectManager.RemovePassiveEffect(slowEffectId);
         whirlwindObject.DestroyWhirlwind();
@@ -60,6 +60,7 @@ public class Whirlwind : Channel
     private void AOE(float radius, int damage)
     {
         Actor owner = Context.Owner;
+        bool actorsHit = false;
 
         CollisionTemplateManager.Instance.GetCollidingActors(
             CollisionTemplate.Cylinder,
@@ -71,10 +72,15 @@ public class Whirlwind : Channel
             if (actor.Opposes(owner))
             {
                 owner.DamageTarget(actor, damage);
-                this.hasHitActor = true;
+                actorsHit = true;
             }
         });
 
-        if (this.hasHitActor) SuccessFeedbackSubject.Next(true);
+        if (actorsHit)
+        {
+            CustomCamera.Instance.AddShake(ShakeIntensity.Low);
+            hasHitActor = true;
+            SuccessFeedbackSubject.Next(true);
+        }
     }
 }

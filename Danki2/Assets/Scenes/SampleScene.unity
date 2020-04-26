@@ -1631,6 +1631,12 @@ MonoBehaviour:
   angle: 50
   mouseFollowFactor: 0.396
   smoothFactor: 0
+  smallShakeStrength: 8
+  smallShakeDuration: 0.05
+  mediumShakeStrength: 10
+  mediumShakeDuration: 0.1
+  bigShakeStrength: 12
+  bigShakeDuration: 0.2
 --- !u!114 &963194230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1653,7 +1659,7 @@ MonoBehaviour:
   antialiasing: 0
   SMAAQuality: 2
   dithering: 0
-  stopNaNs: 0
+  stopNaNs: 1
   physicalParameters:
     m_Iso: 200
     m_ShutterSpeed: 0.005
@@ -3160,6 +3166,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1716801466120109581, guid: 457c892ab6103af40903f076b7b1bb43,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.000061035156
+      objectReference: {fileID: 0}
+    - target: {fileID: 1716801466120109581, guid: 457c892ab6103af40903f076b7b1bb43,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.000030517578
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 457c892ab6103af40903f076b7b1bb43, type: 3}

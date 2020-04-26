@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class Stun : Effect
+﻿public class Stun : Effect
 {
     private readonly float duration;
 

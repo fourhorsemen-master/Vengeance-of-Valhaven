@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 
-public class CustomCamera : MonoBehaviour
+public class CustomCamera : Singleton<CustomCamera>
 {
+    // Camera settings
     [SerializeField]
     private GameObject target = null;
 
@@ -17,23 +18,48 @@ public class CustomCamera : MonoBehaviour
     [SerializeField, Range(0f, 1f)]
     private float smoothFactor = 0f;
 
+    // Shake levels
+    [SerializeField, Range(0, 50)]
+    private float smallShakeStrength = 10;
+
+    [SerializeField, Range(0, 1)]
+    private float smallShakeDuration = 10;
+
+    [SerializeField, Range(0, 50)]
+    private float mediumShakeStrength = 10;
+
+    [SerializeField, Range(0, 1)]
+    private float mediumShakeDuration = 10;
+
+    [SerializeField, Range(0, 50)]
+    private float bigShakeStrength = 10;
+
+    [SerializeField, Range(0, 1)]
+    private float bigShakeDuration = 10;
+
+
     private Vector3 desiredPosition;
 
     private CameraShakeManager shakeManager = new CameraShakeManager(4);
 
-    public void AddShake(float strength, float duration, float interval = CameraShake.DefaultInterval)
+    public void AddShake(ShakeIntensity intensity)
     {
-        shakeManager.AddCameraShake(strength, duration, interval);
+        switch (intensity)
+        {
+            case ShakeIntensity.Low:
+                shakeManager.AddCameraShake(smallShakeStrength, smallShakeDuration);
+                break;
+            case ShakeIntensity.Medium:
+                shakeManager.AddCameraShake(mediumShakeStrength, mediumShakeDuration);
+                break;
+            case ShakeIntensity.High:
+                shakeManager.AddCameraShake(bigShakeStrength, bigShakeDuration);
+                break;
+        }
     }
 
     private void Update()
     {
-        // TODO: Remove the following test key.
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            shakeManager.AddCameraShake(15f, 0.3f);
-        }
-
         UpdateRotation();
         FollowTarget();
         shakeManager.ApplyShake(transform);

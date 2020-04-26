@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Smash : InstantCast
 {
@@ -37,7 +36,9 @@ public class Smash : InstantCast
             }
         });
 
+        CustomCamera.Instance.AddShake(ShakeIntensity.High);
         SmashObject.Create(position, Quaternion.LookRotation(target - position));
+
         SuccessFeedbackSubject.Next(hasDealtDamage);
     }
 }

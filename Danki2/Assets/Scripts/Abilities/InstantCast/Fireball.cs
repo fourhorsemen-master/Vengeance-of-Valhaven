@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Fireball : InstantCast
 {
@@ -21,6 +20,8 @@ public class Fireball : InstantCast
 
     private void OnCollision(GameObject gameObject)
     {
+        CustomCamera.Instance.AddShake(ShakeIntensity.High);
+
         if (gameObject.IsActor())
         {
             Actor actor = gameObject.GetComponent<Actor>();
