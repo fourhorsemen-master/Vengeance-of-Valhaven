@@ -1,48 +1,62 @@
 ﻿using UnityEngine;
+using UnityEngine.AI;
 
 public class MouseGamePositionFinder : Singleton<MouseGamePositionFinder>
 {
     [SerializeField]
-    private float _planeHeight = 0;
+    private float heightOffset = 0;
 
-    private Plane _plane;
+    [SerializeField]
+    private float navmeshClearance = 0;
 
-    protected override void Awake()
-    {
-        base.Awake();
-
-        _plane = new Plane(Vector3.up, _planeHeight * Vector3.up);
-    }
+    private Plane plane = new Plane(Vector3.down, 0f);
 
     /// <summary>
-    /// Returns position of mouse when projected to a horizontal plane at the height set on
-    /// this component.
+    /// Casts a ray from the camera through the mouse to get the position where it collides with a collider.
+    /// If this point is close to the navMesh, we add a vector that moves the point towards the camera such that y-value is increased by heightOffset.
+    /// This is so that if you click on the 'floor', you'll fire horizontally.
     /// </summary>
-    /// <returns></returns>
-    public Vector3 GetMouseGamePosition()
+    /// <returns>True if the mouse is within the scene.</returns>
+    public bool TryGetMouseGamePosition(out Vector3 position)
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        if (_plane.Raycast(ray, out float enter))
+        if (!Physics.Raycast(ray, out RaycastHit raycastHit))
         {
-            return ray.GetPoint(enter);
+            position = default;
+            return false;
+        }
+
+        if (NavMesh.SamplePosition(raycastHit.point, out _, navmeshClearance, NavMesh.AllAreas))
+        {
+            position = raycastHit.point;
+            Vector3 positionToCamera = Camera.main.transform.position - position;
+            Vector3 offset = positionToCamera * heightOffset / positionToCamera.y;
+
+            position += offset;
         }
         else
         {
-            Debug.LogError("Unable to find mouse position in world");
-            return default;
+            position = raycastHit.point;
         }
+
+        return true;
     }
 
     /// <summary>
-    /// Returns the position of the mouse when projected onto the horizontal plane, of the
-    /// height set on this component, and then casts down to the floor.
+    /// Get the mouse position on a horizontal plane at a given height.
     /// </summary>
+    /// <param name="planeHeight"></param>
+    /// <param name="includeOffset">Include the global height offset in addition to the planeHeight. Default false.</param>
     /// <returns></returns>
-    public Vector3 GetFlooredMouseGamePosition()
+    public Vector3 GetMousePlanePosition(float planeHeight, bool includeOffset = false)
     {
-        Vector3 mouseGamePosition = GetMouseGamePosition();
-        mouseGamePosition.y = 0;
-        return mouseGamePosition;
+        if (includeOffset) planeHeight += heightOffset;
+        plane.distance = planeHeight;
+
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        plane.Raycast(ray, out float distanceAlongRay);
+
+        return ray.GetPoint(distanceAlongRay);
     }
 }
