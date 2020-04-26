@@ -4,6 +4,7 @@ using UnityEngine;
 public class Pounce : InstantCast
 {
     // The ai casting this ability should determine cast range
+    private const int Damage = 4;
     private const float MovementDuration = 0.5f;
     private const float MovementSpeedMultiplier = 3f;
     private const float DamageRadius = 2f;
@@ -35,7 +36,6 @@ public class Pounce : InstantCast
             InterruptionType.Hard,
             () =>
             {
-                int damage = Mathf.CeilToInt(owner.GetStat(Stat.Strength));
                 bool hasDealtDamage = false;
 
                 CollisionTemplateManager.Instance.GetCollidingActors(
@@ -47,7 +47,7 @@ public class Pounce : InstantCast
                 {
                     if (owner.Opposes(actor))
                     {
-                        owner.DamageTarget(actor, damage);
+                        owner.DamageTarget(actor, Damage);
                         hasDealtDamage = true;
                     }
                 });

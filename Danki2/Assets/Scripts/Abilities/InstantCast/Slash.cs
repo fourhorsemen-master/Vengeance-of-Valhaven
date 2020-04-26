@@ -4,7 +4,7 @@ using UnityEngine;
 public class Slash : InstantCast
 {
     private const float Range = 4f;
-    private const float DamageMultiplier = 1.5f;
+    private const int Damage = 5;
 
     public Slash(AbilityContext context) : base(context)
     {
@@ -16,27 +16,31 @@ public class Slash : InstantCast
 
         Vector3 position = owner.transform.position;
         Vector3 target = Context.TargetPosition;
-        target.y = 0;
+        Vector3 castDirection = target - position;
+        castDirection.y = 0f;
 
-        int damage = Mathf.CeilToInt(owner.GetStat(Stat.Strength) * DamageMultiplier);
         bool hasDealtDamage = false;
 
         CollisionTemplateManager.Instance.GetCollidingActors(
             CollisionTemplate.Wedge90,
             Range,
             position,
-            Quaternion.LookRotation(target - position)
+            Quaternion.LookRotation(castDirection)
         ).ForEach(actor =>
         {
             if (owner.Opposes(actor))
             {
-                owner.DamageTarget(actor, damage);
+                owner.DamageTarget(actor, Damage);
                 hasDealtDamage = true;
             }
         });
 
         SuccessFeedbackSubject.Next(hasDealtDamage);
 
-        GameObject.Instantiate(AbilityObjectPrefabLookup.Instance.SlashObjectPrefab, owner.transform);
+        GameObject.Instantiate(
+            AbilityObjectPrefabLookup.Instance.SlashObjectPrefab, 
+            position, 
+            Quaternion.LookRotation(castDirection)
+        );
     }
 }

@@ -5,7 +5,7 @@ public class Lunge : InstantCast
 {
     private const float LungeDuration = 0.2f;
     private const float LungeSpeedMultiplier = 6f;
-    private const float LungeDamageMultiplier = 0.5f;
+    private const int Damage = 4;
     private const float StunRange = 2f;
     private const float StunDuration = 0.5f;
 
@@ -36,7 +36,6 @@ public class Lunge : InstantCast
             InterruptionType.Hard,
             () =>
             {
-                int damage = Mathf.CeilToInt(owner.GetStat(Stat.Strength) * LungeDamageMultiplier);
                 bool hasDealtDamage = false;
 
                 CollisionTemplateManager.Instance.GetCollidingActors(
@@ -49,7 +48,7 @@ public class Lunge : InstantCast
                     if (owner.Opposes(actor))
                     {
                         actor.EffectManager.AddActiveEffect(new Stun(StunDuration), StunDuration);
-                        owner.DamageTarget(actor, damage);
+                        owner.DamageTarget(actor, Damage);
                         hasDealtDamage = true;
                     }
                 });
