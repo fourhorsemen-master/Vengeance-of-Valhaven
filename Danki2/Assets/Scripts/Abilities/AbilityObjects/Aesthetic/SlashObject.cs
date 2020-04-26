@@ -29,8 +29,6 @@ public class SlashObject : MonoBehaviour
         remainingDuration = duration;
         meshRenderer.material.SetColor("Color", desiredColor);
         meshRenderer.enabled = true;
-
-        transform.LookAt(MouseGamePositionFinder.Instance.GetFlooredMouseGamePosition());
     }
 
     private void Update()

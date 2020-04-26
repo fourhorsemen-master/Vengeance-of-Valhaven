@@ -10,4 +10,11 @@ public class EnumDictionary<TEnumKey, TValue> : Dictionary<TEnumKey, TValue> whe
             Add(key, defaultValueProvider());
         }
     }
+    public EnumDictionary(TValue defaultValue)
+    {
+        foreach (TEnumKey key in Enum.GetValues(typeof(TEnumKey)))
+        {
+            Add(key, defaultValue);
+        }
+    }
 }

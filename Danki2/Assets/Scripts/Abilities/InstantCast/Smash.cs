@@ -4,7 +4,7 @@ public class Smash : InstantCast
 {
     private const float DistanceFromCaster = 1f;
     private const float Radius = 1f;
-    private const float DamageMultiplier = 2f;
+    private const int Damage = 10;
 
     public Smash(AbilityContext context) : base(context)
     {
@@ -21,7 +21,6 @@ public class Smash : InstantCast
         Vector3 directionToTarget = target == position ? Vector3.right : (target - position).normalized;
         Vector3 center = position + (directionToTarget * DistanceFromCaster);
 
-        int damage = Mathf.CeilToInt(owner.GetStat(Stat.Strength) * DamageMultiplier);
         bool hasDealtDamage = false;
 
         CollisionTemplateManager.Instance.GetCollidingActors(
@@ -32,7 +31,7 @@ public class Smash : InstantCast
         {
             if (owner.Opposes(actor))
             {
-                actor.ModifyHealth(-damage);
+                actor.ModifyHealth(-Damage);
                 hasDealtDamage = true;
             }
         });
