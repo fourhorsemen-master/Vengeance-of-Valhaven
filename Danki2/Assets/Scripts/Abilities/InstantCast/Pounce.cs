@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Pounce : InstantCast
 {
@@ -49,8 +48,13 @@ public class Pounce : InstantCast
                 }
             });
 
-            owner.MovementManager.Stun(PauseDuration);
             SuccessFeedbackSubject.Next(hasDealtDamage);
+            owner.MovementManager.Stun(PauseDuration);
+
+            if (hasDealtDamage)
+            {
+                CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
+            }
         });
     }
 }
