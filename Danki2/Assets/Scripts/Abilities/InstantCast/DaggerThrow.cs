@@ -35,11 +35,8 @@ class DaggerThrow : InstantCast
                 return;
             }
 
-            int strength = Context.Owner.GetStat(Stat.Power);
-
-            actor.ModifyHealth(-ImpactDamage);
+            Context.Owner.DamageTarget(actor, ImpactDamage);
             actor.EffectManager.AddActiveEffect(new DOT(TickDamage, DamageTickInterval), DotDuration);
-
             SuccessFeedbackSubject.Next(true);
         }
         else

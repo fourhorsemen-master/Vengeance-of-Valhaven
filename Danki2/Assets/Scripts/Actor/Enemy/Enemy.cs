@@ -13,6 +13,6 @@ public abstract class Enemy : Actor
     {
         OnTelegraph.Next();
 
-        this.WaitAndAct(waitTime, () => InstantCastService.Cast(abilityReference, targetPosition));
+        InterruptableAction(waitTime, InterruptionType.Hard, () => InstantCastService.Cast(abilityReference, targetPosition));
     }
 }

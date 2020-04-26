@@ -9,11 +9,11 @@ public class ChannelService
     public float TotalDuration => _currentChannel.Duration;
 
     public ChannelService(Subject updateSubject, InterruptionManager interruptionManager)
-    {
-        interruptionManager.Register(InterruptionType.Soft, () => Cancel());
-        
+    {        
         updateSubject.Subscribe(() =>
         {
+            interruptionManager.Register(InterruptionType.Hard, () => Cancel());
+
             if (!Active)
             {
                 RemainingDuration = 0f;

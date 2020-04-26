@@ -13,7 +13,11 @@
 
     public override void Start(Actor actor)
     {
-        repeater = new Repeater(tickInterval, () => actor.ModifyHealth(-damagePerTick), tickInterval);
+        repeater = new Repeater(
+            tickInterval,
+            () => actor.HealthManager.TickDamage(damagePerTick),
+            tickInterval
+        );
     }
 
     public override void Update(Actor actor)

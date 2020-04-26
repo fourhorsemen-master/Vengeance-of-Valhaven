@@ -24,32 +24,37 @@ public class Bite : InstantCast
         owner.MovementManager.LookAt(target);
         owner.MovementManager.Stun(DelayBeforeDamage + PauseDuration);
 
-        owner.WaitAndAct(DelayBeforeDamage, () =>
-        {
-            bool hasDealtDamage = false;
-
-            CollisionTemplateManager.Instance.GetCollidingActors(
-                CollisionTemplate.Wedge90,
-                Range,
-                position,
-                Quaternion.LookRotation(target - position)
-            ).ForEach(actor =>
+        owner.InterruptableAction(
+            DelayBeforeDamage,
+            InterruptionType.Hard,
+            () =>
             {
-                if (owner.Opposes(actor))
+                bool hasDealtDamage = false;
+
+                CollisionTemplateManager.Instance.GetCollidingActors(
+                    CollisionTemplate.Wedge90,
+                    Range,
+                    position,
+                    Quaternion.LookRotation(target - position)
+                ).ForEach(actor =>
                 {
-                    actor.ModifyHealth(-Damage);
-                    hasDealtDamage = true;
-                    actor.InterruptionManager.Interrupt(InterruptionType.Soft);
+                    if (owner.Opposes(actor))
+                    {
+                        owner.DamageTarget(actor, Damage);
+                        hasDealtDamage = true;
+                    }
+                });
+
+                if (hasDealtDamage)
+                {
+                    CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
                 }
-            });
 
-            SuccessFeedbackSubject.Next(hasDealtDamage);
-
-            if (hasDealtDamage)
-            {
-                CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
+                SuccessFeedbackSubject.Next(hasDealtDamage);
             }
-        });
+        );
 
+        BiteObject.Create(owner.transform);
+        owner.MovementManager.Stun(DelayBeforeDamage + PauseDuration);
     }
 }

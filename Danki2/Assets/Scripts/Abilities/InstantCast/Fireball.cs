@@ -34,8 +34,7 @@ public class Fireball : InstantCast
                 return;
             }
 
-            actor.ModifyHealth(-Damage);
-
+            Context.Owner.DamageTarget(actor, Damage);
             SuccessFeedbackSubject.Next(true);
         }
         else

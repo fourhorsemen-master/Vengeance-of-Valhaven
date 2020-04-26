@@ -33,7 +33,7 @@ public class Smash : InstantCast
         {
             if (owner.Opposes(actor))
             {
-                actor.ModifyHealth(-Damage);
+                owner.DamageTarget(actor, Damage);
                 hasDealtDamage = true;
             }
         });
