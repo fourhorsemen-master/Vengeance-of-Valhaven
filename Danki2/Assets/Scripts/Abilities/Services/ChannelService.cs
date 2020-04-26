@@ -7,12 +7,13 @@ public class ChannelService
     public bool Active { get; private set; } = false;
     public float RemainingDuration { get; private set; }
     public float TotalDuration => _currentChannel.Duration;
+    public Vector3 TargetPosition { get; set; } = Vector3.zero;
 
-    public ChannelService(Subject updateSubject, InterruptionManager interruptionManager)
+    public ChannelService(Subject lateUpdateSubject, InterruptionManager interruptionManager)
     {
-        interruptionManager.Register(InterruptionType.Hard, () => Cancel());
+        interruptionManager.Register(InterruptionType.Hard, () => Cancel(TargetPosition));
 
-        updateSubject.Subscribe(() =>
+        lateUpdateSubject.Subscribe(() =>
         {
 
             if (!Active)
@@ -25,30 +26,30 @@ public class ChannelService
 
             if (RemainingDuration > 0f)
             {
-                _currentChannel.Continue();
+                _currentChannel.Continue(TargetPosition);
             }
             else
             {
-                _currentChannel.End();
+                _currentChannel.End(TargetPosition);
                 Active = false;
             }
         });
     }
 
-    public void Start(Channel channel)
+    public void Start(Channel channel, Vector3 target)
     {
         _currentChannel = channel;
         RemainingDuration = _currentChannel.Duration;
         Active = true;
-        _currentChannel.Start();
-        _currentChannel.Continue();
+        _currentChannel.Start(target);
+        _currentChannel.Continue(target);
     }
 
-    public void Cancel()
+    public void Cancel(Vector3 target)
     {
         if (!Active) return;
 
-        _currentChannel.Cancel();
+        _currentChannel.Cancel(target);
         RemainingDuration = 0f;
         Active = false;
     }

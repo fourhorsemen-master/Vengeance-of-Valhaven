@@ -8,16 +8,13 @@ public class Slash : InstantCast
     private const float PauseDuration = 0.3f;
     private const int Damage = 5;
 
-    public Slash(AbilityContext context, AbilityData abilityData) : base(context, abilityData)
+    public Slash(Actor owner, AbilityData abilityData) : base(owner, abilityData)
     {
     }
 
-    public override void Cast()
+    public override void Cast(Vector3 target)
     {
-        Actor owner = Context.Owner;
-
-        Vector3 position = owner.transform.position;
-        Vector3 target = Context.TargetPosition;
+        Vector3 position = Owner.transform.position;
         Vector3 castDirection = target - position;
         castDirection.y = 0f;
 
@@ -30,9 +27,9 @@ public class Slash : InstantCast
             Quaternion.LookRotation(castDirection)
         ).ForEach(actor =>
         {
-            if (owner.Opposes(actor))
+            if (Owner.Opposes(actor))
             {
-                owner.DamageTarget(actor, Damage);
+                Owner.DamageTarget(actor, Damage);
                 hasDealtDamage = true;
             }
         });
@@ -41,8 +38,8 @@ public class Slash : InstantCast
 
         SlashObject slashObject = SlashObject.Create(position, Quaternion.LookRotation(castDirection));
 
-        owner.MovementManager.LookAt(target);
-        owner.MovementManager.Stun(PauseDuration);
+        Owner.MovementManager.LookAt(target);
+        Owner.MovementManager.Stun(PauseDuration);
 
         if (hasDealtDamage)
         {

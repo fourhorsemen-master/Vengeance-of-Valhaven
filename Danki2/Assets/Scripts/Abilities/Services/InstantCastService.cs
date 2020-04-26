@@ -9,13 +9,11 @@ public class InstantCastService
         this.actor = actor;
     }
     
-    public void Cast(AbilityReference abilityReference, Vector3 targetPosition)
+    public void Cast(AbilityReference abilityReference, Vector3 target)
     {
-        AbilityContext abilityContext = new AbilityContext(actor, targetPosition);
-
-        if (AbilityLookup.TryGetInstantCast(abilityReference, abilityContext, out InstantCast instantCast))
+        if (AbilityLookup.TryGetInstantCast(abilityReference, actor, out InstantCast instantCast))
         {
-            instantCast.Cast();
+            instantCast.Cast(target);
         }
     }
 }

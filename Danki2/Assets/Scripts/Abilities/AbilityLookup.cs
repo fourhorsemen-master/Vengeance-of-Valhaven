@@ -3,23 +3,23 @@ using System.Collections.Generic;
 
 public static class AbilityLookup
 {
-    private static Dictionary<AbilityReference, Func<AbilityContext, InstantCast>> instantCasts 
-        = new Dictionary<AbilityReference, Func<AbilityContext, InstantCast>>
+    private static Dictionary<AbilityReference, Func<Actor, InstantCast>> instantCasts 
+        = new Dictionary<AbilityReference, Func<Actor, InstantCast>>
         {
-            { AbilityReference.Slash, (c) => new Slash(c, abilityData[AbilityReference.Slash]) },
-            { AbilityReference.Fireball, (c) => new Fireball(c, abilityData[AbilityReference.Fireball]) },
-            { AbilityReference.DaggerThrow, (c) => new DaggerThrow(c, abilityData[AbilityReference.DaggerThrow]) },
-            { AbilityReference.Bite, (c) => new Bite(c, abilityData[AbilityReference.Bite]) },
-            { AbilityReference.Roll, (c) => new Roll(c, abilityData[AbilityReference.Roll]) },
-            { AbilityReference.Lunge, (c) => new Lunge(c, abilityData[AbilityReference.Lunge]) },
-            { AbilityReference.Pounce, (c) => new Pounce(c, abilityData[AbilityReference.Pounce]) },
-            { AbilityReference.Smash, (c) => new Smash(c, abilityData[AbilityReference.Smash]) },
+            { AbilityReference.Slash, (a) => new Slash(a, abilityData[AbilityReference.Slash]) },
+            { AbilityReference.Fireball, (a) => new Fireball(a, abilityData[AbilityReference.Fireball]) },
+            { AbilityReference.DaggerThrow, (a) => new DaggerThrow(a, abilityData[AbilityReference.DaggerThrow]) },
+            { AbilityReference.Bite, (a) => new Bite(a, abilityData[AbilityReference.Bite]) },
+            { AbilityReference.Roll, (a) => new Roll(a, abilityData[AbilityReference.Roll]) },
+            { AbilityReference.Lunge, (a) => new Lunge(a, abilityData[AbilityReference.Lunge]) },
+            { AbilityReference.Pounce, (a) => new Pounce(a, abilityData[AbilityReference.Pounce]) },
+            { AbilityReference.Smash, (a) => new Smash(a, abilityData[AbilityReference.Smash]) },
         };
 
-    private static Dictionary<AbilityReference, Func<AbilityContext, Channel>> channels 
-        = new Dictionary<AbilityReference, Func<AbilityContext, Channel>>
+    private static Dictionary<AbilityReference, Func<Actor, Channel>> channels 
+        = new Dictionary<AbilityReference, Func<Actor, Channel>>
         {
-            { AbilityReference.Whirlwind, (c) => new Whirlwind(c, abilityData[AbilityReference.Whirlwind]) },
+            { AbilityReference.Whirlwind, (a) => new Whirlwind(a, abilityData[AbilityReference.Whirlwind]) },
         };
 
     private static Dictionary<AbilityReference, AbilityData> abilityData
@@ -36,11 +36,11 @@ public static class AbilityLookup
             { AbilityReference.Whirlwind, Whirlwind.BaseAbilityData},
         };
 
-    public static bool TryGetInstantCast(AbilityReference abilityReference, AbilityContext abilityContext, out InstantCast ability)
+    public static bool TryGetInstantCast(AbilityReference abilityReference, Actor owner, out InstantCast ability)
     {
         if (instantCasts.ContainsKey(abilityReference))
         {
-            ability = instantCasts[abilityReference](abilityContext);
+            ability = instantCasts[abilityReference](owner);
             return true;
         }
 
@@ -48,11 +48,11 @@ public static class AbilityLookup
         return false;
     }
 
-    public static bool TryGetChannel(AbilityReference abilityReference, AbilityContext abilityContext, out Channel ability)
+    public static bool TryGetChannel(AbilityReference abilityReference, Actor owner, out Channel ability)
     {
         if (channels.ContainsKey(abilityReference))
         {
-            ability = channels[abilityReference](abilityContext);
+            ability = channels[abilityReference](owner);
             return true;
         }
 

@@ -8,16 +8,13 @@ public class Smash : InstantCast
     private const float Radius = 1f;
     private const int Damage = 10;
 
-    public Smash(AbilityContext context, AbilityData abilityData) : base(context, abilityData)
+    public Smash(Actor owner, AbilityData abilityData) : base(owner, abilityData)
     {
     }
 
-    public override void Cast()
+    public override void Cast(Vector3 target)
     {
-        Actor owner = Context.Owner;
-
-        Vector3 position = owner.transform.position;
-        Vector3 target = Context.TargetPosition;
+        Vector3 position = Owner.transform.position;
         target.y = 0;
 
         Vector3 directionToTarget = target == position ? Vector3.right : (target - position).normalized;
@@ -31,9 +28,9 @@ public class Smash : InstantCast
             center
         ).ForEach(actor =>
         {
-            if (owner.Opposes(actor))
+            if (Owner.Opposes(actor))
             {
-                owner.DamageTarget(actor, Damage);
+                Owner.DamageTarget(actor, Damage);
                 hasDealtDamage = true;
             }
         });

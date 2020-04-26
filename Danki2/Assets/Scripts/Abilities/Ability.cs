@@ -2,13 +2,13 @@
 {
     public Subject<bool> SuccessFeedbackSubject { get; }
 
-    public AbilityContext Context { get; }
+    public Actor Owner { get; }
     
     public AbilityData AbilityData { get; }
 
-    protected Ability(AbilityContext context, AbilityData abilityData)
+    protected Ability(Actor owner, AbilityData abilityData)
     {
-        Context = context;
+        Owner = owner;
         AbilityData = abilityData;
         SuccessFeedbackSubject = new Subject<bool>();
     }

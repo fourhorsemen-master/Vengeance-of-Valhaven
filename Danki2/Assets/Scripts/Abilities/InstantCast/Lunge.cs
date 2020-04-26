@@ -11,29 +11,26 @@ public class Lunge : InstantCast
     private const float StunDuration = 0.5f;
     private const float PauseDuration = 0.3f;
 
-    public Lunge(AbilityContext context, AbilityData abilityData) : base(context, abilityData)
+    public Lunge(Actor owner, AbilityData abilityData) : base(owner, abilityData)
     {
     }
 
-    public override void Cast()
+    public override void Cast(Vector3 target)
     {
-        Actor owner = Context.Owner;
-        Vector3 position = owner.transform.position;
-        Vector3 target = Context.TargetPosition;
-
+        Vector3 position = Owner.transform.position;
         Vector3 direction = target - position;
         direction.y = position.y;
 
-        owner.MovementManager.LockMovement(
+        Owner.MovementManager.LockMovement(
             LungeDuration,
-            owner.GetStat(Stat.Speed) * LungeSpeedMultiplier,
+            Owner.GetStat(Stat.Speed) * LungeSpeedMultiplier,
             direction,
             direction
         );
 
         LungeObject lungeObject = LungeObject.Create(position, Quaternion.LookRotation(target - position));
 
-        owner.InterruptableAction(
+        Owner.InterruptableAction(
             LungeDuration,
             InterruptionType.Hard,
             () =>
@@ -43,20 +40,20 @@ public class Lunge : InstantCast
                 CollisionTemplateManager.Instance.GetCollidingActors(
                     CollisionTemplate.Wedge90,
                     StunRange,
-                    owner.transform.position,
+                    Owner.transform.position,
                     Quaternion.LookRotation(direction)
                 ).ForEach(actor =>
                 {
-                    if (owner.Opposes(actor))
+                    if (Owner.Opposes(actor))
                     {
                         actor.EffectManager.AddActiveEffect(new Stun(StunDuration), StunDuration);
-                        owner.DamageTarget(actor, Damage);
+                        Owner.DamageTarget(actor, Damage);
                         hasDealtDamage = true;
                     }
                 });
 
                 SuccessFeedbackSubject.Next(hasDealtDamage);
-                owner.MovementManager.Stun(PauseDuration);
+                Owner.MovementManager.Stun(PauseDuration);
 
                 if (hasDealtDamage)
                 {

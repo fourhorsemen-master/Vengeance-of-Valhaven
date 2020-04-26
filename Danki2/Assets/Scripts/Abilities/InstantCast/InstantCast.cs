@@ -1,8 +1,10 @@
-﻿public abstract class InstantCast : Ability
+﻿using UnityEngine;
+
+public abstract class InstantCast : Ability
 {
-    protected InstantCast(AbilityContext context, AbilityData abilityData) : base(context, abilityData)
+    protected InstantCast(Actor owner, AbilityData abilityData) : base(owner, abilityData)
     {
     }
 
-    public abstract void Cast();
+    public abstract void Cast(Vector3 target);
 }
