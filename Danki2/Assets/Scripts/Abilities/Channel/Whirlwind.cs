@@ -71,7 +71,7 @@ public class Whirlwind : Channel
         {
             if (actor.Opposes(owner))
             {
-                actor.ModifyHealth(-damage);
+                owner.DamageTarget(actor, damage);
                 actorsHit = true;
             }
         });

@@ -17,7 +17,7 @@ public class MovementManager
     private float remainingStatusDuration = 0f;
 
     private StateManager<MovementStatus> movementStatusManager;
-    private MovementStatus MovementStatus => this.movementStatusManager.CurrentState;
+    private MovementStatus MovementStatus => movementStatusManager.CurrentState;
 
     public MovementManager(Actor actor, Subject updateSubject, NavMeshAgent navMeshAgent)
     {
@@ -25,7 +25,7 @@ public class MovementManager
         this.navMeshAgent = navMeshAgent;
         updateSubject.Subscribe(UpdateMovement);
 
-        this.movementStatusManager = new StateManager<MovementStatus>(MovementStatus.AbleToMove, ClearMovementStatus)
+        movementStatusManager = new StateManager<MovementStatus>(MovementStatus.AbleToMove, ClearMovementStatus)
             .WithTransition(MovementStatus.AbleToMove, MovementStatus.Stunned)
             .WithTransition(MovementStatus.AbleToMove, MovementStatus.Rooted)
             .WithTransition(MovementStatus.AbleToMove, MovementStatus.MovementLocked)
@@ -45,11 +45,11 @@ public class MovementManager
     {
         if (MovementStatus != MovementStatus.AbleToMove) return;
 
-        if (this.navMeshAgent.destination == destination) return;
+        if (navMeshAgent.destination == destination) return;
 
         ClearWatch();
 
-        this.navMeshAgent.SetDestination(destination);
+        navMeshAgent.SetDestination(destination);
     }
 
     /// <summary>
@@ -64,7 +64,7 @@ public class MovementManager
 
         ClearWatch();
 
-        this.navMeshAgent.Move(direction.normalized * (Time.deltaTime * actor.GetStat(Stat.Speed)));
+        navMeshAgent.Move(direction.normalized * (Time.deltaTime * actor.GetStat(Stat.Speed)));
 
         RotateTowards(direction);
     }
@@ -73,10 +73,10 @@ public class MovementManager
     /// Lerp rotate the actor to face the target until we begin movement.
     /// </summary>
     /// <param name="watchTarget"></param>
-    public void Watch(Transform watchTarget)
+    public void Watch(Transform target)
     {
-        this.watchTarget = watchTarget;
-        this.watching = true;
+        watchTarget = target;
+        watching = true;
     }
 
     /// <summary>
@@ -90,7 +90,7 @@ public class MovementManager
 
     public void StopPathfinding()
     {
-        this.navMeshAgent.ResetPath();
+        navMeshAgent.ResetPath();
     }
 
     /// <summary>
@@ -100,14 +100,14 @@ public class MovementManager
     public void Stun(float duration)
     {
         if (
-            !this.movementStatusManager.CanTransition(MovementStatus.Stunned)
-            || (MovementStatus == MovementStatus.Stunned && duration < this.remainingStatusDuration)
+            !movementStatusManager.CanTransition(MovementStatus.Stunned)
+            || (MovementStatus == MovementStatus.Stunned && duration < remainingStatusDuration)
         ) return;
 
-        this.movementStatusManager.Transition(MovementStatus.Stunned);
+        movementStatusManager.Transition(MovementStatus.Stunned);
         StopPathfinding();
-        this.navMeshAgent.isStopped = true;
-        this.remainingStatusDuration = duration;
+        navMeshAgent.isStopped = true;
+        remainingStatusDuration = duration;
     }
 
     /// <summary>
@@ -117,14 +117,14 @@ public class MovementManager
     public void Root(float duration)
     {
         if (
-            !this.movementStatusManager.CanTransition(MovementStatus.Rooted) 
-            || (MovementStatus == MovementStatus.Rooted && duration < this.remainingStatusDuration)
+            !movementStatusManager.CanTransition(MovementStatus.Rooted) 
+            || (MovementStatus == MovementStatus.Rooted && duration < remainingStatusDuration)
         ) return;
 
-        this.movementStatusManager.Transition(MovementStatus.Rooted);
+        movementStatusManager.Transition(MovementStatus.Rooted);
         StopPathfinding();
-        this.navMeshAgent.isStopped = true;
-        this.remainingStatusDuration = duration;
+        navMeshAgent.isStopped = true;
+        remainingStatusDuration = duration;
     }
 
     /// <summary>
@@ -136,56 +136,59 @@ public class MovementManager
     /// <param name="rotation">The rotation to maintain for the duration.</param>
     public void LockMovement(float duration, float speed, Vector3 direction, Vector3 rotation)
     {
-        if (!this.movementStatusManager.CanTransition(MovementStatus.MovementLocked)) return;
+        if (!movementStatusManager.CanTransition(MovementStatus.MovementLocked)) return;
 
-        this.movementStatusManager.Transition(MovementStatus.MovementLocked);
-        this.remainingStatusDuration = duration;
-        this.movementLockSpeed = speed;
-        this.movementLockDirection = direction.normalized;
+        movementStatusManager.Transition(MovementStatus.MovementLocked);
+        remainingStatusDuration = duration;
+        movementLockSpeed = speed;
+        movementLockDirection = direction.normalized;
 
-        this.actor.transform.rotation = Quaternion.LookRotation(rotation);
+        if (rotation != Vector3.zero)
+        {
+            actor.transform.rotation = Quaternion.LookRotation(rotation);
+        }
     }
 
     private void UpdateMovement()
     {
-        this.navMeshAgent.speed = this.actor.GetStat(Stat.Speed);
+        navMeshAgent.speed = actor.GetStat(Stat.Speed);
 
         if (
-            this.watching 
+            watching 
             && MovementStatus != MovementStatus.Stunned 
             && MovementStatus != MovementStatus.MovementLocked
         )
         {
-            RotateTowards(watchTarget.position - this.actor.transform.position);
+            RotateTowards(watchTarget.position - actor.transform.position);
         }
 
         if (MovementStatus == MovementStatus.MovementLocked)
         {
-            this.navMeshAgent.Move(movementLockDirection * (Time.deltaTime * movementLockSpeed));
+            navMeshAgent.Move(movementLockDirection * (Time.deltaTime * movementLockSpeed));
         }
 
         if (MovementStatus != MovementStatus.AbleToMove)
         {
-            this.remainingStatusDuration -= Time.deltaTime;
-            if (this.remainingStatusDuration < 0f)
+            remainingStatusDuration -= Time.deltaTime;
+            if (remainingStatusDuration < 0f)
             {
-                this.movementStatusManager.Transition(MovementStatus.AbleToMove);
+                movementStatusManager.Transition(MovementStatus.AbleToMove);
             }
         }
     }
 
     private void ClearMovementStatus()
     {
-        this.remainingStatusDuration = 0f;
-        this.navMeshAgent.isStopped = false;
-        this.movementLockSpeed = 0f;
-        this.movementLockDirection = Vector3.zero;
+        remainingStatusDuration = 0f;
+        navMeshAgent.isStopped = false;
+        movementLockSpeed = 0f;
+        movementLockDirection = Vector3.zero;
     }
 
     private void ClearWatch()
     {
-        this.watchTarget = null;
-        this.watching = false;
+        watchTarget = null;
+        watching = false;
     }
 
     private void RotateTowards(Vector3 direction)
@@ -193,7 +196,7 @@ public class MovementManager
         if (!direction.Equals(Vector3.zero))
         {
             Quaternion desiredRotation = Quaternion.LookRotation(direction);
-            this.actor.transform.rotation = Quaternion.Lerp(actor.transform.rotation, desiredRotation, RotationSmoothing);
+            actor.transform.rotation = Quaternion.Lerp(actor.transform.rotation, desiredRotation, RotationSmoothing);
         }
     }
 }

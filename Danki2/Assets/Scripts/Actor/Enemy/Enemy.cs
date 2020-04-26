@@ -13,6 +13,6 @@ public abstract class Enemy : Actor
     {
         OnTelegraph.Next();
 
-        this.WaitAndAct(waitTime, () => abilityFactory().Cast());
+        this.InterruptableAction(waitTime, InterruptionType.Hard, () => abilityFactory().Cast());
     }
 }

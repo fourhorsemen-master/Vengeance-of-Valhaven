@@ -4,7 +4,7 @@ public class Lunge : InstantCast
 {
     private const float LungeDuration = 0.2f;
     private const float LungeSpeedMultiplier = 6f;
-    private const int LungeDamage = 4;
+    private const int Damage = 4;
     private const float StunRange = 2f;
     private const float StunDuration = 0.5f;
     private const float PauseDuration = 0.3f;
@@ -31,33 +31,37 @@ public class Lunge : InstantCast
 
         LungeObject lungeObject = LungeObject.Create(position, Quaternion.LookRotation(target - position));
 
-        owner.WaitAndAct(LungeDuration, () =>
-        {
-            bool hasDealtDamage = false;
-
-            CollisionTemplateManager.Instance.GetCollidingActors(
-                CollisionTemplate.Wedge90,
-                StunRange,
-                owner.transform.position,
-                Quaternion.LookRotation(direction)
-            ).ForEach(actor =>
+        owner.InterruptableAction(
+            LungeDuration,
+            InterruptionType.Hard,
+            () =>
             {
-                if (owner.Opposes(actor))
+                bool hasDealtDamage = false;
+
+                CollisionTemplateManager.Instance.GetCollidingActors(
+                    CollisionTemplate.Wedge90,
+                    StunRange,
+                    owner.transform.position,
+                    Quaternion.LookRotation(direction)
+                ).ForEach(actor =>
                 {
-                    actor.EffectManager.AddActiveEffect(new Stun(StunDuration), StunDuration);
-                    actor.ModifyHealth(-LungeDamage);
-                    hasDealtDamage = true;
+                    if (owner.Opposes(actor))
+                    {
+                        actor.EffectManager.AddActiveEffect(new Stun(StunDuration), StunDuration);
+                        owner.DamageTarget(actor, Damage);
+                        hasDealtDamage = true;
+                    }
+                });
+
+                SuccessFeedbackSubject.Next(hasDealtDamage);
+                owner.MovementManager.Stun(PauseDuration);
+
+                if (hasDealtDamage)
+                {
+                    CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
+                    lungeObject.PlayHitSound();
                 }
-            });
-
-            SuccessFeedbackSubject.Next(hasDealtDamage);
-            owner.MovementManager.Stun(PauseDuration);
-
-            if (hasDealtDamage)
-            {
-                CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
-                lungeObject.PlayHitSound();
             }
-        });
+        );
     }
 }
