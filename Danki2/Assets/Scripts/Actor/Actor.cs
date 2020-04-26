@@ -77,7 +77,7 @@ public abstract class Actor : MonoBehaviour
         }
 
         // TODO: Put damage through an offensive pipeline
-        target.HealthManager.DealDamage(damage);
+        target.HealthManager.ReceiveDamage(damage);
     }
 
     public void InterruptableAction(float delay, InterruptionType interruptionType, Action action)

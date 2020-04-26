@@ -44,6 +44,6 @@ public class Bite : InstantCast
         );
 
         BiteObject.Create(owner.transform);
-        owner.MovementManager.Stun(PauseDuration);
+        owner.MovementManager.Stun(DelayBeforeDamage + PauseDuration);
     }
 }

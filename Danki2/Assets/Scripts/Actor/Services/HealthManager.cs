@@ -30,7 +30,7 @@ public class HealthManager
         Health = Math.Max(Health - damage, 0);
     }
 
-    public void DealDamage(int damage)
+    public void ReceiveDamage(int damage)
     {
         if (damage < 0) return;
 
@@ -40,7 +40,7 @@ public class HealthManager
         actor.InterruptionManager.Interrupt(InterruptionType.Soft);
     }
 
-    public void Heal(int healing)
+    public void ReceiveHealing(int healing)
     {
         if (healing < 0) return;
 

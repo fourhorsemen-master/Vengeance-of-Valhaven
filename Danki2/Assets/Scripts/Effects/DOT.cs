@@ -15,7 +15,7 @@
     {
         repeater = new Repeater(
             tickInterval,
-            () => actor.HealthManager.TickDamage(-damagePerTick),
+            () => actor.HealthManager.TickDamage(damagePerTick),
             tickInterval
         );
     }

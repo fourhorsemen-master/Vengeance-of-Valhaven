@@ -12,6 +12,8 @@ public class ChannelService
     {        
         updateSubject.Subscribe(() =>
         {
+            interruptionManager.Register(InterruptionType.Hard, () => Cancel());
+
             if (!Active)
             {
                 RemainingDuration = 0f;
