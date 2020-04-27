@@ -16,6 +16,7 @@ public abstract class Actor : MonoBehaviour
 
     public HealthManager HealthManager { get; private set; }
     public ChannelService ChannelService { get; private set; }
+    public InstantCastService InstantCastService { get; private set; }
     public EffectManager EffectManager { get; private set; }
     public MovementManager MovementManager { get; private set; }
     public InterruptionManager InterruptionManager { get; private set; }
@@ -31,7 +32,8 @@ public abstract class Actor : MonoBehaviour
         EffectManager = new EffectManager(this, updateSubject, statsManager);
         HealthManager = new HealthManager(this, updateSubject);
         InterruptionManager = new InterruptionManager();
-        ChannelService = new ChannelService(updateSubject, InterruptionManager);
+        ChannelService = new ChannelService(this, lateUpdateSubject, InterruptionManager);
+        InstantCastService = new InstantCastService(this);
         MovementManager = new MovementManager(this, updateSubject, navmeshAgent);
 
         Dead = false;

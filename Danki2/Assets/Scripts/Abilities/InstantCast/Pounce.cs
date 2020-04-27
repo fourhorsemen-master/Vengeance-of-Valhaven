@@ -2,6 +2,8 @@
 
 public class Pounce : InstantCast
 {
+    public static readonly AbilityData BaseAbilityData = new AbilityData(0, 0, 0);
+
     // The ai casting this ability should determine cast range
     private const int Damage = 4;
     private const float MovementDuration = 0.5f;
@@ -9,28 +11,26 @@ public class Pounce : InstantCast
     private const float DamageRadius = 2f;
     private const float PauseDuration = 0.3f;
 
-    public Pounce(AbilityContext context) : base(context)
+    public Pounce(Actor owner, AbilityData abilityData) : base(owner, abilityData)
     {
     }
 
-    public override void Cast()
+    public override void Cast(Vector3 target)
     {
-        Actor owner = Context.Owner;
-        Vector3 position = owner.transform.position;
-        Vector3 target = Context.TargetPosition;
+        Vector3 position = Owner.transform.position;
         target.y = position.y;
         Vector3 direction = target - position;
 
-        owner.MovementManager.LockMovement(
+        Owner.MovementManager.LockMovement(
             MovementDuration,
-            owner.GetStat(Stat.Speed) * MovementSpeedMultiplier,
+            Owner.GetStat(Stat.Speed) * MovementSpeedMultiplier,
             direction,
             direction
         );
 
         PounceObject.Create(position, Quaternion.LookRotation(target - position));
 
-        owner.InterruptableAction(
+        Owner.InterruptableAction(
             MovementDuration,
             InterruptionType.Hard,
             () =>
@@ -40,18 +40,18 @@ public class Pounce : InstantCast
                 CollisionTemplateManager.Instance.GetCollidingActors(
                     CollisionTemplate.Wedge90,
                     DamageRadius,
-                    owner.transform.position,
-                    Quaternion.LookRotation(owner.transform.forward)
+                    Owner.transform.position,
+                    Quaternion.LookRotation(Owner.transform.forward)
                 ).ForEach(actor =>
                 {
-                    if (owner.Opposes(actor))
+                    if (Owner.Opposes(actor))
                     {
-                        owner.DamageTarget(actor, Damage);
+                        Owner.DamageTarget(actor, Damage);
                         hasDealtDamage = true;
                     }
                 });
 
-                owner.MovementManager.Stun(PauseDuration);
+                Owner.MovementManager.Stun(PauseDuration);
                 SuccessFeedbackSubject.Next(hasDealtDamage);
 
                 if (hasDealtDamage)

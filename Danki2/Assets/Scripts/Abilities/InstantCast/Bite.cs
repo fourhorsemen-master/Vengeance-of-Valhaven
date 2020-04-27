@@ -1,28 +1,28 @@
 ﻿using UnityEngine;
 public class Bite : InstantCast
 {
+    public static readonly AbilityData BaseAbilityData = new AbilityData(0, 0, 0);
+
     public const int Damage = 5;
     public const float Range = 2f;
     private const float DelayBeforeDamage = 0.75f;
     private const float PauseDuration = 0.3f;
 
-    public Bite(AbilityContext context) : base(context)
+    public Bite(Actor owner, AbilityData abilityData) : base(owner, abilityData)
     {
     }
 
-    public override void Cast()
-    {  
-        Actor owner = Context.Owner;
-        Vector3 position = owner.transform.position;
-        Vector3 target = Context.TargetPosition;
+    public override void Cast(Vector3 target)
+    {
+        Vector3 position = Owner.transform.position;
         target.y = 0f;
 
-        BiteObject.Create(owner.transform);
+        BiteObject.Create(Owner.transform);
 
-        owner.MovementManager.LookAt(target);
-        owner.MovementManager.Stun(DelayBeforeDamage + PauseDuration);
+        Owner.MovementManager.LookAt(target);
+        Owner.MovementManager.Stun(DelayBeforeDamage + PauseDuration);
 
-        owner.InterruptableAction(
+        Owner.InterruptableAction(
             DelayBeforeDamage,
             InterruptionType.Hard,
             () =>
@@ -36,9 +36,9 @@ public class Bite : InstantCast
                     Quaternion.LookRotation(target - position)
                 ).ForEach(actor =>
                 {
-                    if (owner.Opposes(actor))
+                    if (Owner.Opposes(actor))
                     {
-                        owner.DamageTarget(actor, Damage);
+                        Owner.DamageTarget(actor, Damage);
                         hasDealtDamage = true;
                     }
                 });
@@ -52,7 +52,7 @@ public class Bite : InstantCast
             }
         );
 
-        BiteObject.Create(owner.transform);
-        owner.MovementManager.Stun(DelayBeforeDamage + PauseDuration);
+        BiteObject.Create(Owner.transform);
+        Owner.MovementManager.Stun(DelayBeforeDamage + PauseDuration);
     }
 }

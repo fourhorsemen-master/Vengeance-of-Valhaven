@@ -1,16 +1,18 @@
-﻿public abstract class Channel : Ability
+﻿using UnityEngine;
+
+public abstract class Channel : Ability
 {
     public abstract float Duration { get; }
 
-    public Channel(AbilityContext context) : base(context)
+    protected Channel(Actor owner, AbilityData abilityData) : base(owner, abilityData)
     {
     }
     
-    public virtual void Start() { }
+    public virtual void Start(Vector3 target) { }
 
-    public virtual void Continue() { }
+    public virtual void Continue(Vector3 target) { }
 
-    public virtual void Cancel() { }
+    public virtual void Cancel(Vector3 target) { }
 
-    public virtual void End() { }
+    public virtual void End(Vector3 target) { }
 }

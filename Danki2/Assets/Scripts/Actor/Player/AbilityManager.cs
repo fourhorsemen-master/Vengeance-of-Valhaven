@@ -14,6 +14,8 @@ public class AbilityManager
     private ActionControlState previousActionControlState = ActionControlState.None;
     private ActionControlState currentActionControlState = ActionControlState.None;
 
+    private Vector3 targetPosition = Vector3.zero;
+
     public float RemainingAbilityCooldown { get; private set; } = 0f;
     public CastingStatus CastingStatus { get; private set; } = CastingStatus.Ready;
     public Subject<Tuple<bool, Direction>> AbilityCompletionSubject { get; } = new Subject<Tuple<bool, Direction>>();
@@ -24,6 +26,7 @@ public class AbilityManager
         this.abilityTimeoutLimit = abilityTimeoutLimit;
         this.abilityCooldown = abilityCooldown;
 
+        updateSubject.Subscribe(UpdateTargetPosition);
         updateSubject.Subscribe(TickAbilityCooldown);
         lateUpdateSubject.Subscribe(HandleAbilities);
 
@@ -33,6 +36,20 @@ public class AbilityManager
     public void SetCurrentControlState(ActionControlState controlState)
     {
         currentActionControlState = controlState;
+    }
+
+    private void UpdateTargetPosition()
+    {
+        // We try to get the mouse game position in scene for the AbilityContext.
+        if (!MouseGamePositionFinder.Instance.TryGetMouseGamePosition(out Vector3 mousePosition))
+        {
+            // If the mouse is outside the scene, we use the mouse position on a horizontal plane at the players height.
+            mousePosition = MouseGamePositionFinder.Instance.GetMousePlanePosition(player.transform.position.y, true);
+        }
+
+        targetPosition = mousePosition;
+
+        player.ChannelService.TargetPosition = targetPosition;
     }
     
     private void TickAbilityCooldown()
@@ -99,7 +116,7 @@ public class AbilityManager
                 }
                 break;
             case CastingCommand.CancelChannel:
-                player.ChannelService.Cancel();
+                player.ChannelService.Cancel(targetPosition);
                 CastingStatus = RemainingAbilityCooldown <= 0f ? CastingStatus.Ready : CastingStatus.Cooldown;
                 break;
             case CastingCommand.CastLeft:
@@ -128,37 +145,26 @@ public class AbilityManager
 
         AbilityReference abilityReference = player.AbilityTree.GetAbility(direction);
 
-        // We try to get the mouse game position in scene for the AbilityContext.
-        if (!MouseGamePositionFinder.Instance.TryGetMouseGamePosition(out Vector3 mousePosition))
+        switch (AbilityLookup.GetAbilityType(abilityReference))
         {
-            // If the mouse is outside the scene, we use the mouse position on a horizontal plane at the players height.
-            mousePosition = MouseGamePositionFinder.Instance.GetMousePlanePosition(player.transform.position.y, true);
-        }
-
-        AbilityContext abilityContext = new AbilityContext(player, mousePosition);
-
-        if (Ability.TryGetInstantCast(
-                abilityReference,
-                abilityContext,
-                out InstantCast instantCast
-        ))
-        {
-            abilityFeedbackSubscription = instantCast.SuccessFeedbackSubject.Subscribe(AbilityFeedbackSubscription);
-            instantCast.Cast();
-            CastingStatus = CastingStatus.Cooldown;
-        }
-
-        if (Ability.TryGetChannel(
-                abilityReference,
-                abilityContext,
-                out Channel channel
-        ))
-        {
-            abilityFeedbackSubscription = channel.SuccessFeedbackSubject.Subscribe(AbilityFeedbackSubscription);
-            player.ChannelService.Start(channel);
-            CastingStatus = direction == Direction.Left
-                ? CastingStatus.ChannelingLeft
-                : CastingStatus.ChannelingRight;
+            case AbilityType.InstantCast:
+                player.InstantCastService.Cast(
+                    abilityReference,
+                    targetPosition,
+                    subject => abilityFeedbackSubscription = subject.Subscribe(AbilityFeedbackSubscription)
+                );
+                CastingStatus = CastingStatus.Cooldown;
+                break;
+            case AbilityType.Channel:
+                player.ChannelService.Start(
+                    abilityReference,
+                    targetPosition,
+                    subject => abilityFeedbackSubscription = subject.Subscribe(AbilityFeedbackSubscription)
+                );
+                CastingStatus = direction == Direction.Left
+                    ? CastingStatus.ChannelingLeft
+                    : CastingStatus.ChannelingRight;
+                break;
         }
     }
 
