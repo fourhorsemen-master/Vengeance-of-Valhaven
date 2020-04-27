@@ -26,15 +26,15 @@ public static class AbilityLookup
     private static Dictionary<AbilityReference, AbilityData> abilityData
         = new Dictionary<AbilityReference, AbilityData>
         {
-            { AbilityReference.Slash, Slash.BaseAbilityData},
-            { AbilityReference.Fireball, Fireball.BaseAbilityData},
-            { AbilityReference.DaggerThrow, DaggerThrow.BaseAbilityData},
-            { AbilityReference.Bite, Bite.BaseAbilityData},
-            { AbilityReference.Roll, Roll.BaseAbilityData},
-            { AbilityReference.Lunge, Lunge.BaseAbilityData},
-            { AbilityReference.Pounce, Pounce.BaseAbilityData},
-            { AbilityReference.Smash, Smash.BaseAbilityData},
-            { AbilityReference.Whirlwind, Whirlwind.BaseAbilityData},
+            { AbilityReference.Slash, Slash.BaseAbilityData },
+            { AbilityReference.Fireball, Fireball.BaseAbilityData },
+            { AbilityReference.DaggerThrow, DaggerThrow.BaseAbilityData },
+            { AbilityReference.Bite, Bite.BaseAbilityData },
+            { AbilityReference.Roll, Roll.BaseAbilityData },
+            { AbilityReference.Lunge, Lunge.BaseAbilityData },
+            { AbilityReference.Pounce, Pounce.BaseAbilityData },
+            { AbilityReference.Smash, Smash.BaseAbilityData },
+            { AbilityReference.Whirlwind, Whirlwind.BaseAbilityData },
         };
 
     private static readonly Dictionary<AbilityReference, AbilityType> abilityTypes = new Dictionary<AbilityReference, AbilityType>();

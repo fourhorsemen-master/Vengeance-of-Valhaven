@@ -31,7 +31,6 @@ public class Whirlwind : Channel
         slowEffectId = Owner.EffectManager.AddPassiveEffect(new Slow(selfSlowMultiplier));
         repeater = new Repeater(spinDamageInterval, () => AOE(spinRange, spinDamage), spinDamageStartDelay);
 
-        Vector3 position = Owner.transform.position;
         whirlwindObject = WhirlwindObject.Create(Owner.transform);
     }
 

@@ -145,8 +145,6 @@ public class AbilityManager
 
         AbilityReference abilityReference = player.AbilityTree.GetAbility(direction);
 
-        abilityFeedbackSubscription?.Unsubscribe();
-
         if (player.InstantCastService.TryGetInstantCast(abilityReference, out InstantCast instantCast))
         {
             abilityFeedbackSubscription = instantCast.SuccessFeedbackSubject.Subscribe(AbilityFeedbackSubscription);
@@ -166,6 +164,7 @@ public class AbilityManager
 
     private void AbilityFeedbackSubscription(bool successful)
     {
+        abilityFeedbackSubscription.Unsubscribe();
         whiffed = !successful;
         if (whiffed) player.whiffAudio.Play();
         AbilityCompletionSubject.Next(
