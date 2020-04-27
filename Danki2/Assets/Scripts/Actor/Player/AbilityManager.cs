@@ -145,20 +145,26 @@ public class AbilityManager
 
         AbilityReference abilityReference = player.AbilityTree.GetAbility(direction);
 
-        if (player.InstantCastService.TryGetInstantCast(abilityReference, out InstantCast instantCast))
+        switch (AbilityLookup.GetAbilityType(abilityReference))
         {
-            abilityFeedbackSubscription = instantCast.SuccessFeedbackSubject.Subscribe(AbilityFeedbackSubscription);
-            player.InstantCastService.Cast(instantCast, targetPosition);
-            CastingStatus = CastingStatus.Cooldown;
-        }
-
-        if (player.ChannelService.TryGetChannel(abilityReference, out Channel channel))
-        {
-            abilityFeedbackSubscription = channel.SuccessFeedbackSubject.Subscribe(AbilityFeedbackSubscription);
-            player.ChannelService.Start(channel, targetPosition);
-            CastingStatus = direction == Direction.Left
-                ? CastingStatus.ChannelingLeft
-                : CastingStatus.ChannelingRight;
+            case AbilityType.InstantCast:
+                player.InstantCastService.Cast(
+                    abilityReference,
+                    targetPosition,
+                    subject => abilityFeedbackSubscription = subject.Subscribe(AbilityFeedbackSubscription)
+                );
+                CastingStatus = CastingStatus.Cooldown;
+                break;
+            case AbilityType.Channel:
+                player.ChannelService.Start(
+                    abilityReference,
+                    targetPosition,
+                    subject => abilityFeedbackSubscription = subject.Subscribe(AbilityFeedbackSubscription)
+                );
+                CastingStatus = direction == Direction.Left
+                    ? CastingStatus.ChannelingLeft
+                    : CastingStatus.ChannelingRight;
+                break;
         }
     }
 

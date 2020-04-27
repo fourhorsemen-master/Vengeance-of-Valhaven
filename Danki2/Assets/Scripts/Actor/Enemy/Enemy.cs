@@ -15,10 +15,7 @@ public abstract class Enemy : Actor
 
         InterruptableAction(waitTime, InterruptionType.Hard, () =>
         {
-            if (InstantCastService.TryGetInstantCast(abilityReference, out InstantCast instantCast))
-            {
-                InstantCastService.Cast(instantCast, targetPosition);
-            }
+            InstantCastService.Cast(abilityReference, targetPosition);
         });
     }
 }

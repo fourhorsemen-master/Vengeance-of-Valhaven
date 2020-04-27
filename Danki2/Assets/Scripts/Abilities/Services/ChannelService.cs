@@ -41,19 +41,23 @@ public class ChannelService
         });
     }
 
-    public bool TryGetChannel(AbilityReference abilityReference, out Channel channel)
+    public void Start(
+        AbilityReference abilityReference,
+        Vector3 target,
+        Action<Subject<bool>> successFeedbackSubjectAction = null
+    )
     {
-        return AbilityLookup.TryGetChannel(abilityReference, actor, out channel);
-    }
-
-    public void Start(Channel channel, Vector3 target)
-    {
-        _currentChannel = channel;
-        RemainingDuration = _currentChannel.Duration;
-        Active = true;
-
-        _currentChannel.Start(target);
-        _currentChannel.Continue(target);
+        if (AbilityLookup.TryGetChannel(abilityReference, actor, out Channel channel))
+        {
+            _currentChannel = channel;
+            RemainingDuration = _currentChannel.Duration;
+            Active = true;
+            
+            successFeedbackSubjectAction?.Invoke(channel.SuccessFeedbackSubject);
+            
+            _currentChannel.Start(target);
+            _currentChannel.Continue(target);
+        }
     }
 
     public void Cancel(Vector3 target)
