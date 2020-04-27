@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public static class AbilityLookup
 {
@@ -36,19 +37,28 @@ public static class AbilityLookup
             { AbilityReference.Whirlwind, Whirlwind.BaseAbilityData},
         };
 
-    private static readonly Dictionary<AbilityReference, AbilityType> abilityTypes
-        = new Dictionary<AbilityReference, AbilityType>()
+    private static readonly Dictionary<AbilityReference, AbilityType> abilityTypes = new Dictionary<AbilityReference, AbilityType>();
+
+    static AbilityLookup()
+    {
+        foreach (AbilityReference abilityReference in Enum.GetValues(typeof(AbilityReference)))
         {
-            {AbilityReference.Slash, AbilityType.InstantCast},
-            {AbilityReference.Fireball, AbilityType.InstantCast},
-            {AbilityReference.DaggerThrow, AbilityType.InstantCast},
-            {AbilityReference.Bite, AbilityType.InstantCast},
-            {AbilityReference.Roll, AbilityType.InstantCast},
-            {AbilityReference.Lunge, AbilityType.InstantCast},
-            {AbilityReference.Pounce, AbilityType.InstantCast},
-            {AbilityReference.Smash, AbilityType.InstantCast},
-            {AbilityReference.Whirlwind, AbilityType.Channel},
-        };
+            bool isInInstantCasts = instantCasts.ContainsKey(abilityReference);
+            bool isInChannels = channels.ContainsKey(abilityReference);
+
+            if (isInInstantCasts && isInChannels)
+            {
+                Debug.LogError($"{abilityReference.ToString()} is in both ability lookups");
+            }
+
+            if (!isInInstantCasts && !isInChannels)
+            {
+                Debug.LogError($"{abilityReference.ToString()} is in no ability lookup");
+            }
+
+            abilityTypes[abilityReference] = isInInstantCasts ? AbilityType.InstantCast : AbilityType.Channel;
+        }
+    }
 
     public static bool TryGetInstantCast(AbilityReference abilityReference, Actor owner, out InstantCast ability)
     {
