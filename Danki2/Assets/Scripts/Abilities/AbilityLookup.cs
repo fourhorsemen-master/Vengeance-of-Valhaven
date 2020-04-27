@@ -36,6 +36,20 @@ public static class AbilityLookup
             { AbilityReference.Whirlwind, Whirlwind.BaseAbilityData},
         };
 
+    private static readonly Dictionary<AbilityReference, AbilityType> abilityTypes
+        = new Dictionary<AbilityReference, AbilityType>()
+        {
+            {AbilityReference.Slash, AbilityType.InstantCast},
+            {AbilityReference.Fireball, AbilityType.InstantCast},
+            {AbilityReference.DaggerThrow, AbilityType.InstantCast},
+            {AbilityReference.Bite, AbilityType.InstantCast},
+            {AbilityReference.Roll, AbilityType.InstantCast},
+            {AbilityReference.Lunge, AbilityType.InstantCast},
+            {AbilityReference.Pounce, AbilityType.InstantCast},
+            {AbilityReference.Smash, AbilityType.InstantCast},
+            {AbilityReference.Whirlwind, AbilityType.Channel},
+        };
+
     public static bool TryGetInstantCast(AbilityReference abilityReference, Actor owner, out InstantCast ability)
     {
         if (instantCasts.ContainsKey(abilityReference))
@@ -58,5 +72,10 @@ public static class AbilityLookup
 
         ability = null;
         return false;
+    }
+
+    public static AbilityType GetAbilityType(AbilityReference abilityReference)
+    {
+        return abilityTypes[abilityReference];
     }
 }

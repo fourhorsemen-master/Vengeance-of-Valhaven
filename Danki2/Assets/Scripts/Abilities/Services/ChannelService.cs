@@ -1,7 +1,10 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class ChannelService
 {
+    private readonly Actor actor;
+    
     private Channel _currentChannel;
 
     public bool Active { get; private set; } = false;
@@ -9,8 +12,10 @@ public class ChannelService
     public float TotalDuration => _currentChannel.Duration;
     public Vector3 TargetPosition { get; set; } = Vector3.zero;
 
-    public ChannelService(Subject lateUpdateSubject, InterruptionManager interruptionManager)
+    public ChannelService(Actor actor, Subject lateUpdateSubject, InterruptionManager interruptionManager)
     {
+        this.actor = actor;
+        
         interruptionManager.Register(InterruptionType.Hard, () => Cancel(TargetPosition));
 
         lateUpdateSubject.Subscribe(() =>
@@ -36,13 +41,23 @@ public class ChannelService
         });
     }
 
-    public void Start(Channel channel, Vector3 target)
+    public Subscription<bool> Start(AbilityReference abilityReference, Vector3 target, Action<bool> abilityFeedbackSubscription = null)
     {
-        _currentChannel = channel;
-        RemainingDuration = _currentChannel.Duration;
-        Active = true;
-        _currentChannel.Start(target);
-        _currentChannel.Continue(target);
+        if (AbilityLookup.TryGetChannel(abilityReference, actor, out Channel channel))
+        {
+            _currentChannel = channel;
+            RemainingDuration = _currentChannel.Duration;
+            Active = true;
+            Subscription<bool> subscription = abilityFeedbackSubscription != null
+                ? channel.SuccessFeedbackSubject.Subscribe(abilityFeedbackSubscription)
+                : null;
+            _currentChannel.Start(target);
+            _currentChannel.Continue(target);
+
+            return subscription;
+        }
+
+        return null;
     }
 
     public void Cancel(Vector3 target)

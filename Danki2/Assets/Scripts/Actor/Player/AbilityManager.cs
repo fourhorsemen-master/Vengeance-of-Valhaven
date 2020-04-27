@@ -145,41 +145,33 @@ public class AbilityManager
 
         AbilityReference abilityReference = player.AbilityTree.GetAbility(direction);
 
-        // We try to get the mouse game position in scene for the AbilityContext.
-        if (!MouseGamePositionFinder.Instance.TryGetMouseGamePosition(out Vector3 mousePosition))
-        {
-            // If the mouse is outside the scene, we use the mouse position on a horizontal plane at the players height.
-            mousePosition = MouseGamePositionFinder.Instance.GetMousePlanePosition(player.transform.position.y, true);
-        }
+        abilityFeedbackSubscription?.Unsubscribe();
 
-        if (AbilityLookup.TryGetInstantCast(
-                abilityReference,
-                player,
-                out InstantCast instantCast
-        ))
+        switch (AbilityLookup.GetAbilityType(abilityReference))
         {
-            abilityFeedbackSubscription = instantCast.SuccessFeedbackSubject.Subscribe(AbilityFeedbackSubscription);
-            instantCast.Cast(mousePosition);
-            CastingStatus = CastingStatus.Cooldown;
-        }
-
-        if (AbilityLookup.TryGetChannel(
-                abilityReference,
-                player,
-                out Channel channel
-        ))
-        {
-            abilityFeedbackSubscription = channel.SuccessFeedbackSubject.Subscribe(AbilityFeedbackSubscription);
-            player.ChannelService.Start(channel, mousePosition);
-            CastingStatus = direction == Direction.Left
-                ? CastingStatus.ChannelingLeft
-                : CastingStatus.ChannelingRight;
+            case AbilityType.InstantCast:
+                abilityFeedbackSubscription = player.InstantCastService.Cast(
+                    abilityReference,
+                    targetPosition,
+                    AbilityFeedbackSubscription
+                );
+                CastingStatus = CastingStatus.Cooldown;
+                break;
+            case AbilityType.Channel:
+                abilityFeedbackSubscription = player.ChannelService.Start(
+                    abilityReference,
+                    targetPosition,
+                    AbilityFeedbackSubscription
+                );
+                CastingStatus = direction == Direction.Left
+                    ? CastingStatus.ChannelingLeft
+                    : CastingStatus.ChannelingRight;
+                break;
         }
     }
 
     private void AbilityFeedbackSubscription(bool successful)
     {
-        abilityFeedbackSubscription.Unsubscribe();
         whiffed = !successful;
         if (whiffed) player.whiffAudio.Play();
         AbilityCompletionSubject.Next(
