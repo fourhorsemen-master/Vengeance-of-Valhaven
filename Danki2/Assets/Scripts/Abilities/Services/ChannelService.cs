@@ -47,6 +47,9 @@ public class ChannelService
         Action<Subject<bool>> successFeedbackSubjectAction = null
     )
     {
+        MovementStatus status = actor.MovementManager.MovementStatus;
+        if (status == MovementStatus.Stunned || status == MovementStatus.MovementLocked) return;
+
         if (AbilityLookup.TryGetChannel(abilityReference, actor, out Channel channel))
         {
             _currentChannel = channel;

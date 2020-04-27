@@ -130,6 +130,9 @@ public class AbilityManager
 
     private void BranchAndCast(Direction direction)
     {
+        MovementStatus status = player.MovementManager.MovementStatus;
+        if (status == MovementStatus.Stunned || status == MovementStatus.MovementLocked) return;
+
         if (!player.AbilityTree.CanWalkDirection(direction))
         {
             // TODO: Feedback to user that there is no ability here.

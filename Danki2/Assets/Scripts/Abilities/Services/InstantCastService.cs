@@ -16,6 +16,9 @@ public class InstantCastService
         Action<Subject<bool>> successFeedbackSubjectAction = null
     )
     {
+        MovementStatus status = actor.MovementManager.MovementStatus;
+        if (status == MovementStatus.Stunned || status == MovementStatus.MovementLocked) return;
+
         if (AbilityLookup.TryGetInstantCast(abilityReference, actor, out InstantCast instantCast))
         {
             successFeedbackSubjectAction?.Invoke(instantCast.SuccessFeedbackSubject);
