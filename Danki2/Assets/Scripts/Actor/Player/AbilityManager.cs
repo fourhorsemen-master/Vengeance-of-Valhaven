@@ -131,7 +131,11 @@ public class AbilityManager
     private void BranchAndCast(Direction direction)
     {
         MovementStatus status = player.MovementManager.MovementStatus;
-        if (status == MovementStatus.Stunned || status == MovementStatus.MovementLocked) return;
+        if (status == MovementStatus.Stunned || status == MovementStatus.MovementLocked)
+        {
+            player.whiffAudio.Play();
+            return;
+        }
 
         if (!player.AbilityTree.CanWalkDirection(direction))
         {
