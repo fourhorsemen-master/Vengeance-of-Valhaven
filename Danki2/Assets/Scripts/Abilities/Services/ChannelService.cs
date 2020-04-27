@@ -41,23 +41,19 @@ public class ChannelService
         });
     }
 
-    public Subscription<bool> Start(AbilityReference abilityReference, Vector3 target, Action<bool> abilityFeedbackSubscription = null)
+    public bool TryGetChannel(AbilityReference abilityReference, out Channel channel)
     {
-        if (AbilityLookup.TryGetChannel(abilityReference, actor, out Channel channel))
-        {
-            _currentChannel = channel;
-            RemainingDuration = _currentChannel.Duration;
-            Active = true;
-            Subscription<bool> subscription = abilityFeedbackSubscription != null
-                ? channel.SuccessFeedbackSubject.Subscribe(abilityFeedbackSubscription)
-                : null;
-            _currentChannel.Start(target);
-            _currentChannel.Continue(target);
+        return AbilityLookup.TryGetChannel(abilityReference, actor, out channel);
+    }
 
-            return subscription;
-        }
+    public void Start(Channel channel, Vector3 target)
+    {
+        _currentChannel = channel;
+        RemainingDuration = _currentChannel.Duration;
+        Active = true;
 
-        return null;
+        _currentChannel.Start(target);
+        _currentChannel.Continue(target);
     }
 
     public void Cancel(Vector3 target)

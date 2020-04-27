@@ -9,18 +9,14 @@ public class InstantCastService
     {
         this.actor = actor;
     }
-    
-    public Subscription<bool> Cast(AbilityReference abilityReference, Vector3 target, Action<bool> abilityFeedbackSubscription = null)
-    {
-        if (AbilityLookup.TryGetInstantCast(abilityReference, actor, out InstantCast instantCast))
-        {
-            Subscription<bool> subscription = abilityFeedbackSubscription != null
-                ? instantCast.SuccessFeedbackSubject.Subscribe(abilityFeedbackSubscription)
-                : null;
-            instantCast.Cast(target);
-            return subscription;
-        }
 
-        return null;
+    public bool TryGetInstantCast(AbilityReference abilityReference, out InstantCast instantCast)
+    {
+        return AbilityLookup.TryGetInstantCast(abilityReference, actor, out instantCast);
+    }
+
+    public void Cast(InstantCast instantCast, Vector3 target)
+    {
+        instantCast.Cast(target);
     }
 }
