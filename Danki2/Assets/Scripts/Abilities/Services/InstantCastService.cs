@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class InstantCastService
+public class InstantCastService : AbilityService
 {
-    private readonly Actor actor;
-
-    private readonly List<IAbilityDataDiffer> differs = new List<IAbilityDataDiffer>();
-    
-    public InstantCastService(Actor actor)
+    public InstantCastService(Actor actor) : base(actor)
     {
-        this.actor = actor;
     }
 
     public bool Cast(
@@ -27,17 +21,5 @@ public class InstantCastService
         successFeedbackSubjectAction?.Invoke(instantCast.SuccessFeedbackSubject);
         instantCast.Cast(target);
         return true;
-    }
-
-    public void RegisterAbilityDataDiffer(IAbilityDataDiffer differ)
-    {
-        this.differs.Add(differ);
-    }
-
-    private AbilityData GetAbilityDataDiff()
-    {
-        AbilityData abilityData = AbilityData.Zero;
-        differs.ForEach(c => abilityData += c.GetAbilityDataDiff());
-        return abilityData;
     }
 }
