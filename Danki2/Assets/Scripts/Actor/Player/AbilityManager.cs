@@ -6,6 +6,7 @@ public class AbilityManager
 	private readonly Player player;
     private readonly float abilityTimeoutLimit;
     private readonly float abilityCooldown;
+    private float remainingAbilityCooldown = 0f;
 
     private Direction lastCastDirection;
     private bool whiffed = true;
@@ -13,7 +14,9 @@ public class AbilityManager
     private Subscription<bool> abilityFeedbackSubscription;
     private ActionControlState previousActionControlState = ActionControlState.None;
     private ActionControlState currentActionControlState = ActionControlState.None;
+    private Vector3 targetPosition = Vector3.zero;
 
+    public float RemainingCooldownProportion => remainingAbilityCooldown / abilityCooldown;
     public float RemainingAbilityCooldown { get; private set; } = 0f;
     public CastingStatus CastingStatus { get; private set; } = CastingStatus.Ready;
     public Subject<Tuple<bool, Direction>> AbilityCompletionSubject { get; } = new Subject<Tuple<bool, Direction>>();
@@ -24,6 +27,7 @@ public class AbilityManager
         this.abilityTimeoutLimit = abilityTimeoutLimit;
         this.abilityCooldown = abilityCooldown;
 
+        updateSubject.Subscribe(UpdateTargetPosition);
         updateSubject.Subscribe(TickAbilityCooldown);
         lateUpdateSubject.Subscribe(HandleAbilities);
 
@@ -34,15 +38,29 @@ public class AbilityManager
     {
         currentActionControlState = controlState;
     }
+
+    private void UpdateTargetPosition()
+    {
+        // We try to get the mouse game position in scene for the AbilityContext.
+        if (!MouseGamePositionFinder.Instance.TryGetMouseGamePosition(out Vector3 mousePosition))
+        {
+            // If the mouse is outside the scene, we use the mouse position on a horizontal plane at the players height.
+            mousePosition = MouseGamePositionFinder.Instance.GetMousePlanePosition(player.transform.position.y, true);
+        }
+
+        targetPosition = mousePosition;
+
+        player.ChannelService.TargetPosition = targetPosition;
+    }
     
     private void TickAbilityCooldown()
     {
         if (player.ChannelService.Active) return;
 
         float decrement = whiffed ? Time.deltaTime / 2 : Time.deltaTime;
-        RemainingAbilityCooldown = Mathf.Max(0f, RemainingAbilityCooldown - decrement);
+        remainingAbilityCooldown = Mathf.Max(0f, remainingAbilityCooldown - decrement);
 
-        if (RemainingAbilityCooldown > 0f || CastingStatus != CastingStatus.Cooldown) return;
+        if (remainingAbilityCooldown > 0f || CastingStatus != CastingStatus.Cooldown) return;
 
         abilityFeedbackSubscription.Unsubscribe();
 
@@ -72,7 +90,7 @@ public class AbilityManager
                 {
                     player.AbilityTree.Reset();
                     whiffed = true;
-                    player.whiffAudio.Play();
+                    player.PlayWhiffSound();
                 });
             }
         });
@@ -95,12 +113,12 @@ public class AbilityManager
                 // Handle case where channel has ended naturally.
                 if (!player.ChannelService.Active)
                 {
-                    CastingStatus = RemainingAbilityCooldown <= 0f ? CastingStatus.Ready : CastingStatus.Cooldown;
+                    CastingStatus = remainingAbilityCooldown <= 0f ? CastingStatus.Ready : CastingStatus.Cooldown;
                 }
                 break;
             case CastingCommand.CancelChannel:
-                player.ChannelService.Cancel();
-                CastingStatus = RemainingAbilityCooldown <= 0f ? CastingStatus.Ready : CastingStatus.Cooldown;
+                player.ChannelService.Cancel(targetPosition);
+                CastingStatus = remainingAbilityCooldown <= 0f ? CastingStatus.Ready : CastingStatus.Cooldown;
                 break;
             case CastingCommand.CastLeft:
                 BranchAndCast(Direction.Left);
@@ -113,52 +131,46 @@ public class AbilityManager
 
     private void BranchAndCast(Direction direction)
     {
-        if (!player.AbilityTree.CanWalkDirection(direction))
+        if (!player.AbilityTree.CanWalkDirection(direction)) return;
+        lastCastDirection = direction;
+
+        AbilityReference abilityReference = player.AbilityTree.GetAbility(direction);
+        bool abilityCast = false;
+        CastingStatus nextStatus = CastingStatus;
+
+        switch (AbilityLookup.GetAbilityType(abilityReference))
         {
-            // TODO: Feedback to user that there is no ability here.
+            case AbilityType.InstantCast:
+                abilityCast = player.InstantCastService.Cast(
+                    abilityReference,
+                    targetPosition,
+                    subject => abilityFeedbackSubscription = subject.Subscribe(AbilityFeedbackSubscription)
+                );
+                nextStatus = CastingStatus.Cooldown;
+                break;
+            case AbilityType.Channel:
+                abilityCast = player.ChannelService.Start(
+                    abilityReference,
+                    targetPosition,
+                    subject => abilityFeedbackSubscription = subject.Subscribe(AbilityFeedbackSubscription)
+                );
+                nextStatus = direction == Direction.Left
+                    ? CastingStatus.ChannelingLeft
+                    : CastingStatus.ChannelingRight;
+                break;
+        }
+
+        if (!abilityCast)
+        {
+            player.PlayWhiffSound();
             return;
         }
 
-        RemainingAbilityCooldown = abilityCooldown;
-        lastCastDirection = direction;
+        CastingStatus = nextStatus;
+        remainingAbilityCooldown = abilityCooldown;
         if (abilityTimeout != null)
         {
             player.StopCoroutine(abilityTimeout);
-        }
-
-        AbilityReference abilityReference = player.AbilityTree.GetAbility(direction);
-
-        // We try to get the mouse game position in scene for the AbilityContext.
-        if (!MouseGamePositionFinder.Instance.TryGetMouseGamePosition(out Vector3 mousePosition))
-        {
-            // If the mouse is outside the scene, we use the mouse position on a horizontal plane at the players height.
-            mousePosition = MouseGamePositionFinder.Instance.GetMousePlanePosition(player.transform.position.y, true);
-        }
-
-        AbilityContext abilityContext = new AbilityContext(player, mousePosition);
-
-        if (Ability.TryGetInstantCast(
-                abilityReference,
-                abilityContext,
-                out InstantCast instantCast
-        ))
-        {
-            abilityFeedbackSubscription = instantCast.SuccessFeedbackSubject.Subscribe(AbilityFeedbackSubscription);
-            instantCast.Cast();
-            CastingStatus = CastingStatus.Cooldown;
-        }
-
-        if (Ability.TryGetChannel(
-                abilityReference,
-                abilityContext,
-                out Channel channel
-        ))
-        {
-            abilityFeedbackSubscription = channel.SuccessFeedbackSubject.Subscribe(AbilityFeedbackSubscription);
-            player.ChannelService.Start(channel);
-            CastingStatus = direction == Direction.Left
-                ? CastingStatus.ChannelingLeft
-                : CastingStatus.ChannelingRight;
         }
     }
 
@@ -166,7 +178,7 @@ public class AbilityManager
     {
         abilityFeedbackSubscription.Unsubscribe();
         whiffed = !successful;
-        if (whiffed) player.whiffAudio.Play();
+        if (whiffed) player.PlayWhiffSound();
         AbilityCompletionSubject.Next(
             new Tuple<bool, Direction>(successful, lastCastDirection)
         );

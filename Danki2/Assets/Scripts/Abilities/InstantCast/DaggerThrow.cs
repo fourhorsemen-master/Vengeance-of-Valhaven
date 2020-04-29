@@ -2,6 +2,8 @@
 
 class DaggerThrow : InstantCast
 {
+    public static readonly AbilityData BaseAbilityData = new AbilityData(0, 0, 0);
+
     private const float DaggerSpeed = 20f;
     private const int ImpactDamage = 2;
     private const int TickDamage = 1;
@@ -9,16 +11,15 @@ class DaggerThrow : InstantCast
     private const float DotDuration = 3f;
     private static readonly Vector3 positionTransform = new Vector3(0, 1.25f, 0);
 
-    public DaggerThrow(AbilityContext context) : base(context)
+    public DaggerThrow(Actor owner, AbilityData abilityData) : base(owner, abilityData)
     {
     }
 
-    public override void Cast()
+    public override void Cast(Vector3 target)
     {
-        Vector3 position = Context.Owner.transform.position + positionTransform;
-        Vector3 target = Context.TargetPosition;
+        Vector3 position = Owner.transform.position + positionTransform;
         Quaternion rotation = Quaternion.LookRotation(target - position);
-        DaggerObject.Fire(Context.Owner, OnCollision, DaggerSpeed, position, rotation);
+        DaggerObject.Fire(Owner, OnCollision, DaggerSpeed, position, rotation);
     }
 
     private void OnCollision(GameObject gameObject)
@@ -27,13 +28,13 @@ class DaggerThrow : InstantCast
         {
             Actor actor = gameObject.GetComponent<Actor>();
 
-            if (!actor.Opposes(Context.Owner))
+            if (!actor.Opposes(Owner))
             {
                 SuccessFeedbackSubject.Next(false);
                 return;
             }
 
-            Context.Owner.DamageTarget(actor, ImpactDamage);
+            Owner.DamageTarget(actor, ImpactDamage);
             actor.EffectManager.AddActiveEffect(new DOT(TickDamage, DamageTickInterval), DotDuration);
             SuccessFeedbackSubject.Next(true);
         }

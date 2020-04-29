@@ -17,7 +17,7 @@ public class MovementManager
     private float remainingStatusDuration = 0f;
 
     private StateManager<MovementStatus> movementStatusManager;
-    private MovementStatus MovementStatus => movementStatusManager.CurrentState;
+    public MovementStatus MovementStatus => movementStatusManager.CurrentState;
 
     public bool IsMoving { get; private set; } = false;
 
