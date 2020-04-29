@@ -1,4 +1,4 @@
-﻿public class AbilityData
+﻿public struct AbilityData
 {
     public int Damage { get; }
     public int Heal { get; }
@@ -9,5 +9,10 @@
         Damage = damage;
         Heal = heal;
         Shield = shield;
+    }
+
+    public static AbilityData operator +(AbilityData a, AbilityData b)
+    {
+        return new AbilityData(a.Damage + b.Damage, a.Heal + b.Heal, a.Shield + b.Shield);
     }
 }
