@@ -9,9 +9,12 @@ public class FloatingDamageText : MonoBehaviour
 
     [SerializeField]
     private Text floatingDamageNumberPrefab = null;
+    
+    [SerializeField]
+    private Color textColor = Color.white;
 
-    private float floatTime = 5f;
-    private float scrollSpeed = 0.5f;
+    private float floatTime = 1f;
+    private float scrollSpeed = 0.6f;
 
     private void Start()
     {
@@ -29,14 +32,16 @@ public class FloatingDamageText : MonoBehaviour
     private IEnumerator ScrollAndFadeText(Text text)
     {
         float timeElapsed = 0f;
-        Color lerpTarget = text.color;
+        text.color = textColor;
+
+        Color lerpTarget = textColor;
         lerpTarget.a = 0f;
 
         while (timeElapsed < floatTime)
         {
             timeElapsed += Time.deltaTime;
             text.transform.Translate(Vector3.up * Time.deltaTime * scrollSpeed);
-            text.color = Color.Lerp(text.color, lerpTarget, timeElapsed/floatTime);
+            text.color = Color.Lerp(textColor, lerpTarget, timeElapsed/floatTime);
             yield return null;
         }
 
