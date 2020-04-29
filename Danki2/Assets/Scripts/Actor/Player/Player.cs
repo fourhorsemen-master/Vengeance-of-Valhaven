@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
 
 public class Player : Actor
 {
@@ -20,7 +19,8 @@ public class Player : Actor
     [SerializeField]
     private TrailRenderer trailRenderer = null;
 
-    public AudioSource whiffAudio = null;
+    [SerializeField]
+    private AudioSource whiffAudio = null;
 
     public AbilityTree AbilityTree { get; private set; }
 
@@ -89,6 +89,11 @@ public class Player : Actor
             trailRenderer.emitting = true;
             StartCoroutine(EndDashVisualAfterDelay());
         }
+    }
+
+    public void PlayWhiffSound()
+    {
+        whiffAudio.Play();
     }
 
     protected override void OnDeath()
