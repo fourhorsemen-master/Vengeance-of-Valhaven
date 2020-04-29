@@ -12,8 +12,6 @@ public class AbilityDataOrbsDiffer : IAbilityDataDiffer
 
     public AbilityData GetAbilityDataDiff()
     {
-        if (currentNode == null) return AbilityData.Zero;
-
         EnumDictionary<OrbType, int> totalGeneratedOrbs = new EnumDictionary<OrbType, int>(0);
 
         currentNode.IterateUp(
