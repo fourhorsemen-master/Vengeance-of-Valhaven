@@ -34,6 +34,7 @@ public abstract class Actor : MonoBehaviour
         InterruptionManager = new InterruptionManager();
         ChannelService = new ChannelService(this, lateUpdateSubject, InterruptionManager);
         InstantCastService = new InstantCastService(this);
+        InstantCastService.RegisterAbilityDataDiffer(new AbilityDataStatsDiffer(this));
         MovementManager = new MovementManager(this, updateSubject, navmeshAgent);
 
         Dead = false;
