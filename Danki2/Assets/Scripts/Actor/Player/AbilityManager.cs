@@ -89,7 +89,7 @@ public class AbilityManager
                 {
                     player.AbilityTree.Reset();
                     whiffed = true;
-                    player.whiffAudio.Play();
+                    player.PlayWhiffSound();
                 });
             }
         });
@@ -130,48 +130,46 @@ public class AbilityManager
 
     private void BranchAndCast(Direction direction)
     {
-        MovementStatus status = player.MovementManager.MovementStatus;
-        if (status == MovementStatus.Stunned || status == MovementStatus.MovementLocked)
-        {
-            player.whiffAudio.Play();
-            return;
-        }
-
-        if (!player.AbilityTree.CanWalkDirection(direction))
-        {
-            // TODO: Feedback to user that there is no ability here.
-            return;
-        }
-
-        RemainingAbilityCooldown = abilityCooldown;
+        if (!player.AbilityTree.CanWalkDirection(direction)) return;
         lastCastDirection = direction;
-        if (abilityTimeout != null)
-        {
-            player.StopCoroutine(abilityTimeout);
-        }
 
         AbilityReference abilityReference = player.AbilityTree.GetAbility(direction);
+        bool abilityCast = false;
+        CastingStatus nextStatus = CastingStatus;
 
         switch (AbilityLookup.GetAbilityType(abilityReference))
         {
             case AbilityType.InstantCast:
-                player.InstantCastService.Cast(
+                abilityCast = player.InstantCastService.Cast(
                     abilityReference,
                     targetPosition,
                     subject => abilityFeedbackSubscription = subject.Subscribe(AbilityFeedbackSubscription)
                 );
-                CastingStatus = CastingStatus.Cooldown;
+                nextStatus = CastingStatus.Cooldown;
                 break;
             case AbilityType.Channel:
-                player.ChannelService.Start(
+                abilityCast = player.ChannelService.Start(
                     abilityReference,
                     targetPosition,
                     subject => abilityFeedbackSubscription = subject.Subscribe(AbilityFeedbackSubscription)
                 );
-                CastingStatus = direction == Direction.Left
+                nextStatus = direction == Direction.Left
                     ? CastingStatus.ChannelingLeft
                     : CastingStatus.ChannelingRight;
                 break;
+        }
+
+        if (!abilityCast)
+        {
+            player.PlayWhiffSound();
+            return;
+        }
+
+        CastingStatus = nextStatus;
+        RemainingAbilityCooldown = abilityCooldown;
+        if (abilityTimeout != null)
+        {
+            player.StopCoroutine(abilityTimeout);
         }
     }
 
@@ -179,7 +177,7 @@ public class AbilityManager
     {
         abilityFeedbackSubscription.Unsubscribe();
         whiffed = !successful;
-        if (whiffed) player.whiffAudio.Play();
+        if (whiffed) player.PlayWhiffSound();
         AbilityCompletionSubject.Next(
             new Tuple<bool, Direction>(successful, lastCastDirection)
         );

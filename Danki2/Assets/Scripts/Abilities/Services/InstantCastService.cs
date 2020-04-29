@@ -10,19 +10,19 @@ public class InstantCastService
         this.actor = actor;
     }
 
-    public void Cast(
+    public bool Cast(
         AbilityReference abilityReference,
         Vector3 target,
         Action<Subject<bool>> successFeedbackSubjectAction = null
     )
     {
         MovementStatus status = actor.MovementManager.MovementStatus;
-        if (status == MovementStatus.Stunned || status == MovementStatus.MovementLocked) return;
+        if (status == MovementStatus.Stunned || status == MovementStatus.MovementLocked) return false;
 
-        if (AbilityLookup.TryGetInstantCast(abilityReference, actor, out InstantCast instantCast))
-        {
-            successFeedbackSubjectAction?.Invoke(instantCast.SuccessFeedbackSubject);
-            instantCast.Cast(target);
-        }
+        if (!AbilityLookup.TryGetInstantCast(abilityReference, actor, out InstantCast instantCast)) return false;
+
+        successFeedbackSubjectAction?.Invoke(instantCast.SuccessFeedbackSubject);
+        instantCast.Cast(target);
+        return true;
     }
 }
