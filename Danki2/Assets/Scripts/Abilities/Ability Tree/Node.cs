@@ -19,9 +19,9 @@ public abstract class Node
         Ability = ability;
     }
 
-    public bool HasParent()
+    public bool IsRootNode()
     {
-        return parent != null;
+        return parent == null;
     }
 
     public Node GetParent()
@@ -70,9 +70,13 @@ public abstract class Node
     /// Runs the given action for this node and all ancestor nodes up the tree.
     /// </summary>
     /// <param name="action"> The action to run </param>
-    public void IterateUp(Action<Node> action)
+    /// <param name="predicate"> Optional predicate, if not provided then the action will run for every node </param>
+    public void IterateUp(Action<Node> action, Func<Node, bool> predicate = null)
     {
-        action(this);
-        parent?.IterateUp(action);
+        if (predicate == null || predicate(this))
+        {
+            action(this);
+        }
+        parent?.IterateUp(action, predicate);
     }
 }

@@ -17,4 +17,13 @@
     {
         return new AbilityData(a.Damage + b.Damage, a.Heal + b.Heal, a.Shield + b.Shield);
     }
+
+    public static AbilityData FromGeneratedOrbs(EnumDictionary<OrbType, int> generatedOrbs)
+    {
+        return new AbilityData(
+            generatedOrbs[OrbType.Aggression],
+            generatedOrbs[OrbType.Balance],
+            generatedOrbs[OrbType.Cunning]
+        );
+    }
 }
