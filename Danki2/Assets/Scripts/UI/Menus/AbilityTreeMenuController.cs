@@ -7,10 +7,10 @@ public class AbilityTreeMenuController : MonoBehaviour
     private Player player;
 
     [SerializeField]
-    private GameObject abilityTreeContent = null;
+    private GameObject abilityTreeListContent = null;
 
     [SerializeField]
-    private AbilityPanel abilityPanelPrefab = null;
+    private AbilityPanel abilityListingPanelPrefab = null;
 
     void Start()
     {
@@ -22,7 +22,7 @@ public class AbilityTreeMenuController : MonoBehaviour
     private void PopulateAbilityList()
     {
         //destroy all current panels
-        foreach (Transform child in abilityTreeContent.transform)
+        foreach (Transform child in abilityTreeListContent.transform)
         {
             Destroy(child.gameObject);
         }
@@ -31,8 +31,8 @@ public class AbilityTreeMenuController : MonoBehaviour
         {
             if (item.Value > 0)
             {
-                AbilityPanel abilityPanel = Instantiate(abilityPanelPrefab, Vector3.zero, Quaternion.identity);
-                abilityPanel.transform.SetParent(abilityTreeContent.transform, false);
+                AbilityPanel abilityPanel = Instantiate(abilityListingPanelPrefab, Vector3.zero, Quaternion.identity);
+                abilityPanel.transform.SetParent(abilityTreeListContent.transform, false);
 
                 abilityPanel.Initialise(item.Key, item.Value);
             }
