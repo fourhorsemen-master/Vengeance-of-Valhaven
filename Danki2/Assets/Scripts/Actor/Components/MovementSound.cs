@@ -29,13 +29,13 @@ public class MovementSound : MonoBehaviour
         if (moving && !movingPreviousFrame)
         {
             if (fadeOutCoroutine != null) StopCoroutine(fadeOutCoroutine);
-            fadeInCoroutine = StartCoroutine(movementAudioSource.FadeInCoroutine(FadeInTime, targetVolume));
+            fadeInCoroutine = StartCoroutine(movementAudioSource.FadeInRoutine(FadeInTime, targetVolume));
         }
         
         if (!moving && movingPreviousFrame)
         {
             if (fadeInCoroutine != null) StopCoroutine(fadeInCoroutine);
-            fadeOutCoroutine = StartCoroutine(movementAudioSource.FadeOutCoroutine(FadeOutTime));
+            fadeOutCoroutine = StartCoroutine(movementAudioSource.FadeOutRoutine(FadeOutTime));
         }
 
         movingPreviousFrame = moving;

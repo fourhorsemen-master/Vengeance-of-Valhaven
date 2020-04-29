@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class AudioSourceExtensions
 {
-    public static IEnumerator FadeInCoroutine(this AudioSource audioSource, float FadeTime, float TargetVolume)
+    public static IEnumerator FadeInRoutine(this AudioSource audioSource, float FadeTime, float TargetVolume)
     {
         audioSource.Play();
         audioSource.volume = 0f;
@@ -19,7 +19,7 @@ public static class AudioSourceExtensions
         audioSource.volume = TargetVolume;
     }
 
-    public static IEnumerator FadeOutCoroutine(this AudioSource audioSource, float FadeTime)
+    public static IEnumerator FadeOutRoutine(this AudioSource audioSource, float FadeTime)
     {        
         float startVolume = audioSource.volume;
 
