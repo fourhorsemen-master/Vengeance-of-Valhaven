@@ -19,7 +19,7 @@ public class InstantCastService
         MovementStatus status = actor.MovementManager.MovementStatus;
         if (status == MovementStatus.Stunned || status == MovementStatus.MovementLocked) return false;
 
-        if (!AbilityLookup.TryGetInstantCast(abilityReference, actor, out InstantCast instantCast)) return false;
+        if (!AbilityLookup.TryGetInstantCast(abilityReference, actor, AbilityData.Zero, out InstantCast instantCast)) return false;
 
         successFeedbackSubjectAction?.Invoke(instantCast.SuccessFeedbackSubject);
         instantCast.Cast(target);

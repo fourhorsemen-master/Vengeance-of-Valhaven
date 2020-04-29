@@ -11,6 +11,8 @@
         Shield = shield;
     }
 
+    public static AbilityData Zero { get; } = new AbilityData(0, 0, 0);
+
     public static AbilityData operator +(AbilityData a, AbilityData b)
     {
         return new AbilityData(a.Damage + b.Damage, a.Heal + b.Heal, a.Shield + b.Shield);

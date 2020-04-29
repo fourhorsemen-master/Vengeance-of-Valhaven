@@ -4,26 +4,26 @@ using UnityEngine;
 
 public static class AbilityLookup
 {
-    private static Dictionary<AbilityReference, Func<Actor, InstantCast>> instantCasts 
-        = new Dictionary<AbilityReference, Func<Actor, InstantCast>>
+    private static Dictionary<AbilityReference, Func<Actor, AbilityData, InstantCast>> instantCasts 
+        = new Dictionary<AbilityReference, Func<Actor, AbilityData, InstantCast>>
         {
-            { AbilityReference.Slash, (a) => new Slash(a, abilityData[AbilityReference.Slash]) },
-            { AbilityReference.Fireball, (a) => new Fireball(a, abilityData[AbilityReference.Fireball]) },
-            { AbilityReference.DaggerThrow, (a) => new DaggerThrow(a, abilityData[AbilityReference.DaggerThrow]) },
-            { AbilityReference.Bite, (a) => new Bite(a, abilityData[AbilityReference.Bite]) },
-            { AbilityReference.Roll, (a) => new Roll(a, abilityData[AbilityReference.Roll]) },
-            { AbilityReference.Lunge, (a) => new Lunge(a, abilityData[AbilityReference.Lunge]) },
-            { AbilityReference.Pounce, (a) => new Pounce(a, abilityData[AbilityReference.Pounce]) },
-            { AbilityReference.Smash, (a) => new Smash(a, abilityData[AbilityReference.Smash]) },
+            { AbilityReference.Slash, (a, b) => new Slash(a, b) },
+            { AbilityReference.Fireball, (a, b) => new Fireball(a, b) },
+            { AbilityReference.DaggerThrow, (a, b) => new DaggerThrow(a, b) },
+            { AbilityReference.Bite, (a, b) => new Bite(a, b) },
+            { AbilityReference.Roll, (a, b) => new Roll(a, b) },
+            { AbilityReference.Lunge, (a, b) => new Lunge(a, b) },
+            { AbilityReference.Pounce, (a, b) => new Pounce(a, b) },
+            { AbilityReference.Smash, (a, b) => new Smash(a, b) },
         };
 
-    private static Dictionary<AbilityReference, Func<Actor, Channel>> channels 
-        = new Dictionary<AbilityReference, Func<Actor, Channel>>
+    private static Dictionary<AbilityReference, Func<Actor, AbilityData, Channel>> channels 
+        = new Dictionary<AbilityReference, Func<Actor, AbilityData, Channel>>
         {
-            { AbilityReference.Whirlwind, (a) => new Whirlwind(a, abilityData[AbilityReference.Whirlwind]) },
+            { AbilityReference.Whirlwind, (a, b) => new Whirlwind(a, b) },
         };
 
-    private static Dictionary<AbilityReference, AbilityData> abilityData
+    private static Dictionary<AbilityReference, AbilityData> abilityDataLookup
         = new Dictionary<AbilityReference, AbilityData>
         {
             { AbilityReference.Slash, Slash.BaseAbilityData },
@@ -60,11 +60,17 @@ public static class AbilityLookup
         }
     }
 
-    public static bool TryGetInstantCast(AbilityReference abilityReference, Actor owner, out InstantCast ability)
+    public static bool TryGetInstantCast(
+        AbilityReference abilityReference,
+        Actor owner,
+        AbilityData abilityDataDiff,
+        out InstantCast ability
+    )
     {
         if (instantCasts.ContainsKey(abilityReference))
         {
-            ability = instantCasts[abilityReference](owner);
+            AbilityData abilityData = abilityDataLookup[abilityReference] + abilityDataDiff;
+            ability = instantCasts[abilityReference](owner, abilityData);
             return true;
         }
 
@@ -72,11 +78,17 @@ public static class AbilityLookup
         return false;
     }
 
-    public static bool TryGetChannel(AbilityReference abilityReference, Actor owner, out Channel ability)
+    public static bool TryGetChannel(
+        AbilityReference abilityReference,
+        Actor owner,
+        AbilityData abilityDataDiff,
+        out Channel ability
+    )
     {
         if (channels.ContainsKey(abilityReference))
         {
-            ability = channels[abilityReference](owner);
+            AbilityData abilityData = abilityDataLookup[abilityReference] + abilityDataDiff;
+            ability = channels[abilityReference](owner, abilityData);
             return true;
         }
 
