@@ -1,10 +1,14 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class AbilityTreeMenuController : MonoBehaviour
 {
     private Player player;
+
+    private int numTreeVerticalSections;
+    private Dictionary<Node, float> sectionIndices = new Dictionary<Node, float>();
 
     [SerializeField]
     private GameObject abilityTreeListContent = null;
@@ -17,6 +21,7 @@ public class AbilityTreeMenuController : MonoBehaviour
         player = RoomManager.Instance.Player;
 
         PopulateAbilityList();
+        PopulateTree();
     }
 
     private void PopulateAbilityList()
@@ -37,5 +42,42 @@ public class AbilityTreeMenuController : MonoBehaviour
                 abilityPanel.Initialise(item.Key, item.Value);
             }
         }
+    }
+
+    private void PopulateTree()
+    {
+        numTreeVerticalSections = 0;
+        sectionIndices.Clear();
+        CalculateIndices(player.AbilityTree.RootNode);
+    }
+
+    private float CalculateIndices(Node node)
+    {
+        float sectionIndex;
+
+        if (!node.HasChild(Direction.Left) && !node.HasChild(Direction.Right))
+        {
+            numTreeVerticalSections += 1;
+            sectionIndex = numTreeVerticalSections;
+        }
+        else if (!node.HasChild(Direction.Right))
+        {
+            sectionIndex = CalculateIndices(node.GetChild(Direction.Left)) + 0.5f;
+            numTreeVerticalSections += 1;
+        }
+        else if (!node.HasChild(Direction.Left))
+        {
+            numTreeVerticalSections += 1;
+            sectionIndex = CalculateIndices(node.GetChild(Direction.Right)) - 0.5f;
+        }
+        else // Node has 2 children
+        {
+            float leftSectionIndex = CalculateIndices(node.GetChild(Direction.Left));
+            float rightSectionIndex = CalculateIndices(node.GetChild(Direction.Right));
+            sectionIndex = (leftSectionIndex + rightSectionIndex) / 2;
+        }
+
+        sectionIndices[node] = sectionIndex;
+        return sectionIndex;
     }
 }
