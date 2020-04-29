@@ -363,7 +363,7 @@ PrefabInstance:
     - target: {fileID: 7578403356228947477, guid: 6dbad747eebf9a548b7db47011b6855f,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7362298287338699384, guid: 6dbad747eebf9a548b7db47011b6855f,
         type: 3}
@@ -636,11 +636,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8063099716140605082}
     m_Modifications:
-    - target: {fileID: 1979858862639965533, guid: 1c1ef6601784e49429e64e8545ef1c4a,
-        type: 3}
-      propertyPath: m_Name
-      value: FloatingDamageText
-      objectReference: {fileID: 0}
     - target: {fileID: 1979858862639965505, guid: 1c1ef6601784e49429e64e8545ef1c4a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -746,32 +741,16 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 2557853023581024385, guid: 1c1ef6601784e49429e64e8545ef1c4a,
+    - target: {fileID: 1979858862639965533, guid: 1c1ef6601784e49429e64e8545ef1c4a,
         type: 3}
-      propertyPath: actor
-      value: 
-      objectReference: {fileID: -1347520900970919038}
+      propertyPath: m_Name
+      value: FloatingDamageText
+      objectReference: {fileID: 0}
     - target: {fileID: 3486282139536815869, guid: 1c1ef6601784e49429e64e8545ef1c4a,
         type: 3}
       propertyPath: actor
       value: 
       objectReference: {fileID: -1347520900970919038}
-    - target: {fileID: 6626121785761207285, guid: 1c1ef6601784e49429e64e8545ef1c4a,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0.287
-      objectReference: {fileID: 0}
-    - target: {fileID: 1115234293767862287, guid: 1c1ef6601784e49429e64e8545ef1c4a,
-        type: 3}
-      propertyPath: m_FontData.m_FontSize
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 1115234293767862287, guid: 1c1ef6601784e49429e64e8545ef1c4a,
-        type: 3}
-      propertyPath: m_FontData.m_Font
-      value: 
-      objectReference: {fileID: 12800000, guid: e27939cb779ab2844a6d9c92bdd0cbbd,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1c1ef6601784e49429e64e8545ef1c4a, type: 3}
 --- !u!224 &7763530822175499616 stripped
