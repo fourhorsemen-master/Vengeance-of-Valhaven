@@ -53,31 +53,31 @@ public class AbilityTreeMenuController : MonoBehaviour
 
     private float CalculateIndices(Node node)
     {
-        float sectionIndex;
+        float Section;
 
         if (!node.HasChild(Direction.Left) && !node.HasChild(Direction.Right))
         {
             numTreeVerticalSections += 1;
-            sectionIndex = numTreeVerticalSections;
+            Section = numTreeVerticalSections - 0.5f;
         }
         else if (!node.HasChild(Direction.Right))
         {
-            sectionIndex = CalculateIndices(node.GetChild(Direction.Left)) + 0.5f;
+            Section = CalculateIndices(node.GetChild(Direction.Left)) + 0.5f;
             numTreeVerticalSections += 1;
         }
         else if (!node.HasChild(Direction.Left))
         {
             numTreeVerticalSections += 1;
-            sectionIndex = CalculateIndices(node.GetChild(Direction.Right)) - 0.5f;
+            Section = CalculateIndices(node.GetChild(Direction.Right)) - 0.5f;
         }
         else // Node has 2 children
         {
-            float leftSectionIndex = CalculateIndices(node.GetChild(Direction.Left));
-            float rightSectionIndex = CalculateIndices(node.GetChild(Direction.Right));
-            sectionIndex = (leftSectionIndex + rightSectionIndex) / 2;
+            float leftSection = CalculateIndices(node.GetChild(Direction.Left));
+            float rightSection = CalculateIndices(node.GetChild(Direction.Right));
+            Section = (leftSection + rightSection) / 2;
         }
 
-        sectionIndices[node] = sectionIndex;
-        return sectionIndex;
+        sectionIndices[node] = Section;
+        return Section;
     }
 }
