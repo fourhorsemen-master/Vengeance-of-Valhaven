@@ -3,13 +3,15 @@ using UnityEngine;
 
 public class Whirlwind : Channel
 {
+    public static readonly AbilityData BaseAbilityData = new AbilityData(0, 0, 0);
+
     private const float spinRange = 2;
-    private const float spinDamageMultiplier = 0.3f;
+    private const int spinDamage = 3;
     private const float spinDamageInterval = 0.35f;
     private const float spinDamageStartDelay = 0.1f;
     private const float selfSlowMultiplier = 0.5f;
     private const float finishRange = 3;
-    private const float finishDamageMultiplier = 1;
+    private const int finishDamage = 5;
 
     private bool hasHitActor = false;
     private WhirlwindObject whirlwindObject;
@@ -20,47 +22,45 @@ public class Whirlwind : Channel
 
     public override float Duration => 2f;
 
-    public Whirlwind(AbilityContext context) : base(context)
+    public Whirlwind(Actor owner, AbilityData abilityData) : base(owner, abilityData)
     {
     }
 
-    public override void Start()
+    public override void Start(Vector3 target)
     {
-        slowEffectId = Context.Owner.EffectManager.AddPassiveEffect(new Slow(selfSlowMultiplier));
-        repeater = new Repeater(spinDamageInterval, () => AOE(spinRange, spinDamageMultiplier), spinDamageStartDelay);
+        slowEffectId = Owner.EffectManager.AddPassiveEffect(new Slow(selfSlowMultiplier));
+        repeater = new Repeater(spinDamageInterval, () => AOE(spinRange, spinDamage), spinDamageStartDelay);
 
-        Vector3 position = Context.Owner.transform.position;
-        Vector3 target = Context.TargetPosition;
-        whirlwindObject = WhirlwindObject.Create(Context.Owner.transform);
+        whirlwindObject = WhirlwindObject.Create(Owner.transform);
     }
 
-    public override void Continue()
+    public override void Continue(Vector3 target)
     {
         repeater.Update();
     }
 
-    public override void Cancel()
+    public override void Cancel(Vector3 target)
     {
-        if (!this.hasHitActor) SuccessFeedbackSubject.Next(false);
+        if (!hasHitActor) SuccessFeedbackSubject.Next(false);
 
-        Context.Owner.EffectManager.RemovePassiveEffect(slowEffectId);
+        Owner.EffectManager.RemovePassiveEffect(slowEffectId);
         whirlwindObject.DestroyWhirlwind();
     }
 
-    public override void End()
+    public override void End(Vector3 target)
     {
-        AOE(finishRange, finishDamageMultiplier);
+        AOE(finishRange, finishDamage);
 
-        if (!this.hasHitActor) SuccessFeedbackSubject.Next(false);
+        if (!hasHitActor) SuccessFeedbackSubject.Next(false);
 
-        Context.Owner.EffectManager.RemovePassiveEffect(slowEffectId);
+        Owner.EffectManager.RemovePassiveEffect(slowEffectId);
         whirlwindObject.DestroyWhirlwind();
     }
 
-    private void AOE(float radius, float damageMultiplier)
+    private void AOE(float radius, int damage)
     {
-        Actor owner = Context.Owner;
-        int damage = Mathf.CeilToInt(owner.GetStat(Stat.Strength) * damageMultiplier);
+        Actor owner = Owner;
+        bool actorsHit = false;
 
         CollisionTemplateManager.Instance.GetCollidingActors(
             CollisionTemplate.Cylinder,
@@ -71,11 +71,16 @@ public class Whirlwind : Channel
         {
             if (actor.Opposes(owner))
             {
-                actor.ModifyHealth(-damage);
-                this.hasHitActor = true;
+                owner.DamageTarget(actor, damage);
+                actorsHit = true;
             }
         });
 
-        if (this.hasHitActor) SuccessFeedbackSubject.Next(true);
+        if (actorsHit)
+        {
+            CustomCamera.Instance.AddShake(ShakeIntensity.Low);
+            hasHitActor = true;
+            SuccessFeedbackSubject.Next(true);
+        }
     }
 }

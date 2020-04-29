@@ -19,10 +19,8 @@ public class SlashVisual : MonoBehaviour
         _meshRenderer = gameObject.GetComponent<MeshRenderer>();
         _meshRenderer.material.SetColor("Color", _desiredColor);
         _meshRenderer.enabled = true;
-
-        transform.LookAt(MouseGamePositionFinder.Instance.GetFlooredMouseGamePosition());
     }
-
+        
     private void Update()
     {
         //We are a child object, so destroy parent.

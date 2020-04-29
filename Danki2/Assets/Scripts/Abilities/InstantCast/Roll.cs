@@ -1,31 +1,30 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Roll : InstantCast
 {
+    public static readonly AbilityData BaseAbilityData = new AbilityData(0, 0, 0);
+
     private const float RollSpeedMultiplier = 4f;
     private const float RollDuration = 0.15f;
 
-    public Roll(AbilityContext context) : base(context)
+    public Roll(Actor owner, AbilityData abilityData) : base(owner, abilityData)
     {
     }
 
-    public override void Cast()
+    public override void Cast(Vector3 target)
     {
-        Actor owner = Context.Owner;
-        Vector3 position = owner.transform.position;
-        Vector3 target = Context.TargetPosition;
+        Vector3 position = Owner.transform.position;
         target.y = position.y;
         Vector3 direction = target - position;
 
-        owner.MovementManager.LockMovement(
+        Owner.MovementManager.LockMovement(
             RollDuration,
-            owner.GetStat(Stat.Speed) * RollSpeedMultiplier,
+            Owner.GetStat(Stat.Speed) * RollSpeedMultiplier,
             direction,
             direction
         );
 
-        RollObject.Create(owner.transform);
+        RollObject.Create(Owner.transform);
 
         SuccessFeedbackSubject.Next(true);
     }

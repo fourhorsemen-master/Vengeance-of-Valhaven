@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Player : Actor
 {
@@ -23,6 +24,8 @@ public class Player : Actor
 
     public AbilityTree AbilityTree { get; private set; }
 
+    public EnumDictionary<AbilityReference, int> AbilityInventory { get; private set; }
+    
     public AbilityManager AbilityManager { get; private set; }
 
     public override ActorType Type => ActorType.Player;
@@ -30,6 +33,16 @@ public class Player : Actor
     protected override void Awake()
     {
         base.Awake();
+
+        AbilityInventory = new EnumDictionary<AbilityReference, int>(0);
+        AbilityInventory[AbilityReference.Bite] = 1;
+        AbilityInventory[AbilityReference.Pounce] = 2;
+        AbilityInventory[AbilityReference.Slash] = 3;
+        AbilityInventory[AbilityReference.Roll] = 4;
+        AbilityInventory[AbilityReference.DaggerThrow] = 5;
+        AbilityInventory[AbilityReference.Lunge] = 6;
+        AbilityInventory[AbilityReference.Smash] = 7;
+        AbilityInventory[AbilityReference.Whirlwind] = 9;
 
         AbilityTree = AbilityTreeFactory.CreateTree(
             AbilityTreeFactory.CreateNode(

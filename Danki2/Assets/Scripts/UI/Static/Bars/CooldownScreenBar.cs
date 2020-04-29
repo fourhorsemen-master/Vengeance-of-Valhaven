@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class CooldownScreenBar : ScreenBar
+﻿public class CooldownScreenBar : ScreenBar
 {
     private Player player;
 

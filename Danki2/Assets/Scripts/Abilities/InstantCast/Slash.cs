@@ -1,42 +1,50 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Slash : InstantCast
 {
+    public static readonly AbilityData BaseAbilityData = new AbilityData(0, 0, 0);
+    
     private const float Range = 4f;
-    private const float DamageMultiplier = 1.5f;
+    private const float PauseDuration = 0.3f;
+    private const int Damage = 5;
 
-    public Slash(AbilityContext context) : base(context)
+    public Slash(Actor owner, AbilityData abilityData) : base(owner, abilityData)
     {
     }
 
-    public override void Cast()
+    public override void Cast(Vector3 target)
     {
-        Actor owner = Context.Owner;
+        Vector3 position = Owner.transform.position;
+        Vector3 castDirection = target - position;
+        castDirection.y = 0f;
 
-        Vector3 position = owner.transform.position;
-        Vector3 target = Context.TargetPosition;
-        target.y = 0;
-
-        int damage = Mathf.CeilToInt(owner.GetStat(Stat.Strength) * DamageMultiplier);
         bool hasDealtDamage = false;
 
         CollisionTemplateManager.Instance.GetCollidingActors(
             CollisionTemplate.Wedge90,
             Range,
             position,
-            Quaternion.LookRotation(target - position)
+            Quaternion.LookRotation(castDirection)
         ).ForEach(actor =>
         {
-            if (owner.Opposes(actor))
+            if (Owner.Opposes(actor))
             {
-                actor.ModifyHealth(-damage);
+                Owner.DamageTarget(actor, Damage);
                 hasDealtDamage = true;
             }
         });
 
         SuccessFeedbackSubject.Next(hasDealtDamage);
 
-        GameObject.Instantiate(AbilityObjectPrefabLookup.Instance.SlashObjectPrefab, owner.transform);
+        SlashObject slashObject = SlashObject.Create(position, Quaternion.LookRotation(castDirection));
+
+        Owner.MovementManager.LookAt(target);
+        Owner.MovementManager.Stun(PauseDuration);
+
+        if (hasDealtDamage)
+        {
+            CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
+            slashObject.PlayHitSound();
+        }
     }
 }
