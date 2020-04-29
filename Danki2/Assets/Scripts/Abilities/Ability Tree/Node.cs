@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Node
 {
+    private Node parent;
+
     private readonly Dictionary<Direction, Node> _children = new Dictionary<Direction, Node>();
 
     public AbilityReference Ability { get; }
@@ -14,6 +17,21 @@ public abstract class Node
     protected Node(AbilityReference ability)
     {
         Ability = ability;
+    }
+
+    public bool HasParent()
+    {
+        return parent != null;
+    }
+
+    public Node GetParent()
+    {
+        return parent;
+    }
+
+    public void SetParent(Node parent)
+    {
+        this.parent = parent;
     }
 
     public bool HasChild(Direction direction)
@@ -46,5 +64,15 @@ public abstract class Node
         }
 
         return Mathf.Max(maxLeftDepth, maxRightDepth) + 1;
+    }
+
+    /// <summary>
+    /// Runs the given action for this node and all ancestor nodes up the tree.
+    /// </summary>
+    /// <param name="action"> The action to run </param>
+    public void IterateUp(Action<Node> action)
+    {
+        action(this);
+        parent?.IterateUp(action);
     }
 }

@@ -4,17 +4,23 @@
     public static AbilityTree CreateTree(Node leftChild, Node rightChild)
     {
         Node rootNode = new NodeImplementation();
-        rootNode.SetChild(Direction.Left, leftChild);
-        rootNode.SetChild(Direction.Right, rightChild);
+        SetParentAndChild(rootNode, leftChild, Direction.Left);
+        SetParentAndChild(rootNode, rightChild, Direction.Right);
         return new AbilityTreeImplementation(rootNode);
     }
 
     public static Node CreateNode(AbilityReference ability, Node leftChild = null, Node rightChild = null)
     {
         Node node = new NodeImplementation(ability);
-        if (leftChild != null) node.SetChild(Direction.Left, leftChild);
-        if (rightChild != null) node.SetChild(Direction.Right, rightChild);
+        if (leftChild != null) SetParentAndChild(node, leftChild, Direction.Left);
+        if (rightChild != null) SetParentAndChild(node, rightChild, Direction.Right);
         return node;
+    }
+
+    private static void SetParentAndChild(Node parent, Node child, Direction direction)
+    {
+        parent.SetChild(direction, child);
+        child.SetParent(parent);
     }
 
     // These private implementations of the abstract classes ensure that all instantiation
