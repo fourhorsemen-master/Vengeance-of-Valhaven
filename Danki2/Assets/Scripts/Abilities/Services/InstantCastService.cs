@@ -1,13 +1,10 @@
 ﻿using System;
 using UnityEngine;
 
-public class InstantCastService
+public class InstantCastService : AbilityService
 {
-    private readonly Actor actor;
-    
-    public InstantCastService(Actor actor)
+    public InstantCastService(Actor actor) : base(actor)
     {
-        this.actor = actor;
     }
 
     public bool Cast(
@@ -19,7 +16,7 @@ public class InstantCastService
         MovementStatus status = actor.MovementManager.MovementStatus;
         if (status == MovementStatus.Stunned || status == MovementStatus.MovementLocked) return false;
 
-        if (!AbilityLookup.TryGetInstantCast(abilityReference, actor, out InstantCast instantCast)) return false;
+        if (!AbilityLookup.TryGetInstantCast(abilityReference, actor, GetAbilityDataDiff(abilityReference), out InstantCast instantCast)) return false;
 
         successFeedbackSubjectAction?.Invoke(instantCast.SuccessFeedbackSubject);
         instantCast.Cast(target);

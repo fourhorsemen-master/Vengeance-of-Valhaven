@@ -32,9 +32,12 @@ public abstract class Actor : MonoBehaviour
         EffectManager = new EffectManager(this, updateSubject, statsManager);
         HealthManager = new HealthManager(this, updateSubject);
         InterruptionManager = new InterruptionManager();
+        MovementManager = new MovementManager(this, updateSubject, navmeshAgent);
+
         ChannelService = new ChannelService(this, lateUpdateSubject, InterruptionManager);
         InstantCastService = new InstantCastService(this);
-        MovementManager = new MovementManager(this, updateSubject, navmeshAgent);
+        AbilityDataStatsDiffer abilityDataStatsDiffer = new AbilityDataStatsDiffer(this);
+        RegisterAbilityDataDiffer(abilityDataStatsDiffer);
 
         Dead = false;
     }
@@ -89,4 +92,10 @@ public abstract class Actor : MonoBehaviour
     }
 
     protected abstract void OnDeath();
+
+    protected void RegisterAbilityDataDiffer(IAbilityDataDiffer abilityDataDiffer)
+    {
+        ChannelService.RegisterAbilityDataDiffer(abilityDataDiffer);
+        InstantCastService.RegisterAbilityDataDiffer(abilityDataDiffer);
+    }
 }

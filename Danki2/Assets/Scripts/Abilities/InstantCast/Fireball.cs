@@ -1,8 +1,11 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class Fireball : InstantCast
 {
     public static readonly AbilityData BaseAbilityData = new AbilityData(0, 0, 0);
+    public static readonly Dictionary<OrbType, int> GeneratedOrbs = new Dictionary<OrbType, int>();
+    public const OrbType AbilityOrbType = OrbType.Aggression;
 
     private const int Damage = 5;
     private const float FireballSpeed = 5;
