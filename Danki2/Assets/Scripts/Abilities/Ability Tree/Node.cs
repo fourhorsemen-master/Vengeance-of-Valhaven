@@ -4,9 +4,9 @@ using UnityEngine;
 
 public abstract class Node
 {
-    private Node parent;
-
     private readonly Dictionary<Direction, Node> _children = new Dictionary<Direction, Node>();
+
+    public Node Parent { get; set; }
 
     public AbilityReference Ability { get; }
 
@@ -21,17 +21,7 @@ public abstract class Node
 
     public bool IsRootNode()
     {
-        return parent == null;
-    }
-
-    public Node GetParent()
-    {
-        return parent;
-    }
-
-    public void SetParent(Node parent)
-    {
-        this.parent = parent;
+        return Parent == null;
     }
 
     public bool HasChild(Direction direction)
@@ -73,10 +63,7 @@ public abstract class Node
     /// <param name="predicate"> Optional predicate, if not provided then the action will run for every node </param>
     public void IterateUp(Action<Node> action, Func<Node, bool> predicate = null)
     {
-        if (predicate == null || predicate(this))
-        {
-            action(this);
-        }
-        parent?.IterateUp(action, predicate);
+        if (predicate == null || predicate(this)) action(this);
+        Parent?.IterateUp(action, predicate);
     }
 }

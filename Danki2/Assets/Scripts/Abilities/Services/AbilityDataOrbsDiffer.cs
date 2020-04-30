@@ -23,6 +23,6 @@ public class AbilityDataOrbsDiffer : IAbilityDataDiffer
             node => !node.IsRootNode()
         );
 
-        return AbilityData.FromOrbCount(abilityOrbType, totalOrbCount);
+        return AbilityData.One * totalOrbCount;
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class AbilityLookup
 {
-    private static Dictionary<AbilityReference, Func<Actor, AbilityData, InstantCast>> instantCasts 
+    private static readonly Dictionary<AbilityReference, Func<Actor, AbilityData, InstantCast>> instantCasts 
         = new Dictionary<AbilityReference, Func<Actor, AbilityData, InstantCast>>
         {
             { AbilityReference.Slash, (a, b) => new Slash(a, b) },
@@ -17,13 +17,16 @@ public static class AbilityLookup
             { AbilityReference.Smash, (a, b) => new Smash(a, b) },
         };
 
-    private static Dictionary<AbilityReference, Func<Actor, AbilityData, Channel>> channels 
+    private static readonly Dictionary<AbilityReference, Func<Actor, AbilityData, Channel>> channels
         = new Dictionary<AbilityReference, Func<Actor, AbilityData, Channel>>
         {
             { AbilityReference.Whirlwind, (a, b) => new Whirlwind(a, b) },
         };
 
-    private static Dictionary<AbilityReference, AbilityData> abilityDataLookup
+    // Populated by the static constructor based on the instant casts and channels lookups
+    private static readonly Dictionary<AbilityReference, AbilityType> abilityTypes = new Dictionary<AbilityReference, AbilityType>();
+
+    private static readonly Dictionary<AbilityReference, AbilityData> abilityDataLookup
         = new Dictionary<AbilityReference, AbilityData>
         {
             { AbilityReference.Slash, Slash.BaseAbilityData },
@@ -37,7 +40,7 @@ public static class AbilityLookup
             { AbilityReference.Whirlwind, Whirlwind.BaseAbilityData },
         };
 
-    private static Dictionary<AbilityReference, Dictionary<OrbType, int>> generatedOrbsLookup
+    private static readonly Dictionary<AbilityReference, Dictionary<OrbType, int>> generatedOrbsLookup
         = new Dictionary<AbilityReference, Dictionary<OrbType, int>>()
         {
             { AbilityReference.Slash, Slash.GeneratedOrbs },
@@ -51,7 +54,7 @@ public static class AbilityLookup
             { AbilityReference.Whirlwind, Whirlwind.GeneratedOrbs },
         };
 
-    private static Dictionary<AbilityReference, OrbType> abilityOrbTypeLookup
+    private static readonly Dictionary<AbilityReference, OrbType> abilityOrbTypeLookup
         = new Dictionary<AbilityReference, OrbType>()
         {
             { AbilityReference.Slash, Slash.AbilityOrbType },
@@ -65,12 +68,14 @@ public static class AbilityLookup
             { AbilityReference.Whirlwind, Whirlwind.AbilityOrbType },
         };
 
-    private static readonly Dictionary<AbilityReference, AbilityType> abilityTypes = new Dictionary<AbilityReference, AbilityType>();
-
     static AbilityLookup()
     {
         foreach (AbilityReference abilityReference in Enum.GetValues(typeof(AbilityReference)))
         {
+            if (!abilityDataLookup.ContainsKey(abilityReference)) Debug.LogError($"No ability data for {abilityReference.ToString()}");
+            if (!generatedOrbsLookup.ContainsKey(abilityReference)) Debug.LogError($"No generated orbs for {abilityReference.ToString()}");
+            if (!abilityOrbTypeLookup.ContainsKey(abilityReference)) Debug.LogError($"No ability orb type for {abilityReference.ToString()}");
+
             bool isInInstantCasts = instantCasts.ContainsKey(abilityReference);
             bool isInChannels = channels.ContainsKey(abilityReference);
 

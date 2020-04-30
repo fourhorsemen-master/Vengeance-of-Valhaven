@@ -12,29 +12,28 @@
     }
 
     public static AbilityData Zero { get; } = new AbilityData(0, 0, 0);
+    public static AbilityData One { get; } = new AbilityData(1, 1, 1);
 
     public static AbilityData operator +(AbilityData a, AbilityData b)
     {
-        return new AbilityData(a.Damage + b.Damage, a.Heal + b.Heal, a.Shield + b.Shield);
+        return new AbilityData(
+            a.Damage + b.Damage,
+            a.Heal + b.Heal,
+            a.Shield + b.Shield
+        );
     }
 
-    public static AbilityData FromOrbCount(OrbType abilityOrbType, int orbCount)
+    public static AbilityData operator *(int i, AbilityData a)
     {
-        AbilityData abilityData = Zero;
+        return a * i;
+    }
 
-        switch (abilityOrbType)
-        {
-            case OrbType.Aggression:
-                abilityData += new AbilityData(orbCount, 0, 0);
-                break;
-            case OrbType.Balance:
-                abilityData += new AbilityData(0, orbCount, 0);
-                break;
-            case OrbType.Cunning:
-                abilityData += new AbilityData(0, 0, orbCount);
-                break;
-        }
-
-        return abilityData;
+    public static AbilityData operator *(AbilityData a, int i)
+    {
+        return new AbilityData(
+            a.Damage * i,
+            a.Heal * i,
+            a.Shield * i
+        );
     }
 }

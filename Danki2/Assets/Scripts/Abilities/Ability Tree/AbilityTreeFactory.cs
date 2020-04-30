@@ -20,7 +20,7 @@
     private static void SetParentAndChild(Node parent, Node child, Direction direction)
     {
         parent.SetChild(direction, child);
-        child.SetParent(parent);
+        child.Parent = parent;
     }
 
     // These private implementations of the abstract classes ensure that all instantiation
