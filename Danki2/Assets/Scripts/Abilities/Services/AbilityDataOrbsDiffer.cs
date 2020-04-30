@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 public class AbilityDataOrbsDiffer : IAbilityDataDiffer
 {
@@ -12,20 +11,18 @@ public class AbilityDataOrbsDiffer : IAbilityDataDiffer
 
     public AbilityData GetAbilityDataDiff(AbilityReference abilityReference)
     {
-        EnumDictionary<OrbType, int> totalGeneratedOrbs = new EnumDictionary<OrbType, int>(0);
+        OrbType abilityOrbType = AbilityLookup.GetAbilityOrbType(abilityReference);
+        int totalOrbCount = 0;
 
         currentNode.IterateUp(
             node =>
             {
                 Dictionary<OrbType, int> generatedOrbs = AbilityLookup.GetGeneratedOrbs(node.Ability);
-                foreach (OrbType orbType in Enum.GetValues(typeof(OrbType)))
-                {
-                    if (generatedOrbs.TryGetValue(orbType, out int orbCount)) totalGeneratedOrbs[orbType] += orbCount;
-                }
+                if (generatedOrbs.TryGetValue(abilityOrbType, out int orbCount)) totalOrbCount += orbCount;
             },
             node => !node.IsRootNode()
         );
 
-        return AbilityData.FromGeneratedOrbs(totalGeneratedOrbs);
+        return AbilityData.FromOrbCount(abilityOrbType, totalOrbCount);
     }
 }
