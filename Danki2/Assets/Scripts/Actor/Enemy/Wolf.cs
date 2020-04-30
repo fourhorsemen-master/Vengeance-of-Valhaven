@@ -82,7 +82,7 @@ public class Wolf : Enemy
             return;
         }
 
-        WaitAndCast(_biteCastTime, AbilityReference.Bite, () => Target.transform.position);
+        WaitAndCast(_biteCastTime, AbilityReference.Bite, Target.transform.position);
         
         _biteRemainingCooldown = _biteTotalCooldown;
     }
@@ -94,7 +94,7 @@ public class Wolf : Enemy
             return;
         }
 
-        WaitAndCast(_pounceCastTime, AbilityReference.Pounce, () => Target.transform.position);
+        WaitAndCast(_pounceCastTime, AbilityReference.Pounce, Target.transform.position);
         
         _biteRemainingCooldown = _biteTotalCooldown;
         _pounceRemaningCooldown = _pounceTotalCooldown;
