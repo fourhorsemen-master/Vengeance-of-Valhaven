@@ -6,7 +6,7 @@ public class MovementManager
     private readonly Actor actor;
     private readonly NavMeshAgent navMeshAgent;
 
-    private const float RotationSmoothing = 0.05f;
+    private const float RotationSmoothing = 0.15f;
 
     private Transform watchTarget = null;
     private bool watching = false;
