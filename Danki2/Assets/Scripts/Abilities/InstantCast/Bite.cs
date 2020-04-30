@@ -5,6 +5,7 @@ public class Bite : InstantCast
 {
     public static readonly AbilityData BaseAbilityData = new AbilityData(0, 0, 0);
     public static readonly Dictionary<OrbType, int> GeneratedOrbs = new Dictionary<OrbType, int>();
+    public const OrbType AbilityOrbType = OrbType.Aggression;
 
     public const int Damage = 5;
     public const float Range = 2f;

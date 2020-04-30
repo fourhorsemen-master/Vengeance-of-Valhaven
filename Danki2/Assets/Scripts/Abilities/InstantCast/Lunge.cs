@@ -5,6 +5,7 @@ public class Lunge : InstantCast
 {
     public static readonly AbilityData BaseAbilityData = new AbilityData(0, 0, 0);
     public static readonly Dictionary<OrbType, int> GeneratedOrbs = new Dictionary<OrbType, int>();
+    public const OrbType AbilityOrbType = OrbType.Aggression;
 
     private const float LungeDuration = 0.2f;
     private const float LungeSpeedMultiplier = 6f;

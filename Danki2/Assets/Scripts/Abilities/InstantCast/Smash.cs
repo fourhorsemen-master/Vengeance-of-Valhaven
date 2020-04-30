@@ -5,6 +5,7 @@ public class Smash : InstantCast
 {
     public static readonly AbilityData BaseAbilityData = new AbilityData(0, 0, 0);
     public static readonly Dictionary<OrbType, int> GeneratedOrbs = new Dictionary<OrbType, int>();
+    public const OrbType AbilityOrbType = OrbType.Aggression;
 
     private const float DistanceFromCaster = 1f;
     private const float Radius = 1f;

@@ -51,6 +51,20 @@ public static class AbilityLookup
             { AbilityReference.Whirlwind, Whirlwind.GeneratedOrbs },
         };
 
+    private static Dictionary<AbilityReference, OrbType> abilityOrbTypeLookup
+        = new Dictionary<AbilityReference, OrbType>()
+        {
+            { AbilityReference.Slash, Slash.AbilityOrbType },
+            { AbilityReference.Fireball, Fireball.AbilityOrbType },
+            { AbilityReference.DaggerThrow, DaggerThrow.AbilityOrbType },
+            { AbilityReference.Bite, Bite.AbilityOrbType },
+            { AbilityReference.Roll, Roll.AbilityOrbType },
+            { AbilityReference.Lunge, Lunge.AbilityOrbType },
+            { AbilityReference.Pounce, Pounce.AbilityOrbType },
+            { AbilityReference.Smash, Smash.AbilityOrbType },
+            { AbilityReference.Whirlwind, Whirlwind.AbilityOrbType },
+        };
+
     private static readonly Dictionary<AbilityReference, AbilityType> abilityTypes = new Dictionary<AbilityReference, AbilityType>();
 
     static AbilityLookup()
@@ -118,5 +132,10 @@ public static class AbilityLookup
     public static Dictionary<OrbType, int> GetGeneratedOrbs(AbilityReference abilityReference)
     {
         return generatedOrbsLookup[abilityReference];
+    }
+
+    public static OrbType GetAbilityOrbType(AbilityReference abilityReference)
+    {
+        return abilityOrbTypeLookup[abilityReference];
     }
 }
