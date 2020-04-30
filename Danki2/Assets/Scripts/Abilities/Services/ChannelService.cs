@@ -1,18 +1,24 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class ChannelService
 {
+    private readonly Actor actor;
+    
     private Channel _currentChannel;
 
     public bool Active { get; private set; } = false;
     public float RemainingDuration { get; private set; }
     public float TotalDuration => _currentChannel.Duration;
+    public Vector3 TargetPosition { get; set; } = Vector3.zero;
 
-    public ChannelService(Subject updateSubject, InterruptionManager interruptionManager)
+    public ChannelService(Actor actor, Subject lateUpdateSubject, InterruptionManager interruptionManager)
     {
-        interruptionManager.Register(InterruptionType.Hard, () => Cancel());
+        this.actor = actor;
+        
+        interruptionManager.Register(InterruptionType.Hard, () => Cancel(TargetPosition));
 
-        updateSubject.Subscribe(() =>
+        lateUpdateSubject.Subscribe(() =>
         {
 
             if (!Active)
@@ -25,30 +31,43 @@ public class ChannelService
 
             if (RemainingDuration > 0f)
             {
-                _currentChannel.Continue();
+                _currentChannel.Continue(TargetPosition);
             }
             else
             {
-                _currentChannel.End();
+                _currentChannel.End(TargetPosition);
                 Active = false;
             }
         });
     }
 
-    public void Start(Channel channel)
+    public bool Start(
+        AbilityReference abilityReference,
+        Vector3 target,
+        Action<Subject<bool>> successFeedbackSubjectAction = null
+    )
     {
+        MovementStatus status = actor.MovementManager.MovementStatus;
+        if (status == MovementStatus.Stunned || status == MovementStatus.MovementLocked) return false;
+
+        if (!AbilityLookup.TryGetChannel(abilityReference, actor, out Channel channel)) return false;
+
         _currentChannel = channel;
         RemainingDuration = _currentChannel.Duration;
         Active = true;
-        _currentChannel.Start();
-        _currentChannel.Continue();
+            
+        successFeedbackSubjectAction?.Invoke(channel.SuccessFeedbackSubject);
+            
+        _currentChannel.Start(target);
+        _currentChannel.Continue(target);
+        return true;
     }
 
-    public void Cancel()
+    public void Cancel(Vector3 target)
     {
         if (!Active) return;
 
-        _currentChannel.Cancel();
+        _currentChannel.Cancel(target);
         RemainingDuration = 0f;
         Active = false;
     }
