@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public abstract class Enemy : Actor
 {
@@ -9,13 +10,13 @@ public abstract class Enemy : Actor
         this.gameObject.tag = Tags.Enemy;
     }
 
-    public void WaitAndCast(float waitTime, AbilityReference abilityReference, Vector3 targetPosition)
+    public void WaitAndCast(float waitTime, AbilityReference abilityReference, Func<Vector3> positionFinder)
     {
         OnTelegraph.Next();
 
         InterruptableAction(waitTime, InterruptionType.Hard, () =>
         {
-            InstantCastService.Cast(abilityReference, targetPosition);
+            InstantCastService.Cast(abilityReference, positionFinder());
         });
     }
 }
