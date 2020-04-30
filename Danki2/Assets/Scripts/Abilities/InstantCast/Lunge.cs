@@ -4,7 +4,8 @@ public class Lunge : InstantCast
 {
     public static readonly AbilityData BaseAbilityData = new AbilityData(0, 0, 0);
 
-    private const float LungeDuration = 0.2f;
+    private const float MaxLungeDuration = 0.25f;
+    private const float MinLungeDuration = 0.1f;
     private const float LungeSpeedMultiplier = 6f;
     private const int Damage = 4;
     private const float StunRange = 2f;
@@ -21,9 +22,16 @@ public class Lunge : InstantCast
         Vector3 direction = target - position;
         direction.y = position.y;
 
+        float lungeSpeed = Owner.GetStat(Stat.Speed) * LungeSpeedMultiplier;
+        float lungeDuration = Mathf.Clamp(
+            direction.magnitude / lungeSpeed, 
+            MinLungeDuration, 
+            MaxLungeDuration
+        );
+
         Owner.MovementManager.LockMovement(
-            LungeDuration,
-            Owner.GetStat(Stat.Speed) * LungeSpeedMultiplier,
+            lungeDuration,
+            lungeSpeed,
             direction,
             direction
         );
@@ -31,7 +39,7 @@ public class Lunge : InstantCast
         LungeObject lungeObject = LungeObject.Create(position, Quaternion.LookRotation(target - position));
 
         Owner.InterruptableAction(
-            LungeDuration,
+            lungeDuration,
             InterruptionType.Hard,
             () =>
             {
