@@ -9,6 +9,9 @@ public class BiteObject : StaticAbilityObject
     public void Awake()
     {
         StickTime = biteSound.clip.length;
+
+        biteSound.time = 0.5f;
+        biteSound.Play();
     }
 
     public static void Create(Transform casterTransform)
