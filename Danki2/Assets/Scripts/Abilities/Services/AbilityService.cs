@@ -16,10 +16,10 @@ public abstract class AbilityService
         differs.Add(differ);
     }
 
-    protected AbilityData GetAbilityDataDiff()
+    protected AbilityData GetAbilityDataDiff(AbilityReference abilityReference)
     {
         AbilityData abilityData = AbilityData.Zero;
-        differs.ForEach(c => abilityData += c.GetAbilityDataDiff());
+        differs.ForEach(c => abilityData += c.GetAbilityDataDiff(abilityReference));
         return abilityData;
     }
 }

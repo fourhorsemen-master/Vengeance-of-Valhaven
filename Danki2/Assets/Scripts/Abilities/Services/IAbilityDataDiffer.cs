@@ -1,4 +1,4 @@
 ﻿public interface IAbilityDataDiffer
 {
-    AbilityData GetAbilityDataDiff();
+    AbilityData GetAbilityDataDiff(AbilityReference abilityReference);
 }

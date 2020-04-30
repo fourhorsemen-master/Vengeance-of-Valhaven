@@ -10,7 +10,7 @@ public class AbilityDataOrbsDiffer : IAbilityDataDiffer
         abilityTree.TreeWalkSubject.Subscribe(n => currentNode = n);
     }
 
-    public AbilityData GetAbilityDataDiff()
+    public AbilityData GetAbilityDataDiff(AbilityReference abilityReference)
     {
         EnumDictionary<OrbType, int> totalGeneratedOrbs = new EnumDictionary<OrbType, int>(0);
 

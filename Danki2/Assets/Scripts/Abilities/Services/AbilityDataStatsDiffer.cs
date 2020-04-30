@@ -7,7 +7,7 @@
         this.actor = actor;
     }
     
-    public AbilityData GetAbilityDataDiff()
+    public AbilityData GetAbilityDataDiff(AbilityReference abilityReference)
     {
         return new AbilityData(
             actor.GetStat(Stat.Power),
