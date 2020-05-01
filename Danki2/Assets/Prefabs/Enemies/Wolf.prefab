@@ -185,15 +185,23 @@ MonoBehaviour:
       _serializedType: RetreatWhenWounded, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
     _serializedArgs:
-    - 2
+    - 3
+    - 5
+    - 6
   serializablePersonality:
-    _keys: 000000000100000002000000030000000400000005000000
+    _keys: 00000000010000000200000003000000040000000500000006000000
     _values:
     - _serializedType:
         _serializedType: WolfFindPlayer, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
       _serializedArgs:
       - 10
+    - _serializedType:
+        _serializedType: LocalPatrol, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+      _serializedArgs:
+      - 6
+      - 0.5
     - _serializedType:
         _serializedType: WolfAttack, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
@@ -208,15 +216,17 @@ MonoBehaviour:
         _serializedType: FollowTargetAtDistance, Assembly-CSharp, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
       _serializedArgs:
-      - 1.9
+      - 2
     - _serializedType:
         _serializedType: RetreatFromTarget, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
       _serializedArgs: []
     - _serializedType:
-        _serializedType: NoOpBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        _serializedType: Circle, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
-      _serializedArgs: []
+      _serializedArgs:
+      - 6
+      - 3
 --- !u!82 &-3268726625634297962
 AudioSource:
   m_ObjectHideFlags: 0

@@ -9,7 +9,7 @@ public class PhaseManager<T> where T : Enum
     private readonly Dictionary<T, Tuple<float, T>> autoTransitionDictionary = new Dictionary<T, Tuple<float, T>>();
     private Coroutine autoTransition = null;
 
-    public T CurrentState => stateManager.CurrentState;
+    public T CurrentPhase => stateManager.CurrentState;
 
     public PhaseManager(MonoBehaviour routineHost, T initialPhase, Action transitionAction = null)
     {
@@ -19,6 +19,8 @@ public class PhaseManager<T> where T : Enum
 
     public void Transition(T to)
     {
+        if (to.Equals(CurrentPhase)) return;
+
         if (autoTransition != null)
         {
             routineHost.StopCoroutine(autoTransition);
