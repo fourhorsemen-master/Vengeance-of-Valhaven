@@ -13,6 +13,11 @@ public class AI : MonoBehaviour
 
     private Agenda _agenda = new Agenda();
 
+    private void Start()
+    {
+        serializablePlanner.AiElement.Setup(this);
+    }
+
     private void Update()
     {
         if (_actor.Dead) return;

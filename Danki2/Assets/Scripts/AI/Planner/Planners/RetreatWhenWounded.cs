@@ -4,10 +4,18 @@ public class RetreatWhenWounded : Planner
     private int retreatCount = 0;
     private bool isRetreating = false;
     private float retreatDuration;
+    private PhaseManager<AIAction> phaseManager;
 
     public override void Initialize()
     {
         retreatDuration = Args[0];
+    }
+
+    public override void Setup(AI ai)
+    {
+        phaseManager = new PhaseManager<AIAction>(ai, AIAction.FindTarget)
+            .WithTransition(AIAction.Attack, AIAction.Evade)
+            .WithTransition(AIAction.Attack, AIAction.Evade, 8f);
     }
 
     public override Agenda Plan(Actor actor, Agenda previousAgenda)
