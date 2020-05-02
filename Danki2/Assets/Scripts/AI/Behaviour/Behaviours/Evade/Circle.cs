@@ -4,8 +4,11 @@ using UnityEngine.AI;
 [Behaviour("Circle target", new string[] { "Max circle distance", "Min circle distance" }, new AIAction[] { AIAction.Evade })]
 public class Circle : Behaviour
 {
+    private const float circleDirectionChangeTolerance = 0.1f;
+
     private float maxCircleDistance;
     private float minCircleDistance;
+    private float favouredCircleDistance = float.NaN;
     private CirclePhase phase = CirclePhase.CirclingAnticlockwise;
 
     public override void Initialize()
@@ -26,6 +29,12 @@ public class Circle : Behaviour
             return;
         }
 
+        // We get nasty errors if we try to use Random methods in Initialize, se we initialise here.
+        if (float.IsNaN(favouredCircleDistance))
+        {
+            favouredCircleDistance = Random.Range(minCircleDistance, maxCircleDistance);
+        }
+
         Vector3 position = actor.transform.position;
         Vector3 target = actor.Target.transform.position;
 
@@ -35,7 +44,7 @@ public class Circle : Behaviour
 
         if (
             distanceToTarget > maxCircleDistance
-            || distanceToTarget > (minCircleDistance + maxCircleDistance) * 0.5f && phase == CirclePhase.MovingIn
+            || distanceToTarget > favouredCircleDistance && phase == CirclePhase.MovingIn
         )
         {
             phase = CirclePhase.MovingIn;
@@ -43,7 +52,7 @@ public class Circle : Behaviour
         }
         else if (
             distanceToTarget < minCircleDistance
-            || distanceToTarget < (minCircleDistance + maxCircleDistance) * 0.5f && phase == CirclePhase.MovingOut
+            || distanceToTarget < favouredCircleDistance && phase == CirclePhase.MovingOut
         )
         {
             phase = CirclePhase.MovingOut;
@@ -53,23 +62,23 @@ public class Circle : Behaviour
         {
             if (phase != CirclePhase.CirclingAnticlockwise && phase != CirclePhase.CirclingClockwise)
             {
-                phase = CirclePhase.CirclingAnticlockwise;
+                phase = CirclePhase.CirclingClockwise;
             }
 
-            Vector3 antiClockwiseDirection = Vector3.Cross(Vector3.up, target - position).normalized;
-            Vector3 movementDirection = phase == CirclePhase.CirclingAnticlockwise
-                ? antiClockwiseDirection
-                : antiClockwiseDirection * -1;
+            Vector3 clockwiseDirection = Vector3.Cross(Vector3.up, target - position).normalized;
+            Vector3 movementDirection = phase == CirclePhase.CirclingClockwise
+                ? clockwiseDirection
+                : clockwiseDirection * -1;
 
-            if (NavMesh.SamplePosition(position + movementDirection, out NavMeshHit hit, 1f, NavMesh.AllAreas))
+            if (NavMesh.SamplePosition(position + movementDirection, out NavMeshHit hit, circleDirectionChangeTolerance, NavMesh.AllAreas))
             {
                 destination = hit.position;
             }
             else
             {
-                phase = phase == CirclePhase.CirclingAnticlockwise
-                    ? CirclePhase.CirclingClockwise
-                    : CirclePhase.CirclingAnticlockwise;
+                phase = phase == CirclePhase.CirclingClockwise
+                    ? CirclePhase.CirclingAnticlockwise
+                    : CirclePhase.CirclingClockwise;
             }
         }
 
