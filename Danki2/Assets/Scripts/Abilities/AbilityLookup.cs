@@ -68,6 +68,20 @@ public static class AbilityLookup
             { AbilityReference.Whirlwind, Whirlwind.AbilityOrbType },
         };
 
+    private static readonly Dictionary<AbilityReference, string> abilityTooltipLookup
+        = new Dictionary<AbilityReference, string>()
+        {
+            { AbilityReference.Slash, Slash.Tooltip },
+            { AbilityReference.Fireball, Fireball.Tooltip },
+            { AbilityReference.DaggerThrow, DaggerThrow.Tooltip },
+            { AbilityReference.Bite, Bite.Tooltip },
+            { AbilityReference.Roll, Roll.Tooltip },
+            { AbilityReference.Lunge, Lunge.Tooltip },
+            { AbilityReference.Pounce, Pounce.Tooltip },
+            { AbilityReference.Smash, Smash.Tooltip },
+            { AbilityReference.Whirlwind, Whirlwind.Tooltip },
+        };
+
     static AbilityLookup()
     {
         foreach (AbilityReference abilityReference in Enum.GetValues(typeof(AbilityReference)))
@@ -75,6 +89,7 @@ public static class AbilityLookup
             if (!abilityDataLookup.ContainsKey(abilityReference)) Debug.LogError($"No ability data for {abilityReference.ToString()}");
             if (!generatedOrbsLookup.ContainsKey(abilityReference)) Debug.LogError($"No generated orbs for {abilityReference.ToString()}");
             if (!abilityOrbTypeLookup.ContainsKey(abilityReference)) Debug.LogError($"No ability orb type for {abilityReference.ToString()}");
+            if (!abilityTooltipLookup.ContainsKey(abilityReference)) Debug.LogError($"No ability tooltip for {abilityReference.ToString()}");
 
             bool isInInstantCasts = instantCasts.ContainsKey(abilityReference);
             bool isInChannels = channels.ContainsKey(abilityReference);
@@ -142,5 +157,10 @@ public static class AbilityLookup
     public static OrbType GetAbilityOrbType(AbilityReference abilityReference)
     {
         return abilityOrbTypeLookup[abilityReference];
+    }
+
+    public static string GetAbilityTooltip(AbilityReference abilityReference)
+    {
+        return abilityTooltipLookup[abilityReference];
     }
 }
