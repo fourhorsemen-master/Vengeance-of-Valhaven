@@ -38,64 +38,70 @@ public class Circle : Behaviour
 
         Vector3 position = actor.transform.position;
         Vector3 target = actor.Target.transform.position;
-        Vector3 destination;
 
         float distanceToTarget = Vector3.Distance(position, target);
 
+        // Handle moving in
         if (
             distanceToTarget > maxCircleDistance
             || distanceToTarget > favouredCircleDistance && phase == CirclePhase.MovingIn
         )
         {
             phase = CirclePhase.MovingIn;
-            destination = target;
+            actor.MovementManager.StartPathfinding(target);
+            return;
         }
-        else if (
+
+        // Handle moving out
+        if (
             distanceToTarget < minCircleDistance
             || distanceToTarget < favouredCircleDistance && phase == CirclePhase.MovingOut
         )
         {
-            phase = CirclePhase.MovingOut;
-            destination = position + (position - target).normalized;
-            if (!CanMove(destination))
+            Vector3 awayFromTarget = position + (position - target).normalized;
+
+            if (TryMove(actor, awayFromTarget))
             {
-                Vector3 movementDirection = Vector3.Cross(Vector3.up, target - position).normalized;
-                destination = position + movementDirection;
-                if (!CanMove(destination))
-                {
-                    destination = position - movementDirection;
-                }
+                phase = CirclePhase.MovingOut;
+                actor.MovementManager.StartPathfinding(awayFromTarget);
+                return;
             }
         }
-        else
+
+        // Handle circling
+        if (phase != CirclePhase.CirclingAnticlockwise && phase != CirclePhase.CirclingClockwise)
         {
-            if (phase != CirclePhase.CirclingAnticlockwise && phase != CirclePhase.CirclingClockwise)
-            {
-                phase = CirclePhase.CirclingClockwise;
-            }
+            phase = CirclePhase.CirclingClockwise;
+        }
 
-            Vector3 clockwiseDirection = Vector3.Cross(Vector3.up, target - position).normalized;
-            Vector3 movementDirection = phase == CirclePhase.CirclingClockwise
-                ? clockwiseDirection
-                : clockwiseDirection * -1;
+        Vector3 clockwiseDirection = Vector3.Cross(Vector3.up, target - position).normalized;
+        Vector3 movementDirection = phase == CirclePhase.CirclingClockwise
+            ? clockwiseDirection
+            : clockwiseDirection * -1;
 
-            destination = position + movementDirection;
+        Vector3 destination = position + movementDirection;
 
-            if (!CanMove(destination))
-            {
-                phase = phase == CirclePhase.CirclingClockwise
-                    ? CirclePhase.CirclingAnticlockwise
-                    : CirclePhase.CirclingClockwise;
+        if (!TryMove(actor, destination))
+        {
+            phase = phase == CirclePhase.CirclingClockwise
+                ? CirclePhase.CirclingAnticlockwise
+                : CirclePhase.CirclingClockwise;
 
-                destination = position - movementDirection;
-            }
+            destination = position - movementDirection;
         }
 
         actor.MovementManager.StartPathfinding(destination);
     }
 
-    private bool CanMove(Vector3 destination)
+    private bool TryMove(Actor actor, Vector3 destination)
     {
-        return NavMesh.SamplePosition(destination, out _, destinationTolerance, NavMesh.AllAreas);
+        bool canMove = NavMesh.SamplePosition(destination, out NavMeshHit hit, destinationTolerance, NavMesh.AllAreas);
+
+        if (canMove)
+        {
+            actor.MovementManager.StartPathfinding(hit.position);
+        }
+
+        return canMove;
     }
 }
