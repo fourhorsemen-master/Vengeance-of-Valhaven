@@ -234,7 +234,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9061375270251355811}
-  - component: {fileID: 7523831489642277708}
+  - component: {fileID: 8042682781948313192}
   m_Layer: 5
   m_Name: HealthBar
   m_TagString: Untagged
@@ -264,7 +264,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 30}
   m_SizeDelta: {x: 300, y: 100}
   m_Pivot: {x: 0.5, y: 0}
---- !u!114 &7523831489642277708
+--- !u!114 &8042682781948313192
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -273,12 +273,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 9061375270251355810}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2140ea4790fe7774699f6102cddde7b9, type: 3}
+  m_Script: {fileID: 11500000, guid: 9a4388350c1aadb4aad4ac17e01918dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 9061375270827975921}
   damageLagBar: {fileID: 5619645728437998076}
-  actor: {fileID: 0}
 --- !u!1 &9061375270397340177
 GameObject:
   m_ObjectHideFlags: 0
@@ -882,6 +881,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 820f1254450a978448ae5e82a55d9cad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  channelBar: {fileID: 9061375271371997875}
 --- !u!1 &9061375271419522701
 GameObject:
   m_ObjectHideFlags: 0

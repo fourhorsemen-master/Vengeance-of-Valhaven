@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthBar : MonoBehaviour
+public abstract class HealthBar : MonoBehaviour
 {
     [SerializeField]
     private Image healthBar = null;
@@ -11,14 +11,13 @@ public class HealthBar : MonoBehaviour
     private const float minLagDecrement = 0.2f;
     private const float maxLagDecrement = 1f;
 
-    public Actor actor;
+    protected abstract Actor Actor { get; }
     private float previousHealthProportion;
     private float recentDamage = 0f;
     private float barWidth;
 
     private void Start()
     {
-        damageLagBar.rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 1f, 0f);
         barWidth = healthBar.rectTransform.sizeDelta.x;
     }
 
@@ -35,14 +34,14 @@ public class HealthBar : MonoBehaviour
             return;
         }
 
-        if (actor.HealthManager.Health <= 0)
+        if (Actor.HealthManager.Health <= 0)
         {
             healthBar.canvas.enabled = false;
             return;
         }
 
-        // Set the health bar to the correct width and position the damage lag bar at the end of the health bar.
-        float healthProportion = (float)actor.HealthManager.Health / actor.HealthManager.MaxHealth;
+        // Set the health bar to the correct width.
+        float healthProportion = (float)Actor.HealthManager.Health / Actor.HealthManager.MaxHealth;
         healthBar.rectTransform.sizeDelta = new Vector2(healthProportion * barWidth, healthBar.rectTransform.sizeDelta.y);
 
         // Decrement recent damage if there is any.
@@ -52,6 +51,7 @@ public class HealthBar : MonoBehaviour
         // Adjust the recent damage by any damage or healing in the current frame (cannot become less than 0). Note: -ve means healing.
         recentDamage = Mathf.Max(0f, recentDamage + previousHealthProportion - healthProportion);
 
+        // Set the damage lag bar offset and width.
         damageLagBar.rectTransform.SetInsetAndSizeFromParentEdge(
             RectTransform.Edge.Left,
             healthProportion * barWidth,
