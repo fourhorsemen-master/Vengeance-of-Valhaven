@@ -41,6 +41,8 @@ public class RetreatWhenWounded : Planner
             return agenda;
         }
 
+        // Evading logic here
+
         // Attack and Advance Behaviours
         agenda.Add(AIAction.Advance, true);
         agenda.Add(AIAction.Attack, true);
