@@ -1,18 +1,18 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 
-[Behaviour("Random patrol", new string[] { "Max destination distance", "Repath frequency" }, new AIAction[] { AIAction.Patrol })]
+[Behaviour("Random patrol", new string[] { "Max destination distance", "Repath interval" }, new AIAction[] { AIAction.Patrol })]
 public class RandomPatrol : Behaviour
 {
     private float maxDestinationDistance;
-    private float repathFrequency;
+    private float repathInterval;
 
     private bool repathedRecently = false;
 
     public override void Initialize()
     {
         maxDestinationDistance = Args[0];
-        repathFrequency = Args[1];
+        repathInterval = Args[1];
     }
 
     public override void Behave(Actor actor)
@@ -20,7 +20,7 @@ public class RandomPatrol : Behaviour
         if (repathedRecently) return;
 
         // Set new destination randomly on avergae once per second (maths not guaranteed).
-        if (Random.Range(0f, 1f) > Time.deltaTime * repathFrequency) return;
+        if (Random.Range(0f, 1f) > Time.deltaTime * repathInterval) return;
 
         Vector2 randomOffset = Random.insideUnitCircle * maxDestinationDistance;
         if (randomOffset.magnitude < 1f) return;
@@ -30,7 +30,7 @@ public class RandomPatrol : Behaviour
         {
             actor.MovementManager.StartPathfinding(hit.position);
             repathedRecently = true;
-            actor.WaitAndAct(repathFrequency, () => repathedRecently = false);
+            actor.WaitAndAct(repathInterval, () => repathedRecently = false);
         }
     }
 }
