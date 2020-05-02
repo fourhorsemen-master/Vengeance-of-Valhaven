@@ -179,15 +179,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19514c5d500c2bd459b1f556adf129a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _actor: {fileID: -1347520900970919038}
+  actor: {fileID: -1347520900970919038}
   serializablePlanner:
     _serializedType:
-      _serializedType: RetreatWhenWounded, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      _serializedType: WolfPlanner, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
     _serializedArgs:
-    - 3
+    - 2
     - 5
-    - 6
+    - 3
   serializablePersonality:
     _keys: 00000000010000000200000003000000040000000500000006000000
     _values:

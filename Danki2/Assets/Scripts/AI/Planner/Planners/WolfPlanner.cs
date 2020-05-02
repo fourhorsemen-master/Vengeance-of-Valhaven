@@ -1,5 +1,7 @@
-﻿[Planner("Retreat when wounded", new string[] { "Retreat Duration", "Circle Duration", "Engage Duration" })]
-public class RetreatWhenWounded : Planner
+﻿using UnityEngine;
+
+[Planner("Wolf Planner", new string[] { "Retreat Duration", "Circle Duration", "Attacks Per Engagement" })]
+public class WolfPlanner : Planner
 {
     private const float FirstRetreatHealth = 0.5f;
     private const float SecondRetreatHealth = 0.2f;
@@ -7,29 +9,32 @@ public class RetreatWhenWounded : Planner
     private int retreatCount = 0;
     private float retreatDuration;
     private float circleDuration;
-    private float engageDuration;
+    private int attacksPerEngagement;
+    private int timesAttacked = 0;
     private PhaseManager<WolfPlannerPhase> phaseManager;
 
     public override void Initialize()
     {
         retreatDuration = Args[0];
         circleDuration = Args[1];
-        engageDuration = Args[2];
+        attacksPerEngagement = (int)Mathf.Floor(Args[2]);
     }
 
-    public override void Setup(AI ai)
+    public override void Setup(AI ai, Actor actor)
     {
-        phaseManager = new PhaseManager<WolfPlannerPhase>(ai, WolfPlannerPhase.Patrol)
+        phaseManager = new PhaseManager<WolfPlannerPhase>(ai, WolfPlannerPhase.Patrol, () => timesAttacked = 0)
             .WithTransition(WolfPlannerPhase.Patrol, WolfPlannerPhase.Engage)
             .WithTransition(WolfPlannerPhase.Patrol, WolfPlannerPhase.Retreat)
             .WithTransition(WolfPlannerPhase.Engage, WolfPlannerPhase.Patrol)
             .WithTransition(WolfPlannerPhase.Engage, WolfPlannerPhase.Retreat)
-            .WithTransition(WolfPlannerPhase.Engage, WolfPlannerPhase.Circle, circleDuration)
+            .WithTransition(WolfPlannerPhase.Engage, WolfPlannerPhase.Circle)
             .WithTransition(WolfPlannerPhase.Retreat, WolfPlannerPhase.Patrol)
-            .WithTransition(WolfPlannerPhase.Retreat, WolfPlannerPhase.Engage, retreatDuration)
+            .WithAutoTransition(WolfPlannerPhase.Retreat, WolfPlannerPhase.Engage, retreatDuration, retreatDuration/2)
             .WithTransition(WolfPlannerPhase.Circle, WolfPlannerPhase.Patrol)
-            .WithTransition(WolfPlannerPhase.Circle, WolfPlannerPhase.Engage, engageDuration)
+            .WithAutoTransition(WolfPlannerPhase.Circle, WolfPlannerPhase.Engage, circleDuration, circleDuration / 2)
             .WithTransition(WolfPlannerPhase.Circle, WolfPlannerPhase.Retreat);
+
+        actor.InstantCastService.CastSubject.Subscribe(() => timesAttacked += 1);
     }
 
     public override Agenda Plan(Actor actor, Agenda previousAgenda)
@@ -45,14 +50,19 @@ public class RetreatWhenWounded : Planner
             phaseManager.Transition(WolfPlannerPhase.Engage);
         }
 
-        int maxHealth = actor.GetStat(Stat.MaxHealth);
+        float healthProportion = (float) actor.HealthManager.Health / actor.HealthManager.MaxHealth;
         if (
-            (retreatCount < 1 && actor.HealthManager.Health < FirstRetreatHealth * maxHealth) 
-            || (retreatCount < 2 && actor.HealthManager.Health < SecondRetreatHealth * maxHealth)
+            (retreatCount < 1 && healthProportion < FirstRetreatHealth) 
+            || (retreatCount < 2 && healthProportion < SecondRetreatHealth)
         )
         {
             retreatCount++;
             phaseManager.Transition(WolfPlannerPhase.Retreat);
+        }
+
+        if (timesAttacked >= attacksPerEngagement)
+        {
+            phaseManager.Transition(WolfPlannerPhase.Circle);
         }
 
         switch (phaseManager.CurrentPhase)

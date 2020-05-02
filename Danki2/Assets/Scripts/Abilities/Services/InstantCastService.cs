@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class InstantCastService : AbilityService
 {
+    public Subject CastSubject = new Subject();
+
     public InstantCastService(Actor actor) : base(actor)
     {
     }
@@ -20,6 +22,7 @@ public class InstantCastService : AbilityService
 
         successFeedbackSubjectAction?.Invoke(instantCast.SuccessFeedbackSubject);
         instantCast.Cast(target);
+        CastSubject.Next();
         return true;
     }
 }
