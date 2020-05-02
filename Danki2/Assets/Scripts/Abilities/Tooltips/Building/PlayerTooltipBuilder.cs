@@ -12,26 +12,24 @@ public class PlayerTooltipBuilder
         differs.Add(new AbilityDataOrbsDiffer(player.AbilityTree));
     }
 
+    /// <summary>
+    /// Builds the tooltip for the given node returning a list of tooltip segments. The tooltip segments represent
+    /// the tooltip with all values bound in, so that it can be easily rendered.
+    /// </summary>
+    /// <param name="node"> The node to build the tooltip for </param>
+    /// <returns> The build tooltip segments </returns>
     public List<TooltipSegment> Build(Node node)
     {
         AbilityReference abilityReference = node.Ability;
-        List<TemplatedTooltipSegment> templatedTooltipSegments =
-            ParsedTooltipLookup.GetTemplatedTooltipSegments(abilityReference);
+        List<TemplatedTooltipSegment> templatedTooltipSegments = ParsedTooltipLookup.GetTemplatedTooltipSegments(abilityReference);
 
         return templatedTooltipSegments
             .SelectMany(templatedTooltipSegment => GetTooltipSegments(
                 templatedTooltipSegment,
                 AbilityLookup.GetBaseAbilityData(abilityReference),
-                GetAbilityDataDiff(node)
+                AbilityData.FromAbilityDataDiffers(differs, node)
             ))
             .ToList();
-    }
-
-    private AbilityData GetAbilityDataDiff(Node node)
-    {
-        AbilityData abilityData = AbilityData.Zero;
-        differs.ForEach(d => abilityData += d.GetAbilityDataDiff(node));
-        return abilityData;
     }
 
     private List<TooltipSegment> GetTooltipSegments(
