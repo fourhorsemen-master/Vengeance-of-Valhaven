@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MovementSound : MonoBehaviour
 {
@@ -22,7 +20,7 @@ public class MovementSound : MonoBehaviour
         targetVolume = movementAudioSource.volume;
     }
 
-    void Update()
+    private void Update()
     {
         bool moving = actor.MovementManager.IsMoving;
 
