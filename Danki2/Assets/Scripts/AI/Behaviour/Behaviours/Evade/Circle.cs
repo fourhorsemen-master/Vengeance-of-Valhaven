@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.AI;
 
 [Behaviour("Circle target", new string[] { "Max circle distance", "Min circle distance" }, new AIAction[] { AIAction.Evade })]
 public class Circle : Behaviour
 {
-    private const float CircleDirectionChangeTolerance = 0.1f;
+    private const float destinationTolerance = 0.5f;
 
     private float maxCircleDistance;
     private float minCircleDistance;
@@ -32,13 +33,12 @@ public class Circle : Behaviour
         // We get nasty errors if we try to use Random methods in Initialize, se we initialise here.
         if (float.IsNaN(favouredCircleDistance))
         {
-            favouredCircleDistance = Random.Range(minCircleDistance, maxCircleDistance);
+            favouredCircleDistance = UnityEngine.Random.Range(minCircleDistance, maxCircleDistance);
         }
 
         Vector3 position = actor.transform.position;
         Vector3 target = actor.Target.transform.position;
-
-        Vector3 destination = position;
+        Vector3 destination;
 
         float distanceToTarget = Vector3.Distance(position, target);
 
@@ -57,6 +57,15 @@ public class Circle : Behaviour
         {
             phase = CirclePhase.MovingOut;
             destination = position + (position - target).normalized;
+            if (!CanMove(destination))
+            {
+                Vector3 movementDirection = Vector3.Cross(Vector3.up, target - position).normalized;
+                destination = position + movementDirection;
+                if (!CanMove(destination))
+                {
+                    destination = position - movementDirection;
+                }
+            }
         }
         else
         {
@@ -70,18 +79,23 @@ public class Circle : Behaviour
                 ? clockwiseDirection
                 : clockwiseDirection * -1;
 
-            if (NavMesh.SamplePosition(position + movementDirection, out NavMeshHit hit, CircleDirectionChangeTolerance, NavMesh.AllAreas))
-            {
-                destination = hit.position;
-            }
-            else
+            destination = position + movementDirection;
+
+            if (!CanMove(destination))
             {
                 phase = phase == CirclePhase.CirclingClockwise
                     ? CirclePhase.CirclingAnticlockwise
                     : CirclePhase.CirclingClockwise;
+
+                destination = position - movementDirection;
             }
         }
 
         actor.MovementManager.StartPathfinding(destination);
+    }
+
+    private bool CanMove(Vector3 destination)
+    {
+        return NavMesh.SamplePosition(destination, out _, destinationTolerance, NavMesh.AllAreas);
     }
 }
