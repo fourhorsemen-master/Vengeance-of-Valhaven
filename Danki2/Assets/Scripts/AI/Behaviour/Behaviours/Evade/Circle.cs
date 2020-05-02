@@ -4,7 +4,7 @@ using UnityEngine.AI;
 [Behaviour("Circle target", new string[] { "Max circle distance", "Min circle distance" }, new AIAction[] { AIAction.Evade })]
 public class Circle : Behaviour
 {
-    private const float circleDirectionChangeTolerance = 0.1f;
+    private const float CircleDirectionChangeTolerance = 0.1f;
 
     private float maxCircleDistance;
     private float minCircleDistance;
@@ -70,7 +70,7 @@ public class Circle : Behaviour
                 ? clockwiseDirection
                 : clockwiseDirection * -1;
 
-            if (NavMesh.SamplePosition(position + movementDirection, out NavMeshHit hit, circleDirectionChangeTolerance, NavMesh.AllAreas))
+            if (NavMesh.SamplePosition(position + movementDirection, out NavMeshHit hit, CircleDirectionChangeTolerance, NavMesh.AllAreas))
             {
                 destination = hit.position;
             }

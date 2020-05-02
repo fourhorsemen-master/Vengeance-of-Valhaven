@@ -1,6 +1,9 @@
 ﻿[Planner("Retreat when wounded", new string[] { "Retreat Duration", "Circle Duration", "Engage Duration" })]
 public class RetreatWhenWounded : Planner
 {
+    private const float FirstRetreatHealth = 0.5f;
+    private const float SecondRetreatHealth = 0.2f;
+
     private int retreatCount = 0;
     private float retreatDuration;
     private float circleDuration;
@@ -23,7 +26,7 @@ public class RetreatWhenWounded : Planner
             .WithTransition(WolfPlannerPhase.Engage, WolfPlannerPhase.Retreat)
             .WithTransition(WolfPlannerPhase.Engage, WolfPlannerPhase.Circle, circleDuration)
             .WithTransition(WolfPlannerPhase.Retreat, WolfPlannerPhase.Patrol)
-            .WithTransition(WolfPlannerPhase.Retreat, WolfPlannerPhase.Circle, retreatDuration)
+            .WithTransition(WolfPlannerPhase.Retreat, WolfPlannerPhase.Engage, retreatDuration)
             .WithTransition(WolfPlannerPhase.Circle, WolfPlannerPhase.Patrol)
             .WithTransition(WolfPlannerPhase.Circle, WolfPlannerPhase.Engage, engageDuration)
             .WithTransition(WolfPlannerPhase.Circle, WolfPlannerPhase.Retreat);
@@ -44,8 +47,8 @@ public class RetreatWhenWounded : Planner
 
         int maxHealth = actor.GetStat(Stat.MaxHealth);
         if (
-            (retreatCount < 1 && actor.HealthManager.Health < 0.5 * maxHealth) 
-            || (retreatCount < 2 && actor.HealthManager.Health < 0.2 * maxHealth)
+            (retreatCount < 1 && actor.HealthManager.Health < FirstRetreatHealth * maxHealth) 
+            || (retreatCount < 2 && actor.HealthManager.Health < SecondRetreatHealth * maxHealth)
         )
         {
             retreatCount++;
