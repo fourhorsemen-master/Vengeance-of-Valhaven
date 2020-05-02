@@ -8,17 +8,18 @@ public class HealthBar : MonoBehaviour
     [SerializeField]
     private Image damageLagBar = null;
 
-    private const float damageLagBarOffset = 0.5f;
-    private const float recentDamageIncrement = 1f;
-    private const float recentDamageIncrementScalar = 5f;
+    private const float minLagDecrement = 0.2f;
+    private const float maxLagDecrement = 1f;
 
     public Actor actor;
     private float previousHealthProportion;
     private float recentDamage = 0f;
+    private float barWidth;
 
     private void Start()
     {
-        damageLagBar.transform.localScale = new Vector3(0f, 1f, 1f);
+        damageLagBar.rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 1f, 0f);
+        barWidth = healthBar.rectTransform.sizeDelta.x;
     }
 
     private void Update()
@@ -41,24 +42,21 @@ public class HealthBar : MonoBehaviour
         }
 
         // Set the health bar to the correct width and position the damage lag bar at the end of the health bar.
-        float healthProportion = (float)actor.HealthManager.Health / actor.HealthManager.MaxHealth;        
-        healthBar.transform.localScale = new Vector3(healthProportion, 1f, 1f);
-        damageLagBar.rectTransform.localPosition = new Vector3(healthProportion - damageLagBarOffset, 0f, 0f);
-        
-        // Tick the recent damage down at the non-linear rate set by the damage increment constants (cannot become less than 0).
-        recentDamage = Mathf.Max(
-            0f, 
-            recentDamage - (Time.deltaTime * (recentDamage + recentDamageIncrement) / recentDamageIncrementScalar)
-        );
+        float healthProportion = (float)actor.HealthManager.Health / actor.HealthManager.MaxHealth;
+        healthBar.rectTransform.sizeDelta = new Vector2(healthProportion * barWidth, healthBar.rectTransform.sizeDelta.y);
+
+        // Decrement recent damage if there is any.
+        float decrement = Mathf.Lerp(minLagDecrement, maxLagDecrement, recentDamage);
+        recentDamage = Mathf.Max(0f, recentDamage - (Time.deltaTime * decrement));
         
         // Adjust the recent damage by any damage or healing in the current frame (cannot become less than 0). Note: -ve means healing.
-        recentDamage = Mathf.Max(
-            0f, 
-            recentDamage + previousHealthProportion - healthProportion
+        recentDamage = Mathf.Max(0f, recentDamage + previousHealthProportion - healthProportion);
+
+        damageLagBar.rectTransform.SetInsetAndSizeFromParentEdge(
+            RectTransform.Edge.Left,
+            healthProportion * barWidth,
+            recentDamage * barWidth
         );
-        
-        // Set the damage lag bar to the correct width.
-        damageLagBar.transform.localScale = new Vector3(recentDamage, 1f, 1f);
 
         previousHealthProportion = healthProportion;
     }
