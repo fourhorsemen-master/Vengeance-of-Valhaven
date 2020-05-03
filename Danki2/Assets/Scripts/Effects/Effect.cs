@@ -29,4 +29,9 @@
     {
         return damage;
     }
+
+    public virtual int ProcessIncomingHeal(int healing)
+    {
+        return healing;
+    }
 }
