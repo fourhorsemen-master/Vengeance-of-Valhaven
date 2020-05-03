@@ -30,7 +30,11 @@ public class RandomPatrol : Behaviour
         {
             actor.MovementManager.StartPathfinding(hit.position);
             repathedRecently = true;
-            actor.WaitAndAct(repathInterval, () => repathedRecently = false);
+
+            actor.WaitAndAct(
+                repathInterval * Random.Range(0.5f, 2f),
+                () => repathedRecently = false
+            );
         }
     }
 }

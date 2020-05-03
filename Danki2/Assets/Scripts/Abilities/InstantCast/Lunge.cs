@@ -7,7 +7,7 @@ public class Lunge : InstantCast
     public static readonly Dictionary<OrbType, int> GeneratedOrbs = new Dictionary<OrbType, int>();
     public const OrbType AbilityOrbType = OrbType.Aggression;
 
-    private const float LungeDuration = 0.2f;
+    private const float MaxMovementDuration = 0.2f;
     private const float LungeSpeedMultiplier = 6f;
     private const int Damage = 4;
     private const float StunRange = 2f;
@@ -24,17 +24,16 @@ public class Lunge : InstantCast
         Vector3 direction = target - position;
         direction.y = position.y;
 
-        Owner.MovementManager.LockMovement(
-            LungeDuration,
-            Owner.GetStat(Stat.Speed) * LungeSpeedMultiplier,
-            direction,
-            direction
-        );
+        float distance = Vector3.Distance(target, position);
+        float lungeSpeed = Owner.GetStat(Stat.Speed) * LungeSpeedMultiplier;
+        float duration = Mathf.Clamp(distance/lungeSpeed, MaxMovementDuration/2, MaxMovementDuration);
+
+        Owner.MovementManager.LockMovement(duration, lungeSpeed, direction, direction );
 
         LungeObject lungeObject = LungeObject.Create(position, Quaternion.LookRotation(target - position));
 
         Owner.InterruptableAction(
-            LungeDuration,
+            duration,
             InterruptionType.Hard,
             () =>
             {
