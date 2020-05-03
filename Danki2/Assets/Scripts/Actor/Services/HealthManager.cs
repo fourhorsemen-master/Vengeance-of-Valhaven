@@ -11,7 +11,9 @@ public class HealthManager
 
     public bool IsDamaged => Health < MaxHealth;
 
-    public readonly Subject<int> DamageSubject = new Subject<int>();
+    public Subject<int> DamageSubject { get; } = new Subject<int>();
+
+    private const int MinimumDamageAfterStats = 1;
 
     public HealthManager(Actor actor, Subject updateSubject)
     {
@@ -45,6 +47,7 @@ public class HealthManager
         }
 
         // TODO: Pass this damage through a defensive pipeline.
+        damage = Mathf.Max(MinimumDamageAfterStats, damage - actor.GetStat(Stat.Defence));
         ModifyHealth(-damage);
 
         actor.InterruptionManager.Interrupt(InterruptionType.Soft);
