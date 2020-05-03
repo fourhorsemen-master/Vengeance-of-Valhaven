@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Whirlwind : Channel
 {
     public static readonly AbilityData BaseAbilityData = new AbilityData(0, 0, 0);
+    public static readonly Dictionary<OrbType, int> GeneratedOrbs = new Dictionary<OrbType, int>();
+    public const OrbType AbilityOrbType = OrbType.Aggression;
 
     private const float spinRange = 2;
     private const int spinDamage = 3;

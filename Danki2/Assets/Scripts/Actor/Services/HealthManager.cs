@@ -11,6 +11,8 @@ public class HealthManager
 
     public bool IsDamaged => Health < MaxHealth;
 
+    public readonly Subject<int> DamageSubject = new Subject<int>();
+
     public HealthManager(Actor actor, Subject updateSubject)
     {
         this.actor = actor;
@@ -27,7 +29,7 @@ public class HealthManager
     {
         if (damage < 0) return;
 
-        Health = Math.Max(Health - damage, 0);
+        ModifyHealth(-damage);
     }
 
     public void ReceiveDamage(int damage)
@@ -35,7 +37,7 @@ public class HealthManager
         if (damage < 0) return;
 
         // TODO: Pass this damage through a defensive pipeline.
-        Health = Math.Max(Health - damage, 0);
+        ModifyHealth(-damage);
 
         actor.InterruptionManager.Interrupt(InterruptionType.Soft);
     }
@@ -44,6 +46,16 @@ public class HealthManager
     {
         if (healing < 0) return;
 
-        Health = Math.Max(Health + healing, MaxHealth);
+        ModifyHealth(healing);
+    }
+
+    private void ModifyHealth(int healthChange)
+    {
+        if (healthChange < 0)
+        {
+            DamageSubject.Next(-healthChange);
+        }
+
+        Health = Mathf.Clamp(Health + healthChange, 0, MaxHealth);
     }
 }

@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Node
 {
     private readonly Dictionary<Direction, Node> _children = new Dictionary<Direction, Node>();
+
+    public Node Parent { get; set; }
 
     public AbilityReference Ability { get; }
 
@@ -14,6 +17,11 @@ public abstract class Node
     protected Node(AbilityReference ability)
     {
         Ability = ability;
+    }
+
+    public bool IsRootNode()
+    {
+        return Parent == null;
     }
 
     public bool HasChild(Direction direction)
@@ -46,5 +54,16 @@ public abstract class Node
         }
 
         return Mathf.Max(maxLeftDepth, maxRightDepth) + 1;
+    }
+
+    /// <summary>
+    /// Runs the given action for this node and all ancestor nodes up the tree.
+    /// </summary>
+    /// <param name="action"> The action to run </param>
+    /// <param name="predicate"> Optional predicate, if not provided then the action will run for every node </param>
+    public void IterateUp(Action<Node> action, Func<Node, bool> predicate = null)
+    {
+        if (predicate == null || predicate(this)) action(this);
+        Parent?.IterateUp(action, predicate);
     }
 }
