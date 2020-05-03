@@ -1,10 +1,8 @@
 ﻿using System;
 using UnityEngine;
 
-public class ChannelService
+public class ChannelService : AbilityService
 {
-    private readonly Actor actor;
-    
     private Channel _currentChannel;
 
     public bool Active { get; private set; } = false;
@@ -12,10 +10,8 @@ public class ChannelService
     public float TotalDuration => _currentChannel.Duration;
     public Vector3 TargetPosition { get; set; } = Vector3.zero;
 
-    public ChannelService(Actor actor, Subject lateUpdateSubject, InterruptionManager interruptionManager)
+    public ChannelService(Actor actor, Subject lateUpdateSubject, InterruptionManager interruptionManager) : base(actor)
     {
-        this.actor = actor;
-        
         interruptionManager.Register(InterruptionType.Hard, () => Cancel(TargetPosition));
 
         lateUpdateSubject.Subscribe(() =>
@@ -50,7 +46,7 @@ public class ChannelService
         MovementStatus status = actor.MovementManager.MovementStatus;
         if (status == MovementStatus.Stunned || status == MovementStatus.MovementLocked) return false;
 
-        if (!AbilityLookup.TryGetChannel(abilityReference, actor, out Channel channel)) return false;
+        if (!AbilityLookup.TryGetChannel(abilityReference, actor, GetAbilityDataDiff(abilityReference), out Channel channel)) return false;
 
         _currentChannel = channel;
         RemainingDuration = _currentChannel.Duration;

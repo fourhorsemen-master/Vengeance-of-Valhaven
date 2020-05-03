@@ -1,11 +1,15 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
+
 public class Bite : InstantCast
 {
     public static readonly AbilityData BaseAbilityData = new AbilityData(0, 0, 0);
+    public static readonly Dictionary<OrbType, int> GeneratedOrbs = new Dictionary<OrbType, int>();
+    public const OrbType AbilityOrbType = OrbType.Aggression;
+    public const string Tooltip = "Deals {DAMAGE} damage.";
 
     public const int Damage = 5;
     public const float Range = 2f;
-    private const float DelayBeforeDamage = 0.75f;
     private const float PauseDuration = 0.3f;
 
     public Bite(Actor owner, AbilityData abilityData) : base(owner, abilityData)
@@ -20,39 +24,29 @@ public class Bite : InstantCast
         BiteObject.Create(Owner.transform);
 
         Owner.MovementManager.LookAt(target);
-        Owner.MovementManager.Stun(DelayBeforeDamage + PauseDuration);
+        Owner.MovementManager.Stun(PauseDuration);
 
-        Owner.InterruptableAction(
-            DelayBeforeDamage,
-            InterruptionType.Hard,
-            () =>
+        bool hasDealtDamage = false;
+
+        CollisionTemplateManager.Instance.GetCollidingActors(
+            CollisionTemplate.Wedge90,
+            Range,
+            position,
+            Quaternion.LookRotation(target - position)
+        ).ForEach(actor =>
+        {
+            if (Owner.Opposes(actor))
             {
-                bool hasDealtDamage = false;
-
-                CollisionTemplateManager.Instance.GetCollidingActors(
-                    CollisionTemplate.Wedge90,
-                    Range,
-                    position,
-                    Quaternion.LookRotation(target - position)
-                ).ForEach(actor =>
-                {
-                    if (Owner.Opposes(actor))
-                    {
-                        Owner.DamageTarget(actor, Damage);
-                        hasDealtDamage = true;
-                    }
-                });
-
-                if (hasDealtDamage)
-                {
-                    CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
-                }
-
-                SuccessFeedbackSubject.Next(hasDealtDamage);
+                Owner.DamageTarget(actor, Damage);
+                hasDealtDamage = true;
             }
-        );
+        });
 
-        BiteObject.Create(Owner.transform);
-        Owner.MovementManager.Stun(DelayBeforeDamage + PauseDuration);
+        if (hasDealtDamage)
+        {
+            CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
+        }
+
+        SuccessFeedbackSubject.Next(hasDealtDamage);
     }
 }

@@ -4,26 +4,29 @@ using UnityEngine;
 
 public static class AbilityLookup
 {
-    private static Dictionary<AbilityReference, Func<Actor, InstantCast>> instantCasts 
-        = new Dictionary<AbilityReference, Func<Actor, InstantCast>>
+    private static readonly Dictionary<AbilityReference, Func<Actor, AbilityData, InstantCast>> instantCasts 
+        = new Dictionary<AbilityReference, Func<Actor, AbilityData, InstantCast>>
         {
-            { AbilityReference.Slash, (a) => new Slash(a, abilityData[AbilityReference.Slash]) },
-            { AbilityReference.Fireball, (a) => new Fireball(a, abilityData[AbilityReference.Fireball]) },
-            { AbilityReference.DaggerThrow, (a) => new DaggerThrow(a, abilityData[AbilityReference.DaggerThrow]) },
-            { AbilityReference.Bite, (a) => new Bite(a, abilityData[AbilityReference.Bite]) },
-            { AbilityReference.Roll, (a) => new Roll(a, abilityData[AbilityReference.Roll]) },
-            { AbilityReference.Lunge, (a) => new Lunge(a, abilityData[AbilityReference.Lunge]) },
-            { AbilityReference.Pounce, (a) => new Pounce(a, abilityData[AbilityReference.Pounce]) },
-            { AbilityReference.Smash, (a) => new Smash(a, abilityData[AbilityReference.Smash]) },
+            { AbilityReference.Slash, (a, b) => new Slash(a, b) },
+            { AbilityReference.Fireball, (a, b) => new Fireball(a, b) },
+            { AbilityReference.DaggerThrow, (a, b) => new DaggerThrow(a, b) },
+            { AbilityReference.Bite, (a, b) => new Bite(a, b) },
+            { AbilityReference.Roll, (a, b) => new Roll(a, b) },
+            { AbilityReference.Lunge, (a, b) => new Lunge(a, b) },
+            { AbilityReference.Pounce, (a, b) => new Pounce(a, b) },
+            { AbilityReference.Smash, (a, b) => new Smash(a, b) },
         };
 
-    private static Dictionary<AbilityReference, Func<Actor, Channel>> channels 
-        = new Dictionary<AbilityReference, Func<Actor, Channel>>
+    private static readonly Dictionary<AbilityReference, Func<Actor, AbilityData, Channel>> channels
+        = new Dictionary<AbilityReference, Func<Actor, AbilityData, Channel>>
         {
-            { AbilityReference.Whirlwind, (a) => new Whirlwind(a, abilityData[AbilityReference.Whirlwind]) },
+            { AbilityReference.Whirlwind, (a, b) => new Whirlwind(a, b) },
         };
 
-    private static Dictionary<AbilityReference, AbilityData> abilityData
+    // Populated by the static constructor based on the instant casts and channels lookups
+    private static readonly Dictionary<AbilityReference, AbilityType> abilityTypes = new Dictionary<AbilityReference, AbilityType>();
+
+    private static readonly Dictionary<AbilityReference, AbilityData> baseAbilityDataLookup
         = new Dictionary<AbilityReference, AbilityData>
         {
             { AbilityReference.Slash, Slash.BaseAbilityData },
@@ -37,12 +40,57 @@ public static class AbilityLookup
             { AbilityReference.Whirlwind, Whirlwind.BaseAbilityData },
         };
 
-    private static readonly Dictionary<AbilityReference, AbilityType> abilityTypes = new Dictionary<AbilityReference, AbilityType>();
+    private static readonly Dictionary<AbilityReference, Dictionary<OrbType, int>> generatedOrbsLookup
+        = new Dictionary<AbilityReference, Dictionary<OrbType, int>>()
+        {
+            { AbilityReference.Slash, Slash.GeneratedOrbs },
+            { AbilityReference.Fireball, Fireball.GeneratedOrbs },
+            { AbilityReference.DaggerThrow, DaggerThrow.GeneratedOrbs },
+            { AbilityReference.Bite, Bite.GeneratedOrbs },
+            { AbilityReference.Roll, Roll.GeneratedOrbs },
+            { AbilityReference.Lunge, Lunge.GeneratedOrbs },
+            { AbilityReference.Pounce, Pounce.GeneratedOrbs },
+            { AbilityReference.Smash, Smash.GeneratedOrbs },
+            { AbilityReference.Whirlwind, Whirlwind.GeneratedOrbs },
+        };
+
+    private static readonly Dictionary<AbilityReference, OrbType> abilityOrbTypeLookup
+        = new Dictionary<AbilityReference, OrbType>()
+        {
+            { AbilityReference.Slash, Slash.AbilityOrbType },
+            { AbilityReference.Fireball, Fireball.AbilityOrbType },
+            { AbilityReference.DaggerThrow, DaggerThrow.AbilityOrbType },
+            { AbilityReference.Bite, Bite.AbilityOrbType },
+            { AbilityReference.Roll, Roll.AbilityOrbType },
+            { AbilityReference.Lunge, Lunge.AbilityOrbType },
+            { AbilityReference.Pounce, Pounce.AbilityOrbType },
+            { AbilityReference.Smash, Smash.AbilityOrbType },
+            { AbilityReference.Whirlwind, Whirlwind.AbilityOrbType },
+        };
+
+    private static readonly Dictionary<AbilityReference, string> abilityTooltipLookup
+        = new Dictionary<AbilityReference, string>()
+        {
+            { AbilityReference.Slash, Slash.Tooltip },
+            { AbilityReference.Fireball, Fireball.Tooltip },
+            { AbilityReference.DaggerThrow, DaggerThrow.Tooltip },
+            { AbilityReference.Bite, Bite.Tooltip },
+            { AbilityReference.Roll, Roll.Tooltip },
+            { AbilityReference.Lunge, Lunge.Tooltip },
+            { AbilityReference.Pounce, Pounce.Tooltip },
+            { AbilityReference.Smash, Smash.Tooltip },
+            { AbilityReference.Whirlwind, Whirlwind.Tooltip },
+        };
 
     static AbilityLookup()
     {
         foreach (AbilityReference abilityReference in Enum.GetValues(typeof(AbilityReference)))
         {
+            if (!baseAbilityDataLookup.ContainsKey(abilityReference)) Debug.LogError($"No base ability data for {abilityReference.ToString()}");
+            if (!generatedOrbsLookup.ContainsKey(abilityReference)) Debug.LogError($"No generated orbs for {abilityReference.ToString()}");
+            if (!abilityOrbTypeLookup.ContainsKey(abilityReference)) Debug.LogError($"No ability orb type for {abilityReference.ToString()}");
+            if (!abilityTooltipLookup.ContainsKey(abilityReference)) Debug.LogError($"No ability tooltip for {abilityReference.ToString()}");
+
             bool isInInstantCasts = instantCasts.ContainsKey(abilityReference);
             bool isInChannels = channels.ContainsKey(abilityReference);
 
@@ -60,11 +108,17 @@ public static class AbilityLookup
         }
     }
 
-    public static bool TryGetInstantCast(AbilityReference abilityReference, Actor owner, out InstantCast ability)
+    public static bool TryGetInstantCast(
+        AbilityReference abilityReference,
+        Actor owner,
+        AbilityData abilityDataDiff,
+        out InstantCast ability
+    )
     {
         if (instantCasts.ContainsKey(abilityReference))
         {
-            ability = instantCasts[abilityReference](owner);
+            AbilityData abilityData = baseAbilityDataLookup[abilityReference] + abilityDataDiff;
+            ability = instantCasts[abilityReference](owner, abilityData);
             return true;
         }
 
@@ -72,11 +126,17 @@ public static class AbilityLookup
         return false;
     }
 
-    public static bool TryGetChannel(AbilityReference abilityReference, Actor owner, out Channel ability)
+    public static bool TryGetChannel(
+        AbilityReference abilityReference,
+        Actor owner,
+        AbilityData abilityDataDiff,
+        out Channel ability
+    )
     {
         if (channels.ContainsKey(abilityReference))
         {
-            ability = channels[abilityReference](owner);
+            AbilityData abilityData = baseAbilityDataLookup[abilityReference] + abilityDataDiff;
+            ability = channels[abilityReference](owner, abilityData);
             return true;
         }
 
@@ -87,5 +147,25 @@ public static class AbilityLookup
     public static AbilityType GetAbilityType(AbilityReference abilityReference)
     {
         return abilityTypes[abilityReference];
+    }
+
+    public static AbilityData GetBaseAbilityData(AbilityReference abilityReference)
+    {
+        return baseAbilityDataLookup[abilityReference];
+    }
+
+    public static Dictionary<OrbType, int> GetGeneratedOrbs(AbilityReference abilityReference)
+    {
+        return generatedOrbsLookup[abilityReference];
+    }
+
+    public static OrbType GetAbilityOrbType(AbilityReference abilityReference)
+    {
+        return abilityOrbTypeLookup[abilityReference];
+    }
+
+    public static string GetAbilityTooltip(AbilityReference abilityReference)
+    {
+        return abilityTooltipLookup[abilityReference];
     }
 }
