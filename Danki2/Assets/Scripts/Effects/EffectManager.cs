@@ -75,9 +75,9 @@ public class EffectManager : StatPipe
         return value;
     }
 
-    public int ProcessDamage(int damage)
+    public int ProcessOutgoingDamage(int damage)
     {
-        ForEachEffect(e => damage = e.ProcessDamage(damage));
+        ForEachEffect(e => damage = e.ProcessOutgoingDamage(damage));
         return damage;
     }
 
