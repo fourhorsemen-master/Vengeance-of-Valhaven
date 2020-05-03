@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 
+/// <summary>
+/// With random patrol, we periodically path to a random location within maxDestinationDistance of the actor.
+/// We repath roughly once every repathInterval seconds.
+/// </summary>
 [Behaviour("Random patrol", new string[] { "Max destination distance", "Repath interval" }, new AIAction[] { AIAction.Patrol })]
 public class RandomPatrol : Behaviour
 {
@@ -18,9 +22,6 @@ public class RandomPatrol : Behaviour
     public override void Behave(Actor actor)
     {
         if (repathedRecently) return;
-
-        // Set new destination randomly on avergae once per second (maths not guaranteed).
-        if (Random.Range(0f, 1f) > Time.deltaTime * repathInterval) return;
 
         Vector2 randomOffset = Random.insideUnitCircle * maxDestinationDistance;
         if (randomOffset.magnitude < 1f) return;

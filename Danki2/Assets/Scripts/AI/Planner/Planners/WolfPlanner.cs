@@ -1,5 +1,10 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// With the wolf planner, we initially patrol randomly and look for targets.
+/// On finding a target, we cycle between attacking (up to 3 times) and then circling the target for a configured period.
+/// On taking damage that takes us below certain health amounts, we retreat for a configured period before re-engaging.
+/// </summary>
 [Planner("Wolf Planner", new string[] { "Retreat Duration", "Circle Duration", "Attacks Per Engagement" })]
 public class WolfPlanner : Planner
 {

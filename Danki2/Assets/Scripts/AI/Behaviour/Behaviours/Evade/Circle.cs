@@ -2,6 +2,11 @@
 using UnityEngine;
 using UnityEngine.AI;
 
+/// <summary>
+/// With circle, we configure a ring around the target that we want to cirlce in.
+/// Within the ring, we path clockwise around the player if possible, otherwise we switch to anti-clockwise circling.
+/// Outside the ring, we path towward or away from the player until we are within the ring.
+/// </summary>
 [Behaviour("Circle target", new string[] { "Max circle distance", "Min circle distance" }, new AIAction[] { AIAction.Evade })]
 public class Circle : Behaviour
 {
