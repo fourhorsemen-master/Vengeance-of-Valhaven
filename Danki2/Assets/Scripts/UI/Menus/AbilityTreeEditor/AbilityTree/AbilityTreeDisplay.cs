@@ -6,6 +6,9 @@ using UnityEngine.UI;
 internal class AbilityTreeDisplay : MonoBehaviour
 {
     [SerializeField]
+    private RectTransform containingPanel = null;
+
+    [SerializeField]
     private Image rootNodeOrb = null;
 
     [SerializeField]
@@ -21,19 +24,40 @@ internal class AbilityTreeDisplay : MonoBehaviour
     private float numTreeVerticalSections;
     private int maxTreeDepth;
     private Dictionary<Node, float> sectionIndices = new Dictionary<Node, float>();
+    private bool nodesDrawn = false;
 
     public void Start()
     {
         player = RoomManager.Instance.Player;
-        PopulateTree();
+        ResetTree();
     }
 
-    public void PopulateTree()
+    private void ResetTree()
     {
         numTreeVerticalSections = 0;
         sectionIndices.Clear();
         CalculateIndices(player.AbilityTree.RootNode);
-        DrawNodes(player.AbilityTree.RootNode);
+
+        for (int i = 0; i < treeRowsPanel.childCount; i++)
+        {
+            Destroy(treeRowsPanel.GetChild(i));
+        }
+
+        for (int i = 0; i < maxTreeDepth; i++)
+        {
+            Instantiate(treeRowPanel, treeRowsPanel.transform, false);
+        }
+
+        nodesDrawn = false;
+    }
+
+    private void Update()
+    {
+        if (!nodesDrawn)
+        {
+            DrawNodes(player.AbilityTree.RootNode);
+            nodesDrawn = true;
+        }
     }
 
     private float CalculateIndices(Node node, int depth = 0)
@@ -67,9 +91,10 @@ internal class AbilityTreeDisplay : MonoBehaviour
         return Section;
     }
 
-    private void DrawNodes(Node node, int row = 0)
+    private void DrawNodes(Node node, int row = 0, TreeAbility parent = null)
     {
-        float panelWidth = rootNodeOrb.transform.parent.GetComponent<RectTransform>().rect.width;
+        float panelWidth = containingPanel.rect.width;
+        TreeAbility treeAbility = null;
 
         if (row == 0)
         {
@@ -77,34 +102,33 @@ internal class AbilityTreeDisplay : MonoBehaviour
             newPosition += Vector3.right * panelWidth * (sectionIndices[node] / numTreeVerticalSections);
 
             rootNodeOrb.rectTransform.localPosition = newPosition;
-
-            for (int i = 0; i < treeRowsPanel.childCount; i++)
-            {
-                Destroy(treeRowsPanel.GetChild(i));
-            }
-
-            for (int i = 0; i < maxTreeDepth; i++)
-            {
-                Instantiate(treeRowPanel, treeRowsPanel.transform, false);
-            }
         }
         else
         {
             Transform treeRow = treeRowsPanel.GetChild(row - 1);
 
-            TreeAbility treeAbility = Instantiate(treeAbilityPrefab, treeRow.transform, false);
+            treeAbility = Instantiate(treeAbilityPrefab, treeRow.transform, false);
             treeAbility.ShiftRight(panelWidth * (sectionIndices[node] / numTreeVerticalSections));
             treeAbility.SetImage(AbilityIconManager.Instance.GetIcon(node.Ability));
+
+            if (row == 1)
+            {
+                treeAbility.ConnectToRoot(rootNodeOrb);
+            }
+            else
+            {
+                treeAbility.ConnectTo(parent);
+            }
         }
 
         if (node.HasChild(Direction.Left))
         {
-            DrawNodes(node.GetChild(Direction.Left), row + 1);
+            DrawNodes(node.GetChild(Direction.Left), row + 1, treeAbility);
         }
 
         if (node.HasChild(Direction.Right))
         {
-            DrawNodes(node.GetChild(Direction.Right), row + 1);
+            DrawNodes(node.GetChild(Direction.Right), row + 1, treeAbility);
         }
     }
 }

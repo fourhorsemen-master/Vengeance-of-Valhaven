@@ -6,7 +6,7 @@ public class AbilityListDisplay : MonoBehaviour
     private Player player;
 
     [SerializeField]
-    private AbilityPanel abilityListingPanelPrefab = null;
+    private AbilityListingPanel abilityListingPanelPrefab = null;
 
     void Start()
     {
@@ -27,8 +27,8 @@ public class AbilityListDisplay : MonoBehaviour
         {
             if (item.Value > 0)
             {
-                AbilityPanel abilityPanel = Instantiate(abilityListingPanelPrefab, Vector3.zero, Quaternion.identity, transform);
-                abilityPanel.Initialise(item.Key, item.Value);
+                AbilityListingPanel abilityListingPanel = Instantiate(abilityListingPanelPrefab, Vector3.zero, Quaternion.identity, transform);
+                abilityListingPanel.Initialise(item.Key, item.Value);
             }
         }
     }
