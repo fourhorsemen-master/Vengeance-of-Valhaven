@@ -272,7 +272,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 6270204506026733637}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.50000006
+  m_Size: 0.483
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1278,7 +1278,7 @@ MonoBehaviour:
   treeRowsPanel: {fileID: 2730880040509870201}
   treeRowPanel: {fileID: 6911859723231943375, guid: f8b9a8031d064ff4eb7f3c49d47fe4bf,
     type: 3}
-  treeAbilityImage: {fileID: 3241672328832673625, guid: 9b94a711f825c984695d722a937a0e36,
+  treeAbilityPrefab: {fileID: 7960586995728123617, guid: 9b94a711f825c984695d722a937a0e36,
     type: 3}
 --- !u!1001 &6375986466417880479
 PrefabInstance:
@@ -1287,11 +1287,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1716801466120109581}
     m_Modifications:
-    - target: {fileID: 7859317892095288869, guid: b4d825c974130f84aaaeff3972678117,
-        type: 3}
-      propertyPath: m_Name
-      value: AbilityPanel
-      objectReference: {fileID: 0}
     - target: {fileID: 7179800382927097761, guid: b4d825c974130f84aaaeff3972678117,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1396,6 +1391,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7859317892095288869, guid: b4d825c974130f84aaaeff3972678117,
+        type: 3}
+      propertyPath: m_Name
+      value: AbilityPanel
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b4d825c974130f84aaaeff3972678117, type: 3}

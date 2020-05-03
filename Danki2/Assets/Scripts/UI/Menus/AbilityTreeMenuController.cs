@@ -27,7 +27,7 @@ public class AbilityTreeMenuController : MonoBehaviour
     private RectTransform treeRowPanel = null;
 
     [SerializeField]
-    private Image treeAbilityImage = null;
+    private TreeAbility treeAbilityPrefab = null;
     private int maxTreeDepth;
 
     void Start()
@@ -122,14 +122,9 @@ public class AbilityTreeMenuController : MonoBehaviour
         {
             Transform treeRow = treeRowsPanel.GetChild(row - 1);
 
-            Image treeAbility = Instantiate(treeAbilityImage, treeRow.transform, false);
-
-            Vector3 newPosition = treeAbility.rectTransform.localPosition;
-            newPosition += Vector3.right * panelWidth * (sectionIndices[node] / numTreeVerticalSections);
-
-            treeAbility.rectTransform.localPosition = newPosition;
-
-            treeAbility.sprite = AbilityIconManager.Instance.GetIcon(node.Ability);
+            TreeAbility treeAbility = Instantiate(treeAbilityPrefab, treeRow.transform, false);
+            treeAbility.ShiftRight(panelWidth * (sectionIndices[node] / numTreeVerticalSections));
+            treeAbility.SetImage(AbilityIconManager.Instance.GetIcon(node.Ability));
         }
 
         if (node.HasChild(Direction.Left))
