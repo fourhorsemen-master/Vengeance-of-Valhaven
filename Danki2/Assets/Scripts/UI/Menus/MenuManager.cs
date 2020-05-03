@@ -25,12 +25,12 @@ public class MenuManager : Singleton<MenuManager>
             if (abilityTreeMenu.activeInHierarchy)
             {
                 abilityTreeMenu.SetActive(false);
-                GameController.Instance.GameState = GameState.Playing;
+                GameController.Instance.SetGameState(GameState.Playing);
             }
             else
             {
                 abilityTreeMenu.SetActive(true);
-                GameController.Instance.GameState = GameState.InPlayMenu;
+                GameController.Instance.SetGameState(GameState.InPlayMenu);
             }
         }
         else if (Input.GetAxis("AbilityTreeMenu") <= 0)
