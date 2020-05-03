@@ -74,7 +74,7 @@ public abstract class Actor : MonoBehaviour
     public void DamageTarget(Actor target, int damage)
     {
         if (target.Dead) return;
-        target.HealthManager.ReceiveDamage(EffectManager.ProcessDamage(damage));
+        target.HealthManager.ReceiveDamage(EffectManager.ProcessOutgoingDamage(damage));
     }
 
     public void InterruptableAction(float delay, InterruptionType interruptionType, Action action)
