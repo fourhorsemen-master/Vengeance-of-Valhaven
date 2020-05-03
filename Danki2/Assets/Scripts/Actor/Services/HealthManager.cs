@@ -27,14 +27,22 @@ public class HealthManager
 
     public void TickDamage(int damage)
     {
-        if (damage < 0) return;
+        if (damage < 0)
+        {
+            Debug.LogWarning($"Tried to tick negative damage, value: {damage}");
+            return;
+        }
 
         ModifyHealth(-damage);
     }
 
     public void ReceiveDamage(int damage)
     {
-        if (damage < 0) return;
+        if (damage < 0)
+        {
+            Debug.LogWarning($"Tried to receive negative damage, value: {damage}");
+            return;
+        }
 
         // TODO: Pass this damage through a defensive pipeline.
         ModifyHealth(-damage);
