@@ -292,7 +292,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 6270204506026733637}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.5000001
+  m_Size: 0.4830001
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -784,7 +784,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000061035156, y: -0.000037550926}
+  m_AnchoredPosition: {x: 0, y: -0.000030517578}
   m_SizeDelta: {x: 0, y: 1000}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &8821586865759999706
@@ -1379,8 +1379,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: AbilityPanel
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 659691438823435890, guid: b4d825c974130f84aaaeff3972678117, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b4d825c974130f84aaaeff3972678117, type: 3}
 --- !u!224 &4314390721095033406 stripped
 RectTransform:
