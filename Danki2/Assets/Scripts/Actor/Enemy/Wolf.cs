@@ -101,7 +101,7 @@ public class Wolf : Enemy
         WaitAndCast(
             _pounceCastTime,
             AbilityReference.Pounce,
-            () => Target.transform.position
+            () => Target.transform.position + (transform.position - Target.transform.position).normalized
         );
         
         _biteRemainingCooldown = _biteTotalCooldown;
