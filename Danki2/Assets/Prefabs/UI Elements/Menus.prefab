@@ -86,6 +86,7 @@ GameObject:
   - component: {fileID: 7069850528597749093}
   - component: {fileID: 324025784924957738}
   - component: {fileID: 1994567197617119321}
+  - component: {fileID: 3183404085311515705}
   m_Layer: 5
   m_Name: AbilityTreePanel
   m_TagString: Untagged
@@ -152,6 +153,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &3183404085311515705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1077159739142348849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7a30f5a132c8aa4789af6ca4793c5b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rootNodeOrb: {fileID: 8272860023065227789}
+  treeRowsPanel: {fileID: 2730880040509870201}
+  treeRowPanel: {fileID: 6911859723231943375, guid: f8b9a8031d064ff4eb7f3c49d47fe4bf,
+    type: 3}
+  treeAbilityPrefab: {fileID: 7960586995728123617, guid: 9b94a711f825c984695d722a937a0e36,
+    type: 3}
 --- !u!1 &1235231190069689495
 GameObject:
   m_ObjectHideFlags: 0
@@ -272,7 +291,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 6270204506026733637}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.483
+  m_Size: 0.5
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -739,6 +758,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1716801466120109581}
   - component: {fileID: 8821586865759999706}
+  - component: {fileID: 5914503448007557908}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -791,6 +811,20 @@ MonoBehaviour:
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
+--- !u!114 &5914503448007557908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3187602392682327310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa7b4a8da2dbe94f839160e830266a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  abilityListingPanelPrefab: {fileID: 6966794857247870339, guid: b4d825c974130f84aaaeff3972678117,
+    type: 3}
 --- !u!1 &3210142092459466196
 GameObject:
   m_ObjectHideFlags: 0
@@ -1192,7 +1226,6 @@ GameObject:
   - component: {fileID: 6597250311965112783}
   - component: {fileID: 7279957118730847447}
   - component: {fileID: 1189645364574758521}
-  - component: {fileID: 7080746256997826629}
   m_Layer: 5
   m_Name: AbilityTreeMenuPanel
   m_TagString: Untagged
@@ -1259,27 +1292,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7080746256997826629
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6967023218799916311}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f70f797f9c5fe74c8cea08a57767f6b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  abilityTreeListContent: {fileID: 3187602392682327310}
-  abilityListingPanelPrefab: {fileID: 659691438823435890, guid: b4d825c974130f84aaaeff3972678117,
-    type: 3}
-  rootNodeOrb: {fileID: 8272860023065227789}
-  treeRowsPanel: {fileID: 2730880040509870201}
-  treeRowPanel: {fileID: 6911859723231943375, guid: f8b9a8031d064ff4eb7f3c49d47fe4bf,
-    type: 3}
-  treeAbilityPrefab: {fileID: 7960586995728123617, guid: 9b94a711f825c984695d722a937a0e36,
-    type: 3}
 --- !u!1001 &6375986466417880479
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1397,7 +1409,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: AbilityPanel
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 659691438823435890, guid: b4d825c974130f84aaaeff3972678117, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b4d825c974130f84aaaeff3972678117, type: 3}
 --- !u!224 &4314390721095033406 stripped
 RectTransform:
