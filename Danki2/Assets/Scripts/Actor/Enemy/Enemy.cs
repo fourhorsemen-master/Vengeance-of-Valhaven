@@ -14,6 +14,8 @@ public abstract class Enemy : Actor
     {
         OnTelegraph.Next(waitTime);
 
+        MovementManager.Stun(waitTime);
+
         InterruptableAction(waitTime, InterruptionType.Hard, () =>
         {
             InstantCastService.Cast(abilityReference, targeter());

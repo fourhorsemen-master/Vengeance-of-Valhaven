@@ -19,6 +19,9 @@ public class MovementManager
     private StateManager<MovementStatus> movementStatusManager;
     public MovementStatus MovementStatus => movementStatusManager.CurrentState;
 
+    public bool IsMoving { get; private set; } = false;
+    private bool movedThisFrame = false;
+
     public MovementManager(Actor actor, Subject updateSubject, NavMeshAgent navMeshAgent)
     {
         this.actor = actor;
@@ -58,6 +61,8 @@ public class MovementManager
     /// <param name="direction"></param>
     public void Move(Vector3 direction)
     {
+        StopPathfinding();
+
         if (MovementStatus != MovementStatus.AbleToMove) return;
 
         if (direction == Vector3.zero) return;
@@ -65,6 +70,7 @@ public class MovementManager
         ClearWatch();
 
         navMeshAgent.Move(direction.normalized * (Time.deltaTime * actor.GetStat(Stat.Speed)));
+        movedThisFrame = true;
 
         RotateTowards(direction);
     }
@@ -139,6 +145,7 @@ public class MovementManager
         if (!movementStatusManager.CanTransition(MovementStatus.MovementLocked)) return;
 
         movementStatusManager.Transition(MovementStatus.MovementLocked);
+        StopPathfinding();
         remainingStatusDuration = duration;
         movementLockSpeed = speed;
         movementLockDirection = direction.normalized;
@@ -151,6 +158,9 @@ public class MovementManager
 
     private void UpdateMovement()
     {
+        IsMoving = movedThisFrame || (navMeshAgent.hasPath && navMeshAgent.velocity.magnitude > 0f);
+        movedThisFrame = false;
+
         navMeshAgent.speed = actor.GetStat(Stat.Speed);
 
         if (
