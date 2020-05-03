@@ -81,6 +81,12 @@ public class EffectManager : StatPipe
         return damage;
     }
 
+    public int ProcessIncomingDamage(int damage)
+    {
+        ForEachEffect(e => damage = e.ProcessIncomingDamage(damage));
+        return damage;
+    }
+
     private void TickActiveEffects()
     {
         bool someExpired = false;

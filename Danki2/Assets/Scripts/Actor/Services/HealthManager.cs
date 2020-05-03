@@ -29,6 +29,8 @@ public class HealthManager
 
     public void TickDamage(int damage)
     {
+        damage = actor.EffectManager.ProcessIncomingDamage(damage);
+
         if (damage < 0)
         {
             Debug.LogWarning($"Tried to tick negative damage, value: {damage}");
@@ -40,14 +42,15 @@ public class HealthManager
 
     public void ReceiveDamage(int damage)
     {
+        damage = Mathf.Max(MinimumDamageAfterStats, damage - actor.GetStat(Stat.Defence));
+        damage = actor.EffectManager.ProcessIncomingDamage(damage);
+
         if (damage < 0)
         {
             Debug.LogWarning($"Tried to receive negative damage, value: {damage}");
             return;
         }
 
-        // TODO: Pass this damage through a defensive pipeline.
-        damage = Mathf.Max(MinimumDamageAfterStats, damage - actor.GetStat(Stat.Defence));
         ModifyHealth(-damage);
 
         actor.InterruptionManager.Interrupt(InterruptionType.Soft);
