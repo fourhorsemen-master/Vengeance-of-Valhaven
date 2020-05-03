@@ -37,12 +37,12 @@ public class TreeAbility : MonoBehaviour
 
     private void ConnectTo(RectTransform parentRectTransform)
     {
-        Vector2 parentRelativePosition = parentRectTransform.position - rectTransform.position;
+        Vector2 parentRelativePosition = (parentRectTransform.position - rectTransform.position) / rectTransform.GetParentCanvas().scaleFactor;
 
         lineRenderer.Points = new Vector2[]
         {
             new Vector2(0f, 0f),
-            parentRelativePosition / rectTransform.GetParentCanvas().scaleFactor
+            parentRelativePosition
         };
     }
 }

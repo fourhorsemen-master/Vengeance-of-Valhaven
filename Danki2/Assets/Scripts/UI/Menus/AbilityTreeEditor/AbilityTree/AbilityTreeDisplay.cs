@@ -99,7 +99,7 @@ internal class AbilityTreeDisplay : MonoBehaviour
         if (row == 0)
         {
             Vector3 newPosition = rootNodeOrb.rectTransform.localPosition;
-            newPosition += Vector3.right * panelWidth * (sectionIndices[node] / numTreeVerticalSections);
+            newPosition += Vector3.right * (panelWidth * (sectionIndices[node] / numTreeVerticalSections));
 
             rootNodeOrb.rectTransform.localPosition = newPosition;
         }
