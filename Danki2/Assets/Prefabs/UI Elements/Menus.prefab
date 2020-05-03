@@ -291,8 +291,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7092380793491993105}
   m_HandleRect: {fileID: 6270204506026733637}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.4830001
+  m_Value: 1.0000001
+  m_Size: 0.50000006
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1245,7 +1245,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.8627451}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.9411765}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1269,6 +1269,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1716801466120109581}
     m_Modifications:
+    - target: {fileID: 7859317892095288869, guid: b4d825c974130f84aaaeff3972678117,
+        type: 3}
+      propertyPath: m_Name
+      value: AbilityPanel
+      objectReference: {fileID: 0}
     - target: {fileID: 7179800382927097761, guid: b4d825c974130f84aaaeff3972678117,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1373,11 +1378,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7859317892095288869, guid: b4d825c974130f84aaaeff3972678117,
-        type: 3}
-      propertyPath: m_Name
-      value: AbilityPanel
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b4d825c974130f84aaaeff3972678117, type: 3}
