@@ -26,7 +26,7 @@ public static class AbilityLookup
     // Populated by the static constructor based on the instant casts and channels lookups
     private static readonly Dictionary<AbilityReference, AbilityType> abilityTypes = new Dictionary<AbilityReference, AbilityType>();
 
-    private static readonly Dictionary<AbilityReference, AbilityData> abilityDataLookup
+    private static readonly Dictionary<AbilityReference, AbilityData> baseAbilityDataLookup
         = new Dictionary<AbilityReference, AbilityData>
         {
             { AbilityReference.Slash, Slash.BaseAbilityData },
@@ -68,13 +68,28 @@ public static class AbilityLookup
             { AbilityReference.Whirlwind, Whirlwind.AbilityOrbType },
         };
 
+    private static readonly Dictionary<AbilityReference, string> abilityTooltipLookup
+        = new Dictionary<AbilityReference, string>()
+        {
+            { AbilityReference.Slash, Slash.Tooltip },
+            { AbilityReference.Fireball, Fireball.Tooltip },
+            { AbilityReference.DaggerThrow, DaggerThrow.Tooltip },
+            { AbilityReference.Bite, Bite.Tooltip },
+            { AbilityReference.Roll, Roll.Tooltip },
+            { AbilityReference.Lunge, Lunge.Tooltip },
+            { AbilityReference.Pounce, Pounce.Tooltip },
+            { AbilityReference.Smash, Smash.Tooltip },
+            { AbilityReference.Whirlwind, Whirlwind.Tooltip },
+        };
+
     static AbilityLookup()
     {
         foreach (AbilityReference abilityReference in Enum.GetValues(typeof(AbilityReference)))
         {
-            if (!abilityDataLookup.ContainsKey(abilityReference)) Debug.LogError($"No ability data for {abilityReference.ToString()}");
+            if (!baseAbilityDataLookup.ContainsKey(abilityReference)) Debug.LogError($"No base ability data for {abilityReference.ToString()}");
             if (!generatedOrbsLookup.ContainsKey(abilityReference)) Debug.LogError($"No generated orbs for {abilityReference.ToString()}");
             if (!abilityOrbTypeLookup.ContainsKey(abilityReference)) Debug.LogError($"No ability orb type for {abilityReference.ToString()}");
+            if (!abilityTooltipLookup.ContainsKey(abilityReference)) Debug.LogError($"No ability tooltip for {abilityReference.ToString()}");
 
             bool isInInstantCasts = instantCasts.ContainsKey(abilityReference);
             bool isInChannels = channels.ContainsKey(abilityReference);
@@ -102,7 +117,7 @@ public static class AbilityLookup
     {
         if (instantCasts.ContainsKey(abilityReference))
         {
-            AbilityData abilityData = abilityDataLookup[abilityReference] + abilityDataDiff;
+            AbilityData abilityData = baseAbilityDataLookup[abilityReference] + abilityDataDiff;
             ability = instantCasts[abilityReference](owner, abilityData);
             return true;
         }
@@ -120,7 +135,7 @@ public static class AbilityLookup
     {
         if (channels.ContainsKey(abilityReference))
         {
-            AbilityData abilityData = abilityDataLookup[abilityReference] + abilityDataDiff;
+            AbilityData abilityData = baseAbilityDataLookup[abilityReference] + abilityDataDiff;
             ability = channels[abilityReference](owner, abilityData);
             return true;
         }
@@ -134,6 +149,11 @@ public static class AbilityLookup
         return abilityTypes[abilityReference];
     }
 
+    public static AbilityData GetBaseAbilityData(AbilityReference abilityReference)
+    {
+        return baseAbilityDataLookup[abilityReference];
+    }
+
     public static Dictionary<OrbType, int> GetGeneratedOrbs(AbilityReference abilityReference)
     {
         return generatedOrbsLookup[abilityReference];
@@ -142,5 +162,10 @@ public static class AbilityLookup
     public static OrbType GetAbilityOrbType(AbilityReference abilityReference)
     {
         return abilityOrbTypeLookup[abilityReference];
+    }
+
+    public static string GetAbilityTooltip(AbilityReference abilityReference)
+    {
+        return abilityTooltipLookup[abilityReference];
     }
 }
