@@ -6,6 +6,7 @@ public class Slash : InstantCast
     public static readonly AbilityData BaseAbilityData = new AbilityData(0, 0, 0);
     public static readonly Dictionary<OrbType, int> GeneratedOrbs = new Dictionary<OrbType, int>();
     public const OrbType AbilityOrbType = OrbType.Aggression;
+    public const string Tooltip = "Deals {DAMAGE} damage.";
     
     private const float Range = 4f;
     private const float PauseDuration = 0.3f;
