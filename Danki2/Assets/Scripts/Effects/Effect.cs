@@ -19,4 +19,9 @@
     {
         return value;
     }
+
+    public virtual int ProcessDamage(int damage)
+    {
+        return damage;
+    }
 }
