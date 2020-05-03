@@ -29,10 +29,10 @@ internal class AbilityTreeDisplay : MonoBehaviour
     public void Start()
     {
         player = RoomManager.Instance.Player;
-        ResetTree();
+        RecalculateDisplay();
     }
 
-    private void ResetTree()
+    private void RecalculateDisplay()
     {
         numTreeVerticalSections = 0;
         sectionIndices.Clear();

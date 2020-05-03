@@ -27,7 +27,7 @@ public class TreeAbility : MonoBehaviour
 
     public void ConnectTo(TreeAbility parentAbility)
     {
-        ConnectTo(parentAbility.abilityImage.rectTransform);
+        ConnectTo(parentAbility.rectTransform);
     }
 
     public void ConnectToRoot(Image rootNodeOrb)
@@ -37,12 +37,12 @@ public class TreeAbility : MonoBehaviour
 
     private void ConnectTo(RectTransform parentRectTransform)
     {
-        Vector2 parentRelativePosition = parentRectTransform.position - abilityImage.rectTransform.position;
+        Vector2 parentRelativePosition = parentRectTransform.position - rectTransform.position;
 
         lineRenderer.Points = new Vector2[]
         {
             new Vector2(0f, 0f),
-            parentRelativePosition
+            parentRelativePosition / rectTransform.GetParentCanvas().scaleFactor
         };
     }
 }
