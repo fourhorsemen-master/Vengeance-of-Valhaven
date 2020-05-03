@@ -57,22 +57,8 @@ public class HealthManager
         actor.InterruptionManager.Interrupt(InterruptionType.Soft);
     }
 
-    public void ReceiveTickHealing(int healing)
-    {
-        healing = actor.EffectManager.ProcessIncomingHeal(healing);
-
-        if (healing < 0)
-        {
-            Debug.LogWarning($"Tried to tick negative heal, value: {healing}");
-            return;
-        }
-        
-        Heal(healing);
-    }
-
     public void ReceiveHeal(int healing)
     {
-        healing += actor.GetStat(Stat.Recovery);
         healing = actor.EffectManager.ProcessIncomingHeal(healing);
 
         if (healing < 0)
@@ -81,19 +67,14 @@ public class HealthManager
             return;
         }
 
-        Heal(healing);
+        HealSubject.Next(healing);
+        ModifyHealth(healing);
     }
 
     private void Damage(int damage)
     {
         DamageSubject.Next(damage);
         ModifyHealth(-damage);
-    }
-
-    private void Heal(int healing)
-    {
-        HealSubject.Next(healing);
-        ModifyHealth(healing);
     }
 
     private void ModifyHealth(int healthChange)
