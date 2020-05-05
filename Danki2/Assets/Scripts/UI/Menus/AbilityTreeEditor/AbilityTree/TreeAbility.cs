@@ -11,7 +11,10 @@ public class TreeAbility : MonoBehaviour
     private Image abilityImage = null;
 
     [SerializeField]
-    private UILineRenderer lineRenderer = null;
+    private UILineRenderer leftChildLineRenderer = null;
+
+    [SerializeField]
+    private UILineRenderer rightChildLineRenderer = null;
 
     public void ShiftRight(float amount)
     {
@@ -25,24 +28,25 @@ public class TreeAbility : MonoBehaviour
         abilityImage.sprite = sprite;
     }
 
-    public void ConnectTo(TreeAbility parentAbility)
+    public void ConnectToChild(TreeAbility child, Direction direction)
     {
-        ConnectTo(parentAbility.rectTransform);
-    }
+        Vector2 childRelativePosition = (child.rectTransform.position - rectTransform.position) / rectTransform.GetParentCanvas().scaleFactor;
 
-    public void ConnectToRoot(Image rootNodeOrb)
-    {
-        ConnectTo(rootNodeOrb.rectTransform);
-    }
-
-    private void ConnectTo(RectTransform parentRectTransform)
-    {
-        Vector2 parentRelativePosition = (parentRectTransform.position - rectTransform.position) / rectTransform.GetParentCanvas().scaleFactor;
-
-        lineRenderer.Points = new Vector2[]
+        Vector2[] points = new Vector2[]
         {
             new Vector2(0f, 0f),
-            parentRelativePosition
+            childRelativePosition
         };
+
+        switch (direction)
+        {
+            case Direction.Left:
+                leftChildLineRenderer.Points = points;
+                break;
+
+            case Direction.Right:
+                rightChildLineRenderer.Points = points;
+                break;
+        }
     }
 }
