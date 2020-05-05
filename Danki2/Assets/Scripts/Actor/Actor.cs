@@ -68,21 +68,13 @@ public abstract class Actor : MonoBehaviour
         
     public bool Opposes(Actor target)
     {
-        return tag != target.tag;
+        return !CompareTag(target.tag);
     }
 
     public void DamageTarget(Actor target, int damage)
     {
         if (target.Dead) return;
-
-        if (damage < 0)
-        {
-            Debug.LogWarning("Tried to deal negative damage to target.");
-            return;
-        }
-
-        // TODO: Put damage through an offensive pipeline
-        target.HealthManager.ReceiveDamage(damage);
+        target.HealthManager.ReceiveDamage(EffectManager.ProcessOutgoingDamage(damage));
     }
 
     public void InterruptableAction(float delay, InterruptionType interruptionType, Action action)
