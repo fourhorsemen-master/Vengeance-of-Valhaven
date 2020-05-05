@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 internal class AbilityTreeDisplay : MonoBehaviour
 {
@@ -24,7 +25,6 @@ internal class AbilityTreeDisplay : MonoBehaviour
     private int maxTreeDepth;
     private Dictionary<Node, float> sectionIndices = new Dictionary<Node, float>();
     private bool nodesDrawn = false;
-
     public void Start()
     {
         player = RoomManager.Instance.Player;
@@ -99,11 +99,15 @@ internal class AbilityTreeDisplay : MonoBehaviour
         TreeAbility treeAbility = Instantiate(treeAbilityPrefab, treeRow.transform, false);
         treeAbility.ShiftRight(panelWidth * (sectionIndices[node] / numTreeVerticalSections));
 
-        Sprite sprite = node.IsRootNode()
-            ? rootNodeSprite
-            : AbilityIconManager.Instance.GetIcon(node.Ability);
-
-        treeAbility.SetImage(sprite);
+        if (node.IsRootNode())
+        {
+            treeAbility.SetImage(rootNodeSprite);
+            treeAbility.RemoveOverlay();
+        }
+        else
+        {
+            treeAbility.SetImage(AbilityIconManager.Instance.GetIcon(node.Ability));
+        }
 
         if (node.HasChild(Direction.Left))
         {

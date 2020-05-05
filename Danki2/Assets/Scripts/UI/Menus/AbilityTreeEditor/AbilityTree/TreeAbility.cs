@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
 
@@ -9,6 +10,9 @@ public class TreeAbility : MonoBehaviour
 
     [SerializeField]
     private Image abilityImage = null;
+
+    [SerializeField]
+    private Image abilityOverlay = null;
 
     [SerializeField]
     private UILineRenderer leftChildLineRenderer = null;
@@ -48,5 +52,10 @@ public class TreeAbility : MonoBehaviour
                 rightChildLineRenderer.Points = points;
                 break;
         }
+    }
+
+    internal void RemoveOverlay()
+    {
+        abilityOverlay.enabled = false;
     }
 }
