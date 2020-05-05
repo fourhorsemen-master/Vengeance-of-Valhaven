@@ -1,14 +1,4 @@
-﻿public class HealthScreenBar : ScreenBar
+﻿public class HealthScreenBar : HealthBar
 {
-    private Player player;
-
-    private void Start()
-    {
-        player = RoomManager.Instance.Player;
-    }
-
-    private void Update()
-    {
-        SetWidth((float)player.HealthManager.Health/player.HealthManager.MaxHealth);
-    }
+    protected override Actor Actor => RoomManager.Instance.Player;
 }

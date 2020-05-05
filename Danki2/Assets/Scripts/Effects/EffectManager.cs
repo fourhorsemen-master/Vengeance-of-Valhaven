@@ -71,11 +71,26 @@ public class EffectManager : StatPipe
 
     public float ProcessStat(Stat stat, float value)
     {
-        float processedValue = value;
+        ForEachEffect(e => value = e.ProcessStat(stat, value));
+        return value;
+    }
 
-        ForEachEffect(e => processedValue = e.ProcessStat(stat, processedValue));
+    public int ProcessOutgoingDamage(int damage)
+    {
+        ForEachEffect(e => damage = e.ProcessOutgoingDamage(damage));
+        return damage;
+    }
 
-        return processedValue;
+    public int ProcessIncomingDamage(int damage)
+    {
+        ForEachEffect(e => damage = e.ProcessIncomingDamage(damage));
+        return damage;
+    }
+
+    public int ProcessIncomingHeal(int healing)
+    {
+        ForEachEffect(e => healing = e.ProcessIncomingHeal(healing));
+        return healing;
     }
 
     private void TickActiveEffects()
