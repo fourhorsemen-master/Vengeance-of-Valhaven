@@ -1,8 +1,10 @@
 ﻿public enum TooltipSegmentType
 {
     Text,
-    Damage,
-    DamageBonus,
+    PrimaryDamage,
+    PrimaryDamageBonus,
+    SecondaryDamage,
+    SecondaryDamageBonus,
     Heal,
     HealBonus,
     Shield,
