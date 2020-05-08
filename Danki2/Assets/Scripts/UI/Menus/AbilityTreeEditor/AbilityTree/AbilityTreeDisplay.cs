@@ -18,7 +18,7 @@ internal class AbilityTreeDisplay : MonoBehaviour
     private TreeAbility treeAbilityPrefab = null;
 
     [SerializeField]
-    private Sprite rootNodeSprite;
+    private Sprite rootNodeSprite = null;
 
     private Player player;
     private float numTreeVerticalSections;
