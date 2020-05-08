@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class ChannelScreenBar : MonoBehaviour
 {
     [SerializeField]
-    private Image channelBar;
+    private Image channelBar = null;
 
     private Player player;
     private ChannelService channelService;

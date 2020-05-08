@@ -6,6 +6,10 @@
 
 The unity verion that should be used is: `2019.2.0f1`.
 
+### Requirements
+
+Blender must be installed for the project to load.
+
 ### Smart Merge
 
 To use [Unity Smart Merge](https://docs.unity3d.com/Manual/SmartMerge.html), for resolving merge conflicts in non-code files, you must first check that the file path to your verion of UnityYamlMerge is the same as that in the .gitconfig file (if not then change the file path in the .gitconfig file). Then run the following command:
