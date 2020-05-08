@@ -21,6 +21,7 @@
     {
         return new AbilityData(
             actor.GetStat(Stat.Power),
+            actor.GetStat(Stat.Power),
             actor.GetStat(Stat.Recovery),
             actor.GetStat(Stat.Defence)
         );

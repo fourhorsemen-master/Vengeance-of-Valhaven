@@ -6,7 +6,8 @@ public static class BindablePropertyLookup
     private static readonly Dictionary<BindableProperty, string> bindablePropertyToString =
         new Dictionary<BindableProperty, string>
         {
-            {BindableProperty.Damage, "DAMAGE"},
+            {BindableProperty.PrimaryDamage, "PRIMARY_DAMAGE"},
+            {BindableProperty.SecondaryDamage, "SECONDARY_DAMAGE"},
             {BindableProperty.Heal, "HEAL"},
             {BindableProperty.Shield, "SHIELD"}
         };
