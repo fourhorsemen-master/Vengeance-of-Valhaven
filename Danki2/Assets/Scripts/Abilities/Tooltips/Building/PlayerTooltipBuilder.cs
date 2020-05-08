@@ -42,8 +42,10 @@ public class PlayerTooltipBuilder
         {
             case TemplatedTooltipSegmentType.Text:
                 return GetTextSegments(templatedTooltipSegment);
-            case TemplatedTooltipSegmentType.Damage:
-                return GetDamageSegments(baseAbilityData, abilityDataDiff);
+            case TemplatedTooltipSegmentType.PrimaryDamage:
+                return GetPrimaryDamageSegments(baseAbilityData, abilityDataDiff);
+            case TemplatedTooltipSegmentType.SecondaryDamage:
+                return GetSecondaryDamageSegments(baseAbilityData, abilityDataDiff);
             case TemplatedTooltipSegmentType.Heal:
                 return GetHealSegments(baseAbilityData, abilityDataDiff);
             case TemplatedTooltipSegmentType.Shield:
@@ -58,13 +60,23 @@ public class PlayerTooltipBuilder
         return ListUtils.Singleton(new TooltipSegment(TooltipSegmentType.Text, templatedTooltipSegment.Value));
     }
 
-    private List<TooltipSegment> GetDamageSegments(AbilityData baseAbilityData, AbilityData abilityDataDiff)
+    private List<TooltipSegment> GetPrimaryDamageSegments(AbilityData baseAbilityData, AbilityData abilityDataDiff)
     {
         return GetNumericTooltipSegments(
-            TooltipSegmentType.Damage,
-            baseAbilityData.Damage,
-            TooltipSegmentType.DamageBonus,
-            abilityDataDiff.Damage
+            TooltipSegmentType.PrimaryDamage,
+            baseAbilityData.PrimaryDamage,
+            TooltipSegmentType.PrimaryDamageBonus,
+            abilityDataDiff.PrimaryDamage
+        );
+    }
+
+    private List<TooltipSegment> GetSecondaryDamageSegments(AbilityData baseAbilityData, AbilityData abilityDataDiff)
+    {
+        return GetNumericTooltipSegments(
+            TooltipSegmentType.SecondaryDamage,
+            baseAbilityData.SecondaryDamage,
+            TooltipSegmentType.SecondaryDamageBonus,
+            abilityDataDiff.SecondaryDamage
         );
     }
 

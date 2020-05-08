@@ -3,13 +3,12 @@ using UnityEngine;
 
 public class Bite : InstantCast
 {
-    public static readonly AbilityData BaseAbilityData = new AbilityData(0, 0, 0);
+    public static readonly AbilityData BaseAbilityData = new AbilityData(5, 0, 0, 0);
     public static readonly Dictionary<OrbType, int> GeneratedOrbs = new Dictionary<OrbType, int>();
     public const OrbType AbilityOrbType = OrbType.Aggression;
-    public const string Tooltip = "Deals {DAMAGE} damage.";
+    public const string Tooltip = "Deals {PRIMARY_DAMAGE} damage.";
     public const string DisplayName = "Bite";
 
-    public const int Damage = 5;
     public const float Range = 2f;
     private const float PauseDuration = 0.3f;
 
@@ -38,7 +37,7 @@ public class Bite : InstantCast
         {
             if (Owner.Opposes(actor))
             {
-                Owner.DamageTarget(actor, Damage);
+                DealPrimaryDamage(actor);
                 hasDealtDamage = true;
             }
         });
