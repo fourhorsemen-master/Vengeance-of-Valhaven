@@ -3,7 +3,8 @@
 /// </summary>
 public enum BindableProperty
 {
-    Damage,
+    PrimaryDamage,
+    SecondaryDamage,
     Heal,
     Shield
     // New bindable properties need a new entry adding in the bindable property lookup

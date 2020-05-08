@@ -3,15 +3,14 @@ using UnityEngine;
 
 public class Lunge : InstantCast
 {
-    public static readonly AbilityData BaseAbilityData = new AbilityData(0, 0, 0);
+    public static readonly AbilityData BaseAbilityData = new AbilityData(4, 0, 0, 0);
     public static readonly Dictionary<OrbType, int> GeneratedOrbs = new Dictionary<OrbType, int>();
     public const OrbType AbilityOrbType = OrbType.Aggression;
-    public const string Tooltip = "Deals {DAMAGE} damage.";
+    public const string Tooltip = "Deals {PRIMARY_DAMAGE} damage.";
     public const string DisplayName = "Lunge";
 
     private const float MaxMovementDuration = 0.2f;
     private const float LungeSpeedMultiplier = 6f;
-    private const int Damage = 4;
     private const float StunRange = 2f;
     private const float StunDuration = 0.5f;
     private const float PauseDuration = 0.3f;
@@ -51,7 +50,7 @@ public class Lunge : InstantCast
                     if (Owner.Opposes(actor))
                     {
                         actor.EffectManager.AddActiveEffect(new Stun(StunDuration), StunDuration);
-                        Owner.DamageTarget(actor, Damage);
+                        DealPrimaryDamage(actor);
                         hasDealtDamage = true;
                     }
                 });

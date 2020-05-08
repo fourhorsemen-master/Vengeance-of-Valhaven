@@ -3,14 +3,13 @@ using UnityEngine;
 
 public class Pounce : InstantCast
 {
-    public static readonly AbilityData BaseAbilityData = new AbilityData(0, 0, 0);
+    public static readonly AbilityData BaseAbilityData = new AbilityData(4, 0, 0, 0);
     public static readonly Dictionary<OrbType, int> GeneratedOrbs = new Dictionary<OrbType, int>();
     public const OrbType AbilityOrbType = OrbType.Aggression;
-    public const string Tooltip = "Deals {DAMAGE} damage.";
+    public const string Tooltip = "Deals {PRIMARY_DAMAGE} damage.";
     public const string DisplayName = "Pounce";
 
     // The ai casting this ability should determine cast range
-    private const int Damage = 4;
     private const float MaxMovementDuration = 0.5f;
     private const float PounceSpeedMultiplier = 3f;
     private const float DamageRadius = 2f;
@@ -51,7 +50,7 @@ public class Pounce : InstantCast
                 {
                     if (Owner.Opposes(actor))
                     {
-                        Owner.DamageTarget(actor, Damage);
+                        DealPrimaryDamage(actor);
                         hasDealtDamage = true;
                     }
                 });
