@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Smash : InstantCast
 {
-    public static readonly AbilityData BaseAbilityData = new AbilityData(0, 0, 0, 0);
+    public static readonly AbilityData BaseAbilityData = new AbilityData(10, 0, 0, 0);
     public static readonly Dictionary<OrbType, int> GeneratedOrbs = new Dictionary<OrbType, int>();
     public const OrbType AbilityOrbType = OrbType.Aggression;
     public const string Tooltip = "Deals {PRIMARY_DAMAGE} damage.";
@@ -11,7 +11,6 @@ public class Smash : InstantCast
 
     private const float DistanceFromCaster = 1f;
     private const float Radius = 1f;
-    private const int Damage = 10;
 
     public Smash(Actor owner, AbilityData abilityData) : base(owner, abilityData)
     {
@@ -35,7 +34,7 @@ public class Smash : InstantCast
         {
             if (Owner.Opposes(actor))
             {
-                Owner.DamageTarget(actor, Damage);
+                DealPrimaryDamage(actor);
                 hasDealtDamage = true;
             }
         });
