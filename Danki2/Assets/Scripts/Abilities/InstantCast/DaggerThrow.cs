@@ -37,7 +37,7 @@ class DaggerThrow : InstantCast
             }
 
             DealPrimaryDamage(actor);
-            DealSecondaryDOT(actor, DotDuration);
+            ApplySecondaryDamageAsDOT(actor, DotDuration);
             SuccessFeedbackSubject.Next(true);
         }
         else

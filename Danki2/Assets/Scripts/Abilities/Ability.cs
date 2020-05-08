@@ -18,7 +18,7 @@
         Owner.DamageTarget(target, AbilityData.PrimaryDamage);
     }
 
-    protected void DealPrimaryDOT(Actor target, float duration, float tickRate = 1)
+    protected void ApplyPrimaryDamageAsDOT(Actor target, float duration, float tickRate = 1)
     {
         target.EffectManager.AddActiveEffect(new DOT(AbilityData.PrimaryDamage, duration, tickRate), duration);
     }
@@ -28,7 +28,7 @@
         Owner.DamageTarget(target, AbilityData.SecondaryDamage);
     }
 
-    protected void DealSecondaryDOT(Actor target, float duration, float tickRate = 1)
+    protected void ApplySecondaryDamageAsDOT(Actor target, float duration, float tickRate = 1)
     {
         target.EffectManager.AddActiveEffect(new DOT(AbilityData.SecondaryDamage, duration, tickRate), duration);
     }

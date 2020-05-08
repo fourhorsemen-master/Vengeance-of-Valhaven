@@ -17,7 +17,7 @@ public struct AbilityData
     }
 
     public static AbilityData Zero { get; } = new AbilityData(0, 0, 0, 0);
-    public static AbilityData One { get; } = new AbilityData(1, 1, 1, 0);
+    public static AbilityData One { get; } = new AbilityData(1, 1, 1, 1);
 
     public static AbilityData operator +(AbilityData a, AbilityData b)
     {
