@@ -62,9 +62,9 @@ public class PlayerTooltipBuilder
     {
         return GetNumericTooltipSegments(
             TooltipSegmentType.Damage,
-            baseAbilityData.Damage,
+            baseAbilityData.PrimaryDamage,
             TooltipSegmentType.DamageBonus,
-            abilityDataDiff.Damage
+            abilityDataDiff.PrimaryDamage
         );
     }
 
