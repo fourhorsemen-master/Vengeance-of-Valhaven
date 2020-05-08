@@ -82,6 +82,20 @@ public static class AbilityLookup
             { AbilityReference.Whirlwind, Whirlwind.Tooltip },
         };
 
+    private static readonly Dictionary<AbilityReference, string> abilityDisplayNameLookup
+        = new Dictionary<AbilityReference, string>()
+        {
+            { AbilityReference.Slash, Slash.DisplayName },
+            { AbilityReference.Fireball, Fireball.DisplayName },
+            { AbilityReference.DaggerThrow, DaggerThrow.DisplayName },
+            { AbilityReference.Bite, Bite.DisplayName },
+            { AbilityReference.Roll, Roll.DisplayName },
+            { AbilityReference.Lunge, Lunge.DisplayName },
+            { AbilityReference.Pounce, Pounce.DisplayName },
+            { AbilityReference.Smash, Smash.DisplayName },
+            { AbilityReference.Whirlwind, Whirlwind.DisplayName },
+        };
+
     static AbilityLookup()
     {
         foreach (AbilityReference abilityReference in Enum.GetValues(typeof(AbilityReference)))
@@ -90,6 +104,7 @@ public static class AbilityLookup
             if (!generatedOrbsLookup.ContainsKey(abilityReference)) Debug.LogError($"No generated orbs for {abilityReference.ToString()}");
             if (!abilityOrbTypeLookup.ContainsKey(abilityReference)) Debug.LogError($"No ability orb type for {abilityReference.ToString()}");
             if (!abilityTooltipLookup.ContainsKey(abilityReference)) Debug.LogError($"No ability tooltip for {abilityReference.ToString()}");
+            if (!abilityDisplayNameLookup.ContainsKey(abilityReference)) Debug.LogError($"No ability display name for {abilityReference.ToString()}");
 
             bool isInInstantCasts = instantCasts.ContainsKey(abilityReference);
             bool isInChannels = channels.ContainsKey(abilityReference);
@@ -167,5 +182,10 @@ public static class AbilityLookup
     public static string GetAbilityTooltip(AbilityReference abilityReference)
     {
         return abilityTooltipLookup[abilityReference];
+    }
+
+    public static string GetAbilityDisplayName(AbilityReference abilityReference)
+    {
+        return abilityDisplayNameLookup[abilityReference];
     }
 }

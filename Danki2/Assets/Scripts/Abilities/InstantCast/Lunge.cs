@@ -7,6 +7,7 @@ public class Lunge : InstantCast
     public static readonly Dictionary<OrbType, int> GeneratedOrbs = new Dictionary<OrbType, int>();
     public const OrbType AbilityOrbType = OrbType.Aggression;
     public const string Tooltip = "Deals {DAMAGE} damage.";
+    public const string DisplayName = "Lunge";
 
     private const float MaxLungeDuration = 0.25f;
     private const float MinLungeDuration = 0.1f;
