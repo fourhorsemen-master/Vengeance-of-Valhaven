@@ -19,4 +19,19 @@
     {
         return value;
     }
+
+    public virtual int ProcessOutgoingDamage(int damage)
+    {
+        return damage;
+    }
+
+    public virtual int ProcessIncomingDamage(int damage)
+    {
+        return damage;
+    }
+
+    public virtual int ProcessIncomingHeal(int healing)
+    {
+        return healing;
+    }
 }
