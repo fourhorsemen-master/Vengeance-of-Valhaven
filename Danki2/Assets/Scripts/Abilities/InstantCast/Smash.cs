@@ -7,6 +7,7 @@ public class Smash : InstantCast
     public static readonly Dictionary<OrbType, int> GeneratedOrbs = new Dictionary<OrbType, int>();
     public const OrbType AbilityOrbType = OrbType.Aggression;
     public const string Tooltip = "Deals {DAMAGE} damage.";
+    public const string DisplayName = "Smash";
 
     private const float DistanceFromCaster = 1f;
     private const float Radius = 1f;

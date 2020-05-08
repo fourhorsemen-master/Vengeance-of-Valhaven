@@ -7,6 +7,7 @@ public class Bite : InstantCast
     public static readonly Dictionary<OrbType, int> GeneratedOrbs = new Dictionary<OrbType, int>();
     public const OrbType AbilityOrbType = OrbType.Aggression;
     public const string Tooltip = "Deals {DAMAGE} damage.";
+    public const string DisplayName = "Bite";
 
     public const int Damage = 5;
     public const float Range = 2f;
@@ -29,7 +30,7 @@ public class Bite : InstantCast
         bool hasDealtDamage = false;
 
         CollisionTemplateManager.Instance.GetCollidingActors(
-            CollisionTemplate.Wedge90,
+            CollisionTemplate.Wedge45,
             Range,
             position,
             Quaternion.LookRotation(target - position)
