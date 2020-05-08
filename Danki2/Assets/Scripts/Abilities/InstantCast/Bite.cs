@@ -29,7 +29,7 @@ public class Bite : InstantCast
         bool hasDealtDamage = false;
 
         CollisionTemplateManager.Instance.GetCollidingActors(
-            CollisionTemplate.Wedge90,
+            CollisionTemplate.Wedge45,
             Range,
             position,
             Quaternion.LookRotation(target - position)
