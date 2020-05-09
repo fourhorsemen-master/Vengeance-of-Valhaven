@@ -4,7 +4,7 @@ using UnityEngine;
 class DaggerThrow : InstantCast
 {
     public static readonly AbilityData BaseAbilityData = new AbilityData(2, 3, 0, 0);
-    public static readonly Dictionary<OrbType, int> GeneratedOrbs = new Dictionary<OrbType, int>();
+    public static readonly OrbCollection GeneratedOrbs = new OrbCollection();
     public const OrbType AbilityOrbType = OrbType.Aggression;
     public const string Tooltip = "Deals {PRIMARY_DAMAGE} damage and {SECONDARY_DAMAGE} over 3 seconds.";
     public const string DisplayName = "Dagger Throw";
