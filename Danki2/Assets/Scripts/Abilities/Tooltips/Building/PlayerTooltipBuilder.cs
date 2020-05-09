@@ -111,7 +111,7 @@ public class PlayerTooltipBuilder
             new TooltipSegment(baseTooltipSegmentType, baseValue.ToString())
         );
 
-        if (bonusValue >= 0) tooltipSegments.Add(new TooltipSegment(bonusTooltipSegmentType, bonusValue.ToString()));
+        if (bonusValue > 0) tooltipSegments.Add(new TooltipSegment(bonusTooltipSegmentType, bonusValue.ToString()));
 
         return tooltipSegments;
     }
