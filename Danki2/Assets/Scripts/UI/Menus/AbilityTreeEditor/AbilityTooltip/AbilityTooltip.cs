@@ -67,11 +67,11 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
                     descriptionParts.Add(segment.Value);
                     break;
 
-                case TooltipSegmentType.PrimaryDamage:
+                case TooltipSegmentType.BaseNumericValue:
                     descriptionParts.Add(segment.Value);
                     break;
 
-                case TooltipSegmentType.PrimaryDamageBonus:
+                case TooltipSegmentType.BonusNumericValue:
                     string bonus = $"+{segment.Value}";
                     string bonusWithColour = TextUtils.ColouredText("00ff00ff", bonus);
 
