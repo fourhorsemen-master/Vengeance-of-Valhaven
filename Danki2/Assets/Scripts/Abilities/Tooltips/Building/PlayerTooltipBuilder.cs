@@ -63,9 +63,9 @@ public class PlayerTooltipBuilder
     private List<TooltipSegment> GetPrimaryDamageSegments(AbilityData baseAbilityData, AbilityData abilityDataDiff)
     {
         return GetNumericTooltipSegments(
-            TooltipSegmentType.Damage,
+            TooltipSegmentType.BaseValue,
             baseAbilityData.PrimaryDamage,
-            TooltipSegmentType.DamageBonus,
+            TooltipSegmentType.BonusValue,
             abilityDataDiff.PrimaryDamage
         );
     }
@@ -73,9 +73,9 @@ public class PlayerTooltipBuilder
     private List<TooltipSegment> GetSecondaryDamageSegments(AbilityData baseAbilityData, AbilityData abilityDataDiff)
     {
         return GetNumericTooltipSegments(
-            TooltipSegmentType.Damage,
+            TooltipSegmentType.BaseValue,
             baseAbilityData.SecondaryDamage,
-            TooltipSegmentType.DamageBonus,
+            TooltipSegmentType.BonusValue,
             abilityDataDiff.SecondaryDamage
         );
     }
@@ -83,9 +83,9 @@ public class PlayerTooltipBuilder
     private List<TooltipSegment> GetHealSegments(AbilityData baseAbilityData, AbilityData abilityDataDiff)
     {
         return GetNumericTooltipSegments(
-            TooltipSegmentType.Heal,
+            TooltipSegmentType.BaseValue,
             baseAbilityData.Heal,
-            TooltipSegmentType.HealBonus,
+            TooltipSegmentType.BonusValue,
             abilityDataDiff.Heal
         );
     }
@@ -93,9 +93,9 @@ public class PlayerTooltipBuilder
     private List<TooltipSegment> GetShieldSegments(AbilityData baseAbilityData, AbilityData abilityDataDiff)
     {
         return GetNumericTooltipSegments(
-            TooltipSegmentType.Shield,
+            TooltipSegmentType.BaseValue,
             baseAbilityData.Shield,
-            TooltipSegmentType.ShieldBonus,
+            TooltipSegmentType.BonusValue,
             abilityDataDiff.Shield
         );
     }
