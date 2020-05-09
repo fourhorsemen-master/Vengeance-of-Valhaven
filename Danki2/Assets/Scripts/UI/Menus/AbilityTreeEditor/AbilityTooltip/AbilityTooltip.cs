@@ -26,6 +26,8 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
     {
         Player player = RoomManager.Instance.Player;
         tooltipBuilder = new PlayerTooltipBuilder(player);
+
+        UpdateTooltip(player.AbilityTree.RootNode.GetChild(Direction.Left));
     }
 
     public void Activate()
@@ -45,7 +47,9 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
         List<TooltipSegment> segments = tooltipBuilder.Build(node);
         description.text = GenerateDescription(segments);
 
-        //tooltipPanel.sizeDelta = description.preferredHeight
+        Vector2 newSizeDelta = tooltipPanel.sizeDelta;
+        newSizeDelta.y = description.preferredHeight + 56;
+        tooltipPanel.sizeDelta = newSizeDelta;
 
         Dictionary<OrbType, int> generatedOrbs =  AbilityLookup.GetGeneratedOrbs(node.Ability);
         DisplayOrbs(generatedOrbs);
@@ -53,11 +57,23 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
 
     private string GenerateDescription(List<TooltipSegment> segments)
     {
-        throw new NotImplementedException();
+        List<string> descriptionParts = new List<string>();
+
+        foreach (TooltipSegment segment in segments)
+        {
+            switch (segment.Type)
+            {
+                case TooltipSegmentType.Text:
+                    descriptionParts.Add(segment.Value);
+                    break;
+            }
+        }
+
+        return string.Join(string.Empty, descriptionParts);
     }
 
     private void DisplayOrbs(Dictionary<OrbType, int> generatedOrbs)
     {
-        throw new NotImplementedException();
+        return;
     }
 }
