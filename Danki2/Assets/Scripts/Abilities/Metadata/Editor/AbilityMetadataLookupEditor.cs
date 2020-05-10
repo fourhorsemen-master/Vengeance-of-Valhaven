@@ -79,18 +79,21 @@ public class AbilityMetadataLookupEditor : Editor
 
         List<OrbType> generatedOrbs = serializableAbilityMetadata.GeneratedOrbs;
 
-        for (int i = 0; i < generatedOrbs.Count; i++)
+        for (int i = generatedOrbs.Count - 1; i >= 0; i--)
         {
-            generatedOrbs[i] = (OrbType)EditorGUILayout.EnumPopup($"Orb {i}", generatedOrbs[i]);
+            GUILayout.BeginHorizontal();
+
+            generatedOrbs[i] = (OrbType)EditorGUILayout.EnumPopup($"Orb {generatedOrbs.Count - i}", generatedOrbs[i]);
+            if (GUILayout.Button("Remove Orb"))
+            {
+                generatedOrbs.RemoveAt(i);
+            }
+
+            GUILayout.EndHorizontal();
         }
 
         GUILayout.BeginHorizontal();
         GUILayout.Space (EditorGUI.indentLevel * 15);
-
-        if (GUILayout.Button("Remove Orb"))
-        {
-            generatedOrbs.RemoveAt(generatedOrbs.Count - 1);
-        }
 
         if (GUILayout.Button("Add Orb"))
         {
