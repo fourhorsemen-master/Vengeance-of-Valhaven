@@ -37,18 +37,18 @@ public class PhaseManager<T> where T : Enum
         }
     }
 
-    public PhaseManager<T> WithAutoTransition(T from, T to, float transitionAfter, float plusOrMinus = 0)
+    public PhaseManager<T> WithTransition(T from, T to)
     {
         stateManager.WithTransition(from, to);
-
-        autoTransitionDictionary.Add(from, new AutoTransition<T>(to, transitionAfter, plusOrMinus));
 
         return this;
     }
 
-    public PhaseManager<T> WithTransition(T from, T to)
+    public PhaseManager<T> WithTransition(T from, AutoTransition<T> transition)
     {
-        stateManager.WithTransition(from, to);
+        stateManager.WithTransition(from, transition.To);
+
+        autoTransitionDictionary.Add(from, transition);
 
         return this;
     }

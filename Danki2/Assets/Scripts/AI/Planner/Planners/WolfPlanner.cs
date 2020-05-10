@@ -44,9 +44,15 @@ public class WolfPlanner : Planner
             .WithTransition(WolfPlannerPhase.Engage, WolfPlannerPhase.Retreat)
             .WithTransition(WolfPlannerPhase.Engage, WolfPlannerPhase.Evade)
             .WithTransition(WolfPlannerPhase.Retreat, WolfPlannerPhase.Patrol)
-            .WithAutoTransition(WolfPlannerPhase.Retreat, WolfPlannerPhase.Engage, retreatDuration, retreatDuration/2)
+            .WithTransition(
+                WolfPlannerPhase.Retreat,
+                new DeterministicAutoTransition<WolfPlannerPhase>(WolfPlannerPhase.Engage, retreatDuration)
+            )
             .WithTransition(WolfPlannerPhase.Evade, WolfPlannerPhase.Patrol)
-            .WithAutoTransition(WolfPlannerPhase.Evade, WolfPlannerPhase.Engage, evadeDuration, evadeDurationVariance / 2)
+            .WithTransition(
+                WolfPlannerPhase.Evade,
+                new RandomisedAutoTransition<WolfPlannerPhase>(WolfPlannerPhase.Engage, evadeDuration, evadeDurationVariance)
+            )
             .WithTransition(WolfPlannerPhase.Evade, WolfPlannerPhase.Retreat);
     }
 
