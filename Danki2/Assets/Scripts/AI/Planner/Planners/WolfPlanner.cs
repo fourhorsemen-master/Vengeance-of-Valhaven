@@ -25,9 +25,9 @@ public class WolfPlanner : Planner
         attacksPerEngagement = (int)Mathf.Floor(Args[2]);
     }
 
-    public override void Setup(AI ai, Actor actor)
+    public override void Setup(Actor actor)
     {
-        phaseManager = new PhaseManager<WolfPlannerPhase>(ai, WolfPlannerPhase.Patrol, () => timesAttacked = 0)
+        phaseManager = new PhaseManager<WolfPlannerPhase>(actor, WolfPlannerPhase.Patrol, () => timesAttacked = 0)
             .WithTransition(WolfPlannerPhase.Patrol, WolfPlannerPhase.Engage)
             .WithTransition(WolfPlannerPhase.Patrol, WolfPlannerPhase.Retreat)
             .WithTransition(WolfPlannerPhase.Engage, WolfPlannerPhase.Patrol)

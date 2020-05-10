@@ -15,7 +15,7 @@ public class AI : MonoBehaviour
 
     private void Start()
     {
-        serializablePlanner.AiElement.Setup(this, actor);
+        serializablePlanner.AiElement.Setup(actor);
     }
 
     private void Update()
