@@ -8,7 +8,7 @@ public class WarningSign : MonoBehaviour
     [SerializeField]
     private Text _exclaimationMark = null;
 
-    private Coroutine cancelWarningSubscription = null;
+    private Coroutine disableWarningCoroutine = null;
 
     public void Start()
     {
@@ -30,13 +30,13 @@ public class WarningSign : MonoBehaviour
 
     private void ShowWarning(float duration)
     {
-        if (cancelWarningSubscription != null)
+        if (disableWarningCoroutine != null)
         {
-            StopCoroutine(cancelWarningSubscription);
+            StopCoroutine(disableWarningCoroutine);
         }
 
         _exclaimationMark.enabled = true;
-        cancelWarningSubscription = this.WaitAndAct(duration, () =>
+        disableWarningCoroutine = this.WaitAndAct(duration, () =>
         {
             _exclaimationMark.enabled = false;
         });

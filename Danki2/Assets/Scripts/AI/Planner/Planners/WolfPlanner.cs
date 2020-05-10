@@ -22,7 +22,7 @@ public class WolfPlanner : Planner
     {
         retreatDuration = Args[0];
         circleDuration = Args[1];
-        attacksPerEngagement = (int)Mathf.Floor(Args[2]);
+        attacksPerEngagement = Mathf.FloorToInt(Args[2]);
     }
 
     public override void Setup(Actor actor)

@@ -9,6 +9,7 @@ public class Lunge : InstantCast
     public const string Tooltip = "Deals {PRIMARY_DAMAGE} damage.";
     public const string DisplayName = "Lunge";
 
+    private const float MinMovementDuration = 0.1f;
     private const float MaxMovementDuration = 0.2f;
     private const float LungeSpeedMultiplier = 6f;
     private const float StunRange = 2f;
@@ -27,7 +28,7 @@ public class Lunge : InstantCast
 
         float distance = Vector3.Distance(target, position);
         float lungeSpeed = Owner.GetStat(Stat.Speed) * LungeSpeedMultiplier;
-        float duration = Mathf.Clamp(distance/lungeSpeed, MaxMovementDuration/2, MaxMovementDuration);
+        float duration = Mathf.Clamp(distance/lungeSpeed, MinMovementDuration, MaxMovementDuration);
 
         Owner.MovementManager.LockMovement(duration, lungeSpeed, direction, direction );
 

@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 /// <summary>
-/// With circle, we configure a ring around the target that we want to cirlce in.
+/// With circle, we configure a ring around the target that we want to circle in.
 /// Within the ring, we path clockwise around the player if possible, otherwise we switch to anti-clockwise circling.
 /// Outside the ring, we path towward or away from the player until we are within the ring.
 /// </summary>
@@ -24,7 +24,7 @@ public class Circle : Behaviour
 
         if (minCircleDistance > maxCircleDistance)
         {
-            Debug.Log("Min circle distance is greater than max circle distance.");
+            Debug.LogError("Min circle distance is greater than max circle distance.");
         }
     }
 
@@ -82,7 +82,7 @@ public class Circle : Behaviour
         Vector3 clockwiseDirection = Vector3.Cross(Vector3.up, target - position).normalized;
         Vector3 movementDirection = phase == CirclePhase.CirclingClockwise
             ? clockwiseDirection
-            : clockwiseDirection * -1;
+            : -clockwiseDirection;
 
         Vector3 destination = position + movementDirection;
 
