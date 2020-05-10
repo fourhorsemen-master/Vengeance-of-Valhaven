@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.AI;
 
 /// <summary>
 /// With random patrol, we periodically path to a random location within maxDestinationDistance of the actor.
@@ -27,9 +26,8 @@ public class RandomPatrol : Behaviour
         if (randomOffset.magnitude < 1f) return;
 
         Vector3 randomDestination = actor.transform.position + new Vector3(randomOffset.x, 0f, randomOffset.y);
-        if (NavMesh.SamplePosition(randomDestination, out NavMeshHit hit, 0.1f, NavMesh.AllAreas))
+        if (actor.MovementManager.TryStartPathfinding(randomDestination, 0.1f))
         {
-            actor.MovementManager.StartPathfinding(hit.position);
             repathedRecently = true;
 
             actor.WaitAndAct(

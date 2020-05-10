@@ -6,6 +6,7 @@ public class MovementManager
     private readonly Actor actor;
     private readonly NavMeshAgent navMeshAgent;
 
+    private const float DestinationTolerance = 0.5f;
     private const float RotationSmoothing = 0.15f;
 
     private Transform watchTarget = null;
@@ -53,6 +54,23 @@ public class MovementManager
         ClearWatch();
 
         navMeshAgent.SetDestination(destination);
+    }
+
+    /// <summary>
+    /// Starts pathing to navmesh point closest to given destination IF those points are within <see cref="DefaultBar"/> of eachother.
+    /// </summary>
+    /// <param name="destination"></param>
+    /// <returns>True if started pathfinding</returns>
+    public bool TryStartPathfinding(Vector3 destination, float tolerance = DestinationTolerance)
+    {
+        bool canMove = NavMesh.SamplePosition(destination, out NavMeshHit hit, tolerance, NavMesh.AllAreas);
+
+        if (canMove)
+        {
+            StartPathfinding(hit.position);
+        }
+
+        return canMove;
     }
 
     /// <summary>
