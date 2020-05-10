@@ -12,7 +12,7 @@ public class RandomPatrol : Behaviour
 
     private bool repathedRecently = false;
 
-    public override void Initialize()
+    public override void DeserializeArgs()
     {
         maxDestinationDistance = Args[0];
         repathInterval = Args[1];

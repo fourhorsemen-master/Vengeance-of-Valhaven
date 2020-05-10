@@ -21,7 +21,7 @@ public class WolfPlanner : Planner
     private int attacksThisEngagement;
     private PhaseManager<WolfPlannerPhase> phaseManager;
 
-    public override void Initialize()
+    public override void DeserializeArgs()
     {
         retreatDuration = Args[0];
         evadeDuration = Args[1];

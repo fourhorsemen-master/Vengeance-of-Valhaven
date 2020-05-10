@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// With circle, we configure a ring around the target that we want to circle in.
@@ -14,7 +13,7 @@ public class Circle : Behaviour
     private float favouredCircleDistance = float.NaN;
     private CirclePhase phase = CirclePhase.CirclingAnticlockwise;
 
-    public override void Initialize()
+    public override void DeserializeArgs()
     {
         maxCircleDistance = Args[0];
         minCircleDistance = Args[1];

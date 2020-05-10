@@ -8,9 +8,9 @@
         set
         {
             _args = value;
-            Initialize();
+            DeserializeArgs();
         }
     }
 
-    public virtual void Initialize() { }
+    public virtual void DeserializeArgs() { }
 }
