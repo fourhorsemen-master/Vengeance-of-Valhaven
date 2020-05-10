@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class InstantCastService : AbilityService
 {
-    public Subject CastSubject = new Subject();
+    public Subject CastSubject { get; } = new Subject();
 
     public InstantCastService(Actor actor) : base(actor)
     {

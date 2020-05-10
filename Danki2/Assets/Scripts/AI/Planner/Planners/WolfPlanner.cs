@@ -2,10 +2,10 @@
 
 /// <summary>
 /// With the wolf planner, we initially patrol randomly and look for targets.
-/// On finding a target, we cycle between attacking (up to 3 times) and then circling the target for a configured period.
+/// On finding a target, we cycle between attacking a random number of times (within given bounds) and then evading the target for a configured period.
 /// On taking damage that takes us below certain health amounts, we retreat for a configured period before re-engaging.
 /// </summary>
-[Planner("Wolf Planner", new string[] { "Retreat Duration", "Circle Duration", "Attacks Per Engagement" })]
+[Planner("Wolf Planner", new string[] { "Min Retreat Duration", "Evade Duration", "Evade Duration Variance", "Min attacks Per Engagement", "Max attacks Per Engagement" })]
 public class WolfPlanner : Planner
 {
     private const float FirstRetreatHealth = 0.5f;
@@ -13,31 +13,43 @@ public class WolfPlanner : Planner
 
     private int retreatCount = 0;
     private float retreatDuration;
-    private float circleDuration;
-    private int attacksPerEngagement;
+    private float evadeDuration;
+    private float evadeDurationVariance;
+    private int minAttacksPerEngagement;
+    private int maxAttacksPerEngagement;
     private int timesAttacked = 0;
+    private int attacksThisEngagement;
     private PhaseManager<WolfPlannerPhase> phaseManager;
 
     public override void Initialize()
     {
         retreatDuration = Args[0];
-        circleDuration = Args[1];
-        attacksPerEngagement = Mathf.FloorToInt(Args[2]);
+        evadeDuration = Args[1];
+        evadeDurationVariance = Args[2];
+        minAttacksPerEngagement = Mathf.FloorToInt(Args[3]);
+        maxAttacksPerEngagement = Mathf.FloorToInt(Args[4]);
     }
 
     public override void Setup(Actor actor)
     {
-        phaseManager = new PhaseManager<WolfPlannerPhase>(actor, WolfPlannerPhase.Patrol, () => timesAttacked = 0)
+        phaseManager = new PhaseManager<WolfPlannerPhase>(
+            actor,
+            WolfPlannerPhase.Patrol,
+            () => {
+                timesAttacked = 0;
+                attacksThisEngagement = Random.Range(minAttacksPerEngagement, maxAttacksPerEngagement + 1);
+             }
+        )
             .WithTransition(WolfPlannerPhase.Patrol, WolfPlannerPhase.Engage)
             .WithTransition(WolfPlannerPhase.Patrol, WolfPlannerPhase.Retreat)
             .WithTransition(WolfPlannerPhase.Engage, WolfPlannerPhase.Patrol)
             .WithTransition(WolfPlannerPhase.Engage, WolfPlannerPhase.Retreat)
-            .WithTransition(WolfPlannerPhase.Engage, WolfPlannerPhase.Circle)
+            .WithTransition(WolfPlannerPhase.Engage, WolfPlannerPhase.Evade)
             .WithTransition(WolfPlannerPhase.Retreat, WolfPlannerPhase.Patrol)
             .WithAutoTransition(WolfPlannerPhase.Retreat, WolfPlannerPhase.Engage, retreatDuration, retreatDuration/2)
-            .WithTransition(WolfPlannerPhase.Circle, WolfPlannerPhase.Patrol)
-            .WithAutoTransition(WolfPlannerPhase.Circle, WolfPlannerPhase.Engage, circleDuration, circleDuration / 2)
-            .WithTransition(WolfPlannerPhase.Circle, WolfPlannerPhase.Retreat);
+            .WithTransition(WolfPlannerPhase.Evade, WolfPlannerPhase.Patrol)
+            .WithAutoTransition(WolfPlannerPhase.Evade, WolfPlannerPhase.Engage, evadeDuration, evadeDurationVariance / 2)
+            .WithTransition(WolfPlannerPhase.Evade, WolfPlannerPhase.Retreat);
 
         actor.InstantCastService.CastSubject.Subscribe(() => timesAttacked += 1);
     }
@@ -65,9 +77,9 @@ public class WolfPlanner : Planner
             phaseManager.Transition(WolfPlannerPhase.Retreat);
         }
 
-        if (timesAttacked >= attacksPerEngagement)
+        if (timesAttacked >= attacksThisEngagement)
         {
-            phaseManager.Transition(WolfPlannerPhase.Circle);
+            phaseManager.Transition(WolfPlannerPhase.Evade);
         }
 
         switch (phaseManager.CurrentPhase)
@@ -80,7 +92,7 @@ public class WolfPlanner : Planner
                 agenda.Add(AIAction.Advance, true);
                 agenda.Add(AIAction.Attack, true);
                 break;
-            case WolfPlannerPhase.Circle:
+            case WolfPlannerPhase.Evade:
                 agenda.Add(AIAction.Evade, true);
                 break;
             case WolfPlannerPhase.Retreat:

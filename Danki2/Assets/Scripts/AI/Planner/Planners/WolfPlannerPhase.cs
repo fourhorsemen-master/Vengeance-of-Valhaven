@@ -2,6 +2,6 @@
 {
     Patrol,
     Engage,
-    Circle,
+    Evade,
     Retreat,
 }
