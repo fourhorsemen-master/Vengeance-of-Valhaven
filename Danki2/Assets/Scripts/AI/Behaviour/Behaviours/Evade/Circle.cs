@@ -24,17 +24,21 @@ public class Circle : Behaviour
         }
     }
 
+    public override void OnStart(Actor actor)
+    {
+        base.OnStart(actor);
+
+        if (float.IsNaN(favouredCircleDistance))
+        {
+            favouredCircleDistance = Random.Range(minCircleDistance, maxCircleDistance);
+        }
+    }
+
     public override void Behave(Actor actor)
     {
         if (!actor.Target)
         {
             return;
-        }
-
-        // We get nasty errors if we try to use Random methods in Initialize, se we initialise here.
-        if (float.IsNaN(favouredCircleDistance))
-        {
-            favouredCircleDistance = UnityEngine.Random.Range(minCircleDistance, maxCircleDistance);
         }
 
         Vector3 position = actor.transform.position;

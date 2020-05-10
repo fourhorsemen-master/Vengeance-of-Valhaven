@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class AI : MonoBehaviour
 {
@@ -15,7 +16,11 @@ public class AI : MonoBehaviour
 
     private void Start()
     {
-        serializablePlanner.AiElement.Setup(actor);
+        serializablePlanner.AiElement.OnStart(actor);
+        foreach (AIAction aiAction in Enum.GetValues(typeof(AIAction)))
+        {
+            serializablePersonality[aiAction].AiElement.OnStart(actor);
+        }
     }
 
     private void Update()

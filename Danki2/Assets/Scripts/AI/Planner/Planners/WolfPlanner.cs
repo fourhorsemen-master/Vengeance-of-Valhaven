@@ -1,11 +1,13 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using Random = UnityEngine.Random;
 
 /// <summary>
 /// With the wolf planner, we initially patrol randomly and look for targets.
 /// On finding a target, we cycle between attacking a random number of times (within given bounds) and then evading the target for a configured period.
 /// On taking damage that takes us below certain health amounts, we retreat for a configured period before re-engaging.
 /// </summary>
-[Planner("Wolf Planner", new string[] { "Min Retreat Duration", "Evade Duration", "Evade Duration Variance", "Min attacks Per Engagement", "Max attacks Per Engagement" })]
+[Planner("Wolf Planner", new string[] { "Retreat Duration", "Evade Duration", "Evade Duration Variance", "Min attacks Per Engagement", "Max attacks Per Engagement" })]
 public class WolfPlanner : Planner
 {
     private const float FirstRetreatHealth = 0.5f;
@@ -30,16 +32,12 @@ public class WolfPlanner : Planner
         maxAttacksPerEngagement = Mathf.FloorToInt(Args[4]);
     }
 
-    public override void Setup(Actor actor)
+    public override void OnStart(Actor actor)
     {
-        phaseManager = new PhaseManager<WolfPlannerPhase>(
-            actor,
-            WolfPlannerPhase.Patrol,
-            () => {
-                timesAttacked = 0;
-                attacksThisEngagement = Random.Range(minAttacksPerEngagement, maxAttacksPerEngagement + 1);
-             }
-        )
+        ResetAttacks();
+        actor.InstantCastService.CastSubject.Subscribe(() => timesAttacked += 1);
+
+        phaseManager = new PhaseManager<WolfPlannerPhase>(actor, WolfPlannerPhase.Patrol, () => ResetAttacks())
             .WithTransition(WolfPlannerPhase.Patrol, WolfPlannerPhase.Engage)
             .WithTransition(WolfPlannerPhase.Patrol, WolfPlannerPhase.Retreat)
             .WithTransition(WolfPlannerPhase.Engage, WolfPlannerPhase.Patrol)
@@ -50,8 +48,12 @@ public class WolfPlanner : Planner
             .WithTransition(WolfPlannerPhase.Evade, WolfPlannerPhase.Patrol)
             .WithAutoTransition(WolfPlannerPhase.Evade, WolfPlannerPhase.Engage, evadeDuration, evadeDurationVariance / 2)
             .WithTransition(WolfPlannerPhase.Evade, WolfPlannerPhase.Retreat);
+    }
 
-        actor.InstantCastService.CastSubject.Subscribe(() => timesAttacked += 1);
+    private void ResetAttacks()
+    {
+        timesAttacked = 0;
+        attacksThisEngagement = Random.Range(minAttacksPerEngagement, maxAttacksPerEngagement + 1);
     }
 
     public override Agenda Plan(Actor actor, Agenda previousAgenda)

@@ -13,4 +13,6 @@
     }
 
     public virtual void DeserializeArgs() { }
+
+    public virtual void OnStart(Actor actor) { }
 }
