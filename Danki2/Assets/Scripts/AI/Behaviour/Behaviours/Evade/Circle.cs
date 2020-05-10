@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 /// <summary>
 /// With circle, we configure a ring around the target that we want to circle in.
@@ -34,7 +35,7 @@ public class Circle : Behaviour
         // We get nasty errors if we try to use Random methods in Initialize, se we initialise here.
         if (float.IsNaN(favouredCircleDistance))
         {
-            favouredCircleDistance = Random.Range(minCircleDistance, maxCircleDistance);
+            favouredCircleDistance = UnityEngine.Random.Range(minCircleDistance, maxCircleDistance);
         }
 
         Vector3 position = actor.transform.position;
@@ -68,7 +69,11 @@ public class Circle : Behaviour
             }
         }
 
-        // Handle circling
+        MoveCircularly(actor, position, target);
+    }
+
+    private void MoveCircularly(Actor actor, Vector3 position, Vector3 target)
+    {
         if (phase != CirclePhase.CirclingAnticlockwise && phase != CirclePhase.CirclingClockwise)
         {
             phase = CirclePhase.CirclingClockwise;
