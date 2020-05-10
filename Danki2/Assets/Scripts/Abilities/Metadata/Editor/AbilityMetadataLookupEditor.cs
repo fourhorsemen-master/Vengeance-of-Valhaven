@@ -13,6 +13,8 @@ public class AbilityMetadataLookupEditor : Editor
         AbilityMetadataLookup abilityMetadataLookup = (AbilityMetadataLookup) target;
 
         SerializedMetadataLookup serializedMetadataLookup = abilityMetadataLookup.serializedMetadataLookup;
+        
+        EditorGUILayout.LabelField("Abilities marked with an asterisk (*) are missing data.");
 
         foreach (AbilityReference abilityReference in Enum.GetValues(typeof(AbilityReference)))
         {
@@ -32,7 +34,10 @@ public class AbilityMetadataLookupEditor : Editor
 
     private void EditSerializableAbilityMetadata(AbilityReference abilityReference, SerializableAbilityMetadata serializableAbilityMetadata)
     {
-        foldoutStatus[abilityReference] = EditorGUILayout.Foldout(foldoutStatus[abilityReference], abilityReference.ToString());
+        foldoutStatus[abilityReference] = EditorGUILayout.Foldout(
+            foldoutStatus[abilityReference],
+            serializableAbilityMetadata.Valid ? abilityReference.ToString() : $"{abilityReference.ToString()}*"
+        );
 
         if (foldoutStatus[abilityReference])
         {

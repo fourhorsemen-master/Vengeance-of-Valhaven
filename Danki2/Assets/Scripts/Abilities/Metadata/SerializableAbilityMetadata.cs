@@ -18,4 +18,6 @@ public class SerializableAbilityMetadata
     public string Tooltip { get => tooltip; set => tooltip = value; }
     public AbilityData AbilityData { get => abilityData; set => abilityData = value; }
     public List<OrbType> GeneratedOrbs { get => generatedOrbs; set => generatedOrbs = value; }
+    
+    public bool Valid => !string.IsNullOrEmpty(displayName) && !string.IsNullOrEmpty(tooltip);
 }
