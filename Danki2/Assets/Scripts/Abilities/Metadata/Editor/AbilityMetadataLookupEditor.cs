@@ -45,7 +45,7 @@ public class AbilityMetadataLookupEditor : Editor
             
             EditDisplayName(serializableAbilityMetadata);
             EditTooltip(serializableAbilityMetadata);
-            EditAbilityData(serializableAbilityMetadata);
+            EditBaseAbilityData(serializableAbilityMetadata);
             EditGeneratedOrbs(serializableAbilityMetadata);
             
             EditorGUI.indentLevel--;
@@ -62,17 +62,17 @@ public class AbilityMetadataLookupEditor : Editor
         serializableAbilityMetadata.Tooltip = EditorGUILayout.TextField("Tooltip", serializableAbilityMetadata.Tooltip);
     }
 
-    private void EditAbilityData(SerializableAbilityMetadata serializableAbilityMetadata)
+    private void EditBaseAbilityData(SerializableAbilityMetadata serializableAbilityMetadata)
     {
-        EditorGUILayout.LabelField("Ability Data");
+        EditorGUILayout.LabelField("Base Ability Data");
         EditorGUI.indentLevel++;
 
-        AbilityData abilityData = serializableAbilityMetadata.AbilityData;
-        int primaryDamage = EditorGUILayout.IntField("Primary Damage", abilityData.PrimaryDamage);
-        int secondaryDamage = EditorGUILayout.IntField("Secondary Damage", abilityData.SecondaryDamage);
-        int heal = EditorGUILayout.IntField("Heal", abilityData.Heal);
-        int shield = EditorGUILayout.IntField("Shield", abilityData.Shield);
-        serializableAbilityMetadata.AbilityData = new AbilityData(primaryDamage, secondaryDamage, heal, shield);
+        AbilityData currentAbilityData = serializableAbilityMetadata.BaseAbilityData;
+        int primaryDamage = EditorGUILayout.IntField("Primary Damage", currentAbilityData.PrimaryDamage);
+        int secondaryDamage = EditorGUILayout.IntField("Secondary Damage", currentAbilityData.SecondaryDamage);
+        int heal = EditorGUILayout.IntField("Heal", currentAbilityData.Heal);
+        int shield = EditorGUILayout.IntField("Shield", currentAbilityData.Shield);
+        serializableAbilityMetadata.BaseAbilityData = new AbilityData(primaryDamage, secondaryDamage, heal, shield);
 
         EditorGUI.indentLevel--;
     }
