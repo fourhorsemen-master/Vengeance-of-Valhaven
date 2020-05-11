@@ -5,7 +5,7 @@ public class FindPlayer : Behaviour
 {
     private float _aggroRange;
 
-    public override void Initialize()
+    public override void DeserializeArgs()
     {
         _aggroRange = Args[0];
     }

@@ -10,9 +10,9 @@ public class Pounce : InstantCast
     public const string DisplayName = "Pounce";
 
     // The ai casting this ability should determine cast range
+    private const float MinMovementDuration = 0.25f;
     private const float MaxMovementDuration = 0.5f;
-    private const float MinMovementDuration = 0.2f;
-    private const float MovementSpeedMultiplier = 3f;
+    private const float PounceSpeedMultiplier = 3f;
     private const float DamageRadius = 2f;
     private const float PauseDuration = 0.3f;
 
@@ -26,20 +26,17 @@ public class Pounce : InstantCast
         target.y = position.y;
         Vector3 direction = target - position;
 
-        float pounceSpeed = Owner.GetStat(Stat.Speed) * MovementSpeedMultiplier;
-        float movementDuration = Mathf.Clamp(direction.magnitude / pounceSpeed, MinMovementDuration, MaxMovementDuration);
 
-        Owner.MovementManager.LockMovement(
-            movementDuration,
-            pounceSpeed,
-            direction,
-            direction
-        );
+        float distance = Vector3.Distance(target, position);
+        float pounceSpeed = Owner.GetStat(Stat.Speed) * PounceSpeedMultiplier;
+        float duration = Mathf.Clamp(distance / pounceSpeed, MinMovementDuration, MaxMovementDuration);
+
+        Owner.MovementManager.LockMovement(duration, pounceSpeed, direction, direction);
 
         PounceObject.Create(position, Quaternion.LookRotation(target - position));
 
         Owner.InterruptableAction(
-            movementDuration,
+            duration,
             InterruptionType.Hard,
             () =>
             {
