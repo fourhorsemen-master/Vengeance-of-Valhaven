@@ -46,8 +46,74 @@ MonoBehaviour:
   serializableMetadataLookup:
     _keys: 000000000100000002000000030000000400000005000000060000000700000008000000
     _values:
-    - displayName: 
-      tooltip: 
+    - displayName: Slash
+      tooltip: Deals {PRIMARY_DAMAGE} damage.
+      baseAbilityData:
+        primaryDamage: 5
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      abilityOrbType:
+        hasValue: 0
+        value: 0
+      generatedOrbs: 
+    - displayName: Whirlwind
+      tooltip: Deals {PRIMARY_DAMAGE} damage.
+      baseAbilityData:
+        primaryDamage: 3
+        secondaryDamage: 5
+        heal: 0
+        shield: 0
+      abilityOrbType:
+        hasValue: 0
+        value: 0
+      generatedOrbs: 
+    - displayName: Fireball
+      tooltip: Deals {PRIMARY_DAMAGE} damage.
+      baseAbilityData:
+        primaryDamage: 5
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      abilityOrbType:
+        hasValue: 0
+        value: 0
+      generatedOrbs: 
+    - displayName: Dagger Throw
+      tooltip: Deals {PRIMARY_DAMAGE} damage.
+      baseAbilityData:
+        primaryDamage: 2
+        secondaryDamage: 3
+        heal: 0
+        shield: 0
+      abilityOrbType:
+        hasValue: 0
+        value: 0
+      generatedOrbs: 
+    - displayName: Bite
+      tooltip: Deals {PRIMARY_DAMAGE} damage.
+      baseAbilityData:
+        primaryDamage: 5
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      abilityOrbType:
+        hasValue: 0
+        value: 0
+      generatedOrbs: 
+    - displayName: Pounce
+      tooltip: Deals {PRIMARY_DAMAGE} damage.
+      baseAbilityData:
+        primaryDamage: 4
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      abilityOrbType:
+        hasValue: 0
+        value: 0
+      generatedOrbs: 
+    - displayName: Roll
+      tooltip: Deals {PRIMARY_DAMAGE} damage.
       baseAbilityData:
         primaryDamage: 0
         secondaryDamage: 0
@@ -57,10 +123,10 @@ MonoBehaviour:
         hasValue: 0
         value: 0
       generatedOrbs: 
-    - displayName: 
-      tooltip: 
+    - displayName: Lunge
+      tooltip: Deals {PRIMARY_DAMAGE} damage.
       baseAbilityData:
-        primaryDamage: 0
+        primaryDamage: 4
         secondaryDamage: 0
         heal: 0
         shield: 0
@@ -68,76 +134,10 @@ MonoBehaviour:
         hasValue: 0
         value: 0
       generatedOrbs: 
-    - displayName: 
-      tooltip: 
+    - displayName: Smash
+      tooltip: Deals {PRIMARY_DAMAGE} damage.
       baseAbilityData:
-        primaryDamage: 0
-        secondaryDamage: 0
-        heal: 0
-        shield: 0
-      abilityOrbType:
-        hasValue: 0
-        value: 0
-      generatedOrbs: 
-    - displayName: 
-      tooltip: 
-      baseAbilityData:
-        primaryDamage: 0
-        secondaryDamage: 0
-        heal: 0
-        shield: 0
-      abilityOrbType:
-        hasValue: 0
-        value: 0
-      generatedOrbs: 
-    - displayName: 
-      tooltip: 
-      baseAbilityData:
-        primaryDamage: 0
-        secondaryDamage: 0
-        heal: 0
-        shield: 0
-      abilityOrbType:
-        hasValue: 0
-        value: 0
-      generatedOrbs: 
-    - displayName: 
-      tooltip: 
-      baseAbilityData:
-        primaryDamage: 0
-        secondaryDamage: 0
-        heal: 0
-        shield: 0
-      abilityOrbType:
-        hasValue: 0
-        value: 0
-      generatedOrbs: 
-    - displayName: 
-      tooltip: 
-      baseAbilityData:
-        primaryDamage: 0
-        secondaryDamage: 0
-        heal: 0
-        shield: 0
-      abilityOrbType:
-        hasValue: 0
-        value: 0
-      generatedOrbs: 
-    - displayName: 
-      tooltip: 
-      baseAbilityData:
-        primaryDamage: 0
-        secondaryDamage: 0
-        heal: 0
-        shield: 0
-      abilityOrbType:
-        hasValue: 0
-        value: 0
-      generatedOrbs: 
-    - displayName: 
-      tooltip: 
-      baseAbilityData:
-        primaryDamage: 0
+        primaryDamage: 10
         secondaryDamage: 0
         heal: 0
         shield: 0
