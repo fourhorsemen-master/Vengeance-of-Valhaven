@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+[Ability(AbilityReference.Pounce)]
 public class Pounce : InstantCast
 {
     public static readonly AbilityData BaseAbilityData = new AbilityData(4, 0, 0, 0);

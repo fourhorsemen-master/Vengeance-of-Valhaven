@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+[Ability(AbilityReference.Roll)]
 public class Roll : InstantCast
 {
     public static readonly AbilityData BaseAbilityData = new AbilityData(0, 0, 0, 0);

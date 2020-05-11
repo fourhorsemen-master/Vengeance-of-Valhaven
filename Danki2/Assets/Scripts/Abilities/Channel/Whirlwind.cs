@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[Ability(AbilityReference.Whirlwind)]
 public class Whirlwind : Channel
 {
     public static readonly AbilityData BaseAbilityData = new AbilityData(3, 5, 0, 0);

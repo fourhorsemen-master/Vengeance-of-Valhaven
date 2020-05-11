@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-class DaggerThrow : InstantCast
+[Ability(AbilityReference.DaggerThrow)]
+public class DaggerThrow : InstantCast
 {
     public static readonly AbilityData BaseAbilityData = new AbilityData(2, 3, 0, 0);
     public static readonly Dictionary<OrbType, int> GeneratedOrbs = new Dictionary<OrbType, int>();

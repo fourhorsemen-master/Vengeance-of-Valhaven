@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+[Ability(AbilityReference.Fireball)]
 public class Fireball : InstantCast
 {
     public static readonly AbilityData BaseAbilityData = new AbilityData(5, 0, 0, 0);

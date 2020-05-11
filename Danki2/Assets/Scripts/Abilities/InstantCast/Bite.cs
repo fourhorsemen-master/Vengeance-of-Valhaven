@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+[Ability(AbilityReference.Bite)]
 public class Bite : InstantCast
 {
     public static readonly AbilityData BaseAbilityData = new AbilityData(5, 0, 0, 0);
