@@ -10,16 +10,16 @@ public class SerializableAbilityMetadata
     [SerializeField]
     private string tooltip = "";
     [SerializeField]
-    private AbilityData baseBaseAbilityData = AbilityData.Zero;
+    private AbilityData baseAbilityData = AbilityData.Zero;
     [SerializeField]
-    private OrbType? abilityOrbType = null;
+    private SerializableNullableOrbType abilityOrbType = new SerializableNullableOrbType();
     [SerializeField]
     private List<OrbType> generatedOrbs = new List<OrbType>();
 
     public string DisplayName { get => displayName; set => displayName = value; }
     public string Tooltip { get => tooltip; set => tooltip = value; }
-    public AbilityData BaseAbilityData { get => baseBaseAbilityData; set => baseBaseAbilityData = value; }
-    public OrbType? AbilityOrbType { get => abilityOrbType; set => abilityOrbType = value; }
+    public AbilityData BaseAbilityData { get => baseAbilityData; set => baseAbilityData = value; }
+    public SerializableNullableOrbType AbilityOrbType { get => abilityOrbType; set => abilityOrbType = value; }
     public List<OrbType> GeneratedOrbs { get => generatedOrbs; set => generatedOrbs = value; }
 
     public bool Valid => !string.IsNullOrEmpty(displayName) && !string.IsNullOrEmpty(tooltip);

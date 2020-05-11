@@ -27,7 +27,9 @@ public class AbilityMetadataLookup : Singleton<AbilityMetadataLookup>
             displayNameLookup[abilityReference] = abilityMetadata.DisplayName;
             tooltipLookup[abilityReference] = abilityMetadata.Tooltip;
             baseAbilityDataLookup[abilityReference] = abilityMetadata.BaseAbilityData;
-            abilityOrbTypeLookup[abilityReference] = abilityMetadata.AbilityOrbType;
+            abilityOrbTypeLookup[abilityReference] = abilityMetadata.AbilityOrbType.HasValue
+                ? abilityMetadata.AbilityOrbType.Value
+                : (OrbType?)null;
             generatedOrbsLookup[abilityReference] = abilityMetadata.GeneratedOrbs
                 .GroupBy(o => o)
                 .ToDictionary(g => g.Key, g => g.Count());

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using ICSharpCode.NRefactory.Ast;
 using UnityEditor;
 using UnityEngine;
+using Object = System.Object;
 
 [CustomEditor(typeof(AbilityMetadataLookup))]
 public class AbilityMetadataLookupEditor : Editor
@@ -46,6 +48,7 @@ public class AbilityMetadataLookupEditor : Editor
             EditDisplayName(serializableAbilityMetadata);
             EditTooltip(serializableAbilityMetadata);
             EditBaseAbilityData(serializableAbilityMetadata);
+            EditAbilityOrbType(serializableAbilityMetadata);
             EditGeneratedOrbs(serializableAbilityMetadata);
             
             EditorGUI.indentLevel--;
@@ -75,6 +78,33 @@ public class AbilityMetadataLookupEditor : Editor
         serializableAbilityMetadata.BaseAbilityData = new AbilityData(primaryDamage, secondaryDamage, heal, shield);
 
         EditorGUI.indentLevel--;
+    }
+
+    private void EditAbilityOrbType(SerializableAbilityMetadata serializableAbilityMetadata)
+    {
+        GUILayout.BeginHorizontal();
+
+        if (serializableAbilityMetadata.AbilityOrbType.HasValue)
+        {
+            serializableAbilityMetadata.AbilityOrbType.Value = (OrbType) EditorGUILayout
+                .EnumPopup("Ability Orb Type", serializableAbilityMetadata.AbilityOrbType.Value);
+            if (GUILayout.Button("Remove Ability Orb Type"))
+            {
+                serializableAbilityMetadata.AbilityOrbType = null;
+            }
+        }
+        else
+        {
+            GUILayout.Space (EditorGUI.indentLevel * 15);
+
+            if (GUILayout.Button("Add Ability Orb Type"))
+            {
+                serializableAbilityMetadata.AbilityOrbType.HasValue = true;
+                serializableAbilityMetadata.AbilityOrbType.Value = default;
+            }
+        }
+
+        GUILayout.EndHorizontal();
     }
 
     private void EditGeneratedOrbs(SerializableAbilityMetadata serializableAbilityMetadata)
