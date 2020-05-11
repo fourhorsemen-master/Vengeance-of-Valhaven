@@ -6,7 +6,7 @@ using UnityEngine;
 using Object = System.Object;
 
 [CustomEditor(typeof(AbilityLookup))]
-public class AbilityMetadataLookupEditor : Editor
+public class AbilityLookupEditor : Editor
 {
     private readonly EnumDictionary<AbilityReference, bool> foldoutStatus = new EnumDictionary<AbilityReference, bool>(false);
     
