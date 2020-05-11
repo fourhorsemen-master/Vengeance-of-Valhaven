@@ -26,7 +26,7 @@ public class PlayerTooltipBuilder
         return templatedTooltipSegments
             .SelectMany(templatedTooltipSegment => GetTooltipSegments(
                 templatedTooltipSegment,
-                AbilityLookup.GetBaseAbilityData(abilityReference),
+                AbilityMetadataLookup.Instance.GetBaseAbilityData(abilityReference),
                 AbilityData.FromAbilityDataDiffers(differs, node)
             ))
             .ToList();

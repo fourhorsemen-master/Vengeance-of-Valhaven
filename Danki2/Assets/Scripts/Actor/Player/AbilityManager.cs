@@ -138,7 +138,7 @@ public class AbilityManager
         bool abilityCast = false;
         CastingStatus nextStatus = CastingStatus;
 
-        switch (AbilityLookup.GetAbilityType(abilityReference))
+        switch (AbilityMetadataLookup.Instance.GetAbilityType(abilityReference))
         {
             case AbilityType.InstantCast:
                 abilityCast = player.InstantCastService.Cast(

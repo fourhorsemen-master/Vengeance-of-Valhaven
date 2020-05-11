@@ -85,7 +85,7 @@ public class AbilityMetadataLookup : Singleton<AbilityMetadataLookup>
         return generatedOrbsLookup[abilityReference];
     }
 
-    public OrbType? TryGetAbilityOrbType(AbilityReference abilityReference)
+    public OrbType? GetAbilityOrbType(AbilityReference abilityReference)
     {
         return abilityOrbTypeLookup[abilityReference];
     }
