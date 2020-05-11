@@ -4,9 +4,9 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
-public class AbilityMetadataLookup : Singleton<AbilityMetadataLookup>
+public class AbilityLookup : Singleton<AbilityLookup>
 {
-    public SerializedMetadataLookup serializedMetadataLookup = new SerializedMetadataLookup();
+    public SerializableMetadataLookup serializableMetadataLookup = new SerializableMetadataLookup();
 
     private readonly Dictionary<AbilityReference, string> displayNameLookup =
         new Dictionary<AbilityReference, string>();
@@ -104,7 +104,7 @@ public class AbilityMetadataLookup : Singleton<AbilityMetadataLookup>
     {
         foreach (AbilityReference abilityReference in Enum.GetValues(typeof(AbilityReference)))
         {
-            SerializableAbilityMetadata abilityMetadata = serializedMetadataLookup[abilityReference];
+            SerializableAbilityMetadata abilityMetadata = serializableMetadataLookup[abilityReference];
             displayNameLookup[abilityReference] = abilityMetadata.DisplayName;
             tooltipLookup[abilityReference] = abilityMetadata.Tooltip;
             baseAbilityDataLookup[abilityReference] = abilityMetadata.BaseAbilityData;

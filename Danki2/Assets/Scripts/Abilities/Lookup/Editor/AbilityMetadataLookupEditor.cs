@@ -5,27 +5,27 @@ using UnityEditor;
 using UnityEngine;
 using Object = System.Object;
 
-[CustomEditor(typeof(AbilityMetadataLookup))]
+[CustomEditor(typeof(AbilityLookup))]
 public class AbilityMetadataLookupEditor : Editor
 {
     private readonly EnumDictionary<AbilityReference, bool> foldoutStatus = new EnumDictionary<AbilityReference, bool>(false);
     
     public override void OnInspectorGUI()
     {
-        AbilityMetadataLookup abilityMetadataLookup = (AbilityMetadataLookup) target;
+        AbilityLookup abilityLookup = (AbilityLookup) target;
 
-        SerializedMetadataLookup serializedMetadataLookup = abilityMetadataLookup.serializedMetadataLookup;
+        SerializableMetadataLookup serializableMetadataLookup = abilityLookup.serializableMetadataLookup;
         
         EditorGUILayout.LabelField("Abilities marked with an asterisk (*) are missing data.");
 
         foreach (AbilityReference abilityReference in Enum.GetValues(typeof(AbilityReference)))
         {
-            if (!serializedMetadataLookup.ContainsKey(abilityReference))
+            if (!serializableMetadataLookup.ContainsKey(abilityReference))
             {
-                serializedMetadataLookup[abilityReference] = new SerializableAbilityMetadata();
+                serializableMetadataLookup[abilityReference] = new SerializableAbilityMetadata();
             }
 
-            EditSerializableAbilityMetadata(abilityReference, serializedMetadataLookup[abilityReference]);
+            EditSerializableAbilityMetadata(abilityReference, serializableMetadataLookup[abilityReference]);
         }
         
         if (GUI.changed)

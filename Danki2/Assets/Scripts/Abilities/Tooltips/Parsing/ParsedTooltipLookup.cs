@@ -30,7 +30,7 @@ public static class ParsedTooltipLookup
 
     private static List<TemplatedTooltipSegment> GenerateTemplatedTooltipSegments(AbilityReference abilityReference)
     {
-        string tooltip = AbilityMetadataLookup.Instance.GetAbilityTooltip(abilityReference);
+        string tooltip = AbilityLookup.Instance.GetAbilityTooltip(abilityReference);
         List<Token> tokens = lexer.Lex(tooltip);
 
         if (!validator.HasValidSyntax(tokens))
