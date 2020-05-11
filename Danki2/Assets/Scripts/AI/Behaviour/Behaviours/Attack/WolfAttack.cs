@@ -6,7 +6,7 @@ public class WolfAttack : Behaviour
     private float _pounceMinRange;
     private float _pounceMaxRange;
 
-    public override void Initialize()
+    public override void DeserializeArgs()
     {
         _pounceMinRange = Args[0];
         _pounceMaxRange = Args[1];

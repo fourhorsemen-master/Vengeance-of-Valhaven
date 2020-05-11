@@ -15,17 +15,17 @@ public abstract class SerializableAIElement<T> : ISerializationCallbackReceiver 
 
     public SerializableAIElement()
     {
-        Initialize(NoOpType, new float[0]);
+        DeseralizeArgs(NoOpType, new float[0]);
     }
 
     public SerializableAIElement(Type type, float[] args)
     {
-        Initialize(type, args);
+        DeseralizeArgs(type, args);
     }
 
     public void OnAfterDeserialize()
     {
-        Initialize(_serializedType.Type, _serializedArgs);
+        DeseralizeArgs(_serializedType.Type, _serializedArgs);
     }
 
     public void OnBeforeSerialize()
@@ -34,7 +34,7 @@ public abstract class SerializableAIElement<T> : ISerializationCallbackReceiver 
         _serializedArgs = AiElement.Args;
     }
 
-    private void Initialize(Type type, float[] args)
+    private void DeseralizeArgs(Type type, float[] args)
     {
         AiElement = (T)Activator.CreateInstance(type);
         AiElement.Args = args;

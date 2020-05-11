@@ -3,6 +3,7 @@
     new string[0],
     new AIAction[] {
         AIAction.FindTarget,
+        AIAction.Patrol,
         AIAction.Attack,
         AIAction.Defend,
         AIAction.Advance,

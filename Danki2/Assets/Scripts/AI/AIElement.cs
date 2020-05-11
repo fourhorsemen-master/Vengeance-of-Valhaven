@@ -8,9 +8,11 @@
         set
         {
             _args = value;
-            Initialize();
+            DeserializeArgs();
         }
     }
 
-    public virtual void Initialize() { }
+    public virtual void DeserializeArgs() { }
+
+    public virtual void OnStart(Actor actor) { }
 }
