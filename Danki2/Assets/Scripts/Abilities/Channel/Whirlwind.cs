@@ -5,12 +5,6 @@ using UnityEngine;
 [Ability(AbilityReference.Whirlwind)]
 public class Whirlwind : Channel
 {
-    public static readonly AbilityData BaseAbilityData = new AbilityData(3, 5, 0, 0);
-    public static readonly Dictionary<OrbType, int> GeneratedOrbs = new Dictionary<OrbType, int>();
-    public const OrbType AbilityOrbType = OrbType.Aggression;
-    public const string Tooltip = "Deals {PRIMARY_DAMAGE} damage.";
-    public const string DisplayName = "Whirlwind";
-
     private const float spinRange = 2;
     private const float spinDamageInterval = 0.35f;
     private const float spinDamageStartDelay = 0.1f;

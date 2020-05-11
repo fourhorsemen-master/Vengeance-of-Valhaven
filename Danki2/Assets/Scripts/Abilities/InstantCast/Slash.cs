@@ -4,12 +4,6 @@ using UnityEngine;
 [Ability(AbilityReference.Slash)]
 public class Slash : InstantCast
 {
-    public static readonly AbilityData BaseAbilityData = new AbilityData(5, 0, 0, 0);
-    public static readonly Dictionary<OrbType, int> GeneratedOrbs = new Dictionary<OrbType, int>();
-    public const OrbType AbilityOrbType = OrbType.Aggression;
-    public const string Tooltip = "Deals {PRIMARY_DAMAGE} damage.";
-    public const string DisplayName = "Slash";
-    
     private const float Range = 4f;
     private const float PauseDuration = 0.3f;
 

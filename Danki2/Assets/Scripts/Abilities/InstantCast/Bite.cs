@@ -4,12 +4,6 @@ using UnityEngine;
 [Ability(AbilityReference.Bite)]
 public class Bite : InstantCast
 {
-    public static readonly AbilityData BaseAbilityData = new AbilityData(5, 0, 0, 0);
-    public static readonly Dictionary<OrbType, int> GeneratedOrbs = new Dictionary<OrbType, int>();
-    public const OrbType AbilityOrbType = OrbType.Aggression;
-    public const string Tooltip = "Deals {PRIMARY_DAMAGE} damage.";
-    public const string DisplayName = "Bite";
-
     public const float Range = 2f;
     private const float PauseDuration = 0.3f;
 
