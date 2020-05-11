@@ -34,6 +34,72 @@ public class AbilityMetadataLookup : Singleton<AbilityMetadataLookup>
         BuildAbilityBuilderLookups();
     }
 
+    public bool TryGetInstantCast(
+        AbilityReference abilityReference,
+        Actor owner,
+        AbilityData abilityDataDiff,
+        out InstantCast ability
+    )
+    {
+        if (instantCastBuilderLookup.ContainsKey(abilityReference))
+        {
+            AbilityData abilityData = baseAbilityDataLookup[abilityReference] + abilityDataDiff;
+            ability = instantCastBuilderLookup[abilityReference](owner, abilityData);
+            return true;
+        }
+
+        ability = null;
+        return false;
+    }
+
+    public bool TryGetChannel(
+        AbilityReference abilityReference,
+        Actor owner,
+        AbilityData abilityDataDiff,
+        out Channel ability
+    )
+    {
+        if (channelBuilderLookup.ContainsKey(abilityReference))
+        {
+            AbilityData abilityData = baseAbilityDataLookup[abilityReference] + abilityDataDiff;
+            ability = channelBuilderLookup[abilityReference](owner, abilityData);
+            return true;
+        }
+
+        ability = null;
+        return false;
+    }
+
+    public AbilityType GetAbilityType(AbilityReference abilityReference)
+    {
+        return abilityTypeLookup[abilityReference];
+    }
+
+    public AbilityData GetBaseAbilityData(AbilityReference abilityReference)
+    {
+        return baseAbilityDataLookup[abilityReference];
+    }
+
+    public Dictionary<OrbType, int> GetGeneratedOrbs(AbilityReference abilityReference)
+    {
+        return generatedOrbsLookup[abilityReference];
+    }
+
+    public OrbType? TryGetAbilityOrbType(AbilityReference abilityReference)
+    {
+        return abilityOrbTypeLookup[abilityReference];
+    }
+
+    public string GetAbilityTooltip(AbilityReference abilityReference)
+    {
+        return tooltipLookup[abilityReference];
+    }
+
+    public string GetAbilityDisplayName(AbilityReference abilityReference)
+    {
+        return displayNameLookup[abilityReference];
+    }
+
     private void BuildMetadataLookups()
     {
         foreach (AbilityReference abilityReference in Enum.GetValues(typeof(AbilityReference)))
