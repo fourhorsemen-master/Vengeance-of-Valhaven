@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class SmashVisual : MonoBehaviour
 {
+    [SerializeField, Range(0f, -5f), Tooltip("How fast the effect sinks into the ground. In units per second.")]
+    private float sinkSpeed = 0f;
+    private Vector3 sinkVector;
+
     [SerializeField, Range(-100f, 100f), Tooltip("How fast the effect will be spinning at the start. In degrees per second.")]
     private float initialRotationSpeed = 0f;
     [SerializeField, Range(-100f, 100f), Tooltip("How fast the effect will be spinning at he end. In degrees per second.")]
@@ -34,17 +38,22 @@ public class SmashVisual : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        sinkVector = new Vector3(0f, sinkSpeed, 0f);
         material = gameObject.GetComponentInChildren<MeshRenderer>().material;
 
         //Invert these values, so they resemble seconds; as described in the tooltips.
         rotationTime = 1 / rotationTime;
         growTime = 1 / growTime;
         fadeTime = 1 / fadeTime;
+
+        transform.localScale = Vector3.one * initialScale;
     }
 
     // Update is called once per frame
     void Update()
     {
+        transform.Translate(sinkVector * Time.deltaTime);
+
         //y=1-(x-1)^4
         transform.localScale = Vector3.one * (1f - Mathf.Pow(currentGrowLerpValue - 1, 10f)) * endScale;
         currentGrowLerpValue += growTime * Time.deltaTime;

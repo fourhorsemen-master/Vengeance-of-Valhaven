@@ -155,14 +155,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d59781c52cabd84fa7481221263fe8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sinkSpeed: -0.29
   initialRotationSpeed: 25
   endRotationSpeed: 0.5
   rotationTime: 0.6
   initialScale: 0.5
   endScale: 2.1
   growTime: 1
-  fadeTime: 0.75
-  fadeDelay: 0.1
+  fadeTime: 0.5
+  fadeDelay: 0
 --- !u!114 &4653775241163871001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,6 +176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d59781c52cabd84fa7481221263fe8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sinkSpeed: -0.42
   initialRotationSpeed: 20
   endRotationSpeed: 0.4
   rotationTime: 0.6
