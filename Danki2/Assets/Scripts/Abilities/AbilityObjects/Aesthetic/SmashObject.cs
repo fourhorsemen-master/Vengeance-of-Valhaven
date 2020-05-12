@@ -16,4 +16,9 @@ public class SmashObject : StaticAbilityObject
         SmashObject prefab = AbilityObjectPrefabLookup.Instance.SmashObjectPrefab;
         Instantiate(prefab, position, rotation);
     }
+
+    public void OnDestroy()
+    {
+        int temp = 10;
+    }
 }
