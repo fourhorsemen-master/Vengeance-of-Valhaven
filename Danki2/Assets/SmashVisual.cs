@@ -11,6 +11,7 @@ public class SmashVisual : MonoBehaviour
     [SerializeField, Range(0f, 10f), Tooltip("How quickly the effect changes from start speed to end speed. In seconds.")]
     private float rotationTime = 0f;
     private float currentRotationLerpValue = 0f;
+    private float currentRotationSharpValue = 0f;
 
     [SerializeField, Range(0f, 10f), Tooltip("How large the effect will be at the start.")]
     private float initialScale = 0f;
@@ -44,10 +45,13 @@ public class SmashVisual : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.localScale = Vector3.one * Mathf.Lerp(initialScale, endScale, currentGrowLerpValue);
+        //y=1-(x-1)^4
+        transform.localScale = Vector3.one * (1f - Mathf.Pow(currentGrowLerpValue - 1, 10f)) * endScale;
         currentGrowLerpValue += growTime * Time.deltaTime;
 
-        transform.Rotate(Vector3.up, Mathf.Lerp(initialRotationSpeed, endRotationSpeed, currentRotationLerpValue));
+        currentRotationSharpValue = (1 - Mathf.Pow(currentRotationLerpValue - 1, 6f));
+        float tempo = Mathf.Lerp(initialRotationSpeed, endRotationSpeed, currentRotationSharpValue);
+        transform.Rotate(Vector3.up, tempo);
         currentRotationLerpValue += rotationTime * Time.deltaTime;
 
         material.SetColor("_UnlitColor", desiredColour);

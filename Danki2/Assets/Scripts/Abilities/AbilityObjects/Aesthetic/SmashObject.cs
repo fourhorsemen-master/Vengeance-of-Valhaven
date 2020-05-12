@@ -11,10 +11,10 @@ public class SmashObject : StaticAbilityObject
         StickTime = smashSound.clip.length;
     }
 
-    public static void Create(Vector3 position, Quaternion rotation)
+    public static void Create(Vector3 position)
     {
         SmashObject prefab = AbilityObjectPrefabLookup.Instance.SmashObjectPrefab;
-        Instantiate(prefab, position, rotation);
+        Instantiate(prefab, position, Quaternion.identity);
     }
 
     public void OnDestroy()
