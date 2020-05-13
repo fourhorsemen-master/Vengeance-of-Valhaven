@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [Ability(AbilityReference.Pounce)]
 public class Pounce : InstantCast

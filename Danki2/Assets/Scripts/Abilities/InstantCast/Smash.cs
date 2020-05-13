@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [Ability(AbilityReference.Smash)]
 public class Smash : InstantCast
