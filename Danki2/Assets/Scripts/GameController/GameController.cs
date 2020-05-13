@@ -2,22 +2,32 @@
 
 public class GameController : Singleton<GameController>
 {
-    [SerializeField]
-    private GameObject StaticUi = null;
+    private GameState gameState = GameState.Playing;
+    private bool abilityTreeMenuButtonDown = false;
 
-    public GameState GameState { get; private set; }
+    public BehaviourSubject<GameState> GameStateTransitionSubject { get; private set; }
+
+    public GameState GameState
+    {
+        get => gameState;
+        set
+        {
+            if (gameState == value) return;
+
+            gameState = value;
+            GameStateTransitionSubject.Next(gameState);
+        }
+    }
 
     protected override void Awake()
     {
         base.Awake();
 
-        GameState = GameState.Playing;
+        GameStateTransitionSubject = new BehaviourSubject<GameState>(gameState);
     }
 
-    public void SetGameState(GameState newGameState)
+    private void Update()
     {
-        GameState = newGameState;
-
-        StaticUi.SetActive(newGameState == GameState.Playing);
+        abilityTreeMenuButtonDown = Input.GetAxis("AbilityTreeMenu") > 0;
     }
 }

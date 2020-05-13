@@ -1,5 +1,5 @@
 ﻿public enum GameState
 {
-    InPlayMenu,
+    InAbilityTreeEditor,
     Playing,
 }
