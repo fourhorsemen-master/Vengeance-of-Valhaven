@@ -216,7 +216,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 6270204506026733637}
   m_Direction: 2
   m_Value: 1.0000001
-  m_Size: 0.50000006
+  m_Size: 0.48300004
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -797,7 +797,6 @@ GameObject:
   - component: {fileID: 4340892513271772013}
   - component: {fileID: 2323628497998687155}
   - component: {fileID: 1200244859561563097}
-  - component: {fileID: 8341561238718294938}
   m_Layer: 5
   m_Name: Menus
   m_TagString: Untagged
@@ -885,19 +884,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &8341561238718294938
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4239460226435926443}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe8110aca972ecf41bfdf2c5da2e07f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  abilityTreeMenu: {fileID: 6967023218799916311}
 --- !u!1 &4919151627310560110
 GameObject:
   m_ObjectHideFlags: 0
@@ -1074,6 +1060,7 @@ GameObject:
   - component: {fileID: 6597250311965112783}
   - component: {fileID: 7279957118730847447}
   - component: {fileID: 1189645364574758521}
+  - component: {fileID: 6730878190902680484}
   m_Layer: 5
   m_Name: AbilityTreeMenuPanel
   m_TagString: Untagged
@@ -1140,3 +1127,15 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6730878190902680484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6967023218799916311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe8110aca972ecf41bfdf2c5da2e07f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
