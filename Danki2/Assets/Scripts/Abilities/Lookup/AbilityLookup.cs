@@ -33,17 +33,11 @@ public class AbilityLookup : Singleton<AbilityLookup>
     protected override void Awake()
     {
         base.Awake();
-        
         BuildMetadataLookups();
         BuildAbilityBuilderLookups();
     }
 
-    public bool TryGetInstantCast(
-        AbilityReference abilityReference,
-        Actor owner,
-        AbilityData abilityDataDiff,
-        out InstantCast ability
-    )
+    public bool TryGetInstantCast(AbilityReference abilityReference, Actor owner, AbilityData abilityDataDiff, out InstantCast ability)
     {
         if (instantCastBuilderLookup.ContainsKey(abilityReference))
         {
@@ -56,12 +50,7 @@ public class AbilityLookup : Singleton<AbilityLookup>
         return false;
     }
 
-    public bool TryGetChannel(
-        AbilityReference abilityReference,
-        Actor owner,
-        AbilityData abilityDataDiff,
-        out Channel ability
-    )
+    public bool TryGetChannel(AbilityReference abilityReference, Actor owner, AbilityData abilityDataDiff, out Channel ability)
     {
         if (channelBuilderLookup.ContainsKey(abilityReference))
         {
@@ -106,9 +95,12 @@ public class AbilityLookup : Singleton<AbilityLookup>
 
     private void BuildMetadataLookups()
     {
+        if (!HasValidSerializableMetadataLookup()) return;
+
         foreach (AbilityReference abilityReference in Enum.GetValues(typeof(AbilityReference)))
         {
             SerializableAbilityMetadata abilityMetadata = serializableMetadataLookup[abilityReference];
+
             displayNameLookup[abilityReference] = abilityMetadata.DisplayName;
             baseAbilityDataLookup[abilityReference] = abilityMetadata.BaseAbilityData;
             abilityOrbTypeLookup[abilityReference] = abilityMetadata.AbilityOrbType.HasValue
@@ -119,6 +111,26 @@ public class AbilityLookup : Singleton<AbilityLookup>
                 .ToDictionary(g => g.Key, g => g.Count());
             BuildTooltip(abilityReference, abilityMetadata.Tooltip);
         }
+    }
+
+    private bool HasValidSerializableMetadataLookup()
+    {
+        foreach (AbilityReference abilityReference in Enum.GetValues(typeof(AbilityReference)))
+        {
+            if (!serializableMetadataLookup.ContainsKey(abilityReference))
+            {
+                Debug.LogError($"No ability metadata found for {abilityReference.ToString()}, please add in the editor.");
+                return false;
+            }
+
+            if (!serializableMetadataLookup[abilityReference].Valid)
+            {
+                Debug.LogError($"Invalid ability metadata for {abilityReference.ToString()}, please change in the editor.");
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private void BuildTooltip(AbilityReference abilityReference, string tooltip)
@@ -148,6 +160,7 @@ public class AbilityLookup : Singleton<AbilityLookup>
         {
             Type type = abilityReferenceToType[abilityReference];
             ConstructorInfo constructor = type.GetConstructor(new [] {typeof(Actor), typeof(AbilityData)});
+
             if (constructor == null)
             {
                 Debug.Log($"Could not find valid constructor for ability: {abilityReference}");
@@ -176,7 +189,7 @@ public class AbilityLookup : Singleton<AbilityLookup>
 
         if (abilityReferences.Distinct().Count() != abilityReferences.Count)
         {
-            Debug.LogError("Ability attributes are not distinct.");
+            Debug.LogError("Ability attributes do not contain distinct ability references.");
             return false;
         }
 
