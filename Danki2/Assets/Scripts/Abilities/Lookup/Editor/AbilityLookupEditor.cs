@@ -132,7 +132,7 @@ public class AbilityLookupEditor : Editor
 
         if (GUILayout.Button("Add Orb"))
         {
-            serializableAbilityMetadata.GeneratedOrbs.Add(default);
+            serializableAbilityMetadata.GeneratedOrbs.Insert(0, default);
         }
 
         GUILayout.EndHorizontal();
