@@ -139,7 +139,7 @@ public class AbilityLookup : Singleton<AbilityLookup>
 
         if (!tokenValidator.HasValidSyntax(tokens))
         {
-            Debug.LogError($"Tooltip for {abilityReference.ToString()} does not have valid syntax, value was: \"{tooltip}\"");
+            Debug.LogError($"Tooltip for {abilityReference.ToString()} does not have valid syntax, value was: \"{tooltip}\".");
             return;
         }
 
@@ -163,7 +163,7 @@ public class AbilityLookup : Singleton<AbilityLookup>
 
             if (constructor == null)
             {
-                Debug.Log($"Could not find valid constructor for ability: {abilityReference}");
+                Debug.Log($"Could not find valid constructor for ability: {abilityReference}.");
                 return;
             }
 
@@ -171,13 +171,17 @@ public class AbilityLookup : Singleton<AbilityLookup>
             {
                 instantCastBuilderLookup[abilityReference] = (a, b) => (InstantCast)constructor.Invoke(new object[] {a, b});
                 abilityTypeLookup[abilityReference] = AbilityType.InstantCast;
+                continue;
             }
 
             if (type.IsSubclassOf(typeof(Channel)))
             {
                 channelBuilderLookup[abilityReference] = (a, b) => (Channel)constructor.Invoke(new object[] {a, b});
                 abilityTypeLookup[abilityReference] = AbilityType.Channel;
+                continue;
             }
+
+            Debug.LogError($"Ability {abilityReference} does not inherit from a recognised ability class.");
         }
     }
 
