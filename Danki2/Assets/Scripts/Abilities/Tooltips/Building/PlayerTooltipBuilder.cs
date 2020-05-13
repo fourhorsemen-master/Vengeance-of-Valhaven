@@ -21,7 +21,7 @@ public class PlayerTooltipBuilder
     public List<TooltipSegment> Build(Node node)
     {
         AbilityReference abilityReference = node.Ability;
-        List<TemplatedTooltipSegment> templatedTooltipSegments = ParsedTooltipLookup.GetTemplatedTooltipSegments(abilityReference);
+        List<TemplatedTooltipSegment> templatedTooltipSegments = AbilityLookup.Instance.GetTemplatedTooltipSegments(abilityReference);
 
         return templatedTooltipSegments
             .SelectMany(templatedTooltipSegment => GetTooltipSegments(

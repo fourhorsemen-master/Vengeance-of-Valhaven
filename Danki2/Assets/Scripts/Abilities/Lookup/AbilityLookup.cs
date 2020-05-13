@@ -10,8 +10,8 @@ public class AbilityLookup : Singleton<AbilityLookup>
 
     private readonly Dictionary<AbilityReference, string> displayNameLookup =
         new Dictionary<AbilityReference, string>();
-    private readonly Dictionary<AbilityReference, string> tooltipLookup =
-        new Dictionary<AbilityReference, string>();
+    private readonly Dictionary<AbilityReference, List<TemplatedTooltipSegment>> templatedTooltipSegmentsLookup =
+        new Dictionary<AbilityReference, List<TemplatedTooltipSegment>>();
     private readonly Dictionary<AbilityReference, AbilityData> baseAbilityDataLookup =
         new Dictionary<AbilityReference, AbilityData>();
     private readonly Dictionary<AbilityReference, OrbType?> abilityOrbTypeLookup =
@@ -25,6 +25,10 @@ public class AbilityLookup : Singleton<AbilityLookup>
         new Dictionary<AbilityReference, Func<Actor, AbilityData, Channel>>();
     private readonly Dictionary<AbilityReference, AbilityType> abilityTypeLookup =
         new Dictionary<AbilityReference, AbilityType>();
+
+    private readonly Lexer lexer = new Lexer();
+    private readonly TokenValidator tokenValidator = new TokenValidator();
+    private readonly Parser parser = new Parser();
 
     protected override void Awake()
     {
@@ -90,9 +94,9 @@ public class AbilityLookup : Singleton<AbilityLookup>
         return abilityOrbTypeLookup[abilityReference];
     }
 
-    public string GetAbilityTooltip(AbilityReference abilityReference)
+    public List<TemplatedTooltipSegment> GetTemplatedTooltipSegments(AbilityReference abilityReference)
     {
-        return tooltipLookup[abilityReference];
+        return templatedTooltipSegmentsLookup[abilityReference];
     }
 
     public string GetAbilityDisplayName(AbilityReference abilityReference)
@@ -106,7 +110,6 @@ public class AbilityLookup : Singleton<AbilityLookup>
         {
             SerializableAbilityMetadata abilityMetadata = serializableMetadataLookup[abilityReference];
             displayNameLookup[abilityReference] = abilityMetadata.DisplayName;
-            tooltipLookup[abilityReference] = abilityMetadata.Tooltip;
             baseAbilityDataLookup[abilityReference] = abilityMetadata.BaseAbilityData;
             abilityOrbTypeLookup[abilityReference] = abilityMetadata.AbilityOrbType.HasValue
                 ? abilityMetadata.AbilityOrbType.Value
@@ -114,7 +117,21 @@ public class AbilityLookup : Singleton<AbilityLookup>
             generatedOrbsLookup[abilityReference] = abilityMetadata.GeneratedOrbs
                 .GroupBy(o => o)
                 .ToDictionary(g => g.Key, g => g.Count());
+            BuildTooltip(abilityReference, abilityMetadata.Tooltip);
         }
+    }
+
+    private void BuildTooltip(AbilityReference abilityReference, string tooltip)
+    {
+        List<Token> tokens = lexer.Lex(tooltip);
+
+        if (!tokenValidator.HasValidSyntax(tokens))
+        {
+            Debug.LogError($"Tooltip for {abilityReference.ToString()} does not have valid syntax, value was: \"{tooltip}\"");
+            return;
+        }
+
+        templatedTooltipSegmentsLookup[abilityReference] = parser.Parse(tokens);
     }
 
     private void BuildAbilityBuilderLookups()
