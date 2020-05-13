@@ -146,6 +146,11 @@ public class AbilityLookup : Singleton<AbilityLookup>
         templatedTooltipSegmentsLookup[abilityReference] = parser.Parse(tokens);
     }
 
+    /// <summary>
+    /// Checks for classes with the ability attribute, validates that they are on the correct class and that we have
+    /// the expected number of annotations, then gets the constructors manually for these classes and adds them to
+    /// the ability builder lookups.
+    /// </summary>
     private void BuildAbilityBuilderLookups()
     {
         List<AttributeData<AbilityAttribute>> abilityAttributeData = ReflectionUtils
