@@ -2,7 +2,7 @@
 {
     private void Start()
     {
-        GameController.Instance.GameStateTransitionSubject.Subscribe(gameState =>
+        GameStateController.Instance.GameStateTransitionSubject.Subscribe(gameState =>
             gameObject.SetActive(gameState == GameState.Playing)
         );
     }

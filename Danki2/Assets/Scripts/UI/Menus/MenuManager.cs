@@ -14,7 +14,7 @@ public class MenuManager : Singleton<MenuManager>
 
     private void Start()
     {
-        GameController.Instance.GameStateTransitionSubject.Subscribe(gameState =>
+        GameStateController.Instance.GameStateTransitionSubject.Subscribe(gameState =>
                 abilityTreeMenu.SetActive(gameState == GameState.InAbilityTreeEditor)
         );
     }

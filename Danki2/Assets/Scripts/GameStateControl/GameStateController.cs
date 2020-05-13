@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class GameController : Singleton<GameController>
+public class GameStateController : Singleton<GameStateController>
 {
     private GameState gameState = GameState.Playing;
     private bool abilityTreeMenuButtonDownLastFrame;

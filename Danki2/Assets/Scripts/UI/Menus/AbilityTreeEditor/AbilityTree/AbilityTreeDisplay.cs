@@ -1,9 +1,8 @@
-﻿using System;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-internal class AbilityTreeDisplay : MonoBehaviour
+public class AbilityTreeDisplay : MonoBehaviour
 {
     [SerializeField]
     private RectTransform containingPanel = null;
@@ -12,7 +11,7 @@ internal class AbilityTreeDisplay : MonoBehaviour
     private RectTransform treeRowsPanel = null;
 
     [SerializeField]
-    private RectTransform treeRowPanel = null;
+    private RectTransform treeRowPanelPrefab = null;
 
     [SerializeField]
     private TreeAbility treeAbilityPrefab = null;
@@ -20,76 +19,86 @@ internal class AbilityTreeDisplay : MonoBehaviour
     [SerializeField]
     private Sprite rootNodeSprite = null;
 
-    private Player player;
+    private AbilityTree abilityTree;
     private float numTreeVerticalSections;
-    private int maxTreeDepth;
     private Dictionary<Node, float> sectionIndices = new Dictionary<Node, float>();
-    private bool nodesDrawn = false;
-    public void Start()
+
+    private void Start()
     {
-        player = RoomManager.Instance.Player;
+        Player player = RoomManager.Instance.Player;
+        abilityTree = player.AbilityTree;
         RecalculateDisplay();
+        // TODO: subscribe to changes in the Ability Tree to recalculate the display.
     }
 
+    /// <summary>
+    /// Clear any previously calculated sections data and remove all rows of the ability tree display and re-add rows according to the depth of the ability tree.
+    /// Also set nodes to be redrawn next frame.
+    /// </summary>
     private void RecalculateDisplay()
     {
         numTreeVerticalSections = 0;
         sectionIndices.Clear();
-        CalculateIndices(player.AbilityTree.RootNode);
+        CalculateIndices(abilityTree.RootNode);
 
         for (int i = 0; i < treeRowsPanel.childCount; i++)
         {
             Destroy(treeRowsPanel.GetChild(i));
         }
 
-        for (int i = 0; i < maxTreeDepth + 1; i++)
+        for (int i = 0; i < abilityTree.MaxDepth + 1; i++)
         {
-            Instantiate(treeRowPanel, treeRowsPanel.transform, false);
+            Instantiate(treeRowPanelPrefab, treeRowsPanel.transform, false);
         }
 
-        nodesDrawn = false;
+        this.WaitAndAct(0f, () => DrawNodes(abilityTree.RootNode));
     }
 
-    private void Update()
-    {
-        if (!nodesDrawn)
-        {
-            DrawNodes(player.AbilityTree.RootNode);
-            nodesDrawn = true;
-        }
-    }
-
+    /// <summary>
+    /// Bottom up, left to right recursive algorithm that calculates horizontal positions for all tree nodes where:
+    /// - Each leaf node sits in it's own vertical 'section'
+    /// - Parents of two bisect their childrens' horizontal positions
+    /// - parents of one are shifted half a section away from their child
+    /// </summary>
+    /// <param name="node"></param>
+    /// <param name="depth"></param>
+    /// <returns></returns>
     private float CalculateIndices(Node node, int depth = 0)
     {
-        float Section;
+        float section;
 
         if (!node.HasChild(Direction.Left) && !node.HasChild(Direction.Right))
         {
             numTreeVerticalSections += 1;
-            Section = numTreeVerticalSections - 0.5f;
+            section = numTreeVerticalSections - 0.5f;
         }
         else if (!node.HasChild(Direction.Right))
         {
-            Section = CalculateIndices(node.GetChild(Direction.Left), depth + 1) + 0.5f;
+            section = CalculateIndices(node.GetChild(Direction.Left), depth + 1) + 0.5f;
             numTreeVerticalSections += 0.25f;
         }
         else if (!node.HasChild(Direction.Left))
         {
             numTreeVerticalSections += 0.25f;
-            Section = CalculateIndices(node.GetChild(Direction.Right), depth + 1) - 0.5f;
+            section = CalculateIndices(node.GetChild(Direction.Right), depth + 1) - 0.5f;
         }
         else // Node has 2 children
         {
             float leftSection = CalculateIndices(node.GetChild(Direction.Left), depth + 1);
             float rightSection = CalculateIndices(node.GetChild(Direction.Right), depth + 1);
-            Section = (leftSection + rightSection) / 2;
+            section = (leftSection + rightSection) / 2;
         }
 
-        maxTreeDepth = Math.Max(maxTreeDepth, depth);
-        sectionIndices[node] = Section;
-        return Section;
+        sectionIndices[node] = section;
+        return section;
     }
 
+    /// <summary>
+    /// Top down, left to right recursive method that draws each node based on positions calculated in CalculateIndices and connects parents to their children.
+    /// </summary>
+    /// <param name="node"></param>
+    /// <param name="row"></param>
+    /// <returns></returns>
     private TreeAbility DrawNodes(Node node, int row = 0)
     {
         float panelWidth = containingPanel.rect.width;

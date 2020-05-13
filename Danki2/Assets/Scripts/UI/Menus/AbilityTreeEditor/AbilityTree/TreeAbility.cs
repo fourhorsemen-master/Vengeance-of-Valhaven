@@ -36,11 +36,7 @@ public class TreeAbility : MonoBehaviour
     {
         Vector2 childRelativePosition = (child.rectTransform.position - rectTransform.position) / rectTransform.GetParentCanvas().scaleFactor;
 
-        Vector2[] points = new Vector2[]
-        {
-            new Vector2(0f, 0f),
-            childRelativePosition
-        };
+        Vector2[] points = { new Vector2(0f, 0f), childRelativePosition };
 
         switch (direction)
         {
@@ -54,7 +50,7 @@ public class TreeAbility : MonoBehaviour
         }
     }
 
-    internal void RemoveOverlay()
+    public void RemoveOverlay()
     {
         abilityOverlay.enabled = false;
     }
