@@ -27,7 +27,6 @@ public class AbilityTreeDisplay : MonoBehaviour
     {
         Player player = RoomManager.Instance.Player;
         abilityTree = player.AbilityTree;
-        RecalculateDisplay();
         // TODO: subscribe to changes in the Ability Tree to recalculate the display.
     }
 
@@ -35,7 +34,7 @@ public class AbilityTreeDisplay : MonoBehaviour
     /// Clear any previously calculated sections data and remove all rows of the ability tree display and re-add rows according to the depth of the ability tree.
     /// Also set nodes to be redrawn next frame.
     /// </summary>
-    private void RecalculateDisplay()
+    public void RecalculateDisplay()
     {
         numTreeVerticalSections = 0;
         sectionIndices.Clear();

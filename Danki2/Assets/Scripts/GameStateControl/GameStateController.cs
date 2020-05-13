@@ -3,7 +3,6 @@
 public class GameStateController : Singleton<GameStateController>
 {
     private GameState gameState = GameState.Playing;
-    private bool abilityTreeMenuButtonDownLastFrame;
 
     public BehaviourSubject<GameState> GameStateTransitionSubject { get; private set; }
 
@@ -28,15 +27,11 @@ public class GameStateController : Singleton<GameStateController>
 
     private void Update()
     {
-        bool abilityTreeMenuButtonDown = Input.GetAxisRaw("AbilityTreeMenu") == 1;
-
-        if (abilityTreeMenuButtonDown && !abilityTreeMenuButtonDownLastFrame)
+        if (Input.GetButtonDown("AbilityTreeMenu"))
         {
             GameState = GameState == GameState.InAbilityTreeEditor
                 ? GameState.Playing
                 : GameState.InAbilityTreeEditor;
         }
-
-        abilityTreeMenuButtonDownLastFrame = abilityTreeMenuButtonDown;
     }
 }
