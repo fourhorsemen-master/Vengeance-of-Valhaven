@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class AI : MonoBehaviour
 {
     [SerializeField]
-    private Actor _actor = null;
+    private Actor actor = null;
 
     [HideInInspector]
     public SerializablePlanner serializablePlanner = new SerializablePlanner();
@@ -11,19 +12,28 @@ public class AI : MonoBehaviour
     [HideInInspector]
     public SerializablePersonality serializablePersonality = new SerializablePersonality(new SerializableBehaviour());
 
-    private Agenda _agenda = new Agenda();
+    private Agenda agenda = new Agenda();
+
+    private void Start()
+    {
+        serializablePlanner.AiElement.OnStart(actor);
+        foreach (AIAction aiAction in Enum.GetValues(typeof(AIAction)))
+        {
+            serializablePersonality[aiAction].AiElement.OnStart(actor);
+        }
+    }
 
     private void Update()
     {
-        if (_actor.Dead) return;
+        if (actor.Dead) return;
 
-        _agenda = serializablePlanner.AiElement.Plan(_actor, _agenda);
+        agenda = serializablePlanner.AiElement.Plan(actor, agenda);
 
-        foreach (AIAction action in _agenda.Keys)
+        foreach (AIAction action in agenda.Keys)
         {
-            if (_agenda[action])
+            if (agenda[action])
             {
-                serializablePersonality[action].AiElement.Behave(_actor);
+                serializablePersonality[action].AiElement.Behave(actor);
             }
         }
     }
