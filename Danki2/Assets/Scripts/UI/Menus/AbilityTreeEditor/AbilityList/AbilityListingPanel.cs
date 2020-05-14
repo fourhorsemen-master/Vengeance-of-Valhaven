@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class AbilityPanel : MonoBehaviour
+public class AbilityListingPanel : MonoBehaviour
 {
     [SerializeField]
     private Image iconPanelImage = null;
