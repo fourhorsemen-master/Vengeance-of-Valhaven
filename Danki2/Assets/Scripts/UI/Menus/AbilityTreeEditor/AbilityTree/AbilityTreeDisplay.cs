@@ -42,7 +42,7 @@ public class AbilityTreeDisplay : MonoBehaviour
 
         for (int i = 0; i < treeRowsPanel.childCount; i++)
         {
-            Destroy(treeRowsPanel.GetChild(i));
+            Destroy(treeRowsPanel.GetChild(i).gameObject);
         }
 
         for (int i = 0; i < abilityTree.MaxDepth + 1; i++)
