@@ -5,7 +5,7 @@ public class FollowTargetAtDistance : Behaviour
 {
     private float _followDistance;
 
-    public override void Initialize()
+    public override void DeserializeArgs()
     {
         _followDistance = Args[0];
     }
