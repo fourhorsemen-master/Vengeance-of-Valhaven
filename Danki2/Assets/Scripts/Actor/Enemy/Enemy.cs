@@ -1,23 +1,24 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public abstract class Enemy : Actor
 {
-    public Subject OnTelegraph { get; private set; } = new Subject();
+    public Subject<float> OnTelegraph { get; private set; } = new Subject<float>();
 
     protected virtual void Start()
     {
         this.gameObject.tag = Tags.Enemy;
     }
 
-    public void WaitAndCast(float waitTime, AbilityReference abilityReference, Vector3 targetPosition)
+    public void WaitAndCast(float waitTime, AbilityReference abilityReference, Func<Vector3> targeter)
     {
-        OnTelegraph.Next();
+        OnTelegraph.Next(waitTime);
 
         MovementManager.Stun(waitTime);
 
         InterruptableAction(waitTime, InterruptionType.Hard, () =>
         {
-            InstantCastService.Cast(abilityReference, targetPosition);
+            InstantCastService.Cast(abilityReference, targeter());
         });
     }
 }

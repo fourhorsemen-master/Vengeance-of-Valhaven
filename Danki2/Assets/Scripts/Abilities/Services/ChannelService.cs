@@ -5,6 +5,7 @@ public class ChannelService : AbilityService
 {
     private Channel _currentChannel;
 
+    public Subject ChannelStartSubject { get; } = new Subject();
     public bool Active { get; private set; } = false;
     public float RemainingDuration { get; private set; }
     public float TotalDuration => _currentChannel.Duration;
@@ -56,6 +57,8 @@ public class ChannelService : AbilityService
             
         _currentChannel.Start(target);
         _currentChannel.Continue(target);
+
+        ChannelStartSubject.Next();
         return true;
     }
 

@@ -8,7 +8,7 @@ public class WarningSign : MonoBehaviour
     [SerializeField]
     private Text _exclaimationMark = null;
 
-    private const float Duration = 0.5f;
+    private Coroutine disableWarningCoroutine = null;
 
     public void Start()
     {
@@ -28,12 +28,15 @@ public class WarningSign : MonoBehaviour
         _enemy.OnTelegraph.Subscribe(ShowWarning);
     }
 
-    private void ShowWarning()
+    private void ShowWarning(float duration)
     {
-        StopAllCoroutines();
+        if (disableWarningCoroutine != null)
+        {
+            StopCoroutine(disableWarningCoroutine);
+        }
 
         _exclaimationMark.enabled = true;
-        this.WaitAndAct(Duration, () =>
+        disableWarningCoroutine = this.WaitAndAct(duration, () =>
         {
             _exclaimationMark.enabled = false;
         });
