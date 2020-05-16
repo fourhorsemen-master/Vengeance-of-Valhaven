@@ -4,10 +4,21 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
+public enum DropdownGroup
+{
+    EntireAbility,
+    BaseAbilityData,
+    GeneratedOrbs,
+    BonusData
+}
+
 [CustomEditor(typeof(AbilityLookup))]
 public class AbilityLookupEditor : Editor
 {
-    private readonly EnumDictionary<AbilityReference, bool> foldoutStatus = new EnumDictionary<AbilityReference, bool>(false);
+    private readonly EnumDictionary<AbilityReference, EnumDictionary<DropdownGroup, bool>> foldoutStatus =
+        new EnumDictionary<AbilityReference, EnumDictionary<DropdownGroup, bool>>(
+            () => new EnumDictionary<DropdownGroup, bool>(false)
+        );
 
     private Dictionary<AbilityReference, AttributeData<AbilityAttribute>> abilityAttributeDataLookup;
 
@@ -55,24 +66,23 @@ public class AbilityLookupEditor : Editor
 
     private void EditSerializableAbilityMetadata(AbilityReference abilityReference, SerializableAbilityMetadata serializableAbilityMetadata)
     {
-        foldoutStatus[abilityReference] = EditorGUILayout.Foldout(
-            foldoutStatus[abilityReference],
+        foldoutStatus[abilityReference][DropdownGroup.EntireAbility] = EditorGUILayout.Foldout(
+            foldoutStatus[abilityReference][DropdownGroup.EntireAbility],
             serializableAbilityMetadata.Valid ? abilityReference.ToString() : $"{abilityReference.ToString()}*"
         );
 
-        if (foldoutStatus[abilityReference])
-        {
-            EditorGUI.indentLevel++;
+        if (!foldoutStatus[abilityReference][DropdownGroup.EntireAbility]) return;
+
+        EditorGUI.indentLevel++;
             
-            EditDisplayName(serializableAbilityMetadata);
-            EditTooltip(serializableAbilityMetadata);
-            EditAbilityOrbType(serializableAbilityMetadata);
-            EditBaseAbilityData(serializableAbilityMetadata);
-            EditGeneratedOrbs(serializableAbilityMetadata);
-            EditAbilityBonusData(abilityReference, serializableAbilityMetadata);
+        EditDisplayName(serializableAbilityMetadata);
+        EditTooltip(serializableAbilityMetadata);
+        EditAbilityOrbType(serializableAbilityMetadata);
+        EditBaseAbilityData(abilityReference, serializableAbilityMetadata);
+        EditGeneratedOrbs(abilityReference, serializableAbilityMetadata);
+        EditAbilityBonusData(abilityReference, serializableAbilityMetadata);
             
-            EditorGUI.indentLevel--;
-        }
+        EditorGUI.indentLevel--;
     }
 
     private void EditDisplayName(SerializableAbilityMetadata serializableAbilityMetadata)
@@ -112,9 +122,15 @@ public class AbilityLookupEditor : Editor
         GUILayout.EndHorizontal();
     }
 
-    private void EditBaseAbilityData(SerializableAbilityMetadata serializableAbilityMetadata)
+    private void EditBaseAbilityData(AbilityReference abilityReference, SerializableAbilityMetadata serializableAbilityMetadata)
     {
-        EditorGUILayout.LabelField("Base Ability Data");
+        foldoutStatus[abilityReference][DropdownGroup.BaseAbilityData] = EditorGUILayout.Foldout(
+            foldoutStatus[abilityReference][DropdownGroup.BaseAbilityData],
+            "Base Ability Data"
+        );
+
+        if (!foldoutStatus[abilityReference][DropdownGroup.BaseAbilityData]) return;
+
         EditorGUI.indentLevel++;
 
         AbilityData currentAbilityData = serializableAbilityMetadata.BaseAbilityData;
@@ -127,9 +143,15 @@ public class AbilityLookupEditor : Editor
         EditorGUI.indentLevel--;
     }
 
-    private void EditGeneratedOrbs(SerializableAbilityMetadata serializableAbilityMetadata)
+    private void EditGeneratedOrbs(AbilityReference abilityReference, SerializableAbilityMetadata serializableAbilityMetadata)
     {
-        EditorGUILayout.LabelField("Generated Orbs");
+        foldoutStatus[abilityReference][DropdownGroup.GeneratedOrbs] = EditorGUILayout.Foldout(
+            foldoutStatus[abilityReference][DropdownGroup.GeneratedOrbs],
+            "Generated Orbs"
+        );
+
+        if (!foldoutStatus[abilityReference][DropdownGroup.GeneratedOrbs]) return;
+
         EditorGUI.indentLevel++;
 
         EditOrbList(serializableAbilityMetadata.GeneratedOrbs, "Add Generated Orb");
@@ -139,7 +161,23 @@ public class AbilityLookupEditor : Editor
 
     private void EditAbilityBonusData(AbilityReference abilityReference, SerializableAbilityMetadata serializableAbilityMetadata)
     {
-        EditorGUILayout.LabelField("Bonus Data");
+        foldoutStatus[abilityReference][DropdownGroup.BonusData] = EditorGUILayout.Foldout(
+            foldoutStatus[abilityReference][DropdownGroup.BonusData],
+            "Bonus Data"
+        );
+
+        if (!foldoutStatus[abilityReference][DropdownGroup.BonusData]) return;
+
+        if (abilityAttributeDataLookup[abilityReference].Attribute.AbilityBonuses.Length == 0)
+        {
+            EditorGUI.indentLevel++;
+            
+            EditorGUILayout.LabelField($"There are no ability bonuses for {abilityReference.ToString()}.");
+            
+            EditorGUI.indentLevel--;
+            return;
+        }
+
         EditorGUI.indentLevel++;
 
         SerializableAbilityBonusLookup oldSerializableAbilityBonusLookup = serializableAbilityMetadata.AbilityBonusLookup;
@@ -149,7 +187,7 @@ public class AbilityLookupEditor : Editor
         {
             EditorGUILayout.LabelField(abilityBonus);
             EditorGUI.indentLevel++;
-            
+                
             newSerializableAbilityBonusLookup[abilityBonus] = oldSerializableAbilityBonusLookup.ContainsKey(abilityBonus)
                 ? oldSerializableAbilityBonusLookup[abilityBonus]
                 : new SerializableAbilityBonusMetadata();
@@ -165,7 +203,7 @@ public class AbilityLookupEditor : Editor
             );
 
             EditOrbList(newSerializableAbilityBonusLookup[abilityBonus].RequiredOrbs, "Add Required Orb");
-            
+                
             EditorGUI.indentLevel--;
         }
 
