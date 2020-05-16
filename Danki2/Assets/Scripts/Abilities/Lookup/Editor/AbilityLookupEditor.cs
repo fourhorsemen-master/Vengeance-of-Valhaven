@@ -4,20 +4,12 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-public enum DropdownGroup
-{
-    EntireAbility,
-    BaseAbilityData,
-    GeneratedOrbs,
-    BonusData
-}
-
 [CustomEditor(typeof(AbilityLookup))]
 public class AbilityLookupEditor : Editor
 {
-    private readonly EnumDictionary<AbilityReference, EnumDictionary<DropdownGroup, bool>> foldoutStatus =
-        new EnumDictionary<AbilityReference, EnumDictionary<DropdownGroup, bool>>(
-            () => new EnumDictionary<DropdownGroup, bool>(false)
+    private readonly EnumDictionary<AbilityReference, EnumDictionary<AbilityDataDropdownGroup, bool>> foldoutStatus =
+        new EnumDictionary<AbilityReference, EnumDictionary<AbilityDataDropdownGroup, bool>>(
+            () => new EnumDictionary<AbilityDataDropdownGroup, bool>(false)
         );
 
     private Dictionary<AbilityReference, AttributeData<AbilityAttribute>> abilityAttributeDataLookup;
@@ -66,12 +58,12 @@ public class AbilityLookupEditor : Editor
 
     private void EditSerializableAbilityMetadata(AbilityReference abilityReference, SerializableAbilityMetadata serializableAbilityMetadata)
     {
-        foldoutStatus[abilityReference][DropdownGroup.EntireAbility] = EditorGUILayout.Foldout(
-            foldoutStatus[abilityReference][DropdownGroup.EntireAbility],
+        foldoutStatus[abilityReference][AbilityDataDropdownGroup.EntireAbility] = EditorGUILayout.Foldout(
+            foldoutStatus[abilityReference][AbilityDataDropdownGroup.EntireAbility],
             serializableAbilityMetadata.Valid ? abilityReference.ToString() : $"{abilityReference.ToString()}*"
         );
 
-        if (!foldoutStatus[abilityReference][DropdownGroup.EntireAbility]) return;
+        if (!foldoutStatus[abilityReference][AbilityDataDropdownGroup.EntireAbility]) return;
 
         EditorGUI.indentLevel++;
             
@@ -124,12 +116,12 @@ public class AbilityLookupEditor : Editor
 
     private void EditBaseAbilityData(AbilityReference abilityReference, SerializableAbilityMetadata serializableAbilityMetadata)
     {
-        foldoutStatus[abilityReference][DropdownGroup.BaseAbilityData] = EditorGUILayout.Foldout(
-            foldoutStatus[abilityReference][DropdownGroup.BaseAbilityData],
+        foldoutStatus[abilityReference][AbilityDataDropdownGroup.BaseAbilityData] = EditorGUILayout.Foldout(
+            foldoutStatus[abilityReference][AbilityDataDropdownGroup.BaseAbilityData],
             "Base Ability Data"
         );
 
-        if (!foldoutStatus[abilityReference][DropdownGroup.BaseAbilityData]) return;
+        if (!foldoutStatus[abilityReference][AbilityDataDropdownGroup.BaseAbilityData]) return;
 
         EditorGUI.indentLevel++;
 
@@ -145,12 +137,12 @@ public class AbilityLookupEditor : Editor
 
     private void EditGeneratedOrbs(AbilityReference abilityReference, SerializableAbilityMetadata serializableAbilityMetadata)
     {
-        foldoutStatus[abilityReference][DropdownGroup.GeneratedOrbs] = EditorGUILayout.Foldout(
-            foldoutStatus[abilityReference][DropdownGroup.GeneratedOrbs],
+        foldoutStatus[abilityReference][AbilityDataDropdownGroup.GeneratedOrbs] = EditorGUILayout.Foldout(
+            foldoutStatus[abilityReference][AbilityDataDropdownGroup.GeneratedOrbs],
             "Generated Orbs"
         );
 
-        if (!foldoutStatus[abilityReference][DropdownGroup.GeneratedOrbs]) return;
+        if (!foldoutStatus[abilityReference][AbilityDataDropdownGroup.GeneratedOrbs]) return;
 
         EditorGUI.indentLevel++;
 
@@ -161,12 +153,12 @@ public class AbilityLookupEditor : Editor
 
     private void EditAbilityBonusData(AbilityReference abilityReference, SerializableAbilityMetadata serializableAbilityMetadata)
     {
-        foldoutStatus[abilityReference][DropdownGroup.BonusData] = EditorGUILayout.Foldout(
-            foldoutStatus[abilityReference][DropdownGroup.BonusData],
+        foldoutStatus[abilityReference][AbilityDataDropdownGroup.BonusData] = EditorGUILayout.Foldout(
+            foldoutStatus[abilityReference][AbilityDataDropdownGroup.BonusData],
             "Bonus Data"
         );
 
-        if (!foldoutStatus[abilityReference][DropdownGroup.BonusData]) return;
+        if (!foldoutStatus[abilityReference][AbilityDataDropdownGroup.BonusData]) return;
 
         if (abilityAttributeDataLookup[abilityReference].Attribute.AbilityBonuses.Length == 0)
         {
