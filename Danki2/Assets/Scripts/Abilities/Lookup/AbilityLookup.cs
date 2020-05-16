@@ -18,6 +18,8 @@ public class AbilityLookup : Singleton<AbilityLookup>
         new Dictionary<AbilityReference, OrbType?>();
     private readonly Dictionary<AbilityReference, Dictionary<OrbType, int>> generatedOrbsLookup =
         new Dictionary<AbilityReference, Dictionary<OrbType, int>>();
+    private readonly Dictionary<AbilityReference, Dictionary<string, AbilityBonusData>> abilityBonusDataLookup =
+        new Dictionary<AbilityReference, Dictionary<string, AbilityBonusData>>();
 
     private readonly Dictionary<AbilityReference, Func<Actor, AbilityData, InstantCast>> instantCastBuilderLookup =
         new Dictionary<AbilityReference, Func<Actor, AbilityData, InstantCast>>();
@@ -91,6 +93,11 @@ public class AbilityLookup : Singleton<AbilityLookup>
     public string GetAbilityDisplayName(AbilityReference abilityReference)
     {
         return displayNameLookup[abilityReference];
+    }
+
+    public Dictionary<string, AbilityBonusData> GetAbilityBonusDataLookup(AbilityReference abilityReference)
+    {
+        return abilityBonusDataLookup[abilityReference];
     }
 
     private void BuildMetadataLookups()
