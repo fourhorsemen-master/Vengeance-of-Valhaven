@@ -117,6 +117,7 @@ public class AbilityLookup : Singleton<AbilityLookup>
                 .GroupBy(o => o)
                 .ToDictionary(g => g.Key, g => g.Count());
             BuildTooltip(abilityReference, abilityMetadata.Tooltip);
+            BuildAbilityBonusLookup(abilityReference, abilityMetadata.AbilityBonusLookup);
         }
     }
 
@@ -151,6 +152,28 @@ public class AbilityLookup : Singleton<AbilityLookup>
         }
 
         templatedTooltipSegmentsLookup[abilityReference] = parser.Parse(tokens);
+    }
+
+    private void BuildAbilityBonusLookup(
+        AbilityReference abilityReference,
+        SerializableAbilityBonusLookup serializableAbilityBonusLookup
+    )
+    {
+        if (!serializableAbilityBonusLookup.Valid)
+        {
+            Debug.LogError($"Invalid ability bonus data for {abilityReference.ToString()}, please change in the editor.");
+            return;
+        }
+
+        abilityBonusDataLookup[abilityReference] = serializableAbilityBonusLookup.Keys.ToDictionary(key => key, key =>
+        {
+            SerializableAbilityBonusMetadata serializableAbilityBonusMetadata = serializableAbilityBonusLookup[key];
+            return new AbilityBonusData(
+                serializableAbilityBonusMetadata.DisplayName,
+                serializableAbilityBonusMetadata.Tooltip,
+                new OrbCollection(serializableAbilityBonusMetadata.RequiredOrbs)
+            );
+        });
     }
 
     /// <summary>
