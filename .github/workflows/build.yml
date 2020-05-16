@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - substance-final
 
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
