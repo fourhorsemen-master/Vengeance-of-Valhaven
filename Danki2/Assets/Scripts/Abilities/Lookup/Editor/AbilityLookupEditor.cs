@@ -1,18 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using ICSharpCode.NRefactory.Ast;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using Object = System.Object;
 
 [CustomEditor(typeof(AbilityLookup))]
 public class AbilityLookupEditor : Editor
 {
     private readonly EnumDictionary<AbilityReference, bool> foldoutStatus = new EnumDictionary<AbilityReference, bool>(false);
-    
+
+    private Dictionary<AbilityReference, AttributeData<AbilityAttribute>> abilityAttributeDataLookup;
+
     public override void OnInspectorGUI()
     {
         AbilityLookup abilityLookup = (AbilityLookup) target;
+
+        if (abilityAttributeDataLookup == null)
+        {
+            LoadAbilityAttributeData();
+        }
+
+        if (GUILayout.Button("Refresh"))
+        {
+            LoadAbilityAttributeData();
+        }
 
         SerializableMetadataLookup serializableMetadataLookup = abilityLookup.serializableMetadataLookup;
         
@@ -34,6 +45,14 @@ public class AbilityLookupEditor : Editor
         }
     }
 
+    private void LoadAbilityAttributeData()
+    {
+        abilityAttributeDataLookup = ReflectionUtils.GetAttributeData<AbilityAttribute>().ToDictionary(
+            d => d.Attribute.AbilityReference,
+            d => d
+        );
+    }
+
     private void EditSerializableAbilityMetadata(AbilityReference abilityReference, SerializableAbilityMetadata serializableAbilityMetadata)
     {
         foldoutStatus[abilityReference] = EditorGUILayout.Foldout(
@@ -47,9 +66,10 @@ public class AbilityLookupEditor : Editor
             
             EditDisplayName(serializableAbilityMetadata);
             EditTooltip(serializableAbilityMetadata);
-            EditBaseAbilityData(serializableAbilityMetadata);
             EditAbilityOrbType(serializableAbilityMetadata);
+            EditBaseAbilityData(serializableAbilityMetadata);
             EditGeneratedOrbs(serializableAbilityMetadata);
+            EditAbilityBonusData(abilityReference, serializableAbilityMetadata);
             
             EditorGUI.indentLevel--;
         }
@@ -63,21 +83,6 @@ public class AbilityLookupEditor : Editor
     private void EditTooltip(SerializableAbilityMetadata serializableAbilityMetadata)
     {
         serializableAbilityMetadata.Tooltip = EditorGUILayout.TextField("Tooltip", serializableAbilityMetadata.Tooltip);
-    }
-
-    private void EditBaseAbilityData(SerializableAbilityMetadata serializableAbilityMetadata)
-    {
-        EditorGUILayout.LabelField("Base Ability Data");
-        EditorGUI.indentLevel++;
-
-        AbilityData currentAbilityData = serializableAbilityMetadata.BaseAbilityData;
-        int primaryDamage = EditorGUILayout.IntField("Primary Damage", currentAbilityData.PrimaryDamage);
-        int secondaryDamage = EditorGUILayout.IntField("Secondary Damage", currentAbilityData.SecondaryDamage);
-        int heal = EditorGUILayout.IntField("Heal", currentAbilityData.Heal);
-        int shield = EditorGUILayout.IntField("Shield", currentAbilityData.Shield);
-        serializableAbilityMetadata.BaseAbilityData = new AbilityData(primaryDamage, secondaryDamage, heal, shield);
-
-        EditorGUI.indentLevel--;
     }
 
     private void EditAbilityOrbType(SerializableAbilityMetadata serializableAbilityMetadata)
@@ -107,21 +112,78 @@ public class AbilityLookupEditor : Editor
         GUILayout.EndHorizontal();
     }
 
+    private void EditBaseAbilityData(SerializableAbilityMetadata serializableAbilityMetadata)
+    {
+        EditorGUILayout.LabelField("Base Ability Data");
+        EditorGUI.indentLevel++;
+
+        AbilityData currentAbilityData = serializableAbilityMetadata.BaseAbilityData;
+        int primaryDamage = EditorGUILayout.IntField("Primary Damage", currentAbilityData.PrimaryDamage);
+        int secondaryDamage = EditorGUILayout.IntField("Secondary Damage", currentAbilityData.SecondaryDamage);
+        int heal = EditorGUILayout.IntField("Heal", currentAbilityData.Heal);
+        int shield = EditorGUILayout.IntField("Shield", currentAbilityData.Shield);
+        serializableAbilityMetadata.BaseAbilityData = new AbilityData(primaryDamage, secondaryDamage, heal, shield);
+
+        EditorGUI.indentLevel--;
+    }
+
     private void EditGeneratedOrbs(SerializableAbilityMetadata serializableAbilityMetadata)
     {
         EditorGUILayout.LabelField("Generated Orbs");
         EditorGUI.indentLevel++;
 
-        List<OrbType> generatedOrbs = serializableAbilityMetadata.GeneratedOrbs;
+        EditOrbList(serializableAbilityMetadata.GeneratedOrbs, "Add Generated Orb");
 
-        for (int i = generatedOrbs.Count - 1; i >= 0; i--)
+        EditorGUI.indentLevel--;
+    }
+
+    private void EditAbilityBonusData(AbilityReference abilityReference, SerializableAbilityMetadata serializableAbilityMetadata)
+    {
+        EditorGUILayout.LabelField("Bonus Data");
+        EditorGUI.indentLevel++;
+
+        SerializableAbilityBonusLookup oldSerializableAbilityBonusLookup = serializableAbilityMetadata.AbilityBonusLookup;
+        SerializableAbilityBonusLookup newSerializableAbilityBonusLookup = new SerializableAbilityBonusLookup();
+
+        foreach (string abilityBonus in abilityAttributeDataLookup[abilityReference].Attribute.AbilityBonuses)
+        {
+            EditorGUILayout.LabelField(abilityBonus);
+            EditorGUI.indentLevel++;
+            
+            newSerializableAbilityBonusLookup[abilityBonus] = oldSerializableAbilityBonusLookup.ContainsKey(abilityBonus)
+                ? oldSerializableAbilityBonusLookup[abilityBonus]
+                : new SerializableAbilityBonusMetadata();
+
+            newSerializableAbilityBonusLookup[abilityBonus].DisplayName = EditorGUILayout.TextField(
+                "Display Name",
+                newSerializableAbilityBonusLookup[abilityBonus].DisplayName
+            );
+
+            newSerializableAbilityBonusLookup[abilityBonus].Tooltip = EditorGUILayout.TextField(
+                "Tooltip",
+                newSerializableAbilityBonusLookup[abilityBonus].Tooltip
+            );
+
+            EditOrbList(newSerializableAbilityBonusLookup[abilityBonus].RequiredOrbs, "Add Required Orb");
+            
+            EditorGUI.indentLevel--;
+        }
+
+        serializableAbilityMetadata.AbilityBonusLookup = newSerializableAbilityBonusLookup;
+
+        EditorGUI.indentLevel--;
+    }
+
+    private void EditOrbList(List<OrbType> orbTypes, string buttonLabel)
+    {
+        for (int i = orbTypes.Count - 1; i >= 0; i--)
         {
             GUILayout.BeginHorizontal();
 
-            generatedOrbs[i] = (OrbType)EditorGUILayout.EnumPopup($"Orb {generatedOrbs.Count - i}", generatedOrbs[i]);
+            orbTypes[i] = (OrbType)EditorGUILayout.EnumPopup($"Orb {orbTypes.Count - i}", orbTypes[i]);
             if (GUILayout.Button("Remove Orb"))
             {
-                generatedOrbs.RemoveAt(i);
+                orbTypes.RemoveAt(i);
             }
 
             GUILayout.EndHorizontal();
@@ -130,12 +192,11 @@ public class AbilityLookupEditor : Editor
         GUILayout.BeginHorizontal();
         GUILayout.Space (EditorGUI.indentLevel * 15);
 
-        if (GUILayout.Button("Add Orb"))
+        if (GUILayout.Button(buttonLabel))
         {
-            serializableAbilityMetadata.GeneratedOrbs.Insert(0, default);
+            orbTypes.Insert(0, default);
         }
 
         GUILayout.EndHorizontal();
-        EditorGUI.indentLevel--;
     }
 }

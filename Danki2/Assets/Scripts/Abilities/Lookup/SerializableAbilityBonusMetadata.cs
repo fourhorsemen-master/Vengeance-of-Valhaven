@@ -18,5 +18,5 @@ public class SerializableAbilityBonusMetadata
 
     public bool Valid => !string.IsNullOrEmpty(displayName) &&
                          !string.IsNullOrEmpty(tooltip) &&
-                         requiredOrbs.Count != 0;
+                         requiredOrbs.Count > 0;
 }

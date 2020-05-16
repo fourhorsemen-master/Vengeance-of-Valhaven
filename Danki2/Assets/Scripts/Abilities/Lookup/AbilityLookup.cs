@@ -32,9 +32,19 @@ public class AbilityLookup : Singleton<AbilityLookup>
     private readonly TokenValidator tokenValidator = new TokenValidator();
     private readonly Parser parser = new Parser();
 
+    private List<AttributeData<AbilityAttribute>> abilityAttributeData;
+    private Dictionary<AbilityReference, AttributeData<AbilityAttribute>> abilityAttributeDataLookup;
+
     protected override void Awake()
     {
         base.Awake();
+
+        abilityAttributeData = ReflectionUtils.GetAttributeData<AbilityAttribute>(Assembly.GetExecutingAssembly());
+        abilityAttributeDataLookup = abilityAttributeData.ToDictionary(
+            d => d.Attribute.AbilityReference,
+            d => d
+        );
+
         BuildMetadataLookups();
         BuildAbilityBuilderLookups();
     }
@@ -165,15 +175,38 @@ public class AbilityLookup : Singleton<AbilityLookup>
             return;
         }
 
-        abilityBonusDataLookup[abilityReference] = serializableAbilityBonusLookup.Keys.ToDictionary(key => key, key =>
+        string[] attributeAbilityBonuses = abilityAttributeDataLookup[abilityReference].Attribute.AbilityBonuses;
+        string[] serializedAbilityBonuses = serializableAbilityBonusLookup.Keys.ToArray();
+
+        if (attributeAbilityBonuses.Length != serializedAbilityBonuses.Length)
         {
-            SerializableAbilityBonusMetadata serializableAbilityBonusMetadata = serializableAbilityBonusLookup[key];
-            return new AbilityBonusData(
-                serializableAbilityBonusMetadata.DisplayName,
-                serializableAbilityBonusMetadata.Tooltip,
-                new OrbCollection(serializableAbilityBonusMetadata.RequiredOrbs)
-            );
-        });
+            Debug.LogError("Attribute ability bonuses do not match serialized ability bonuses in length");
+            return;
+        }
+
+        for (int i = 0; i < attributeAbilityBonuses.Length; i++)
+        {
+            string attributeAbilityBonus = attributeAbilityBonuses[i];
+            string serializedAbilityBonus = serializedAbilityBonuses[i];
+            if (attributeAbilityBonus != serializedAbilityBonus)
+            {
+                Debug.LogError($"Attribute ability bonus \"{attributeAbilityBonus}\" does not match serialized ability bonus {serializedAbilityBonus}");
+                return;
+            }
+        }
+
+        abilityBonusDataLookup[abilityReference] = attributeAbilityBonuses.ToDictionary(
+            abilityBonus => abilityBonus,
+            abilityBonus =>
+            {
+                SerializableAbilityBonusMetadata serializableAbilityBonusMetadata = serializableAbilityBonusLookup[abilityBonus];
+                return new AbilityBonusData(
+                    serializableAbilityBonusMetadata.DisplayName,
+                    serializableAbilityBonusMetadata.Tooltip,
+                    new OrbCollection(serializableAbilityBonusMetadata.RequiredOrbs)
+                );
+            }
+        );
     }
 
     /// <summary>
@@ -183,10 +216,7 @@ public class AbilityLookup : Singleton<AbilityLookup>
     /// </summary>
     private void BuildAbilityBuilderLookups()
     {
-        List<AttributeData<AbilityAttribute>> abilityAttributeData = ReflectionUtils
-            .GetAttributeData<AbilityAttribute>(Assembly.GetExecutingAssembly());
-
-        if (!IsValidAbilityAttributeData(abilityAttributeData)) return;
+        if (!IsValidAbilityAttributeData()) return;
 
         Dictionary<AbilityReference, Type> abilityReferenceToType = abilityAttributeData
             .ToDictionary(d => d.Attribute.AbilityReference, d => d.Type);
@@ -220,7 +250,7 @@ public class AbilityLookup : Singleton<AbilityLookup>
         }
     }
 
-    private bool IsValidAbilityAttributeData(List<AttributeData<AbilityAttribute>> abilityAttributeData)
+    private bool IsValidAbilityAttributeData()
     {
         List<AbilityReference> abilityReferences = abilityAttributeData
             .Select(d => d.Attribute.AbilityReference)
