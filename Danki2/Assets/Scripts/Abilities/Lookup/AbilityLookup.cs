@@ -8,23 +8,15 @@ public class AbilityLookup : Singleton<AbilityLookup>
 {
     public SerializableMetadataLookup serializableMetadataLookup = new SerializableMetadataLookup();
 
-    private readonly Dictionary<AbilityReference, string> displayNameLookup =
-        new Dictionary<AbilityReference, string>();
-    private readonly Dictionary<AbilityReference, List<TemplatedTooltipSegment>> templatedTooltipSegmentsLookup =
-        new Dictionary<AbilityReference, List<TemplatedTooltipSegment>>();
-    private readonly Dictionary<AbilityReference, AbilityData> baseAbilityDataLookup =
-        new Dictionary<AbilityReference, AbilityData>();
-    private readonly Dictionary<AbilityReference, OrbType?> abilityOrbTypeLookup =
-        new Dictionary<AbilityReference, OrbType?>();
-    private readonly Dictionary<AbilityReference, Dictionary<OrbType, int>> generatedOrbsLookup =
-        new Dictionary<AbilityReference, Dictionary<OrbType, int>>();
+    private readonly AbilityMap<string> displayNameMap = new AbilityMap<string>();
+    private readonly AbilityMap<OrbType?> abilityOrbTypeMap = new AbilityMap<OrbType?>();
+    private readonly AbilityMap<AbilityData> baseAbilityDataMap = new AbilityMap<AbilityData>();
+    private readonly AbilityMap<Dictionary<OrbType, int>> generatedOrbsMap = new AbilityMap<Dictionary<OrbType, int>>();
+    private readonly AbilityMap<List<TemplatedTooltipSegment>> templatedTooltipSegmentsMap = new AbilityMap<List<TemplatedTooltipSegment>>();
 
-    private readonly Dictionary<AbilityReference, Func<Actor, AbilityData, InstantCast>> instantCastBuilderLookup =
-        new Dictionary<AbilityReference, Func<Actor, AbilityData, InstantCast>>();
-    private readonly Dictionary<AbilityReference, Func<Actor, AbilityData, Channel>> channelBuilderLookup =
-        new Dictionary<AbilityReference, Func<Actor, AbilityData, Channel>>();
-    private readonly Dictionary<AbilityReference, AbilityType> abilityTypeLookup =
-        new Dictionary<AbilityReference, AbilityType>();
+    private readonly AbilityMap<Func<Actor, AbilityData, InstantCast>> instantCastBuilderMap = new AbilityMap<Func<Actor, AbilityData, InstantCast>>();
+    private readonly AbilityMap<Func<Actor, AbilityData, Channel>> channelBuilderMap = new AbilityMap<Func<Actor, AbilityData, Channel>>();
+    private readonly AbilityMap<AbilityType> abilityTypeMap = new AbilityMap<AbilityType>();
 
     private readonly Lexer lexer = new Lexer();
     private readonly TokenValidator tokenValidator = new TokenValidator();
@@ -39,10 +31,10 @@ public class AbilityLookup : Singleton<AbilityLookup>
 
     public bool TryGetInstantCast(AbilityReference abilityReference, Actor owner, AbilityData abilityDataDiff, out InstantCast ability)
     {
-        if (instantCastBuilderLookup.ContainsKey(abilityReference))
+        if (instantCastBuilderMap.ContainsKey(abilityReference))
         {
-            AbilityData abilityData = baseAbilityDataLookup[abilityReference] + abilityDataDiff;
-            ability = instantCastBuilderLookup[abilityReference](owner, abilityData);
+            AbilityData abilityData = baseAbilityDataMap[abilityReference] + abilityDataDiff;
+            ability = instantCastBuilderMap[abilityReference](owner, abilityData);
             return true;
         }
 
@@ -52,10 +44,10 @@ public class AbilityLookup : Singleton<AbilityLookup>
 
     public bool TryGetChannel(AbilityReference abilityReference, Actor owner, AbilityData abilityDataDiff, out Channel ability)
     {
-        if (channelBuilderLookup.ContainsKey(abilityReference))
+        if (channelBuilderMap.ContainsKey(abilityReference))
         {
-            AbilityData abilityData = baseAbilityDataLookup[abilityReference] + abilityDataDiff;
-            ability = channelBuilderLookup[abilityReference](owner, abilityData);
+            AbilityData abilityData = baseAbilityDataMap[abilityReference] + abilityDataDiff;
+            ability = channelBuilderMap[abilityReference](owner, abilityData);
             return true;
         }
 
@@ -63,35 +55,17 @@ public class AbilityLookup : Singleton<AbilityLookup>
         return false;
     }
 
-    public AbilityType GetAbilityType(AbilityReference abilityReference)
-    {
-        return abilityTypeLookup[abilityReference];
-    }
+    public AbilityType GetAbilityType(AbilityReference abilityReference) => abilityTypeMap[abilityReference];
 
-    public AbilityData GetBaseAbilityData(AbilityReference abilityReference)
-    {
-        return baseAbilityDataLookup[abilityReference];
-    }
+    public AbilityData GetBaseAbilityData(AbilityReference abilityReference) => baseAbilityDataMap[abilityReference];
 
-    public Dictionary<OrbType, int> GetGeneratedOrbs(AbilityReference abilityReference)
-    {
-        return generatedOrbsLookup[abilityReference];
-    }
+    public Dictionary<OrbType, int> GetGeneratedOrbs(AbilityReference abilityReference) => generatedOrbsMap[abilityReference];
 
-    public OrbType? GetAbilityOrbType(AbilityReference abilityReference)
-    {
-        return abilityOrbTypeLookup[abilityReference];
-    }
+    public OrbType? GetAbilityOrbType(AbilityReference abilityReference) => abilityOrbTypeMap[abilityReference];
 
-    public List<TemplatedTooltipSegment> GetTemplatedTooltipSegments(AbilityReference abilityReference)
-    {
-        return templatedTooltipSegmentsLookup[abilityReference];
-    }
+    public List<TemplatedTooltipSegment> GetTemplatedTooltipSegments(AbilityReference abilityReference) => templatedTooltipSegmentsMap[abilityReference];
 
-    public string GetAbilityDisplayName(AbilityReference abilityReference)
-    {
-        return displayNameLookup[abilityReference];
-    }
+    public string GetAbilityDisplayName(AbilityReference abilityReference) => displayNameMap[abilityReference];
 
     private void BuildMetadataLookups()
     {
@@ -101,12 +75,12 @@ public class AbilityLookup : Singleton<AbilityLookup>
         {
             SerializableAbilityMetadata abilityMetadata = serializableMetadataLookup[abilityReference];
 
-            displayNameLookup[abilityReference] = abilityMetadata.DisplayName;
-            baseAbilityDataLookup[abilityReference] = abilityMetadata.BaseAbilityData;
-            abilityOrbTypeLookup[abilityReference] = abilityMetadata.AbilityOrbType.HasValue
+            displayNameMap[abilityReference] = abilityMetadata.DisplayName;
+            baseAbilityDataMap[abilityReference] = abilityMetadata.BaseAbilityData;
+            abilityOrbTypeMap[abilityReference] = abilityMetadata.AbilityOrbType.HasValue
                 ? abilityMetadata.AbilityOrbType.Value
                 : (OrbType?)null;
-            generatedOrbsLookup[abilityReference] = abilityMetadata.GeneratedOrbs
+            generatedOrbsMap[abilityReference] = abilityMetadata.GeneratedOrbs
                 .GroupBy(o => o)
                 .ToDictionary(g => g.Key, g => g.Count());
             BuildTooltip(abilityReference, abilityMetadata.Tooltip);
@@ -143,7 +117,7 @@ public class AbilityLookup : Singleton<AbilityLookup>
             return;
         }
 
-        templatedTooltipSegmentsLookup[abilityReference] = parser.Parse(tokens);
+        templatedTooltipSegmentsMap[abilityReference] = parser.Parse(tokens);
     }
 
     /// <summary>
@@ -174,15 +148,15 @@ public class AbilityLookup : Singleton<AbilityLookup>
 
             if (type.IsSubclassOf(typeof(InstantCast)))
             {
-                instantCastBuilderLookup[abilityReference] = (a, b) => (InstantCast)constructor.Invoke(new object[] {a, b});
-                abilityTypeLookup[abilityReference] = AbilityType.InstantCast;
+                instantCastBuilderMap[abilityReference] = (a, b) => (InstantCast)constructor.Invoke(new object[] {a, b});
+                abilityTypeMap[abilityReference] = AbilityType.InstantCast;
                 continue;
             }
 
             if (type.IsSubclassOf(typeof(Channel)))
             {
-                channelBuilderLookup[abilityReference] = (a, b) => (Channel)constructor.Invoke(new object[] {a, b});
-                abilityTypeLookup[abilityReference] = AbilityType.Channel;
+                channelBuilderMap[abilityReference] = (a, b) => (Channel)constructor.Invoke(new object[] {a, b});
+                abilityTypeMap[abilityReference] = AbilityType.Channel;
                 continue;
             }
 
