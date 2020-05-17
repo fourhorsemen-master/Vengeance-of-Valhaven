@@ -32,13 +32,17 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
 
         Player player = RoomManager.Instance.Player;
         tooltipBuilder = new PlayerTooltipBuilder(player);
-
-        UpdateTooltip(player.AbilityTree.RootNode.GetChild(Direction.Left));
     }
 
     private void Update()
     {
         MoveToMouse();
+    }
+
+    private void OnDisable()
+    {
+        // This is to avoid the tooltip being displayed if the menu is closed and reopened with the mouse no longer over an ability.
+        Deactivate();
     }
 
     public void Activate()
@@ -67,7 +71,7 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
         Dictionary<OrbType, int> generatedOrbs = AbilityLookup.Instance.GetGeneratedOrbs(node.Ability);
         bool generatesOrbs = DisplayOrbs(generatedOrbs);
 
-        float newHeight = description.preferredHeight + (generatesOrbs ? 60 : 36);
+        float newHeight = description.preferredHeight + (generatesOrbs ? 60f : 36f);
 
         tooltipPanel.sizeDelta = new Vector2(
             tooltipPanel.sizeDelta.x,

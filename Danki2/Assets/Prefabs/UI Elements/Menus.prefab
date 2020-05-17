@@ -35,7 +35,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 47.749607}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &129833003
 CanvasRenderer:
@@ -78,8 +78,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Throw a dagger dealing 2 (<color=#00dd44>+1</color>) damage on collision
-    and a further 5 (<color=#00dd44>+1</color>) poison damage over 5 seconds.
+  m_Text: test
 --- !u!1 &236770763
 GameObject:
   m_ObjectHideFlags: 0
@@ -121,7 +120,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 150}
+  m_SizeDelta: {x: 200, y: 70}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &236770766
 CanvasRenderer:
