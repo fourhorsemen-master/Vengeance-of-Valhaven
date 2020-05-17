@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class AbilityTreeDisplay : MonoBehaviour
@@ -16,7 +17,7 @@ public class AbilityTreeDisplay : MonoBehaviour
     private TreeAbility treeAbilityPrefab = null;
 
     [SerializeField]
-    private Sprite rootNodeSprite = null;
+    private AbilityTooltip abilityTooltip = null;
 
     private AbilityTree abilityTree;
     private float numTreeVerticalSections;
@@ -26,6 +27,7 @@ public class AbilityTreeDisplay : MonoBehaviour
     {
         Player player = RoomManager.Instance.Player;
         abilityTree = player.AbilityTree;
+        RecalculateDisplay();
         // TODO: subscribe to changes in the Ability Tree to recalculate the display.
     }
 
@@ -99,22 +101,9 @@ public class AbilityTreeDisplay : MonoBehaviour
     /// <returns></returns>
     private TreeAbility DrawNodes(Node node, int row = 0)
     {
-        float panelWidth = containingPanel.rect.width;
 
         Transform treeRow = treeRowsPanel.GetChild(row);
-
-        TreeAbility treeAbility = Instantiate(treeAbilityPrefab, treeRow.transform, false);
-        treeAbility.ShiftRight(panelWidth * (sectionIndices[node] / numTreeVerticalSections));
-
-        if (node.IsRootNode())
-        {
-            treeAbility.SetImage(rootNodeSprite);
-            treeAbility.RemoveOverlay();
-        }
-        else
-        {
-            treeAbility.SetImage(AbilityIconManager.Instance.GetIcon(node.Ability));
-        }
+        TreeAbility treeAbility = AddTreeAbility(treeRow, node);
 
         if (node.HasChild(Direction.Left))
         {
@@ -131,6 +120,27 @@ public class AbilityTreeDisplay : MonoBehaviour
                 Direction.Right
             );
         }
+
+        return treeAbility;
+    }
+
+    private TreeAbility AddTreeAbility(Transform treeRow, Node node)
+    {
+        TreeAbility treeAbility = Instantiate(treeAbilityPrefab, treeRow.transform, false);
+
+        float panelWidth = containingPanel.rect.width;
+        treeAbility.ShiftRight(panelWidth * (sectionIndices[node] / numTreeVerticalSections));
+
+        treeAbility.SetNode(node);
+
+        treeAbility.MouseEnterSubject.Subscribe(() => {
+            abilityTooltip.Activate();
+            abilityTooltip.UpdateTooltip(node);
+        });
+
+        treeAbility.MouseLeaveSubject.Subscribe(() => 
+            abilityTooltip.Deactivate()
+        );
 
         return treeAbility;
     }

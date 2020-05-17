@@ -475,7 +475,7 @@ MonoBehaviour:
     type: 3}
   treeAbilityPrefab: {fileID: 170457490687672504, guid: 9b94a711f825c984695d722a937a0e36,
     type: 3}
-  rootNodeSprite: {fileID: 21300000, guid: 1e50d6f4232776841b5a8f640e680f41, type: 3}
+  abilityTooltip: {fileID: 3971214295263985507}
 --- !u!1 &1235231190069689495
 GameObject:
   m_ObjectHideFlags: 0
@@ -1825,6 +1825,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1716801466120109581}
     m_Modifications:
+    - target: {fileID: 7859317892095288869, guid: b4d825c974130f84aaaeff3972678117,
+        type: 3}
+      propertyPath: m_Name
+      value: AbilityPanel
+      objectReference: {fileID: 0}
     - target: {fileID: 7179800382927097761, guid: b4d825c974130f84aaaeff3972678117,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1929,11 +1934,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7859317892095288869, guid: b4d825c974130f84aaaeff3972678117,
-        type: 3}
-      propertyPath: m_Name
-      value: AbilityPanel
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b4d825c974130f84aaaeff3972678117, type: 3}

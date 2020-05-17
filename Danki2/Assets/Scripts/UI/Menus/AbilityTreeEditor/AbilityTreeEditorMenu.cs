@@ -12,8 +12,6 @@ public class AbilityTreeEditorMenu : Singleton<AbilityTreeEditorMenu>
             if (gameState == GameState.InAbilityTreeEditor)
             {
                 gameObject.SetActive(true);
-
-                abilityTreeDisplay.RecalculateDisplay();
             }
             else
             {
