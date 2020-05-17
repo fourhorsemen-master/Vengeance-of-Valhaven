@@ -26,7 +26,8 @@ public class AbilityTreeDisplay : MonoBehaviour
     {
         Player player = RoomManager.Instance.Player;
         abilityTree = player.AbilityTree;
-        RecalculateDisplay();
+
+        if (abilityTree != null) RecalculateDisplay();
         // TODO: subscribe to changes in the Ability Tree to recalculate the display.
     }
 
@@ -136,7 +137,6 @@ public class AbilityTreeDisplay : MonoBehaviour
         {
             treeAbility.MouseEnterSubject.Subscribe(() => {
                 abilityTooltip.Activate();
-                abilityTooltip.MoveToMouse();
                 abilityTooltip.UpdateTooltip(node);
             });
 

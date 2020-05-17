@@ -16,6 +16,9 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
     private Text description = null;
 
     [SerializeField]
+    private Transform orbGenerattionPanel = null;
+
+    [SerializeField]
     private RectTransform abilityOrbPanel = null;
 
     [SerializeField]
@@ -33,23 +36,20 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
         UpdateTooltip(player.AbilityTree.RootNode.GetChild(Direction.Left));
     }
 
+    private void Update()
+    {
+        MoveToMouse();
+    }
+
     public void Activate()
     {
         gameObject.SetActive(true);
+        MoveToMouse();
     }
 
     public void Deactivate()
     {
         gameObject.SetActive(false);
-    }
-
-    public void MoveToMouse()
-    {
-        var mousePos = Input.mousePosition;
-        mousePos.x -= Screen.width / 2;
-        mousePos.y -= Screen.height / 2;
-
-        tooltipPanel.anchoredPosition = mousePos / tooltipPanel.GetParentCanvas().scaleFactor;
     }
 
     public void UpdateTooltip(Node node)
@@ -59,12 +59,21 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
         List<TooltipSegment> segments = tooltipBuilder.Build(node);
         description.text = GenerateDescription(segments);
 
+        description.rectTransform.sizeDelta = new Vector2(
+            description.rectTransform.sizeDelta.x,
+            description.preferredHeight
+        );
+
+        Dictionary<OrbType, int> generatedOrbs = AbilityLookup.Instance.GetGeneratedOrbs(node.Ability);
+        bool generatesOrbs = DisplayOrbs(generatedOrbs);
+
+        float newHeight = generatesOrbs
+            ? 10
+            : 20;
+
         Vector2 newSizeDelta = tooltipPanel.sizeDelta;
         newSizeDelta.y = description.preferredHeight + 56;
         tooltipPanel.sizeDelta = newSizeDelta;
-
-        Dictionary<OrbType, int> generatedOrbs =  AbilityLookup.Instance.GetGeneratedOrbs(node.Ability);
-        DisplayOrbs(generatedOrbs);
     }
 
     private string GenerateDescription(List<TooltipSegment> segments)
@@ -95,12 +104,14 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
         return string.Join(string.Empty, descriptionParts);
     }
 
-    private void DisplayOrbs(Dictionary<OrbType, int> generatedOrbs)
+    private bool DisplayOrbs(Dictionary<OrbType, int> generatedOrbs)
     {
         for (int i = 0; i < abilityOrbPanel.childCount; i++)
         {
             Destroy(abilityOrbPanel.GetChild(i).gameObject);
         }
+
+        bool generatesOrbs = false;
 
         foreach (OrbType key in Enum.GetValues(typeof(OrbType)))
         {
@@ -109,7 +120,15 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
             for (int i = 0; i < generatedOrbs[key]; i++)
             {
                 Instantiate(tooltipAbilityOrbPrefab, abilityOrbPanel.transform, false);
+                generatesOrbs = true;
             }
         }
+
+        return generatesOrbs;
+    }
+
+    private void MoveToMouse()
+    {
+        tooltipPanel.position = Input.mousePosition;
     }
 }
