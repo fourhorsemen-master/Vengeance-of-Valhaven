@@ -68,11 +68,11 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
         bool generatesOrbs = DisplayOrbs(generatedOrbs);
 
         float newHeight = generatesOrbs
-            ? 10
-            : 20;
+            ? description.preferredHeight + 48
+            : description.preferredHeight + 24;
 
         Vector2 newSizeDelta = tooltipPanel.sizeDelta;
-        newSizeDelta.y = description.preferredHeight + 56;
+        newSizeDelta.y = description.preferredHeight + newHeight;
         tooltipPanel.sizeDelta = newSizeDelta;
     }
 
