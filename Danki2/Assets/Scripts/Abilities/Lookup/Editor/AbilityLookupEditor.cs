@@ -1,0 +1,130 @@
+﻿using System;
+using System.Collections.Generic;
+using UnityEditor;
+using UnityEngine;
+
+[CustomEditor(typeof(AbilityLookup))]
+public class AbilityLookupEditor : Editor
+{
+    private readonly EnumDictionary<AbilityReference, bool> foldoutStatus = new EnumDictionary<AbilityReference, bool>(false);
+    
+    public override void OnInspectorGUI()
+    {
+        AbilityLookup abilityLookup = (AbilityLookup) target;
+
+        SerializableMetadataLookup serializableMetadataLookup = abilityLookup.serializableMetadataLookup;
+        
+        EditorGUILayout.LabelField("Abilities marked with an asterisk (*) are missing data.");
+
+        foreach (AbilityReference abilityReference in Enum.GetValues(typeof(AbilityReference)))
+        {
+            if (!serializableMetadataLookup.ContainsKey(abilityReference))
+            {
+                serializableMetadataLookup[abilityReference] = new SerializableAbilityMetadata();
+            }
+
+            EditSerializableAbilityMetadata(abilityReference, serializableMetadataLookup[abilityReference]);
+        }
+        
+        if (GUI.changed)
+        {
+            EditorUtility.SetDirty(target);
+        }
+    }
+
+    private void EditSerializableAbilityMetadata(AbilityReference abilityReference, SerializableAbilityMetadata serializableAbilityMetadata)
+    {
+        foldoutStatus[abilityReference] = EditorGUILayout.Foldout(
+            foldoutStatus[abilityReference],
+            serializableAbilityMetadata.Valid ? abilityReference.ToString() : $"{abilityReference.ToString()}*"
+        );
+
+        if (foldoutStatus[abilityReference])
+        {
+            EditorGUI.indentLevel++;
+            
+            EditDisplayName(serializableAbilityMetadata);
+            EditTooltip(serializableAbilityMetadata);
+            EditBaseAbilityData(serializableAbilityMetadata);
+            EditAbilityOrbType(serializableAbilityMetadata);
+            EditGeneratedOrbs(serializableAbilityMetadata);
+            
+            EditorGUI.indentLevel--;
+        }
+    }
+
+    private void EditDisplayName(SerializableAbilityMetadata serializableAbilityMetadata)
+    {
+        serializableAbilityMetadata.DisplayName = EditorGUILayout.TextField("Display Name", serializableAbilityMetadata.DisplayName);
+    }
+
+    private void EditTooltip(SerializableAbilityMetadata serializableAbilityMetadata)
+    {
+        serializableAbilityMetadata.Tooltip = EditorUtils.MultilineTextField("Tooltip", serializableAbilityMetadata.Tooltip, 3);
+    }
+
+    private void EditBaseAbilityData(SerializableAbilityMetadata serializableAbilityMetadata)
+    {
+        EditorGUILayout.LabelField("Base Ability Data");
+        EditorGUI.indentLevel++;
+
+        AbilityData currentAbilityData = serializableAbilityMetadata.BaseAbilityData;
+        int primaryDamage = EditorGUILayout.IntField("Primary Damage", currentAbilityData.PrimaryDamage);
+        int secondaryDamage = EditorGUILayout.IntField("Secondary Damage", currentAbilityData.SecondaryDamage);
+        int heal = EditorGUILayout.IntField("Heal", currentAbilityData.Heal);
+        int shield = EditorGUILayout.IntField("Shield", currentAbilityData.Shield);
+        serializableAbilityMetadata.BaseAbilityData = new AbilityData(primaryDamage, secondaryDamage, heal, shield);
+
+        EditorGUI.indentLevel--;
+    }
+
+    private void EditAbilityOrbType(SerializableAbilityMetadata serializableAbilityMetadata)
+    {
+        if (serializableAbilityMetadata.AbilityOrbType.HasValue)
+        {
+            GUILayout.BeginHorizontal();
+
+            serializableAbilityMetadata.AbilityOrbType.Value = (OrbType) EditorGUILayout
+                .EnumPopup("Ability Orb Type", serializableAbilityMetadata.AbilityOrbType.Value);
+            if (GUILayout.Button("Remove Ability Orb Type"))
+            {
+                serializableAbilityMetadata.AbilityOrbType = null;
+            }
+
+            GUILayout.EndHorizontal();
+        }
+        else
+        {
+            EditorUtils.IndentedButton("Add Ability Orb Type", () =>
+            {
+                serializableAbilityMetadata.AbilityOrbType.HasValue = true;
+                serializableAbilityMetadata.AbilityOrbType.Value = default;
+            });
+        }
+    }
+
+    private void EditGeneratedOrbs(SerializableAbilityMetadata serializableAbilityMetadata)
+    {
+        EditorGUILayout.LabelField("Generated Orbs");
+        EditorGUI.indentLevel++;
+
+        List<OrbType> generatedOrbs = serializableAbilityMetadata.GeneratedOrbs;
+
+        for (int i = generatedOrbs.Count - 1; i >= 0; i--)
+        {
+            GUILayout.BeginHorizontal();
+
+            generatedOrbs[i] = (OrbType)EditorGUILayout.EnumPopup($"Orb {generatedOrbs.Count - i}", generatedOrbs[i]);
+            if (GUILayout.Button("Remove Orb"))
+            {
+                generatedOrbs.RemoveAt(i);
+            }
+
+            GUILayout.EndHorizontal();
+        }
+
+        EditorUtils.IndentedButton("Add Orb", () => serializableAbilityMetadata.GeneratedOrbs.Insert(0, default));
+
+        EditorGUI.indentLevel--;
+    }
+}

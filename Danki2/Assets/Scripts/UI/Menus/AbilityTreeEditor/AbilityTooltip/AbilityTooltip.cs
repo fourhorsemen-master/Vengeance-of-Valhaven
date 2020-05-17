@@ -51,7 +51,7 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
         newSizeDelta.y = description.preferredHeight + 56;
         tooltipPanel.sizeDelta = newSizeDelta;
 
-        Dictionary<OrbType, int> generatedOrbs =  AbilityLookup.GetGeneratedOrbs(node.Ability);
+        Dictionary<OrbType, int> generatedOrbs =  AbilityLookup.Instance.GetGeneratedOrbs(node.Ability);
         DisplayOrbs(generatedOrbs);
     }
 
