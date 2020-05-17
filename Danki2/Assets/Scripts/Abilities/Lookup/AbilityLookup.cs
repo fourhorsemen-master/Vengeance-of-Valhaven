@@ -78,10 +78,7 @@ public class AbilityLookup : Singleton<AbilityLookup>
 
     public string GetAbilityDisplayName(AbilityReference abilityReference) => displayNameMap[abilityReference];
 
-    public Dictionary<string, AbilityBonusData> GetAbilityBonusDataLookup(AbilityReference abilityReference)
-    {
-        return abilityBonusDataMap[abilityReference];
-    }
+    public Dictionary<string, AbilityBonusData> GetAbilityBonusDataLookup(AbilityReference abilityReference) => abilityBonusDataMap[abilityReference];
 
     private void BuildMetadataLookups()
     {
