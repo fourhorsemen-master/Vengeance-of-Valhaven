@@ -56,18 +56,19 @@ MonoBehaviour:
       abilityOrbType:
         hasValue: 0
         value: 0
-      generatedOrbs: 
+      generatedOrbs: 010000000100000000000000
     - displayName: Whirlwind
-      tooltip: Deals {PRIMARY_DAMAGE} damage.
+      tooltip: Deals {PRIMARY_DAMAGE} damage over 3 seconds while channeling and an
+        additional {SECONDARY_DAMAGE} after 3 seconds to targets within 10 yards.
       baseAbilityData:
         primaryDamage: 3
         secondaryDamage: 5
         heal: 0
         shield: 0
       abilityOrbType:
-        hasValue: 0
-        value: 0
-      generatedOrbs: 0200000001000000
+        hasValue: 1
+        value: 1
+      generatedOrbs: 
     - displayName: Fireball
       tooltip: Deals {PRIMARY_DAMAGE} damage.
       baseAbilityData:

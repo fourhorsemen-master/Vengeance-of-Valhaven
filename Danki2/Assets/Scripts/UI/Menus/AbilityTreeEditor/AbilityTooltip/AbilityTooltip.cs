@@ -67,13 +67,12 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
         Dictionary<OrbType, int> generatedOrbs = AbilityLookup.Instance.GetGeneratedOrbs(node.Ability);
         bool generatesOrbs = DisplayOrbs(generatedOrbs);
 
-        float newHeight = generatesOrbs
-            ? description.preferredHeight + 48
-            : description.preferredHeight + 24;
+        float newHeight = description.preferredHeight + (generatesOrbs ? 60 : 36);
 
-        Vector2 newSizeDelta = tooltipPanel.sizeDelta;
-        newSizeDelta.y = description.preferredHeight + newHeight;
-        tooltipPanel.sizeDelta = newSizeDelta;
+        tooltipPanel.sizeDelta = new Vector2(
+            tooltipPanel.sizeDelta.x,
+            newHeight
+        );
     }
 
     private string GenerateDescription(List<TooltipSegment> segments)
@@ -96,7 +95,7 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
                     string bonus = $"+{segment.Value}";
                     string bonusWithColour = TextUtils.ColouredText("00ff00ff", bonus);
 
-                    descriptionParts.Add($"({bonusWithColour})");
+                    descriptionParts.Add($" ({bonusWithColour})");
                     break;
             }
         }
