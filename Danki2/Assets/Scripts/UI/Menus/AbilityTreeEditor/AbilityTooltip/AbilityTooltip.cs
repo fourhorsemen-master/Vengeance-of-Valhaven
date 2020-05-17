@@ -18,7 +18,7 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
     private RectTransform abilityOrbPanel = null;
 
     [SerializeField]
-    private TooltipAbilityOrb tooltipAbilityOrb = null;
+    private TooltipAbilityOrb tooltipAbilityOrbPrefab = null;
 
     private PlayerTooltipBuilder tooltipBuilder;
 
@@ -85,6 +85,17 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
 
     private void DisplayOrbs(Dictionary<OrbType, int> generatedOrbs)
     {
-        return;
+        for (int i = 0; i < abilityOrbPanel.childCount; i++)
+        {
+            Destroy(abilityOrbPanel.GetChild(i).gameObject);
+        }
+
+        foreach (OrbType key in Enum.GetValues(typeof(OrbType)))
+        {
+            for (int i = 0; i < generatedOrbs[key]; i++)
+            {
+                Instantiate(tooltipAbilityOrbPrefab, abilityOrbPanel.transform, false);
+            }
+        }
     }
 }
