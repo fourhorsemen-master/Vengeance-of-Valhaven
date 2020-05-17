@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using ICSharpCode.NRefactory.Ast;
 using UnityEditor;
 using UnityEngine;
-using Object = System.Object;
 
 [CustomEditor(typeof(AbilityLookup))]
 public class AbilityLookupEditor : Editor
@@ -82,29 +80,27 @@ public class AbilityLookupEditor : Editor
 
     private void EditAbilityOrbType(SerializableAbilityMetadata serializableAbilityMetadata)
     {
-        GUILayout.BeginHorizontal();
-
         if (serializableAbilityMetadata.AbilityOrbType.HasValue)
         {
+            GUILayout.BeginHorizontal();
+
             serializableAbilityMetadata.AbilityOrbType.Value = (OrbType) EditorGUILayout
                 .EnumPopup("Ability Orb Type", serializableAbilityMetadata.AbilityOrbType.Value);
             if (GUILayout.Button("Remove Ability Orb Type"))
             {
                 serializableAbilityMetadata.AbilityOrbType = null;
             }
+
+            GUILayout.EndHorizontal();
         }
         else
         {
-            GUILayout.Space (EditorGUI.indentLevel * 15);
-
-            if (GUILayout.Button("Add Ability Orb Type"))
+            EditorUtils.IndentedButton("Add Ability Orb Type", () =>
             {
                 serializableAbilityMetadata.AbilityOrbType.HasValue = true;
                 serializableAbilityMetadata.AbilityOrbType.Value = default;
-            }
+            });
         }
-
-        GUILayout.EndHorizontal();
     }
 
     private void EditGeneratedOrbs(SerializableAbilityMetadata serializableAbilityMetadata)
@@ -127,15 +123,8 @@ public class AbilityLookupEditor : Editor
             GUILayout.EndHorizontal();
         }
 
-        GUILayout.BeginHorizontal();
-        GUILayout.Space (EditorGUI.indentLevel * 15);
+        EditorUtils.IndentedButton("Add Orb", () => serializableAbilityMetadata.GeneratedOrbs.Insert(0, default));
 
-        if (GUILayout.Button("Add Orb"))
-        {
-            serializableAbilityMetadata.GeneratedOrbs.Insert(0, default);
-        }
-
-        GUILayout.EndHorizontal();
         EditorGUI.indentLevel--;
     }
 }
