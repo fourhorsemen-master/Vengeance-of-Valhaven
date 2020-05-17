@@ -7,7 +7,6 @@ using UnityEngine;
 public class SerializableMetadataLookupValidator
 {
     private readonly SerializableMetadataLookup serializableMetadataLookup;
-
     private readonly List<AttributeData<AbilityAttribute>> abilityAttributeData;
     private readonly Dictionary<AbilityReference, AttributeData<AbilityAttribute>> abilityAttributeDataLookup;
 
@@ -18,12 +17,15 @@ public class SerializableMetadataLookupValidator
 
     public bool HasErrors => errors.Count > 0;
 
-    public SerializableMetadataLookupValidator(SerializableMetadataLookup serializableMetadataLookup)
+    public SerializableMetadataLookupValidator(
+        SerializableMetadataLookup serializableMetadataLookup,
+        List<AttributeData<AbilityAttribute>> abilityAttributeData
+    )
     {
         this.serializableMetadataLookup = serializableMetadataLookup;
-        
-        abilityAttributeData = ReflectionUtils.GetAttributeData<AbilityAttribute>(Assembly.GetExecutingAssembly());
-        abilityAttributeDataLookup = abilityAttributeData.ToDictionary(
+        this.abilityAttributeData = abilityAttributeData;
+
+        abilityAttributeDataLookup = this.abilityAttributeData.ToDictionary(
             d => d.Attribute.AbilityReference,
             d => d
         );
@@ -65,9 +67,18 @@ public class SerializableMetadataLookupValidator
         
         abilityAttributeData.ForEach(attributeData =>
         {
-            if (!attributeData.Type.IsSubclassOf(typeof(InstantCast)) && !attributeData.Type.IsSubclassOf(typeof(Channel)))
+            Type type = attributeData.Type;
+            
+            if (!type.IsSubclassOf(typeof(InstantCast)) && !type.IsSubclassOf(typeof(Channel)))
             {
-                errors.Add($"Found ability attribute on type \"{attributeData.Type}\", which does not inherit from a recognised ability class.");
+                errors.Add($"Found ability attribute on type \"{type}\", which does not inherit from a recognised ability class.");
+            }
+
+            ConstructorInfo constructor = type.GetConstructor(new [] {typeof(Actor), typeof(AbilityData)});
+
+            if (constructor == null)
+            {
+                errors.Add($"Could not find valid ability constructor on annotated type \"{type}\".");
             }
         });
     }

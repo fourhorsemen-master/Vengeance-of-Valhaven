@@ -20,7 +20,6 @@ public class AbilityLookup : Singleton<AbilityLookup>
     private readonly AbilityMap<AbilityType> abilityTypeMap = new AbilityMap<AbilityType>();
 
     private readonly Lexer lexer = new Lexer();
-    private readonly TokenValidator tokenValidator = new TokenValidator();
     private readonly Parser parser = new Parser();
 
     private List<AttributeData<AbilityAttribute>> abilityAttributeData;
@@ -35,6 +34,18 @@ public class AbilityLookup : Singleton<AbilityLookup>
             d => d.Attribute.AbilityReference,
             d => d
         );
+
+        SerializableMetadataLookupValidator serializableMetadataLookupValidator = new SerializableMetadataLookupValidator(
+            serializableMetadataLookup,
+            abilityAttributeData
+        );
+
+        if (serializableMetadataLookupValidator.HasErrors)
+        {
+            Debug.LogError("Serializable metadata lookup errors found, logging errors below and aborting building of ability lookups.");
+            serializableMetadataLookupValidator.LogErrors();
+            return;
+        }
 
         BuildMetadataLookups();
         BuildAbilityBuilderLookups();
@@ -82,55 +93,26 @@ public class AbilityLookup : Singleton<AbilityLookup>
 
     private void BuildMetadataLookups()
     {
-        if (!HasValidSerializableMetadataLookup()) return;
-
         foreach (AbilityReference abilityReference in Enum.GetValues(typeof(AbilityReference)))
         {
-            SerializableAbilityMetadata abilityMetadata = serializableMetadataLookup[abilityReference];
+            SerializableAbilityMetadata serializableAbilityMetadata = serializableMetadataLookup[abilityReference];
 
-            displayNameMap[abilityReference] = abilityMetadata.DisplayName;
-            baseAbilityDataMap[abilityReference] = abilityMetadata.BaseAbilityData;
-            abilityOrbTypeMap[abilityReference] = abilityMetadata.AbilityOrbType.HasValue
-                ? abilityMetadata.AbilityOrbType.Value
+            displayNameMap[abilityReference] = serializableAbilityMetadata.DisplayName;
+            baseAbilityDataMap[abilityReference] = serializableAbilityMetadata.BaseAbilityData;
+            abilityOrbTypeMap[abilityReference] = serializableAbilityMetadata.AbilityOrbType.HasValue
+                ? serializableAbilityMetadata.AbilityOrbType.Value
                 : (OrbType?)null;
-            generatedOrbsMap[abilityReference] = abilityMetadata.GeneratedOrbs
+            generatedOrbsMap[abilityReference] = serializableAbilityMetadata.GeneratedOrbs
                 .GroupBy(o => o)
                 .ToDictionary(g => g.Key, g => g.Count());
-            BuildTooltip(abilityReference, abilityMetadata.Tooltip);
-            BuildAbilityBonusLookup(abilityReference, abilityMetadata.AbilityBonusLookup);
+            BuildTooltip(abilityReference, serializableAbilityMetadata.Tooltip);
+            BuildAbilityBonusLookup(abilityReference, serializableAbilityMetadata.AbilityBonusLookup);
         }
-    }
-
-    private bool HasValidSerializableMetadataLookup()
-    {
-        foreach (AbilityReference abilityReference in Enum.GetValues(typeof(AbilityReference)))
-        {
-            if (!serializableMetadataLookup.ContainsKey(abilityReference))
-            {
-                Debug.LogError($"No ability metadata found for {abilityReference.ToString()}, please add in the editor.");
-                return false;
-            }
-
-            if (!serializableMetadataLookup[abilityReference].Valid)
-            {
-                Debug.LogError($"Invalid ability metadata for {abilityReference.ToString()}, please change in the editor.");
-                return false;
-            }
-        }
-
-        return true;
     }
 
     private void BuildTooltip(AbilityReference abilityReference, string tooltip)
     {
         List<Token> tokens = lexer.Lex(tooltip);
-
-        if (!tokenValidator.HasValidSyntax(tokens))
-        {
-            Debug.LogError($"Tooltip for {abilityReference.ToString()} does not have valid syntax, value was: \"{tooltip}\".");
-            return;
-        }
-
         templatedTooltipSegmentsMap[abilityReference] = parser.Parse(tokens);
     }
 
@@ -139,33 +121,9 @@ public class AbilityLookup : Singleton<AbilityLookup>
         SerializableAbilityBonusLookup serializableAbilityBonusLookup
     )
     {
-        if (!serializableAbilityBonusLookup.Valid)
-        {
-            Debug.LogError($"Invalid ability bonus data for {abilityReference.ToString()}, please change in the editor.");
-            return;
-        }
+        string[] abilityBonuses = abilityAttributeDataLookup[abilityReference].Attribute.AbilityBonuses;
 
-        string[] attributeAbilityBonuses = abilityAttributeDataLookup[abilityReference].Attribute.AbilityBonuses;
-        string[] serializedAbilityBonuses = serializableAbilityBonusLookup.Keys.ToArray();
-
-        if (attributeAbilityBonuses.Length != serializedAbilityBonuses.Length)
-        {
-            Debug.LogError("Attribute ability bonuses do not match serialized ability bonuses in length");
-            return;
-        }
-
-        for (int i = 0; i < attributeAbilityBonuses.Length; i++)
-        {
-            string attributeAbilityBonus = attributeAbilityBonuses[i];
-            string serializedAbilityBonus = serializedAbilityBonuses[i];
-            if (attributeAbilityBonus != serializedAbilityBonus)
-            {
-                Debug.LogError($"Attribute ability bonus \"{attributeAbilityBonus}\" does not match serialized ability bonus {serializedAbilityBonus}");
-                return;
-            }
-        }
-
-        abilityBonusDataMap[abilityReference] = attributeAbilityBonuses.ToDictionary(
+        abilityBonusDataMap[abilityReference] = abilityBonuses.ToDictionary(
             abilityBonus => abilityBonus,
             abilityBonus =>
             {
@@ -180,14 +138,11 @@ public class AbilityLookup : Singleton<AbilityLookup>
     }
 
     /// <summary>
-    /// Checks for classes with the ability attribute, validates that they are on the correct class and that we have
-    /// the expected number of annotations, then gets the constructors manually for these classes and adds them to
-    /// the ability builder lookups.
+    /// Checks for classes with the ability attribute and gets the constructors manually for these classes and adds them
+    /// to the ability builder lookups.
     /// </summary>
     private void BuildAbilityBuilderLookups()
     {
-        if (!IsValidAbilityAttributeData()) return;
-
         Dictionary<AbilityReference, Type> abilityReferenceToType = abilityAttributeData
             .ToDictionary(d => d.Attribute.AbilityReference, d => d.Type);
 
@@ -195,12 +150,6 @@ public class AbilityLookup : Singleton<AbilityLookup>
         {
             Type type = abilityReferenceToType[abilityReference];
             ConstructorInfo constructor = type.GetConstructor(new [] {typeof(Actor), typeof(AbilityData)});
-
-            if (constructor == null)
-            {
-                Debug.Log($"Could not find valid constructor for ability: {abilityReference}.");
-                return;
-            }
 
             if (type.IsSubclassOf(typeof(InstantCast)))
             {
@@ -213,37 +162,7 @@ public class AbilityLookup : Singleton<AbilityLookup>
             {
                 channelBuilderMap[abilityReference] = (a, b) => (Channel)constructor.Invoke(new object[] {a, b});
                 abilityTypeMap[abilityReference] = AbilityType.Channel;
-                continue;
             }
-
-            Debug.LogError($"Ability {abilityReference} does not inherit from a recognised ability class.");
         }
-    }
-
-    private bool IsValidAbilityAttributeData()
-    {
-        List<AbilityReference> abilityReferences = abilityAttributeData
-            .Select(d => d.Attribute.AbilityReference)
-            .ToList();
-
-        if (abilityReferences.Distinct().Count() != abilityReferences.Count)
-        {
-            Debug.LogError("Ability attributes do not contain distinct ability references.");
-            return false;
-        }
-
-        if (abilityReferences.Count != Enum.GetValues(typeof(AbilityReference)).Length)
-        {
-            Debug.LogError("Ability attributes found do not match all AbilityReferences. There may be abilities missing the attribute.");
-            return false;
-        }
-
-        if (!abilityAttributeData.All(d => d.Type.IsSubclassOf(typeof(Ability))))
-        {
-            Debug.LogError("Found ability attribute on class that does not inherit from ability.");
-            return false;
-        }
-
-        return true;
     }
 }
