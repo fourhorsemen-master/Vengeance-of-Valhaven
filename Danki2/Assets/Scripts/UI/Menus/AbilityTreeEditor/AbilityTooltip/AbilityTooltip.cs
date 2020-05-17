@@ -25,6 +25,8 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
 
     private void Start()
     {
+        gameObject.SetActive(false);
+
         Player player = RoomManager.Instance.Player;
         tooltipBuilder = new PlayerTooltipBuilder(player);
 

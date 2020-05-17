@@ -132,15 +132,18 @@ public class AbilityTreeDisplay : MonoBehaviour
 
         treeAbility.SetNode(node);
 
-        treeAbility.MouseEnterSubject.Subscribe(() => {
-            abilityTooltip.Activate();
-            abilityTooltip.MoveToMouse();
-            abilityTooltip.UpdateTooltip(node);
-        });
+        if (!node.IsRootNode())
+        {
+            treeAbility.MouseEnterSubject.Subscribe(() => {
+                abilityTooltip.Activate();
+                abilityTooltip.MoveToMouse();
+                abilityTooltip.UpdateTooltip(node);
+            });
 
-        treeAbility.MouseLeaveSubject.Subscribe(() => 
-            abilityTooltip.Deactivate()
-        );
+            treeAbility.MouseLeaveSubject.Subscribe(() =>
+                abilityTooltip.Deactivate()
+            );
+        }
 
         return treeAbility;
     }
