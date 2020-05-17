@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UI.Extensions;
 
 public class AbilityTooltip : Singleton<AbilityTooltip>
 {
@@ -38,6 +39,15 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
     public void Deactivate()
     {
         gameObject.SetActive(false);
+    }
+
+    public void MoveToMouse()
+    {
+        var mousePos = Input.mousePosition;
+        mousePos.x -= Screen.width / 2;
+        mousePos.y -= Screen.height / 2;
+
+        tooltipPanel.anchoredPosition = mousePos / tooltipPanel.GetParentCanvas().scaleFactor;
     }
 
     public void UpdateTooltip(Node node)
@@ -92,6 +102,8 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
 
         foreach (OrbType key in Enum.GetValues(typeof(OrbType)))
         {
+            if (!generatedOrbs.TryGetValue(key, out int count)) continue;
+
             for (int i = 0; i < generatedOrbs[key]; i++)
             {
                 Instantiate(tooltipAbilityOrbPrefab, abilityOrbPanel.transform, false);

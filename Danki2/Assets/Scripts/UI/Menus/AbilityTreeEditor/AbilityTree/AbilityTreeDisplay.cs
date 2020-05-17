@@ -134,6 +134,7 @@ public class AbilityTreeDisplay : MonoBehaviour
 
         treeAbility.MouseEnterSubject.Subscribe(() => {
             abilityTooltip.Activate();
+            abilityTooltip.MoveToMouse();
             abilityTooltip.UpdateTooltip(node);
         });
 
