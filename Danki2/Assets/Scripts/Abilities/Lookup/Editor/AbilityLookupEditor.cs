@@ -84,34 +84,32 @@ public class AbilityLookupEditor : Editor
 
     private void EditTooltip(SerializableAbilityMetadata serializableAbilityMetadata)
     {
-        serializableAbilityMetadata.Tooltip = EditorGUILayout.TextField("Tooltip", serializableAbilityMetadata.Tooltip);
+        serializableAbilityMetadata.Tooltip = EditorUtils.MultilineTextField("Tooltip", serializableAbilityMetadata.Tooltip, 3);
     }
 
     private void EditAbilityOrbType(SerializableAbilityMetadata serializableAbilityMetadata)
     {
-        GUILayout.BeginHorizontal();
-
         if (serializableAbilityMetadata.AbilityOrbType.HasValue)
         {
+            GUILayout.BeginHorizontal();
+
             serializableAbilityMetadata.AbilityOrbType.Value = (OrbType) EditorGUILayout
                 .EnumPopup("Ability Orb Type", serializableAbilityMetadata.AbilityOrbType.Value);
             if (GUILayout.Button("Remove Ability Orb Type"))
             {
                 serializableAbilityMetadata.AbilityOrbType = null;
             }
+
+            GUILayout.EndHorizontal();
         }
         else
         {
-            GUILayout.Space (EditorGUI.indentLevel * 15);
-
-            if (GUILayout.Button("Add Ability Orb Type"))
+            EditorUtils.IndentedButton("Add Ability Orb Type", () =>
             {
                 serializableAbilityMetadata.AbilityOrbType.HasValue = true;
                 serializableAbilityMetadata.AbilityOrbType.Value = default;
-            }
+            });
         }
-
-        GUILayout.EndHorizontal();
     }
 
     private void EditBaseAbilityData(AbilityReference abilityReference, SerializableAbilityMetadata serializableAbilityMetadata)
@@ -219,14 +217,8 @@ public class AbilityLookupEditor : Editor
             GUILayout.EndHorizontal();
         }
 
-        GUILayout.BeginHorizontal();
-        GUILayout.Space (EditorGUI.indentLevel * 15);
+        EditorUtils.IndentedButton(buttonLabel, () => orbTypes.Insert(0, default));
 
-        if (GUILayout.Button(buttonLabel))
-        {
-            orbTypes.Insert(0, default);
-        }
-
-        GUILayout.EndHorizontal();
+        EditorGUI.indentLevel--;
     }
 }
