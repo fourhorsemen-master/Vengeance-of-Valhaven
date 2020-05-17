@@ -6,8 +6,31 @@ public class TooltipAbilityOrb : MonoBehaviour
     [SerializeField]
     private Image image = null;
 
-    public void SetImage(Sprite sprite)
+    [SerializeField]
+    private Sprite balanceSprite = null;
+
+    [SerializeField]
+    private Sprite aggressionSprite = null;
+
+    [SerializeField]
+    private Sprite cunningSprite = null;
+
+    public void SetType(OrbType type)
     {
-        image.sprite = sprite;
+        switch (type)
+        {
+            case OrbType.Balance:
+                image.sprite = balanceSprite;
+                break;
+
+            case OrbType.Aggression:
+                image.sprite = aggressionSprite;
+                break;
+
+            case OrbType.Cunning:
+                image.sprite = cunningSprite;
+                break;
+        }
+        
     }
 }

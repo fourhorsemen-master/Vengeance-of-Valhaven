@@ -118,7 +118,8 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
 
             for (int i = 0; i < generatedOrbs[key]; i++)
             {
-                Instantiate(tooltipAbilityOrbPrefab, abilityOrbPanel.transform, false);
+                TooltipAbilityOrb orb = Instantiate(tooltipAbilityOrbPrefab, abilityOrbPanel.transform, false);
+                orb.SetType(key);
                 generatesOrbs = true;
             }
         }
