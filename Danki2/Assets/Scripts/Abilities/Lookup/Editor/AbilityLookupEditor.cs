@@ -187,9 +187,10 @@ public class AbilityLookupEditor : Editor
                 newSerializableAbilityBonusLookup[abilityBonus].DisplayName
             );
 
-            newSerializableAbilityBonusLookup[abilityBonus].Tooltip = EditorGUILayout.TextField(
+            newSerializableAbilityBonusLookup[abilityBonus].Tooltip = EditorUtils.MultilineTextField(
                 "Tooltip",
-                newSerializableAbilityBonusLookup[abilityBonus].Tooltip
+                newSerializableAbilityBonusLookup[abilityBonus].Tooltip,
+                3
             );
 
             EditOrbList(newSerializableAbilityBonusLookup[abilityBonus].RequiredOrbs, "Add Required Orb");
@@ -218,7 +219,5 @@ public class AbilityLookupEditor : Editor
         }
 
         EditorUtils.IndentedButton(buttonLabel, () => orbTypes.Insert(0, default));
-
-        EditorGUI.indentLevel--;
     }
 }
