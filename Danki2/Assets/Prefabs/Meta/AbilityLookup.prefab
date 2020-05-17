@@ -1,0 +1,147 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2558151281320997182
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1272917752393577286}
+  - component: {fileID: 4259702728665597836}
+  m_Layer: 0
+  m_Name: AbilityLookup
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1272917752393577286
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2558151281320997182}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4259702728665597836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2558151281320997182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79a57a01175c88f4e936f0fdaf19f2f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializableMetadataLookup:
+    _keys: 000000000100000002000000030000000400000005000000060000000700000008000000
+    _values:
+    - displayName: Slash
+      tooltip: Deals {PRIMARY_DAMAGE} damage.
+      baseAbilityData:
+        primaryDamage: 5
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      abilityOrbType:
+        hasValue: 0
+        value: 0
+      generatedOrbs: 
+    - displayName: Whirlwind
+      tooltip: Deals {PRIMARY_DAMAGE} damage.
+      baseAbilityData:
+        primaryDamage: 3
+        secondaryDamage: 5
+        heal: 0
+        shield: 0
+      abilityOrbType:
+        hasValue: 0
+        value: 0
+      generatedOrbs: 
+    - displayName: Fireball
+      tooltip: Deals {PRIMARY_DAMAGE} damage.
+      baseAbilityData:
+        primaryDamage: 5
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      abilityOrbType:
+        hasValue: 0
+        value: 0
+      generatedOrbs: 
+    - displayName: Dagger Throw
+      tooltip: Deals {PRIMARY_DAMAGE} damage.
+      baseAbilityData:
+        primaryDamage: 2
+        secondaryDamage: 3
+        heal: 0
+        shield: 0
+      abilityOrbType:
+        hasValue: 0
+        value: 0
+      generatedOrbs: 
+    - displayName: Bite
+      tooltip: Deals {PRIMARY_DAMAGE} damage.
+      baseAbilityData:
+        primaryDamage: 5
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      abilityOrbType:
+        hasValue: 0
+        value: 0
+      generatedOrbs: 
+    - displayName: Pounce
+      tooltip: Deals {PRIMARY_DAMAGE} damage.
+      baseAbilityData:
+        primaryDamage: 4
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      abilityOrbType:
+        hasValue: 0
+        value: 0
+      generatedOrbs: 
+    - displayName: Roll
+      tooltip: Deals {PRIMARY_DAMAGE} damage.
+      baseAbilityData:
+        primaryDamage: 0
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      abilityOrbType:
+        hasValue: 0
+        value: 0
+      generatedOrbs: 
+    - displayName: Lunge
+      tooltip: Deals {PRIMARY_DAMAGE} damage.
+      baseAbilityData:
+        primaryDamage: 4
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      abilityOrbType:
+        hasValue: 0
+        value: 0
+      generatedOrbs: 
+    - displayName: Smash
+      tooltip: Deals {PRIMARY_DAMAGE} damage.
+      baseAbilityData:
+        primaryDamage: 10
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      abilityOrbType:
+        hasValue: 0
+        value: 0
+      generatedOrbs: 

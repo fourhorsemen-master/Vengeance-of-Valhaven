@@ -1,14 +1,8 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+[Ability(AbilityReference.Pounce)]
 public class Pounce : InstantCast
 {
-    public static readonly AbilityData BaseAbilityData = new AbilityData(4, 0, 0, 0);
-    public static readonly Dictionary<OrbType, int> GeneratedOrbs = new Dictionary<OrbType, int>();
-    public const OrbType AbilityOrbType = OrbType.Aggression;
-    public const string Tooltip = "Deals {PRIMARY_DAMAGE} damage.";
-    public const string DisplayName = "Pounce";
-
     // The ai casting this ability should determine cast range
     private const float MinMovementDuration = 0.25f;
     private const float MaxMovementDuration = 0.5f;
