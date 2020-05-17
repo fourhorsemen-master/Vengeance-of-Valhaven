@@ -62,7 +62,7 @@ public class AbilityLookupEditor : Editor
 
     private void EditTooltip(SerializableAbilityMetadata serializableAbilityMetadata)
     {
-        serializableAbilityMetadata.Tooltip = EditorGUILayout.TextField("Tooltip", serializableAbilityMetadata.Tooltip);
+        serializableAbilityMetadata.Tooltip = EditorUtils.MultilineTextField("Tooltip", serializableAbilityMetadata.Tooltip, 3);
     }
 
     private void EditBaseAbilityData(SerializableAbilityMetadata serializableAbilityMetadata)
