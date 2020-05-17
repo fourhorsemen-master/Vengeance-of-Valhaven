@@ -43,7 +43,8 @@ public class HealthManager
 
     public void ReceiveDamage(int damage)
     {
-        damage = Mathf.Max(MinimumDamageAfterStats, damage - actor.GetStat(Stat.Defence));
+        // If already 0, damage should be left as 0, else reduce according to defence, but not below the minimum threshold.
+        damage = damage == 0 ? 0 : Mathf.Max(MinimumDamageAfterStats, damage - actor.GetStat(Stat.Defence));
         damage = actor.EffectManager.ProcessIncomingDamage(damage);
 
         if (damage < 0)

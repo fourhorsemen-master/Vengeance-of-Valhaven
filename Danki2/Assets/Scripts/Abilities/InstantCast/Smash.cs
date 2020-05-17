@@ -1,14 +1,8 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+[Ability(AbilityReference.Smash)]
 public class Smash : InstantCast
 {
-    public static readonly AbilityData BaseAbilityData = new AbilityData(10, 0, 0, 0);
-    public static readonly Dictionary<OrbType, int> GeneratedOrbs = new Dictionary<OrbType, int>();
-    public const OrbType AbilityOrbType = OrbType.Aggression;
-    public const string Tooltip = "Deals {PRIMARY_DAMAGE} damage.";
-    public const string DisplayName = "Smash";
-
     private const float DistanceFromCaster = 1f;
     private const float Radius = 1f;
 

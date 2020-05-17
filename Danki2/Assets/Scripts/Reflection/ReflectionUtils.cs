@@ -16,12 +16,21 @@ public static class ReflectionUtils
                 continue;
             }
 
-            foreach (Type type in assembly.GetExportedTypes())
+            attributeData.AddRange(GetAttributeData<TAttribute>(assembly));
+        }
+
+        return attributeData;
+    }
+
+    public static List<AttributeData<TAttribute>> GetAttributeData<TAttribute>(Assembly assembly) where TAttribute : Attribute
+    {
+        List<AttributeData<TAttribute>> attributeData = new List<AttributeData<TAttribute>>();
+        
+        foreach (Type type in assembly.GetExportedTypes())
+        {
+            if (TryGetAttribute(type, out TAttribute attribute))
             {
-                if (TryGetAttribute(type, out TAttribute attribute))
-                {
-                    attributeData.Add(new AttributeData<TAttribute>(attribute, type));
-                }
+                attributeData.Add(new AttributeData<TAttribute>(attribute, type));
             }
         }
 
