@@ -26,12 +26,21 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
 
     private PlayerTooltipBuilder tooltipBuilder;
 
+    // TODO: include this in an OrbType lookup
+    private Dictionary<OrbType?, string> orbColourMap;
+
     private void Start()
     {
         gameObject.SetActive(false);
 
         Player player = RoomManager.Instance.Player;
         tooltipBuilder = new PlayerTooltipBuilder(player);
+
+        orbColourMap = new Dictionary<OrbType?, string> {
+            { OrbType.Aggression, "ff5555ff" },
+            { OrbType.Balance, "55ff55ff" },
+            { OrbType.Cunning, "5555ffff" },
+        };
     }
 
     private void Update()
@@ -60,8 +69,10 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
     {
         title.text = node.Ability.ToString();
 
+        OrbType? abilityType = AbilityLookup.Instance.GetAbilityOrbType(node.Ability);
+
         List<TooltipSegment> segments = tooltipBuilder.Build(node);
-        description.text = GenerateDescription(segments);
+        description.text = GenerateDescription(abilityType, segments);
 
         description.rectTransform.sizeDelta = new Vector2(
             description.rectTransform.sizeDelta.x,
@@ -79,7 +90,7 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
         );
     }
 
-    private string GenerateDescription(List<TooltipSegment> segments)
+    private string GenerateDescription(OrbType? abilityType, List<TooltipSegment> segments)
     {
         List<string> descriptionParts = new List<string>();
 
@@ -97,7 +108,12 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
 
                 case TooltipSegmentType.BonusNumericValue:
                     string bonus = $"+{segment.Value}";
-                    string bonusWithColour = TextUtils.ColouredText("00ff00ff", bonus);
+
+                    string colorHex = abilityType == null
+                        ? "bbbbbbff"
+                        : orbColourMap[abilityType];
+
+                    string bonusWithColour = TextUtils.ColouredText(colorHex, bonus);
 
                     descriptionParts.Add($" ({bonusWithColour})");
                     break;
