@@ -108,11 +108,7 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
 
                 case TooltipSegmentType.BonusNumericValue:
                     string bonus = $"+{segment.Value}";
-
-                    string colorHex = abilityType == null
-                        ? "bbbbbbff"
-                        : orbColourMap[abilityType];
-
+                    string colorHex = orbColourMap[abilityType];
                     string bonusWithColour = TextUtils.ColouredText(colorHex, bonus);
 
                     descriptionParts.Add($" ({bonusWithColour})");
