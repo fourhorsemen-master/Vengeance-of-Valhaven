@@ -30,13 +30,17 @@ public class AbilityLookupSanitizer
 
     private void RemoveUnnecessaryKeys()
     {
+        List<AbilityReference> keysToRemove = new List<AbilityReference>();
+        
         foreach (AbilityReference abilityReference in serializableMetadataLookup.Keys)
         {
             if (!abilityAttributeDataLookup.ContainsKey(abilityReference))
             {
-                serializableMetadataLookup.Remove(abilityReference);
+                keysToRemove.Add(abilityReference);
             }
         }
+        
+        keysToRemove.ForEach(k => serializableMetadataLookup.Remove(k));
     }
 
     private void AddMissingKeys()
@@ -64,13 +68,17 @@ public class AbilityLookupSanitizer
         string[] abilityBonuses
     )
     {
+        List<string> keysToRemove = new List<string>();
+        
         foreach (string key in serializableAbilityBonusLookup.Keys)
         {
             if (!abilityBonuses.Contains(key))
             {
-                serializableAbilityBonusLookup.Remove(key);
+                keysToRemove.Add(key);
             }
         }
+        
+        keysToRemove.ForEach(k => serializableAbilityBonusLookup.Remove(k));
     }
 
     private void AddMissingBonusKeys(

@@ -12,33 +12,36 @@ public class AbilityLookupEditor : Editor
             () => new EnumDictionary<AbilityDataDropdownGroup, bool>(false)
         );
 
+    private List<AttributeData<AbilityAttribute>> abilityAttributeData;
     private Dictionary<AbilityReference, AttributeData<AbilityAttribute>> abilityAttributeDataLookup;
+    
+    private void OnValidate()
+    {
+        SerializableMetadataLookup serializableMetadataLookup = ((AbilityLookup) target).serializableMetadataLookup;
+        LoadAbilityAttributeData();
+        SanitizeData(serializableMetadataLookup);
+    }
 
     public override void OnInspectorGUI()
     {
-        AbilityLookup abilityLookup = (AbilityLookup) target;
+        SerializableMetadataLookup serializableMetadataLookup = ((AbilityLookup) target).serializableMetadataLookup;
 
         if (abilityAttributeDataLookup == null)
         {
             LoadAbilityAttributeData();
+            SanitizeData(serializableMetadataLookup);
         }
 
         if (GUILayout.Button("Refresh"))
         {
             LoadAbilityAttributeData();
+            SanitizeData(serializableMetadataLookup);
         }
 
-        SerializableMetadataLookup serializableMetadataLookup = abilityLookup.serializableMetadataLookup;
-        
         EditorGUILayout.LabelField("Abilities marked with an asterisk (*) are missing data.");
 
         foreach (AbilityReference abilityReference in Enum.GetValues(typeof(AbilityReference)))
         {
-            if (!serializableMetadataLookup.ContainsKey(abilityReference))
-            {
-                serializableMetadataLookup[abilityReference] = new SerializableAbilityMetadata();
-            }
-
             EditSerializableAbilityMetadata(abilityReference, serializableMetadataLookup[abilityReference]);
         }
         
@@ -50,10 +53,17 @@ public class AbilityLookupEditor : Editor
 
     private void LoadAbilityAttributeData()
     {
-        abilityAttributeDataLookup = ReflectionUtils.GetAttributeData<AbilityAttribute>().ToDictionary(
+        abilityAttributeData = ReflectionUtils.GetAttributeData<AbilityAttribute>();
+        abilityAttributeDataLookup = abilityAttributeData.ToDictionary(
             d => d.Attribute.AbilityReference,
             d => d
         );
+    }
+
+    private void SanitizeData(SerializableMetadataLookup serializableMetadataLookup)
+    {
+        AbilityLookupSanitizer sanitizer = new AbilityLookupSanitizer(serializableMetadataLookup, abilityAttributeData);
+        sanitizer.Sanitize();
     }
 
     private void EditSerializableAbilityMetadata(AbilityReference abilityReference, SerializableAbilityMetadata serializableAbilityMetadata)
@@ -95,9 +105,10 @@ public class AbilityLookupEditor : Editor
 
             serializableAbilityMetadata.AbilityOrbType.Value = (OrbType) EditorGUILayout
                 .EnumPopup("Ability Orb Type", serializableAbilityMetadata.AbilityOrbType.Value);
+
             if (GUILayout.Button("Remove Ability Orb Type"))
             {
-                serializableAbilityMetadata.AbilityOrbType = null;
+                serializableAbilityMetadata.AbilityOrbType.HasValue = false;
             }
 
             GUILayout.EndHorizontal();
@@ -170,35 +181,28 @@ public class AbilityLookupEditor : Editor
 
         EditorGUI.indentLevel++;
 
-        SerializableAbilityBonusLookup oldSerializableAbilityBonusLookup = serializableAbilityMetadata.AbilityBonusLookup;
-        SerializableAbilityBonusLookup newSerializableAbilityBonusLookup = new SerializableAbilityBonusLookup();
+        SerializableAbilityBonusLookup serializableAbilityBonusLookup = serializableAbilityMetadata.AbilityBonusLookup;
 
         foreach (string abilityBonus in abilityAttributeDataLookup[abilityReference].Attribute.AbilityBonuses)
         {
             EditorGUILayout.LabelField(abilityBonus);
             EditorGUI.indentLevel++;
-                
-            newSerializableAbilityBonusLookup[abilityBonus] = oldSerializableAbilityBonusLookup.ContainsKey(abilityBonus)
-                ? oldSerializableAbilityBonusLookup[abilityBonus]
-                : new SerializableAbilityBonusMetadata();
 
-            newSerializableAbilityBonusLookup[abilityBonus].DisplayName = EditorGUILayout.TextField(
+            serializableAbilityBonusLookup[abilityBonus].DisplayName = EditorGUILayout.TextField(
                 "Display Name",
-                newSerializableAbilityBonusLookup[abilityBonus].DisplayName
+                serializableAbilityBonusLookup[abilityBonus].DisplayName
             );
 
-            newSerializableAbilityBonusLookup[abilityBonus].Tooltip = EditorUtils.MultilineTextField(
+            serializableAbilityBonusLookup[abilityBonus].Tooltip = EditorUtils.MultilineTextField(
                 "Tooltip",
-                newSerializableAbilityBonusLookup[abilityBonus].Tooltip,
+                serializableAbilityBonusLookup[abilityBonus].Tooltip,
                 3
             );
 
-            EditOrbList(newSerializableAbilityBonusLookup[abilityBonus].RequiredOrbs, "Add Required Orb");
+            EditOrbList(serializableAbilityBonusLookup[abilityBonus].RequiredOrbs, "Add Required Orb");
                 
             EditorGUI.indentLevel--;
         }
-
-        serializableAbilityMetadata.AbilityBonusLookup = newSerializableAbilityBonusLookup;
 
         EditorGUI.indentLevel--;
     }
