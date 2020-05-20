@@ -101,15 +101,15 @@ public class SerializableMetadataLookupValidator
     {
         SerializableAbilityMetadata serializableAbilityMetadata = serializableMetadataLookup[abilityReference];
         
-        if (string.IsNullOrEmpty(serializableAbilityMetadata.DisplayName))
+        if (string.IsNullOrWhiteSpace(serializableAbilityMetadata.DisplayName))
         {
-            errors.Add($"Null or empty display name for {abilityReference.ToString()}");
+            errors.Add($"Null or white space display name for {abilityReference.ToString()}");
         }
 
         string tooltip = serializableAbilityMetadata.Tooltip;
-        if (string.IsNullOrEmpty(tooltip))
+        if (string.IsNullOrWhiteSpace(tooltip))
         {
-            errors.Add($"Null or empty tooltip for {abilityReference.ToString()}");
+            errors.Add($"Null or white space tooltip for {abilityReference.ToString()}");
         }
         else
         {
@@ -155,14 +155,14 @@ public class SerializableMetadataLookupValidator
     {
         SerializableAbilityBonusMetadata serializableAbilityBonusMetadata = serializableMetadataLookup[abilityReference].AbilityBonusLookup[abilityBonus];
 
-        if (string.IsNullOrEmpty(serializableAbilityBonusMetadata.DisplayName))
+        if (string.IsNullOrWhiteSpace(serializableAbilityBonusMetadata.DisplayName))
         {
-            errors.Add($"Null or empty display name found for ability bonus \"{abilityBonus}\" for {abilityReference.ToString()}.");
+            errors.Add($"Null or white space display name found for ability bonus \"{abilityBonus}\" for {abilityReference.ToString()}.");
         }
 
-        if (string.IsNullOrEmpty(serializableAbilityBonusMetadata.Tooltip))
+        if (string.IsNullOrWhiteSpace(serializableAbilityBonusMetadata.Tooltip))
         {
-            errors.Add($"Null or empty tooltip found for ability bonus \"{abilityBonus}\" for {abilityReference.ToString()}.");
+            errors.Add($"Null or white space tooltip found for ability bonus \"{abilityBonus}\" for {abilityReference.ToString()}.");
         }
 
         if (serializableAbilityBonusMetadata.RequiredOrbs.Count == 0)
