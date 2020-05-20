@@ -24,14 +24,18 @@ public class AbilityLookupEditor : Editor
             LoadAbilityAttributeData();
         }
 
-        if (GUILayout.Button("Refresh"))
+        EditorUtils.MultilineLabelField(
+            "Ability data depends on the ability attribute. This should be loaded automatically, but if you believe " +
+            "there is data missing, the \"Reload\" button below will reload the attribute data."
+        );
+        if (GUILayout.Button("Reload"))
         {
             LoadAbilityAttributeData();
         }
         
         new AbilityLookupSanitizer(serializableMetadataLookup, abilityAttributeData).Sanitize();
 
-        EditorGUILayout.LabelField("Abilities marked with an asterisk (*) are missing data.");
+        EditorUtils.MultilineLabelField("Abilities marked with an asterisk (*) are missing data.");
 
         foreach (AbilityReference abilityReference in Enum.GetValues(typeof(AbilityReference)))
         {
@@ -152,7 +156,7 @@ public class AbilityLookupEditor : Editor
         {
             EditorGUI.indentLevel++;
             
-            EditorGUILayout.LabelField($"There are no ability bonuses for {abilityReference.ToString()}.");
+            EditorUtils.MultilineLabelField($"There are no ability bonuses for {abilityReference.ToString()}.");
             
             EditorGUI.indentLevel--;
             return;
