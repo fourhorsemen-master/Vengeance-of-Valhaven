@@ -139,9 +139,11 @@ public class AbilityLookupEditor : Editor
 
     private void EditAbilityBonusData(AbilityReference abilityReference, SerializableAbilityMetadata serializableAbilityMetadata)
     {
+        SerializableAbilityBonusLookup serializableAbilityBonusLookup = serializableAbilityMetadata.AbilityBonusLookup;
+        
         foldoutStatus[abilityReference][AbilityDataDropdownGroup.BonusData] = EditorGUILayout.Foldout(
             foldoutStatus[abilityReference][AbilityDataDropdownGroup.BonusData],
-            "Bonus Data"
+            serializableAbilityBonusLookup.Valid ? "Bonus Data" : "Bonus Data*"
         );
 
         if (!foldoutStatus[abilityReference][AbilityDataDropdownGroup.BonusData]) return;
@@ -157,8 +159,6 @@ public class AbilityLookupEditor : Editor
         }
 
         EditorGUI.indentLevel++;
-
-        SerializableAbilityBonusLookup serializableAbilityBonusLookup = serializableAbilityMetadata.AbilityBonusLookup;
 
         foreach (string abilityBonus in abilityAttributeDataLookup[abilityReference].Attribute.AbilityBonuses)
         {
