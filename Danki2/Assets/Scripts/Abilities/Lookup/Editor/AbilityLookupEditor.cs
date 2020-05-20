@@ -77,24 +77,14 @@ public class AbilityLookupEditor : Editor
 
         EditorGUI.indentLevel++;
             
-        EditDisplayName(serializableAbilityMetadata);
-        EditTooltip(serializableAbilityMetadata);
+        serializableAbilityMetadata.DisplayName = EditorGUILayout.TextField("Display Name", serializableAbilityMetadata.DisplayName);
+        serializableAbilityMetadata.Tooltip = EditorUtils.MultilineTextField("Tooltip", serializableAbilityMetadata.Tooltip, 3);
         EditAbilityOrbType(serializableAbilityMetadata);
         EditBaseAbilityData(abilityReference, serializableAbilityMetadata);
         EditGeneratedOrbs(abilityReference, serializableAbilityMetadata);
         EditAbilityBonusData(abilityReference, serializableAbilityMetadata);
             
         EditorGUI.indentLevel--;
-    }
-
-    private void EditDisplayName(SerializableAbilityMetadata serializableAbilityMetadata)
-    {
-        serializableAbilityMetadata.DisplayName = EditorGUILayout.TextField("Display Name", serializableAbilityMetadata.DisplayName);
-    }
-
-    private void EditTooltip(SerializableAbilityMetadata serializableAbilityMetadata)
-    {
-        serializableAbilityMetadata.Tooltip = EditorUtils.MultilineTextField("Tooltip", serializableAbilityMetadata.Tooltip, 3);
     }
 
     private void EditAbilityOrbType(SerializableAbilityMetadata serializableAbilityMetadata)
