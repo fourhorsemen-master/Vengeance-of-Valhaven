@@ -14,13 +14,6 @@ public class AbilityLookupEditor : Editor
 
     private List<AttributeData<AbilityAttribute>> abilityAttributeData;
     private Dictionary<AbilityReference, AttributeData<AbilityAttribute>> abilityAttributeDataLookup;
-    
-    private void OnValidate()
-    {
-        SerializableMetadataLookup serializableMetadataLookup = ((AbilityLookup) target).serializableMetadataLookup;
-        LoadAbilityAttributeData();
-        SanitizeData(serializableMetadataLookup);
-    }
 
     public override void OnInspectorGUI()
     {
@@ -29,14 +22,14 @@ public class AbilityLookupEditor : Editor
         if (abilityAttributeDataLookup == null)
         {
             LoadAbilityAttributeData();
-            SanitizeData(serializableMetadataLookup);
         }
 
         if (GUILayout.Button("Refresh"))
         {
             LoadAbilityAttributeData();
-            SanitizeData(serializableMetadataLookup);
         }
+        
+        new AbilityLookupSanitizer(serializableMetadataLookup, abilityAttributeData).Sanitize();
 
         EditorGUILayout.LabelField("Abilities marked with an asterisk (*) are missing data.");
 
@@ -58,12 +51,6 @@ public class AbilityLookupEditor : Editor
             d => d.Attribute.AbilityReference,
             d => d
         );
-    }
-
-    private void SanitizeData(SerializableMetadataLookup serializableMetadataLookup)
-    {
-        AbilityLookupSanitizer sanitizer = new AbilityLookupSanitizer(serializableMetadataLookup, abilityAttributeData);
-        sanitizer.Sanitize();
     }
 
     private void EditSerializableAbilityMetadata(AbilityReference abilityReference, SerializableAbilityMetadata serializableAbilityMetadata)
