@@ -6,6 +6,13 @@ public class AbilityLookupSanitizer
     private SerializableMetadataLookup serializableMetadataLookup;
     private Dictionary<AbilityReference, AttributeData<AbilityAttribute>> abilityAttributeDataLookup;
 
+    /// <summary>
+    /// Sanitizes the given metadata according to the given ability attribute data. This will add any missing items
+    /// that the attribute data expects and remove any items that are no longer required according to the attribute
+    /// data.
+    /// </summary>
+    /// <param name="serializableMetadataLookup"> The metadata to sanitize. </param>
+    /// <param name="abilityAttributeData"> The attribute data to sanitize against. </param>
     public void Sanitize(
         SerializableMetadataLookup serializableMetadataLookup,
         List<AttributeData<AbilityAttribute>> abilityAttributeData

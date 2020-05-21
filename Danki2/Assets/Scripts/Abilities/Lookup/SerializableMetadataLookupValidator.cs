@@ -15,6 +15,14 @@ public class SerializableMetadataLookupValidator
 
     public bool HasErrors { get; private set; } = false;
 
+    /// <summary>
+    /// Performs validation on the given serializable metadata lookup. This checks that all of the metadata present
+    /// aligns with the given attribute data and that there is no extra data that should not be there. Also, individual
+    /// items are checked to make sure the required fields are set, for example, the display names should not be empty.
+    /// This will log any errors found in the metadata and set the HasErrors flag accordingly.
+    /// </summary>
+    /// <param name="serializableMetadataLookup"> The metadata to validate. </param>
+    /// <param name="abilityAttributeData"> The attribute data to validate against. </param>
     public void Validate(
         SerializableMetadataLookup serializableMetadataLookup,
         List<AttributeData<AbilityAttribute>> abilityAttributeData
