@@ -9,7 +9,7 @@ public class AbilityLookup : Singleton<AbilityLookup>
     public SerializableMetadataLookup serializableMetadataLookup = new SerializableMetadataLookup();
 
     private readonly AbilityMap<string> displayNameMap = new AbilityMap<string>();
-    private readonly AbilityMap<OrbType?> abilityOrbTypeMap = new AbilityMap<OrbType?>();
+    private readonly AbilityMap<OrbType> abilityOrbTypeMap = new AbilityMap<OrbType>();
     private readonly AbilityMap<AbilityData> baseAbilityDataMap = new AbilityMap<AbilityData>();
     private readonly AbilityMap<Dictionary<OrbType, int>> generatedOrbsMap = new AbilityMap<Dictionary<OrbType, int>>();
     private readonly AbilityMap<List<TemplatedTooltipSegment>> templatedTooltipSegmentsMap = new AbilityMap<List<TemplatedTooltipSegment>>();
@@ -73,13 +73,23 @@ public class AbilityLookup : Singleton<AbilityLookup>
         return false;
     }
 
+    public bool TryGetAbilityOrbType(AbilityReference abilityReference, out OrbType orbType)
+    {
+        if (abilityOrbTypeMap.ContainsKey(abilityReference))
+        {
+            orbType = abilityOrbTypeMap[abilityReference];
+            return true;
+        }
+
+        orbType = default;
+        return false;
+    }
+
     public AbilityType GetAbilityType(AbilityReference abilityReference) => abilityTypeMap[abilityReference];
 
     public AbilityData GetBaseAbilityData(AbilityReference abilityReference) => baseAbilityDataMap[abilityReference];
 
     public Dictionary<OrbType, int> GetGeneratedOrbs(AbilityReference abilityReference) => generatedOrbsMap[abilityReference];
-
-    public OrbType? GetAbilityOrbType(AbilityReference abilityReference) => abilityOrbTypeMap[abilityReference];
 
     public List<TemplatedTooltipSegment> GetTemplatedTooltipSegments(AbilityReference abilityReference) => templatedTooltipSegmentsMap[abilityReference];
 
@@ -95,9 +105,10 @@ public class AbilityLookup : Singleton<AbilityLookup>
 
             displayNameMap[abilityReference] = serializableAbilityMetadata.DisplayName;
             baseAbilityDataMap[abilityReference] = serializableAbilityMetadata.BaseAbilityData;
-            abilityOrbTypeMap[abilityReference] = serializableAbilityMetadata.AbilityOrbType.HasValue
-                ? serializableAbilityMetadata.AbilityOrbType.Value
-                : (OrbType?)null;
+            if (serializableAbilityMetadata.AbilityOrbType.HasValue)
+            {
+                abilityOrbTypeMap[abilityReference] = serializableAbilityMetadata.AbilityOrbType.Value;
+            }
             generatedOrbsMap[abilityReference] = serializableAbilityMetadata.GeneratedOrbs
                 .GroupBy(o => o)
                 .ToDictionary(g => g.Key, g => g.Count());
