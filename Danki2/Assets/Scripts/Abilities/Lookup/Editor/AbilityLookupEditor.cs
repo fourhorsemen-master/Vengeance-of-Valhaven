@@ -63,7 +63,7 @@ public class AbilityLookupEditor : Editor
     {
         foldoutStatus[abilityReference][AbilityDataDropdownGroup.EntireAbility] = EditorGUILayout.Foldout(
             foldoutStatus[abilityReference][AbilityDataDropdownGroup.EntireAbility],
-            serializableAbilityMetadata.Valid ? abilityReference.ToString() : $"{abilityReference.ToString()}*"
+            serializableAbilityMetadata.MissingData ? $"{abilityReference.ToString()}*" : abilityReference.ToString()
         );
 
         if (!foldoutStatus[abilityReference][AbilityDataDropdownGroup.EntireAbility]) return;
@@ -149,7 +149,7 @@ public class AbilityLookupEditor : Editor
         
         foldoutStatus[abilityReference][AbilityDataDropdownGroup.BonusData] = EditorGUILayout.Foldout(
             foldoutStatus[abilityReference][AbilityDataDropdownGroup.BonusData],
-            serializableAbilityBonusLookup.Valid ? "Bonus Data" : "Bonus Data*"
+            serializableAbilityBonusLookup.MissingData ? "Bonus Data*" : "Bonus Data"
         );
 
         if (!foldoutStatus[abilityReference][AbilityDataDropdownGroup.BonusData]) return;

@@ -25,7 +25,7 @@ public class SerializableAbilityMetadata
     public List<OrbType> GeneratedOrbs { get => generatedOrbs; set => generatedOrbs = value; }
     public SerializableAbilityBonusLookup AbilityBonusLookup { get => abilityBonusLookup; set => abilityBonusLookup = value; }
 
-    public bool Valid => !string.IsNullOrWhiteSpace(displayName) &&
-                         !string.IsNullOrWhiteSpace(tooltip) &&
-                         abilityBonusLookup.Valid;
+    public bool MissingData => string.IsNullOrWhiteSpace(displayName) ||
+                               string.IsNullOrWhiteSpace(tooltip) ||
+                               abilityBonusLookup.MissingData;
 }

@@ -4,5 +4,5 @@ using System.Linq;
 [Serializable]
 public class SerializableAbilityBonusLookup : SerializableDictionary<string, SerializableAbilityBonusMetadata>
 {
-    public bool Valid => Values.All(v => v.Valid);
+    public bool MissingData => Values.Any(v => v.MissingData);
 }
