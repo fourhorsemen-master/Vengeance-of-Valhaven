@@ -170,5 +170,9 @@ MonoBehaviour:
         value: 0
       generatedOrbs: 
       abilityBonusLookup:
-        _keys: []
-        _values: []
+        _keys:
+        - PerfectSmash
+        _values:
+        - displayName: Perfect Smash
+          tooltip: Stun all affected enemies for 3 seconds.
+          requiredOrbs: 0100000001000000

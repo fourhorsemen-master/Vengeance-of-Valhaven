@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[Ability(AbilityReference.Smash)]
+[Ability(AbilityReference.Smash, new []{"PerfectSmash"})]
 public class Smash : InstantCast
 {
     private const float DistanceFromCaster = 1f;
@@ -30,6 +30,8 @@ public class Smash : InstantCast
             {
                 DealPrimaryDamage(actor);
                 hasDealtDamage = true;
+
+                if (HasBonus("PerfectSmash")) actor.EffectManager.AddActiveEffect(new Stun(3), 3);
             }
         });
 

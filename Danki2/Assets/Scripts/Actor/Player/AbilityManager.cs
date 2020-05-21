@@ -144,7 +144,7 @@ public class AbilityManager
                 abilityCast = player.InstantCastService.Cast(
                     abilityReference,
                     targetPosition,
-                    successFeedbackSubjectAction: subject => abilityFeedbackSubscription = subject.Subscribe(AbilityFeedbackSubscription)
+                    subject => abilityFeedbackSubscription = subject.Subscribe(AbilityFeedbackSubscription)
                 );
                 nextStatus = CastingStatus.Cooldown;
                 break;
