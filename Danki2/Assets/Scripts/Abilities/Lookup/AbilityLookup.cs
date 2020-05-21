@@ -11,7 +11,7 @@ public class AbilityLookup : Singleton<AbilityLookup>
     private readonly AbilityMap<string> displayNameMap = new AbilityMap<string>();
     private readonly AbilityMap<OrbType> abilityOrbTypeMap = new AbilityMap<OrbType>();
     private readonly AbilityMap<AbilityData> baseAbilityDataMap = new AbilityMap<AbilityData>();
-    private readonly AbilityMap<Dictionary<OrbType, int>> generatedOrbsMap = new AbilityMap<Dictionary<OrbType, int>>();
+    private readonly AbilityMap<OrbCollection> generatedOrbsMap = new AbilityMap<OrbCollection>();
     private readonly AbilityMap<List<TemplatedTooltipSegment>> templatedTooltipSegmentsMap = new AbilityMap<List<TemplatedTooltipSegment>>();
     private readonly AbilityMap<Dictionary<string, AbilityBonusData>> abilityBonusDataMap = new AbilityMap<Dictionary<string, AbilityBonusData>>();
 
@@ -101,7 +101,7 @@ public class AbilityLookup : Singleton<AbilityLookup>
 
     public AbilityData GetBaseAbilityData(AbilityReference abilityReference) => baseAbilityDataMap[abilityReference];
 
-    public Dictionary<OrbType, int> GetGeneratedOrbs(AbilityReference abilityReference) => generatedOrbsMap[abilityReference];
+    public OrbCollection GetGeneratedOrbs(AbilityReference abilityReference) => generatedOrbsMap[abilityReference];
 
     public List<TemplatedTooltipSegment> GetTemplatedTooltipSegments(AbilityReference abilityReference) => templatedTooltipSegmentsMap[abilityReference];
 
@@ -121,9 +121,7 @@ public class AbilityLookup : Singleton<AbilityLookup>
             {
                 abilityOrbTypeMap[abilityReference] = serializableAbilityMetadata.AbilityOrbType.Value;
             }
-            generatedOrbsMap[abilityReference] = serializableAbilityMetadata.GeneratedOrbs
-                .GroupBy(o => o)
-                .ToDictionary(g => g.Key, g => g.Count());
+            generatedOrbsMap[abilityReference] = new OrbCollection(serializableAbilityMetadata.GeneratedOrbs);
             BuildTooltip(abilityReference, serializableAbilityMetadata.Tooltip);
             BuildAbilityBonusLookup(abilityReference, serializableAbilityMetadata.AbilityBonusLookup);
         }

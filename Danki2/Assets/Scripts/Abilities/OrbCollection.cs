@@ -20,4 +20,19 @@ public class OrbCollection : EnumDictionary<OrbType, int>
     {
         return Values.All(v => v == 0);
     }
+
+    public bool IsSuperset(OrbCollection other)
+    {
+        return Enum.GetValues(typeof(OrbType))
+            .Cast<OrbType>()
+            .All(orbType => this[orbType] >= other[orbType]);
+    }
+
+    public void Add(OrbCollection other)
+    {
+        foreach (OrbType orbType in Enum.GetValues(typeof(OrbType)))
+        {
+            this[orbType] += other[orbType];
+        }
+    }
 }

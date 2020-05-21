@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-
-public class AbilityBonusData
+﻿public class AbilityBonusData
 {
     public string DisplayName { get; }
     public string Tooltip { get; }
-    public Dictionary<OrbType, int> RequiredOrbs { get; }
+    public OrbCollection RequiredOrbs { get; }
 
-    public AbilityBonusData(string displayName, string tooltip, Dictionary<OrbType, int> requiredOrbs)
+    public AbilityBonusData(string displayName, string tooltip, OrbCollection requiredOrbs)
     {
         DisplayName = displayName;
         Tooltip = tooltip;

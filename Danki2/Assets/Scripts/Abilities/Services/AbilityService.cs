@@ -5,7 +5,7 @@ public abstract class AbilityService
     protected readonly Actor actor;
 
     private readonly List<IAbilityDataDiffer> differs = new List<IAbilityDataDiffer>();
-    private IAbilityBonusCalculator abilityBonusCalculator = new NoOpAbilityBonusCalculator();
+    private IAbilityBonusCalculator abilityBonusCalculator = new AbilityBonusNoOpCalculator();
 
     protected AbilityService(Actor actor)
     {

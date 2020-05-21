@@ -90,4 +90,10 @@ public abstract class Actor : MonoBehaviour
         ChannelService.RegisterAbilityDataDiffer(abilityDataDiffer);
         InstantCastService.RegisterAbilityDataDiffer(abilityDataDiffer);
     }
+
+    protected void ReplaceAbilityBonusCalculator(IAbilityBonusCalculator abilityBonusCalculator)
+    {
+        ChannelService.ReplaceAbilityBonusCalculator(abilityBonusCalculator);
+        InstantCastService.ReplaceAbilityBonusCalculator(abilityBonusCalculator);
+    }
 }

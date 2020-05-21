@@ -1,4 +1,4 @@
-﻿public class NoOpAbilityBonusCalculator : IAbilityBonusCalculator
+﻿public class AbilityBonusNoOpCalculator : IAbilityBonusCalculator
 {
     public string[] GetActiveBonuses(AbilityReference abilityReference)
     {
