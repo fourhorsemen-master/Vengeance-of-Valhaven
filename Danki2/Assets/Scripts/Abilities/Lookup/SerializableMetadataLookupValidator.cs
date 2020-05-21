@@ -6,18 +6,16 @@ using UnityEngine;
 
 public class SerializableMetadataLookupValidator
 {
-    private readonly SerializableMetadataLookup serializableMetadataLookup;
-    private readonly List<AttributeData<AbilityAttribute>> abilityAttributeData;
-    private readonly Dictionary<AbilityReference, AttributeData<AbilityAttribute>> abilityAttributeDataLookup;
-
-    private readonly List<string> errors = new List<string>();
+    private SerializableMetadataLookup serializableMetadataLookup;
+    private List<AttributeData<AbilityAttribute>> abilityAttributeData;
+    private Dictionary<AbilityReference, AttributeData<AbilityAttribute>> abilityAttributeDataLookup;
     
     private readonly Lexer lexer = new Lexer();
     private readonly TokenValidator tokenValidator = new TokenValidator();
 
-    public bool HasErrors => errors.Count > 0;
+    public bool HasErrors { get; private set; } = false;
 
-    public SerializableMetadataLookupValidator(
+    public void Validate(
         SerializableMetadataLookup serializableMetadataLookup,
         List<AttributeData<AbilityAttribute>> abilityAttributeData
     )
@@ -30,16 +28,8 @@ public class SerializableMetadataLookupValidator
             d => d
         );
 
-        Validate();
-    }
-
-    public void LogErrors()
-    {
-        errors.ForEach(Debug.LogError);
-    }
-
-    private void Validate()
-    {
+        HasErrors = false;
+        
         ValidateAttributeUsage();
         ValidateSerializableAbilityMetadataLookup();
     }
@@ -57,12 +47,12 @@ public class SerializableMetadataLookupValidator
             .ToList();
 
         duplicates.ForEach(
-            abilityReference => errors.Add($"Duplicate ability reference in attributes for {abilityReference.ToString()}")
+            abilityReference => LogError($"Duplicate ability reference in attributes for {abilityReference.ToString()}")
         );
 
         if (attributeAbilityReferences.Distinct().Count() != Enum.GetValues(typeof(AbilityReference)).Length)
         {
-            errors.Add("Ability attributes found do not match all ability references. There may be abilities missing the attribute.");
+            LogError("Ability attributes found do not match all ability references. There may be abilities missing the attribute.");
         }
         
         abilityAttributeData.ForEach(attributeData =>
@@ -71,14 +61,14 @@ public class SerializableMetadataLookupValidator
             
             if (!type.IsSubclassOf(typeof(InstantCast)) && !type.IsSubclassOf(typeof(Channel)))
             {
-                errors.Add($"Found ability attribute on type \"{type}\", which does not inherit from a recognised ability class.");
+                LogError($"Found ability attribute on type \"{type}\", which does not inherit from a recognised ability class.");
             }
 
             ConstructorInfo constructor = type.GetConstructor(new [] {typeof(Actor), typeof(AbilityData)});
 
             if (constructor == null)
             {
-                errors.Add($"Could not find valid ability constructor on annotated type \"{type}\".");
+                LogError($"Could not find valid ability constructor on annotated type \"{type}\".");
             }
         });
     }
@@ -89,7 +79,7 @@ public class SerializableMetadataLookupValidator
         {
             if (!serializableMetadataLookup.ContainsKey(abilityReference))
             {
-                errors.Add($"No ability metadata found for {abilityReference.ToString()}, please add in the editor.");
+                LogError($"No ability metadata found for {abilityReference.ToString()}, please add in the editor.");
                 continue;
             }
             
@@ -103,20 +93,20 @@ public class SerializableMetadataLookupValidator
         
         if (string.IsNullOrWhiteSpace(serializableAbilityMetadata.DisplayName))
         {
-            errors.Add($"Null or white space display name for {abilityReference.ToString()}");
+            LogError($"Null or white space display name for {abilityReference.ToString()}");
         }
 
         string tooltip = serializableAbilityMetadata.Tooltip;
         if (string.IsNullOrWhiteSpace(tooltip))
         {
-            errors.Add($"Null or white space tooltip for {abilityReference.ToString()}");
+            LogError($"Null or white space tooltip for {abilityReference.ToString()}");
         }
         else
         {
             List<Token> tokens = lexer.Lex(tooltip);
             if (!tokenValidator.HasValidSyntax(tokens))
             {
-                errors.Add($"Tooltip for {abilityReference.ToString()} does not have valid syntax, value was: \"{tooltip}\".");
+                LogError($"Tooltip for {abilityReference.ToString()} does not have valid syntax, value was: \"{tooltip}\".");
             }
         }
 
@@ -133,7 +123,7 @@ public class SerializableMetadataLookupValidator
         {
             if (!serializedAbilityBonuses.Contains(attributeAbilityBonus))
             {
-                errors.Add($"Serialized ability bonuses for {abilityReference.ToString()} does not contain entry for \"{attributeAbilityBonus}\".");
+                LogError($"Serialized ability bonuses for {abilityReference.ToString()} does not contain entry for \"{attributeAbilityBonus}\".");
             }
         }
         
@@ -141,7 +131,7 @@ public class SerializableMetadataLookupValidator
         {
             if (!attributeAbilityBonuses.Contains(serializedAbilityBonus))
             {
-                errors.Add($"Invalid ability bonus \"{serializedAbilityBonus}\" found in serialized bonuses for {abilityReference.ToString()}.");
+                LogError($"Invalid ability bonus \"{serializedAbilityBonus}\" found in serialized bonuses for {abilityReference.ToString()}.");
             }
         }
         
@@ -157,17 +147,23 @@ public class SerializableMetadataLookupValidator
 
         if (string.IsNullOrWhiteSpace(serializableAbilityBonusMetadata.DisplayName))
         {
-            errors.Add($"Null or white space display name found for ability bonus \"{abilityBonus}\" for {abilityReference.ToString()}.");
+            LogError($"Null or white space display name found for ability bonus \"{abilityBonus}\" for {abilityReference.ToString()}.");
         }
 
         if (string.IsNullOrWhiteSpace(serializableAbilityBonusMetadata.Tooltip))
         {
-            errors.Add($"Null or white space tooltip found for ability bonus \"{abilityBonus}\" for {abilityReference.ToString()}.");
+            LogError($"Null or white space tooltip found for ability bonus \"{abilityBonus}\" for {abilityReference.ToString()}.");
         }
 
         if (serializableAbilityBonusMetadata.RequiredOrbs.Count == 0)
         {
-            errors.Add($"No required orbs for ability bonus \"{abilityBonus}\" for {abilityReference.ToString()}.");
+            LogError($"No required orbs for ability bonus \"{abilityBonus}\" for {abilityReference.ToString()}.");
         }
+    }
+    
+    private void LogError(string message)
+    {
+        Debug.LogError(message);
+        HasErrors = true;
     }
 }

@@ -35,15 +35,11 @@ public class AbilityLookup : Singleton<AbilityLookup>
             d => d
         );
 
-        SerializableMetadataLookupValidator serializableMetadataLookupValidator = new SerializableMetadataLookupValidator(
-            serializableMetadataLookup,
-            abilityAttributeData
-        );
-
+        SerializableMetadataLookupValidator serializableMetadataLookupValidator = new SerializableMetadataLookupValidator();
+        serializableMetadataLookupValidator.Validate(serializableMetadataLookup, abilityAttributeData);
         if (serializableMetadataLookupValidator.HasErrors)
         {
-            Debug.LogError("Serializable metadata lookup errors found, logging errors below and aborting building of ability lookups.");
-            serializableMetadataLookupValidator.LogErrors();
+            Debug.LogError("Serializable metadata lookup errors found, see above for errors. Aborting building of ability lookups.");
             return;
         }
 
