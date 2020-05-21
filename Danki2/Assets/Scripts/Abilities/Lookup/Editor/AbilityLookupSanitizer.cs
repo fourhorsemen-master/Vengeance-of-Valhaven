@@ -3,10 +3,10 @@ using System.Linq;
 
 public class AbilityLookupSanitizer
 {
-    private readonly SerializableMetadataLookup serializableMetadataLookup;
-    private readonly Dictionary<AbilityReference, AttributeData<AbilityAttribute>> abilityAttributeDataLookup;
+    private SerializableMetadataLookup serializableMetadataLookup;
+    private Dictionary<AbilityReference, AttributeData<AbilityAttribute>> abilityAttributeDataLookup;
 
-    public AbilityLookupSanitizer(
+    public void Sanitize(
         SerializableMetadataLookup serializableMetadataLookup,
         List<AttributeData<AbilityAttribute>> abilityAttributeData
     )
@@ -16,10 +16,7 @@ public class AbilityLookupSanitizer
             d => d.Attribute.AbilityReference,
             d => d
         );
-    }
-
-    public void Sanitize()
-    {
+        
         RemoveUnnecessaryKeys();
         AddMissingKeys();
         foreach (AbilityReference abilityReference in abilityAttributeDataLookup.Keys)

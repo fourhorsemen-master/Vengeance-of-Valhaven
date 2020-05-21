@@ -11,6 +11,8 @@ public class AbilityLookupEditor : Editor
         new EnumDictionary<AbilityReference, EnumDictionary<AbilityDataDropdownGroup, bool>>(
             () => new EnumDictionary<AbilityDataDropdownGroup, bool>(false)
         );
+    
+    private readonly AbilityLookupSanitizer abilityLookupSanitizer = new AbilityLookupSanitizer();
 
     private List<AttributeData<AbilityAttribute>> abilityAttributeData;
     private Dictionary<AbilityReference, AttributeData<AbilityAttribute>> abilityAttributeDataLookup;
@@ -33,7 +35,7 @@ public class AbilityLookupEditor : Editor
             LoadAbilityAttributeData();
         }
         
-        new AbilityLookupSanitizer(serializableMetadataLookup, abilityAttributeData).Sanitize();
+        abilityLookupSanitizer.Sanitize(serializableMetadataLookup, abilityAttributeData);
 
         EditorUtils.MultilineLabelField("Abilities marked with an asterisk (*) are missing data.");
 
