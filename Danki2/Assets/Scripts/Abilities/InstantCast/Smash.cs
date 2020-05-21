@@ -6,7 +6,7 @@ public class Smash : InstantCast
     private const float DistanceFromCaster = 1f;
     private const float Radius = 1f;
 
-    public Smash(Actor owner, AbilityData abilityData) : base(owner, abilityData)
+    public Smash(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
     }
 

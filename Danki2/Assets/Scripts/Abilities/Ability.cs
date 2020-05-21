@@ -1,4 +1,6 @@
-﻿public abstract class Ability
+﻿using System.Linq;
+
+public abstract class Ability
 {
     public Subject<bool> SuccessFeedbackSubject { get; }
 
@@ -6,10 +8,13 @@
     
     private AbilityData AbilityData { get; }
 
-    protected Ability(Actor owner, AbilityData abilityData)
+    private string[] ActiveBonuses { get; }
+
+    protected Ability(Actor owner, AbilityData abilityData, string[] activeBonuses)
     {
         Owner = owner;
         AbilityData = abilityData;
+        ActiveBonuses = activeBonuses;
         SuccessFeedbackSubject = new Subject<bool>();
     }
 
@@ -36,5 +41,10 @@
     protected void Heal()
     {
         Owner.HealthManager.ReceiveHeal(AbilityData.Heal);
+    }
+
+    protected bool HasBonus(string bonus)
+    {
+        return ActiveBonuses.Contains(bonus);
     }
 }

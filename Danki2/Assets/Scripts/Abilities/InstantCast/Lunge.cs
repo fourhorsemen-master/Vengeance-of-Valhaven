@@ -10,7 +10,7 @@ public class Lunge : InstantCast
     private const float StunDuration = 0.5f;
     private const float PauseDuration = 0.3f;
 
-    public Lunge(Actor owner, AbilityData abilityData) : base(owner, abilityData)
+    public Lunge(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
     }
 

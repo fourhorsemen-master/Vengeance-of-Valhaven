@@ -6,7 +6,7 @@ public class Bite : InstantCast
     public const float Range = 2f;
     private const float PauseDuration = 0.3f;
 
-    public Bite(Actor owner, AbilityData abilityData) : base(owner, abilityData)
+    public Bite(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
     }
 

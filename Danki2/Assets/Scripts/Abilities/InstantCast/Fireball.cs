@@ -6,7 +6,7 @@ public class Fireball : InstantCast
     private const float FireballSpeed = 5;
     private static readonly Vector3 _positionTransform = new Vector3(0, 1.25f, 0);
 
-    public Fireball(Actor owner, AbilityData abilityData) : base(owner, abilityData)
+    public Fireball(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
     }
 

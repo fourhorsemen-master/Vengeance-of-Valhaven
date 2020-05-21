@@ -72,9 +72,7 @@ public class SerializableMetadataLookupValidator
                 LogError($"Found ability attribute on type \"{type}\", which does not inherit from a recognised ability class.");
             }
 
-            ConstructorInfo constructor = type.GetConstructor(new [] {typeof(Actor), typeof(AbilityData)});
-
-            if (constructor == null)
+            if (type.GetConstructor(new [] {typeof(Actor), typeof(AbilityData), typeof(string[])}) == null)
             {
                 LogError($"Could not find valid ability constructor on annotated type \"{type}\".");
             }

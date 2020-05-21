@@ -15,8 +15,8 @@ public class AbilityLookup : Singleton<AbilityLookup>
     private readonly AbilityMap<List<TemplatedTooltipSegment>> templatedTooltipSegmentsMap = new AbilityMap<List<TemplatedTooltipSegment>>();
     private readonly AbilityMap<Dictionary<string, AbilityBonusData>> abilityBonusDataMap = new AbilityMap<Dictionary<string, AbilityBonusData>>();
 
-    private readonly AbilityMap<Func<Actor, AbilityData, InstantCast>> instantCastBuilderMap = new AbilityMap<Func<Actor, AbilityData, InstantCast>>();
-    private readonly AbilityMap<Func<Actor, AbilityData, Channel>> channelBuilderMap = new AbilityMap<Func<Actor, AbilityData, Channel>>();
+    private readonly AbilityMap<Func<Actor, AbilityData, string[], InstantCast>> instantCastBuilderMap = new AbilityMap<Func<Actor, AbilityData, string[], InstantCast>>();
+    private readonly AbilityMap<Func<Actor, AbilityData, string[], Channel>> channelBuilderMap = new AbilityMap<Func<Actor, AbilityData, string[], Channel>>();
     private readonly AbilityMap<AbilityType> abilityTypeMap = new AbilityMap<AbilityType>();
 
     private readonly Lexer lexer = new Lexer();
@@ -47,12 +47,18 @@ public class AbilityLookup : Singleton<AbilityLookup>
         BuildAbilityBuilderLookups();
     }
 
-    public bool TryGetInstantCast(AbilityReference abilityReference, Actor owner, AbilityData abilityDataDiff, out InstantCast ability)
+    public bool TryGetInstantCast(
+        AbilityReference abilityReference,
+        Actor owner,
+        AbilityData abilityDataDiff,
+        string[] activeBonuses,
+        out InstantCast ability
+    )
     {
         if (instantCastBuilderMap.ContainsKey(abilityReference))
         {
             AbilityData abilityData = baseAbilityDataMap[abilityReference] + abilityDataDiff;
-            ability = instantCastBuilderMap[abilityReference](owner, abilityData);
+            ability = instantCastBuilderMap[abilityReference](owner, abilityData, activeBonuses);
             return true;
         }
 
@@ -60,12 +66,18 @@ public class AbilityLookup : Singleton<AbilityLookup>
         return false;
     }
 
-    public bool TryGetChannel(AbilityReference abilityReference, Actor owner, AbilityData abilityDataDiff, out Channel ability)
+    public bool TryGetChannel(
+        AbilityReference abilityReference,
+        Actor owner,
+        AbilityData abilityDataDiff,
+        string[] activeBonuses,
+        out Channel ability
+    )
     {
         if (channelBuilderMap.ContainsKey(abilityReference))
         {
             AbilityData abilityData = baseAbilityDataMap[abilityReference] + abilityDataDiff;
-            ability = channelBuilderMap[abilityReference](owner, abilityData);
+            ability = channelBuilderMap[abilityReference](owner, abilityData, activeBonuses);
             return true;
         }
 
@@ -156,18 +168,18 @@ public class AbilityLookup : Singleton<AbilityLookup>
         foreach (AbilityReference abilityReference in Enum.GetValues(typeof(AbilityReference)))
         {
             Type type = abilityReferenceToType[abilityReference];
-            ConstructorInfo constructor = type.GetConstructor(new [] {typeof(Actor), typeof(AbilityData)});
+            ConstructorInfo constructor = type.GetConstructor(new [] {typeof(Actor), typeof(AbilityData), typeof(string[])});
 
             if (type.IsSubclassOf(typeof(InstantCast)))
             {
-                instantCastBuilderMap[abilityReference] = (a, b) => (InstantCast)constructor.Invoke(new object[] {a, b});
+                instantCastBuilderMap[abilityReference] = (a, b, c) => (InstantCast)constructor.Invoke(new object[] {a, b, c});
                 abilityTypeMap[abilityReference] = AbilityType.InstantCast;
                 continue;
             }
 
             if (type.IsSubclassOf(typeof(Channel)))
             {
-                channelBuilderMap[abilityReference] = (a, b) => (Channel)constructor.Invoke(new object[] {a, b});
+                channelBuilderMap[abilityReference] = (a, b, c) => (Channel)constructor.Invoke(new object[] {a, b, c});
                 abilityTypeMap[abilityReference] = AbilityType.Channel;
             }
         }
