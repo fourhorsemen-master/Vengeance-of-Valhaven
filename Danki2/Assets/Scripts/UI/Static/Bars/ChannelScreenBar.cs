@@ -7,13 +7,13 @@ public class ChannelScreenBar : MonoBehaviour
     private Image channelBar = null;
 
     [SerializeField]
-    private Color channelColor;
+    private Color channelColor = default;
 
     [SerializeField]
-    private Color chargeColor;
+    private Color chargeColor = default;
 
     [SerializeField]
-    private Color castColor;
+    private Color castColor = default;
 
     private Player player;
     private ChannelService channelService;
