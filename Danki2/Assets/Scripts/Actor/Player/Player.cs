@@ -61,7 +61,7 @@ public class Player : Actor
         );
 
         RegisterAbilityDataDiffer(new AbilityDataOrbsDiffer(AbilityTree));
-        ReplaceAbilityBonusCalculator(new AbilityBonusOrbsCalculator(AbilityTree));
+        SetAbilityBonusCalculator(new AbilityBonusOrbsCalculator(AbilityTree));
         AbilityManager = new AbilityManager(this, abilityTimeoutLimit, abilityCooldown, updateSubject, lateUpdateSubject);
     }
 
