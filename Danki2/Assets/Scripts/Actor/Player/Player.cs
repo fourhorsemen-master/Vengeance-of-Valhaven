@@ -48,10 +48,10 @@ public class Player : Actor
             AbilityTreeFactory.CreateNode(
                 AbilityReference.Slash,
                 AbilityTreeFactory.CreateNode(
-                    AbilityReference.ExampleCast,
+                    AbilityReference.Roll,
                     rightChild: AbilityTreeFactory.CreateNode(AbilityReference.Smash)
                 ),
-                AbilityTreeFactory.CreateNode(AbilityReference.ExampleCharge)
+                AbilityTreeFactory.CreateNode(AbilityReference.Whirlwind)
             ),
             AbilityTreeFactory.CreateNode(
                 AbilityReference.Lunge,

@@ -10,7 +10,5 @@ public enum AbilityReference
     Pounce,
     Roll,
     Lunge,
-    Smash,
-    ExampleCast,
-    ExampleCharge
+    Smash
 }
