@@ -10,6 +10,11 @@ public class AbilityBonusOrbsCalculator : IAbilityBonusCalculator
         abilityTree.TreeWalkSubject.Subscribe(n => currentNode = n);
     }
     
+    /// <summary>
+    /// Calculates the active bonuses for the given ability if it were cast from the current ability tree position
+    /// </summary>
+    /// <param name="abilityReference"> The ability to get the bonuses for. </param>
+    /// <returns> An array of the active bonuses. </returns>
     public string[] GetActiveBonuses(AbilityReference abilityReference)
     {
         OrbCollection activeOrbs = GetActiveOrbs();

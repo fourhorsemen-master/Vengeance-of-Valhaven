@@ -17,7 +17,7 @@ public abstract class AbilityService
         differs.Add(differ);
     }
 
-    public void ReplaceAbilityBonusCalculator(IAbilityBonusCalculator replacingAbilityBonusCalculator)
+    public void SetAbilityBonusCalculator(IAbilityBonusCalculator replacingAbilityBonusCalculator)
     {
         abilityBonusCalculator = replacingAbilityBonusCalculator;
     }
