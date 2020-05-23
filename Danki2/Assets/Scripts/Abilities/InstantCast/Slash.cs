@@ -6,7 +6,7 @@ public class Slash : InstantCast
     private const float Range = 4f;
     private const float PauseDuration = 0.3f;
 
-    public Slash(Actor owner, AbilityData abilityData) : base(owner, abilityData)
+    public Slash(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
     }
 

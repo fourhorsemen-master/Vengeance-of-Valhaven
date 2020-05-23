@@ -2,7 +2,7 @@
 
 public abstract class InstantCast : Ability
 {
-    protected InstantCast(Actor owner, AbilityData abilityData) : base(owner, abilityData)
+    protected InstantCast(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
     }
 
