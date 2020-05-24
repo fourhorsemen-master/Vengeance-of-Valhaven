@@ -10,7 +10,7 @@ public class SmashVisual : MonoBehaviour
 
     [SerializeField, Range(-100f, 100f), Tooltip("How fast the effect will be spinning at the start. In degrees per second.")]
     private float initialRotationSpeed = 0f;
-    [SerializeField, Range(-100f, 100f), Tooltip("How fast the effect will be spinning at he end. In degrees per second.")]
+    [SerializeField, Range(-100f, 100f), Tooltip("How fast the effect will be spinning at the end. In degrees per second.")]
     private float endRotationSpeed = 0f;
     [SerializeField, Range(0f, 10f), Tooltip("How quickly the effect changes from start speed to end speed. In seconds.")]
     private float rotationTime = 0f;
@@ -25,9 +25,9 @@ public class SmashVisual : MonoBehaviour
     private float growTime = 0f;
     private float currentGrowLerpValue = 0f;
 
-    [SerializeField, Range(0f, 10f), Tooltip("How quickly the effect will fade from fullly opaque to fully transparent. In seconds")]
+    [SerializeField, Range(0f, 10f), Tooltip("How quickly the effect will fade from fully opaque to fully transparent. In seconds")]
     private float fadeTime = 0f;
-    [SerializeField, Range(0f, 10f), Tooltip("How long before the fade beins. In seconds")]
+    [SerializeField, Range(0f, 10f), Tooltip("How long before the fade begins. In seconds")]
     private float fadeDelay = 0f;
     private float currentFadeDelayTimer = 0f;
     private float currentFadeLerpValue = 0f;
@@ -35,7 +35,6 @@ public class SmashVisual : MonoBehaviour
     private Material material;
     private Color desiredColour = Color.white;
 
-    // Start is called before the first frame update
     void Start()
     {
         sinkVector = new Vector3(0f, sinkSpeed, 0f);
@@ -49,16 +48,14 @@ public class SmashVisual : MonoBehaviour
         transform.localScale = Vector3.one * initialScale;
     }
 
-    // Update is called once per frame
     void Update()
     {
         transform.Translate(sinkVector * Time.deltaTime);
 
-        //y=1-(x-1)^4
         transform.localScale = Vector3.one * (1f - Mathf.Pow(currentGrowLerpValue - 1, 10f)) * endScale;
         currentGrowLerpValue += growTime * Time.deltaTime;
 
-        currentRotationSharpValue = (1 - Mathf.Pow(currentRotationLerpValue - 1, 6f));
+        currentRotationSharpValue = 1 - Mathf.Pow(currentRotationLerpValue - 1, 6f);
         float tempo = Mathf.Lerp(initialRotationSpeed, endRotationSpeed, currentRotationSharpValue);
         transform.Rotate(Vector3.up, tempo);
         currentRotationLerpValue += rotationTime * Time.deltaTime;
