@@ -17,7 +17,6 @@ public class SlashVisual : MonoBehaviour
     {
         _remainingDuration = _duration;
         _meshRenderer = gameObject.GetComponent<MeshRenderer>();
-        _meshRenderer.material.SetColor("Color", _desiredColor);
         _meshRenderer.enabled = true;
     }
         
