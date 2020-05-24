@@ -1,18 +1,12 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+[Ability(AbilityReference.Fireball)]
 public class Fireball : InstantCast
 {
-    public static readonly AbilityData BaseAbilityData = new AbilityData(5, 0, 0, 0);
-    public static readonly Dictionary<OrbType, int> GeneratedOrbs = new Dictionary<OrbType, int>();
-    public const OrbType AbilityOrbType = OrbType.Aggression;
-    public const string Tooltip = "Deals {PRIMARY_DAMAGE} damage.";
-    public const string DisplayName = "Fireball";
-
     private const float FireballSpeed = 5;
     private static readonly Vector3 _positionTransform = new Vector3(0, 1.25f, 0);
 
-    public Fireball(Actor owner, AbilityData abilityData) : base(owner, abilityData)
+    public Fireball(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
     }
 

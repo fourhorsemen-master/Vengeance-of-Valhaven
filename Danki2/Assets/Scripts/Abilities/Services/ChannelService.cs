@@ -47,7 +47,13 @@ public class ChannelService : AbilityService
         MovementStatus status = actor.MovementManager.MovementStatus;
         if (status == MovementStatus.Stunned || status == MovementStatus.MovementLocked) return false;
 
-        if (!AbilityLookup.TryGetChannel(abilityReference, actor, GetAbilityDataDiff(abilityReference), out Channel channel)) return false;
+        if (!AbilityLookup.Instance.TryGetChannel(
+            abilityReference,
+            actor,
+            GetAbilityDataDiff(abilityReference),
+            GetActiveBonuses(abilityReference),
+            out Channel channel
+        )) return false;
 
         _currentChannel = channel;
         RemainingDuration = _currentChannel.Duration;

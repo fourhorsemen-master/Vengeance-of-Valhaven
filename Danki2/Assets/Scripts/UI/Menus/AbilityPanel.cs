@@ -16,7 +16,7 @@ public class AbilityPanel : MonoBehaviour
     {
         iconPanelImage.sprite = AbilityIconManager.Instance.GetIcon(ability);
 
-        namePanelText.text = AbilityLookup.GetAbilityDisplayName(ability);
+        namePanelText.text = AbilityLookup.Instance.GetAbilityDisplayName(ability);
 
         quantityPanelText.text = quantity.ToString();
     }

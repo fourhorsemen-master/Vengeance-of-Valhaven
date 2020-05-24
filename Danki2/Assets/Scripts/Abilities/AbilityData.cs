@@ -1,19 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
+[Serializable]
 public struct AbilityData
 {
-    public int PrimaryDamage { get; }
-    public int SecondaryDamage { get; }
-    public int Heal { get; }
-    public int Shield { get; }
+    [SerializeField]
+    private int primaryDamage;
+    [SerializeField]
+    private int secondaryDamage;
+    [SerializeField]
+    private int heal;
+    [SerializeField]
+    private int shield;
+
+    public int PrimaryDamage { get => primaryDamage; private set => primaryDamage = value; }
+    public int SecondaryDamage { get => secondaryDamage; private set => secondaryDamage = value; }
+    public int Heal { get => heal; private set => heal = value; }
+    public int Shield { get => shield; private set => shield = value; }
 
     public AbilityData(int primaryDamage, int secondaryDamage, int heal, int shield)
     {
-        PrimaryDamage = primaryDamage;
-        SecondaryDamage = secondaryDamage;
-        Heal = heal;
-        Shield = shield;
+        this.primaryDamage = primaryDamage;
+        this.secondaryDamage = secondaryDamage;
+        this.heal = heal;
+        this.shield = shield;
     }
 
     public static AbilityData Zero { get; } = new AbilityData(0, 0, 0, 0);
@@ -22,10 +33,10 @@ public struct AbilityData
     public static AbilityData operator +(AbilityData a, AbilityData b)
     {
         return new AbilityData(
-            a.PrimaryDamage + b.PrimaryDamage,
-            a.SecondaryDamage + b.SecondaryDamage,
-            a.Heal + b.Heal,
-            a.Shield + b.Shield
+            a.primaryDamage + b.primaryDamage,
+            a.secondaryDamage + b.secondaryDamage,
+            a.heal + b.heal,
+            a.shield + b.shield
         );
     }
 
@@ -37,10 +48,10 @@ public struct AbilityData
     public static AbilityData operator *(AbilityData a, int i)
     {
         return new AbilityData(
-            a.PrimaryDamage * i,
-            a.SecondaryDamage * i,
-            a.Heal * i,
-            a.Shield * i
+            a.primaryDamage * i,
+            a.secondaryDamage * i,
+            a.heal * i,
+            a.shield * i
         );
     }
 

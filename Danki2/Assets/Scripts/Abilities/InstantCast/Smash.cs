@@ -1,18 +1,12 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+[Ability(AbilityReference.Smash, new []{"PerfectSmash"})]
 public class Smash : InstantCast
 {
-    public static readonly AbilityData BaseAbilityData = new AbilityData(10, 0, 0, 0);
-    public static readonly Dictionary<OrbType, int> GeneratedOrbs = new Dictionary<OrbType, int>();
-    public const OrbType AbilityOrbType = OrbType.Aggression;
-    public const string Tooltip = "Deals {PRIMARY_DAMAGE} damage.";
-    public const string DisplayName = "Smash";
-
     private const float DistanceFromCaster = 1f;
     private const float Radius = 1f;
 
-    public Smash(Actor owner, AbilityData abilityData) : base(owner, abilityData)
+    public Smash(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
     }
 
@@ -36,6 +30,8 @@ public class Smash : InstantCast
             {
                 DealPrimaryDamage(actor);
                 hasDealtDamage = true;
+
+                if (HasBonus("PerfectSmash")) actor.EffectManager.AddActiveEffect(new Stun(3), 3);
             }
         });
 

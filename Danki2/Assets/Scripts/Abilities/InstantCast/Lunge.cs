@@ -1,14 +1,8 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+[Ability(AbilityReference.Lunge)]
 public class Lunge : InstantCast
 {
-    public static readonly AbilityData BaseAbilityData = new AbilityData(4, 0, 0, 0);
-    public static readonly Dictionary<OrbType, int> GeneratedOrbs = new Dictionary<OrbType, int>();
-    public const OrbType AbilityOrbType = OrbType.Aggression;
-    public const string Tooltip = "Deals {PRIMARY_DAMAGE} damage.";
-    public const string DisplayName = "Lunge";
-
     private const float MinMovementDuration = 0.1f;
     private const float MaxMovementDuration = 0.2f;
     private const float LungeSpeedMultiplier = 6f;
@@ -16,7 +10,7 @@ public class Lunge : InstantCast
     private const float StunDuration = 0.5f;
     private const float PauseDuration = 0.3f;
 
-    public Lunge(Actor owner, AbilityData abilityData) : base(owner, abilityData)
+    public Lunge(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
     }
 
