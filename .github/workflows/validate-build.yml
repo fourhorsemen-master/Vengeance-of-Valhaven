@@ -1,10 +1,11 @@
-# Builds the project, removes any old artefacts and then uploads the built project as
+# Validates that the project builds without errors, without saving the built projects as
 # an artefact.
-name: Build
+name: Validate Build
 
-# Only run on master as this is the only time we want to build and save the project.
+# Run on pull requests to master as we want to check that the game at least compiles before
+# it can be merged into master.
 on:
-  push:
+  pull_request:
     branches:
       - master
 
@@ -12,8 +13,8 @@ env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
 
 jobs:
-  build:
-    name: Build for ${{ matrix.targetPlatform }} on version ${{ matrix.unityVersion }}
+  validate-build:
+    name: Validate build for ${{ matrix.targetPlatform }} on version ${{ matrix.unityVersion }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     strategy:
@@ -30,7 +31,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2.1.0
 
-      # GitHub cache.
+      # GitHub cache, this will speed up subsequent runs of this workflow.
       - name: Cache
         uses: actions/cache@v1.1.2
         with:
@@ -42,23 +43,9 @@ jobs:
 
       # Build the project with all combinations of the target platforms and unity versions
       # in the matrix defined above.
-      - name: Build
+      - name: Validate Build
         uses: webbertakken/unity-builder@v0.12
         with:
           projectPath: ${{ matrix.projectPath }}
           unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
-
-      # Remove all existing artefacts from GitHub as we only need the latest build. This
-      # is to save on GitHub storage as it has a low limit.
-      - name: Delete Existing Artefacts
-        uses: c-hive/gha-remove-artifacts@v1
-        with:
-          age: '1 second'
-
-      # Upload artefacts, i.e. the built projects.
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v1.0.0
-        with:
-          name: Build
-          path: build
