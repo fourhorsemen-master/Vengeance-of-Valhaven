@@ -8,9 +8,11 @@
 public class AbilityAttribute : Attribute
 {
     public AbilityReference AbilityReference { get; }
+    public string[] AbilityBonuses { get; }
 
-    public AbilityAttribute(AbilityReference abilityReference)
+    public AbilityAttribute(AbilityReference abilityReference, string[] abilityBonuses = null)
     {
         AbilityReference = abilityReference;
+        AbilityBonuses = abilityBonuses ?? new string[0];
     }
 }

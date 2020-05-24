@@ -10,7 +10,7 @@ public class Pounce : InstantCast
     private const float DamageRadius = 2f;
     private const float PauseDuration = 0.3f;
 
-    public Pounce(Actor owner, AbilityData abilityData) : base(owner, abilityData)
+    public Pounce(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
     }
 

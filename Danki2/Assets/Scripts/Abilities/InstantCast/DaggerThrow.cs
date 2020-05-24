@@ -7,7 +7,7 @@ public class DaggerThrow : InstantCast
     private const float DotDuration = 3f;
     private static readonly Vector3 positionTransform = new Vector3(0, 1.25f, 0);
 
-    public DaggerThrow(Actor owner, AbilityData abilityData) : base(owner, abilityData)
+    public DaggerThrow(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
     }
 

@@ -6,7 +6,7 @@ public class Roll : InstantCast
     private const float RollSpeedMultiplier = 4f;
     private const float RollDuration = 0.15f;
 
-    public Roll(Actor owner, AbilityData abilityData) : base(owner, abilityData)
+    public Roll(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
     }
 

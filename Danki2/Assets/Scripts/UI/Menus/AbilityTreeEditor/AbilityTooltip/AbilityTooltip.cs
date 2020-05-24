@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.UI.Extensions;
 
 public class AbilityTooltip : Singleton<AbilityTooltip>
 {
@@ -14,9 +13,6 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
 
     [SerializeField]
     private Text description = null;
-
-    [SerializeField]
-    private Transform orbGenerattionPanel = null;
 
     [SerializeField]
     private RectTransform abilityOrbPanel = null;
@@ -69,20 +65,20 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
     {
         title.text = node.Ability.ToString();
 
-        OrbType? abilityType = AbilityLookup.Instance.GetAbilityOrbType(node.Ability);
+        AbilityLookup.Instance.TryGetAbilityOrbType(node.Ability, out OrbType abilityOrbType);
 
         List<TooltipSegment> segments = tooltipBuilder.Build(node);
-        description.text = GenerateDescription(abilityType, segments);
+        description.text = GenerateDescription(abilityOrbType, segments);
 
         description.rectTransform.sizeDelta = new Vector2(
             description.rectTransform.sizeDelta.x,
             description.preferredHeight
         );
 
-        Dictionary<OrbType, int> generatedOrbs = AbilityLookup.Instance.GetGeneratedOrbs(node.Ability);
-        bool generatesOrbs = DisplayOrbs(generatedOrbs);
+        OrbCollection generatedOrbs = AbilityLookup.Instance.GetGeneratedOrbs(node.Ability);
+        DisplayOrbs(generatedOrbs);
 
-        float newHeight = description.preferredHeight + (generatesOrbs ? 60f : 36f);
+        float newHeight = description.preferredHeight + (generatedOrbs.IsEmpty ? 36f : 60f);
 
         tooltipPanel.sizeDelta = new Vector2(
             tooltipPanel.sizeDelta.x,
@@ -90,7 +86,7 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
         );
     }
 
-    private string GenerateDescription(OrbType? abilityType, List<TooltipSegment> segments)
+    private string GenerateDescription(OrbType abilityType, List<TooltipSegment> segments)
     {
         List<string> descriptionParts = new List<string>();
 
@@ -119,28 +115,17 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
         return string.Join(string.Empty, descriptionParts);
     }
 
-    private bool DisplayOrbs(Dictionary<OrbType, int> generatedOrbs)
+    private void DisplayOrbs(OrbCollection generatedOrbs)
     {
         for (int i = 0; i < abilityOrbPanel.childCount; i++)
         {
             Destroy(abilityOrbPanel.GetChild(i).gameObject);
         }
 
-        bool generatesOrbs = false;
-
-        foreach (OrbType key in Enum.GetValues(typeof(OrbType)))
-        {
-            if (!generatedOrbs.TryGetValue(key, out int count)) continue;
-
-            for (int i = 0; i < generatedOrbs[key]; i++)
-            {
-                TooltipAbilityOrb orb = Instantiate(tooltipAbilityOrbPrefab, abilityOrbPanel.transform, false);
-                orb.SetType(key);
-                generatesOrbs = true;
-            }
-        }
-
-        return generatesOrbs;
+        generatedOrbs.ForEachOrb(orbType => {
+            TooltipAbilityOrb orb = Instantiate(tooltipAbilityOrbPrefab, abilityOrbPanel.transform, false);
+            orb.SetType(orbType);
+        });
     }
 
     private void MoveToMouse()

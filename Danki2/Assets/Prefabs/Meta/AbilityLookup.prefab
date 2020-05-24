@@ -56,7 +56,10 @@ MonoBehaviour:
       abilityOrbType:
         hasValue: 0
         value: 0
-      generatedOrbs: 020000000100000000000000
+      generatedOrbs: 
+      abilityBonusLookup:
+        _keys: []
+        _values: []
     - displayName: Whirlwind
       tooltip: Deals {PRIMARY_DAMAGE} damage over 3 seconds while channeling and an
         additional {SECONDARY_DAMAGE} after 3 seconds to targets within 10 yards.
@@ -68,7 +71,10 @@ MonoBehaviour:
       abilityOrbType:
         hasValue: 0
         value: 0
-      generatedOrbs: 00000000
+      generatedOrbs: 
+      abilityBonusLookup:
+        _keys: []
+        _values: []
     - displayName: Fireball
       tooltip: Deals {PRIMARY_DAMAGE} damage.
       baseAbilityData:
@@ -80,6 +86,9 @@ MonoBehaviour:
         hasValue: 0
         value: 0
       generatedOrbs: 
+      abilityBonusLookup:
+        _keys: []
+        _values: []
     - displayName: Dagger Throw
       tooltip: Deals {PRIMARY_DAMAGE} damage.
       baseAbilityData:
@@ -91,6 +100,9 @@ MonoBehaviour:
         hasValue: 0
         value: 0
       generatedOrbs: 
+      abilityBonusLookup:
+        _keys: []
+        _values: []
     - displayName: Bite
       tooltip: Deals {PRIMARY_DAMAGE} damage.
       baseAbilityData:
@@ -102,6 +114,9 @@ MonoBehaviour:
         hasValue: 0
         value: 0
       generatedOrbs: 
+      abilityBonusLookup:
+        _keys: []
+        _values: []
     - displayName: Pounce
       tooltip: Deals {PRIMARY_DAMAGE} damage.
       baseAbilityData:
@@ -113,6 +128,9 @@ MonoBehaviour:
         hasValue: 0
         value: 0
       generatedOrbs: 
+      abilityBonusLookup:
+        _keys: []
+        _values: []
     - displayName: Roll
       tooltip: Deals {PRIMARY_DAMAGE} damage.
       baseAbilityData:
@@ -124,6 +142,9 @@ MonoBehaviour:
         hasValue: 0
         value: 0
       generatedOrbs: 
+      abilityBonusLookup:
+        _keys: []
+        _values: []
     - displayName: Lunge
       tooltip: Deals {PRIMARY_DAMAGE} damage.
       baseAbilityData:
@@ -135,6 +156,9 @@ MonoBehaviour:
         hasValue: 0
         value: 0
       generatedOrbs: 
+      abilityBonusLookup:
+        _keys: []
+        _values: []
     - displayName: Smash
       tooltip: Deals {PRIMARY_DAMAGE} damage.
       baseAbilityData:
@@ -146,3 +170,10 @@ MonoBehaviour:
         hasValue: 0
         value: 0
       generatedOrbs: 
+      abilityBonusLookup:
+        _keys:
+        - PerfectSmash
+        _values:
+        - displayName: Perfect Smash
+          tooltip: Stun all affected enemies for 3 seconds.
+          requiredOrbs: 0100000001000000
