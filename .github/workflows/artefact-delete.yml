@@ -14,3 +14,5 @@ jobs:
     steps:
       - name: Delete Artefacts
         uses: c-hive/gha-remove-artifacts@v1
+        with:
+          age: '1 second'
