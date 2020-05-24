@@ -4,7 +4,7 @@ public abstract class Channel : Ability
 {
     public abstract float Duration { get; }
 
-    protected Channel(Actor owner, AbilityData abilityData) : base(owner, abilityData)
+    protected Channel(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
     }
     

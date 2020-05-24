@@ -19,7 +19,7 @@ public class Whirlwind : Channel
 
     public override float Duration => 2f;
 
-    public Whirlwind(Actor owner, AbilityData abilityData) : base(owner, abilityData)
+    public Whirlwind(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
     }
 

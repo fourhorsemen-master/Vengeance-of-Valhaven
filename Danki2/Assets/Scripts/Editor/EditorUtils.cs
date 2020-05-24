@@ -7,6 +7,7 @@ public static class EditorUtils
     private const int LineHeight = 15;
 
     private static readonly GUIStyle MultilineTextFieldStyle = new GUIStyle(EditorStyles.textField) {wordWrap = true};
+    private static readonly GUIStyle MultilineLabelFieldStyle = new GUIStyle(EditorStyles.label) {wordWrap = true};
 
     /// <summary>
     /// Adds a text field that wraps text and has multiple lines.
@@ -18,6 +19,15 @@ public static class EditorUtils
     public static string MultilineTextField(string label, string text, int lineCount)
     {
         return EditorGUILayout.TextField(label, text, MultilineTextFieldStyle, GUILayout.Height(lineCount * LineHeight));
+    }
+
+    /// <summary>
+    /// Label fields don't wrap onto multiple lines by default. Helper method for label field that will wrap.
+    /// </summary>
+    /// <param name="label"> The label. </param>
+    public static void MultilineLabelField(string label)
+    {
+        EditorGUILayout.LabelField(label, MultilineLabelFieldStyle);
     }
 
     /// <summary>

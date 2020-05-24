@@ -15,12 +15,17 @@ public class SerializableAbilityMetadata
     private SerializableNullableOrbType abilityOrbType = new SerializableNullableOrbType();
     [SerializeField]
     private List<OrbType> generatedOrbs = new List<OrbType>();
+    [SerializeField]
+    private SerializableAbilityBonusLookup abilityBonusLookup = new SerializableAbilityBonusLookup();
 
     public string DisplayName { get => displayName; set => displayName = value; }
     public string Tooltip { get => tooltip; set => tooltip = value; }
     public AbilityData BaseAbilityData { get => baseAbilityData; set => baseAbilityData = value; }
     public SerializableNullableOrbType AbilityOrbType { get => abilityOrbType; set => abilityOrbType = value; }
     public List<OrbType> GeneratedOrbs { get => generatedOrbs; set => generatedOrbs = value; }
+    public SerializableAbilityBonusLookup AbilityBonusLookup { get => abilityBonusLookup; set => abilityBonusLookup = value; }
 
-    public bool Valid => !string.IsNullOrEmpty(displayName) && !string.IsNullOrEmpty(tooltip);
+    public bool MissingData => string.IsNullOrWhiteSpace(displayName) ||
+                               string.IsNullOrWhiteSpace(tooltip) ||
+                               abilityBonusLookup.MissingData;
 }

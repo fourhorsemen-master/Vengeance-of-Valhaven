@@ -9,32 +9,56 @@ public class AbilityLookup : Singleton<AbilityLookup>
     public SerializableMetadataLookup serializableMetadataLookup = new SerializableMetadataLookup();
 
     private readonly AbilityMap<string> displayNameMap = new AbilityMap<string>();
-    private readonly AbilityMap<OrbType?> abilityOrbTypeMap = new AbilityMap<OrbType?>();
+    private readonly AbilityMap<OrbType> abilityOrbTypeMap = new AbilityMap<OrbType>();
     private readonly AbilityMap<AbilityData> baseAbilityDataMap = new AbilityMap<AbilityData>();
-    private readonly AbilityMap<Dictionary<OrbType, int>> generatedOrbsMap = new AbilityMap<Dictionary<OrbType, int>>();
+    private readonly AbilityMap<OrbCollection> generatedOrbsMap = new AbilityMap<OrbCollection>();
     private readonly AbilityMap<List<TemplatedTooltipSegment>> templatedTooltipSegmentsMap = new AbilityMap<List<TemplatedTooltipSegment>>();
+    private readonly AbilityMap<Dictionary<string, AbilityBonusData>> abilityBonusDataMap = new AbilityMap<Dictionary<string, AbilityBonusData>>();
 
-    private readonly AbilityMap<Func<Actor, AbilityData, InstantCast>> instantCastBuilderMap = new AbilityMap<Func<Actor, AbilityData, InstantCast>>();
-    private readonly AbilityMap<Func<Actor, AbilityData, Channel>> channelBuilderMap = new AbilityMap<Func<Actor, AbilityData, Channel>>();
+    private readonly AbilityMap<Func<Actor, AbilityData, string[], InstantCast>> instantCastBuilderMap = new AbilityMap<Func<Actor, AbilityData, string[], InstantCast>>();
+    private readonly AbilityMap<Func<Actor, AbilityData, string[], Channel>> channelBuilderMap = new AbilityMap<Func<Actor, AbilityData, string[], Channel>>();
     private readonly AbilityMap<AbilityType> abilityTypeMap = new AbilityMap<AbilityType>();
 
     private readonly Lexer lexer = new Lexer();
-    private readonly TokenValidator tokenValidator = new TokenValidator();
     private readonly Parser parser = new Parser();
+
+    private List<AttributeData<AbilityAttribute>> abilityAttributeData;
+    private Dictionary<AbilityReference, AttributeData<AbilityAttribute>> abilityAttributeDataLookup;
 
     protected override void Awake()
     {
         base.Awake();
+
+        abilityAttributeData = ReflectionUtils.GetAttributeData<AbilityAttribute>(Assembly.GetExecutingAssembly());
+        abilityAttributeDataLookup = abilityAttributeData.ToDictionary(
+            d => d.Attribute.AbilityReference,
+            d => d
+        );
+
+        SerializableMetadataLookupValidator serializableMetadataLookupValidator = new SerializableMetadataLookupValidator();
+        serializableMetadataLookupValidator.Validate(serializableMetadataLookup, abilityAttributeData);
+        if (serializableMetadataLookupValidator.HasErrors)
+        {
+            Debug.LogError("Serializable metadata lookup errors found, see above for errors. Aborting building of ability lookups.");
+            return;
+        }
+
         BuildMetadataLookups();
         BuildAbilityBuilderLookups();
     }
 
-    public bool TryGetInstantCast(AbilityReference abilityReference, Actor owner, AbilityData abilityDataDiff, out InstantCast ability)
+    public bool TryGetInstantCast(
+        AbilityReference abilityReference,
+        Actor owner,
+        AbilityData abilityDataDiff,
+        string[] activeBonuses,
+        out InstantCast ability
+    )
     {
         if (instantCastBuilderMap.ContainsKey(abilityReference))
         {
             AbilityData abilityData = baseAbilityDataMap[abilityReference] + abilityDataDiff;
-            ability = instantCastBuilderMap[abilityReference](owner, abilityData);
+            ability = instantCastBuilderMap[abilityReference](owner, abilityData, activeBonuses);
             return true;
         }
 
@@ -42,16 +66,34 @@ public class AbilityLookup : Singleton<AbilityLookup>
         return false;
     }
 
-    public bool TryGetChannel(AbilityReference abilityReference, Actor owner, AbilityData abilityDataDiff, out Channel ability)
+    public bool TryGetChannel(
+        AbilityReference abilityReference,
+        Actor owner,
+        AbilityData abilityDataDiff,
+        string[] activeBonuses,
+        out Channel ability
+    )
     {
         if (channelBuilderMap.ContainsKey(abilityReference))
         {
             AbilityData abilityData = baseAbilityDataMap[abilityReference] + abilityDataDiff;
-            ability = channelBuilderMap[abilityReference](owner, abilityData);
+            ability = channelBuilderMap[abilityReference](owner, abilityData, activeBonuses);
             return true;
         }
 
         ability = null;
+        return false;
+    }
+
+    public bool TryGetAbilityOrbType(AbilityReference abilityReference, out OrbType orbType)
+    {
+        if (abilityOrbTypeMap.ContainsKey(abilityReference))
+        {
+            orbType = abilityOrbTypeMap[abilityReference];
+            return true;
+        }
+
+        orbType = default;
         return false;
     }
 
@@ -59,135 +101,85 @@ public class AbilityLookup : Singleton<AbilityLookup>
 
     public AbilityData GetBaseAbilityData(AbilityReference abilityReference) => baseAbilityDataMap[abilityReference];
 
-    public Dictionary<OrbType, int> GetGeneratedOrbs(AbilityReference abilityReference) => generatedOrbsMap[abilityReference];
-
-    public OrbType? GetAbilityOrbType(AbilityReference abilityReference) => abilityOrbTypeMap[abilityReference];
+    public OrbCollection GetGeneratedOrbs(AbilityReference abilityReference) => generatedOrbsMap[abilityReference];
 
     public List<TemplatedTooltipSegment> GetTemplatedTooltipSegments(AbilityReference abilityReference) => templatedTooltipSegmentsMap[abilityReference];
 
     public string GetAbilityDisplayName(AbilityReference abilityReference) => displayNameMap[abilityReference];
 
+    public Dictionary<string, AbilityBonusData> GetAbilityBonusDataLookup(AbilityReference abilityReference) => abilityBonusDataMap[abilityReference];
+
     private void BuildMetadataLookups()
     {
-        if (!HasValidSerializableMetadataLookup()) return;
-
         foreach (AbilityReference abilityReference in Enum.GetValues(typeof(AbilityReference)))
         {
-            SerializableAbilityMetadata abilityMetadata = serializableMetadataLookup[abilityReference];
+            SerializableAbilityMetadata serializableAbilityMetadata = serializableMetadataLookup[abilityReference];
 
-            displayNameMap[abilityReference] = abilityMetadata.DisplayName;
-            baseAbilityDataMap[abilityReference] = abilityMetadata.BaseAbilityData;
-            abilityOrbTypeMap[abilityReference] = abilityMetadata.AbilityOrbType.HasValue
-                ? abilityMetadata.AbilityOrbType.Value
-                : (OrbType?)null;
-            generatedOrbsMap[abilityReference] = abilityMetadata.GeneratedOrbs
-                .GroupBy(o => o)
-                .ToDictionary(g => g.Key, g => g.Count());
-            BuildTooltip(abilityReference, abilityMetadata.Tooltip);
-        }
-    }
-
-    private bool HasValidSerializableMetadataLookup()
-    {
-        foreach (AbilityReference abilityReference in Enum.GetValues(typeof(AbilityReference)))
-        {
-            if (!serializableMetadataLookup.ContainsKey(abilityReference))
+            displayNameMap[abilityReference] = serializableAbilityMetadata.DisplayName;
+            baseAbilityDataMap[abilityReference] = serializableAbilityMetadata.BaseAbilityData;
+            if (serializableAbilityMetadata.AbilityOrbType.HasValue)
             {
-                Debug.LogError($"No ability metadata found for {abilityReference.ToString()}, please add in the editor.");
-                return false;
+                abilityOrbTypeMap[abilityReference] = serializableAbilityMetadata.AbilityOrbType.Value;
             }
-
-            if (!serializableMetadataLookup[abilityReference].Valid)
-            {
-                Debug.LogError($"Invalid ability metadata for {abilityReference.ToString()}, please change in the editor.");
-                return false;
-            }
+            generatedOrbsMap[abilityReference] = new OrbCollection(serializableAbilityMetadata.GeneratedOrbs);
+            BuildTooltip(abilityReference, serializableAbilityMetadata.Tooltip);
+            BuildAbilityBonusLookup(abilityReference, serializableAbilityMetadata.AbilityBonusLookup);
         }
-
-        return true;
     }
 
     private void BuildTooltip(AbilityReference abilityReference, string tooltip)
     {
         List<Token> tokens = lexer.Lex(tooltip);
-
-        if (!tokenValidator.HasValidSyntax(tokens))
-        {
-            Debug.LogError($"Tooltip for {abilityReference.ToString()} does not have valid syntax, value was: \"{tooltip}\".");
-            return;
-        }
-
         templatedTooltipSegmentsMap[abilityReference] = parser.Parse(tokens);
     }
 
+    private void BuildAbilityBonusLookup(
+        AbilityReference abilityReference,
+        SerializableAbilityBonusLookup serializableAbilityBonusLookup
+    )
+    {
+        string[] abilityBonuses = abilityAttributeDataLookup[abilityReference].Attribute.AbilityBonuses;
+
+        abilityBonusDataMap[abilityReference] = abilityBonuses.ToDictionary(
+            abilityBonus => abilityBonus,
+            abilityBonus =>
+            {
+                SerializableAbilityBonusMetadata serializableAbilityBonusMetadata = serializableAbilityBonusLookup[abilityBonus];
+                return new AbilityBonusData(
+                    serializableAbilityBonusMetadata.DisplayName,
+                    serializableAbilityBonusMetadata.Tooltip,
+                    new OrbCollection(serializableAbilityBonusMetadata.RequiredOrbs)
+                );
+            }
+        );
+    }
+
     /// <summary>
-    /// Checks for classes with the ability attribute, validates that they are on the correct class and that we have
-    /// the expected number of annotations, then gets the constructors manually for these classes and adds them to
-    /// the ability builder lookups.
+    /// Checks for classes with the ability attribute and gets the constructors manually for these classes and adds them
+    /// to the ability builder lookups.
     /// </summary>
     private void BuildAbilityBuilderLookups()
     {
-        List<AttributeData<AbilityAttribute>> abilityAttributeData = ReflectionUtils
-            .GetAttributeData<AbilityAttribute>(Assembly.GetExecutingAssembly());
-
-        if (!IsValidAbilityAttributeData(abilityAttributeData)) return;
-
         Dictionary<AbilityReference, Type> abilityReferenceToType = abilityAttributeData
             .ToDictionary(d => d.Attribute.AbilityReference, d => d.Type);
 
         foreach (AbilityReference abilityReference in Enum.GetValues(typeof(AbilityReference)))
         {
             Type type = abilityReferenceToType[abilityReference];
-            ConstructorInfo constructor = type.GetConstructor(new [] {typeof(Actor), typeof(AbilityData)});
-
-            if (constructor == null)
-            {
-                Debug.Log($"Could not find valid constructor for ability: {abilityReference}.");
-                return;
-            }
+            ConstructorInfo constructor = type.GetConstructor(new [] {typeof(Actor), typeof(AbilityData), typeof(string[])});
 
             if (type.IsSubclassOf(typeof(InstantCast)))
             {
-                instantCastBuilderMap[abilityReference] = (a, b) => (InstantCast)constructor.Invoke(new object[] {a, b});
+                instantCastBuilderMap[abilityReference] = (a, b, c) => (InstantCast)constructor.Invoke(new object[] {a, b, c});
                 abilityTypeMap[abilityReference] = AbilityType.InstantCast;
                 continue;
             }
 
             if (type.IsSubclassOf(typeof(Channel)))
             {
-                channelBuilderMap[abilityReference] = (a, b) => (Channel)constructor.Invoke(new object[] {a, b});
+                channelBuilderMap[abilityReference] = (a, b, c) => (Channel)constructor.Invoke(new object[] {a, b, c});
                 abilityTypeMap[abilityReference] = AbilityType.Channel;
-                continue;
             }
-
-            Debug.LogError($"Ability {abilityReference} does not inherit from a recognised ability class.");
         }
-    }
-
-    private bool IsValidAbilityAttributeData(List<AttributeData<AbilityAttribute>> abilityAttributeData)
-    {
-        List<AbilityReference> abilityReferences = abilityAttributeData
-            .Select(d => d.Attribute.AbilityReference)
-            .ToList();
-
-        if (abilityReferences.Distinct().Count() != abilityReferences.Count)
-        {
-            Debug.LogError("Ability attributes do not contain distinct ability references.");
-            return false;
-        }
-
-        if (abilityReferences.Count != Enum.GetValues(typeof(AbilityReference)).Length)
-        {
-            Debug.LogError("Ability attributes found do not match all AbilityReferences. There may be abilities missing the attribute.");
-            return false;
-        }
-
-        if (!abilityAttributeData.All(d => d.Type.IsSubclassOf(typeof(Ability))))
-        {
-            Debug.LogError("Found ability attribute on class that does not inherit from ability.");
-            return false;
-        }
-
-        return true;
     }
 }
