@@ -4,7 +4,7 @@ using System.Collections;
 public class Player : Actor
 {
     [HideInInspector]
-    public float abilityCooldown = 1f
+    public float abilityCooldown = 1f;
     [HideInInspector]
     public float totalDashCooldown = 1f;
     [HideInInspector]
