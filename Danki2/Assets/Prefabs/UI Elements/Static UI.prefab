@@ -881,10 +881,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 820f1254450a978448ae5e82a55d9cad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  barColourLookup:
+    _keys: 000000000100000002000000
+    _values:
+    - {r: 0.19607843, g: 0.78431374, b: 1, a: 0.5882353}
+    - {r: 1, g: 0.39215687, b: 0, a: 0.5882353}
+    - {r: 1, g: 1, b: 0, a: 0.5882353}
   channelBar: {fileID: 9061375271371997875}
-  channelColor: {r: 0, g: 0.73333335, b: 1, a: 0.43529412}
-  chargeColor: {r: 1, g: 0, b: 0.73333335, a: 0.43529412}
-  castColor: {r: 0.73333335, g: 1, b: 0, a: 0.43529412}
 --- !u!1 &9061375271419522701
 GameObject:
   m_ObjectHideFlags: 0
