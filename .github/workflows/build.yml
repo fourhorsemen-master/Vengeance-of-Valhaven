@@ -42,6 +42,11 @@ jobs:
           unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
 
+      - name: Delete Existing Artefacts
+        uses: c-hive/gha-remove-artifacts@v1
+        with:
+          age: '1 second'
+
       - name: Upload Artifacts
         uses: actions/upload-artifact@v1.0.0
         with:
