@@ -6,7 +6,7 @@ public class Player : Actor
     [HideInInspector]
     public float abilityCooldown = 1f;
     [HideInInspector]
-    public float totalRollDuration = 1f;
+    public float totalRollCooldown = 1f;
     [HideInInspector]
     public float rollDuration = 0.2f;
     [HideInInspector]
@@ -87,7 +87,7 @@ public class Player : Actor
                 direction,
                 direction
             );
-            remainingRollCooldown = totalRollDuration;
+            remainingRollCooldown = totalRollCooldown;
             trailRenderer.emitting = true;
             StartCoroutine(EndRollVisualAfterDelay());
         }
