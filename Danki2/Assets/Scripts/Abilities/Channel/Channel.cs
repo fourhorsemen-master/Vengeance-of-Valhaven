@@ -4,6 +4,8 @@ public abstract class Channel : Ability
 {
     public abstract float Duration { get; }
 
+    public virtual ChannelType ChannelType => ChannelType.Channel;
+
     protected Channel(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
     }

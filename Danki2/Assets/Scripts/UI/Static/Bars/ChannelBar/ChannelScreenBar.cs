@@ -3,16 +3,20 @@ using UnityEngine.UI;
 
 public class ChannelScreenBar : MonoBehaviour
 {
-    [SerializeField]
-    private Image channelBar = null;
+    public ChannelBarColourDictionary barColourLookup = new ChannelBarColourDictionary(Color.white);
+
+    public Image channelBar = null;
 
     private Player player;
     private ChannelService channelService;
-    
+
     private void Start()
     {
         player = RoomManager.Instance.Player;
         channelService = player.ChannelService;
+        channelService.ChannelStartSubject.Subscribe(channelType =>
+            channelBar.color = barColourLookup[channelType]
+        );
     }
 
     private void Update()
