@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class RollObject : StaticAbilityObject
+public class DashObject : StaticAbilityObject
 {
     public AudioSource rollSound = null;
 
@@ -13,7 +13,7 @@ public class RollObject : StaticAbilityObject
 
     public static void Create(Transform casterTransform)
     {
-        RollObject prefab = AbilityObjectPrefabLookup.Instance.RollObjectPrefab;
+        DashObject prefab = AbilityObjectPrefabLookup.Instance.DashObjectPrefab;
         Instantiate(prefab, casterTransform);
     }
 }

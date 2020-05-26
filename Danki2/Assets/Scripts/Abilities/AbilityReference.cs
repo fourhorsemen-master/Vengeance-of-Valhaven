@@ -8,7 +8,7 @@ public enum AbilityReference
     DaggerThrow,
     Bite,
     Pounce,
-    Roll,
+    Dash,
     Lunge,
     Smash
 }

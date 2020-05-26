@@ -38,7 +38,7 @@ public class Player : Actor
         AbilityInventory[AbilityReference.Bite] = 1;
         AbilityInventory[AbilityReference.Pounce] = 2;
         AbilityInventory[AbilityReference.Slash] = 3;
-        AbilityInventory[AbilityReference.Roll] = 4;
+        AbilityInventory[AbilityReference.Dash] = 4;
         AbilityInventory[AbilityReference.DaggerThrow] = 5;
         AbilityInventory[AbilityReference.Lunge] = 6;
         AbilityInventory[AbilityReference.Smash] = 7;
@@ -48,7 +48,7 @@ public class Player : Actor
             AbilityTreeFactory.CreateNode(
                 AbilityReference.Slash,
                 AbilityTreeFactory.CreateNode(
-                    AbilityReference.Roll,
+                    AbilityReference.Dash,
                     rightChild: AbilityTreeFactory.CreateNode(AbilityReference.Smash)
                 ),
                 AbilityTreeFactory.CreateNode(AbilityReference.Whirlwind)
@@ -77,7 +77,7 @@ public class Player : Actor
         TickRollCooldown();
     }
 
-    public void Dash(Vector3 direction)
+    public void Roll(Vector3 direction)
     {
         if (remainingRollCooldown <= 0)
         {

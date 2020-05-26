@@ -25,7 +25,7 @@ public class PlayerControls : MonoBehaviour
 
         if (Input.GetAxis("Dash") > 0)
         {
-            _player.Dash(moveDirection);
+            _player.Roll(moveDirection);
         }
 
         _player.MovementManager.Move(moveDirection);
