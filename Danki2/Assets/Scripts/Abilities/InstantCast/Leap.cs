@@ -5,7 +5,7 @@ public class Leap : InstantCast
 {
     private const float MinMovementDuration = 0.1f;
     private const float MaxMovementDuration = 0.3f;
-    private const float LungeSpeedMultiplier = 6f;
+    private const float LeapSpeedMultiplier = 6f;
 
     public Leap(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
@@ -18,10 +18,10 @@ public class Leap : InstantCast
         direction.y = position.y;
 
         float distance = Vector3.Distance(target, position);
-        float lungeSpeed = Owner.GetStat(Stat.Speed) * LungeSpeedMultiplier;
-        float duration = Mathf.Clamp(distance / lungeSpeed, MinMovementDuration, MaxMovementDuration);
+        float leapSpeed = Owner.GetStat(Stat.Speed) * LeapSpeedMultiplier;
+        float duration = Mathf.Clamp(distance / leapSpeed, MinMovementDuration, MaxMovementDuration);
 
-        Owner.MovementManager.LockMovement(duration, lungeSpeed, direction, direction);
+        Owner.MovementManager.LockMovement(duration, leapSpeed, direction, direction);
 
         LeapObject.Create(Owner.transform);
 
