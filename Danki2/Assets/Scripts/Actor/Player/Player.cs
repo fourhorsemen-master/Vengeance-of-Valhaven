@@ -6,15 +6,15 @@ public class Player : Actor
     [HideInInspector]
     public float abilityCooldown = 1f;
     [HideInInspector]
-    public float totalDashCooldown = 1f;
+    public float totalRollDuration = 1f;
     [HideInInspector]
-    public float dashDuration = 0.2f;
+    public float rollDuration = 0.2f;
     [HideInInspector]
-    public float dashSpeedMultiplier = 3f;
+    public float rollSpeedMultiplier = 3f;
     [HideInInspector]
     public float abilityTimeoutLimit = 5f;
 
-    private float remainingDashCooldown = 0f;
+    private float remainingRollCooldown = 0f;
 
     [SerializeField]
     private TrailRenderer trailRenderer = null;
@@ -74,22 +74,22 @@ public class Player : Actor
     {
         base.Update();
 
-        TickDashCooldown();
+        TickRollCooldown();
     }
 
     public void Dash(Vector3 direction)
     {
-        if (remainingDashCooldown <= 0)
+        if (remainingRollCooldown <= 0)
         {
             MovementManager.LockMovement(
-                dashDuration,
-                GetStat(Stat.Speed) * dashSpeedMultiplier,
+                rollDuration,
+                GetStat(Stat.Speed) * rollSpeedMultiplier,
                 direction,
                 direction
             );
-            remainingDashCooldown = totalDashCooldown;
+            remainingRollCooldown = totalRollDuration;
             trailRenderer.emitting = true;
-            StartCoroutine(EndDashVisualAfterDelay());
+            StartCoroutine(EndRollVisualAfterDelay());
         }
     }
 
@@ -104,14 +104,14 @@ public class Player : Actor
         Debug.Log("The player died");
     }
 
-    private void TickDashCooldown()
+    private void TickRollCooldown()
     {
-        remainingDashCooldown = Mathf.Max(0f, remainingDashCooldown - Time.deltaTime);
+        remainingRollCooldown = Mathf.Max(0f, remainingRollCooldown - Time.deltaTime);
     }
 
-    private IEnumerator EndDashVisualAfterDelay()
+    private IEnumerator EndRollVisualAfterDelay()
     {
-        yield return new WaitForSeconds(dashDuration * 2);
+        yield return new WaitForSeconds(rollDuration * 2);
         trailRenderer.emitting = false;
     }
 }
