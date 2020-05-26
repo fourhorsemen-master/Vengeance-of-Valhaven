@@ -3,8 +3,8 @@
 [Ability(AbilityReference.Dash)]
 public class Dash : InstantCast
 {
-    private const float DashSpeedMultiplier = 4f;
-    private const float DashDuration = 0.15f;
+    private const float DashSpeedMultiplier = 5f;
+    private const float DashDuration = 0.2f;
 
     public Dash(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
