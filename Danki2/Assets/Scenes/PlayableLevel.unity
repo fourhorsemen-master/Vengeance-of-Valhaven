@@ -4833,6 +4833,31 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4259702728665597836, guid: 93874b111f3b37343b35bcc90265ec00,
+        type: 3}
+      propertyPath: serializableMetadataLookup._keys.Array.size
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4259702728665597836, guid: 93874b111f3b37343b35bcc90265ec00,
+        type: 3}
+      propertyPath: serializableMetadataLookup._values.Array.size
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4259702728665597836, guid: 93874b111f3b37343b35bcc90265ec00,
+        type: 3}
+      propertyPath: serializableMetadataLookup._keys.Array.data[9]
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4259702728665597836, guid: 93874b111f3b37343b35bcc90265ec00,
+        type: 3}
+      propertyPath: serializableMetadataLookup._values.Array.data[9].displayName
+      value: Leap
+      objectReference: {fileID: 0}
+    - target: {fileID: 4259702728665597836, guid: 93874b111f3b37343b35bcc90265ec00,
+        type: 3}
+      propertyPath: serializableMetadataLookup._values.Array.data[9].tooltip
+      value: Leap to a target location.
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 93874b111f3b37343b35bcc90265ec00, type: 3}
 --- !u!4 &1488015465 stripped
@@ -5146,6 +5171,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8960279439594512758, guid: 8eac9d6ffd233904e8542eee569e67fc,
+        type: 3}
+      propertyPath: spriteLookup._values.Array.data[9]
+      value: 
+      objectReference: {fileID: 21300000, guid: 613c3f51bcf16ef45b00c8bdc77103f4,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8eac9d6ffd233904e8542eee569e67fc, type: 3}
 --- !u!1001 &1567104946
@@ -5215,6 +5246,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1316990105569241792, guid: 1a3e0825134a04e43a77f81f2b5e032b,
+        type: 3}
+      propertyPath: _leapObjectPrefab
+      value: 
+      objectReference: {fileID: 8900001124334339166, guid: b0a5773a4afd16c4eab99f2c21e8ac3f,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a3e0825134a04e43a77f81f2b5e032b, type: 3}
 --- !u!4 &1571054678 stripped
