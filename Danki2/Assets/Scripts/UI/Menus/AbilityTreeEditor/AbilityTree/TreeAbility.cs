@@ -23,12 +23,17 @@ public class TreeAbility : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     [SerializeField]
     private UILineRenderer rightChildLineRenderer = null;
 
-    public Subject MouseEnterSubject = new Subject();
-    public Subject MouseLeaveSubject = new Subject();
+    private Node node;
 
-    public void OnPointerEnter(PointerEventData eventData) => MouseEnterSubject.Next();
+    public void OnPointerEnter(PointerEventData eventData) {
+        if (!node.IsRootNode)
+        {
+            AbilityTooltip.Instance.Activate();
+            AbilityTooltip.Instance.UpdateTooltip(node);
+        }
+    }
 
-    public void OnPointerExit(PointerEventData eventData) => MouseLeaveSubject.Next();
+    public void OnPointerExit(PointerEventData eventData) => AbilityTooltip.Instance.Deactivate();
 
     public void ShiftRight(float amount)
     {
@@ -39,14 +44,16 @@ public class TreeAbility : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public void SetNode(Node node)
     {
-        if (node.IsRootNode())
+        this.node = node;
+
+        if (node.IsRootNode)
         {
             abilityImage.sprite = rootNodeSprite;
             RemoveOverlay();
         }
         else
         {
-            abilityImage.sprite = AbilityIconManager.Instance.GetIcon(node.Ability);
+            abilityImage.sprite = AbilityIconManager.Instance.GetIcon(node.Ability);            
         }
     }
 
@@ -68,7 +75,7 @@ public class TreeAbility : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         }
     }
 
-    public void RemoveOverlay()
+    private void RemoveOverlay()
     {
         abilityOverlay.enabled = false;
     }

@@ -23,7 +23,15 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
     private PlayerTooltipBuilder tooltipBuilder;
 
     // TODO: include this in an OrbType lookup
-    private Dictionary<OrbType?, string> orbColourMap;
+    private Dictionary<OrbType, Color> orbColourMap = new Dictionary<OrbType, Color>
+    {
+        { OrbType.Aggression, new Color(1f, 0.3f, 0.3f) },
+        { OrbType.Balance, new Color(0.3f, 1f, 0.3f) },
+        { OrbType.Cunning, new Color(0.3f, 0.3f, 1f) },
+    };
+
+    public float TooltipHeightNoOrbs => description.preferredHeight + 36f;
+    public float TooltipHeightWithOrbs => description.preferredHeight + 60f;
 
     private void Start()
     {
@@ -31,12 +39,6 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
 
         Player player = RoomManager.Instance.Player;
         tooltipBuilder = new PlayerTooltipBuilder(player);
-
-        orbColourMap = new Dictionary<OrbType?, string> {
-            { OrbType.Aggression, "ff5555ff" },
-            { OrbType.Balance, "55ff55ff" },
-            { OrbType.Cunning, "5555ffff" },
-        };
     }
 
     private void Update()
@@ -63,12 +65,9 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
 
     public void UpdateTooltip(Node node)
     {
-        title.text = node.Ability.ToString();
+        title.text = AbilityLookup.Instance.GetAbilityDisplayName(node.Ability);
 
-        AbilityLookup.Instance.TryGetAbilityOrbType(node.Ability, out OrbType abilityOrbType);
-
-        List<TooltipSegment> segments = tooltipBuilder.Build(node);
-        description.text = GenerateDescription(abilityOrbType, segments);
+        description.text = GenerateDescription(node);
 
         description.rectTransform.sizeDelta = new Vector2(
             description.rectTransform.sizeDelta.x,
@@ -78,7 +77,9 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
         OrbCollection generatedOrbs = AbilityLookup.Instance.GetGeneratedOrbs(node.Ability);
         DisplayOrbs(generatedOrbs);
 
-        float newHeight = description.preferredHeight + (generatedOrbs.IsEmpty ? 36f : 60f);
+        float newHeight = generatedOrbs.IsEmpty
+            ? TooltipHeightNoOrbs
+            : TooltipHeightWithOrbs;
 
         tooltipPanel.sizeDelta = new Vector2(
             tooltipPanel.sizeDelta.x,
@@ -86,33 +87,41 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
         );
     }
 
-    private string GenerateDescription(OrbType abilityType, List<TooltipSegment> segments)
+    private string GenerateDescription(Node node)
     {
-        List<string> descriptionParts = new List<string>();
+        List<TooltipSegment> segments = tooltipBuilder.Build(node);
+
+        bool hasOrbType = AbilityLookup.Instance.TryGetAbilityOrbType(node.Ability, out OrbType abilityOrbType);
+
+        string description = "";
 
         foreach (TooltipSegment segment in segments)
         {
             switch (segment.Type)
             {
                 case TooltipSegmentType.Text:
-                    descriptionParts.Add(segment.Value);
-                    break;
-
                 case TooltipSegmentType.BaseNumericValue:
-                    descriptionParts.Add(segment.Value);
+                    description += segment.Value;
                     break;
 
                 case TooltipSegmentType.BonusNumericValue:
-                    string bonus = $"+{segment.Value}";
-                    string colorHex = orbColourMap[abilityType];
-                    string bonusWithColour = TextUtils.ColouredText(colorHex, bonus);
+                    if (!hasOrbType)
+                    {
+                        Debug.LogError("Bonus segment encountered on tooltip for ability without orb type.");
+                        description += segment.Value;
+                        break;
+                    }
 
-                    descriptionParts.Add($" ({bonusWithColour})");
+                    string bonus = $"+{segment.Value}";
+                    Color colour = orbColourMap[abilityOrbType];
+                    string bonusWithColour = TextUtils.ColouredText(colour, bonus);
+
+                    description += $" ({bonusWithColour})";
                     break;
             }
         }
 
-        return string.Join(string.Empty, descriptionParts);
+        return description;
     }
 
     private void DisplayOrbs(OrbCollection generatedOrbs)

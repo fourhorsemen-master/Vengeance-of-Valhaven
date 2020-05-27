@@ -15,9 +15,6 @@ public class AbilityTreeDisplay : MonoBehaviour
     [SerializeField]
     private TreeAbility treeAbilityPrefab = null;
 
-    [SerializeField]
-    private AbilityTooltip abilityTooltip = null;
-
     private AbilityTree abilityTree;
     private float numTreeVerticalSections;
     private Dictionary<Node, float> sectionIndices = new Dictionary<Node, float>();
@@ -132,18 +129,6 @@ public class AbilityTreeDisplay : MonoBehaviour
         treeAbility.ShiftRight(panelWidth * (sectionIndices[node] / numTreeVerticalSections));
 
         treeAbility.SetNode(node);
-
-        if (!node.IsRootNode())
-        {
-            treeAbility.MouseEnterSubject.Subscribe(() => {
-                abilityTooltip.Activate();
-                abilityTooltip.UpdateTooltip(node);
-            });
-
-            treeAbility.MouseLeaveSubject.Subscribe(() =>
-                abilityTooltip.Deactivate()
-            );
-        }
 
         return treeAbility;
     }

@@ -17,6 +17,7 @@ public class TooltipAbilityOrb : MonoBehaviour
 
     public void SetType(OrbType type)
     {
+        // TODO: Get these sprites from an orb data lookup
         switch (type)
         {
             case OrbType.Balance:
