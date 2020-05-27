@@ -175,9 +175,7 @@ MonoBehaviour:
   tooltipPanel: {fileID: 236770764}
   title: {fileID: 493106485}
   description: {fileID: 129833002}
-  abilityOrbPanel: {fileID: 4939094324680485365}
-  tooltipAbilityOrbPrefab: {fileID: 1851845965527753866, guid: b13bb7a1d344e7e4db790ec430bb8b4b,
-    type: 3}
+  abilityOrbPanel: {fileID: 2692204660556413114}
 --- !u!114 &7788060981747378627
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1571,6 +1569,7 @@ GameObject:
   - component: {fileID: 4939094324680485365}
   - component: {fileID: 8125614294223437043}
   - component: {fileID: 8739967214012121082}
+  - component: {fileID: 2692204660556413114}
   m_Layer: 5
   m_Name: GeneratedOrbs
   m_TagString: Untagged
@@ -1630,6 +1629,21 @@ MonoBehaviour:
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
+--- !u!114 &2692204660556413114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8362086886292859777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8afb2027367a334fa9a676a11f7e300, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rectTransform: {fileID: 4939094324680485365}
+  tooltipAbilityOrbPrefab: {fileID: 1851845965527753866, guid: b13bb7a1d344e7e4db790ec430bb8b4b,
+    type: 3}
 --- !u!1001 &6375986466417880479
 PrefabInstance:
   m_ObjectHideFlags: 0

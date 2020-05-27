@@ -3477,6 +3477,11 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1593497732697760947, guid: 457c892ab6103af40903f076b7b1bb43,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 969407358624231028, guid: 457c892ab6103af40903f076b7b1bb43,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -3536,6 +3541,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2889927828741223836, guid: 457c892ab6103af40903f076b7b1bb43,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 493106484, guid: 457c892ab6103af40903f076b7b1bb43, type: 3}
       propertyPath: m_AnchorMin.y
@@ -4867,18 +4877,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4259702728665597836, guid: 93874b111f3b37343b35bcc90265ec00,
-        type: 3}
-      propertyPath: serializableMetadataLookup._values.Array.data[0].generatedOrbs.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4259702728665597836, guid: 93874b111f3b37343b35bcc90265ec00,
-        type: 3}
-      propertyPath: serializableMetadataLookup._values.Array.data[1].tooltip
-      value: <color=#aabbcc>Deal</color> {PRIMARY_DAMAGE} damage 6 times over 2 seconds
-        seconds while channeling and an additional {SECONDARY_DAMAGE} after 2 seconds
-        to targets within 10 yards.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 93874b111f3b37343b35bcc90265ec00, type: 3}

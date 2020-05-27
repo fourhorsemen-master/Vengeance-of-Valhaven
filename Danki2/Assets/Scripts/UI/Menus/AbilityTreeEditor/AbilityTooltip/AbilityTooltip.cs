@@ -15,10 +15,7 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
     private Text description = null;
 
     [SerializeField]
-    private RectTransform abilityOrbPanel = null;
-
-    [SerializeField]
-    private TooltipAbilityOrb tooltipAbilityOrbPrefab = null;
+    private OrbGenerationPanel abilityOrbPanel = null;
 
     private PlayerTooltipBuilder tooltipBuilder;
 
@@ -75,7 +72,7 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
         );
 
         OrbCollection generatedOrbs = AbilityLookup.Instance.GetGeneratedOrbs(node.Ability);
-        DisplayOrbs(generatedOrbs);
+        abilityOrbPanel.DisplayOrbs(generatedOrbs);
 
         float newHeight = generatedOrbs.IsEmpty
             ? TooltipHeightNoOrbs
@@ -122,19 +119,6 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
         }
 
         return description;
-    }
-
-    private void DisplayOrbs(OrbCollection generatedOrbs)
-    {
-        for (int i = 0; i < abilityOrbPanel.childCount; i++)
-        {
-            Destroy(abilityOrbPanel.GetChild(i).gameObject);
-        }
-
-        generatedOrbs.ForEachOrb(orbType => {
-            TooltipAbilityOrb orb = Instantiate(tooltipAbilityOrbPrefab, abilityOrbPanel.transform, false);
-            orb.SetType(orbType);
-        });
     }
 
     private void MoveToMouse()
