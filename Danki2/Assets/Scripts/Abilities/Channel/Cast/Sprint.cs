@@ -18,5 +18,3 @@ public class Sprint : Cast
         Owner.EffectManager.AddActiveEffect(new SpeedModifier(2), SprintDuration);
     }
 }
-
-// generates 1 balance orb
