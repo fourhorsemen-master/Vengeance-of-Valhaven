@@ -3,7 +3,7 @@
 public class OrbGenerationPanel : MonoBehaviour
 {
     [SerializeField]
-    private RectTransform rectTransform;
+    private RectTransform rectTransform = null;
 
     [SerializeField]
     private TooltipAbilityOrb tooltipAbilityOrbPrefab = null;
