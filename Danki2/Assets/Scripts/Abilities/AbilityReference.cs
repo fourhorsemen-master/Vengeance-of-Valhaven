@@ -11,5 +11,6 @@ public enum AbilityReference
     Roll,
     Lunge,
     Smash,
+    Sprint,
     Leap
 }
