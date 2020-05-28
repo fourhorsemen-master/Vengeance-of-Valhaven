@@ -18,11 +18,16 @@ public class Wolf : Enemy
     public AudioSource howl;
 
     private const float HowlRange = 10f;
+
     public override ActorType Type => ActorType.Wolf;
+
     public bool BiteOffCooldown => _biteRemainingCooldown <= 0f;
     public bool PounceOffCooldown => _pounceRemaningCooldown <= 0f;
 
-    public Subject<Wolf> OnHowl { get; private set; } = new Subject<Wolf>();
+    public Subject<Wolf> OnHowl { get; } = new Subject<Wolf>();
+    public WolfPack Pack { get; private set; }
+
+    private bool HasPack => Pack != null;
 
     protected override void Start()
     {
@@ -45,8 +50,9 @@ public class Wolf : Enemy
 
                 if (distance < HowlRange)
                 {
+                    Join(other);
                     Target = other.Target;
-                    Howl();
+                    this.WaitAndAct(0.5f, Howl);
                 }
             });
         });
@@ -124,5 +130,28 @@ public class Wolf : Enemy
     private void Howl()
     {
         howl.Play();
+    }
+
+    private void Join(Wolf other)
+    {
+        if (HasPack && other.HasPack)
+        {
+            other.Pack.Add(this);
+            Pack = other.Pack;
+        }
+        else if (HasPack && !other.HasPack)
+        {
+            Pack.Add(other);
+        }
+        else if (!HasPack && other.HasPack)
+        {
+            other.Pack.Add(this);
+        }
+        else
+        {
+            WolfPack pack = new WolfPack(this, other);
+            Pack = pack;
+            other.Pack = pack;
+        }
     }
 }
