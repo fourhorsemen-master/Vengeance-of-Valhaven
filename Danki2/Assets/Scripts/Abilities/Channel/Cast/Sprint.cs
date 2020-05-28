@@ -15,6 +15,6 @@ public class Sprint : Cast
 
     public override void End(Vector3 target)
     {
-        Owner.EffectManager.AddActiveEffect(new SpeedModifier(SpeedModification), SprintDuration);
+        Owner.EffectManager.AddActiveEffect(new SpeedModification(SpeedModification), SprintDuration);
     }
 }

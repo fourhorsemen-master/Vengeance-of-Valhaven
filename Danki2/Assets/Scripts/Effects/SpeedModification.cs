@@ -1,8 +1,8 @@
-﻿public class SpeedModifier : Effect
+﻿public class SpeedModification : Effect
 {
     private readonly int speedModification;
 
-    public SpeedModifier(int speedModification)
+    public SpeedModification(int speedModification)
     {
         this.speedModification = speedModification;
     }
