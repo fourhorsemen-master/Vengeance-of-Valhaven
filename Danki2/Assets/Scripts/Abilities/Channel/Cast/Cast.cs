@@ -3,6 +3,9 @@
 public abstract class Cast : Channel
 {
     public sealed override ChannelType ChannelType => ChannelType.Cast;
+    public sealed override float Duration => CastTime;
+
+    protected abstract float CastTime { get; }
 
     protected Cast(Actor owner, AbilityData abilityData, string[] availableBonuses)
         : base(owner, abilityData, availableBonuses)
