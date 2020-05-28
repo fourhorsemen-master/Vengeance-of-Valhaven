@@ -10,5 +10,6 @@ public enum AbilityReference
     Pounce,
     Roll,
     Lunge,
-    Smash
+    Smash,
+    Sprint
 }
