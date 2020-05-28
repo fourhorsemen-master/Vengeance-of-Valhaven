@@ -2,7 +2,7 @@
 
 public abstract class Charge : Channel
 {
-    public override ChannelType ChannelType => ChannelType.Charge;
+    public sealed override ChannelType ChannelType => ChannelType.Charge;
 
     protected Charge(Actor owner, AbilityData abilityData, string[] availableBonuses)
         : base(owner, abilityData, availableBonuses)

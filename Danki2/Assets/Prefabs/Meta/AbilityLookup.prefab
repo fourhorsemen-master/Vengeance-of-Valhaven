@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializableMetadataLookup:
-    _keys: 000000000100000002000000030000000400000005000000060000000700000008000000
+    _keys: 00000000010000000200000003000000040000000500000006000000070000000800000009000000
     _values:
     - displayName: Slash
       tooltip: Deals {PRIMARY_DAMAGE} damage.
@@ -176,3 +176,17 @@ MonoBehaviour:
         - displayName: Perfect Smash
           tooltip: Stun all affected enemies for 3 seconds.
           requiredOrbs: 0100000001000000
+    - displayName: Sprint
+      tooltip: Increase speed by 2 for 6 seconds.
+      baseAbilityData:
+        primaryDamage: 0
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      abilityOrbType:
+        hasValue: 1
+        value: 1
+      generatedOrbs: 
+      abilityBonusLookup:
+        _keys: []
+        _values: []

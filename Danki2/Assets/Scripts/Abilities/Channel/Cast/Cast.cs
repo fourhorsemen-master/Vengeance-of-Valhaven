@@ -2,7 +2,7 @@
 
 public abstract class Cast : Channel
 {
-    public override ChannelType ChannelType => ChannelType.Cast;
+    public sealed override ChannelType ChannelType => ChannelType.Cast;
 
     protected Cast(Actor owner, AbilityData abilityData, string[] availableBonuses)
         : base(owner, abilityData, availableBonuses)
