@@ -14,7 +14,7 @@ using UnityEngine;
 public class SerializableEnumDictionary<TEnumKey, TValue> : ISerializationCallbackReceiver where TEnumKey : Enum
 {
     [SerializeField]
-    private List<TEnumKey> _keys = new List<TEnumKey>();
+    private List<string> _keys = new List<string>();
 
     [SerializeField]
     private List<TValue> _values = new List<TValue>();
@@ -39,8 +39,8 @@ public class SerializableEnumDictionary<TEnumKey, TValue> : ISerializationCallba
 
     public TValue this[TEnumKey key]
     {
-        get { return _dictionary[key]; }
-        set { _dictionary[key] = value; }
+        get => _dictionary[key];
+        set => _dictionary[key] = value;
     }
 
     public void OnBeforeSerialize()
@@ -49,7 +49,7 @@ public class SerializableEnumDictionary<TEnumKey, TValue> : ISerializationCallba
         _values.Clear();
         foreach (KeyValuePair<TEnumKey, TValue> keyValuePair in _dictionary)
         {
-            _keys.Add(keyValuePair.Key);
+            _keys.Add(keyValuePair.Key.ToString());
             _values.Add(keyValuePair.Value);
         }
     }
@@ -58,7 +58,8 @@ public class SerializableEnumDictionary<TEnumKey, TValue> : ISerializationCallba
     {
         for (int i = 0; i < _keys.Count; i++)
         {
-            _dictionary[_keys[i]] = _values[i];
+            TEnumKey enumKey = (TEnumKey) Enum.Parse(typeof(TEnumKey), _keys[i]);
+            _dictionary[enumKey] = _values[i];
         }
     }
 }
