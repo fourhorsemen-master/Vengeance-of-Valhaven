@@ -15,6 +15,7 @@ public class AbilityManager
     private ActionControlState previousActionControlState = ActionControlState.None;
     private ActionControlState currentActionControlState = ActionControlState.None;
     private Vector3 targetPosition = Vector3.zero;
+    private Enemy target = null;
 
     public float RemainingCooldownProportion => remainingAbilityCooldown / abilityCooldown;
     public float RemainingAbilityCooldown { get; private set; } = 0f;
@@ -27,7 +28,7 @@ public class AbilityManager
         this.abilityTimeoutLimit = abilityTimeoutLimit;
         this.abilityCooldown = abilityCooldown;
 
-        updateSubject.Subscribe(UpdateTargetPosition);
+        updateSubject.Subscribe(UpdateTarget);
         updateSubject.Subscribe(TickAbilityCooldown);
         lateUpdateSubject.Subscribe(HandleAbilities);
 
@@ -39,20 +40,52 @@ public class AbilityManager
         currentActionControlState = controlState;
     }
 
-    private void UpdateTargetPosition()
+    private void UpdateTarget()
     {
         // We try to get the mouse game position in scene for the AbilityContext.
-        if (!MouseGamePositionFinder.Instance.TryGetMouseGamePosition(out Vector3 mousePosition))
+        var mouseInScene = MouseGamePositionFinder.Instance.TryGetMouseGamePosition(out Vector3 mousePosition, out Collider collider);
+
+        if (!mouseInScene)
         {
             // If the mouse is outside the scene, we use the mouse position on a horizontal plane at the players height.
             mousePosition = MouseGamePositionFinder.Instance.GetMousePlanePosition(player.transform.position.y, true);
         }
 
-        targetPosition = mousePosition;
+        SetTargetPosition(mousePosition);
 
+        if (collider != null && collider.gameObject.TryGetComponent(out Enemy enemy))
+        {
+            SetTarget(enemy);
+        }
+        else
+        {
+            RemoveTarget();
+        }
+    }
+
+    private void SetTargetPosition(Vector3 mousePosition)
+    {
+        targetPosition = mousePosition;
         player.ChannelService.TargetPosition = targetPosition;
     }
-    
+
+    private void SetTarget(Enemy enemy)
+    {
+        if (target == enemy) return;
+
+        target.SetHighlighted(false);
+        target = enemy;
+        enemy.SetHighlighted(true);
+        player.ChannelService.Target = enemy;
+    }
+
+    private void RemoveTarget()
+    {
+        target.SetHighlighted(false);
+        target = null;
+        player.ChannelService.Target = null;
+    }
+
     private void TickAbilityCooldown()
     {
         if (player.ChannelService.Active) return;
@@ -117,7 +150,7 @@ public class AbilityManager
                 }
                 break;
             case CastingCommand.CancelChannel:
-                player.ChannelService.Cancel(targetPosition);
+                player.ChannelService.CancelChannel();
                 CastingStatus = remainingAbilityCooldown <= 0f ? CastingStatus.Ready : CastingStatus.Cooldown;
                 break;
             case CastingCommand.CastLeft:
@@ -144,14 +177,14 @@ public class AbilityManager
                 abilityCast = player.InstantCastService.Cast(
                     abilityReference,
                     targetPosition,
-                    subject => abilityFeedbackSubscription = subject.Subscribe(AbilityFeedbackSubscription)
+                    subject => abilityFeedbackSubscription = subject.Subscribe(AbilityFeedbackSubscription),
+                    target
                 );
                 nextStatus = CastingStatus.Cooldown;
                 break;
             case AbilityType.Channel:
-                abilityCast = player.ChannelService.Start(
+                abilityCast = player.ChannelService.StartChannel(
                     abilityReference,
-                    targetPosition,
                     subject => abilityFeedbackSubscription = subject.Subscribe(AbilityFeedbackSubscription)
                 );
                 nextStatus = direction == Direction.Left

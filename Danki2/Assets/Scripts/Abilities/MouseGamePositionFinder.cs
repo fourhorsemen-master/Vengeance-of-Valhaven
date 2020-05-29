@@ -17,13 +17,14 @@ public class MouseGamePositionFinder : Singleton<MouseGamePositionFinder>
     /// This is so that if you click on the 'floor', you'll fire horizontally.
     /// </summary>
     /// <returns>True if the mouse is within the scene.</returns>
-    public bool TryGetMouseGamePosition(out Vector3 position)
+    public bool TryGetMouseGamePosition(out Vector3 position, out Collider collider)
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         if (!Physics.Raycast(ray, out RaycastHit raycastHit))
         {
             position = default;
+            collider = null;
             return false;
         }
 
@@ -40,6 +41,7 @@ public class MouseGamePositionFinder : Singleton<MouseGamePositionFinder>
             position = raycastHit.point;
         }
 
+        collider = raycastHit.collider;
         return true;
     }
 

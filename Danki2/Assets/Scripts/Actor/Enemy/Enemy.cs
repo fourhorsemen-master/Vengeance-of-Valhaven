@@ -21,4 +21,9 @@ public abstract class Enemy : Actor
             InstantCastService.Cast(abilityReference, targeter());
         });
     }
+
+    public void SetHighlighted(bool highlighted)
+    {
+        throw new NotImplementedException();
+    }
 }
