@@ -882,7 +882,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   barColourLookup:
-    _keys: 000000000100000002000000
+    _keys:
+    - Channel
+    - Charge
+    - Cast
     _values:
     - {r: 0.19607843, g: 0.78431374, b: 1, a: 0.5882353}
     - {r: 1, g: 0.39215687, b: 0, a: 0.5882353}
