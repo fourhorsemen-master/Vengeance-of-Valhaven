@@ -1,8 +1,14 @@
-﻿using System;
+﻿using Assets.Scripts.UnityHelpers.Extensions;
+using System;
 using UnityEngine;
 
 public abstract class Enemy : Actor
 {
+    public static readonly Color HighlightedColor = new Color(0.02f, 0.02f, 0.02f);
+
+    [SerializeField]
+    private MeshRenderer meshRenderer = null;
+
     public Subject<float> OnTelegraph { get; private set; } = new Subject<float>();
 
     protected virtual void Start()
@@ -24,6 +30,8 @@ public abstract class Enemy : Actor
 
     public void SetHighlighted(bool highlighted)
     {
-        //throw new NotImplementedException();
+        Color colour = highlighted ? HighlightedColor : Color.clear;
+
+        meshRenderer.material.SetEmissiveColour(colour);
     }
 }

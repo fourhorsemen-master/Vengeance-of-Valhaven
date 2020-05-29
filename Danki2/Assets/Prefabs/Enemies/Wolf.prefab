@@ -75,6 +75,7 @@ MonoBehaviour:
     - Recovery
     _values: 1400000004000000000000000000000000000000
   navmeshAgent: {fileID: -7685572653157387656}
+  meshRenderer: {fileID: 7327917836514509559}
   _biteCastTime: 0.5
   _pounceCastTime: 0.5
   _biteTotalCooldown: 5
@@ -466,6 +467,12 @@ PrefabInstance:
 --- !u!4 &5210943957789911306 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 71527760f07772e41ab2ba573d6d8948,
+    type: 3}
+  m_PrefabInstance: {fileID: 948651095802020368}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &7327917836514509559 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -1685552048115629849, guid: 71527760f07772e41ab2ba573d6d8948,
     type: 3}
   m_PrefabInstance: {fileID: 948651095802020368}
   m_PrefabAsset: {fileID: 0}
