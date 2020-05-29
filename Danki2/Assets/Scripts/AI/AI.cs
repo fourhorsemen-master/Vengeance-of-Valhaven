@@ -10,7 +10,7 @@ public class AI : MonoBehaviour
     public SerializablePlanner serializablePlanner = new SerializablePlanner();
 
     [HideInInspector]
-    public SerializablePersonality serializablePersonality = new SerializablePersonality(new SerializableBehaviour());
+    public SerializablePersonality serializablePersonality = new SerializablePersonality(() => new SerializableBehaviour());
 
     private Agenda agenda = new Agenda();
 

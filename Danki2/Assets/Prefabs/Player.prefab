@@ -494,7 +494,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseStats:
-    _keys: 0000000001000000020000000300000004000000
+    _keys:
+    - MaxHealth
+    - Speed
+    - Power
+    - Defence
+    - Recovery
     _values: 1400000003000000000000000000000000000000
   navmeshAgent: {fileID: 6918691881617835041}
   abilityCooldown: 1
