@@ -21,6 +21,8 @@ public class SerializableEnumDictionary<TEnumKey, TValue> : ISerializationCallba
 
     private Dictionary<TEnumKey, TValue> _dictionary = new Dictionary<TEnumKey, TValue>();
 
+    public Dictionary<TEnumKey, TValue>.KeyCollection Keys => _dictionary.Keys;
+
     public SerializableEnumDictionary(TValue defaultValue)
     {
         foreach (TEnumKey key in Enum.GetValues(typeof(TEnumKey)))
@@ -37,10 +39,33 @@ public class SerializableEnumDictionary<TEnumKey, TValue> : ISerializationCallba
         }
     }
 
+    public SerializableEnumDictionary(Func<TValue> defaultValueProvider)
+    {
+        foreach (TEnumKey key in Enum.GetValues(typeof(TEnumKey)))
+        {
+            _dictionary.Add(key, defaultValueProvider());
+        }
+    }
+
     public TValue this[TEnumKey key]
     {
         get => _dictionary[key];
         set => _dictionary[key] = value;
+    }
+
+    public void Add(TEnumKey key, TValue value)
+    {
+        _dictionary.Add(key, value);
+    }
+
+    public bool Remove(TEnumKey key)
+    {
+        return _dictionary.Remove(key);
+    }
+
+    public bool ContainsKey(TEnumKey key)
+    {
+        return _dictionary.ContainsKey(key);
     }
 
     public void OnBeforeSerialize()
