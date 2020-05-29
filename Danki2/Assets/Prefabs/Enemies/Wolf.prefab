@@ -84,7 +84,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseStats:
-    _keys: 0000000001000000020000000300000004000000
+    _keys:
+    - MaxHealth
+    - Speed
+    - Power
+    - Defence
+    - Recovery
     _values: 1400000004000000000000000000000000000000
   navmeshAgent: {fileID: -7685572653157387656}
   _biteCastTime: 0.5
