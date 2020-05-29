@@ -31,14 +31,6 @@ public class SerializableEnumDictionary<TEnumKey, TValue> : ISerializationCallba
         }
     }
 
-    public SerializableEnumDictionary(SerializableEnumDictionary<TEnumKey, TValue> dictionary)
-    {
-        foreach (TEnumKey key in Enum.GetValues(typeof(TEnumKey)))
-        {
-            _dictionary.Add(key, dictionary[key]);
-        }
-    }
-
     public SerializableEnumDictionary(Func<TValue> defaultValueProvider)
     {
         foreach (TEnumKey key in Enum.GetValues(typeof(TEnumKey)))

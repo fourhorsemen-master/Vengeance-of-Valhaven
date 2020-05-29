@@ -7,10 +7,6 @@ public class SerializableMetadataLookup : SerializableEnumDictionary<AbilityRefe
     {
     }
 
-    public SerializableMetadataLookup(SerializableEnumDictionary<AbilityReference, SerializableAbilityMetadata> dictionary) : base(dictionary)
-    {
-    }
-
     public SerializableMetadataLookup(Func<SerializableAbilityMetadata> defaultValueProvider) : base(defaultValueProvider)
     {
     }
