@@ -73,7 +73,8 @@ public class AbilityManager
     {
         if (target == enemy) return;
 
-        target.SetHighlighted(false);
+        RemoveTarget();
+
         target = enemy;
         enemy.SetHighlighted(true);
         player.ChannelService.Target = enemy;
@@ -81,7 +82,8 @@ public class AbilityManager
 
     private void RemoveTarget()
     {
-        target.SetHighlighted(false);
+        if (target != null) target.SetHighlighted(false);
+
         target = null;
         player.ChannelService.Target = null;
     }

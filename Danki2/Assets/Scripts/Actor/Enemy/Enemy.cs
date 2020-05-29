@@ -24,6 +24,6 @@ public abstract class Enemy : Actor
 
     public void SetHighlighted(bool highlighted)
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
     }
 }
