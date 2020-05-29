@@ -121,7 +121,14 @@ MonoBehaviour:
     - 2
     - 4
   serializablePersonality:
-    _keys: 00000000010000000200000003000000040000000500000006000000
+    _keys:
+    - FindTarget
+    - Patrol
+    - Attack
+    - Defend
+    - Advance
+    - Retreat
+    - Evade
     _values:
     - _serializedType:
         _serializedType: WolfFindPlayer, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
