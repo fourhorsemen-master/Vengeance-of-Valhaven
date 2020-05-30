@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class AbilityTreeDisplay : MonoBehaviour
@@ -16,17 +15,16 @@ public class AbilityTreeDisplay : MonoBehaviour
     [SerializeField]
     private TreeAbility treeAbilityPrefab = null;
 
-    [SerializeField]
-    private Sprite rootNodeSprite = null;
-
     private AbilityTree abilityTree;
     private float numTreeVerticalSections;
     private Dictionary<Node, float> sectionIndices = new Dictionary<Node, float>();
 
-    private void Start()
+    private void OnEnable()
     {
         Player player = RoomManager.Instance.Player;
         abilityTree = player.AbilityTree;
+
+        if (abilityTree != null) RecalculateDisplay();
         // TODO: subscribe to changes in the Ability Tree to recalculate the display.
     }
 
@@ -100,22 +98,9 @@ public class AbilityTreeDisplay : MonoBehaviour
     /// <returns></returns>
     private TreeAbility DrawNodes(Node node, int row = 0)
     {
-        float panelWidth = containingPanel.rect.width;
 
         Transform treeRow = treeRowsPanel.GetChild(row);
-
-        TreeAbility treeAbility = Instantiate(treeAbilityPrefab, treeRow.transform, false);
-        treeAbility.ShiftRight(panelWidth * (sectionIndices[node] / numTreeVerticalSections));
-
-        if (node.IsRootNode())
-        {
-            treeAbility.SetImage(rootNodeSprite);
-            treeAbility.RemoveOverlay();
-        }
-        else
-        {
-            treeAbility.SetImage(AbilityIconManager.Instance.GetIcon(node.Ability));
-        }
+        TreeAbility treeAbility = AddTreeAbility(treeRow, node);
 
         if (node.HasChild(Direction.Left))
         {
@@ -132,6 +117,18 @@ public class AbilityTreeDisplay : MonoBehaviour
                 Direction.Right
             );
         }
+
+        return treeAbility;
+    }
+
+    private TreeAbility AddTreeAbility(Transform treeRow, Node node)
+    {
+        TreeAbility treeAbility = Instantiate(treeAbilityPrefab, treeRow.transform, false);
+
+        float panelWidth = containingPanel.rect.width;
+        treeAbility.ShiftRight(panelWidth * (sectionIndices[node] / numTreeVerticalSections));
+
+        treeAbility.SetNode(node);
 
         return treeAbility;
     }
