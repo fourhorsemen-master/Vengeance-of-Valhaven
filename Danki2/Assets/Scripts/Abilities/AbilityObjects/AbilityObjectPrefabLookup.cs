@@ -40,6 +40,6 @@ public class AbilityObjectPrefabLookup : Singleton<AbilityObjectPrefabLookup>
     public SmashObject SmashObjectPrefab { get => _smashObjectPrefab; }
     public WhirlwindObject WhirlwindObjectPrefab { get => _whirlwindObjectPrefab; }
     public SlashObject SlashObjectPrefab { get => _slashObjectPrefab; }
-    public RollObject DashObjectPrefab { get => _dashObjectPrefab; }
+    public DashObject DashObjectPrefab { get => _dashObjectPrefab; }
     public LeapObject LeapObjectPrefab { get => _leapObjectPrefab; }
 }
