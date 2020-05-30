@@ -2,13 +2,13 @@
 
 public class DashObject : StaticAbilityObject
 {
-    public AudioSource rollSound = null;
+    public AudioSource dashSound = null;
 
     public override float StickTime { get; set; }
 
     public void Awake()
     {
-        StickTime = rollSound.clip.length;
+        StickTime = dashSound.clip.length;
     }
 
     public static void Create(Transform casterTransform)
