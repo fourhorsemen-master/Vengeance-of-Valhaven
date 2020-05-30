@@ -44,7 +44,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializableMetadataLookup:
-    _keys: 00000000010000000200000003000000040000000500000006000000070000000800000009000000
+    _keys:
+    - Slash
+    - Whirlwind
+    - Fireball
+    - DaggerThrow
+    - Bite
+    - Pounce
+    - Roll
+    - Lunge
+    - Smash
+    - Sprint
+    - Leap
     _values:
     - displayName: Slash
       tooltip: Deals {PRIMARY_DAMAGE} damage.
@@ -187,6 +198,20 @@ MonoBehaviour:
         hasValue: 1
         value: 1
       generatedOrbs: 01000000
+      abilityBonusLookup:
+        _keys: []
+        _values: []
+    - displayName: Leap
+      tooltip: Leap to a target location.
+      baseAbilityData:
+        primaryDamage: 0
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      abilityOrbType:
+        hasValue: 0
+        value: 0
+      generatedOrbs: 
       abilityBonusLookup:
         _keys: []
         _values: []
