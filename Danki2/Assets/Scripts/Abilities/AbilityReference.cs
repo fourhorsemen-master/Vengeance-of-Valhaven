@@ -1,6 +1,4 @@
-﻿// Warning: because this enum is a key in an SerializableEnumDictionary:
-// Only add new values to the end of this enum.
-public enum AbilityReference
+﻿public enum AbilityReference
 {
     Slash,
     Whirlwind,
@@ -11,5 +9,6 @@ public enum AbilityReference
     Roll,
     Lunge,
     Smash,
-    Sprint
+    Sprint,
+    Leap
 }

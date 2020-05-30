@@ -8,7 +8,7 @@ public class CollisionTemplateDictionary : SerializableEnumDictionary<CollisionT
     {
     }
 
-    public CollisionTemplateDictionary(SerializableEnumDictionary<CollisionTemplate, MeshCollider> dictionary) : base(dictionary)
+    public CollisionTemplateDictionary(Func<MeshCollider> defaultValueProvider) : base(defaultValueProvider)
     {
     }
 }

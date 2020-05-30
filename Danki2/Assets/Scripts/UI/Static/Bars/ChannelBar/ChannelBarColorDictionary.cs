@@ -8,7 +8,7 @@ public class ChannelBarColourDictionary : SerializableEnumDictionary<ChannelType
     {
     }
 
-    public ChannelBarColourDictionary(SerializableEnumDictionary<ChannelType, Color> dictionary) : base(dictionary)
+    public ChannelBarColourDictionary(Func<Color> defaultValueProvider) : base(defaultValueProvider)
     {
     }
 }

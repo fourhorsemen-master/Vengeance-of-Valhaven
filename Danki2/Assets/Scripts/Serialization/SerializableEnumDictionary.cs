@@ -14,12 +14,14 @@ using UnityEngine;
 public class SerializableEnumDictionary<TEnumKey, TValue> : ISerializationCallbackReceiver where TEnumKey : Enum
 {
     [SerializeField]
-    private List<TEnumKey> _keys = new List<TEnumKey>();
+    private List<string> _keys = new List<string>();
 
     [SerializeField]
     private List<TValue> _values = new List<TValue>();
 
     private Dictionary<TEnumKey, TValue> _dictionary = new Dictionary<TEnumKey, TValue>();
+
+    public Dictionary<TEnumKey, TValue>.KeyCollection Keys => _dictionary.Keys;
 
     public SerializableEnumDictionary(TValue defaultValue)
     {
@@ -29,18 +31,33 @@ public class SerializableEnumDictionary<TEnumKey, TValue> : ISerializationCallba
         }
     }
 
-    public SerializableEnumDictionary(SerializableEnumDictionary<TEnumKey, TValue> dictionary)
+    public SerializableEnumDictionary(Func<TValue> defaultValueProvider)
     {
         foreach (TEnumKey key in Enum.GetValues(typeof(TEnumKey)))
         {
-            _dictionary.Add(key, dictionary[key]);
+            _dictionary.Add(key, defaultValueProvider());
         }
     }
 
     public TValue this[TEnumKey key]
     {
-        get { return _dictionary[key]; }
-        set { _dictionary[key] = value; }
+        get => _dictionary[key];
+        set => _dictionary[key] = value;
+    }
+
+    public void Add(TEnumKey key, TValue value)
+    {
+        _dictionary.Add(key, value);
+    }
+
+    public bool Remove(TEnumKey key)
+    {
+        return _dictionary.Remove(key);
+    }
+
+    public bool ContainsKey(TEnumKey key)
+    {
+        return _dictionary.ContainsKey(key);
     }
 
     public void OnBeforeSerialize()
@@ -49,7 +66,7 @@ public class SerializableEnumDictionary<TEnumKey, TValue> : ISerializationCallba
         _values.Clear();
         foreach (KeyValuePair<TEnumKey, TValue> keyValuePair in _dictionary)
         {
-            _keys.Add(keyValuePair.Key);
+            _keys.Add(keyValuePair.Key.ToString());
             _values.Add(keyValuePair.Value);
         }
     }
@@ -58,7 +75,8 @@ public class SerializableEnumDictionary<TEnumKey, TValue> : ISerializationCallba
     {
         for (int i = 0; i < _keys.Count; i++)
         {
-            _dictionary[_keys[i]] = _values[i];
+            TEnumKey enumKey = (TEnumKey) Enum.Parse(typeof(TEnumKey), _keys[i]);
+            _dictionary[enumKey] = _values[i];
         }
     }
 }
