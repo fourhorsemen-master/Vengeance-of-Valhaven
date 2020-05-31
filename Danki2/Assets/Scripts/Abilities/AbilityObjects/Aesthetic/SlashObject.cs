@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.UnityHelpers.Extensions;
+using UnityEngine;
 
 public class SlashObject : MonoBehaviour
 {
@@ -27,7 +28,7 @@ public class SlashObject : MonoBehaviour
     private void Start()
     {
         remainingDuration = duration;
-        meshRenderer.material.SetColor("Color", desiredColor);
+        meshRenderer.material.SetColour(desiredColor);
         meshRenderer.enabled = true;
     }
 
@@ -49,7 +50,7 @@ public class SlashObject : MonoBehaviour
     private void UpdateVisual()
     {
         desiredColor.a = Mathf.Lerp(0f, 1f, remainingDuration / duration);
-        meshRenderer.sharedMaterial.SetColor("_UnlitColor", desiredColor);
+        meshRenderer.sharedMaterial.SetUnlitColour(desiredColor);
         transform.Rotate(0f, -rotationSpeed * Time.deltaTime, 0f);
         remainingDuration -= Time.deltaTime;
     }

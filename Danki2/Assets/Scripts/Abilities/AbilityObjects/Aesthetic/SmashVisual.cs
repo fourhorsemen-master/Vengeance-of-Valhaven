@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.UnityHelpers.Extensions;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -60,7 +61,7 @@ public class SmashVisual : MonoBehaviour
         transform.Rotate(Vector3.up, tempo);
         currentRotationLerpValue += rotationTime * Time.deltaTime;
 
-        material.SetColor("_UnlitColor", desiredColour);
+        material.SetUnlitColour(desiredColour);
         desiredColour = Color.Lerp(Color.white, Color.clear, currentFadeLerpValue);
 
         if (currentFadeDelayTimer > fadeDelay)

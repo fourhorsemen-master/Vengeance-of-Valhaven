@@ -53,8 +53,9 @@ public class AbilityManager
 
         SetTargetPosition(mousePosition);
 
-        if (collider != null && collider.gameObject.TryGetComponent(out Enemy enemy))
+        if (collider != null && collider.gameObject.CompareTag(Tags.Enemy))
         {
+            Enemy enemy = collider.gameObject.GetComponent<Enemy>();
             SetTarget(enemy);
         }
         else
