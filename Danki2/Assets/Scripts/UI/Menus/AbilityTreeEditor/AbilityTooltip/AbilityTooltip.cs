@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UI.Extensions;
 
 public class AbilityTooltip : Singleton<AbilityTooltip>
 {
@@ -28,6 +29,8 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
 
     public float TooltipHeightNoOrbs => description.preferredHeight + 36f;
     public float TooltipHeightWithOrbs => description.preferredHeight + 60f;
+
+    private float TooltipPanelWidth => tooltipPanel.sizeDelta.x * tooltipPanel.GetParentCanvas().scaleFactor;
 
     private void Start()
     {
@@ -147,6 +150,12 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
 
     private void MoveToMouse()
     {
-        tooltipPanel.position = Input.mousePosition;
+        Vector3 newPosition = Input.mousePosition;
+
+        float overlap = Mathf.Max(0f, newPosition.x + TooltipPanelWidth - Screen.width);
+
+        newPosition.x -= overlap;
+
+        tooltipPanel.position = newPosition;
     }
 }
