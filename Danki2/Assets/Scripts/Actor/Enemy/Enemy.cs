@@ -16,6 +16,10 @@ public abstract class Enemy : Actor
         this.gameObject.tag = Tags.Enemy;
     }
 
+    private void OnMouseEnter() => SetHighlighted(true);
+
+    private void OnMouseExit() => SetHighlighted(false);
+
     public void WaitAndCast(float waitTime, AbilityReference abilityReference, Func<Vector3> targeter)
     {
         OnTelegraph.Next(waitTime);
@@ -28,7 +32,7 @@ public abstract class Enemy : Actor
         });
     }
 
-    public void SetHighlighted(bool highlighted)
+    private void SetHighlighted(bool highlighted)
     {
         Color colour = highlighted ? HighlightedColor : Color.clear;
 

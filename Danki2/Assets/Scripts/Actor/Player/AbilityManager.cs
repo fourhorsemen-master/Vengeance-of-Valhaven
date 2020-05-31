@@ -59,7 +59,7 @@ public class AbilityManager
         }
         else
         {
-            RemoveTarget();
+            SetTarget(null);
         }
     }
 
@@ -71,21 +71,8 @@ public class AbilityManager
 
     private void SetTarget(Enemy enemy)
     {
-        if (target == enemy) return;
-
-        RemoveTarget();
-
         target = enemy;
-        enemy.SetHighlighted(true);
         player.ChannelService.Target = enemy;
-    }
-
-    private void RemoveTarget()
-    {
-        if (target != null) target.SetHighlighted(false);
-
-        target = null;
-        player.ChannelService.Target = null;
     }
 
     private void TickAbilityCooldown()

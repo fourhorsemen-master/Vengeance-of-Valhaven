@@ -11,6 +11,8 @@ public class MouseGamePositionFinder : Singleton<MouseGamePositionFinder>
 
     private Plane plane = new Plane(Vector3.down, 0f);
 
+    public float HeightOffset => heightOffset;
+
     /// <summary>
     /// Casts a ray from the camera through the mouse to get the position where it collides with a collider.
     /// If this point is close to the navMesh, we add a vector that moves the point towards the camera such that y-value is increased by heightOffset.
