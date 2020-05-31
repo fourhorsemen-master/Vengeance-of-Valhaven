@@ -25,6 +25,7 @@ public abstract class Actor : MonoBehaviour
     public bool Dead { get; private set; }
 
     public virtual Vector3 Centre => transform.position + Vector3.up * MouseGamePositionFinder.Instance.HeightOffset;
+    public virtual Subject DeathSubject { get; } = new Subject();
 
     public abstract ActorType Type { get; }
 
@@ -85,7 +86,12 @@ public abstract class Actor : MonoBehaviour
         InterruptionManager.Register(interruptionType, () => StopCoroutine(coroutine));
     }
 
-    protected abstract void OnDeath();
+    protected virtual void OnDeath()
+    {
+        Debug.Log($"{tag} died");
+
+        DeathSubject.Next();
+    }
 
     protected void RegisterAbilityDataDiffer(IAbilityDataDiffer abilityDataDiffer)
     {

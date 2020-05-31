@@ -119,8 +119,4 @@ public class Wolf : Enemy
     {
         howl.Play();
     }
-
-    protected override void OnDeath()
-    {
-    }
 }

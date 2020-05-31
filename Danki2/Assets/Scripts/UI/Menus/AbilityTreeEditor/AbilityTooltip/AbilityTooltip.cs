@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,14 +17,6 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
     private OrbGenerationPanel abilityOrbPanel = null;
 
     private PlayerTooltipBuilder tooltipBuilder;
-
-    // TODO: include this in an OrbType lookup
-    private Dictionary<OrbType, Color> orbColourMap = new Dictionary<OrbType, Color>
-    {
-        { OrbType.Aggression, new Color(1f, 0.3f, 0.3f) },
-        { OrbType.Balance, new Color(0.3f, 1f, 0.3f) },
-        { OrbType.Cunning, new Color(0.3f, 0.3f, 1f) },
-    };
 
     public float TooltipHeightNoOrbs => description.preferredHeight + 36f;
     public float TooltipHeightWithOrbs => description.preferredHeight + 60f;
@@ -110,7 +101,7 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
                     }
 
                     string bonus = $"+{segment.Value}";
-                    Color colour = orbColourMap[abilityOrbType];
+                    Color colour = OrbLookup.Instance.GetColour(abilityOrbType);
                     string bonusWithColour = TextUtils.ColouredText(colour, bonus);
 
                     description += $" ({bonusWithColour})";
