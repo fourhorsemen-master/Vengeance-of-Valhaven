@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UI.Extensions;
 
 public class AbilityTooltip : Singleton<AbilityTooltip>
 {
@@ -16,17 +17,19 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
     [SerializeField]
     private OrbGenerationPanel abilityOrbPanel = null;
 
-    private PlayerTooltipBuilder tooltipBuilder;
+    private PlayerTreeTooltipBuilder playerTreeTooltipBuilder;
 
     public float TooltipHeightNoOrbs => description.preferredHeight + 36f;
     public float TooltipHeightWithOrbs => description.preferredHeight + 60f;
+
+    private float TooltipPanelWidth => tooltipPanel.sizeDelta.x * tooltipPanel.GetParentCanvas().scaleFactor;
 
     private void Start()
     {
         gameObject.SetActive(false);
 
         Player player = RoomManager.Instance.Player;
-        tooltipBuilder = new PlayerTooltipBuilder(player);
+        playerTreeTooltipBuilder = new PlayerTreeTooltipBuilder(player);
     }
 
     private void Update()
@@ -51,11 +54,38 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
         gameObject.SetActive(false);
     }
 
+    /// <summary>
+    /// Used to update the tooltip for abilities not in an ability tree.
+    /// </summary>
+    /// <param name="ability"></param>
+    public void UpdateTooltip(AbilityReference ability)
+    {
+        title.text = AbilityLookup.Instance.GetAbilityDisplayName(ability);
+
+        List<TooltipSegment> segments = PlayerListTooltipBuilder.Build(ability);
+        description.text = GenerateDescription(segments, ability);
+
+        description.rectTransform.sizeDelta = new Vector2(
+            description.rectTransform.sizeDelta.x,
+            description.preferredHeight
+        );
+
+        tooltipPanel.sizeDelta = new Vector2(
+            tooltipPanel.sizeDelta.x,
+            TooltipHeightNoOrbs
+        );
+    }
+
+    /// <summary>
+    /// Used to update tooltip for abilities in the ability tree.
+    /// </summary>
+    /// <param name="node"></param>
     public void UpdateTooltip(Node node)
     {
         title.text = AbilityLookup.Instance.GetAbilityDisplayName(node.Ability);
 
-        description.text = GenerateDescription(node);
+        List<TooltipSegment> segments = playerTreeTooltipBuilder.Build(node);
+        description.text = GenerateDescription(segments, node.Ability);
 
         description.rectTransform.sizeDelta = new Vector2(
             description.rectTransform.sizeDelta.x,
@@ -75,11 +105,9 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
         );
     }
 
-    private string GenerateDescription(Node node)
+    private string GenerateDescription(List<TooltipSegment> segments, AbilityReference ability)
     {
-        List<TooltipSegment> segments = tooltipBuilder.Build(node);
-
-        bool hasOrbType = AbilityLookup.Instance.TryGetAbilityOrbType(node.Ability, out OrbType abilityOrbType);
+        bool hasOrbType = AbilityLookup.Instance.TryGetAbilityOrbType(ability, out OrbType abilityOrbType);
 
         string description = "";
 
@@ -114,6 +142,12 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
 
     private void MoveToMouse()
     {
-        tooltipPanel.position = Input.mousePosition;
+        Vector3 newPosition = Input.mousePosition;
+
+        float overlap = Mathf.Max(0f, newPosition.x + TooltipPanelWidth - Screen.width);
+
+        newPosition.x -= overlap;
+
+        tooltipPanel.position = newPosition;
     }
 }

@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 
-public class PlayerTooltipBuilder
+public class PlayerTreeTooltipBuilder
 {
     private readonly List<IAbilityDataDiffer> differs = new List<IAbilityDataDiffer>();
 
-    public PlayerTooltipBuilder(Player player)
+    public PlayerTreeTooltipBuilder(Player player)
     {
         differs.Add(new AbilityDataStatsDiffer(player));
         differs.Add(new AbilityDataOrbsDiffer(player.AbilityTree));
