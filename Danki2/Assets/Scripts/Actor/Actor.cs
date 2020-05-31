@@ -24,6 +24,7 @@ public abstract class Actor : MonoBehaviour
     public bool IsDamaged => HealthManager.Health < HealthManager.MaxHealth;
     public bool Dead { get; private set; }
 
+    public virtual Subject DeathSubject { get; } = new Subject();
     public abstract ActorType Type { get; }
 
     protected virtual void Awake()
@@ -83,7 +84,12 @@ public abstract class Actor : MonoBehaviour
         InterruptionManager.Register(interruptionType, () => StopCoroutine(coroutine));
     }
 
-    protected abstract void OnDeath();
+    protected virtual void OnDeath()
+    {
+        Debug.Log($"{tag} died");
+
+        DeathSubject.Next();
+    }
 
     protected void RegisterAbilityDataDiffer(IAbilityDataDiffer abilityDataDiffer)
     {
