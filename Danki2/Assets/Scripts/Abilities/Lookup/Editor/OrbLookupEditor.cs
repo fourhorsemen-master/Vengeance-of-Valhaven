@@ -18,13 +18,13 @@ public class OrbLookupEditor : Editor
                 orbType.ToString()
             );
 
-            if (!foldoutStatus[orbType]) return;
+            if (!foldoutStatus[orbType]) continue;
 
             EditorGUI.indentLevel++;
 
-            orbLookup.displayNameMap[orbType] = EditorGUILayout.TextField(orbLookup.displayNameMap[orbType]);
+            orbLookup.displayNameMap[orbType] = EditorGUILayout.TextField("Display name", orbLookup.displayNameMap[orbType]);
 
-            orbLookup.colourMap[orbType] = EditorGUILayout.ColorField(orbLookup.colourMap[orbType]);
+            orbLookup.colourMap[orbType] = EditorGUILayout.ColorField("Colour (text etc.)", orbLookup.colourMap[orbType]);
 
             orbLookup.spriteMap[orbType] = (Sprite)EditorGUILayout.ObjectField(
                 orbType.ToString(),
