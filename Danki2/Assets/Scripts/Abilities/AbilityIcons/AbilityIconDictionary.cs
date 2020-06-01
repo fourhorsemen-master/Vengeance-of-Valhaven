@@ -8,7 +8,7 @@ public class AbilityIconDictionary : SerializableEnumDictionary<AbilityReference
     {
     }
 
-    public AbilityIconDictionary(SerializableEnumDictionary<AbilityReference, Sprite> dictionary) : base(dictionary)
+    public AbilityIconDictionary(Func<Sprite> defaultValueProvider) : base(defaultValueProvider)
     {
     }
 }

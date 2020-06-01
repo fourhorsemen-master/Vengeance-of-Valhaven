@@ -18,7 +18,7 @@ public class AbilityDataOrbsDiffer : IAbilityDataDiffer
 
     public AbilityData GetAbilityDataDiff(Node node)
     {
-        if (node.IsRootNode()) return AbilityData.Zero;
+        if (node.IsRootNode) return AbilityData.Zero;
         
         return AbilityLookup.Instance.TryGetAbilityOrbType(node.Ability, out OrbType orbType)
             ? GetOrbCount(node.Parent, orbType) * AbilityData.One
@@ -35,7 +35,7 @@ public class AbilityDataOrbsDiffer : IAbilityDataDiffer
                 Dictionary<OrbType, int> generatedOrbs = AbilityLookup.Instance.GetGeneratedOrbs(node.Ability);
                 if (generatedOrbs.TryGetValue(abilityOrbType, out int orbCount)) totalOrbCount += orbCount;
             },
-            ancestorNode => !ancestorNode.IsRootNode()
+            ancestorNode => !ancestorNode.IsRootNode
         );
 
         return totalOrbCount;

@@ -7,7 +7,7 @@ public class StatsDictionary : SerializableEnumDictionary<Stat, int>
     {
     }
 
-    public StatsDictionary(SerializableEnumDictionary<Stat, int> dictionary) : base(dictionary)
+    public StatsDictionary(Func<int> defaultValueProvider) : base(defaultValueProvider)
     {
     }
 }

@@ -49,7 +49,8 @@ public class Player : Actor
                 AbilityReference.Slash,
                 AbilityTreeFactory.CreateNode(
                     AbilityReference.Roll,
-                    rightChild: AbilityTreeFactory.CreateNode(AbilityReference.Smash)
+                    AbilityTreeFactory.CreateNode(AbilityReference.Leap),
+                    AbilityTreeFactory.CreateNode(AbilityReference.Smash)
                 ),
                 AbilityTreeFactory.CreateNode(AbilityReference.Whirlwind)
             ),
@@ -96,12 +97,6 @@ public class Player : Actor
     public void PlayWhiffSound()
     {
         whiffAudio.Play();
-    }
-
-    protected override void OnDeath()
-    {
-        // TODO: Implement Player death.
-        Debug.Log("The player died");
     }
 
     private void TickDashCooldown()

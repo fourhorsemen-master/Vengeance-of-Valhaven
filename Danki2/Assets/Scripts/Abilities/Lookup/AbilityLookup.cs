@@ -6,7 +6,9 @@ using UnityEngine;
 
 public class AbilityLookup : Singleton<AbilityLookup>
 {
-    public SerializableMetadataLookup serializableMetadataLookup = new SerializableMetadataLookup();
+    public SerializableMetadataLookup serializableMetadataLookup = new SerializableMetadataLookup(
+        () => new SerializableAbilityMetadata()
+    );
 
     private readonly AbilityMap<string> displayNameMap = new AbilityMap<string>();
     private readonly AbilityMap<OrbType> abilityOrbTypeMap = new AbilityMap<OrbType>();

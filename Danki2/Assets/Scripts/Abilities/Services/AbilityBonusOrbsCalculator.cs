@@ -32,7 +32,7 @@ public class AbilityBonusOrbsCalculator : IAbilityBonusCalculator
         
         currentNode.IterateUp(
             n => activeOrbs.Add(AbilityLookup.Instance.GetGeneratedOrbs(n.Ability)),
-            n => !n.IsRootNode()
+            n => !n.IsRootNode
         );
 
         return activeOrbs;

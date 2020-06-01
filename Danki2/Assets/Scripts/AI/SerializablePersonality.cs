@@ -7,7 +7,7 @@ public class SerializablePersonality : SerializableEnumDictionary<AIAction, Seri
     {
     }
 
-    public SerializablePersonality(SerializableEnumDictionary<AIAction, SerializableBehaviour> dictionary) : base(dictionary)
+    public SerializablePersonality(Func<SerializableBehaviour> defaultValueProvider) : base(defaultValueProvider)
     {
     }
 }
