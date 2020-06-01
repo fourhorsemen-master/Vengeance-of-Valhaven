@@ -6,6 +6,8 @@ public abstract class Node
 {
     private readonly Dictionary<Direction, Node> _children = new Dictionary<Direction, Node>();
 
+    public bool IsRootNode => Parent == null;
+
     public Node Parent { get; set; }
 
     public AbilityReference Ability { get; }
@@ -17,11 +19,6 @@ public abstract class Node
     protected Node(AbilityReference ability)
     {
         Ability = ability;
-    }
-
-    public bool IsRootNode()
-    {
-        return Parent == null;
     }
 
     public bool HasChild(Direction direction)

@@ -99,12 +99,6 @@ public class Player : Actor
         whiffAudio.Play();
     }
 
-    protected override void OnDeath()
-    {
-        // TODO: Implement Player death.
-        Debug.Log("The player died");
-    }
-
     private void TickRollCooldown()
     {
         remainingRollCooldown = Mathf.Max(0f, remainingRollCooldown - Time.deltaTime);

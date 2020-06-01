@@ -7,7 +7,7 @@ public class PlayerControls : MonoBehaviour
 
     private void Update()
     {
-        if (GameController.Instance.GameState == GameState.Playing)
+        if (GameStateController.Instance.GameState == GameState.Playing)
         {
             HandleMovement();
             HandleAbilities();
