@@ -6,7 +6,7 @@
     DaggerThrow,
     Bite,
     Pounce,
-    Roll,
+    Dash,
     Lunge,
     Smash,
     Sprint,

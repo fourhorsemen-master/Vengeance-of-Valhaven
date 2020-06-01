@@ -6,15 +6,15 @@ public class Player : Actor
     [HideInInspector]
     public float abilityCooldown = 1f;
     [HideInInspector]
-    public float totalDashCooldown = 1f;
+    public float totalRollCooldown = 1f;
     [HideInInspector]
-    public float dashDuration = 0.2f;
+    public float rollDuration = 0.2f;
     [HideInInspector]
-    public float dashSpeedMultiplier = 3f;
+    public float rollSpeedMultiplier = 3f;
     [HideInInspector]
     public float abilityTimeoutLimit = 5f;
 
-    private float remainingDashCooldown = 0f;
+    private float remainingRollCooldown = 0f;
 
     [SerializeField]
     private TrailRenderer trailRenderer = null;
@@ -38,7 +38,7 @@ public class Player : Actor
         AbilityInventory[AbilityReference.Bite] = 1;
         AbilityInventory[AbilityReference.Pounce] = 2;
         AbilityInventory[AbilityReference.Slash] = 3;
-        AbilityInventory[AbilityReference.Roll] = 4;
+        AbilityInventory[AbilityReference.Dash] = 4;
         AbilityInventory[AbilityReference.DaggerThrow] = 5;
         AbilityInventory[AbilityReference.Lunge] = 6;
         AbilityInventory[AbilityReference.Smash] = 7;
@@ -48,7 +48,7 @@ public class Player : Actor
             AbilityTreeFactory.CreateNode(
                 AbilityReference.Slash,
                 AbilityTreeFactory.CreateNode(
-                    AbilityReference.Roll,
+                    AbilityReference.Dash,
                     AbilityTreeFactory.CreateNode(AbilityReference.Leap),
                     AbilityTreeFactory.CreateNode(AbilityReference.Smash)
                 ),
@@ -75,22 +75,22 @@ public class Player : Actor
     {
         base.Update();
 
-        TickDashCooldown();
+        TickRollCooldown();
     }
 
-    public void Dash(Vector3 direction)
+    public void Roll(Vector3 direction)
     {
-        if (remainingDashCooldown <= 0)
+        if (remainingRollCooldown <= 0)
         {
             MovementManager.LockMovement(
-                dashDuration,
-                GetStat(Stat.Speed) * dashSpeedMultiplier,
+                rollDuration,
+                GetStat(Stat.Speed) * rollSpeedMultiplier,
                 direction,
                 direction
             );
-            remainingDashCooldown = totalDashCooldown;
+            remainingRollCooldown = totalRollCooldown;
             trailRenderer.emitting = true;
-            StartCoroutine(EndDashVisualAfterDelay());
+            StartCoroutine(EndRollVisualAfterDelay());
         }
     }
 
@@ -99,14 +99,14 @@ public class Player : Actor
         whiffAudio.Play();
     }
 
-    private void TickDashCooldown()
+    private void TickRollCooldown()
     {
-        remainingDashCooldown = Mathf.Max(0f, remainingDashCooldown - Time.deltaTime);
+        remainingRollCooldown = Mathf.Max(0f, remainingRollCooldown - Time.deltaTime);
     }
 
-    private IEnumerator EndDashVisualAfterDelay()
+    private IEnumerator EndRollVisualAfterDelay()
     {
-        yield return new WaitForSeconds(dashDuration * 2);
+        yield return new WaitForSeconds(rollDuration * 2);
         trailRenderer.emitting = false;
     }
 }
