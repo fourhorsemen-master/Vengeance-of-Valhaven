@@ -16,11 +16,11 @@ public class PlayerEditor : ActorEditor
             player.abilityTimeoutLimit = EditorGUILayout.Slider("Timeout", player.abilityTimeoutLimit, 2, 10);
         EditorGUI.indentLevel--;
 
-        EditorGUILayout.LabelField("Dash", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField("Roll", EditorStyles.boldLabel);
         EditorGUI.indentLevel++;
-            player.totalDashCooldown = EditorGUILayout.Slider("Cooldown", player.totalDashCooldown, 0, 5);
-            player.dashDuration = EditorGUILayout.Slider("Duration", player.dashDuration, 0, 1);
-            player.dashSpeedMultiplier = EditorGUILayout.Slider("Speed Multiplier", player.dashSpeedMultiplier, 1, 10);
+            player.totalRollCooldown = EditorGUILayout.Slider("Cooldown", player.totalRollCooldown, 0, 5);
+            player.rollDuration = EditorGUILayout.Slider("Duration", player.rollDuration, 0, 1);
+            player.rollSpeedMultiplier = EditorGUILayout.Slider("Speed Multiplier", player.rollSpeedMultiplier, 1, 10);
         EditorGUI.indentLevel--;
 
         if (GUI.changed)
