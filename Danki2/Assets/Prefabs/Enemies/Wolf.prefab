@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: -7685572653157387656}
   - component: {fileID: 682735494094879737}
   - component: {fileID: 9042565941216641932}
+  - component: {fileID: 8297737813867126000}
   m_Layer: 0
   m_Name: Wolf
   m_TagString: Untagged
@@ -75,7 +76,6 @@ MonoBehaviour:
     - Recovery
     _values: 1400000004000000000000000000000000000000
   navmeshAgent: {fileID: -7685572653157387656}
-  meshRenderer: {fileID: 7327917836514509559}
   _biteCastTime: 0.5
   _pounceCastTime: 0.5
   _biteTotalCooldown: 5
@@ -378,6 +378,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementAudioSource: {fileID: 682735494094879737}
   actor: {fileID: -1347520900970919038}
+--- !u!114 &8297737813867126000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8501680027219967870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 713ab4dedb1718048ac26f68ed7a324b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetableMonobehaviour: {fileID: -1347520900970919038}
+  meshRenderer: {fileID: 7327917836514509559}
 --- !u!114 &9172958653500359842
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -487,11 +501,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Warning
-      objectReference: {fileID: 0}
-    - target: {fileID: 7578403356228947477, guid: 6dbad747eebf9a548b7db47011b6855f,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7362298287338699384, guid: 6dbad747eebf9a548b7db47011b6855f,
         type: 3}
@@ -745,16 +754,6 @@ PrefabInstance:
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5282445073248747428, guid: eeb7c8dc7550f0e4fb4f8c457b7fe4ad,
-        type: 3}
-      propertyPath: actor
-      value: 
-      objectReference: {fileID: -1347520900970919038}
-    - target: {fileID: 8532059053608374381, guid: eeb7c8dc7550f0e4fb4f8c457b7fe4ad,
-        type: 3}
-      propertyPath: actor
-      value: 
-      objectReference: {fileID: -1347520900970919038}
-    - target: {fileID: 4150782074756834715, guid: eeb7c8dc7550f0e4fb4f8c457b7fe4ad,
         type: 3}
       propertyPath: actor
       value: 

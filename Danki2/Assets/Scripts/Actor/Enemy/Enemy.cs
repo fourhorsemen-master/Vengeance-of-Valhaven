@@ -1,23 +1,18 @@
 ﻿using System;
 using UnityEngine;
 
-public abstract class Enemy : Actor
+public abstract class Enemy : Actor, ITargetable
 {
     public static readonly Color HighlightedColor = new Color(0.02f, 0.02f, 0.02f);
 
-    [SerializeField]
-    private MeshRenderer meshRenderer = null;
-
     public Subject<float> OnTelegraph { get; private set; } = new Subject<float>();
+
+    public BehaviourSubject<bool> PlayerTargeted { get; } = new BehaviourSubject<bool>(false);
 
     protected virtual void Start()
     {
         this.gameObject.tag = Tags.Enemy;
     }
-
-    private void OnMouseEnter() => SetHighlighted(true);
-
-    private void OnMouseExit() => SetHighlighted(false);
 
     public void WaitAndCast(float waitTime, AbilityReference abilityReference, Func<Vector3> targeter)
     {
@@ -31,10 +26,10 @@ public abstract class Enemy : Actor
         });
     }
 
-    private void SetHighlighted(bool highlighted)
+    protected override void OnDeath()
     {
-        Color colour = highlighted ? HighlightedColor : Color.clear;
+        base.OnDeath();
 
-        meshRenderer.material.SetEmissiveColour(colour);
+        PlayerTargeted.Next(false);
     }
 }

@@ -56,11 +56,11 @@ public class AbilityManager
         if (collider != null && collider.gameObject.CompareTag(Tags.Enemy))
         {
             Enemy enemy = collider.gameObject.GetComponent<Enemy>();
-            SetTarget(enemy);
+            if (!enemy.Dead) SetTarget(enemy);
         }
         else
         {
-            SetTarget(null);
+            RemoveTarget();
         }
     }
 
@@ -72,8 +72,22 @@ public class AbilityManager
 
     private void SetTarget(Enemy enemy)
     {
+        if (enemy == target) return;
+
+        RemoveTarget();
+
+        enemy.PlayerTargeted.Next(true);
         target = enemy;
         player.ChannelService.Target = enemy;
+    }
+
+    private void RemoveTarget()
+    {
+        if (target == null) return;
+
+        target.PlayerTargeted.Next(false);
+        target = null;
+        player.ChannelService.Target = null;
     }
 
     private void TickAbilityCooldown()
