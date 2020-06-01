@@ -1,7 +1,4 @@
-﻿using Assets.Scripts.UnityHelpers.Extensions;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SmashVisual : MonoBehaviour
 {

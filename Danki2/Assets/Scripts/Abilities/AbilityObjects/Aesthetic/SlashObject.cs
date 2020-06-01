@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.UnityHelpers.Extensions;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SlashObject : MonoBehaviour
 {

@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.UnityHelpers.Extensions;
-using System;
+﻿using System;
 using UnityEngine;
 
 public abstract class Enemy : Actor
