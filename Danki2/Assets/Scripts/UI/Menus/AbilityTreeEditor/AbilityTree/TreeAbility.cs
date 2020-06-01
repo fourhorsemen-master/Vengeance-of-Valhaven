@@ -25,7 +25,7 @@ public class TreeAbility : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     private Node node;
 
-    public void OnPointerEnter(PointerEventData eventData) {
+    public void OnPointerEnter(PointerEventData _) {
         if (!node.IsRootNode)
         {
             AbilityTooltip.Instance.Activate();
@@ -33,7 +33,7 @@ public class TreeAbility : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         }
     }
 
-    public void OnPointerExit(PointerEventData eventData) => AbilityTooltip.Instance.Deactivate();
+    public void OnPointerExit(PointerEventData _) => AbilityTooltip.Instance.Deactivate();
 
     public void ShiftRight(float amount)
     {
