@@ -26,15 +26,16 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
 
     private void Start()
     {
-        gameObject.SetActive(false);
-
         Player player = RoomManager.Instance.Player;
         playerTreeTooltipBuilder = new PlayerTreeTooltipBuilder(player);
     }
 
     private void Update()
     {
-        MoveToMouse();
+        if (gameObject.activeInHierarchy)
+        {
+            MoveToMouse();
+        }
     }
 
     private void OnDisable()
@@ -60,20 +61,12 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
     /// <param name="ability"></param>
     public void UpdateTooltip(AbilityReference ability)
     {
-        title.text = AbilityLookup.Instance.GetAbilityDisplayName(ability);
+        string titleText = AbilityLookup.Instance.GetAbilityDisplayName(ability);
 
         List<TooltipSegment> segments = PlayerListTooltipBuilder.Build(ability);
-        description.text = GenerateDescription(segments, ability);
-
-        description.rectTransform.sizeDelta = new Vector2(
-            description.rectTransform.sizeDelta.x,
-            description.preferredHeight
-        );
-
-        tooltipPanel.sizeDelta = new Vector2(
-            tooltipPanel.sizeDelta.x,
-            TooltipHeightNoOrbs
-        );
+        string descriptionText = GenerateDescription(segments, ability);
+        
+        SetContents(titleText, descriptionText);
     }
 
     /// <summary>
@@ -82,27 +75,14 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
     /// <param name="node"></param>
     public void UpdateTooltip(Node node)
     {
-        title.text = AbilityLookup.Instance.GetAbilityDisplayName(node.Ability);
+        string titleText = AbilityLookup.Instance.GetAbilityDisplayName(node.Ability);
 
         List<TooltipSegment> segments = playerTreeTooltipBuilder.Build(node);
-        description.text = GenerateDescription(segments, node.Ability);
-
-        description.rectTransform.sizeDelta = new Vector2(
-            description.rectTransform.sizeDelta.x,
-            description.preferredHeight
-        );
+        string descriptionText = GenerateDescription(segments, node.Ability);
 
         OrbCollection generatedOrbs = AbilityLookup.Instance.GetGeneratedOrbs(node.Ability);
-        abilityOrbPanel.DisplayOrbs(generatedOrbs);
 
-        float newHeight = generatedOrbs.IsEmpty
-            ? TooltipHeightNoOrbs
-            : TooltipHeightWithOrbs;
-
-        tooltipPanel.sizeDelta = new Vector2(
-            tooltipPanel.sizeDelta.x,
-            newHeight
-        );
+        SetContents(titleText, descriptionText, generatedOrbs);
     }
 
     private string GenerateDescription(List<TooltipSegment> segments, AbilityReference ability)
@@ -138,6 +118,28 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
         }
 
         return description;
+    }
+
+    private void SetContents(string titleText, string descriptionText, OrbCollection orbs = null)
+    {
+        title.text = titleText;
+        description.text = descriptionText;
+
+        abilityOrbPanel.DisplayOrbs(orbs);
+
+        description.rectTransform.sizeDelta = new Vector2(
+            description.rectTransform.sizeDelta.x,
+            description.preferredHeight
+        );
+
+        bool hasOrbs = orbs != null && !orbs.IsEmpty;
+        float newHeight = hasOrbs ? TooltipHeightNoOrbs : TooltipHeightWithOrbs;
+
+        tooltipPanel.sizeDelta = new Vector2(
+            tooltipPanel.sizeDelta.x,
+            newHeight
+        );
+
     }
 
     private void MoveToMouse()

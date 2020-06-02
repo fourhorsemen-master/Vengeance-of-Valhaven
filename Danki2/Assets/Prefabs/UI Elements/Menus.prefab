@@ -35,7 +35,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 11}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &129833003
 CanvasRenderer:
@@ -120,7 +120,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 70}
+  m_SizeDelta: {x: 200, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &236770766
 CanvasRenderer:
@@ -632,8 +632,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7092380793491993105}
   m_HandleRect: {fileID: 6270204506026733637}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.5000001
+  m_Value: 1.0000001
+  m_Size: 0.48300004
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1651,11 +1651,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1716801466120109581}
     m_Modifications:
-    - target: {fileID: 7859317892095288869, guid: b4d825c974130f84aaaeff3972678117,
-        type: 3}
-      propertyPath: m_Name
-      value: AbilityPanel
-      objectReference: {fileID: 0}
     - target: {fileID: 7179800382927097761, guid: b4d825c974130f84aaaeff3972678117,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1760,6 +1755,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7859317892095288869, guid: b4d825c974130f84aaaeff3972678117,
+        type: 3}
+      propertyPath: m_Name
+      value: AbilityPanel
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b4d825c974130f84aaaeff3972678117, type: 3}
