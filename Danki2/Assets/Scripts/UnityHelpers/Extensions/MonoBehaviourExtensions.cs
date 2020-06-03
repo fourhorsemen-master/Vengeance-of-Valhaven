@@ -4,6 +4,11 @@ using UnityEngine;
 
 public static class MonoBehaviourExtensions
 {
+    public static Coroutine NextFrame(this MonoBehaviour monoBehaviour, Action action)
+    {
+        return monoBehaviour.StartCoroutine(DelayedAction(0, action));
+    }
+
     public static Coroutine WaitAndAct(this MonoBehaviour monoBehaviour, float waitTime, Action action)
     {
         return monoBehaviour.StartCoroutine(DelayedAction(waitTime, action));

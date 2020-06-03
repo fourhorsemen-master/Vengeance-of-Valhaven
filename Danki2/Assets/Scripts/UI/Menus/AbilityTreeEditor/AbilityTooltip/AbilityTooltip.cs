@@ -19,22 +19,22 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
 
     private PlayerTreeTooltipBuilder playerTreeTooltipBuilder;
 
+    private bool heightInitialised = false;
     public float TooltipHeightNoOrbs => description.preferredHeight + 36f;
     public float TooltipHeightWithOrbs => description.preferredHeight + 60f;
 
-    private float TooltipPanelWidth => tooltipPanel.sizeDelta.x * tooltipPanel.GetParentCanvas().scaleFactor;
-
     private void Start()
     {
-        gameObject.SetActive(false);
-
         Player player = RoomManager.Instance.Player;
         playerTreeTooltipBuilder = new PlayerTreeTooltipBuilder(player);
     }
 
     private void Update()
     {
-        MoveToMouse();
+        if (gameObject.activeInHierarchy)
+        {
+            MoveToMouse();
+        }
     }
 
     private void OnDisable()
@@ -60,20 +60,14 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
     /// <param name="ability"></param>
     public void UpdateTooltip(AbilityReference ability)
     {
-        title.text = GenerateTitle(ability);
+        string titleText = GenerateTitle(ability);
 
         List<TooltipSegment> segments = PlayerListTooltipBuilder.Build(ability);
-        description.text = GenerateDescription(segments, ability);
+        string descriptionText = GenerateDescription(segments, ability);
 
-        description.rectTransform.sizeDelta = new Vector2(
-            description.rectTransform.sizeDelta.x,
-            description.preferredHeight
-        );
+        OrbCollection generatedOrbs = AbilityLookup.Instance.GetGeneratedOrbs(ability);
 
-        tooltipPanel.sizeDelta = new Vector2(
-            tooltipPanel.sizeDelta.x,
-            TooltipHeightNoOrbs
-        );
+        SetContents(titleText, descriptionText, generatedOrbs);
     }
 
     /// <summary>
@@ -82,27 +76,14 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
     /// <param name="node"></param>
     public void UpdateTooltip(Node node)
     {
-        title.text = GenerateTitle(node.Ability);
+        string titleText = GenerateTitle(node.Ability);
 
         List<TooltipSegment> segments = playerTreeTooltipBuilder.Build(node);
-        description.text = GenerateDescription(segments, node.Ability);
-
-        description.rectTransform.sizeDelta = new Vector2(
-            description.rectTransform.sizeDelta.x,
-            description.preferredHeight
-        );
+        string descriptionText = GenerateDescription(segments, node.Ability);
 
         OrbCollection generatedOrbs = AbilityLookup.Instance.GetGeneratedOrbs(node.Ability);
-        abilityOrbPanel.DisplayOrbs(generatedOrbs);
 
-        float newHeight = generatedOrbs.IsEmpty
-            ? TooltipHeightNoOrbs
-            : TooltipHeightWithOrbs;
-
-        tooltipPanel.sizeDelta = new Vector2(
-            tooltipPanel.sizeDelta.x,
-            newHeight
-        );
+        SetContents(titleText, descriptionText, generatedOrbs);
     }
 
     private string GenerateTitle(AbilityReference ability)
@@ -155,13 +136,51 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
         return description;
     }
 
+    private void SetContents(string titleText, string descriptionText, OrbCollection orbCollection)
+    {
+        title.text = titleText;
+        description.text = descriptionText;
+        abilityOrbPanel.DisplayOrbs(orbCollection);
+
+        bool hasOrbs = !orbCollection.IsEmpty;
+
+        if (!heightInitialised)
+        {
+            this.NextFrame(() => SetHeight(hasOrbs));
+            heightInitialised = true;
+        }
+        else
+        {
+            SetHeight(hasOrbs);
+        }
+    }
+
+    private void SetHeight(bool includeOrbs)
+    {
+        description.rectTransform.sizeDelta = new Vector2(
+            description.rectTransform.sizeDelta.x,
+            description.preferredHeight
+        );
+
+        float newHeight = includeOrbs ? TooltipHeightWithOrbs : TooltipHeightNoOrbs;
+
+        tooltipPanel.sizeDelta = new Vector2(
+            tooltipPanel.sizeDelta.x,
+            newHeight
+        );
+    }
+
     private void MoveToMouse()
     {
         Vector3 newPosition = Input.mousePosition;
 
-        float overlap = Mathf.Max(0f, newPosition.x + TooltipPanelWidth - Screen.width);
+        Vector2 tooltipPanelSize = tooltipPanel.sizeDelta * tooltipPanel.GetParentCanvas().scaleFactor;
 
-        newPosition.x -= overlap;
+        float xOverlap = Mathf.Max(0f, newPosition.x + tooltipPanelSize.x - Screen.width);
+        float yOverlap = Mathf.Max(0f, newPosition.y + tooltipPanelSize.y - Screen.height);
+
+        newPosition.x -= xOverlap;
+        newPosition.y -= yOverlap;
 
         tooltipPanel.position = newPosition;
     }
