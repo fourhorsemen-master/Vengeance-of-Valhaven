@@ -16,7 +16,7 @@ public class LeechingStrikeObject : MonoBehaviour
 
     private float remainingDuration;
 
-    private Color desiredColor = new Color(1f, 1f, 1f, 0f);
+    private Color desiredColor = new Color(0f, 1f, 0f, 0f);
 
     internal static LeechingStrikeObject Create(Vector3 position, Quaternion rotation)
     {
