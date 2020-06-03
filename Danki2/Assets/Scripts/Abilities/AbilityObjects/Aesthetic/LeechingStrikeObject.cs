@@ -2,6 +2,9 @@
 
 public class LeechingStrikeObject : MonoBehaviour
 {
+    // TODO : This ability object uses the SlashObject prefab material. This wants changing to a generic slash object where we pass
+    //        through the colour and audiosource parameters.
+
     [SerializeField]
     private float rotationSpeed = 0f;
 
