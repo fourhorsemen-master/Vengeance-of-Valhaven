@@ -46,7 +46,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 4260a42fe99d5004396fd1d7477f8f91, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.75
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -140,9 +140,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: c4b62e0987d1dc34cb0cb2714f5f923b, type: 3}
+  m_audioClip: {fileID: 8300000, guid: a1baea95100d90f469ef939353aaac13, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -239,7 +239,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationSpeed: 360
-  duration: 0.25
+  duration: 0.35
   meshRenderer: {fileID: 452165138366262682}
   hitAudioSource: {fileID: -2583541667574244272}
 --- !u!1 &5563815707088889012
