@@ -60,7 +60,7 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
     /// <param name="ability"></param>
     public void UpdateTooltip(AbilityReference ability)
     {
-        string titleText = AbilityLookup.Instance.GetAbilityDisplayName(ability);
+        string titleText = GenerateTitle(ability);
 
         List<TooltipSegment> segments = PlayerListTooltipBuilder.Build(ability);
         string descriptionText = GenerateDescription(segments, ability);
@@ -76,7 +76,7 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
     /// <param name="node"></param>
     public void UpdateTooltip(Node node)
     {
-        string titleText = AbilityLookup.Instance.GetAbilityDisplayName(node.Ability);
+        string titleText = GenerateTitle(node.Ability);
 
         List<TooltipSegment> segments = playerTreeTooltipBuilder.Build(node);
         string descriptionText = GenerateDescription(segments, node.Ability);
@@ -84,6 +84,21 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
         OrbCollection generatedOrbs = AbilityLookup.Instance.GetGeneratedOrbs(node.Ability);
 
         SetContents(titleText, descriptionText, generatedOrbs);
+    }
+
+    private string GenerateTitle(AbilityReference ability)
+    {
+        bool hasOrbType = AbilityLookup.Instance.TryGetAbilityOrbType(ability, out OrbType abilityOrbType);
+
+        string title = AbilityLookup.Instance.GetAbilityDisplayName(ability);
+
+        if (hasOrbType)
+        {
+            Color colour = OrbLookup.Instance.GetColour(abilityOrbType);
+            title = TextUtils.ColouredText(colour, title);
+        }
+
+        return title;
     }
 
     private string GenerateDescription(List<TooltipSegment> segments, AbilityReference ability)
