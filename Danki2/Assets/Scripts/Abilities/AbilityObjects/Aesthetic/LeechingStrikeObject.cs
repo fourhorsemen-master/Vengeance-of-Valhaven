@@ -28,16 +28,13 @@ public class LeechingStrikeObject : MonoBehaviour
 
     private void Start()
     {
-        slashColor.a = 1f;
-        meshRenderer.material.SetColor("Color", slashColor);
-        meshRenderer.enabled = true;
+        meshRenderer.material.SetColor("_UnlitColor", slashColor);
 
         this.WaitAndAct(duration, () => Destroy(gameObject));
     }
 
     private void Update()
     {
-        meshRenderer.sharedMaterial.SetColor("_UnlitColor", slashColor);
         transform.Rotate(0f, -rotationSpeed * Time.deltaTime, 0f);
     }
 
