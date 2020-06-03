@@ -15,6 +15,7 @@ public class AbilityManager
     private ActionControlState previousActionControlState = ActionControlState.None;
     private ActionControlState currentActionControlState = ActionControlState.None;
     private Vector3 targetPosition = Vector3.zero;
+    private Subscription targetDeathSubscription;
     private Enemy target = null;
 
     public float RemainingCooldownProportion => remainingAbilityCooldown / abilityCooldown;
@@ -77,6 +78,7 @@ public class AbilityManager
         RemoveTarget();
 
         enemy.PlayerTargeted.Next(true);
+        targetDeathSubscription = enemy.DeathSubject.Subscribe(() => RemoveTarget());
         target = enemy;
         player.ChannelService.Target = enemy;
     }
@@ -86,6 +88,7 @@ public class AbilityManager
         if (target == null) return;
 
         target.PlayerTargeted.Next(false);
+        targetDeathSubscription.Unsubscribe();
         target = null;
         player.ChannelService.Target = null;
     }

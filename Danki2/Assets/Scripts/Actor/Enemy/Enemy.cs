@@ -1,10 +1,8 @@
 ﻿using System;
 using UnityEngine;
 
-public abstract class Enemy : Actor, ITargetable
+public abstract class Enemy : Actor
 {
-    public static readonly Color HighlightedColor = new Color(0.02f, 0.02f, 0.02f);
-
     public Subject<float> OnTelegraph { get; private set; } = new Subject<float>();
 
     public BehaviourSubject<bool> PlayerTargeted { get; } = new BehaviourSubject<bool>(false);
@@ -24,12 +22,5 @@ public abstract class Enemy : Actor, ITargetable
         {
             InstantCastService.Cast(abilityReference, targeter());
         });
-    }
-
-    protected override void OnDeath()
-    {
-        base.OnDeath();
-
-        PlayerTargeted.Next(false);
     }
 }

@@ -11,6 +11,8 @@ using UnityEngine;
 using System.Runtime.InteropServices;
 
 using System.IO;
+using System.Reflection;
+using System.Collections.Generic;
 
 namespace Substance.Platform
 {

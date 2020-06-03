@@ -1,4 +1,12 @@
-﻿using UnityEngine;
+﻿
+using System;
+using UnityEditor;
+using UnityEngine;
+using System.Runtime.InteropServices;
+
+using System.IO;
+using System.Reflection;
+using System.Collections.Generic;
 
 namespace Substance.EditorHelper
 {
