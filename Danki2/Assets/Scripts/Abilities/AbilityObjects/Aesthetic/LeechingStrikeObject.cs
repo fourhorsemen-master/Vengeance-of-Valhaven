@@ -16,9 +16,10 @@ public class LeechingStrikeObject : MonoBehaviour
 
     private float remainingDuration;
 
-    private Color desiredColor = new Color(0f, 1f, 0f, 0f);
+    [SerializeField]
+    private Color slashColor = new Color();
 
-    internal static LeechingStrikeObject Create(Vector3 position, Quaternion rotation)
+    public static LeechingStrikeObject Create(Vector3 position, Quaternion rotation)
     {
         LeechingStrikeObject prefab = AbilityObjectPrefabLookup.Instance.LeechingStrikeObjectPrefab;
         return Instantiate(prefab, position, rotation);
@@ -26,31 +27,22 @@ public class LeechingStrikeObject : MonoBehaviour
 
     private void Start()
     {
-        remainingDuration = duration;
-        meshRenderer.material.SetColor("Color", desiredColor);
+        slashColor.a = 1f;
+        meshRenderer.material.SetColor("Color", slashColor);
         meshRenderer.enabled = true;
+
+        this.WaitAndAct(duration, () => Destroy(gameObject));
     }
 
     private void Update()
     {
-        if (remainingDuration < 0f)
-        {
-            Destroy(gameObject);
-        }
-
-        UpdateVisual();
+        meshRenderer.sharedMaterial.SetColor("_UnlitColor", slashColor);
+        transform.Rotate(0f, -rotationSpeed * Time.deltaTime, 0f);
+        remainingDuration -= Time.deltaTime;
     }
 
     public void PlayHitSound()
     {
         hitAudioSource.Play();
-    }
-
-    private void UpdateVisual()
-    {
-        desiredColor.a = Mathf.Lerp(0f, 1f, remainingDuration / duration);
-        meshRenderer.sharedMaterial.SetColor("_UnlitColor", desiredColor);
-        transform.Rotate(0f, -rotationSpeed * Time.deltaTime, 0f);
-        remainingDuration -= Time.deltaTime;
     }
 }
