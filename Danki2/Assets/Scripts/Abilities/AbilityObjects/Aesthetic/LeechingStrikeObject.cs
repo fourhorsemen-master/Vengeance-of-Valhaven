@@ -14,8 +14,6 @@ public class LeechingStrikeObject : MonoBehaviour
     [SerializeField]
     private AudioSource hitAudioSource = null;
 
-    private float remainingDuration;
-
     [SerializeField]
     private Color slashColor = new Color();
 
@@ -38,7 +36,6 @@ public class LeechingStrikeObject : MonoBehaviour
     {
         meshRenderer.sharedMaterial.SetColor("_UnlitColor", slashColor);
         transform.Rotate(0f, -rotationSpeed * Time.deltaTime, 0f);
-        remainingDuration -= Time.deltaTime;
     }
 
     public void PlayHitSound()
