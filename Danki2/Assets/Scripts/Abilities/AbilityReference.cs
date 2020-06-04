@@ -10,5 +10,6 @@
     Lunge,
     Smash,
     Sprint,
-    Leap
+    Leap,
+    LeechingStrike
 }

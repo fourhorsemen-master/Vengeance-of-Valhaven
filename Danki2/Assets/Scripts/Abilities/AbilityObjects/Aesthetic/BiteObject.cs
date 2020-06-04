@@ -4,12 +4,10 @@ public class BiteObject : StaticAbilityObject
 {
     public AudioSource biteSound = null;
 
-    public override float StickTime { get; set; }
+    public override float StickTime => biteSound.clip.length;
 
     public void Awake()
     {
-        StickTime = biteSound.clip.length;
-
         biteSound.time = 0.5f;
         biteSound.Play();
     }

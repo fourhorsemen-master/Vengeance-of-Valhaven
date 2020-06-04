@@ -56,6 +56,7 @@ MonoBehaviour:
     - Smash
     - Sprint
     - Leap
+    - LeechingStrike
     _values:
     - displayName: Slash
       tooltip: Deals {PRIMARY_DAMAGE} damage.
@@ -212,6 +213,21 @@ MonoBehaviour:
       abilityOrbType:
         hasValue: 0
         value: 0
+      generatedOrbs: 
+      abilityBonusLookup:
+        _keys: []
+        _values: []
+    - displayName: Leeching Strike
+      tooltip: Deals {PRIMARY_DAMAGE} damage in a cone and heals for {HEAL} +1 per
+        enemy hit
+      baseAbilityData:
+        primaryDamage: 2
+        secondaryDamage: 0
+        heal: 1
+        shield: 0
+      abilityOrbType:
+        hasValue: 1
+        value: 1
       generatedOrbs: 
       abilityBonusLookup:
         _keys: []
