@@ -2,5 +2,4 @@
 {
     Player,
     Wolf,
-    TargetDummy,
 }

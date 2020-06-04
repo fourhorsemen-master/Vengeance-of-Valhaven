@@ -5,6 +5,8 @@ public abstract class Enemy : Actor
 {
     public Subject<float> OnTelegraph { get; private set; } = new Subject<float>();
 
+    public BehaviourSubject<bool> PlayerTargeted { get; } = new BehaviourSubject<bool>(false);
+
     protected virtual void Start()
     {
         this.gameObject.tag = Tags.Enemy;

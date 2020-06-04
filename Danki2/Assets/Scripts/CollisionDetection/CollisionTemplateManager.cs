@@ -21,7 +21,7 @@ public class CollisionTemplateManager : Singleton<CollisionTemplateManager>
                 Debug.LogError($"No prefab found for template: {template.ToString()}");
                 continue;
             }
-            instanceLookup[template] = Instantiate(prefab, Vector3.down * float.MaxValue, Quaternion.identity);
+            instanceLookup[template] = Instantiate(prefab, Vector3.down * 100, Quaternion.identity);
         }
     }
 

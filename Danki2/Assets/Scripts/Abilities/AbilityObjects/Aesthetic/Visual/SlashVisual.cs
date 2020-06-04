@@ -34,7 +34,7 @@ public class SlashVisual : MonoBehaviour
     private void UpdateVisual()
     {
         _desiredColor.a = Mathf.Lerp(0f, 1f, _remainingDuration / _duration);
-        _meshRenderer.sharedMaterial.SetColor("_UnlitColor", _desiredColor);
+        _meshRenderer.sharedMaterial.SetUnlitColour(_desiredColor);
         transform.Rotate(0f, -_rotationSpeed * Time.deltaTime, 0f);
         _remainingDuration -= Time.deltaTime;
     }
