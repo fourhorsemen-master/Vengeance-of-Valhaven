@@ -24,7 +24,9 @@ public abstract class Actor : MonoBehaviour
     public bool IsDamaged => HealthManager.Health < HealthManager.MaxHealth;
     public bool Dead { get; private set; }
 
+    public virtual Vector3 Centre => transform.position + Vector3.up * MouseGamePositionFinder.Instance.HeightOffset;
     public virtual Subject DeathSubject { get; } = new Subject();
+
     public abstract ActorType Type { get; }
 
     protected virtual void Awake()

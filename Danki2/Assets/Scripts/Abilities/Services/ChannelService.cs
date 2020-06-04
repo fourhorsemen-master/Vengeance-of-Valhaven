@@ -10,37 +10,36 @@ public class ChannelService : AbilityService
     public float RemainingDuration { get; private set; }
     public float TotalDuration => _currentChannel.Duration;
     public Vector3 TargetPosition { get; set; } = Vector3.zero;
+    public Actor Target { get; set; } = null;
+    public bool HasTarget => Target != null;
 
     public ChannelService(Actor actor, Subject lateUpdateSubject, InterruptionManager interruptionManager) : base(actor)
     {
-        interruptionManager.Register(InterruptionType.Hard, () => Cancel(TargetPosition));
+        interruptionManager.Register(InterruptionType.Hard, () => CancelChannel());
 
         lateUpdateSubject.Subscribe(() =>
         {
-
             if (!Active)
             {
                 RemainingDuration = 0f;
                 return;
             };
 
-            this.RemainingDuration = Mathf.Max(0f, RemainingDuration - Time.deltaTime);
+            RemainingDuration = Mathf.Max(0f, RemainingDuration - Time.deltaTime);
 
             if (RemainingDuration > 0f)
             {
-                _currentChannel.Continue(TargetPosition);
+                ContinueChannel();
             }
             else
             {
-                _currentChannel.End(TargetPosition);
-                Active = false;
+                EndChannel();
             }
         });
     }
 
-    public bool Start(
+    public bool StartChannel(
         AbilityReference abilityReference,
-        Vector3 target,
         Action<Subject<bool>> successFeedbackSubjectAction = null
     )
     {
@@ -60,20 +59,62 @@ public class ChannelService : AbilityService
         Active = true;
             
         successFeedbackSubjectAction?.Invoke(channel.SuccessFeedbackSubject);
-            
-        _currentChannel.Start(target);
-        _currentChannel.Continue(target);
+
+        if (HasTarget)
+        {
+            _currentChannel.Start(Target);
+            _currentChannel.Continue(Target);
+        }
+        else
+        {
+            _currentChannel.Start(TargetPosition);
+            _currentChannel.Continue(TargetPosition);
+        }
 
         ChannelStartSubject.Next(channel.ChannelType);
         return true;
     }
 
-    public void Cancel(Vector3 target)
+    public void CancelChannel()
     {
         if (!Active) return;
 
-        _currentChannel.Cancel(target);
+        if (HasTarget)
+        {
+            _currentChannel.Cancel(Target);
+        }
+        else
+        {
+            _currentChannel.Cancel(TargetPosition);
+        }
+
         RemainingDuration = 0f;
+        Active = false;
+    }
+
+    private void ContinueChannel()
+    {
+        if (HasTarget)
+        {
+            _currentChannel.Continue(Target);
+        }
+        else
+        {
+            _currentChannel.Continue(TargetPosition);
+        }
+    }
+
+    private void EndChannel()
+    {
+        if (HasTarget)
+        {
+            _currentChannel.End(Target);
+        }
+        else
+        {
+            _currentChannel.End(TargetPosition);
+        }
+
         Active = false;
     }
 }
