@@ -2,7 +2,7 @@
 
 public abstract class StaticAbilityObject : MonoBehaviour
 {
-    public abstract float StickTime { get; set; }
+    public abstract float StickTime { get; }
 
     protected virtual void Start()
     {

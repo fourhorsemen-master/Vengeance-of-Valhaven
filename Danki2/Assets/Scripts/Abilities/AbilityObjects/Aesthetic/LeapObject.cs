@@ -4,12 +4,7 @@ public class LeapObject : StaticAbilityObject
 {
     public AudioSource leapSound = null;
 
-    public override float StickTime { get; set; }
-
-    public void Awake()
-    {
-        StickTime = leapSound.clip.length;
-    }
+    public override float StickTime => leapSound.clip.length;
 
     public static void Create(Transform casterTransform)
     {

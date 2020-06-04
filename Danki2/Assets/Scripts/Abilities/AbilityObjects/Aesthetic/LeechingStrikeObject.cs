@@ -1,41 +1,22 @@
 ﻿using UnityEngine;
 
-public class LeechingStrikeObject : MonoBehaviour
+public class LeechingStrikeObject : StaticAbilityObject
 {
-    // TODO : This ability object uses the SlashObject prefab material. This wants changing to a generic slash object where we pass
-    //        through the colour and audiosource parameters.
-
-    [SerializeField]
-    private float rotationSpeed = 0f;
-
-    [SerializeField]
-    private float duration = 0f;
-
-    [SerializeField]
-    private MeshRenderer meshRenderer = null;
-
     [SerializeField]
     private AudioSource hitAudioSource = null;
 
     [SerializeField]
     private Color slashColor = new Color();
 
+    public override float StickTime => hitAudioSource.clip.length;
+
     public static LeechingStrikeObject Create(Vector3 position, Quaternion rotation)
     {
         LeechingStrikeObject prefab = AbilityObjectPrefabLookup.Instance.LeechingStrikeObjectPrefab;
-        return Instantiate(prefab, position, rotation);
-    }
+        LeechingStrikeObject leechingStrikeObject = Instantiate(prefab, position, rotation);
+        SlashObject.Create(position, rotation, leechingStrikeObject.slashColor);
 
-    private void Start()
-    {
-        meshRenderer.material.SetColor("_UnlitColor", slashColor);
-
-        this.WaitAndAct(duration, () => Destroy(gameObject));
-    }
-
-    private void Update()
-    {
-        transform.Rotate(0f, -rotationSpeed * Time.deltaTime, 0f);
+        return leechingStrikeObject;
     }
 
     public void PlayHitSound()
