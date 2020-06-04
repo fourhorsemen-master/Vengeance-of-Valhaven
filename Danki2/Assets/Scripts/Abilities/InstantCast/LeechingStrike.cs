@@ -32,9 +32,9 @@ public class LeechingStrike : InstantCast
             }
         });
 
-        Heal(enemiesHit);
-
         bool hasDealtDamage = enemiesHit > 0;
+
+        if (hasDealtDamage) Heal(enemiesHit);
 
         SuccessFeedbackSubject.Next(hasDealtDamage);
 
