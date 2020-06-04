@@ -32,6 +32,9 @@ public class AbilityObjectPrefabLookup : Singleton<AbilityObjectPrefabLookup>
     [SerializeField]
     private LeapObject _leapObjectPrefab = null;
 
+    [SerializeField]
+    private LeechingStrikeObject _leechingStrikeObjectPrefab = null;
+
     public FireballObject FireballObjectPrefab { get => _fireballObjectPrefab; }
     public DaggerObject DaggerObjectPrefab { get => _daggerObjectPrefab; }
     public BiteObject BiteObjectPrefab { get => _biteObjectPrefab; }
@@ -42,4 +45,5 @@ public class AbilityObjectPrefabLookup : Singleton<AbilityObjectPrefabLookup>
     public SlashObject SlashObjectPrefab { get => _slashObjectPrefab; }
     public DashObject DashObjectPrefab { get => _dashObjectPrefab; }
     public LeapObject LeapObjectPrefab { get => _leapObjectPrefab; }
+    public LeechingStrikeObject LeechingStrikeObjectPrefab { get => _leechingStrikeObjectPrefab; }
 }

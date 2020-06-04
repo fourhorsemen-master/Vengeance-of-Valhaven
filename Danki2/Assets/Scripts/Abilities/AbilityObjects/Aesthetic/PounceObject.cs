@@ -4,12 +4,7 @@ public class PounceObject : StaticAbilityObject
 {
     public AudioSource pounceSound = null;
 
-    public override float StickTime { get; set; }
-
-    public void Awake()
-    {
-        StickTime = pounceSound.clip.length;
-    }
+    public override float StickTime => pounceSound.clip.length;
 
     public static void Create(Vector3 position, Quaternion rotation)
     {
