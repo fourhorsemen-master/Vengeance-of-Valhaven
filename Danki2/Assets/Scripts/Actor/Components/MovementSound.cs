@@ -18,24 +18,29 @@ public class MovementSound : MonoBehaviour
     private void Start()
     {
         targetVolume = movementAudioSource.volume;
+        actor.DeathSubject.Subscribe(FadeOut);
     }
 
     private void Update()
     {
         bool moving = actor.MovementManager.IsMoving;
 
-        if (moving && !movingPreviousFrame)
-        {
-            if (fadeOutCoroutine != null) StopCoroutine(fadeOutCoroutine);
-            fadeInCoroutine = StartCoroutine(movementAudioSource.FadeInRoutine(FadeInTime, targetVolume));
-        }
-        
-        if (!moving && movingPreviousFrame)
-        {
-            if (fadeInCoroutine != null) StopCoroutine(fadeInCoroutine);
-            fadeOutCoroutine = StartCoroutine(movementAudioSource.FadeOutRoutine(FadeOutTime));
-        }
+        if (moving && !movingPreviousFrame) FadeIn();
+
+        if (!moving && movingPreviousFrame) FadeOut();
 
         movingPreviousFrame = moving;
+    }
+
+    private void FadeIn()
+    {
+        if (fadeOutCoroutine != null) StopCoroutine(fadeOutCoroutine);
+        fadeInCoroutine = StartCoroutine(movementAudioSource.FadeInRoutine(FadeInTime, targetVolume));
+    }
+
+    private void FadeOut()
+    {
+        if (fadeInCoroutine != null) StopCoroutine(fadeInCoroutine);
+        fadeOutCoroutine = StartCoroutine(movementAudioSource.FadeOutRoutine(FadeOutTime));
     }
 }

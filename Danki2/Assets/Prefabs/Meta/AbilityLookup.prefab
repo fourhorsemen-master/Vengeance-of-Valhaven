@@ -51,7 +51,7 @@ MonoBehaviour:
     - DaggerThrow
     - Bite
     - Pounce
-    - Roll
+    - Dash
     - Lunge
     - Smash
     - Sprint
@@ -142,7 +142,7 @@ MonoBehaviour:
       abilityBonusLookup:
         _keys: []
         _values: []
-    - displayName: Roll
+    - displayName: Dash
       tooltip: Deals {PRIMARY_DAMAGE} damage.
       baseAbilityData:
         primaryDamage: 0

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
@@ -18,6 +19,9 @@ public class TreeAbility : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     private Image abilityOverlay = null;
 
     [SerializeField]
+    private Image abilityHighlight = null;
+
+    [SerializeField]
     private UILineRenderer leftChildLineRenderer = null;
 
     [SerializeField]
@@ -25,15 +29,19 @@ public class TreeAbility : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     private Node node;
 
-    public void OnPointerEnter(PointerEventData eventData) {
-        if (!node.IsRootNode)
-        {
-            AbilityTooltip.Instance.Activate();
-            AbilityTooltip.Instance.UpdateTooltip(node);
-        }
+    public void OnPointerEnter(PointerEventData _) {
+        if (node.IsRootNode) return;
+
+        AbilityTooltip.Instance.Activate();
+        AbilityTooltip.Instance.UpdateTooltip(node);
+        SetHighlighted(true);
     }
 
-    public void OnPointerExit(PointerEventData eventData) => AbilityTooltip.Instance.Deactivate();
+    public void OnPointerExit(PointerEventData _)
+    {
+        AbilityTooltip.Instance.Deactivate();
+        SetHighlighted(false);
+    }
 
     public void ShiftRight(float amount)
     {
@@ -45,6 +53,7 @@ public class TreeAbility : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     public void SetNode(Node node)
     {
         this.node = node;
+        SetHighlighted(false);
 
         if (node.IsRootNode)
         {
@@ -78,5 +87,10 @@ public class TreeAbility : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     private void RemoveOverlay()
     {
         abilityOverlay.enabled = false;
+    }
+
+    private void SetHighlighted(bool highlighted)
+    {
+        abilityHighlight.enabled = highlighted;
     }
 }

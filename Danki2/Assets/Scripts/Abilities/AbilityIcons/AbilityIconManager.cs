@@ -9,13 +9,11 @@ public class AbilityIconManager : Singleton<AbilityIconManager>
     {
         base.Awake();
 
-        foreach (AbilityReference template in Enum.GetValues(typeof(AbilityReference)))
+        foreach (AbilityReference ability in Enum.GetValues(typeof(AbilityReference)))
         {
-            Sprite sprite = spriteLookup[template];
-            if (sprite == null)
+            if (spriteLookup[ability] == null)
             {
-                Debug.LogError($"No icon found for template: {template.ToString()}");
-                continue;
+                Debug.LogError($"No icon found for ability: {ability.ToString()}");
             }
         }
     }

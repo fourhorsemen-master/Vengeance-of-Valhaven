@@ -10,13 +10,13 @@ GameObject:
   m_Component:
   - component: {fileID: 8063099716140605082}
   - component: {fileID: 2369984067544073560}
-  - component: {fileID: 5134676781764737243}
   - component: {fileID: -1347520900970919038}
   - component: {fileID: 3467548966888005537}
   - component: {fileID: -3268726625634297962}
   - component: {fileID: -7685572653157387656}
   - component: {fileID: 682735494094879737}
   - component: {fileID: 9042565941216641932}
+  - component: {fileID: 8297737813867126000}
   m_Layer: 0
   m_Name: Wolf
   m_TagString: Untagged
@@ -55,22 +55,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.654938, y: 1.066088, z: 2.027631}
   m_Center: {x: 0, y: 0.56, z: 0.07696152}
---- !u!54 &5134676781764737243
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8501680027219967870}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 112
-  m_CollisionDetection: 0
 --- !u!114 &-1347520900970919038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -394,6 +378,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementAudioSource: {fileID: 682735494094879737}
   actor: {fileID: -1347520900970919038}
+--- !u!114 &8297737813867126000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8501680027219967870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 713ab4dedb1718048ac26f68ed7a324b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy: {fileID: -1347520900970919038}
+  meshRenderer: {fileID: 7327917836514509559}
 --- !u!114 &9172958653500359842
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -486,6 +484,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 948651095802020368}
   m_PrefabAsset: {fileID: 0}
+--- !u!23 &7327917836514509559 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -1685552048115629849, guid: 71527760f07772e41ab2ba573d6d8948,
+    type: 3}
+  m_PrefabInstance: {fileID: 948651095802020368}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1353083996589070680
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -497,11 +501,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Warning
-      objectReference: {fileID: 0}
-    - target: {fileID: 7578403356228947477, guid: 6dbad747eebf9a548b7db47011b6855f,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7362298287338699384, guid: 6dbad747eebf9a548b7db47011b6855f,
         type: 3}
@@ -754,16 +753,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 8532059053608374381, guid: eeb7c8dc7550f0e4fb4f8c457b7fe4ad,
-        type: 3}
-      propertyPath: actor
-      value: 
-      objectReference: {fileID: -1347520900970919038}
-    - target: {fileID: 4150782074756834715, guid: eeb7c8dc7550f0e4fb4f8c457b7fe4ad,
-        type: 3}
-      propertyPath: actor
-      value: 
-      objectReference: {fileID: -1347520900970919038}
     - target: {fileID: 5282445073248747428, guid: eeb7c8dc7550f0e4fb4f8c457b7fe4ad,
         type: 3}
       propertyPath: actor
