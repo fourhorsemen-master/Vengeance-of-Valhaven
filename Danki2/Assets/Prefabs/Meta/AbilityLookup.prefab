@@ -218,8 +218,8 @@ MonoBehaviour:
         _keys: []
         _values: []
     - displayName: Leeching Strike
-      tooltip: Deals {PRIMARY_DAMAGE} damage in a cone and heals for {HEAL} per enemy
-        hit
+      tooltip: Deals {PRIMARY_DAMAGE} damage in a cone and heals for {HEAL} +1 per
+        enemy hit
       baseAbilityData:
         primaryDamage: 2
         secondaryDamage: 0

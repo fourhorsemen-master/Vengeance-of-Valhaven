@@ -28,7 +28,7 @@ public class SlashObject : MonoBehaviour
 
     private void Start()
     {
-        meshRenderer.material.SetColor("_UnlitColor", desiredColor);
+        meshRenderer.material.SetUnlitColour(desiredColor);
 
         this.WaitAndAct(duration, () => Destroy(gameObject));
     }

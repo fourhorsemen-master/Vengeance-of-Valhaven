@@ -16,7 +16,7 @@ public class LeechingStrike : InstantCast
         Vector3 castDirection = target - position;
         castDirection.y = 0f;
 
-        bool hasDealtDamage = false;
+        int enemiesHit = 0;
 
         CollisionTemplateManager.Instance.GetCollidingActors(
             CollisionTemplate.Wedge90,
@@ -28,10 +28,13 @@ public class LeechingStrike : InstantCast
             if (Owner.Opposes(actor))
             {
                 DealPrimaryDamage(actor);
-                Heal();
-                hasDealtDamage = true;
+                enemiesHit++;
             }
         });
+
+        Heal(enemiesHit);
+
+        bool hasDealtDamage = enemiesHit > 0;
 
         SuccessFeedbackSubject.Next(hasDealtDamage);
 
