@@ -1,15 +1,35 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 [Ability(AbilityReference.Meditate, new []{"Clarity", "GrowingRage"})]
 public class Meditate : Charge
 {
     protected override float ChargeTime => 5;
+    
+    private readonly Dictionary<Actor, Guid> slowedActors = new Dictionary<Actor, Guid>();
 
     private const float PowerDuration = 10;
     private const int GrowingRageMultiplier = 2;
-    
+    private const float SlowMultiplier = 0.5f;
+
     public Meditate(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
+    }
+
+    protected override void Start()
+    {
+        if (!HasBonus("Clarity")) return;
+        
+        RoomManager.Instance.ActorCache.ForEach(actorCacheItem =>
+        {
+            Actor actor = actorCacheItem.Actor;
+
+            if (actor.Opposes(Owner))
+            {
+                slowedActors[actor] = actor.EffectManager.AddPassiveEffect(new Slow(SlowMultiplier));
+            }
+        });
     }
 
     protected override void Continue()
@@ -27,6 +47,8 @@ public class Meditate : Charge
 
     private void End()
     {
+        RemoveSlowEffects();
+        
         int powerIncrease = GetPowerIncrease();
 
         if (powerIncrease == 0)
@@ -37,6 +59,17 @@ public class Meditate : Charge
         
         StatModification powerModification = new StatModification(Stat.Power, powerIncrease);
         Owner.EffectManager.AddActiveEffect(powerModification, PowerDuration);
+    }
+
+    private void RemoveSlowEffects()
+    {
+        foreach (KeyValuePair<Actor, Guid> keyValuePair in slowedActors)
+        {
+            Actor actor = keyValuePair.Key;
+            Guid effectId = keyValuePair.Value;
+            
+            actor.EffectManager.RemovePassiveEffect(effectId);
+        }
     }
 
     private int GetPowerIncrease()
