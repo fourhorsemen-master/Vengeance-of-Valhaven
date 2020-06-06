@@ -14,5 +14,9 @@ public abstract class Charge : Channel
 
     public sealed override void Start(Vector3 target) { }
 
+    public sealed override void Start(Actor actor) { }
+
     public sealed override void Continue(Vector3 target) { }
+
+    public sealed override void Continue(Actor actor) { }
 }
