@@ -25,7 +25,8 @@ public class Whirlwind : Channel
 
     public override void Start(Vector3 target)
     {
-        slowEffectId = Owner.EffectManager.AddPassiveEffect(new Slow(selfSlowMultiplier));
+        MultiplicativeStatModification slow = new MultiplicativeStatModification(Stat.Speed, selfSlowMultiplier);
+        slowEffectId = Owner.EffectManager.AddPassiveEffect(slow);
         repeater = new Repeater(spinDamageInterval, () => AOE(spinRange, a => DealPrimaryDamage(a)), spinDamageStartDelay);
 
         whirlwindObject = WhirlwindObject.Create(Owner.transform);
