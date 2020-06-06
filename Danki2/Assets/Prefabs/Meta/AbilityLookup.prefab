@@ -245,5 +245,13 @@ MonoBehaviour:
         value: 1
       generatedOrbs: 
       abilityBonusLookup:
-        _keys: []
-        _values: []
+        _keys:
+        - Clarity
+        - GrowingRage
+        _values:
+        - displayName: Clarity
+          tooltip: Slow all enemies by 50% while charging.
+          requiredOrbs: 020000000200000001000000
+        - displayName: Growing Rage
+          tooltip: Increase strength by 2 for every second charged instead.
+          requiredOrbs: 000000000000000000000000

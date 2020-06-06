@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[Ability(AbilityReference.Meditate)]
+[Ability(AbilityReference.Meditate, new []{"Clarity", "GrowingRage"})]
 public class Meditate : Charge
 {
     protected override float ChargeTime => 5;
