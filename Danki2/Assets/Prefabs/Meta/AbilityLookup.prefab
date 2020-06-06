@@ -57,6 +57,7 @@ MonoBehaviour:
     - Sprint
     - Leap
     - LeechingStrike
+    - Meditate
     _values:
     - displayName: Slash
       tooltip: Deals {PRIMARY_DAMAGE} damage.
@@ -224,6 +225,20 @@ MonoBehaviour:
         primaryDamage: 2
         secondaryDamage: 0
         heal: 1
+        shield: 0
+      abilityOrbType:
+        hasValue: 1
+        value: 1
+      generatedOrbs: 
+      abilityBonusLookup:
+        _keys: []
+        _values: []
+    - displayName: Meditate
+      tooltip: Increase strength by 1 for every second charged. Lasts 10 seconds.
+      baseAbilityData:
+        primaryDamage: 0
+        secondaryDamage: 0
+        heal: 0
         shield: 0
       abilityOrbType:
         hasValue: 1
