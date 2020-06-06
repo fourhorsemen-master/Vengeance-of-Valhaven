@@ -35,15 +35,19 @@ public class AbilityObjectPrefabLookup : Singleton<AbilityObjectPrefabLookup>
     [SerializeField]
     private LeechingStrikeObject _leechingStrikeObjectPrefab = null;
 
-    public FireballObject FireballObjectPrefab { get => _fireballObjectPrefab; }
-    public DaggerObject DaggerObjectPrefab { get => _daggerObjectPrefab; }
-    public BiteObject BiteObjectPrefab { get => _biteObjectPrefab; }
-    public PounceObject PounceObjectPrefab { get => _pounceObjectPrefab; }
-    public LungeObject LungeObjectPrefab { get => _lungeObjectPrefab; }
-    public SmashObject SmashObjectPrefab { get => _smashObjectPrefab; }
-    public WhirlwindObject WhirlwindObjectPrefab { get => _whirlwindObjectPrefab; }
-    public SlashObject SlashObjectPrefab { get => _slashObjectPrefab; }
-    public DashObject DashObjectPrefab { get => _dashObjectPrefab; }
-    public LeapObject LeapObjectPrefab { get => _leapObjectPrefab; }
-    public LeechingStrikeObject LeechingStrikeObjectPrefab { get => _leechingStrikeObjectPrefab; }
+    [SerializeField]
+    private MeditateObject _meditateObjectPrefab = null;
+
+    public FireballObject FireballObjectPrefab => _fireballObjectPrefab;
+    public DaggerObject DaggerObjectPrefab => _daggerObjectPrefab;
+    public BiteObject BiteObjectPrefab => _biteObjectPrefab;
+    public PounceObject PounceObjectPrefab => _pounceObjectPrefab;
+    public LungeObject LungeObjectPrefab => _lungeObjectPrefab;
+    public SmashObject SmashObjectPrefab => _smashObjectPrefab;
+    public WhirlwindObject WhirlwindObjectPrefab => _whirlwindObjectPrefab;
+    public SlashObject SlashObjectPrefab => _slashObjectPrefab;
+    public DashObject DashObjectPrefab => _dashObjectPrefab;
+    public LeapObject LeapObjectPrefab => _leapObjectPrefab;
+    public LeechingStrikeObject LeechingStrikeObjectPrefab => _leechingStrikeObjectPrefab;
+    public MeditateObject MeditateObjectPrefab => _meditateObjectPrefab;
 }

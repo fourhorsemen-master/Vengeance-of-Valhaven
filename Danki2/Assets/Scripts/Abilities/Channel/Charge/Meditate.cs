@@ -9,6 +9,8 @@ public class Meditate : Charge
     
     private readonly Dictionary<Actor, Guid> slowedActors = new Dictionary<Actor, Guid>();
 
+    private MeditateObject meditateObject;
+
     private const float PowerDuration = 10;
     private const int GrowingRageMultiplier = 2;
     private const float SlowMultiplier = 0.5f;
@@ -19,17 +21,9 @@ public class Meditate : Charge
 
     protected override void Start()
     {
-        if (!HasBonus("Clarity")) return;
+        meditateObject = MeditateObject.Create(Owner.transform, ChargeTime);
         
-        RoomManager.Instance.ActorCache.ForEach(actorCacheItem =>
-        {
-            Actor actor = actorCacheItem.Actor;
-
-            if (actor.Opposes(Owner))
-            {
-                slowedActors[actor] = actor.EffectManager.AddPassiveEffect(new Slow(SlowMultiplier));
-            }
-        });
+        if (HasBonus("Clarity")) AddSlowEffects();
     }
 
     protected override void Continue()
@@ -47,6 +41,8 @@ public class Meditate : Charge
 
     private void End()
     {
+        meditateObject.Destroy();
+        
         RemoveSlowEffects();
         
         int powerIncrease = GetPowerIncrease();
@@ -59,6 +55,19 @@ public class Meditate : Charge
         
         StatModification powerModification = new StatModification(Stat.Power, powerIncrease);
         Owner.EffectManager.AddActiveEffect(powerModification, PowerDuration);
+    }
+
+    private void AddSlowEffects()
+    {
+        RoomManager.Instance.ActorCache.ForEach(actorCacheItem =>
+        {
+            Actor actor = actorCacheItem.Actor;
+
+            if (actor.Opposes(Owner))
+            {
+                slowedActors[actor] = actor.EffectManager.AddPassiveEffect(new Slow(SlowMultiplier));
+            }
+        });
     }
 
     private void RemoveSlowEffects()
