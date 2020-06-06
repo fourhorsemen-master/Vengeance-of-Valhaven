@@ -12,6 +12,11 @@ public class Meditate : Charge
     {
     }
 
+    protected override void Continue()
+    {
+        if (GetPowerIncrease() > 0) SuccessFeedbackSubject.Next(true);
+    }
+
     public override void End(Vector3 target) => End();
 
     public override void End(Actor actor) => End();
@@ -30,7 +35,6 @@ public class Meditate : Charge
             return;
         }
         
-        SuccessFeedbackSubject.Next(true);
         StatModification powerModification = new StatModification(Stat.Power, powerIncrease);
         Owner.EffectManager.AddActiveEffect(powerModification, PowerDuration);
     }

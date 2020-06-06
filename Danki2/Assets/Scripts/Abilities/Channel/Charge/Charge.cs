@@ -14,13 +14,25 @@ public abstract class Charge : Channel
     {
     }
 
-    public sealed override void Start(Vector3 target) { }
+    public sealed override void Start(Vector3 target) => Start();
 
-    public sealed override void Start(Actor actor) { }
+    public sealed override void Start(Actor actor) => Start();
 
-    public sealed override void Continue(Vector3 target) => Continue();
+    public sealed override void Continue(Vector3 target)
+    {
+        TickTimeCharged();
+        Continue();
+    }
 
-    public sealed override void Continue(Actor actor) => Continue();
+    public sealed override void Continue(Actor actor)
+    {
+        TickTimeCharged();
+        Continue();
+    }
 
-    private void Continue() => TimeCharged += Time.deltaTime;
+    protected virtual void Start() { }
+
+    protected virtual void Continue() { }
+
+    private void TickTimeCharged() => TimeCharged += Time.deltaTime;
 }
