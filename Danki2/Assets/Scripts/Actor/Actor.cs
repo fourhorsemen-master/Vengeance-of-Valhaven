@@ -47,7 +47,7 @@ public abstract class Actor : MonoBehaviour
 
     protected virtual void Start()
     {
-        gameObject.SetLayer(Layer.Actors);
+        gameObject.layer = Layers.Actors;
     }
 
     protected virtual void Update()

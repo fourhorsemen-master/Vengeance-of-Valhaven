@@ -1,11 +1,11 @@
-﻿public enum Layer
+﻿public static class Layers
 {
-    Default = 0,
-    TransparentFX = 1,
-    IgnoreRaycast = 2,
-    Water = 4,
-    UI = 5,
-    Ethereal = 8,
-    Floor = 9,
-    Actors = 10,
+    public static int Default => 0;
+    public static int TransparentFX => 1;
+    public static int IgnoreRaycast => 2;
+    public static int Water => 4;
+    public static int UI => 5;
+    public static int Ethereal => 8;
+    public static int Floor => 9;
+    public static int Actors => 10;
 }
