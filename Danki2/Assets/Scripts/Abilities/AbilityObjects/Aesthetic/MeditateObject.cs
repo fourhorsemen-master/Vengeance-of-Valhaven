@@ -36,7 +36,6 @@ public class MeditateObject : MonoBehaviour
 
     public void Destroy()
     {
-        meditateSound.Stop();
         Destroy(gameObject);
     }
 }
