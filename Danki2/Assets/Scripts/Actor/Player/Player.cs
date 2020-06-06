@@ -69,8 +69,10 @@ public class Player : Actor
         AbilityManager = new AbilityManager(this, abilityTimeoutLimit, abilityCooldown, updateSubject, lateUpdateSubject);
     }
 
-    protected void Start()
+    protected override void Start()
     {
+        base.Start();
+        
         gameObject.tag = Tags.Player;
     }
 

@@ -7,4 +7,5 @@
     UI = 5,
     Ethereal = 8,
     Floor = 9,
+    Actors = 10,
 }
