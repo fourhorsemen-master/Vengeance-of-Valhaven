@@ -13,8 +13,14 @@ public class Sprint : Cast
     {
     }
 
-    public override void End(Vector3 target)
+    public override void End(Vector3 target) => End();
+
+    public override void End(Actor actor) => End();
+
+    private void End()
     {
-        Owner.EffectManager.AddActiveEffect(new SpeedModification(SpeedModification), SprintDuration);
+        StatModification speedModification = new StatModification(Stat.Speed, SpeedModification);
+        Owner.EffectManager.AddActiveEffect(speedModification, SprintDuration);
+        SuccessFeedbackSubject.Next(true);
     }
 }

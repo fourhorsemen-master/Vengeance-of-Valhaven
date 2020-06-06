@@ -4,6 +4,8 @@
 public class Meditate : Charge
 {
     protected override float ChargeTime => 5;
+
+    private const float PowerDuration = 10;
     
     public Meditate(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
@@ -19,6 +21,17 @@ public class Meditate : Charge
 
     private void End()
     {
-        Debug.Log($"Charged for {TimeCharged} seconds.");
+        int powerIncrease = Mathf.FloorToInt(TimeCharged);
+
+        if (powerIncrease == 0)
+        {
+            SuccessFeedbackSubject.Next(false);
+            return;
+        }
+        
+        SuccessFeedbackSubject.Next(true);
+        
+        StatModification powerModification = new StatModification(Stat.Power, powerIncrease);
+        Owner.EffectManager.AddActiveEffect(powerModification, PowerDuration);
     }
 }

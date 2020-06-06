@@ -234,7 +234,7 @@ MonoBehaviour:
         _keys: []
         _values: []
     - displayName: Meditate
-      tooltip: Increase strength by 1 for every second charged. Lasts 10 seconds.
+      tooltip: Increase power by 1 for every second charged. Lasts 10 seconds.
       baseAbilityData:
         primaryDamage: 0
         secondaryDamage: 0
@@ -253,5 +253,5 @@ MonoBehaviour:
           tooltip: Slow all enemies by 50% while charging.
           requiredOrbs: 020000000200000001000000
         - displayName: Growing Rage
-          tooltip: Increase strength by 2 for every second charged instead.
+          tooltip: Increase power by 2 for every second charged instead.
           requiredOrbs: 000000000000000000000000
