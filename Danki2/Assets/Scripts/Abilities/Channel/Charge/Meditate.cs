@@ -9,13 +9,16 @@ public class Meditate : Charge
     {
     }
 
-    public override void End(Vector3 target)
-    {
-        Debug.Log("Ending meditate");
-    }
+    public override void End(Vector3 target) => End();
 
-    public override void Cancel(Vector3 target)
+    public override void End(Actor actor) => End();
+
+    public override void Cancel(Vector3 target) => End();
+
+    public override void Cancel(Actor actor) => End();
+
+    private void End()
     {
-        Debug.Log("Cancelling meditate");
+        Debug.Log($"Charged for {TimeCharged} seconds.");
     }
 }
