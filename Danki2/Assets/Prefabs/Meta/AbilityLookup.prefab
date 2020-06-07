@@ -211,12 +211,16 @@ MonoBehaviour:
         heal: 0
         shield: 0
       abilityOrbType:
-        hasValue: 0
-        value: 0
-      generatedOrbs: 
+        hasValue: 1
+        value: 1
+      generatedOrbs: 01000000
       abilityBonusLookup:
-        _keys: []
-        _values: []
+        _keys:
+        - Momentum
+        _values:
+        - displayName: Momentum
+          tooltip: On impact, stun surrounding enemies for 3 seconds.
+          requiredOrbs: 0000000000000000
     - displayName: Leeching Strike
       tooltip: Deals {PRIMARY_DAMAGE} damage in a cone and heals for {HEAL} +1 per
         enemy hit

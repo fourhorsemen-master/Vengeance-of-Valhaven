@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[Ability(AbilityReference.Leap)]
+[Ability(AbilityReference.Leap, new []{"Momentum"})]
 public class Leap : InstantCast
 {
     private const float MinMovementDuration = 0.1f;
