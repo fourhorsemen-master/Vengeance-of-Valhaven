@@ -47,7 +47,7 @@ public class AbilityManager
         var mouseHitCollider = MouseGamePositionFinder.Instance.TryGetMouseGamePosition(
             out Vector3 mousePosition,
             out Collider collider,
-            Layers.GetLayerMask(ListUtils.Singleton(Layers.Actors))
+            Layers.GetLayerMask(new []{ Layers.Actors })
         );
 
         if (!mouseHitCollider)

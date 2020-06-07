@@ -18,7 +18,7 @@ public static class Layers
     /// </summary>
     /// <param name="layers"> They layers to include in the mask </param>
     /// <returns></returns>
-    public static int GetLayerMask(List<int> layers)
+    public static int GetLayerMask(IEnumerable<int> layers)
     {
         return layers.Aggregate(0, (current, layer) => current | 1 << layer);
     }
