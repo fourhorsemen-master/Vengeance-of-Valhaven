@@ -20,6 +20,6 @@ public static class Layers
     /// <returns></returns>
     public static int GetLayerMask(List<int> layers)
     {
-        return layers.Select(layer => 1 << layer).Sum();
+        return layers.Aggregate(0, (current, layer) => current | 1 << layer);
     }
 }
