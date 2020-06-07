@@ -7,6 +7,9 @@ public class Leap : InstantCast
     private const float MaxMovementDuration = 0.3f;
     private const float LeapSpeedMultiplier = 6f;
 
+    private const float StunRange = 2f;
+    private const float StunDuration = 3f;
+
     public Leap(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
     }
@@ -26,5 +29,22 @@ public class Leap : InstantCast
         LeapObject.Create(Owner.transform);
 
         SuccessFeedbackSubject.Next(true);
+
+        if (HasBonus("Momentum")) Owner.WaitAndAct(duration, StunSurroundingEnemies);
+    }
+
+    private void StunSurroundingEnemies()
+    {
+        CollisionTemplateManager.Instance.GetCollidingActors(
+            CollisionTemplate.Cylinder,
+            StunRange,
+            Owner.transform.position
+        ).ForEach(actor =>
+        {
+            if (Owner.Opposes(actor))
+            {
+                actor.EffectManager.AddActiveEffect(new Stun(StunDuration), StunDuration);
+            }
+        });
     }
 }
