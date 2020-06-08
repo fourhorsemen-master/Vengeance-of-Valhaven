@@ -225,7 +225,7 @@ MonoBehaviour:
           requiredOrbs: 0000000000000000
     - displayName: Leeching Strike
       tooltip: Deals {PRIMARY_DAMAGE} damage in a cone and heals for {HEAL} +1 per
-        enemy hit
+        enemy hit.
       baseAbilityData:
         primaryDamage: 2
         secondaryDamage: 0
@@ -261,8 +261,7 @@ MonoBehaviour:
           tooltip: Increase power by 2 for every second charged instead.
           requiredOrbs: 000000000000000000000000
     - displayName: Bash
-      tooltip: Deals {PRIMARY_DAMAGE} and applies a stun for 1 second to each enemy
-        hit in a cone.
+      tooltip: Deal {PRIMARY_DAMAGE} to enemies in a cone, stuns for 1 second.
       baseAbilityData:
         primaryDamage: 3
         secondaryDamage: 0
