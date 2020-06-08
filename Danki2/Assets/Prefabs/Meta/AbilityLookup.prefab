@@ -57,6 +57,7 @@ MonoBehaviour:
     - Sprint
     - Leap
     - LeechingStrike
+    - Meditate
     _values:
     - displayName: Slash
       tooltip: Deals {PRIMARY_DAMAGE} damage.
@@ -236,3 +237,25 @@ MonoBehaviour:
       abilityBonusLookup:
         _keys: []
         _values: []
+    - displayName: Meditate
+      tooltip: Increase power by 1 for every second charged. Lasts 10 seconds.
+      baseAbilityData:
+        primaryDamage: 0
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      abilityOrbType:
+        hasValue: 1
+        value: 1
+      generatedOrbs: 
+      abilityBonusLookup:
+        _keys:
+        - Clarity
+        - GrowingRage
+        _values:
+        - displayName: Clarity
+          tooltip: Slow all enemies by 50% while charging.
+          requiredOrbs: 020000000200000001000000
+        - displayName: Growing Rage
+          tooltip: Increase power by 2 for every second charged instead.
+          requiredOrbs: 000000000000000000000000
