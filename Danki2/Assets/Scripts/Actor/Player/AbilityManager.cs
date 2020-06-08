@@ -43,12 +43,16 @@ public class AbilityManager
 
     private void UpdateTarget()
     {
-        // We try to get the mouse game position in scene for the AbilityContext.
-        var mouseInScene = MouseGamePositionFinder.Instance.TryGetMouseGamePosition(out Vector3 mousePosition, out Collider collider);
+        // We try to get the mouse collider position if the mouse is over a collider.
+        var mouseHitCollider = MouseGamePositionFinder.Instance.TryGetMouseGamePosition(
+            out Vector3 mousePosition,
+            out Collider collider,
+            Layers.GetLayerMask(new []{ Layers.Actors })
+        );
 
-        if (!mouseInScene)
+        if (!mouseHitCollider)
         {
-            // If the mouse is outside the scene, we use the mouse position on a horizontal plane at the players height.
+            // If the mouse has not hit a collider, we use the mouse position on a horizontal plane at the players height.
             mousePosition = MouseGamePositionFinder.Instance.GetMousePlanePosition(player.transform.position.y, true);
         }
 

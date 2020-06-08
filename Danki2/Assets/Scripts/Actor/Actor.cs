@@ -45,6 +45,11 @@ public abstract class Actor : MonoBehaviour
         Dead = false;
     }
 
+    protected virtual void Start()
+    {
+        gameObject.layer = Layers.Actors;
+    }
+
     protected virtual void Update()
     {
         if (HealthManager.Health <= 0 && !Dead)
