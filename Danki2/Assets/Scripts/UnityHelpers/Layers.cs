@@ -16,7 +16,7 @@ public static class Layers
     /// Returns a layer mask, which includes the given layers. This is an integer that, when in binary format,
     /// represents the layer mask. Each bit corresponds to a layer and is 1 iff the layer is in the mask.
     /// </summary>
-    /// <param name="layers"> They layers to include in the mask </param>
+    /// <param name="layers"> The layers to include in the mask </param>
     /// <returns></returns>
     public static int GetLayerMask(IEnumerable<int> layers)
     {
