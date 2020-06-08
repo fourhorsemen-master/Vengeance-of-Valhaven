@@ -11,5 +11,6 @@
     Smash,
     Sprint,
     Leap,
-    LeechingStrike
+    LeechingStrike,
+    Meditate
 }
