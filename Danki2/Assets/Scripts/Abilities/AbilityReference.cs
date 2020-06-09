@@ -12,5 +12,6 @@
     Sprint,
     Leap,
     LeechingStrike,
-    Meditate
+    Meditate,
+    Bash
 }

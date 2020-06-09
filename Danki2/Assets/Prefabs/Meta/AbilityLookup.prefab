@@ -58,6 +58,7 @@ MonoBehaviour:
     - Leap
     - LeechingStrike
     - Meditate
+    - Bash
     _values:
     - displayName: Slash
       tooltip: Deals {PRIMARY_DAMAGE} damage.
@@ -224,7 +225,7 @@ MonoBehaviour:
           requiredOrbs: 0000000000000000
     - displayName: Leeching Strike
       tooltip: Deals {PRIMARY_DAMAGE} damage in a cone and heals for {HEAL} +1 per
-        enemy hit
+        enemy hit.
       baseAbilityData:
         primaryDamage: 2
         secondaryDamage: 0
@@ -259,3 +260,17 @@ MonoBehaviour:
         - displayName: Growing Rage
           tooltip: Increase power by 2 for every second charged instead.
           requiredOrbs: 000000000000000000000000
+    - displayName: Bash
+      tooltip: Deal {PRIMARY_DAMAGE} to enemies in a cone, stuns for 1 second.
+      baseAbilityData:
+        primaryDamage: 3
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      abilityOrbType:
+        hasValue: 1
+        value: 0
+      generatedOrbs: 00000000
+      abilityBonusLookup:
+        _keys: []
+        _values: []
