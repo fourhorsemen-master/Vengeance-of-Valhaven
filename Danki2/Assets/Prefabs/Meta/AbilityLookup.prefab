@@ -59,6 +59,7 @@ MonoBehaviour:
     - LeechingStrike
     - Meditate
     - Bash
+    - SweepingStrike
     _values:
     - displayName: Slash
       tooltip: Deals {PRIMARY_DAMAGE} damage.
@@ -271,6 +272,21 @@ MonoBehaviour:
         hasValue: 1
         value: 0
       generatedOrbs: 00000000
+      abilityBonusLookup:
+        _keys: []
+        _values: []
+    - displayName: Sweeping Strike
+      tooltip: Deal {PRIMARY_DAMAGE} damage to enemies in a cone and knockback all
+        enemies hit.
+      baseAbilityData:
+        primaryDamage: 5
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      abilityOrbType:
+        hasValue: 1
+        value: 1
+      generatedOrbs: 
       abilityBonusLookup:
         _keys: []
         _values: []
