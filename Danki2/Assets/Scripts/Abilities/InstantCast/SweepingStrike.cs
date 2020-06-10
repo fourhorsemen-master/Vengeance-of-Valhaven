@@ -50,7 +50,7 @@ public class SweepingStrike : InstantCast
         }
     }
 
-    public void KnockBack(Actor actor)
+    private void KnockBack(Actor actor)
     {
         Vector3 knockBackDirection = actor.transform.position - Owner.transform.position;
         Vector3 knockBackFaceDirection = actor.transform.forward;
