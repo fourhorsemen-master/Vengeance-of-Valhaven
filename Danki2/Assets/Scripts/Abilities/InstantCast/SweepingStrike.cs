@@ -6,8 +6,8 @@ public class SweepingStrike : InstantCast
     private const float Range = 4f;
     private const float PauseDuration = 0.3f;
 
-    private const float knockBackDuration = 1f;
-    private const float knockBackSpeed = 10f;
+    private const float knockBackDuration = 0.5f;
+    private const float knockBackSpeed = 7f;
 
     public SweepingStrike(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
@@ -52,7 +52,7 @@ public class SweepingStrike : InstantCast
 
     public void KnockBack(Actor actor)
     {
-        Vector3 knockBackDirection = Owner.transform.position - actor.transform.position;
+        Vector3 knockBackDirection = actor.transform.position - Owner.transform.position;
         Vector3 knockBackFaceDirection = actor.transform.forward;
 
         actor.MovementManager.LockMovement(
