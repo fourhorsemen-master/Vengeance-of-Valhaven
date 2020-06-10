@@ -46,7 +46,7 @@ public class Player : Actor
 
         AbilityTree = AbilityTreeFactory.CreateTree(
             AbilityTreeFactory.CreateNode(
-                AbilityReference.Sprint,
+                AbilityReference.SweepingStrike,
                 AbilityTreeFactory.CreateNode(
                     AbilityReference.Dash,
                     AbilityTreeFactory.CreateNode(AbilityReference.Leap),
