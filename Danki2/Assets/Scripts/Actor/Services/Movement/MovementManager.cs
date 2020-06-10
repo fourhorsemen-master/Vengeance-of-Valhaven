@@ -158,8 +158,14 @@ public class MovementManager
     /// <param name="speed"></param>
     /// <param name="direction"></param>
     /// <param name="rotation">The rotation to maintain for the duration.</param>
-    public void LockMovement(float duration, float speed, Vector3 direction, Vector3 rotation)
+    public void LockMovement(float duration, float speed, Vector3 direction, Vector3 rotation, bool knockBack = false)
     {
+        if (knockBack)
+        {
+            ClearMovementStatus();
+            movementStatusManager.Transition(MovementStatus.AbleToMove);
+        } 
+
         if (!movementStatusManager.CanTransition(MovementStatus.MovementLocked)) return;
 
         movementStatusManager.Transition(MovementStatus.MovementLocked);
