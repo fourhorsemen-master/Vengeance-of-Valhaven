@@ -13,10 +13,10 @@ public class SweepingStrikeObject : StaticAbilityObject
     public static SweepingStrikeObject Create(Vector3 position, Quaternion rotation)
     {
         SweepingStrikeObject prefab = AbilityObjectPrefabLookup.Instance.SweepingStrikeObjectPrefab;
-        SweepingStrikeObject leechingStrikeObject = Instantiate(prefab, position, rotation);
-        SlashObject.Create(position, rotation, leechingStrikeObject.slashColor);
+        SweepingStrikeObject sweepingStrikeObject = Instantiate(prefab, position, rotation);
+        SlashObject.Create(position, rotation, sweepingStrikeObject.slashColor);
 
-        return leechingStrikeObject;
+        return sweepingStrikeObject;
     }
 
     public void PlayHitSound()
