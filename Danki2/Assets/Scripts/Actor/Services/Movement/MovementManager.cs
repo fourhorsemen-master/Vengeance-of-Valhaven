@@ -158,6 +158,7 @@ public class MovementManager
     /// <param name="speed"></param>
     /// <param name="direction"></param>
     /// <param name="rotation">The rotation to maintain for the duration.</param>
+    /// <param name="knockBack">True if the lock movement is being used as a knockback, allows stun and root override.</param>
     public void LockMovement(float duration, float speed, Vector3 direction, Vector3 rotation, bool knockBack = false)
     {
         if (knockBack)
