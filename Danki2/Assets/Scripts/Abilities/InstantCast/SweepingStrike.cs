@@ -38,7 +38,7 @@ public class SweepingStrike : InstantCast
 
         SuccessFeedbackSubject.Next(hasDealtDamage);
 
-        // SlashObject slashObject = SlashObject.Create(position, Quaternion.LookRotation(castDirection));
+        SweepingStrikeObject sweepingStrikeObject = SweepingStrikeObject.Create(position, Quaternion.LookRotation(castDirection));
 
         Owner.MovementManager.LookAt(target);
         Owner.MovementManager.Stun(PauseDuration);
@@ -46,7 +46,7 @@ public class SweepingStrike : InstantCast
         if (hasDealtDamage)
         {
             CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
-            // slashObject.PlayHitSound();
+            sweepingStrikeObject.PlayHitSound();
         }
     }
 
