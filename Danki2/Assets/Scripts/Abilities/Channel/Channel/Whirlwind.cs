@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-[Ability(AbilityReference.Whirlwind)]
+[Ability(AbilityReference.Whirlwind, new[]{"Cross-Step"})]
 public class Whirlwind : Channel
 {
     private const float spinRange = 2;
@@ -14,6 +14,7 @@ public class Whirlwind : Channel
     private WhirlwindObject whirlwindObject;
 
     private Guid slowEffectId;
+    private bool slowEffect = false;
 
     private Repeater repeater;
 
@@ -26,8 +27,13 @@ public class Whirlwind : Channel
     public override void Start(Vector3 target)
     {
         MultiplicativeStatModification slow = new MultiplicativeStatModification(Stat.Speed, selfSlowMultiplier);
-        slowEffectId = Owner.EffectManager.AddPassiveEffect(slow);
         repeater = new Repeater(spinDamageInterval, () => AOE(spinRange, a => DealPrimaryDamage(a)), spinDamageStartDelay);
+
+        if (!HasBonus("Cross-Step"))
+        {
+            slowEffect = true;
+            slowEffectId = Owner.EffectManager.AddPassiveEffect(slow);
+        }
 
         whirlwindObject = WhirlwindObject.Create(Owner.transform);
     }
@@ -41,7 +47,8 @@ public class Whirlwind : Channel
     {
         if (!hasHitActor) SuccessFeedbackSubject.Next(false);
 
-        Owner.EffectManager.RemovePassiveEffect(slowEffectId);
+        if(slowEffect) Owner.EffectManager.RemovePassiveEffect(slowEffectId);
+
         whirlwindObject.DestroyWhirlwind();
     }
 
@@ -51,7 +58,8 @@ public class Whirlwind : Channel
 
         if (!hasHitActor) SuccessFeedbackSubject.Next(false);
 
-        Owner.EffectManager.RemovePassiveEffect(slowEffectId);
+        if(slowEffect) Owner.EffectManager.RemovePassiveEffect(slowEffectId);
+
         whirlwindObject.DestroyWhirlwind();
     }
 
