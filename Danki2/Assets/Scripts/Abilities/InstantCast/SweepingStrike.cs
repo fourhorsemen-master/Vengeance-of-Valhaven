@@ -59,8 +59,7 @@ public class SweepingStrike : InstantCast
             knockBackDuration,
             knockBackSpeed,
             knockBackDirection,
-            knockBackFaceDirection,
-            true
+            knockBackFaceDirection
             );
     }
 }
