@@ -13,5 +13,6 @@
     Leap,
     LeechingStrike,
     Meditate,
-    Bash
+    Bash,
+    SweepingStrike
 }
