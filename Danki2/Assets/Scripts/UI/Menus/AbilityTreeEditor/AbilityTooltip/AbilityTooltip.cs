@@ -103,8 +103,6 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
 
     private string GenerateDescription(List<TooltipSegment> segments, AbilityReference ability)
     {
-        bool hasOrbType = AbilityLookup.Instance.TryGetAbilityOrbType(ability, out OrbType abilityOrbType);
-
         string description = "";
 
         foreach (TooltipSegment segment in segments)
@@ -112,23 +110,16 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
             switch (segment.Type)
             {
                 case TooltipSegmentType.Text:
-                case TooltipSegmentType.BaseNumericValue:
+                case TooltipSegmentType.UnaffectedNumericValue:
                     description += segment.Value;
                     break;
 
-                case TooltipSegmentType.BonusNumericValue:
-                    if (!hasOrbType)
-                    {
-                        Debug.LogError("Bonus segment encountered on tooltip for ability without orb type.");
-                        description += segment.Value;
-                        break;
-                    }
-
-                    string bonus = $"+{segment.Value}";
-                    Color colour = OrbLookup.Instance.GetColour(abilityOrbType);
-                    string bonusWithColour = TextUtils.ColouredText(colour, bonus);
-
-                    description += $" ({bonusWithColour})";
+                case TooltipSegmentType.BuffedNumericValue:
+                    description += $" {TextUtils.ColouredText(Color.green, segment.Value)}";
+                    break;
+                
+                case TooltipSegmentType.DebuffedNumericValue:
+                    description += $" {TextUtils.ColouredText(Color.red, segment.Value)}";
                     break;
             }
         }

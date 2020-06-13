@@ -8,61 +8,48 @@ public static class PlayerListTooltipBuilder
     {
         List<TemplatedTooltipSegment> templatedTooltipSegments = AbilityLookup.Instance.GetTemplatedTooltipSegments(ability);
 
-        bool hasOrbType = AbilityLookup.Instance.TryGetAbilityOrbType(ability, out _);
-
         return templatedTooltipSegments
-            .SelectMany(templatedTooltipSegment => GetTooltipSegments(
+            .Select(templatedTooltipSegment => GetTooltipSegment(
                 templatedTooltipSegment,
-                AbilityLookup.Instance.GetBaseAbilityData(ability),
-                hasOrbType
+                AbilityLookup.Instance.GetBaseAbilityData(ability)
             ))
             .ToList();
     }
 
-    private static List<TooltipSegment> GetTooltipSegments(
+    private static TooltipSegment GetTooltipSegment(
         TemplatedTooltipSegment templatedTooltipSegment,
-        AbilityData baseAbilityData,
-        bool hasOrbType
+        AbilityData baseAbilityData
     )
     {
         switch (templatedTooltipSegment.Type)
         {
             case TemplatedTooltipSegmentType.Text:
-                return GetTextSegments(templatedTooltipSegment);
+                return GetTextSegment(templatedTooltipSegment);
 
             case TemplatedTooltipSegmentType.PrimaryDamage:
-                return GetNumericTooltipSegments(baseAbilityData.PrimaryDamage, hasOrbType);
+                return GetNumericTooltipSegment(baseAbilityData.PrimaryDamage);
 
             case TemplatedTooltipSegmentType.SecondaryDamage:
-                return GetNumericTooltipSegments(baseAbilityData.SecondaryDamage, hasOrbType);
+                return GetNumericTooltipSegment(baseAbilityData.SecondaryDamage);
 
             case TemplatedTooltipSegmentType.Heal:
-                return GetNumericTooltipSegments(baseAbilityData.Heal, hasOrbType);
+                return GetNumericTooltipSegment(baseAbilityData.Heal);
 
             case TemplatedTooltipSegmentType.Shield:
-                return GetNumericTooltipSegments(baseAbilityData.Shield, hasOrbType);
+                return GetNumericTooltipSegment(baseAbilityData.Shield);
 
             default:
                 throw new ArgumentOutOfRangeException();
         }
     }
 
-    private static List<TooltipSegment> GetTextSegments(TemplatedTooltipSegment templatedTooltipSegment)
+    private static TooltipSegment GetTextSegment(TemplatedTooltipSegment templatedTooltipSegment)
     {
-        return ListUtils.Singleton(new TooltipSegment(TooltipSegmentType.Text, templatedTooltipSegment.Value));
+        return new TooltipSegment(TooltipSegmentType.Text, templatedTooltipSegment.Value);
     }
 
-    private static List<TooltipSegment> GetNumericTooltipSegments(int baseNumericValue, bool hasOrbType)
+    private static TooltipSegment GetNumericTooltipSegment(int baseNumericValue)
     {
-        List<TooltipSegment> tooltipSegments = ListUtils.Singleton(
-            new TooltipSegment(TooltipSegmentType.BaseNumericValue, baseNumericValue.ToString())
-        );
-
-        if (hasOrbType)
-        {
-            tooltipSegments.Add(new TooltipSegment(TooltipSegmentType.BonusNumericValue, "1/orb"));
-        }
-
-        return tooltipSegments;
+        return new TooltipSegment(TooltipSegmentType.UnaffectedNumericValue, baseNumericValue.ToString());
     }
 }
