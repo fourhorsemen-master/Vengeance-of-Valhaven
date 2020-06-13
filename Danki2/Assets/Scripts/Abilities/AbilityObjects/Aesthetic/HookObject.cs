@@ -1,18 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class HookObject : MonoBehaviour
+public class HookObject : StaticAbilityObject
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField]
+    private AudioSource hookSound = null;
 
-    // Update is called once per frame
-    void Update()
+    public override float StickTime => hookSound.clip.length;
+
+    public static void Create(Transform casterTransform)
     {
-        
+        HookObject prefab = AbilityObjectPrefabLookup.Instance.HookObjectPrefab;
+        Instantiate(prefab, casterTransform);
     }
 }

@@ -3,9 +3,10 @@
 [Ability(AbilityReference.Hook)]
 public class Hook : InstantCast
 {
-    private const float Range = 20f;
-    private const float PauseDuration = 0.3f;
+    private const float range = 10f;
+    private const float pauseDuration = 0.3f;
     private const float pullSpeed = 8f;
+    private const float pullOffset = 2f;
     private const float stunDuration = 2f;
 
     public Hook(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
@@ -21,13 +22,13 @@ public class Hook : InstantCast
     {
         float distanceToCaster = Vector3.Distance(actor.transform.position, Owner.transform.position);
 
-        if (distanceToCaster > Range)
+        if (distanceToCaster > range)
         {
             SuccessFeedbackSubject.Next(false);
             return;
         }
 
-        float pullDuration = distanceToCaster / pullSpeed;
+        float pullDuration = (distanceToCaster - pullOffset) / pullSpeed;
         Vector3 pullDirection = Owner.transform.position - actor.transform.position;
         Vector3 pullFaceDirection = actor.transform.forward;
 
@@ -44,9 +45,9 @@ public class Hook : InstantCast
         SuccessFeedbackSubject.Next(true);
 
         Owner.MovementManager.LookAt(actor.transform.position);
-        Owner.WaitAndAct(pullDuration, () => Owner.MovementManager.Stun(PauseDuration));
+        Owner.WaitAndAct(pullDuration, () => Owner.MovementManager.Stun(pauseDuration));
 
-        // HookObject hookObject = HookObject.Create();
+        HookObject.Create(Owner.transform);
 
         CustomCamera.Instance.AddShake(ShakeIntensity.Low);
     }
