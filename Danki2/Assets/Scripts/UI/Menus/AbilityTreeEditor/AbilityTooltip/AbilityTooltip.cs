@@ -17,6 +17,12 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
     [SerializeField]
     private OrbGenerationPanel abilityOrbPanel = null;
 
+    [SerializeField]
+    private Color buffedNumericColour = default;
+
+    [SerializeField]
+    private Color deBuffedNumericColour = default;
+
     private PlayerTreeTooltipBuilder playerTreeTooltipBuilder;
 
     private bool heightInitialised = false;
@@ -115,11 +121,11 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
                     break;
 
                 case TooltipSegmentType.BuffedNumericValue:
-                    description += $" {TextUtils.ColouredText(Color.green, segment.Value)}";
+                    description += $" {TextUtils.ColouredText(buffedNumericColour, segment.Value)}";
                     break;
                 
                 case TooltipSegmentType.DebuffedNumericValue:
-                    description += $" {TextUtils.ColouredText(Color.red, segment.Value)}";
+                    description += $" {TextUtils.ColouredText(deBuffedNumericColour, segment.Value)}";
                     break;
             }
         }
