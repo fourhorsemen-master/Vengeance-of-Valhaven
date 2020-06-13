@@ -1,17 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Hook : MonoBehaviour
+[Ability(AbilityReference.Hook)]
+public class Hook : InstantCast
 {
-    // Start is called before the first frame update
-    void Start()
+    private const float Range = 4f;
+    private const float PauseDuration = 0.3f;
+
+    private const float knockBackDuration = 0.5f;
+    private const float knockBackSpeed = 5f;
+
+    public Hook(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
-        
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Cast(Vector3 target)
     {
         
     }
