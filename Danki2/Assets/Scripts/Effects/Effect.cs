@@ -15,7 +15,7 @@
 
     }
 
-    public virtual int GetAdditiveStatModifier(Stat stat)
+    public virtual int GetLinearStatModifier(Stat stat)
     {
         return 0;
     }
@@ -25,7 +25,7 @@
         return 1;
     }
 
-    public virtual int GetAdditiveOutgoingDamageModifier()
+    public virtual int GetLinearOutgoingDamageModifier()
     {
         return 0;
     }
@@ -35,7 +35,7 @@
         return 1;
     }
 
-    public virtual int GetAdditiveIncomingDamageModifier()
+    public virtual int GetLinearIncomingDamageModifier()
     {
         return 0;
     }
@@ -45,7 +45,7 @@
         return 1;
     }
 
-    public virtual int GetAdditiveIncomingHealModifier()
+    public virtual int GetLinearIncomingHealModifier()
     {
         return 0;
     }

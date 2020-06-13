@@ -9,7 +9,7 @@
         this.modification = modification;
     }
 
-    public override int GetAdditiveStatModifier(Stat stat)
+    public override int GetLinearStatModifier(Stat stat)
     {
         return stat == statToModify ? modification : 0;
     }
