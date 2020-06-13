@@ -44,6 +44,9 @@ public class AbilityObjectPrefabLookup : Singleton<AbilityObjectPrefabLookup>
     [SerializeField]
     private SweepingStrikeObject _sweepingStrikeObjectPrefab = null;
 
+    [SerializeField]
+    private HookObject _hookObjectPrefab = null;
+
     public FireballObject FireballObjectPrefab => _fireballObjectPrefab;
     public DaggerObject DaggerObjectPrefab => _daggerObjectPrefab;
     public BiteObject BiteObjectPrefab => _biteObjectPrefab;
@@ -58,4 +61,5 @@ public class AbilityObjectPrefabLookup : Singleton<AbilityObjectPrefabLookup>
     public MeditateObject MeditateObjectPrefab => _meditateObjectPrefab;
     public BashObject BashObjectPrefab => _bashObjectPrefab;
     public SweepingStrikeObject SweepingStrikeObjectPrefab => _sweepingStrikeObjectPrefab;
+    public HookObject HookObjectPrefab => _hookObjectPrefab;
 }
