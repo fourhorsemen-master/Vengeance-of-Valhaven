@@ -24,7 +24,7 @@ public class PlayerTreeTooltipBuilder
         List<TemplatedTooltipSegment> templatedTooltipSegments = AbilityLookup.Instance.GetTemplatedTooltipSegments(abilityReference);
 
         return templatedTooltipSegments
-            .SelectMany(templatedTooltipSegment => GetTooltipSegments(
+            .Select(templatedTooltipSegment => GetTooltipSegment(
                 templatedTooltipSegment,
                 AbilityLookup.Instance.GetBaseAbilityData(abilityReference),
                 AbilityData.FromAbilityDataDiffers(differs, node)
@@ -32,7 +32,7 @@ public class PlayerTreeTooltipBuilder
             .ToList();
     }
 
-    private List<TooltipSegment> GetTooltipSegments(
+    private TooltipSegment GetTooltipSegment(
         TemplatedTooltipSegment templatedTooltipSegment,
         AbilityData baseAbilityData,
         AbilityData abilityDataDiff
@@ -41,41 +41,42 @@ public class PlayerTreeTooltipBuilder
         switch (templatedTooltipSegment.Type)
         {
             case TemplatedTooltipSegmentType.Text:
-                return GetTextSegments(templatedTooltipSegment);
+                return GetTextSegment(templatedTooltipSegment);
 
             case TemplatedTooltipSegmentType.PrimaryDamage:
-                return GetNumericTooltipSegments(baseAbilityData.PrimaryDamage, abilityDataDiff.PrimaryDamage);
+                return GetNumericTooltipSegment(baseAbilityData.PrimaryDamage, abilityDataDiff.PrimaryDamage);
 
             case TemplatedTooltipSegmentType.SecondaryDamage:
-                return GetNumericTooltipSegments(baseAbilityData.SecondaryDamage, abilityDataDiff.SecondaryDamage);
+                return GetNumericTooltipSegment(baseAbilityData.SecondaryDamage, abilityDataDiff.SecondaryDamage);
 
             case TemplatedTooltipSegmentType.Heal:
-                return GetNumericTooltipSegments(baseAbilityData.Heal, abilityDataDiff.Heal);
+                return GetNumericTooltipSegment(baseAbilityData.Heal, abilityDataDiff.Heal);
 
             case TemplatedTooltipSegmentType.Shield:
-                return GetNumericTooltipSegments(baseAbilityData.Shield, abilityDataDiff.Shield);
+                return GetNumericTooltipSegment(baseAbilityData.Shield, abilityDataDiff.Shield);
 
             default:
                 throw new ArgumentOutOfRangeException();
         }
     }
 
-    private List<TooltipSegment> GetTextSegments(TemplatedTooltipSegment templatedTooltipSegment)
+    private TooltipSegment GetTextSegment(TemplatedTooltipSegment templatedTooltipSegment)
     {
-        return ListUtils.Singleton(new TooltipSegment(TooltipSegmentType.Text, templatedTooltipSegment.Value));
+        return new TooltipSegment(TooltipSegmentType.Text, templatedTooltipSegment.Value);
     }
 
-    private List<TooltipSegment> GetNumericTooltipSegments(
+    private TooltipSegment GetNumericTooltipSegment(
         int baseNumericValue,
         int bonusNumericValue
     )
     {
-        List<TooltipSegment> tooltipSegments = ListUtils.Singleton(
-            new TooltipSegment(TooltipSegmentType.BaseNumericValue, baseNumericValue.ToString())
+        TooltipSegmentType tooltipSegmentType = TooltipSegmentType.UnaffectedNumericValue;
+        if (bonusNumericValue > 0) tooltipSegmentType = TooltipSegmentType.BuffedNumericValue;
+        if (bonusNumericValue < 0) tooltipSegmentType = TooltipSegmentType.DebuffedNumericValue;
+
+        return new TooltipSegment(
+            tooltipSegmentType,
+            (baseNumericValue + bonusNumericValue).ToString()
         );
-
-        if (bonusNumericValue > 0) tooltipSegments.Add(new TooltipSegment(TooltipSegmentType.BonusNumericValue, bonusNumericValue.ToString()));
-
-        return tooltipSegments;
     }
 }
