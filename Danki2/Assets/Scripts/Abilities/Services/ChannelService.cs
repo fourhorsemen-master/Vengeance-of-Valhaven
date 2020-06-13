@@ -15,7 +15,9 @@ public class ChannelService : AbilityService
 
     public ChannelService(Actor actor, Subject lateUpdateSubject, InterruptionManager interruptionManager) : base(actor)
     {
-        interruptionManager.Register(InterruptionType.Soft, () => CancelChannel());
+        interruptionManager.Register(InterruptionType.Soft, CancelChannel);
+
+        actor.DeathSubject.Subscribe(CancelChannel);
 
         lateUpdateSubject.Subscribe(() =>
         {
