@@ -72,11 +72,11 @@ public class AbilityTreeDisplay : MonoBehaviour
         else if (!node.HasChild(Direction.Right))
         {
             section = CalculateIndices(node.GetChild(Direction.Left), depth + 1) + 0.5f;
-            numTreeVerticalSections += 0.25f;
+            numTreeVerticalSections += 0.5f;
         }
         else if (!node.HasChild(Direction.Left))
         {
-            numTreeVerticalSections += 0.25f;
+            numTreeVerticalSections += 0.5f;
             section = CalculateIndices(node.GetChild(Direction.Right), depth + 1) - 0.5f;
         }
         else // Node has 2 children
