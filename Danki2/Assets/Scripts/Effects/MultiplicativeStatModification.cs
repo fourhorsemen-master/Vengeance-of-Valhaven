@@ -9,8 +9,8 @@
         this.modification = modification;
     }
 
-    public override float ProcessStat(Stat stat, float value)
+    public override float GetMultiplicativeStatModifier(Stat stat)
     {
-        return stat == statToModify ? value * modification : value;
+        return stat == statToModify ? modification : 1;
     }
 }
