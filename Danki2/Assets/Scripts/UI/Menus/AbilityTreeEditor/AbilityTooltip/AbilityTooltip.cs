@@ -121,11 +121,11 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
                     break;
 
                 case TooltipSegmentType.BuffedNumericValue:
-                    description += $" {TextUtils.ColouredText(buffedNumericColour, segment.Value)}";
+                    description += $"{TextUtils.ColouredText(buffedNumericColour, segment.Value)}";
                     break;
                 
                 case TooltipSegmentType.DebuffedNumericValue:
-                    description += $" {TextUtils.ColouredText(deBuffedNumericColour, segment.Value)}";
+                    description += $"{TextUtils.ColouredText(deBuffedNumericColour, segment.Value)}";
                     break;
             }
         }
