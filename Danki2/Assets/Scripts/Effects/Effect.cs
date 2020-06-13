@@ -15,23 +15,43 @@
 
     }
 
-    public virtual float ProcessStat(Stat stat, float value)
+    public virtual int GetAdditiveStatModifier(Stat stat)
     {
-        return value;
+        return 0;
     }
 
-    public virtual int ProcessOutgoingDamage(int damage)
+    public virtual float GetMultiplicativeStatModifier(Stat stat)
     {
-        return damage;
+        return 1;
     }
 
-    public virtual int ProcessIncomingDamage(int damage)
+    public virtual int GetAdditiveOutgoingDamageModifier()
     {
-        return damage;
+        return 0;
     }
 
-    public virtual int ProcessIncomingHeal(int healing)
+    public virtual float GetMultiplicativeOutgoingDamageModifier()
     {
-        return healing;
+        return 1;
+    }
+
+    public virtual int GetAdditiveIncomingDamageModifier()
+    {
+        return 0;
+    }
+    
+    public virtual float GetMultiplicativeIncomingDamageModifier()
+    {
+        return 1;
+    }
+
+    public virtual int GetAdditiveIncomingHealModifier()
+    {
+        return 0;
+    }
+    
+    public virtual float GetMultiplicativeIncomingHealModifier()
+    {
+        return 1;
     }
 }
