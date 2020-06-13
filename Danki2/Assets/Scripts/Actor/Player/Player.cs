@@ -59,6 +59,7 @@ public class Player : Actor
                 AbilityTreeFactory.CreateNode(AbilityReference.DaggerThrow),
                 AbilityTreeFactory.CreateNode(
                     AbilityReference.Whirlwind,
+                    null,
                     AbilityTreeFactory.CreateNode(AbilityReference.LeechingStrike)
                 )
             )
