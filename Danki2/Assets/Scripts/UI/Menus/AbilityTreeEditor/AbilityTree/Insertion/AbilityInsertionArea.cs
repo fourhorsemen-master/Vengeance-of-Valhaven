@@ -14,6 +14,11 @@ public class AbilityInsertionArea : MonoBehaviour, IDropHandler, IPointerEnterHa
         MouseUpSubject.Next();
     }
 
+    public void OnDisable()
+    {
+        icon.SetOpacity(0.4f);
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         icon.SetOpacity(1f);

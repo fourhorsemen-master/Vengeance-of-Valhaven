@@ -2,7 +2,7 @@
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class AbilityListingPanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class AbilityListingPanel : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField]
     private Image iconPanelImage = null;
@@ -20,6 +20,8 @@ public class AbilityListingPanel : MonoBehaviour, IPointerEnterHandler, IPointer
 
     public void OnPointerEnter(PointerEventData _)
     {
+        if (AbilityTreeEditorMenu.Instance.DraggingAbility) return;
+
         AbilityTooltip.Instance.Activate();
         AbilityTooltip.Instance.UpdateTooltip(ability);
         SetHighlighted(true);
@@ -29,6 +31,20 @@ public class AbilityListingPanel : MonoBehaviour, IPointerEnterHandler, IPointer
     {
         AbilityTooltip.Instance.Deactivate();
         SetHighlighted(false);
+    }
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        AbilityTreeEditorMenu.Instance.AbilityDragStartSubject.Next();
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        AbilityTreeEditorMenu.Instance.AbilityDragStopSubject.Next();
     }
 
     public void Initialise(AbilityReference ability, int quantity)

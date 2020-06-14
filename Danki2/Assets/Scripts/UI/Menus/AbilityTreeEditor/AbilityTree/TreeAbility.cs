@@ -31,25 +31,30 @@ public class TreeAbility : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     private AbilityInsertListener abilityInsertListener = null;
 
     private Node node;
+    private Subscription dragStartSubscription;
+    private Subscription dragStopSubscription;
 
     private void Start()
     {
         abilityInsertListener.SetInsertableAreas(node);
 
+        dragStartSubscription = AbilityTreeEditorMenu.Instance.AbilityDragStartSubject.Subscribe(() => abilityInsertListener.gameObject.SetActive(true));
+        dragStopSubscription = AbilityTreeEditorMenu.Instance.AbilityDragStopSubject.Subscribe(() => abilityInsertListener.gameObject.SetActive(false));
+
         abilityInsertListener.AbilityInsertSubject.Subscribe(location =>
         {
             Debug.Log(location.ToString());
+        });
+    }
 
-            if (AbilityTreeEditorMenu.Instance.DraggingAbility)
-                {
-                    // Set the ability.
-                }
-            }
-        );
+    private void OnDisable()
+    {
+        dragStartSubscription?.Unsubscribe();
+        dragStopSubscription?.Unsubscribe();
     }
 
     public void OnPointerEnter(PointerEventData _) {
-        if (node.IsRootNode) return;
+        if (node.IsRootNode || AbilityTreeEditorMenu.Instance.DraggingAbility) return;
 
         AbilityTooltip.Instance.Activate();
         AbilityTooltip.Instance.UpdateTooltip(node);
