@@ -1,4 +1,4 @@
-﻿public enum InsertLocation
+﻿public enum InsertArea
 {
     TopLeft,
     TopRight,

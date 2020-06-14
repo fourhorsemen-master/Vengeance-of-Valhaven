@@ -34,6 +34,8 @@ public class TreeAbility : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     private void Start()
     {
+        abilityInsertListener.SetInsertableAreas(node);
+
         abilityInsertListener.AbilityInsertSubject.Subscribe(location =>
         {
             Debug.Log(location.ToString());
