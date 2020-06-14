@@ -27,7 +27,24 @@ public class TreeAbility : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     [SerializeField]
     private UILineRenderer rightChildLineRenderer = null;
 
+    [SerializeField]
+    private AbilityInsertListener abilityInsertListener = null;
+
     private Node node;
+
+    private void Start()
+    {
+        abilityInsertListener.AbilityInsertSubject.Subscribe(location =>
+        {
+            Debug.Log(location.ToString());
+
+            if (AbilityTreeEditorMenu.Instance.DraggingAbility)
+                {
+                    // Set the ability.
+                }
+            }
+        );
+    }
 
     public void OnPointerEnter(PointerEventData _) {
         if (node.IsRootNode) return;

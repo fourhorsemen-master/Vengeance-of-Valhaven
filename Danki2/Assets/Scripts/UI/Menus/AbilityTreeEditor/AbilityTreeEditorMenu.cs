@@ -1,5 +1,7 @@
 ﻿public class AbilityTreeEditorMenu : Singleton<AbilityTreeEditorMenu>
 {
+    public bool DraggingAbility = false;
+
     private void Start()
     {
         GameStateController.Instance.GameStateTransitionSubject.Subscribe(gameState =>
