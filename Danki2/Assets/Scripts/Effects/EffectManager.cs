@@ -71,26 +71,33 @@ public class EffectManager : StatPipe
 
     public float ProcessStat(Stat stat, float value)
     {
-        ForEachEffect(e => value = e.ProcessStat(stat, value));
+        ForEachEffect(e => value += e.GetLinearStatModifier(stat));
+        ForEachEffect(e => value *= e.GetMultiplicativeStatModifier(stat));
         return value;
     }
 
     public int ProcessOutgoingDamage(int damage)
     {
-        ForEachEffect(e => damage = e.ProcessOutgoingDamage(damage));
-        return damage;
+        float floatDamage = damage;
+        ForEachEffect(e => floatDamage += e.GetLinearOutgoingDamageModifier());
+        ForEachEffect(e => floatDamage *= e.GetMultiplicativeOutgoingDamageModifier());
+        return Mathf.RoundToInt(floatDamage);
     }
 
     public int ProcessIncomingDamage(int damage)
     {
-        ForEachEffect(e => damage = e.ProcessIncomingDamage(damage));
-        return damage;
+        float floatDamage = damage;
+        ForEachEffect(e => floatDamage += e.GetLinearIncomingDamageModifier());
+        ForEachEffect(e => floatDamage *= e.GetMultiplicativeIncomingDamageModifier());
+        return Mathf.RoundToInt(floatDamage);
     }
 
     public int ProcessIncomingHeal(int healing)
     {
-        ForEachEffect(e => healing = e.ProcessIncomingHeal(healing));
-        return healing;
+        float floatHealing = healing;
+        ForEachEffect(e => floatHealing += e.GetLinearIncomingHealModifier());
+        ForEachEffect(e => floatHealing *= e.GetMultiplicativeIncomingHealModifier());
+        return Mathf.RoundToInt(floatHealing);
     }
 
     private void TickActiveEffects()
