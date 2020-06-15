@@ -4,28 +4,22 @@ using NUnit.Framework;
 public class ListUtilsTest
 {
     [Test]
-    public void ExampleTest()
+    public void TestSingletonContainsOneItem()
     {
-        Assert.True(1 > 0);
+        ExampleClass exampleClass = new ExampleClass();
+        List<ExampleClass> singletonList = ListUtils.Singleton(exampleClass);
+    
+        Assert.AreEqual(1, singletonList.Count);
     }
-
-    // [Test]
-    // public void TestSingletonContainsOneItem()
-    // {
-    //     ExampleClass exampleClass = new ExampleClass();
-    //     List<ExampleClass> singletonList = ListUtils.Singleton(exampleClass);
-    //
-    //     Assert.AreEqual(1, singletonList.Count);
-    // }
-    //
-    // [Test]
-    // public void TestSingletonContainsGivenItem()
-    // {
-    //     ExampleClass exampleClass = new ExampleClass();
-    //     List<ExampleClass> singletonList = ListUtils.Singleton(exampleClass);
-    //
-    //     Assert.AreEqual(exampleClass, singletonList[0]);
-    // }
-    //
-    // private class ExampleClass {}
+    
+    [Test]
+    public void TestSingletonContainsGivenItem()
+    {
+        ExampleClass exampleClass = new ExampleClass();
+        List<ExampleClass> singletonList = ListUtils.Singleton(exampleClass);
+    
+        Assert.AreEqual(exampleClass, singletonList[0]);
+    }
+    
+    private class ExampleClass {}
 }
