@@ -5,7 +5,7 @@ using UnityEngine;
 public class ModularPFXComponent : MonoBehaviour
 {
     [SerializeField]
-    private GameObject _graphic;
+    private MPFXSettings _settings;
 
     [SerializeField]
     private MPFXBehaviour[] _behaviours;
@@ -21,9 +21,10 @@ public class ModularPFXComponent : MonoBehaviour
 
     public void BeginPFX()
     {
-        if (!_graphic) return;
+        if (!_settings.effectObject) return;
 
-        _spawnedGraphic = Instantiate(_graphic, transform);
+        _spawnedGraphic = Instantiate(_settings.effectObject, transform);
+        SetEffectColour();
 
         if (isPlaying) return;
 
@@ -67,5 +68,18 @@ public class ModularPFXComponent : MonoBehaviour
         isPlaying = false;
         Destroy(_spawnedGraphic);
         StopCoroutine("UpdatePFX");
+    }
+
+    private void SetEffectColour()
+    {
+        MeshRenderer[] meshes = GetComponentsInChildren<MeshRenderer>();
+
+        foreach(MeshRenderer mesh in meshes)
+        {
+            mesh.material.SetColor("_BaseColor", _settings.effectColor);
+            mesh.material.SetColor("_EmissiveColorLDR", _settings.effectEmissive);
+            mesh.material.SetFloat("UseEmissiveIntensity", 1f);
+            mesh.material.SetFloat("_EmissiveIntensity", _settings.effectEmissive.a / 255f); //Remap value to suit this setting
+        }
     }
 }

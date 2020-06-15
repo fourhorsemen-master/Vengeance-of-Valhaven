@@ -43,7 +43,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4d8ecee363ab984eab323217dbf5a71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _graphic: {fileID: 1958704838030240310, guid: bf53c3c4393427d43a8e79e3b395fac7,
-    type: 3}
+  _settings:
+    effectObject: {fileID: 8669456010736171666, guid: 9e547c4aa096762438030b714ea9c346,
+      type: 3}
+    effectColor: {r: 0, g: 0.3245139, b: 1, a: 1}
+    effectEmissive: {r: 0, g: 1, b: 0.99999976, a: 0.078431375}
   _behaviours:
-  - {fileID: 11400000, guid: f79717c1501280f41a603dec27059ee6, type: 2}
+  - {fileID: 11400000, guid: 50bd7a4209c663c4588568113a50b78c, type: 2}
