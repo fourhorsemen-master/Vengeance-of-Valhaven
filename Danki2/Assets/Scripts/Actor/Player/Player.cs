@@ -35,14 +35,18 @@ public class Player : Actor
         base.Awake();
 
         AbilityInventory = new EnumDictionary<AbilityReference, int>(0);
-        AbilityInventory[AbilityReference.Bite] = 1;
-        AbilityInventory[AbilityReference.Pounce] = 2;
+        AbilityInventory[AbilityReference.Bash] = 3;
+        AbilityInventory[AbilityReference.DaggerThrow] = 3;
+        AbilityInventory[AbilityReference.Dash] = 3;
+        AbilityInventory[AbilityReference.Leap] = 3;
+        AbilityInventory[AbilityReference.LeechingStrike] = 3;
+        AbilityInventory[AbilityReference.Lunge] = 3;
         AbilityInventory[AbilityReference.Slash] = 3;
-        AbilityInventory[AbilityReference.Dash] = 4;
-        AbilityInventory[AbilityReference.DaggerThrow] = 5;
-        AbilityInventory[AbilityReference.Lunge] = 6;
-        AbilityInventory[AbilityReference.Smash] = 7;
-        AbilityInventory[AbilityReference.Whirlwind] = 9;
+        AbilityInventory[AbilityReference.Smash] = 3;
+        AbilityInventory[AbilityReference.SweepingStrike] = 3;
+        AbilityInventory[AbilityReference.Sprint] = 3;
+        AbilityInventory[AbilityReference.Whirlwind] = 3;
+        AbilityInventory[AbilityReference.Meditate] = 3;
 
         AbilityTree = AbilityTreeFactory.CreateTree(
             AbilityTreeFactory.CreateNode(AbilityReference.SweepingStrike),
