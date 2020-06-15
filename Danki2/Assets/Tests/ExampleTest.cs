@@ -5,6 +5,6 @@ public class ExampleTest
     [Test]
     public void ExampleTestSimplePasses()
     {
-        Assert.True(1 > 0);
+        Assert.False(1 > 0);
     }
 }
