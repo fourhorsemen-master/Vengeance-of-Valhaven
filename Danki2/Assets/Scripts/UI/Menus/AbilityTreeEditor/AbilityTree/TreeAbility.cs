@@ -31,19 +31,22 @@ public class TreeAbility : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     private AbilityInsertListener abilityInsertListener = null;
 
     private Node node;
-    private Subscription dragStartSubscription;
-    private Subscription dragStopSubscription;
+    private Subscription<AbilityReference> dragStartSubscription;
+    private Subscription<AbilityReference> dragStopSubscription;
 
     private void Start()
     {
         abilityInsertListener.SetInsertableAreas(node);
 
-        dragStartSubscription = AbilityTreeEditorMenu.Instance.AbilityDragStartSubject.Subscribe(() => abilityInsertListener.gameObject.SetActive(true));
-        dragStopSubscription = AbilityTreeEditorMenu.Instance.AbilityDragStopSubject.Subscribe(() => abilityInsertListener.gameObject.SetActive(false));
+        dragStartSubscription = AbilityTreeEditorMenu.Instance.AbilityDragStartSubject
+            .Subscribe(ability => abilityInsertListener.gameObject.SetActive(true));
+
+        dragStopSubscription = AbilityTreeEditorMenu.Instance.AbilityDragStopSubject
+            .Subscribe(ability => abilityInsertListener.gameObject.SetActive(false));
 
         abilityInsertListener.AbilityInsertSubject.Subscribe(location =>
         {
-            Debug.Log(location.ToString());
+            RoomManager.Instance.Player.InsertAbilityIntoTree(AbilityTreeEditorMenu.Instance.AbilityDragging, node, location);
         });
     }
 
@@ -54,7 +57,7 @@ public class TreeAbility : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     }
 
     public void OnPointerEnter(PointerEventData _) {
-        if (node.IsRootNode || AbilityTreeEditorMenu.Instance.DraggingAbility) return;
+        if (node.IsRootNode || AbilityTreeEditorMenu.Instance.IsDragging) return;
 
         AbilityTooltip.Instance.Activate();
         AbilityTooltip.Instance.UpdateTooltip(node);

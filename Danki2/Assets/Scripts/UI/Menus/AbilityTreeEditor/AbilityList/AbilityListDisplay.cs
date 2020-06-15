@@ -29,6 +29,7 @@ public class AbilityListDisplay : MonoBehaviour
             {
                 AbilityListingPanel abilityListingPanel = Instantiate(abilityListingPanelPrefab, Vector3.zero, Quaternion.identity, transform);
                 abilityListingPanel.Initialise(item.Key, item.Value);
+                abilityListingPanel.DragEndSubject.Subscribe(PopulateAbilityList);
             }
         }
     }

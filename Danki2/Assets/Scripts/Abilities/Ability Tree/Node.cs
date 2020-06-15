@@ -10,7 +10,7 @@ public abstract class Node
 
     public Node Parent { get; set; }
 
-    public AbilityReference Ability { get; }
+    public AbilityReference Ability { get; private set; }
 
     protected Node()
     {
@@ -34,6 +34,11 @@ public abstract class Node
     public void SetChild(Direction direction, Node value)
     {
         _children[direction] = value;
+    }
+
+    public void SetAbility(AbilityReference ability)
+    {
+        Ability = ability;
     }
 
     public int MaxDepth()

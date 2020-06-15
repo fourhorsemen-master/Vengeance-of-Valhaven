@@ -1,4 +1,7 @@
-﻿public static class AbilityTreeFactory
+﻿using System;
+using UnityEngine;
+
+public static class AbilityTreeFactory
 {
     // Root node must have two children for ability tree to be functional.
     public static AbilityTree CreateTree(Node leftChild, Node rightChild)
@@ -21,6 +24,62 @@
     {
         parent.SetChild(direction, child);
         child.Parent = parent;
+    }
+
+    public static void InsertAbility(AbilityReference ability, Node node, InsertArea area)
+    {
+        if (node.IsRootNode)
+        {
+            Debug.LogError("Tried to insert ability relative to root node.");
+            return;
+        }
+
+        Node newNode = CreateNode(ability);
+
+        switch (area)
+        {
+            case InsertArea.Centre:
+                node.SetAbility(ability);
+                break;
+
+            case InsertArea.TopLeft:
+                if (!node.Parent.HasChild(Direction.Right))
+                {
+                    Debug.LogError("Tried to insert parent node on wrong side.");
+                }
+
+                SetParentAndChild(node.Parent, newNode, Direction.Right);
+                SetParentAndChild(newNode, node, Direction.Right);
+                break;
+
+            case InsertArea.TopRight:
+                if (!node.Parent.HasChild(Direction.Left))
+                {
+                    Debug.LogError("Tried to insert parent node on wrong side.");
+                }
+
+                SetParentAndChild(node.Parent, newNode, Direction.Left);
+                SetParentAndChild(newNode, node, Direction.Left);
+                break;
+
+            case InsertArea.BottomLeft:
+                if (node.HasChild(Direction.Left))
+                {
+                    Debug.LogError("Tried to insert child where child already exists.");
+                }
+
+                SetParentAndChild(node, newNode, Direction.Left);
+                break;
+
+            case InsertArea.BottomRight:
+                if (node.HasChild(Direction.Right))
+                {
+                    Debug.LogError("Tried to insert child where child already exists.");
+                }
+
+                SetParentAndChild(node, newNode, Direction.Right);
+                break;
+        }
     }
 
     // These private implementations of the abstract classes ensure that all instantiation

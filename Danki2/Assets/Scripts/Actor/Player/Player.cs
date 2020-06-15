@@ -45,24 +45,8 @@ public class Player : Actor
         AbilityInventory[AbilityReference.Whirlwind] = 9;
 
         AbilityTree = AbilityTreeFactory.CreateTree(
-            AbilityTreeFactory.CreateNode(
-                AbilityReference.SweepingStrike,
-                AbilityTreeFactory.CreateNode(
-                    AbilityReference.Dash,
-                    AbilityTreeFactory.CreateNode(AbilityReference.Leap),
-                    AbilityTreeFactory.CreateNode(AbilityReference.Smash)
-                ),
-                AbilityTreeFactory.CreateNode(AbilityReference.Whirlwind)
-            ),
-            AbilityTreeFactory.CreateNode(
-                AbilityReference.Lunge,
-                AbilityTreeFactory.CreateNode(AbilityReference.DaggerThrow),
-                AbilityTreeFactory.CreateNode(
-                    AbilityReference.Whirlwind,
-                    null,
-                    AbilityTreeFactory.CreateNode(AbilityReference.LeechingStrike)
-                )
-            )
+            AbilityTreeFactory.CreateNode(AbilityReference.SweepingStrike),
+            AbilityTreeFactory.CreateNode(AbilityReference.Lunge)
         );
 
         RegisterAbilityDataDiffer(new AbilityDataOrbsDiffer(AbilityTree));
@@ -82,6 +66,15 @@ public class Player : Actor
         base.Update();
 
         TickRollCooldown();
+    }
+
+    public void InsertAbilityIntoTree(AbilityReference ability, Node node, InsertArea area)
+    {
+        AbilityTreeFactory.InsertAbility(ability, node, area);
+        AbilityInventory[ability] -= 1;
+
+        AbilityTree.Reset();
+        AbilityTree.ChangeSubject.Next();
     }
 
     public void Roll(Vector3 direction)

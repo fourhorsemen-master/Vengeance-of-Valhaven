@@ -17,10 +17,13 @@ public class AbilityListingPanel : MonoBehaviour, IBeginDragHandler, IDragHandle
     private Image abilityHighlight = null;
 
     private AbilityReference ability;
+    private int quantity;
+
+    public Subject DragEndSubject { get; } = new Subject();
 
     public void OnPointerEnter(PointerEventData _)
     {
-        if (AbilityTreeEditorMenu.Instance.DraggingAbility) return;
+        if (AbilityTreeEditorMenu.Instance.IsDragging) return;
 
         AbilityTooltip.Instance.Activate();
         AbilityTooltip.Instance.UpdateTooltip(ability);
@@ -35,7 +38,9 @@ public class AbilityListingPanel : MonoBehaviour, IBeginDragHandler, IDragHandle
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        AbilityTreeEditorMenu.Instance.AbilityDragStartSubject.Next();
+        quantity -= 1;
+        UpdateQuantityText();
+        AbilityTreeEditorMenu.Instance.AbilityDragStartSubject.Next(ability);
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -44,12 +49,14 @@ public class AbilityListingPanel : MonoBehaviour, IBeginDragHandler, IDragHandle
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        AbilityTreeEditorMenu.Instance.AbilityDragStopSubject.Next();
+        DragEndSubject.Next();
+        AbilityTreeEditorMenu.Instance.AbilityDragStopSubject.Next(ability);
     }
 
     public void Initialise(AbilityReference ability, int quantity)
     {
         this.ability = ability;
+        this.quantity = quantity;
 
         SetHighlighted(false);
 
@@ -57,6 +64,11 @@ public class AbilityListingPanel : MonoBehaviour, IBeginDragHandler, IDragHandle
 
         namePanelText.text = AbilityLookup.Instance.GetAbilityDisplayName(ability);
 
+        UpdateQuantityText();
+    }
+
+    private void UpdateQuantityText()
+    {
         quantityPanelText.text = quantity.ToString();
     }
 

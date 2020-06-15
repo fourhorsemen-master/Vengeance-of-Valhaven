@@ -12,6 +12,8 @@
 
     public BehaviourSubject<int> CurrentDepthSubject { get; }
 
+    public Subject ChangeSubject { get; } = new Subject();
+
     protected AbilityTree(Node rootNode)
     {
         RootNode = rootNode;

@@ -25,7 +25,7 @@ public class AbilityTreeDisplay : MonoBehaviour
         abilityTree = player.AbilityTree;
 
         if (abilityTree != null) RecalculateDisplay();
-        // TODO: subscribe to changes in the Ability Tree to recalculate the display.
+        RoomManager.Instance.Player.AbilityTree.ChangeSubject.Subscribe(RecalculateDisplay);
     }
 
     /// <summary>
