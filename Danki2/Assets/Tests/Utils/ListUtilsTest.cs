@@ -9,7 +9,7 @@ public class ListUtilsTest
         ExampleClass exampleClass = new ExampleClass();
         List<ExampleClass> singletonList = ListUtils.Singleton(exampleClass);
     
-        Assert.AreEqual(2, singletonList.Count);
+        Assert.AreEqual(1, singletonList.Count);
     }
     
     [Test]
