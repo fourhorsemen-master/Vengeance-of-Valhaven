@@ -1,5 +1,7 @@
+# Runs the Unity tests
 name: Test
 
+# Run on pull requests to master.
 on:
   pull_request:
     branches:
@@ -23,9 +25,11 @@ jobs:
           - StandaloneWindows64
 
     steps:
+      # Checkout the repository
       - name: Checkout
         uses: actions/checkout@v2.1.0
 
+      # GitHub cache, this will speed up subsequent runs of this workflow.
       - name: Cache
         uses: actions/cache@v1.1.2
         with:
@@ -35,6 +39,8 @@ jobs:
             Library-${{ matrix.projectPath }}-
             Library-
 
+      # Run the Unity tests with all combinations of the target platforms and unity versions
+      # in the matrix defined above.
       - name: Test
         uses: webbertakken/unity-test-runner@v1.6
         with:
