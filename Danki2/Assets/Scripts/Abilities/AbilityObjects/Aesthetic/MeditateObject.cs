@@ -16,20 +16,16 @@ public class MeditateObject : MonoBehaviour
 
     private float maxDuration;
 
-    private Repeater repeater;
-
     private void Start()
     {
         meditateSound.volume = initialVolume;
-        repeater = new Repeater(heartbeatInterval, PlayHeartbeat);
+        this.ActOnInterval(heartbeatInterval, PlayHeartbeat);
     }
 
     private void Update()
     {
         // Linear function from initialVolume to finalVolume.
         meditateSound.volume += (Time.deltaTime / maxDuration) * (finalVolume - initialVolume);
-
-        repeater.Update();
     }
 
     public static MeditateObject Create(Transform casterTransform, float maxDuration)
