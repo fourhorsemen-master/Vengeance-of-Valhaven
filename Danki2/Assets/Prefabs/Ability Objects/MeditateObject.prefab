@@ -45,7 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   meditateSound: {fileID: 3993339646361799772}
-  initialVolume: 0.2
+  heartbeatInterval: 1.1
+  initialVolume: 0.3
   finalVolume: 1
 --- !u!82 &3993339646361799772
 AudioSource:
@@ -61,7 +62,7 @@ AudioSource:
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
