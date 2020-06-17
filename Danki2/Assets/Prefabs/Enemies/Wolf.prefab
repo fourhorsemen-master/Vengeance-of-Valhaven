@@ -96,7 +96,7 @@ MonoBehaviour:
   actor: {fileID: -1347520900970919038}
   serializablePlanner:
     _serializedType:
-      _serializedType: WolfPlanner, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      _serializedType: WolfPlanner, ScriptsAssembly, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
     _serializedArgs:
     - 3
@@ -115,37 +115,37 @@ MonoBehaviour:
     - Evade
     _values:
     - _serializedType:
-        _serializedType: WolfFindPlayer, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        _serializedType: WolfFindPlayer, ScriptsAssembly, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
       _serializedArgs:
       - 10
     - _serializedType:
-        _serializedType: RandomPatrol, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        _serializedType: RandomPatrol, ScriptsAssembly, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
       _serializedArgs:
       - 2
       - 3
     - _serializedType:
-        _serializedType: WolfAttack, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        _serializedType: WolfAttack, ScriptsAssembly, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
       _serializedArgs:
       - 5
       - 10
     - _serializedType:
-        _serializedType: NoOpBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        _serializedType: NoOpBehaviour, ScriptsAssembly, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
       _serializedArgs: []
     - _serializedType:
-        _serializedType: FollowTargetAtDistance, Assembly-CSharp, Version=0.0.0.0,
+        _serializedType: FollowTargetAtDistance, ScriptsAssembly, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
       _serializedArgs:
       - 2
     - _serializedType:
-        _serializedType: RetreatFromTarget, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        _serializedType: RetreatFromTarget, ScriptsAssembly, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
       _serializedArgs: []
     - _serializedType:
-        _serializedType: Circle, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        _serializedType: Circle, ScriptsAssembly, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
       _serializedArgs:
       - 6
