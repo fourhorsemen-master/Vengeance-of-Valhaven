@@ -74,6 +74,11 @@ public class Player : Actor
 
     public void InsertAbilityIntoTree(AbilityReference ability, Node node, InsertArea area)
     {
+        if (area == InsertArea.Centre)
+        {
+            AbilityInventory[node.Ability] += 1;
+        }
+
         AbilityTreeFactory.InsertAbility(ability, node, area);
         AbilityInventory[ability] -= 1;
 
