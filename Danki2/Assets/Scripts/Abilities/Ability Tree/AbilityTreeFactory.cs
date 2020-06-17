@@ -28,44 +28,24 @@ public static class AbilityTreeFactory
 
     public static void InsertAbility(AbilityReference ability, Node node, InsertArea area)
     {
-        if (node.IsRootNode)
-        {
-            Debug.LogError("Tried to insert ability relative to root node.");
-            return;
-        }
-
         Node newNode = CreateNode(ability);
 
         switch (area)
         {
             case InsertArea.Centre:
+                if (node.IsRootNode)
+                {
+                    Debug.LogError("Tried to insert ability into root node.");
+                    return;
+                }
                 node.SetAbility(ability);
-                break;
-
-            case InsertArea.TopLeft:
-                if (!node.Parent.HasChild(Direction.Right))
-                {
-                    Debug.LogError("Tried to insert parent node on wrong side.");
-                }
-
-                SetParentAndChild(node.Parent, newNode, Direction.Right);
-                SetParentAndChild(newNode, node, Direction.Right);
-                break;
-
-            case InsertArea.TopRight:
-                if (!node.Parent.HasChild(Direction.Left))
-                {
-                    Debug.LogError("Tried to insert parent node on wrong side.");
-                }
-
-                SetParentAndChild(node.Parent, newNode, Direction.Left);
-                SetParentAndChild(newNode, node, Direction.Left);
                 break;
 
             case InsertArea.BottomLeft:
                 if (node.HasChild(Direction.Left))
                 {
-                    Debug.LogError("Tried to insert child where child already exists.");
+                    Node child = node.GetChild(Direction.Left);
+                    SetParentAndChild(newNode, child, Direction.Left);
                 }
 
                 SetParentAndChild(node, newNode, Direction.Left);
@@ -74,7 +54,8 @@ public static class AbilityTreeFactory
             case InsertArea.BottomRight:
                 if (node.HasChild(Direction.Right))
                 {
-                    Debug.LogError("Tried to insert child where child already exists.");
+                    Node child = node.GetChild(Direction.Right);
+                    SetParentAndChild(newNode, child, Direction.Right);
                 }
 
                 SetParentAndChild(node, newNode, Direction.Right);

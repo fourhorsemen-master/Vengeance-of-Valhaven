@@ -3,12 +3,6 @@
 public class AbilityInsertListener : MonoBehaviour
 {
     [SerializeField]
-    private AbilityInsertionArea topLeftArrow = null;
-
-    [SerializeField]
-    private AbilityInsertionArea topRightArrow = null;
-
-    [SerializeField]
     private AbilityInsertionArea bottomRightArrow = null;
 
     [SerializeField]
@@ -21,14 +15,6 @@ public class AbilityInsertListener : MonoBehaviour
 
     private void Start()
     {
-        topLeftArrow.MouseUpSubject.Subscribe(
-            () => AbilityInsertSubject.Next(InsertArea.TopLeft)
-        );
-
-        topRightArrow.MouseUpSubject.Subscribe(
-            () => AbilityInsertSubject.Next(InsertArea.TopRight)
-        );
-
         bottomLeftArrow.MouseUpSubject.Subscribe(
             () => AbilityInsertSubject.Next(InsertArea.BottomLeft)
         );
@@ -44,22 +30,13 @@ public class AbilityInsertListener : MonoBehaviour
 
     public void SetInsertableAreas(Node node)
     {
-        if (node.IsRootNode) return;
+        bottomLeftArrow.gameObject.SetActive(true);
 
-        centralArea.gameObject.SetActive(true);
+        bottomRightArrow.gameObject.SetActive(true);
 
-        bottomLeftArrow.gameObject.SetActive(!node.HasChild(Direction.Left));
-
-        bottomRightArrow.gameObject.SetActive(!node.HasChild(Direction.Right));
-
-        if (node.Parent.HasChild(Direction.Right))
+        if (!node.IsRootNode)
         {
-            topLeftArrow.gameObject.SetActive(node.Parent.GetChild(Direction.Right) == node);
-        }
-
-        if (node.Parent.HasChild(Direction.Left))
-        {
-            topRightArrow.gameObject.SetActive(node.Parent.GetChild(Direction.Left) == node);
+            centralArea.gameObject.SetActive(true);
         }
     }
 }
