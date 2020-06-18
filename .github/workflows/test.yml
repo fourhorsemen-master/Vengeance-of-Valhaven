@@ -12,7 +12,7 @@ env:
 
 jobs:
   test:
-    name: Run Unity tests for ${{ matrix.targetPlatform }} on version ${{ matrix.unityVersion }}
+    name: Run Unity tests for ${{ matrix.testMode }} on version ${{ matrix.unityVersion }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     strategy:
@@ -21,8 +21,8 @@ jobs:
           - Danki2
         unityVersion:
           - 2019.2.0f1
-        targetPlatform:
-          - StandaloneWindows64
+        testMode:
+          - playmode
 
     steps:
       # Checkout the repository
@@ -34,9 +34,8 @@ jobs:
         uses: actions/cache@v1.1.2
         with:
           path: ${{ matrix.projectPath }}/Library
-          key: Library-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
+          key: Library-${{ matrix.projectPath }}
           restore-keys: |
-            Library-${{ matrix.projectPath }}-
             Library-
 
       # Run the Unity tests with all combinations of the target platforms and unity versions
@@ -46,3 +45,4 @@ jobs:
         with:
           projectPath: ${{ matrix.projectPath }}
           unityVersion: ${{ matrix.unityVersion }}
+          testMode: ${{ matrix.testMode }}
