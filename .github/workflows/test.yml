@@ -27,7 +27,16 @@ jobs:
     steps:
       # Checkout the repository
       - name: Checkout
-        uses: actions/checkout@v2.1.0
+        uses: actions/checkout@v2.3.1
+
+      # GitHub cache, this will speed up subsequent runs of this workflow.
+      - name: Cache
+        uses: actions/cache@v2.0.0
+        with:
+          path: ${{ matrix.projectPath }}/Library
+          key: Library-${{ matrix.projectPath }}
+          restore-keys: |
+            Library-
 
       # Run the Unity tests with all combinations of the target platforms and unity versions
       # in the matrix defined above.
