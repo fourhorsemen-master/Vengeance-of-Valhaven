@@ -76,10 +76,12 @@ public class ModularPFXComponent : MonoBehaviour
 
         foreach(MeshRenderer mesh in meshes)
         {
-            mesh.material.SetColor("_BaseColor", _settings.effectColor);
-            mesh.material.SetColor("_EmissiveColorLDR", _settings.effectEmissive);
-            mesh.material.SetFloat("UseEmissiveIntensity", 1f);
-            mesh.material.SetFloat("_EmissiveIntensity", _settings.effectEmissive.a / 255f); //Remap value to suit this setting
+            //These magic strings are awful, but are needed to workaround a bug in our verion of Unity
+            //These allow for the emissive colour to be altererd at runtime, which is broken when trying
+            //to alter these through the built in shader variables.
+            mesh.material.SetColor("Color_33632292", _settings.effectColor);
+            mesh.material.SetColor("Color_A9688267", _settings.effectEmissive);
         }
     }
 }
+ 

@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 5244261520714602669}
   - component: {fileID: 4653721286259852949}
   - component: {fileID: 3993339646361799772}
+  - component: {fileID: 1874008418656336448}
+  - component: {fileID: 3023383546349151302}
   m_Layer: 0
   m_Name: MeditateObject
   m_TagString: Untagged
@@ -143,3 +145,37 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1874008418656336448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5698298553676303943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4d8ecee363ab984eab323217dbf5a71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _settings:
+    effectObject: {fileID: 0}
+    effectColor: {r: 0, g: 0, b: 0, a: 0}
+    effectEmissive: {r: 0, g: 0, b: 0, a: 0}
+  _behaviours: []
+--- !u!114 &3023383546349151302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5698298553676303943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4d8ecee363ab984eab323217dbf5a71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _settings:
+    effectObject: {fileID: 0}
+    effectColor: {r: 0, g: 0, b: 0, a: 0}
+    effectEmissive: {r: 0, g: 0, b: 0, a: 0}
+  _behaviours: []
