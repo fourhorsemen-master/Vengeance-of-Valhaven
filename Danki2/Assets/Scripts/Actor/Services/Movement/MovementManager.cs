@@ -15,11 +15,10 @@ public class MovementManager
     private Vector3 movementLockDirection;
     private float movementLockSpeed;
 
-    private float remainingStatusDuration = 0f;
+    private MovementStatusManager movementStatusManager;
 
-    private StateManager<MovementStatus> movementStatusManager;
-    public MovementStatus MovementStatus => movementStatusManager.CurrentState;
-
+    public bool CanMove => !movementStatusManager.Stunned && !movementStatusManager.Rooted && !movementStatusManager.MovementLocked;
+    public bool CanCast => !movementStatusManager.Stunned && !movementStatusManager.MovementLocked;
     public bool IsMoving { get; private set; } = false;
     private bool movedThisFrame = false;
 
@@ -28,17 +27,7 @@ public class MovementManager
         this.actor = actor;
         this.navMeshAgent = navMeshAgent;
         updateSubject.Subscribe(UpdateMovement);
-
-        movementStatusManager = new StateManager<MovementStatus>(MovementStatus.AbleToMove, ClearMovementStatus)
-            .WithTransition(MovementStatus.AbleToMove, MovementStatus.Stunned)
-            .WithTransition(MovementStatus.AbleToMove, MovementStatus.Rooted)
-            .WithTransition(MovementStatus.AbleToMove, MovementStatus.MovementLocked)
-            .WithTransition(MovementStatus.Stunned, MovementStatus.AbleToMove)
-            .WithTransition(MovementStatus.Rooted, MovementStatus.AbleToMove)
-            .WithTransition(MovementStatus.Rooted, MovementStatus.Stunned)
-            .WithTransition(MovementStatus.MovementLocked, MovementStatus.AbleToMove)
-            .WithTransition(MovementStatus.MovementLocked, MovementStatus.Stunned)
-            .WithTransition(MovementStatus.MovementLocked, MovementStatus.Rooted);
+        movementStatusManager = new MovementStatusManager(updateSubject);
     }
 
     /// <summary>
@@ -47,7 +36,9 @@ public class MovementManager
     /// <param name="destination"></param>
     public void StartPathfinding(Vector3 destination)
     {
-        if (MovementStatus != MovementStatus.AbleToMove) return;
+        if (!CanMove) return;
+
+        navMeshAgent.isStopped = false;
 
         if (navMeshAgent.destination == destination) return;
 
@@ -81,7 +72,7 @@ public class MovementManager
     {
         StopPathfinding();
 
-        if (MovementStatus != MovementStatus.AbleToMove) return;
+        if (!CanMove) return;
 
         if (direction == Vector3.zero) return;
 
@@ -123,15 +114,9 @@ public class MovementManager
     /// <param name="duration"></param>
     public void Stun(float duration)
     {
-        if (
-            !movementStatusManager.CanTransition(MovementStatus.Stunned)
-            || (MovementStatus == MovementStatus.Stunned && duration < remainingStatusDuration)
-        ) return;
-
-        movementStatusManager.Transition(MovementStatus.Stunned);
+        movementStatusManager.Stun(duration);
         StopPathfinding();
         navMeshAgent.isStopped = true;
-        remainingStatusDuration = duration;
     }
 
     /// <summary>
@@ -140,15 +125,19 @@ public class MovementManager
     /// <param name="duration"></param>
     public void Root(float duration)
     {
-        if (
-            !movementStatusManager.CanTransition(MovementStatus.Rooted) 
-            || (MovementStatus == MovementStatus.Rooted && duration < remainingStatusDuration)
-        ) return;
-
-        movementStatusManager.Transition(MovementStatus.Rooted);
+        movementStatusManager.Root(duration);
         StopPathfinding();
         navMeshAgent.isStopped = true;
-        remainingStatusDuration = duration;
+    }
+
+    public void KnockBack(float duration, float speed, Vector3 direction, Vector3 rotation)
+    {
+        LockMovement(false, duration, speed, direction, rotation);
+    }
+
+    public void Dash(float duration, float speed, Vector3 direction, Vector3 rotation)
+    {
+        LockMovement(true, duration, speed, direction, rotation);
     }
 
     /// <summary>
@@ -158,13 +147,11 @@ public class MovementManager
     /// <param name="speed"></param>
     /// <param name="direction"></param>
     /// <param name="rotation">The rotation to maintain for the duration.</param>
-    public void LockMovement(float duration, float speed, Vector3 direction, Vector3 rotation)
+    private void LockMovement(bool selfLock, float duration, float speed, Vector3 direction, Vector3 rotation)
     {
-        if (!movementStatusManager.CanTransition(MovementStatus.MovementLocked)) return;
+        if (!movementStatusManager.LockMovement(selfLock, duration)) return;
 
-        movementStatusManager.Transition(MovementStatus.MovementLocked);
         StopPathfinding();
-        remainingStatusDuration = duration;
         movementLockSpeed = speed;
         movementLockDirection = direction.normalized;
 
@@ -183,34 +170,17 @@ public class MovementManager
 
         if (
             watching 
-            && MovementStatus != MovementStatus.Stunned 
-            && MovementStatus != MovementStatus.MovementLocked
+            && !movementStatusManager.Stunned
+            && !movementStatusManager.MovementLocked
         )
         {
             RotateTowards(watchTarget.position - actor.transform.position);
         }
 
-        if (MovementStatus == MovementStatus.MovementLocked)
+        if (movementStatusManager.MovementLocked)
         {
             navMeshAgent.Move(movementLockDirection * (Time.deltaTime * movementLockSpeed));
         }
-
-        if (MovementStatus != MovementStatus.AbleToMove)
-        {
-            remainingStatusDuration -= Time.deltaTime;
-            if (remainingStatusDuration < 0f)
-            {
-                movementStatusManager.Transition(MovementStatus.AbleToMove);
-            }
-        }
-    }
-
-    private void ClearMovementStatus()
-    {
-        remainingStatusDuration = 0f;
-        navMeshAgent.isStopped = false;
-        movementLockSpeed = 0f;
-        movementLockDirection = Vector3.zero;
     }
 
     private void ClearWatch()

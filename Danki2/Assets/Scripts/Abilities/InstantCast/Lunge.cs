@@ -24,7 +24,7 @@ public class Lunge : InstantCast
         float lungeSpeed = Owner.GetStat(Stat.Speed) * LungeSpeedMultiplier;
         float duration = Mathf.Clamp(distance/lungeSpeed, MinMovementDuration, MaxMovementDuration);
 
-        Owner.MovementManager.LockMovement(duration, lungeSpeed, direction, direction );
+        Owner.MovementManager.Dash(duration, lungeSpeed, direction, direction );
 
         LungeObject lungeObject = LungeObject.Create(position, Quaternion.LookRotation(target - position));
 

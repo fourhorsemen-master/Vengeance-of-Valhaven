@@ -88,7 +88,7 @@ public class Player : Actor
     {
         if (remainingRollCooldown <= 0)
         {
-            MovementManager.LockMovement(
+            MovementManager.Dash(
                 rollDuration,
                 GetStat(Stat.Speed) * rollSpeedMultiplier,
                 direction,
