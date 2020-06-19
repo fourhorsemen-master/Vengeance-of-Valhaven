@@ -12,6 +12,8 @@
 
     public BehaviourSubject<int> CurrentDepthSubject { get; }
 
+    public bool AtRoot => _currentDepth == 0;
+
     protected AbilityTree(Node rootNode)
     {
         RootNode = rootNode;
