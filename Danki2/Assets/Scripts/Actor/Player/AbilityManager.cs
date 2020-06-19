@@ -19,7 +19,6 @@ public class AbilityManager
     private Enemy target = null;
 
     public float RemainingCooldownProportion => remainingAbilityCooldown / abilityCooldown;
-    public float RemainingAbilityCooldown { get; private set; } = 0f;
     public CastingStatus CastingStatus { get; private set; } = CastingStatus.Ready;
     public Subject<Tuple<bool, Direction>> AbilityCompletionSubject { get; } = new Subject<Tuple<bool, Direction>>();
 
@@ -32,6 +31,13 @@ public class AbilityManager
         updateSubject.Subscribe(UpdateTarget);
         updateSubject.Subscribe(TickAbilityCooldown);
         lateUpdateSubject.Subscribe(HandleAbilities);
+        this.player.RollSubject.Subscribe(() =>
+        {
+            if (!this.player.AbilityTree.AtRoot) this.player.PlayWhiffSound();
+
+            whiffed = true;
+            player.AbilityTree.Reset();
+        });
 
         AbilityTimeoutSubscription();
     }
