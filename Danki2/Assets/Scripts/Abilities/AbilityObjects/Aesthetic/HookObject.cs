@@ -1,15 +1,15 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
-public class HookObject : StaticAbilityObject
+public class HookObject : ProjectileObject
 {
-    [SerializeField]
-    private AudioSource hookSound = null;
-
-    public override float StickTime => hookSound.clip.length;
-
-    public static void Create(Transform casterTransform)
+    public static void Fire(Actor caster, Action<GameObject> collisionCallback, float speed, Vector3 position, Quaternion rotation, float maxRange)
     {
+        float stickTime = maxRange / speed;
+
         HookObject prefab = AbilityObjectPrefabLookup.Instance.HookObjectPrefab;
-        Instantiate(prefab, casterTransform);
+        Instantiate(prefab, position, rotation)
+            .InitialiseProjectile(caster, collisionCallback, speed)
+            .DestroyAfterTime(stickTime);
     }
 }
