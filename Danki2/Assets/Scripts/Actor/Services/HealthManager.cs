@@ -12,6 +12,7 @@ public class HealthManager
     public bool IsDamaged => Health < MaxHealth;
 
     public Subject<int> DamageSubject { get; } = new Subject<int>();
+    public Subject<int> TickDamageSubject { get; } = new Subject<int>();
     public Subject<int> HealSubject { get; } = new Subject<int>();
 
     private const int MinimumDamageAfterStats = 1;
@@ -38,7 +39,8 @@ public class HealthManager
             return;
         }
 
-        Damage(damage);
+        ModifyHealth(-damage);
+        TickDamageSubject.Next(damage);
     }
 
     public void ReceiveDamage(int damage)
@@ -53,7 +55,8 @@ public class HealthManager
             return;
         }
 
-        Damage(damage);
+        ModifyHealth(-damage);
+        DamageSubject.Next(damage);
 
         actor.InterruptionManager.Interrupt(InterruptionType.Soft);
     }
@@ -70,12 +73,6 @@ public class HealthManager
 
         HealSubject.Next(healing);
         ModifyHealth(healing);
-    }
-
-    private void Damage(int damage)
-    {
-        DamageSubject.Next(damage);
-        ModifyHealth(-damage);
     }
 
     private void ModifyHealth(int healthChange)
