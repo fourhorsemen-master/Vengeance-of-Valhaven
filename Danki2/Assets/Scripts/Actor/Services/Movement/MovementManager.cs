@@ -17,8 +17,11 @@ public class MovementManager
 
     private MovementStatusManager movementStatusManager;
 
+    public bool Stunned => movementStatusManager.Stunned;
+    public bool Rooted => movementStatusManager.Rooted;
+    public bool MovementLocked => movementStatusManager.MovementLocked;
     public bool CanMove => !movementStatusManager.Stunned && !movementStatusManager.Rooted && !movementStatusManager.MovementLocked;
-    public bool CanCast => !movementStatusManager.Stunned && !movementStatusManager.MovementLocked;
+
     public bool IsMoving { get; private set; } = false;
     private bool movedThisFrame = false;
 
@@ -54,14 +57,16 @@ public class MovementManager
     /// <returns>True if started pathfinding</returns>
     public bool TryStartPathfinding(Vector3 destination, float tolerance = DestinationTolerance)
     {
-        bool canMove = NavMesh.SamplePosition(destination, out NavMeshHit hit, tolerance, NavMesh.AllAreas);
+        if (!CanMove) return false;
 
-        if (canMove)
+        bool canPathToDestination = NavMesh.SamplePosition(destination, out NavMeshHit hit, tolerance, NavMesh.AllAreas);
+
+        if (canPathToDestination)
         {
             StartPathfinding(hit.position);
         }
 
-        return canMove;
+        return canPathToDestination;
     }
 
     /// <summary>
@@ -143,13 +148,14 @@ public class MovementManager
     /// <summary>
     /// Lock movement velocity for a given duration with a fixed rotation.
     /// </summary>
+    /// <param name="selfLock"></param>
     /// <param name="duration"></param>
     /// <param name="speed"></param>
     /// <param name="direction"></param>
     /// <param name="rotation">The rotation to maintain for the duration.</param>
     private void LockMovement(bool selfLock, float duration, float speed, Vector3 direction, Vector3 rotation)
     {
-        if (!movementStatusManager.LockMovement(selfLock, duration)) return;
+        if (!movementStatusManager.TryLockMovement(selfLock, duration)) return;
 
         StopPathfinding();
         movementLockSpeed = speed;

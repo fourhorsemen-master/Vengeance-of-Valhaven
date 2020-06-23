@@ -16,7 +16,7 @@ public class InstantCastService : AbilityService
         Actor target = null
     )
     {
-        if (!actor.MovementManager.CanCast) return false;
+        if (!CanCast) return false;
 
         if (!AbilityLookup.Instance.TryGetInstantCast(
             abilityReference,

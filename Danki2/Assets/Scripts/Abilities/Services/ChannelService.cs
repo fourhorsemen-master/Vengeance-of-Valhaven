@@ -45,7 +45,7 @@ public class ChannelService : AbilityService
         Action<Subject<bool>> successFeedbackSubjectAction = null
     )
     {
-        if (!actor.MovementManager.CanCast) return false;
+        if (!CanCast) return false;
 
         if (!AbilityLookup.Instance.TryGetChannel(
             abilityReference,

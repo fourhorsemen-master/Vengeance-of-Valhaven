@@ -28,12 +28,12 @@ public class MovementStatusManager
 	/// <summary>
 	/// Return true if the movement lock is applied.
 	/// </summary>
-	/// <param name="selfLock"></param>
+	/// <param name="overrideLock"></param>
 	/// <param name="duration"></param>
 	/// <returns></returns>
-	public bool LockMovement(bool selfLock, float duration)
+	public bool TryLockMovement(bool overrideLock, float duration)
 	{
-		if (selfLock && (Stunned || Rooted || MovementLocked)) return false;
+		if (overrideLock && (Stunned || Rooted || MovementLocked)) return false;
 
 		remainingDurations[MovementStatus.MovementLocked] = duration;
 		return true;
@@ -43,8 +43,7 @@ public class MovementStatusManager
 	{
 		remainingDurations.ForEachKey(k =>
 		{
-			float duration = remainingDurations[k];
-			remainingDurations[k] = Mathf.Max(duration - Time.deltaTime, 0);
+			remainingDurations[k] = Mathf.Max(remainingDurations[k] - Time.deltaTime, 0);
 		});
 	}
 }
