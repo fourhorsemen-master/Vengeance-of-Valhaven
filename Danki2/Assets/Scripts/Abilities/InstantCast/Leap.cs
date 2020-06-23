@@ -24,7 +24,8 @@ public class Leap : InstantCast
         float leapSpeed = Owner.GetStat(Stat.Speed) * LeapSpeedMultiplier;
         float duration = Mathf.Clamp(distance / leapSpeed, MinMovementDuration, MaxMovementDuration);
 
-        Owner.MovementManager.Dash(duration, leapSpeed, direction, direction);
+
+        Owner.MovementManager.TryLockMovement(MovementLockType.Dash, duration, leapSpeed, direction, direction);
 
         LeapObject.Create(Owner.transform);
 

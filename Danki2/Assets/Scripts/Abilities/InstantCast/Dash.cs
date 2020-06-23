@@ -16,7 +16,8 @@ public class Dash : InstantCast
         target.y = position.y;
         Vector3 direction = target - position;
 
-        Owner.MovementManager.Dash(
+        Owner.MovementManager.TryLockMovement(
+            MovementLockType.Dash,
             DashDuration,
             Owner.GetStat(Stat.Speed) * DashSpeedMultiplier,
             direction,

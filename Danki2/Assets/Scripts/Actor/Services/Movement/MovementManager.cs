@@ -135,27 +135,37 @@ public class MovementManager
         navMeshAgent.isStopped = true;
     }
 
-    public void KnockBack(float duration, float speed, Vector3 direction, Vector3 rotation)
+    public bool TryLockMovement(MovementLockType type, float duration, float speed, Vector3 direction, Vector3 rotation)
     {
-        LockMovement(false, duration, speed, direction, rotation);
-    }
+        bool overrideLock = false;
 
-    public void Dash(float duration, float speed, Vector3 direction, Vector3 rotation)
-    {
-        LockMovement(true, duration, speed, direction, rotation);
+        // We override existing locks if the incoming lock is from an external source.
+        switch (type)
+        {
+            case MovementLockType.Dash:
+                overrideLock = false;
+                break;
+
+            case MovementLockType.Pull:
+            case MovementLockType.Knockback:
+                overrideLock = true;
+                break;
+        }
+
+        return TryLockMovement(overrideLock, duration, speed, direction, rotation);
     }
 
     /// <summary>
     /// Lock movement velocity for a given duration with a fixed rotation.
     /// </summary>
-    /// <param name="selfLock"></param>
+    /// <param name="overrideLock"></param>
     /// <param name="duration"></param>
     /// <param name="speed"></param>
     /// <param name="direction"></param>
     /// <param name="rotation">The rotation to maintain for the duration.</param>
-    private void LockMovement(bool selfLock, float duration, float speed, Vector3 direction, Vector3 rotation)
+    private bool TryLockMovement(bool overrideLock, float duration, float speed, Vector3 direction, Vector3 rotation)
     {
-        if (!movementStatusManager.TryLockMovement(selfLock, duration)) return;
+        if (!movementStatusManager.TryLockMovement(overrideLock, duration)) return false;
 
         StopPathfinding();
         movementLockSpeed = speed;
@@ -165,6 +175,8 @@ public class MovementManager
         {
             actor.transform.rotation = Quaternion.LookRotation(rotation);
         }
+
+        return true;
     }
 
     private void UpdateMovement()

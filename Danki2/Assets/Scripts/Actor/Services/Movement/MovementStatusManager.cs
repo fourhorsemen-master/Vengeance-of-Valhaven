@@ -33,7 +33,7 @@ public class MovementStatusManager
 	/// <returns></returns>
 	public bool TryLockMovement(bool overrideLock, float duration)
 	{
-		if (overrideLock && (Stunned || Rooted || MovementLocked)) return false;
+		if (!overrideLock && (Stunned || Rooted || MovementLocked)) return false;
 
 		remainingDurations[MovementStatus.MovementLocked] = duration;
 		return true;
