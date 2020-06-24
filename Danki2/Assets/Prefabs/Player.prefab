@@ -129,7 +129,7 @@ MonoBehaviour:
   maxSmoothness: 0.99
   applyRangeAttenuation: 1
   useOldInspector: 0
-  useVolumetric: 1
+  useVolumetric: 0
   featuresFoldout: 1
   showAdditionalSettings: 0
   displayLightIntensity: 1829.27
@@ -419,7 +419,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6792869166683982730}
   - component: {fileID: 8075471737366941008}
-  - component: {fileID: 1191838369}
   - component: {fileID: -5201030127241623248}
   - component: {fileID: -7333941826244338973}
   - component: {fileID: 6918691881617835041}
@@ -465,22 +464,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
---- !u!54 &1191838369
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4777388720977389772}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 1
-  m_Constraints: 112
-  m_CollisionDetection: 0
 --- !u!114 &-5201030127241623248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -503,9 +486,9 @@ MonoBehaviour:
     _values: 1400000003000000000000000000000000000000
   navmeshAgent: {fileID: 6918691881617835041}
   abilityCooldown: 1
-  totalDashCooldown: 1
-  dashDuration: 0.15
-  dashSpeedMultiplier: 6
+  totalRollCooldown: 1
+  rollDuration: 0.2
+  rollSpeedMultiplier: 3
   abilityTimeoutLimit: 5
   trailRenderer: {fileID: 1618317697}
   whiffAudio: {fileID: -2634619170240676585}
@@ -762,36 +745,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player_posed_temp
       objectReference: {fileID: 0}
-    - target: {fileID: -7751882521135441130, guid: bc64c83d2d6286e43aceedcd0d16317c,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: b6e14d5314cdbf443bb8ec1c21e7e4cf, type: 2}
-    - target: {fileID: -7137810105197924413, guid: bc64c83d2d6286e43aceedcd0d16317c,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: c83ae8bab10c6ef4781b7530141fd7a5, type: 2}
     - target: {fileID: -6945788423673687731, guid: bc64c83d2d6286e43aceedcd0d16317c,
         type: 3}
       propertyPath: m_Name
       value: Sword
       objectReference: {fileID: 0}
-    - target: {fileID: -6801333679692397340, guid: bc64c83d2d6286e43aceedcd0d16317c,
+    - target: {fileID: -4055640499779234272, guid: bc64c83d2d6286e43aceedcd0d16317c,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: b6e14d5314cdbf443bb8ec1c21e7e4cf, type: 2}
-    - target: {fileID: -6780335076595045240, guid: bc64c83d2d6286e43aceedcd0d16317c,
+      propertyPath: m_Name
+      value: Fabric
+      objectReference: {fileID: 0}
+    - target: {fileID: 8233582568638007981, guid: bc64c83d2d6286e43aceedcd0d16317c,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 6a204cce1f52c894cbcf7508d67769af, type: 2}
-    - target: {fileID: -4790689054745198156, guid: bc64c83d2d6286e43aceedcd0d16317c,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: b6e14d5314cdbf443bb8ec1c21e7e4cf, type: 2}
+      propertyPath: m_Name
+      value: Leather
+      objectReference: {fileID: 0}
     - target: {fileID: -4499008755281824045, guid: bc64c83d2d6286e43aceedcd0d16317c,
         type: 3}
       propertyPath: m_Name
@@ -852,21 +820,36 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -4055640499779234272, guid: bc64c83d2d6286e43aceedcd0d16317c,
+    - target: {fileID: -6801333679692397340, guid: bc64c83d2d6286e43aceedcd0d16317c,
         type: 3}
-      propertyPath: m_Name
-      value: Fabric
-      objectReference: {fileID: 0}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b6e14d5314cdbf443bb8ec1c21e7e4cf, type: 2}
+    - target: {fileID: -6780335076595045240, guid: bc64c83d2d6286e43aceedcd0d16317c,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6a204cce1f52c894cbcf7508d67769af, type: 2}
     - target: {fileID: 4350732478416959934, guid: bc64c83d2d6286e43aceedcd0d16317c,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: b6e14d5314cdbf443bb8ec1c21e7e4cf, type: 2}
-    - target: {fileID: 8233582568638007981, guid: bc64c83d2d6286e43aceedcd0d16317c,
+    - target: {fileID: -4790689054745198156, guid: bc64c83d2d6286e43aceedcd0d16317c,
         type: 3}
-      propertyPath: m_Name
-      value: Leather
-      objectReference: {fileID: 0}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b6e14d5314cdbf443bb8ec1c21e7e4cf, type: 2}
+    - target: {fileID: -7751882521135441130, guid: bc64c83d2d6286e43aceedcd0d16317c,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b6e14d5314cdbf443bb8ec1c21e7e4cf, type: 2}
+    - target: {fileID: -7137810105197924413, guid: bc64c83d2d6286e43aceedcd0d16317c,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c83ae8bab10c6ef4781b7530141fd7a5, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bc64c83d2d6286e43aceedcd0d16317c, type: 3}
 --- !u!4 &7481548484944448993 stripped
@@ -882,6 +865,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6792869166683982730}
     m_Modifications:
+    - target: {fileID: 1979858862639965533, guid: 1c1ef6601784e49429e64e8545ef1c4a,
+        type: 3}
+      propertyPath: m_Name
+      value: FloatingDamageText
+      objectReference: {fileID: 0}
     - target: {fileID: 1979858862639965505, guid: 1c1ef6601784e49429e64e8545ef1c4a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -987,11 +975,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 1979858862639965533, guid: 1c1ef6601784e49429e64e8545ef1c4a,
-        type: 3}
-      propertyPath: m_Name
-      value: FloatingDamageText
-      objectReference: {fileID: 0}
     - target: {fileID: 3486282139536815869, guid: 1c1ef6601784e49429e64e8545ef1c4a,
         type: 3}
       propertyPath: actor
@@ -999,12 +982,12 @@ PrefabInstance:
       objectReference: {fileID: -5201030127241623248}
     - target: {fileID: 3486282139536815869, guid: 1c1ef6601784e49429e64e8545ef1c4a,
         type: 3}
-      propertyPath: textColor.g
-      value: 0.9614235
+      propertyPath: damageColour.g
+      value: 0.9600028
       objectReference: {fileID: 0}
     - target: {fileID: 3486282139536815869, guid: 1c1ef6601784e49429e64e8545ef1c4a,
         type: 3}
-      propertyPath: textColor.b
+      propertyPath: damageColour.b
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

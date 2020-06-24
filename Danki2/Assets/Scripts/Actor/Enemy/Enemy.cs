@@ -5,9 +5,13 @@ public abstract class Enemy : Actor
 {
     public Subject<float> OnTelegraph { get; private set; } = new Subject<float>();
 
-    protected virtual void Start()
+    public BehaviourSubject<bool> PlayerTargeted { get; } = new BehaviourSubject<bool>(false);
+
+    protected override void Start()
     {
-        this.gameObject.tag = Tags.Enemy;
+        base.Start();
+        
+        gameObject.tag = Tags.Enemy;
     }
 
     public void WaitAndCast(float waitTime, AbilityReference abilityReference, Func<Vector3> targeter)

@@ -14,43 +14,32 @@ public class SlashObject : MonoBehaviour
     [SerializeField]
     private AudioSource hitAudioSource = null;
 
-    private float remainingDuration;
+    [SerializeField]
+    private Color desiredColor = new Color();
 
-    private Color desiredColor = new Color(1f, 1f, 1f, 0f);
-
-    internal static SlashObject Create(Vector3 position, Quaternion rotation)
+    public static SlashObject Create(Vector3 position, Quaternion rotation, Color color = default)
     {
         SlashObject prefab = AbilityObjectPrefabLookup.Instance.SlashObjectPrefab;
-        return Instantiate(prefab, position, rotation);
+        SlashObject slashObject = Instantiate(prefab, position, rotation);
+        if (!color.Equals(default)) slashObject.desiredColor = color;
+
+        return slashObject;
     }
 
     private void Start()
     {
-        remainingDuration = duration;
-        meshRenderer.material.SetColor("Color", desiredColor);
-        meshRenderer.enabled = true;
+        meshRenderer.material.SetUnlitColour(desiredColor);
+
+        this.WaitAndAct(duration, () => Destroy(gameObject));
     }
 
     private void Update()
     {
-        if (remainingDuration < 0f)
-        {
-            Destroy(gameObject);
-        }
-
-        UpdateVisual();
+        transform.Rotate(0f, -rotationSpeed * Time.deltaTime, 0f);
     }
 
     public void PlayHitSound()
     {
         hitAudioSource.Play();
-    }
-
-    private void UpdateVisual()
-    {
-        desiredColor.a = Mathf.Lerp(0f, 1f, remainingDuration / duration);
-        meshRenderer.sharedMaterial.SetColor("_UnlitColor", desiredColor);
-        transform.Rotate(0f, -rotationSpeed * Time.deltaTime, 0f);
-        remainingDuration -= Time.deltaTime;
     }
 }

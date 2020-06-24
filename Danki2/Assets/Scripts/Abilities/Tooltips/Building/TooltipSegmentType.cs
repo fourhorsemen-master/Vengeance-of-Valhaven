@@ -1,6 +1,7 @@
 ﻿public enum TooltipSegmentType
 {
     Text,
-    BaseNumericValue,
-    BonusNumericValue
+    UnaffectedNumericValue,
+    BuffedNumericValue,
+    DebuffedNumericValue
 }

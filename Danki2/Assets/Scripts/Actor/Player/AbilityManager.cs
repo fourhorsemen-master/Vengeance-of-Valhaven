@@ -15,9 +15,10 @@ public class AbilityManager
     private ActionControlState previousActionControlState = ActionControlState.None;
     private ActionControlState currentActionControlState = ActionControlState.None;
     private Vector3 targetPosition = Vector3.zero;
+    private Subscription targetDeathSubscription;
+    private Enemy target = null;
 
     public float RemainingCooldownProportion => remainingAbilityCooldown / abilityCooldown;
-    public float RemainingAbilityCooldown { get; private set; } = 0f;
     public CastingStatus CastingStatus { get; private set; } = CastingStatus.Ready;
     public Subject<Tuple<bool, Direction>> AbilityCompletionSubject { get; } = new Subject<Tuple<bool, Direction>>();
 
@@ -27,9 +28,11 @@ public class AbilityManager
         this.abilityTimeoutLimit = abilityTimeoutLimit;
         this.abilityCooldown = abilityCooldown;
 
-        updateSubject.Subscribe(UpdateTargetPosition);
+        updateSubject.Subscribe(UpdateTarget);
         updateSubject.Subscribe(TickAbilityCooldown);
         lateUpdateSubject.Subscribe(HandleAbilities);
+        this.player.RollSubject.Subscribe(Whiff);
+        this.player.HealthManager.DamageSubject.Subscribe(_ => Whiff());
 
         AbilityTimeoutSubscription();
     }
@@ -39,20 +42,62 @@ public class AbilityManager
         currentActionControlState = controlState;
     }
 
-    private void UpdateTargetPosition()
+    private void UpdateTarget()
     {
-        // We try to get the mouse game position in scene for the AbilityContext.
-        if (!MouseGamePositionFinder.Instance.TryGetMouseGamePosition(out Vector3 mousePosition))
+        // We try to get the mouse collider position if the mouse is over a collider.
+        var mouseHitCollider = MouseGamePositionFinder.Instance.TryGetMouseGamePosition(
+            out Vector3 mousePosition,
+            out Collider collider,
+            Layers.GetLayerMask(new []{ Layers.Actors })
+        );
+
+        if (!mouseHitCollider)
         {
-            // If the mouse is outside the scene, we use the mouse position on a horizontal plane at the players height.
+            // If the mouse has not hit a collider, we use the mouse position on a horizontal plane at the players height.
             mousePosition = MouseGamePositionFinder.Instance.GetMousePlanePosition(player.transform.position.y, true);
         }
 
-        targetPosition = mousePosition;
+        SetTargetPosition(mousePosition);
 
+        if (collider != null && collider.gameObject.CompareTag(Tags.Enemy))
+        {
+            Enemy enemy = collider.gameObject.GetComponent<Enemy>();
+            if (!enemy.Dead) SetTarget(enemy);
+        }
+        else
+        {
+            RemoveTarget();
+        }
+    }
+
+    private void SetTargetPosition(Vector3 mousePosition)
+    {
+        targetPosition = mousePosition;
         player.ChannelService.TargetPosition = targetPosition;
     }
-    
+
+    private void SetTarget(Enemy enemy)
+    {
+        if (enemy == target) return;
+
+        RemoveTarget();
+
+        enemy.PlayerTargeted.Next(true);
+        targetDeathSubscription = enemy.DeathSubject.Subscribe(() => RemoveTarget());
+        target = enemy;
+        player.ChannelService.Target = enemy;
+    }
+
+    private void RemoveTarget()
+    {
+        if (target == null) return;
+
+        target.PlayerTargeted.Next(false);
+        targetDeathSubscription.Unsubscribe();
+        target = null;
+        player.ChannelService.Target = null;
+    }
+
     private void TickAbilityCooldown()
     {
         if (player.ChannelService.Active) return;
@@ -86,14 +131,17 @@ public class AbilityManager
 
             if (treeDepth > 0)
             {
-                abilityTimeout = player.WaitAndAct(abilityTimeoutLimit, () =>
-                {
-                    player.AbilityTree.Reset();
-                    whiffed = true;
-                    player.PlayWhiffSound();
-                });
+                abilityTimeout = player.WaitAndAct(abilityTimeoutLimit, Whiff);
             }
         });
+    }
+
+    private void Whiff()
+    {
+        if (!player.AbilityTree.AtRoot) player.PlayWhiffSound();
+
+        whiffed = true;
+        player.AbilityTree.Reset();
     }
 
     private void HandleAbilities()
@@ -117,7 +165,7 @@ public class AbilityManager
                 }
                 break;
             case CastingCommand.CancelChannel:
-                player.ChannelService.Cancel(targetPosition);
+                player.ChannelService.CancelChannel();
                 CastingStatus = remainingAbilityCooldown <= 0f ? CastingStatus.Ready : CastingStatus.Cooldown;
                 break;
             case CastingCommand.CastLeft:
@@ -144,14 +192,14 @@ public class AbilityManager
                 abilityCast = player.InstantCastService.Cast(
                     abilityReference,
                     targetPosition,
-                    subject => abilityFeedbackSubscription = subject.Subscribe(AbilityFeedbackSubscription)
+                    subject => abilityFeedbackSubscription = subject.Subscribe(AbilityFeedbackSubscription),
+                    target
                 );
                 nextStatus = CastingStatus.Cooldown;
                 break;
             case AbilityType.Channel:
-                abilityCast = player.ChannelService.Start(
+                abilityCast = player.ChannelService.StartChannel(
                     abilityReference,
-                    targetPosition,
                     subject => abilityFeedbackSubscription = subject.Subscribe(AbilityFeedbackSubscription)
                 );
                 nextStatus = direction == Direction.Left

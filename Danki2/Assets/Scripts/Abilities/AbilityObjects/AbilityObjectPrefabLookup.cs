@@ -27,19 +27,35 @@ public class AbilityObjectPrefabLookup : Singleton<AbilityObjectPrefabLookup>
     private WhirlwindObject _whirlwindObjectPrefab = null;
 
     [SerializeField]
-    private RollObject _rollObjectPrefab = null;
+    private DashObject _dashObjectPrefab = null;
 
     [SerializeField]
     private LeapObject _leapObjectPrefab = null;
 
-    public FireballObject FireballObjectPrefab { get => _fireballObjectPrefab; }
-    public DaggerObject DaggerObjectPrefab { get => _daggerObjectPrefab; }
-    public BiteObject BiteObjectPrefab { get => _biteObjectPrefab; }
-    public PounceObject PounceObjectPrefab { get => _pounceObjectPrefab; }
-    public LungeObject LungeObjectPrefab { get => _lungeObjectPrefab; }
-    public SmashObject SmashObjectPrefab { get => _smashObjectPrefab; }
-    public WhirlwindObject WhirlwindObjectPrefab { get => _whirlwindObjectPrefab; }
-    public SlashObject SlashObjectPrefab { get => _slashObjectPrefab; }
-    public RollObject RollObjectPrefab { get => _rollObjectPrefab; }
-    public LeapObject LeapObjectPrefab { get => _leapObjectPrefab; }
+    [SerializeField]
+    private LeechingStrikeObject _leechingStrikeObjectPrefab = null;
+
+    [SerializeField]
+    private MeditateObject _meditateObjectPrefab = null;
+
+    [SerializeField]
+    private BashObject _bashObjectPrefab = null;
+
+    [SerializeField]
+    private SweepingStrikeObject _sweepingStrikeObjectPrefab = null;
+
+    public FireballObject FireballObjectPrefab => _fireballObjectPrefab;
+    public DaggerObject DaggerObjectPrefab => _daggerObjectPrefab;
+    public BiteObject BiteObjectPrefab => _biteObjectPrefab;
+    public PounceObject PounceObjectPrefab => _pounceObjectPrefab;
+    public LungeObject LungeObjectPrefab => _lungeObjectPrefab;
+    public SmashObject SmashObjectPrefab => _smashObjectPrefab;
+    public WhirlwindObject WhirlwindObjectPrefab => _whirlwindObjectPrefab;
+    public SlashObject SlashObjectPrefab => _slashObjectPrefab;
+    public DashObject DashObjectPrefab => _dashObjectPrefab;
+    public LeapObject LeapObjectPrefab => _leapObjectPrefab;
+    public LeechingStrikeObject LeechingStrikeObjectPrefab => _leechingStrikeObjectPrefab;
+    public MeditateObject MeditateObjectPrefab => _meditateObjectPrefab;
+    public BashObject BashObjectPrefab => _bashObjectPrefab;
+    public SweepingStrikeObject SweepingStrikeObjectPrefab => _sweepingStrikeObjectPrefab;
 }

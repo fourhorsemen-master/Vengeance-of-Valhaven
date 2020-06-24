@@ -9,11 +9,6 @@ public static class GameObjectExtensions
         return component != null;
     }
 
-    public static void SetLayer(this GameObject gameObject, Layer layer)
-    {
-        gameObject.layer = (int)layer;
-    }
-
     public static bool IsActor(this GameObject gameObject)
     {
         return gameObject.tag == Tags.Player || gameObject.tag == Tags.Enemy;

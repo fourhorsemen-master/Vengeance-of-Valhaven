@@ -12,52 +12,66 @@ public class FloatingDamageText : MonoBehaviour
     private Text floatingDamageNumberPrefab = null;
     
     [SerializeField]
-    private Color textColor = Color.white;
+    private Color damageColour = Color.white;
+
+    [SerializeField]
+    private Color healingColour = Color.green;
 
     private const float FloatTime = 1f;
     private const float ScrollSpeed = 0.6f;
 
-    private readonly HashSet<Text> damageNumbers = new HashSet<Text>();
+    private readonly HashSet<Text> floatingNumbers = new HashSet<Text>();
 
     private void Start()
     {
-        actor.HealthManager.DamageSubject.Subscribe(ShowDamage);
+        HealthManager healthManager = actor.HealthManager;
+        SubscribeToNumberSource(healthManager.DamageSubject, damageColour);
+        SubscribeToNumberSource(healthManager.TickDamageSubject, damageColour);
+        SubscribeToNumberSource(healthManager.HealSubject, healingColour);
     }
 
     private void OnDestroy()
     {
-        foreach (Text number in damageNumbers)
+        foreach (Text number in floatingNumbers)
         {
             Destroy(number);
         }
     }
 
-    private void ShowDamage(int damage)
+    private void SubscribeToNumberSource(IObservable<int> numberSource, Color color)
     {
-        Text damageNumber = Instantiate(floatingDamageNumberPrefab, transform, false);
-        damageNumber.text = damage.ToString();
-        damageNumbers.Add(damageNumber);
-
-        StartCoroutine(ScrollAndFadeText(damageNumber));
+        numberSource.Subscribe(number =>
+        {
+            Text textNumber = AddFloatingNumber(number.ToString());
+            StartCoroutine(ScrollAndFadeText(textNumber, color));
+        });
     }
 
-    private IEnumerator ScrollAndFadeText(Text text)
+    private Text AddFloatingNumber(string text)
+    {
+        Text healingNumber = Instantiate(floatingDamageNumberPrefab, transform, false);
+        healingNumber.text = text;
+        floatingNumbers.Add(healingNumber);
+        return healingNumber;
+    }
+
+    private IEnumerator ScrollAndFadeText(Text text, Color colour)
     {
         float timeElapsed = 0f;
-        text.color = textColor;
+        text.color = colour;
 
-        Color lerpTarget = textColor;
+        Color lerpTarget = colour;
         lerpTarget.a = 0f;
 
         while (timeElapsed < FloatTime)
         {
             timeElapsed += Time.deltaTime;
             text.transform.Translate(Vector3.up * Time.deltaTime * ScrollSpeed);
-            text.color = Color.Lerp(textColor, lerpTarget, timeElapsed / FloatTime);
+            text.color = Color.Lerp(colour, lerpTarget, timeElapsed / FloatTime);
             yield return null;
         }
 
-        damageNumbers.Remove(text);
+        floatingNumbers.Remove(text);
         Destroy(text);
     }
 }

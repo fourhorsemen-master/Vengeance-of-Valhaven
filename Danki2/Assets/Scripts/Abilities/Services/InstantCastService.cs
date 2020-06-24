@@ -11,8 +11,9 @@ public class InstantCastService : AbilityService
 
     public bool Cast(
         AbilityReference abilityReference,
-        Vector3 target,
-        Action<Subject<bool>> successFeedbackSubjectAction = null
+        Vector3 targetPosition,
+        Action<Subject<bool>> successFeedbackSubjectAction = null,
+        Actor target = null
     )
     {
         MovementStatus status = actor.MovementManager.MovementStatus;
@@ -27,7 +28,16 @@ public class InstantCastService : AbilityService
         )) return false;
 
         successFeedbackSubjectAction?.Invoke(instantCast.SuccessFeedbackSubject);
-        instantCast.Cast(target);
+
+        if (target != null)
+        {
+            instantCast.Cast(target);
+        }
+        else
+        {
+            instantCast.Cast(targetPosition);
+        }
+
         CastSubject.Next();
         return true;
     }

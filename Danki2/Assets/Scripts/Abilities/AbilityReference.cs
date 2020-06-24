@@ -6,9 +6,13 @@
     DaggerThrow,
     Bite,
     Pounce,
-    Roll,
+    Dash,
     Lunge,
     Smash,
     Sprint,
-    Leap
+    Leap,
+    LeechingStrike,
+    Meditate,
+    Bash,
+    SweepingStrike
 }

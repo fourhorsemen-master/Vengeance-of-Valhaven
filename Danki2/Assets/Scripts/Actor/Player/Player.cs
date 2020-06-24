@@ -6,15 +6,15 @@ public class Player : Actor
     [HideInInspector]
     public float abilityCooldown = 1f;
     [HideInInspector]
-    public float totalDashCooldown = 1f;
+    public float totalRollCooldown = 1f;
     [HideInInspector]
-    public float dashDuration = 0.2f;
+    public float rollDuration = 0.2f;
     [HideInInspector]
-    public float dashSpeedMultiplier = 3f;
+    public float rollSpeedMultiplier = 3f;
     [HideInInspector]
     public float abilityTimeoutLimit = 5f;
 
-    private float remainingDashCooldown = 0f;
+    private float remainingRollCooldown = 0f;
 
     [SerializeField]
     private TrailRenderer trailRenderer = null;
@@ -29,6 +29,8 @@ public class Player : Actor
     public AbilityManager AbilityManager { get; private set; }
 
     public override ActorType Type => ActorType.Player;
+    
+    public Subject RollSubject { get; } = new Subject();
 
     protected override void Awake()
     {
@@ -38,7 +40,7 @@ public class Player : Actor
         AbilityInventory[AbilityReference.Bite] = 1;
         AbilityInventory[AbilityReference.Pounce] = 2;
         AbilityInventory[AbilityReference.Slash] = 3;
-        AbilityInventory[AbilityReference.Roll] = 4;
+        AbilityInventory[AbilityReference.Dash] = 4;
         AbilityInventory[AbilityReference.DaggerThrow] = 5;
         AbilityInventory[AbilityReference.Lunge] = 6;
         AbilityInventory[AbilityReference.Smash] = 7;
@@ -46,9 +48,9 @@ public class Player : Actor
 
         AbilityTree = AbilityTreeFactory.CreateTree(
             AbilityTreeFactory.CreateNode(
-                AbilityReference.Slash,
+                AbilityReference.SweepingStrike,
                 AbilityTreeFactory.CreateNode(
-                    AbilityReference.Roll,
+                    AbilityReference.Dash,
                     AbilityTreeFactory.CreateNode(AbilityReference.Leap),
                     AbilityTreeFactory.CreateNode(AbilityReference.Smash)
                 ),
@@ -57,7 +59,11 @@ public class Player : Actor
             AbilityTreeFactory.CreateNode(
                 AbilityReference.Lunge,
                 AbilityTreeFactory.CreateNode(AbilityReference.DaggerThrow),
-                AbilityTreeFactory.CreateNode(AbilityReference.Whirlwind)
+                AbilityTreeFactory.CreateNode(
+                    AbilityReference.Whirlwind,
+                    null,
+                    AbilityTreeFactory.CreateNode(AbilityReference.LeechingStrike)
+                )
             )
         );
 
@@ -66,8 +72,10 @@ public class Player : Actor
         AbilityManager = new AbilityManager(this, abilityTimeoutLimit, abilityCooldown, updateSubject, lateUpdateSubject);
     }
 
-    protected void Start()
+    protected override void Start()
     {
+        base.Start();
+        
         gameObject.tag = Tags.Player;
     }
 
@@ -75,22 +83,23 @@ public class Player : Actor
     {
         base.Update();
 
-        TickDashCooldown();
+        TickRollCooldown();
     }
 
-    public void Dash(Vector3 direction)
+    public void Roll(Vector3 direction)
     {
-        if (remainingDashCooldown <= 0)
+        if (remainingRollCooldown <= 0 && !ChannelService.Active)
         {
             MovementManager.LockMovement(
-                dashDuration,
-                GetStat(Stat.Speed) * dashSpeedMultiplier,
+                rollDuration,
+                GetStat(Stat.Speed) * rollSpeedMultiplier,
                 direction,
                 direction
             );
-            remainingDashCooldown = totalDashCooldown;
+            remainingRollCooldown = totalRollCooldown;
             trailRenderer.emitting = true;
-            StartCoroutine(EndDashVisualAfterDelay());
+            RollSubject.Next();
+            StartCoroutine(EndRollVisualAfterDelay());
         }
     }
 
@@ -99,20 +108,14 @@ public class Player : Actor
         whiffAudio.Play();
     }
 
-    protected override void OnDeath()
+    private void TickRollCooldown()
     {
-        // TODO: Implement Player death.
-        Debug.Log("The player died");
+        remainingRollCooldown = Mathf.Max(0f, remainingRollCooldown - Time.deltaTime);
     }
 
-    private void TickDashCooldown()
+    private IEnumerator EndRollVisualAfterDelay()
     {
-        remainingDashCooldown = Mathf.Max(0f, remainingDashCooldown - Time.deltaTime);
-    }
-
-    private IEnumerator EndDashVisualAfterDelay()
-    {
-        yield return new WaitForSeconds(dashDuration * 2);
+        yield return new WaitForSeconds(rollDuration * 2);
         trailRenderer.emitting = false;
     }
 }

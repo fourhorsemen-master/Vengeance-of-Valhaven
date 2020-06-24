@@ -51,11 +51,15 @@ MonoBehaviour:
     - DaggerThrow
     - Bite
     - Pounce
-    - Roll
+    - Dash
     - Lunge
     - Smash
     - Sprint
     - Leap
+    - LeechingStrike
+    - Meditate
+    - Bash
+    - SweepingStrike
     _values:
     - displayName: Slash
       tooltip: Deals {PRIMARY_DAMAGE} damage.
@@ -84,8 +88,13 @@ MonoBehaviour:
         value: 0
       generatedOrbs: 
       abilityBonusLookup:
-        _keys: []
-        _values: []
+        _keys:
+        - Cross-Step
+        _values:
+        - displayName: Cross Step
+          tooltip: In an act of sheet cunning, the hero cross steps whilst whirlwinding
+            his sword to avoid losing pace!
+          requiredOrbs: 02000000
     - displayName: Fireball
       tooltip: Deals {PRIMARY_DAMAGE} damage.
       baseAbilityData:
@@ -142,7 +151,7 @@ MonoBehaviour:
       abilityBonusLookup:
         _keys: []
         _values: []
-    - displayName: Roll
+    - displayName: Dash
       tooltip: Deals {PRIMARY_DAMAGE} damage.
       baseAbilityData:
         primaryDamage: 0
@@ -159,14 +168,14 @@ MonoBehaviour:
     - displayName: Lunge
       tooltip: Deals {PRIMARY_DAMAGE} damage.
       baseAbilityData:
-        primaryDamage: 4
+        primaryDamage: 3
         secondaryDamage: 0
         heal: 0
         shield: 0
       abilityOrbType:
         hasValue: 0
         value: 0
-      generatedOrbs: 
+      generatedOrbs: 00000000
       abilityBonusLookup:
         _keys: []
         _values: []
@@ -210,8 +219,78 @@ MonoBehaviour:
         heal: 0
         shield: 0
       abilityOrbType:
-        hasValue: 0
+        hasValue: 1
+        value: 1
+      generatedOrbs: 01000000
+      abilityBonusLookup:
+        _keys:
+        - Momentum
+        _values:
+        - displayName: Momentum
+          tooltip: On impact, stun surrounding enemies for 3 seconds.
+          requiredOrbs: 0000000000000000
+    - displayName: Leeching Strike
+      tooltip: Deals {PRIMARY_DAMAGE} damage in a cone and heals for {HEAL} +1 per
+        enemy hit.
+      baseAbilityData:
+        primaryDamage: 2
+        secondaryDamage: 0
+        heal: 1
+        shield: 0
+      abilityOrbType:
+        hasValue: 1
+        value: 1
+      generatedOrbs: 
+      abilityBonusLookup:
+        _keys: []
+        _values: []
+    - displayName: Meditate
+      tooltip: Increase power by 1 for every second charged. Lasts 10 seconds.
+      baseAbilityData:
+        primaryDamage: 0
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      abilityOrbType:
+        hasValue: 1
+        value: 1
+      generatedOrbs: 
+      abilityBonusLookup:
+        _keys:
+        - Clarity
+        - GrowingRage
+        _values:
+        - displayName: Clarity
+          tooltip: Slow all enemies by 50% while charging.
+          requiredOrbs: 020000000200000001000000
+        - displayName: Growing Rage
+          tooltip: Increase power by 2 for every second charged instead.
+          requiredOrbs: 000000000000000000000000
+    - displayName: Bash
+      tooltip: Deal {PRIMARY_DAMAGE} to enemies in a cone, stuns for 1 second.
+      baseAbilityData:
+        primaryDamage: 3
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      abilityOrbType:
+        hasValue: 1
         value: 0
+      generatedOrbs: 00000000
+      abilityBonusLookup:
+        _keys: []
+        _values: []
+    - displayName: Sweeping Strike
+      tooltip: Deal {PRIMARY_DAMAGE} damage to enemies in a cone and knockback all
+        enemies hit.
+      baseAbilityData:
+        primaryDamage: 5
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      abilityOrbType:
+        hasValue: 1
+        value: 1
       generatedOrbs: 
       abilityBonusLookup:
         _keys: []
