@@ -29,6 +29,8 @@ public class Player : Actor
     public AbilityManager AbilityManager { get; private set; }
 
     public override ActorType Type => ActorType.Player;
+    
+    public Subject RollSubject { get; } = new Subject();
 
     protected override void Awake()
     {
@@ -86,16 +88,21 @@ public class Player : Actor
 
     public void Roll(Vector3 direction)
     {
-        if (remainingRollCooldown <= 0)
+        if (remainingRollCooldown > 0 || ChannelService.Active) return;
+
+        var rolled = MovementManager.TryLockMovement(
+            MovementLockType.Dash,
+            rollDuration,
+            GetStat(Stat.Speed) * rollSpeedMultiplier,
+            direction,
+            direction
+        );
+
+        if (rolled)
         {
-            MovementManager.LockMovement(
-                rollDuration,
-                GetStat(Stat.Speed) * rollSpeedMultiplier,
-                direction,
-                direction
-            );
             remainingRollCooldown = totalRollCooldown;
             trailRenderer.emitting = true;
+            RollSubject.Next();
             StartCoroutine(EndRollVisualAfterDelay());
         }
     }

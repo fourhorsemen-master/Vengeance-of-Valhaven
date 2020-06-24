@@ -17,4 +17,12 @@ public class EnumDictionary<TEnumKey, TValue> : Dictionary<TEnumKey, TValue> whe
             Add(key, defaultValue);
         }
     }
+
+    public void ForEachKey(Action<TEnumKey> action)
+    {
+        foreach (TEnumKey key in Enum.GetValues(typeof(TEnumKey)))
+        {
+            action(key);
+        }
+    }
 }
