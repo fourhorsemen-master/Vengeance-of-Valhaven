@@ -88,14 +88,18 @@ public class Player : Actor
 
     public void Roll(Vector3 direction)
     {
-        if (remainingRollCooldown <= 0 && !ChannelService.Active)
+        if (remainingRollCooldown > 0 || ChannelService.Active) return;
+
+        var rolled = MovementManager.TryLockMovement(
+            MovementLockType.Dash,
+            rollDuration,
+            GetStat(Stat.Speed) * rollSpeedMultiplier,
+            direction,
+            direction
+        );
+
+        if (rolled)
         {
-            MovementManager.LockMovement(
-                rollDuration,
-                GetStat(Stat.Speed) * rollSpeedMultiplier,
-                direction,
-                direction
-            );
             remainingRollCooldown = totalRollCooldown;
             trailRenderer.emitting = true;
             RollSubject.Next();

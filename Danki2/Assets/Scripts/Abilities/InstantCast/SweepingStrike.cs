@@ -55,11 +55,12 @@ public class SweepingStrike : InstantCast
         Vector3 knockBackDirection = actor.transform.position - Owner.transform.position;
         Vector3 knockBackFaceDirection = actor.transform.forward;
 
-        actor.MovementManager.LockMovement(
+        actor.MovementManager.TryLockMovement(
+            MovementLockType.Knockback,
             knockBackDuration,
             knockBackSpeed,
             knockBackDirection,
             knockBackFaceDirection
-            );
+        );
     }
 }
