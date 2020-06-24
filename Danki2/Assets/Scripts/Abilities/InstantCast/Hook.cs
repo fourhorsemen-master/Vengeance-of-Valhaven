@@ -39,14 +39,12 @@ public class Hook : InstantCast
 
     private void OnCollision(GameObject gameObject)
     {
-        Debug.Log("collision detected");
         if (gameObject.IsActor())
         {
             Actor actor = gameObject.GetComponent<Actor>();
 
             if (!actor.Opposes(Owner))
             {
-                Debug.Log("actor does not oppose");
                 SuccessFeedbackSubject.Next(false);
                 return;
             }
@@ -59,7 +57,8 @@ public class Hook : InstantCast
 
             Owner.MovementManager.Stun(pullDuration);
 
-            actor.MovementManager.LockMovement(
+            actor.MovementManager.TryLockMovement(
+                MovementLockType.Pull,
                 pullDuration,
                 pullSpeed,
                 pullDirection,
@@ -74,7 +73,6 @@ public class Hook : InstantCast
         }
         else
         {
-            Debug.Log("not hit actor");
             SuccessFeedbackSubject.Next(false);
         }
 
