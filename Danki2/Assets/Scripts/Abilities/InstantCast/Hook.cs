@@ -26,17 +26,6 @@ public class Hook : InstantCast
         HookObject.Fire(Owner, OnCollision, hookSpeed, position, rotation, range);
     }
 
-    public override void Cast(Actor target)
-    {
-        Vector3 position = Owner.transform.position + positionTransform;
-        Quaternion rotation = Quaternion.LookRotation(target.transform.position - Owner.transform.position);
-
-        Owner.MovementManager.LookAt(position);
-        Owner.MovementManager.Stun(range / hookSpeed);
-
-        HookObject.Fire(Owner, OnCollision, hookSpeed, position, rotation, range);
-    }
-
     private void OnCollision(GameObject gameObject)
     {
         if (gameObject.IsActor())
