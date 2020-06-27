@@ -25,7 +25,7 @@ public class Pounce : InstantCast
         float pounceSpeed = Owner.GetStat(Stat.Speed) * PounceSpeedMultiplier;
         float duration = Mathf.Clamp(distance / pounceSpeed, MinMovementDuration, MaxMovementDuration);
 
-        Owner.MovementManager.LockMovement(duration, pounceSpeed, direction, direction);
+        Owner.MovementManager.TryLockMovement(MovementLockType.Dash, duration, pounceSpeed, direction, direction);
 
         PounceObject.Create(position, Quaternion.LookRotation(target - position));
 

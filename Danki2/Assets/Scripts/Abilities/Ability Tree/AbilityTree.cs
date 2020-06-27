@@ -24,6 +24,8 @@ public abstract class AbilityTree
     private EnumDictionary<AbilityReference, int> ownedAbilities;
 
     public EnumDictionary<AbilityReference, int> Inventory { get; private set; }
+    
+    public bool AtRoot => _currentDepth == 0;
 
     protected AbilityTree(EnumDictionary<AbilityReference, int> ownedAbilities, Node rootNode)
     {

@@ -24,8 +24,10 @@ public class FloatingDamageText : MonoBehaviour
 
     private void Start()
     {
-        actor.HealthManager.DamageSubject.Subscribe(ShowDamage);
-        actor.HealthManager.HealSubject.Subscribe(ShowHealing);
+        HealthManager healthManager = actor.HealthManager;
+        SubscribeToNumberSource(healthManager.DamageSubject, damageColour);
+        SubscribeToNumberSource(healthManager.TickDamageSubject, damageColour);
+        SubscribeToNumberSource(healthManager.HealSubject, healingColour);
     }
 
     private void OnDestroy()
@@ -36,16 +38,13 @@ public class FloatingDamageText : MonoBehaviour
         }
     }
 
-    private void ShowDamage(int damage)
+    private void SubscribeToNumberSource(IObservable<int> numberSource, Color color)
     {
-        Text damageNumber = AddFloatingNumber(damage.ToString());
-        StartCoroutine(ScrollAndFadeText(damageNumber, damageColour));
-    }
-
-    private void ShowHealing(int healing)
-    {
-        Text healingNumber = AddFloatingNumber(healing.ToString());
-        StartCoroutine(ScrollAndFadeText(healingNumber, healingColour));
+        numberSource.Subscribe(number =>
+        {
+            Text textNumber = AddFloatingNumber(number.ToString());
+            StartCoroutine(ScrollAndFadeText(textNumber, color));
+        });
     }
 
     private Text AddFloatingNumber(string text)

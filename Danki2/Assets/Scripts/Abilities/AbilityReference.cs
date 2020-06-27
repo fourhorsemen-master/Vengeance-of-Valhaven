@@ -14,5 +14,6 @@
     LeechingStrike,
     Meditate,
     Bash,
-    SweepingStrike
+    SweepingStrike,
+    Hook
 }
