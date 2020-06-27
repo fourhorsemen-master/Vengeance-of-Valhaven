@@ -30,11 +30,11 @@ public abstract class ProjectileObject : MonoBehaviour
         this.stickTime = stickTime;
     }
 
-    public void DestroyAfterTime(float timePeriod, Action<bool> MissCallback = null)
+    public void DestroyAfterTime(float timePeriod, Action callback = null)
     {
         this.WaitAndAct(timePeriod, () =>
         {
-            if (MissCallback != null) MissCallback.Invoke(true);
+            callback?.Invoke();
             Destroy(gameObject);
         });
     }

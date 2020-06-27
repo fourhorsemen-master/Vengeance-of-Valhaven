@@ -26,9 +26,9 @@ public class Hook : InstantCast
         HookObject.Fire(Owner, OnCollision, MissCallback, hookSpeed, position, rotation, range);
     }
 
-    private void MissCallback(bool missCallBack)
+    private void MissCallback()
     {
-        if(missCallBack) SuccessFeedbackSubject.Next(false);
+        SuccessFeedbackSubject.Next(false);
     }
 
     private void OnCollision(GameObject gameObject)
