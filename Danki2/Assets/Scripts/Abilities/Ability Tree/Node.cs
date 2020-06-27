@@ -11,6 +11,8 @@ public abstract class Node
     public Node Parent { get; set; }
 
     public AbilityReference Ability { get; private set; }
+
+    private Subscription childChangeSubscription = null;
     public Subject ChangeSubject { get; } = new Subject();
 
     protected Node()
@@ -36,6 +38,9 @@ public abstract class Node
     {
         _children[direction] = child;
         child.Parent = this;
+
+        if (childChangeSubscription != null) childChangeSubscription.Unsubscribe();
+        childChangeSubscription = child.ChangeSubject.Subscribe(ChangeSubject.Next);
     }
 
     public void SetAbility(AbilityReference ability)

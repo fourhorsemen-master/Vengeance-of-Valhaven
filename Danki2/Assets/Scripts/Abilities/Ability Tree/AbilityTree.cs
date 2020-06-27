@@ -41,10 +41,10 @@ public abstract class AbilityTree
         ResubscribeToNodeChanges();
         UpdateInventory();
 
-        ChangeSubject.Subscribe(() => {
-            Debug.Log("tree changed");
+        RootNode.ChangeSubject.Subscribe(() => {
             Reset();
             ResubscribeToNodeChanges();
+            ChangeSubject.Next();
         });
     }
 
