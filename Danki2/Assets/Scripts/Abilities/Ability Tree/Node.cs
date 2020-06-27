@@ -12,7 +12,10 @@ public abstract class Node
 
     public AbilityReference Ability { get; private set; }
 
-    private Subscription childChangeSubscription = null;
+    private EnumDictionary<Direction, Subscription> childChangeSubscriptions = new EnumDictionary<Direction, Subscription>(defaultValue: null);
+
+    private Subscription leftChildChangeSubscription = null;
+    private Subscription rightChildChangeSubscription = null;
     public Subject ChangeSubject { get; } = new Subject();
 
     protected Node()
@@ -39,8 +42,9 @@ public abstract class Node
         _children[direction] = child;
         child.Parent = this;
 
-        if (childChangeSubscription != null) childChangeSubscription.Unsubscribe();
-        childChangeSubscription = child.ChangeSubject.Subscribe(ChangeSubject.Next);
+        Subscription subscription = childChangeSubscriptions[direction];
+        if (subscription != null) subscription.Unsubscribe();
+        subscription = child.ChangeSubject.Subscribe(ChangeSubject.Next);
     }
 
     public void SetAbility(AbilityReference ability)

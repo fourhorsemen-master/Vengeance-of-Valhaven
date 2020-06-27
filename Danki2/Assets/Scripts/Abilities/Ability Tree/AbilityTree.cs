@@ -10,8 +10,6 @@ public abstract class AbilityTree
 
     private int _currentDepth;
 
-    private List<Subscription> nodeChangeSubscriptions = new List<Subscription>();
-
     /// <summary>
     /// Includes the root node - so the result is greater than 0
     /// </summary>
@@ -38,12 +36,11 @@ public abstract class AbilityTree
         TreeWalkSubject = new BehaviourSubject<Node>(_currentNode);
         CurrentDepthSubject = new BehaviourSubject<int>(_currentDepth);
 
-        ResubscribeToNodeChanges();
         UpdateInventory();
 
         RootNode.ChangeSubject.Subscribe(() => {
             Reset();
-            ResubscribeToNodeChanges();
+            UpdateInventory();
             ChangeSubject.Next();
         });
     }
@@ -92,24 +89,6 @@ public abstract class AbilityTree
             {
                 Inventory[n.Ability] -= 1;
                 if (Inventory[n.Ability] < 0) Debug.LogError("Tree abilities not subset of owned abilities.");
-            },
-            n => !n.IsRootNode
-        );
-    }
-
-    private void ResubscribeToNodeChanges()
-    {
-        nodeChangeSubscriptions.ForEach(s => s.Unsubscribe());
-        nodeChangeSubscriptions.Clear();
-
-        RootNode.IterateDown(
-            n => {
-                Subscription subscription = n.ChangeSubject.Subscribe(() =>
-                {
-                    UpdateInventory();
-                    ChangeSubject.Next();
-                });
-                nodeChangeSubscriptions.Add(subscription);
             },
             n => !n.IsRootNode
         );
