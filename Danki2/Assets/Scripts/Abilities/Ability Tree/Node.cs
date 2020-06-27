@@ -126,8 +126,6 @@ public abstract class Node
     /// <param name="predicate"> Optional predicate, if not provided then the action will run for every node </param>
     public void IterateDown(Action<Node> action, Func<Node, bool> predicate = null)
     {
-        Debug.Log("iterating down");
-
         if (predicate == null || predicate(this)) action(this);
 
         if (HasChild(Direction.Left))
