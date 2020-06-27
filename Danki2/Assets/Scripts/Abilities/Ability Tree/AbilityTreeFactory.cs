@@ -1,66 +1,20 @@
-﻿using System;
-using UnityEngine;
-
-public static class AbilityTreeFactory
+﻿public static class AbilityTreeFactory
 {
     // Root node must have two children for ability tree to be functional.
-    public static AbilityTree CreateTree(Node leftChild, Node rightChild)
+    public static AbilityTree CreateTree(EnumDictionary<AbilityReference, int> ownedAbilities, Node leftChild, Node rightChild)
     {
         Node rootNode = new NodeImplementation();
-        SetParentAndChild(rootNode, leftChild, Direction.Left);
-        SetParentAndChild(rootNode, rightChild, Direction.Right);
-        return new AbilityTreeImplementation(rootNode);
+        rootNode.SetChild(Direction.Left, leftChild);
+        rootNode.SetChild(Direction.Right, rightChild);
+        return new AbilityTreeImplementation(ownedAbilities, rootNode);
     }
 
     public static Node CreateNode(AbilityReference ability, Node leftChild = null, Node rightChild = null)
     {
         Node node = new NodeImplementation(ability);
-        if (leftChild != null) SetParentAndChild(node, leftChild, Direction.Left);
-        if (rightChild != null) SetParentAndChild(node, rightChild, Direction.Right);
+        if (leftChild != null) node.SetChild(Direction.Left, leftChild);
+        if (rightChild != null) node.SetChild(Direction.Right, rightChild);
         return node;
-    }
-
-    private static void SetParentAndChild(Node parent, Node child, Direction direction)
-    {
-        parent.SetChild(direction, child);
-        child.Parent = parent;
-    }
-
-    public static void InsertAbility(AbilityReference ability, Node node, InsertArea area)
-    {
-        Node newNode = CreateNode(ability);
-
-        switch (area)
-        {
-            case InsertArea.Centre:
-                if (node.IsRootNode)
-                {
-                    Debug.LogError("Tried to insert ability into root node.");
-                    return;
-                }
-                node.SetAbility(ability);
-                break;
-
-            case InsertArea.BottomLeft:
-                if (node.HasChild(Direction.Left))
-                {
-                    Node child = node.GetChild(Direction.Left);
-                    SetParentAndChild(newNode, child, Direction.Left);
-                }
-
-                SetParentAndChild(node, newNode, Direction.Left);
-                break;
-
-            case InsertArea.BottomRight:
-                if (node.HasChild(Direction.Right))
-                {
-                    Node child = node.GetChild(Direction.Right);
-                    SetParentAndChild(newNode, child, Direction.Right);
-                }
-
-                SetParentAndChild(node, newNode, Direction.Right);
-                break;
-        }
     }
 
     // These private implementations of the abstract classes ensure that all instantiation
@@ -68,7 +22,7 @@ public static class AbilityTreeFactory
     // for more information
     private class AbilityTreeImplementation : AbilityTree
     {
-        public AbilityTreeImplementation(Node rootNode) : base(rootNode)
+        public AbilityTreeImplementation(EnumDictionary<AbilityReference, int> ownedAbilities, Node rootNode) : base(ownedAbilities, rootNode)
         {
         }
     }

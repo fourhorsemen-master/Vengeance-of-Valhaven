@@ -46,7 +46,7 @@ public class TreeAbility : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
         abilityInsertListener.AbilityInsertSubject.Subscribe(location =>
         {
-            RoomManager.Instance.Player.InsertAbilityIntoTree(AbilityTreeEditorMenu.Instance.AbilityDragging, node, location);
+            node.Insert(AbilityTreeEditorMenu.Instance.AbilityDragging, location);
         });
     }
 

@@ -17,4 +17,6 @@ public class EnumDictionary<TEnumKey, TValue> : Dictionary<TEnumKey, TValue> whe
             Add(key, defaultValue);
         }
     }
+    public EnumDictionary(EnumDictionary<TEnumKey, TValue> enumDictionary)
+        : base(enumDictionary) {}
 }

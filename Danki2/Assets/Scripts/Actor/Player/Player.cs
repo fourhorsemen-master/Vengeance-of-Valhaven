@@ -23,8 +23,6 @@ public class Player : Actor
     private AudioSource whiffAudio = null;
 
     public AbilityTree AbilityTree { get; private set; }
-
-    public EnumDictionary<AbilityReference, int> AbilityInventory { get; private set; }
     
     public AbilityManager AbilityManager { get; private set; }
 
@@ -34,21 +32,22 @@ public class Player : Actor
     {
         base.Awake();
 
-        AbilityInventory = new EnumDictionary<AbilityReference, int>(0);
-        AbilityInventory[AbilityReference.Bash] = 3;
-        AbilityInventory[AbilityReference.DaggerThrow] = 3;
-        AbilityInventory[AbilityReference.Dash] = 3;
-        AbilityInventory[AbilityReference.Leap] = 3;
-        AbilityInventory[AbilityReference.LeechingStrike] = 3;
-        AbilityInventory[AbilityReference.Lunge] = 3;
-        AbilityInventory[AbilityReference.Slash] = 3;
-        AbilityInventory[AbilityReference.Smash] = 3;
-        AbilityInventory[AbilityReference.SweepingStrike] = 3;
-        AbilityInventory[AbilityReference.Sprint] = 3;
-        AbilityInventory[AbilityReference.Whirlwind] = 3;
-        AbilityInventory[AbilityReference.Meditate] = 3;
+        EnumDictionary<AbilityReference, int> ownedAbilities = new EnumDictionary<AbilityReference, int>(0);
+        ownedAbilities[AbilityReference.Bash] = 3;
+        ownedAbilities[AbilityReference.DaggerThrow] = 3;
+        ownedAbilities[AbilityReference.Dash] = 3;
+        ownedAbilities[AbilityReference.Leap] = 3;
+        ownedAbilities[AbilityReference.LeechingStrike] = 3;
+        ownedAbilities[AbilityReference.Lunge] = 3;
+        ownedAbilities[AbilityReference.Slash] = 3;
+        ownedAbilities[AbilityReference.Smash] = 3;
+        ownedAbilities[AbilityReference.SweepingStrike] = 3;
+        ownedAbilities[AbilityReference.Sprint] = 3;
+        ownedAbilities[AbilityReference.Whirlwind] = 3;
+        ownedAbilities[AbilityReference.Meditate] = 3;
 
         AbilityTree = AbilityTreeFactory.CreateTree(
+            ownedAbilities,
             AbilityTreeFactory.CreateNode(AbilityReference.SweepingStrike),
             AbilityTreeFactory.CreateNode(AbilityReference.Lunge)
         );
@@ -70,20 +69,6 @@ public class Player : Actor
         base.Update();
 
         TickRollCooldown();
-    }
-
-    public void InsertAbilityIntoTree(AbilityReference ability, Node node, InsertArea area)
-    {
-        if (area == InsertArea.Centre)
-        {
-            AbilityInventory[node.Ability] += 1;
-        }
-
-        AbilityTreeFactory.InsertAbility(ability, node, area);
-        AbilityInventory[ability] -= 1;
-
-        AbilityTree.Reset();
-        AbilityTree.ChangeSubject.Next();
     }
 
     public void Roll(Vector3 direction)

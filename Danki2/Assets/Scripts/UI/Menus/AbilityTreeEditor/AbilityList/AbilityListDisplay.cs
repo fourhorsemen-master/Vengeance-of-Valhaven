@@ -12,6 +12,8 @@ public class AbilityListDisplay : MonoBehaviour
     {
         player = RoomManager.Instance.Player;
 
+        AbilityTreeEditorMenu.Instance.AbilityDragStopSubject.Subscribe(_ => PopulateAbilityList());
+
         PopulateAbilityList();
     }
 
@@ -23,13 +25,12 @@ public class AbilityListDisplay : MonoBehaviour
             Destroy(child.gameObject);
         }
 
-        foreach (KeyValuePair<AbilityReference, int> item in player.AbilityInventory)
+        foreach (KeyValuePair<AbilityReference, int> item in player.AbilityTree.Inventory)
         {
             if (item.Value > 0)
             {
                 AbilityListingPanel abilityListingPanel = Instantiate(abilityListingPanelPrefab, Vector3.zero, Quaternion.identity, transform);
                 abilityListingPanel.Initialise(item.Key, item.Value);
-                abilityListingPanel.DragEndSubject.Subscribe(PopulateAbilityList);
             }
         }
     }

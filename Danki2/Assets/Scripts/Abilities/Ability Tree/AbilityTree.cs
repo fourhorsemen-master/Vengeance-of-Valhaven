@@ -1,10 +1,16 @@
-﻿public abstract class AbilityTree
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
+
+public abstract class AbilityTree
 {
     public Node RootNode { get; }
 
     private Node _currentNode;
 
     private int _currentDepth;
+
+    private List<Subscription> nodeChangeSubscriptions = new List<Subscription>();
 
     /// <summary>
     /// Includes the root node - so the result is greater than 0
@@ -17,14 +23,29 @@
 
     public Subject ChangeSubject { get; } = new Subject();
 
-    protected AbilityTree(Node rootNode)
+    private EnumDictionary<AbilityReference, int> ownedAbilities;
+
+    public EnumDictionary<AbilityReference, int> Inventory { get; private set; }
+
+    protected AbilityTree(EnumDictionary<AbilityReference, int> ownedAbilities, Node rootNode)
     {
+        this.ownedAbilities = ownedAbilities;
+
         RootNode = rootNode;
         _currentNode = RootNode;
         _currentDepth = 0;
 
         TreeWalkSubject = new BehaviourSubject<Node>(_currentNode);
         CurrentDepthSubject = new BehaviourSubject<int>(_currentDepth);
+
+        ResubscribeToNodeChanges();
+        UpdateInventory();
+
+        ChangeSubject.Subscribe(() => {
+            Debug.Log("tree changed");
+            Reset();
+            ResubscribeToNodeChanges();
+        });
     }
 
     public bool CanWalkDirection(Direction direction)
@@ -60,5 +81,37 @@
 
         _currentDepth = 0;
         CurrentDepthSubject.Next(_currentDepth);
+    }
+
+    private void UpdateInventory()
+    {
+        Inventory = new EnumDictionary<AbilityReference, int>(ownedAbilities);
+
+        RootNode.IterateDown(
+            n =>
+            {
+                Inventory[n.Ability] -= 1;
+                if (Inventory[n.Ability] < 0) Debug.LogError("Tree abilities not subset of owned abilities.");
+            },
+            n => !n.IsRootNode
+        );
+    }
+
+    private void ResubscribeToNodeChanges()
+    {
+        nodeChangeSubscriptions.ForEach(s => s.Unsubscribe());
+        nodeChangeSubscriptions.Clear();
+
+        RootNode.IterateDown(
+            n => {
+                Subscription subscription = n.ChangeSubject.Subscribe(() =>
+                {
+                    UpdateInventory();
+                    ChangeSubject.Next();
+                });
+                nodeChangeSubscriptions.Add(subscription);
+            },
+            n => !n.IsRootNode
+        );
     }
 }
