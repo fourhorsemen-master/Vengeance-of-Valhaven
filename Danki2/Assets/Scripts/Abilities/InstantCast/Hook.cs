@@ -23,7 +23,12 @@ public class Hook : InstantCast
         Owner.MovementManager.LookAt(position);
         Owner.MovementManager.Stun(range / hookSpeed);
 
-        HookObject.Fire(Owner, OnCollision, hookSpeed, position, rotation, range);
+        HookObject.Fire(Owner, OnCollision, MissCallback, hookSpeed, position, rotation, range);
+    }
+
+    private void MissCallback(bool missCallBack)
+    {
+        if(missCallBack) SuccessFeedbackSubject.Next(false);
     }
 
     private void OnCollision(GameObject gameObject)
