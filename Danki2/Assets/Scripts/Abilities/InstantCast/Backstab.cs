@@ -12,6 +12,8 @@ public class Backstab : InstantCast
 
     public override void Cast(Vector3 target)
     {
+        Owner.MovementManager.LookAt(target);
+        Owner.MovementManager.Stun(PauseDuration);
         SuccessFeedbackSubject.Next(false);
     }
 
@@ -22,6 +24,8 @@ public class Backstab : InstantCast
             || Range < Vector3.Distance(target.transform.position, Owner.transform.position)
         )
         {
+            Owner.MovementManager.LookAt(target.transform.position);
+            Owner.MovementManager.Stun(PauseDuration);
             SuccessFeedbackSubject.Next(false);
             return;
         }
@@ -35,7 +39,7 @@ public class Backstab : InstantCast
             target.transform.rotation
         ).ForEach(actor =>
         {
-            if (actor.Type == Owner.Type)
+            if (actor == Owner)
             {
                 SuccessFeedbackSubject.Next(false);
                 behindEnemy = false;
