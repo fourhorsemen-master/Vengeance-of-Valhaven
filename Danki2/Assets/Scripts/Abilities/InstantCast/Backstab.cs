@@ -25,13 +25,8 @@ public class Backstab : InstantCast
         if (
             !Owner.Opposes(target)
             || Range < Vector3.Distance(target.transform.position, Owner.transform.position)
+            || Vector3.Dot(target.transform.forward, Owner.transform.position - target.transform.position) > 0
         )
-        {
-            SuccessFeedbackSubject.Next(false);
-            return;
-        }
-
-        if (Vector3.Dot(target.transform.forward, Owner.transform.position - target.transform.position) > 0)
         {
             SuccessFeedbackSubject.Next(false);
             return;
