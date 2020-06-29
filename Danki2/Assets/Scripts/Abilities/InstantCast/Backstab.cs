@@ -12,37 +12,45 @@ public class Backstab : InstantCast
 
     public override void Cast(Vector3 target)
     {
-        Vector3 position = Owner.transform.position;
-        Vector3 castDirection = target - position;
-        castDirection.y = 0f;
+        SuccessFeedbackSubject.Next(false);
+    }
 
-        bool hasDealtDamage = false;
+    public override void Cast(Actor target)
+    {
+        if (
+            !Owner.Opposes(target)
+            || Range < Vector3.Distance(target.transform.position, Owner.transform.position)
+        )
+        {
+            SuccessFeedbackSubject.Next(false);
+            return;
+        }
 
         CollisionTemplateManager.Instance.GetCollidingActors(
             CollisionTemplate.Wedge90,
             Range,
-            position,
-            Quaternion.LookRotation(castDirection)
+            target.transform.forward,
+            target.transform.rotation
         ).ForEach(actor =>
         {
-            if (Owner.Opposes(actor))
+            if (target.Opposes(actor))
             {
-                DealPrimaryDamage(actor);
-                hasDealtDamage = true;
+                SuccessFeedbackSubject.Next(false);
+                return;
             }
         });
 
-        SuccessFeedbackSubject.Next(hasDealtDamage);
+        DealPrimaryDamage(target);
+        SuccessFeedbackSubject.Next(true);
 
-        BackstabObject backstabObject = BackstabObject.Create(position, Quaternion.LookRotation(castDirection));
+        Vector3 castDirection = target.transform.position - Owner.transform.position;
+        castDirection.y = 0f;
+        BackstabObject backstabObject = BackstabObject.Create(Owner.transform.position, Quaternion.LookRotation(castDirection));
 
-        Owner.MovementManager.LookAt(target);
+        Owner.MovementManager.LookAt(target.transform.position);
         Owner.MovementManager.Stun(PauseDuration);
 
-        if (hasDealtDamage)
-        {
-            CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
-            backstabObject.PlayHitSound();
-        }
+        CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
+        backstabObject.PlayHitSound();
     }
 }
