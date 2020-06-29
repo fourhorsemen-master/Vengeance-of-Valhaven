@@ -15,5 +15,6 @@
     Meditate,
     Bash,
     SweepingStrike,
-    Hook
+    Hook,
+    Backstab
 }

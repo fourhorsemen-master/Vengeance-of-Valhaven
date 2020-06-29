@@ -61,6 +61,7 @@ MonoBehaviour:
     - Bash
     - SweepingStrike
     - Hook
+    - Backstab
     _values:
     - displayName: Slash
       tooltip: Deals {PRIMARY_DAMAGE} damage.
@@ -308,6 +309,21 @@ MonoBehaviour:
         hasValue: 1
         value: 0
       generatedOrbs: 00000000
+      abilityBonusLookup:
+        _keys: []
+        _values: []
+    - displayName: Backstab
+      tooltip: With an unexpected stab from behind, deal {PRIMARY_DAMAGE} to a target.
+        However if the opponent is facing you the stab will fail!
+      baseAbilityData:
+        primaryDamage: 16
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      abilityOrbType:
+        hasValue: 1
+        value: 2
+      generatedOrbs: 02000000
       abilityBonusLookup:
         _keys: []
         _values: []
