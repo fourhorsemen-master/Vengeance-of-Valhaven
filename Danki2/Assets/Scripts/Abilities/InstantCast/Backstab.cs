@@ -26,19 +26,23 @@ public class Backstab : InstantCast
             return;
         }
 
+        bool behindEnemy = true;
+
         CollisionTemplateManager.Instance.GetCollidingActors(
             CollisionTemplate.Wedge90,
             Range,
-            target.transform.forward,
+            target.transform.position,
             target.transform.rotation
         ).ForEach(actor =>
         {
-            if (target.Opposes(actor))
+            if (actor.Type == Owner.Type)
             {
                 SuccessFeedbackSubject.Next(false);
-                return;
+                behindEnemy = false;
             }
         });
+
+        if (!behindEnemy) return;
 
         DealPrimaryDamage(target);
         SuccessFeedbackSubject.Next(true);
