@@ -57,7 +57,7 @@ public class SerializableMetadataLookupValidator
             abilityReference => LogError($"Duplicate ability reference in attributes for {abilityReference.ToString()}")
         );
 
-        if (attributeAbilityReferences.Distinct().Count() != Enum.GetValues(typeof(AbilityReference)).Length)
+        if (attributeAbilityReferences.Distinct().Count() != EnumUtils.GetLength<AbilityReference>())
         {
             LogError("Ability attributes found do not match all ability references. There may be abilities missing the attribute.");
         }

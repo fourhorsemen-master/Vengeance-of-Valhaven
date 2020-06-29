@@ -12,10 +12,7 @@ public class OrbCollection : EnumDictionary<OrbType, int>
 
     public OrbCollection(List<OrbType> orbTypes) : base (0)
     {
-        foreach (OrbType key in Enum.GetValues(typeof(OrbType)))
-        {
-            this[key] = orbTypes.Count(o => o == key);
-        }
+        EnumUtils.ForEach<OrbType>(type => this[type] = orbTypes.Count(o => o == type));
     }
 
     public bool IsSuperset(OrbCollection other)
@@ -27,10 +24,7 @@ public class OrbCollection : EnumDictionary<OrbType, int>
 
     public void Add(OrbCollection other)
     {
-        foreach (OrbType orbType in Enum.GetValues(typeof(OrbType)))
-        {
-            this[orbType] += other[orbType];
-        }
+        EnumUtils.ForEach<OrbType>(type => this[type] += other[type]);
     }
 
     /// <summary>
@@ -39,12 +33,12 @@ public class OrbCollection : EnumDictionary<OrbType, int>
     /// <param name="action"></param>
     public void ForEachOrb(Action<OrbType> action)
     {
-        foreach (OrbType key in Enum.GetValues(typeof(OrbType)))
+        EnumUtils.ForEach<OrbType>(type =>
         {
-            for (int i = 0; i < this[key]; i++)
+            for (int i = 0; i < this[type]; i++)
             {
-                action(key);
+                action(type);
             }
-        }
+        });
     }
 }

@@ -41,9 +41,9 @@ public class MovementStatusManager
 
 	private void TickStatuses()
 	{
-		remainingDurations.ForEachKey(k =>
+		EnumUtils.ForEach<MovementStatus>(status =>
 		{
-			remainingDurations[k] = Mathf.Max(remainingDurations[k] - Time.deltaTime, 0);
+			remainingDurations[status] = Mathf.Max(remainingDurations[status] - Time.deltaTime, 0);
 		});
 	}
 }
