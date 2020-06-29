@@ -26,7 +26,7 @@ public abstract class Node
 
     public bool HasChild(Direction direction)
     {
-        return _children.TryGetValue(direction, out _);
+        return _children[direction] != null;
     }
 
     public Node GetChild(Direction direction)
