@@ -19,34 +19,23 @@ public class Backstab : InstantCast
 
     public override void Cast(Actor target)
     {
+        Owner.MovementManager.LookAt(target.transform.position);
+        Owner.MovementManager.Stun(PauseDuration);
+
         if (
             !Owner.Opposes(target)
             || Range < Vector3.Distance(target.transform.position, Owner.transform.position)
         )
         {
-            Owner.MovementManager.LookAt(target.transform.position);
-            Owner.MovementManager.Stun(PauseDuration);
             SuccessFeedbackSubject.Next(false);
             return;
         }
 
-        bool behindEnemy = true;
-
-        CollisionTemplateManager.Instance.GetCollidingActors(
-            CollisionTemplate.Wedge90,
-            Range,
-            target.transform.position,
-            target.transform.rotation
-        ).ForEach(actor =>
+        if (Vector3.Dot(target.transform.forward, Owner.transform.position - target.transform.position) > 0)
         {
-            if (actor == Owner)
-            {
-                SuccessFeedbackSubject.Next(false);
-                behindEnemy = false;
-            }
-        });
-
-        if (!behindEnemy) return;
+            SuccessFeedbackSubject.Next(false);
+            return;
+        }
 
         DealPrimaryDamage(target);
         SuccessFeedbackSubject.Next(true);
@@ -54,9 +43,6 @@ public class Backstab : InstantCast
         Vector3 castDirection = target.transform.position - Owner.transform.position;
         castDirection.y = 0f;
         BackstabObject backstabObject = BackstabObject.Create(Owner.transform.position, Quaternion.LookRotation(castDirection));
-
-        Owner.MovementManager.LookAt(target.transform.position);
-        Owner.MovementManager.Stun(PauseDuration);
 
         CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
         backstabObject.PlayHitSound();
