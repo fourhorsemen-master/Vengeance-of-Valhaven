@@ -43,9 +43,11 @@ public class AbilityListingPanel : MonoBehaviour, IBeginDragHandler, IDragHandle
         AbilityTreeEditorMenu.Instance.AbilityDragStartSubject.Next(ability);
     }
 
-    public void OnDrag(PointerEventData eventData)
-    {
-    }
+    /// <summary>
+    /// We implement this method to satisfy the IDragHandler.
+    /// </summary>
+    /// <param name="eventData"></param>
+    public void OnDrag(PointerEventData eventData) { }
 
     public void OnEndDrag(PointerEventData eventData)
     {

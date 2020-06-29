@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class Node
 {
-    private readonly Dictionary<Direction, Node> _children = new Dictionary<Direction, Node>();
+    private readonly EnumDictionary<Direction, Node> _children = new EnumDictionary<Direction, Node>(defaultValue: null);
 
     public bool IsRootNode => Parent == null;
 
@@ -13,9 +13,6 @@ public abstract class Node
     public AbilityReference Ability { get; private set; }
 
     private EnumDictionary<Direction, Subscription> childChangeSubscriptions = new EnumDictionary<Direction, Subscription>(defaultValue: null);
-
-    private Subscription leftChildChangeSubscription = null;
-    private Subscription rightChildChangeSubscription = null;
     public Subject ChangeSubject { get; } = new Subject();
 
     protected Node()
@@ -42,14 +39,8 @@ public abstract class Node
         _children[direction] = child;
         child.Parent = this;
 
-        Subscription subscription = childChangeSubscriptions[direction];
-        if (subscription != null) subscription.Unsubscribe();
-        subscription = child.ChangeSubject.Subscribe(ChangeSubject.Next);
-    }
-
-    public void SetAbility(AbilityReference ability)
-    {
-        Ability = ability;
+        childChangeSubscriptions[direction]?.Unsubscribe();
+        childChangeSubscriptions[direction] = child.ChangeSubject.Subscribe(ChangeSubject.Next);
     }
 
     public int MaxDepth()
@@ -81,7 +72,7 @@ public abstract class Node
                     Debug.LogError("Tried to insert ability into root node.");
                     return;
                 }
-                SetAbility(ability);
+                Ability = ability;
                 break;
 
             case InsertArea.BottomLeft:
@@ -120,7 +111,7 @@ public abstract class Node
     }
 
     /// <summary>
-    /// Runs the given action for this node and all decendent nodes.
+    /// Runs the given action for this node and all descendent nodes.
     /// </summary>
     /// <param name="action"> The action to run </param>
     /// <param name="predicate"> Optional predicate, if not provided then the action will run for every node </param>
@@ -128,10 +119,6 @@ public abstract class Node
     {
         if (predicate == null || predicate(this)) action(this);
 
-        if (HasChild(Direction.Left))
-            GetChild(Direction.Left).IterateDown(action, predicate);
-
-        if (HasChild(Direction.Right))
-            GetChild(Direction.Right).IterateDown(action, predicate);
+        EnumUtils.ForEach<Direction>(d => _children[d]?.IterateDown(action, predicate));
     }
 }
