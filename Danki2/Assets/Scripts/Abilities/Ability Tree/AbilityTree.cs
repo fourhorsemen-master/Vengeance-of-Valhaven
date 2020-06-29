@@ -1,4 +1,8 @@
-﻿public abstract class AbilityTree
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
+
+public abstract class AbilityTree
 {
     public Node RootNode { get; }
 
@@ -6,26 +10,41 @@
 
     private int _currentDepth;
 
-    public int MaxDepth { get; }
+    /// <summary>
+    /// Includes the root node - so the result is greater than 0
+    /// </summary>
+    public int MaxDepth => RootNode.MaxDepth();
 
     public BehaviourSubject<Node> TreeWalkSubject { get; }
 
     public BehaviourSubject<int> CurrentDepthSubject { get; }
 
+    public Subject ChangeSubject { get; } = new Subject();
+
+    private EnumDictionary<AbilityReference, int> ownedAbilities;
+
+    public EnumDictionary<AbilityReference, int> Inventory { get; private set; }
+    
     public bool AtRoot => _currentDepth == 0;
 
-    protected AbilityTree(Node rootNode)
+    protected AbilityTree(EnumDictionary<AbilityReference, int> ownedAbilities, Node rootNode)
     {
+        this.ownedAbilities = ownedAbilities;
+
         RootNode = rootNode;
         _currentNode = RootNode;
         _currentDepth = 0;
 
-        // The root node counts itself when calculating depth, as it is just the same as any
-        // other node. But in terms of the ability tree, we want to discount it.
-        MaxDepth = RootNode.MaxDepth() - 1;
-
         TreeWalkSubject = new BehaviourSubject<Node>(_currentNode);
         CurrentDepthSubject = new BehaviourSubject<int>(_currentDepth);
+
+        UpdateInventory();
+
+        RootNode.ChangeSubject.Subscribe(() => {
+            Reset();
+            UpdateInventory();
+            ChangeSubject.Next();
+        });
     }
 
     public bool CanWalkDirection(Direction direction)
@@ -61,5 +80,19 @@
 
         _currentDepth = 0;
         CurrentDepthSubject.Next(_currentDepth);
+    }
+
+    private void UpdateInventory()
+    {
+        Inventory = new EnumDictionary<AbilityReference, int>(ownedAbilities);
+
+        RootNode.IterateDown(
+            n =>
+            {
+                Inventory[n.Ability] -= 1;
+                if (Inventory[n.Ability] < 0) Debug.LogError("Tree abilities not subset of owned abilities.");
+            },
+            n => !n.IsRootNode
+        );
     }
 }

@@ -23,8 +23,6 @@ public class Player : Actor
     private AudioSource whiffAudio = null;
 
     public AbilityTree AbilityTree { get; private set; }
-
-    public EnumDictionary<AbilityReference, int> AbilityInventory { get; private set; }
     
     public AbilityManager AbilityManager { get; private set; }
 
@@ -36,35 +34,24 @@ public class Player : Actor
     {
         base.Awake();
 
-        AbilityInventory = new EnumDictionary<AbilityReference, int>(0);
-        AbilityInventory[AbilityReference.Bite] = 1;
-        AbilityInventory[AbilityReference.Pounce] = 2;
-        AbilityInventory[AbilityReference.Slash] = 3;
-        AbilityInventory[AbilityReference.Dash] = 4;
-        AbilityInventory[AbilityReference.DaggerThrow] = 5;
-        AbilityInventory[AbilityReference.Lunge] = 6;
-        AbilityInventory[AbilityReference.Smash] = 7;
-        AbilityInventory[AbilityReference.Whirlwind] = 9;
+        EnumDictionary<AbilityReference, int> ownedAbilities = new EnumDictionary<AbilityReference, int>(0);
+        ownedAbilities[AbilityReference.Bash] = 3;
+        ownedAbilities[AbilityReference.DaggerThrow] = 3;
+        ownedAbilities[AbilityReference.Dash] = 3;
+        ownedAbilities[AbilityReference.Leap] = 3;
+        ownedAbilities[AbilityReference.LeechingStrike] = 3;
+        ownedAbilities[AbilityReference.Lunge] = 3;
+        ownedAbilities[AbilityReference.Slash] = 3;
+        ownedAbilities[AbilityReference.Smash] = 3;
+        ownedAbilities[AbilityReference.SweepingStrike] = 3;
+        ownedAbilities[AbilityReference.Sprint] = 3;
+        ownedAbilities[AbilityReference.Whirlwind] = 3;
+        ownedAbilities[AbilityReference.Hook] = 3;
 
         AbilityTree = AbilityTreeFactory.CreateTree(
-            AbilityTreeFactory.CreateNode(
-                AbilityReference.SweepingStrike,
-                AbilityTreeFactory.CreateNode(
-                    AbilityReference.Dash,
-                    AbilityTreeFactory.CreateNode(AbilityReference.Leap),
-                    AbilityTreeFactory.CreateNode(AbilityReference.Smash)
-                ),
-                AbilityTreeFactory.CreateNode(AbilityReference.Whirlwind)
-            ),
-            AbilityTreeFactory.CreateNode(
-                AbilityReference.Lunge,
-                AbilityTreeFactory.CreateNode(AbilityReference.DaggerThrow),
-                AbilityTreeFactory.CreateNode(
-                    AbilityReference.Whirlwind,
-                    null,
-                    AbilityTreeFactory.CreateNode(AbilityReference.LeechingStrike)
-                )
-            )
+            ownedAbilities,
+            AbilityTreeFactory.CreateNode(AbilityReference.SweepingStrike),
+            AbilityTreeFactory.CreateNode(AbilityReference.Lunge)
         );
 
         RegisterAbilityDataDiffer(new AbilityDataOrbsDiffer(AbilityTree));
