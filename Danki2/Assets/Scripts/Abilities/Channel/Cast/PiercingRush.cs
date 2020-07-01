@@ -19,6 +19,8 @@ public class PiercingRush : Cast
 
     private const float abilityConcludedStun = 0.2f;
 
+    private PiercingRushObject piercingRushObject;
+
     public PiercingRush(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
     }
@@ -26,7 +28,7 @@ public class PiercingRush : Cast
     public override void End(Vector3 target)
     {
         SuccessFeedbackSubject.Next(true);
-
+        piercingRushObject = PiercingRushObject.Create(Owner.transform);
 
         // Dash.
         Vector3 position = Owner.transform.position;
@@ -72,14 +74,20 @@ public class PiercingRush : Cast
         // Jetstream.
         if (HasBonus("Jetstream"))
         {
-            Owner.WaitAndAct(dashDuration + jetstreamCastDelay, () => Jetstream());
+            Owner.WaitAndAct(dashDuration + jetstreamCastDelay, () => Jetstream(piercingRushObject));
+        }
+        else
+        {
+            Owner.WaitAndAct(dashDuration, () => piercingRushObject.Destroy());
         }
 
         Owner.MovementManager.Stun(abilityConcludedStun);
     }
 
-    private void Jetstream()
+    private void Jetstream(PiercingRushObject piercingRushObject)
     {
+        piercingRushObject.PlayJetstreamSoundThenDestroy();
+
         Vector3 faceDirection = Owner.transform.rotation.eulerAngles;
         faceDirection = new Vector3(faceDirection.x, faceDirection.y + 180f, faceDirection.z);
         Quaternion castRotation = Quaternion.Euler(faceDirection);
