@@ -34,19 +34,7 @@ public class Player : Actor
     {
         base.Awake();
 
-        EnumDictionary<AbilityReference, int> ownedAbilities = new EnumDictionary<AbilityReference, int>(0);
-        ownedAbilities[AbilityReference.Bash] = 3;
-        ownedAbilities[AbilityReference.DaggerThrow] = 3;
-        ownedAbilities[AbilityReference.Dash] = 3;
-        ownedAbilities[AbilityReference.Leap] = 3;
-        ownedAbilities[AbilityReference.LeechingStrike] = 3;
-        ownedAbilities[AbilityReference.Lunge] = 3;
-        ownedAbilities[AbilityReference.Slash] = 3;
-        ownedAbilities[AbilityReference.Smash] = 3;
-        ownedAbilities[AbilityReference.SweepingStrike] = 3;
-        ownedAbilities[AbilityReference.Sprint] = 3;
-        ownedAbilities[AbilityReference.Whirlwind] = 3;
-        ownedAbilities[AbilityReference.Hook] = 3;
+        EnumDictionary<AbilityReference, int> ownedAbilities = new EnumDictionary<AbilityReference, int>(3);
 
         AbilityTree = AbilityTreeFactory.CreateTree(
             ownedAbilities,
