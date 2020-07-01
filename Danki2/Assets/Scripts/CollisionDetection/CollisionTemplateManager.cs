@@ -31,28 +31,8 @@ public class CollisionTemplateManager : Singleton<CollisionTemplateManager>
 
     public List<Actor> GetCollidingActors(CollisionTemplate template, float scale, Vector3 position, Quaternion rotation)
     {
-        MeshCollider templateInstance = instanceLookup[template];
-
-        float currentScale = templateInstance.transform.localScale.magnitude;
-        if (currentScale != scale)
-        {
-            templateInstance.transform.localScale = Vector3.one * scale;
-            ResetMesh(templateInstance);
-        }
-
-        return RoomManager.Instance.ActorCache
-            .Where(actorCacheItem => Physics.ComputePenetration(
-                actorCacheItem.Collider,
-                actorCacheItem.Collider.transform.position,
-                actorCacheItem.Collider.transform.rotation,
-                templateInstance,
-                position,
-                rotation,
-                out _,
-                out _
-            ))
-            .Select(actorCacheItem => actorCacheItem.Actor)
-            .ToList();
+        Vector3 scaleFactor = Vector3.one * scale;
+        return GetCollidingActors(template, scaleFactor, position, rotation);
     }
 
     public List<Actor> GetCollidingActors(CollisionTemplate template, Vector3 scale, Vector3 position) {

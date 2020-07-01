@@ -93,9 +93,7 @@ public class PiercingRush : Cast
     {
         piercingRushObject.PlayJetstreamSoundThenDestroy();
 
-        Vector3 faceDirection = Owner.transform.rotation.eulerAngles;
-        faceDirection = new Vector3(faceDirection.x, faceDirection.y + 180f, faceDirection.z);
-        Quaternion castRotation = Quaternion.Euler(faceDirection);
+        Quaternion castRotation = Owner.transform.rotation * Quaternion.Euler(0f, 180f, 0f);
 
         bool hasDealtDamage = false;
 
