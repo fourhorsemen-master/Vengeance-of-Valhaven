@@ -44,6 +44,7 @@ public class AbilityListDisplay : MonoBehaviour
             }
         }
 
+        // PreferredHeight isn't up to date until next frame, so we set the content height then.
         this.NextFrame(
             () => rectTransform.SetHeight(verticalLayoutGroup.preferredHeight)
         );
