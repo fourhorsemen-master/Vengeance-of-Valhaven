@@ -55,6 +55,36 @@ public class CollisionTemplateManager : Singleton<CollisionTemplateManager>
             .ToList();
     }
 
+    public List<Actor> GetCollidingActors(CollisionTemplate template, Vector3 scale, Vector3 position) {
+        return GetCollidingActors(template, scale, position, Quaternion.identity);
+    }
+
+    public List<Actor> GetCollidingActors(CollisionTemplate template, Vector3 scale, Vector3 position, Quaternion rotation)
+    {
+        MeshCollider templateInstance = instanceLookup[template];
+
+        Vector3 currentScale = templateInstance.transform.localScale;
+        if (currentScale != scale)
+        {
+            templateInstance.transform.localScale = scale;
+            ResetMesh(templateInstance);
+        }
+
+        return RoomManager.Instance.ActorCache
+            .Where(actorCacheItem => Physics.ComputePenetration(
+                actorCacheItem.Collider,
+                actorCacheItem.Collider.transform.position,
+                actorCacheItem.Collider.transform.rotation,
+                templateInstance,
+                position,
+                rotation,
+                out _,
+                out _
+            ))
+            .Select(actorCacheItem => actorCacheItem.Actor)
+            .ToList();
+    }
+
     /// <summary>
     /// After changing the scale of a transform, collider components take more than a frame to update. This method manually reapplies the collider mesh, forcing immediate recalculation of scale.
     /// </summary>
