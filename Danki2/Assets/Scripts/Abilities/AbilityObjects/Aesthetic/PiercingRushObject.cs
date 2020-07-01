@@ -1,18 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class PiercingRushObject : MonoBehaviour
+public class PiercingRushObject : StaticAbilityObject
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public AudioSource piercingRushSound = null;
 
-    // Update is called once per frame
-    void Update()
+    public override float StickTime => piercingRushSound.clip.length;
+
+    public static void Create(Transform casterTransform)
     {
-        
+        PiercingRushObject prefab = AbilityObjectPrefabLookup.Instance.PiercingRushObjectPrefab;
+        Instantiate(prefab, casterTransform);
     }
 }

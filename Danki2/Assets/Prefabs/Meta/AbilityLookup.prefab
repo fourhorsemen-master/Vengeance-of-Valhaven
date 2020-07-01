@@ -62,6 +62,7 @@ MonoBehaviour:
     - SweepingStrike
     - Hook
     - Backstab
+    - PiercingRush
     _values:
     - displayName: Slash
       tooltip: Deals {PRIMARY_DAMAGE} damage.
@@ -327,3 +328,27 @@ MonoBehaviour:
       abilityBonusLookup:
         _keys: []
         _values: []
+    - displayName: Piercing Rush
+      tooltip: Takes 2 seconds to cast. Dash for up to 10m dealing {PRIMARY_DAMAGE}
+        damage to all enemies you pass.
+      baseAbilityData:
+        primaryDamage: 8
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      abilityOrbType:
+        hasValue: 1
+        value: 2
+      generatedOrbs: 
+      abilityBonusLookup:
+        _keys:
+        - Daze
+        - Jetstream
+        _values:
+        - displayName: Daze
+          tooltip: Slow all enemies hit.
+          requiredOrbs: 00000000
+        - displayName: Jetstream
+          tooltip: After the dash the sharp winds of the jetstream causes {PRIMARY_DAMAGE}
+            damage to enemies in a cone behind you.
+          requiredOrbs: 020000000100000001000000
