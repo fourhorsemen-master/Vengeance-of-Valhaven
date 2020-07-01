@@ -43,12 +43,16 @@ public class PiercingRush : Cast
 
 
         // Dash damage and Daze.
-        Vector3 collisionScale = new Vector3(distance, dashDamageWidth, dashDamageHeight);
+        Vector3 collisionDetectionScale = new Vector3(dashDamageWidth, dashDamageHeight, distance);
+
+        Vector3 collisionDetectionPosition = position;
+        Vector3 collisionDetectionOffset = Owner.transform.forward.normalized * distance / 2;
+        collisionDetectionPosition += collisionDetectionOffset;
 
         CollisionTemplateManager.Instance.GetCollidingActors(
             CollisionTemplate.Cuboid,
-            collisionScale,
-            position,
+            collisionDetectionScale,
+            collisionDetectionPosition,
             Quaternion.LookRotation(direction)
         ).ForEach(actor =>
         {
