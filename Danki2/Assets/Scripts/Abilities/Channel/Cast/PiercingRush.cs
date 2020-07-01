@@ -93,7 +93,7 @@ public class PiercingRush : Cast
     {
         piercingRushObject.PlayJetstreamSoundThenDestroy();
 
-        Quaternion castRotation = Owner.transform.rotation * Quaternion.Euler(0f, 180f, 0f);
+        Quaternion castRotation = Owner.transform.rotation.Backwards();
 
         bool hasDealtDamage = false;
 
