@@ -26,8 +26,7 @@ public class PiercingRush : Cast
     }
 
     public override void End(Vector3 target)
-    {
-        SuccessFeedbackSubject.Next(true);
+    {        
         piercingRushObject = PiercingRushObject.Create(Owner.transform);
 
         // Dash.
@@ -51,6 +50,8 @@ public class PiercingRush : Cast
         Vector3 collisionDetectionOffset = Owner.transform.forward.normalized * distance / 2;
         collisionDetectionPosition += collisionDetectionOffset;
 
+        bool hasDealtDamage = false;
+
         CollisionTemplateManager.Instance.GetCollidingActors(
             CollisionTemplate.Cuboid,
             collisionDetectionScale,
@@ -61,6 +62,8 @@ public class PiercingRush : Cast
             if (Owner.Opposes(actor))
             {
                 DealPrimaryDamage(actor);
+                CustomCamera.Instance.AddShake(ShakeIntensity.High);
+                hasDealtDamage = true;
 
                 if (HasBonus("Daze"))
                 {
@@ -81,7 +84,9 @@ public class PiercingRush : Cast
             Owner.WaitAndAct(dashDuration, () => piercingRushObject.Destroy());
         }
 
-        Owner.MovementManager.Stun(abilityConcludedStun);
+        SuccessFeedbackSubject.Next(hasDealtDamage);
+
+        Owner.WaitAndAct(dashDuration, () => Owner.MovementManager.Stun(abilityConcludedStun));
     }
 
     private void Jetstream(PiercingRushObject piercingRushObject)
@@ -91,6 +96,8 @@ public class PiercingRush : Cast
         Vector3 faceDirection = Owner.transform.rotation.eulerAngles;
         faceDirection = new Vector3(faceDirection.x, faceDirection.y + 180f, faceDirection.z);
         Quaternion castRotation = Quaternion.Euler(faceDirection);
+
+        bool hasDealtDamage = false;
 
         CollisionTemplateManager.Instance.GetCollidingActors(
             CollisionTemplate.Wedge90,
@@ -102,7 +109,10 @@ public class PiercingRush : Cast
             if (Owner.Opposes(actor))
             {
                 DealPrimaryDamage(actor);
+                hasDealtDamage = true;
             }
         });
+
+        if (hasDealtDamage) CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
     }
 }
