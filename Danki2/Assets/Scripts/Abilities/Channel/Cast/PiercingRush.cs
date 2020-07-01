@@ -33,6 +33,8 @@ public class PiercingRush : Cast
         float duration = distance / dashSpeed;
         
         Owner.MovementManager.TryLockMovement(MovementLockType.Dash, duration, dashSpeed, direction, direction);
+
+
         SuccessFeedbackSubject.Next(true);
     }
 }
