@@ -47,6 +47,8 @@ public class Player : Actor
         ownedAbilities[AbilityReference.Sprint] = 3;
         ownedAbilities[AbilityReference.Whirlwind] = 3;
         ownedAbilities[AbilityReference.Hook] = 3;
+        ownedAbilities[AbilityReference.Backstab] = 3;
+        ownedAbilities[AbilityReference.PiercingRush] = 3;
 
         AbilityTree = AbilityTreeFactory.CreateTree(
             ownedAbilities,
