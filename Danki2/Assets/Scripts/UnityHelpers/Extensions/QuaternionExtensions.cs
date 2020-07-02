@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public static class QuarternionExtension
+public static class QuaternionExtension
 {
     public static Quaternion Backwards(this Quaternion quaternion)
     {
