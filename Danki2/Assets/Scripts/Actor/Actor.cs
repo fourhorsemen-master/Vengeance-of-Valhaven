@@ -10,6 +10,9 @@ public abstract class Actor : MonoBehaviour
     [SerializeField]
     private NavMeshAgent navmeshAgent = null;
 
+    [SerializeField]
+    private MeshRenderer meshRenderer = null;
+
     private StatsManager statsManager;
     protected readonly Subject updateSubject = new Subject();
     protected readonly Subject lateUpdateSubject = new Subject();
@@ -89,6 +92,13 @@ public abstract class Actor : MonoBehaviour
     {
         Coroutine coroutine = this.WaitAndAct(delay, action);
         InterruptionManager.Register(interruptionType, () => StopCoroutine(coroutine));
+    }
+
+    public void Flash()
+    {
+        meshRenderer.material.SetEmissiveColour(Color.white);
+
+        this.WaitAndAct(0.1f, () => meshRenderer.material.SetEmissiveColour(Color.clear));
     }
 
     protected virtual void OnDeath()
