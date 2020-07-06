@@ -96,9 +96,9 @@ public abstract class Actor : MonoBehaviour
 
     public void Flash()
     {
-        meshRenderer.material.SetEmissiveColour(Color.white);
+        meshRenderer.material.SetEmissiveColour(new Color(0.3f, 0.3f, 0.3f));
 
-        this.WaitAndAct(0.1f, () => meshRenderer.material.SetEmissiveColour(Color.clear));
+        this.WaitAndAct(0.1f, () => meshRenderer.material.SetEmissiveColour(Color.black));
     }
 
     protected virtual void OnDeath()
