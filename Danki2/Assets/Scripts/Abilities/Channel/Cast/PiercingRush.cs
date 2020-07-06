@@ -19,16 +19,12 @@ public class PiercingRush : Cast
 
     private const float abilityConcludedStun = 0.2f;
 
-    private PiercingRushObject piercingRushObject;
-
     public PiercingRush(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
     }
 
     public override void End(Vector3 target)
-    {        
-        piercingRushObject = PiercingRushObject.Create(Owner.transform);
-
+    {
         // Dash.
         Vector3 position = Owner.transform.position;
         Vector3 direction = target - position;
@@ -47,8 +43,7 @@ public class PiercingRush : Cast
         Vector3 collisionDetectionScale = new Vector3(dashDamageWidth, dashDamageHeight, distance);
 
         Vector3 collisionDetectionPosition = position;
-        Vector3 collisionDetectionOffset = Owner.transform.forward.normalized * distance / 2;
-        collisionDetectionPosition += collisionDetectionOffset;
+        Vector3 collisionDetectionOffset = position + Owner.transform.forward.normalized * distance / 2;
 
         bool hasDealtDamage = false;
 
@@ -67,32 +62,27 @@ public class PiercingRush : Cast
 
                 if (HasBonus("Daze"))
                 {
-                    MultiplicativeStatModification slow = new MultiplicativeStatModification(Stat.Speed, dazeSlowMultiplier);
-                    actor.EffectManager.AddActiveEffect(slow, dazeSlowTime);
+                    actor.EffectManager.AddActiveEffect(
+                        new MultiplicativeStatModification(Stat.Speed, dazeSlowMultiplier),
+                        dazeSlowTime
+                    );
                 }
             }
         });
 
 
         // Jetstream.
-        if (HasBonus("Jetstream"))
-        {
-            Owner.WaitAndAct(dashDuration + jetstreamCastDelay, () => Jetstream(piercingRushObject));
-        }
-        else
-        {
-            Owner.WaitAndAct(dashDuration, () => piercingRushObject.Destroy());
-        }
+        if (HasBonus("Jetstream")) Owner.WaitAndAct(dashDuration + jetstreamCastDelay, () => Jetstream());
+
+        PiercingRushObject.Create(Owner.transform, HasBonus("Jetstream"), dashDuration);
 
         SuccessFeedbackSubject.Next(hasDealtDamage);
 
         Owner.WaitAndAct(dashDuration, () => Owner.MovementManager.Stun(abilityConcludedStun));
     }
 
-    private void Jetstream(PiercingRushObject piercingRushObject)
+    private void Jetstream()
     {
-        piercingRushObject.PlayJetstreamSoundThenDestroy();
-
         Quaternion castRotation = Owner.transform.rotation.Backwards();
 
         bool hasDealtDamage = false;

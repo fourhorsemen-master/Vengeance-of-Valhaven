@@ -3,24 +3,36 @@
 public class PiercingRushObject : MonoBehaviour
 {
     [SerializeField]
-    private AudioSource JetstreamSound = null;
+    private AudioSource jetstreamSound = null;
 
-    public static PiercingRushObject Create(Transform casterTransform)
+    [SerializeField]
+    private AudioSource piercingRushSound = null;
+
+    public static PiercingRushObject Create(Transform casterTransform, bool hasJetstream, float dashDuration)
     {
         PiercingRushObject prefab = AbilityObjectPrefabLookup.Instance.PiercingRushObjectPrefab;
         PiercingRushObject piercingRushObject = Instantiate(prefab, casterTransform);
 
+        if (hasJetstream)
+        {
+            piercingRushObject.WaitAndAct(dashDuration, piercingRushObject.Jetstream);
+        }
+        else
+        {
+            piercingRushObject.NoBonus();
+        }
+
         return piercingRushObject;
     }
 
-    public void PlayJetstreamSoundThenDestroy()
+    private void Jetstream()
     {
-        JetstreamSound.Play();
-        this.WaitAndAct(JetstreamSound.clip.length, () => Destroy());
+        jetstreamSound.Play();
+        this.WaitAndAct(jetstreamSound.clip.length, () => Destroy(gameObject));
     }
 
-    public void Destroy()
+    private void NoBonus()
     {
-        Destroy(gameObject);
+        this.WaitAndAct(piercingRushSound.clip.length, () => Destroy(gameObject));
     }
 }
