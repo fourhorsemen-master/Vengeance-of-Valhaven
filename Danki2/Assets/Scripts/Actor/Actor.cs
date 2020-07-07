@@ -10,9 +10,6 @@ public abstract class Actor : MonoBehaviour
     [SerializeField]
     private NavMeshAgent navmeshAgent = null;
 
-    [SerializeField]
-    private MeshRenderer meshRenderer = null;
-
     private StatsManager statsManager;
     protected readonly Subject updateSubject = new Subject();
     protected readonly Subject lateUpdateSubject = new Subject();
