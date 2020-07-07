@@ -94,13 +94,6 @@ public abstract class Actor : MonoBehaviour
         InterruptionManager.Register(interruptionType, () => StopCoroutine(coroutine));
     }
 
-    public void Flash()
-    {
-        meshRenderer.material.SetEmissiveColour(new Color(0.3f, 0.3f, 0.3f));
-
-        this.WaitAndAct(0.1f, () => meshRenderer.material.SetEmissiveColour(Color.black));
-    }
-
     protected virtual void OnDeath()
     {
         Debug.Log($"{tag} died");

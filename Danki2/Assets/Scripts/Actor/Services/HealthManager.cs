@@ -58,7 +58,6 @@ public class HealthManager
         ModifyHealth(-damage);
         DamageSubject.Next(damage);
 
-        actor.Flash();
         actor.InterruptionManager.Interrupt(InterruptionType.Soft);
     }
 

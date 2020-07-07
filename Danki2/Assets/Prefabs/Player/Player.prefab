@@ -538,6 +538,7 @@ GameObject:
   - component: {fileID: -2634619170240676585}
   - component: {fileID: -5760857154349883711}
   - component: {fileID: 153998285407005459}
+  - component: {fileID: 8010275905982216902}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -847,6 +848,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementAudioSource: {fileID: -5760857154349883711}
   actor: {fileID: -5201030127241623248}
+--- !u!114 &8010275905982216902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4777388720977389772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 905f4d5cf73260d4985c46a342bd5036, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actor: {fileID: -5201030127241623248}
+  meshRenderer: {fileID: 238146866297834099}
 --- !u!1 &5830745083668081750
 GameObject:
   m_ObjectHideFlags: 0
@@ -1166,11 +1181,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6792869166683982730}
     m_Modifications:
-    - target: {fileID: 1979858862639965533, guid: 1c1ef6601784e49429e64e8545ef1c4a,
-        type: 3}
-      propertyPath: m_Name
-      value: FloatingDamageText
-      objectReference: {fileID: 0}
     - target: {fileID: 1979858862639965505, guid: 1c1ef6601784e49429e64e8545ef1c4a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1275,6 +1285,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1979858862639965533, guid: 1c1ef6601784e49429e64e8545ef1c4a,
+        type: 3}
+      propertyPath: m_Name
+      value: FloatingDamageText
       objectReference: {fileID: 0}
     - target: {fileID: 3486282139536815869, guid: 1c1ef6601784e49429e64e8545ef1c4a,
         type: 3}
