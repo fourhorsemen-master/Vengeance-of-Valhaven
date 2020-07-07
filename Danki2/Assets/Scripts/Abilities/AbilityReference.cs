@@ -16,5 +16,6 @@
     Bash,
     SweepingStrike,
     Hook,
-    Backstab
+    Backstab,
+    PiercingRush
 }
