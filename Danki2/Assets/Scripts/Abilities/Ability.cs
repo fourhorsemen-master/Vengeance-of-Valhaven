@@ -1,7 +1,12 @@
 ﻿using System.Linq;
+using UnityEngine;
 
 public abstract class Ability
 {
+    // Max angle and min vertical angles you can target with melee attacks
+    public const float MaxMeleeVerticalAngle = 45f;
+    public const float MinMeleeVerticalAngle = -45f;
+
     public Subject<bool> SuccessFeedbackSubject { get; }
 
     protected Actor Owner { get; }
@@ -46,5 +51,10 @@ public abstract class Ability
     protected bool HasBonus(string bonus)
     {
         return ActiveBonuses.Contains(bonus);
+    }
+
+    protected Quaternion ClampMeleeDirection()
+    {
+
     }
 }
