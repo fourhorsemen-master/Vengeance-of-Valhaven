@@ -253,6 +253,7 @@ GameObject:
   - component: {fileID: 682735494094879737}
   - component: {fileID: 9042565941216641932}
   - component: {fileID: 8297737813867126000}
+  - component: {fileID: 8607094173470392633}
   m_Layer: 0
   m_Name: Wolf
   m_TagString: Untagged
@@ -312,6 +313,7 @@ MonoBehaviour:
     - Recovery
     _values: 1400000004000000000000000000000000000000
   navmeshAgent: {fileID: -7685572653157387656}
+  meshRenderer: {fileID: 7327917836514509559}
   _biteCastTime: 0.5
   _pounceCastTime: 0.5
   _biteTotalCooldown: 5
@@ -628,6 +630,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemy: {fileID: -1347520900970919038}
   meshRenderer: {fileID: 7327917836514509559}
+--- !u!114 &8607094173470392633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8501680027219967870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 564b0c49493dd9f4d8047b59ecadd530, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actor: {fileID: -1347520900970919038}
+  meshRenderer: {fileID: 7327917836514509559}
 --- !u!114 &9172958653500359842
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -807,15 +823,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6dbad747eebf9a548b7db47011b6855f, type: 3}
---- !u!1 &8929788184142976845 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7578403356228947477, guid: 6dbad747eebf9a548b7db47011b6855f,
-    type: 3}
-  m_PrefabInstance: {fileID: 1353083996589070680}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &8424895632497386272 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7362298287338699384, guid: 6dbad747eebf9a548b7db47011b6855f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1353083996589070680}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8929788184142976845 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7578403356228947477, guid: 6dbad747eebf9a548b7db47011b6855f,
     type: 3}
   m_PrefabInstance: {fileID: 1353083996589070680}
   m_PrefabAsset: {fileID: 0}
