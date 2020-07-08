@@ -53,8 +53,8 @@ public abstract class Ability
         return ActiveBonuses.Contains(bonus);
     }
 
-    protected Quaternion ClampMeleeDirection()
+    protected Quaternion ClampMeleeDirection(Quaternion direction)
     {
-
+        return direction;
     }
 }
