@@ -47,8 +47,7 @@ public class AbilityManager
         // We try to get the mouse collider position if the mouse is over a collider.
         var mouseHitCollider = MouseGamePositionFinder.Instance.TryGetMouseGamePosition(
             out Vector3 mousePosition,
-            out Collider collider,
-            Layers.GetLayerMask(new []{ Layers.Actors })
+            out Collider collider
         );
 
         if (!mouseHitCollider)

@@ -16,8 +16,8 @@ public class SweepingStrike : InstantCast
     public override void Cast(Vector3 target)
     {
         Vector3 position = Owner.transform.position;
-        Vector3 castDirection = target - position;
-        castDirection.y = 0f;
+        Vector3 castDirection = target - Owner.Centre;
+        Quaternion castRotation = GetMeleeCastRotation(castDirection);
 
         bool hasDealtDamage = false;
 
@@ -25,7 +25,7 @@ public class SweepingStrike : InstantCast
             CollisionTemplate.Wedge90,
             Range,
             position,
-            Quaternion.LookRotation(castDirection)
+            castRotation
         ).ForEach(actor =>
         {
             if (Owner.Opposes(actor))
@@ -38,7 +38,7 @@ public class SweepingStrike : InstantCast
 
         SuccessFeedbackSubject.Next(hasDealtDamage);
 
-        SweepingStrikeObject sweepingStrikeObject = SweepingStrikeObject.Create(position, Quaternion.LookRotation(castDirection));
+        SweepingStrikeObject sweepingStrikeObject = SweepingStrikeObject.Create(position, castRotation);
 
         Owner.MovementManager.LookAt(target);
         Owner.MovementManager.Stun(PauseDuration);

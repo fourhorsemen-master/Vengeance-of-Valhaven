@@ -4,8 +4,8 @@ using UnityEngine;
 public abstract class Ability
 {
     // Max angle and min vertical angles you can target with melee attacks
-    public const float MaxMeleeVerticalAngle = 45f;
-    public const float MinMeleeVerticalAngle = -45f;
+    public const float MaxMeleeVerticalAngle = 30f;
+    public const float MinMeleeVerticalAngle = -30f;
 
     public Subject<bool> SuccessFeedbackSubject { get; }
 
@@ -53,8 +53,15 @@ public abstract class Ability
         return ActiveBonuses.Contains(bonus);
     }
 
-    protected Quaternion ClampMeleeDirection(Quaternion direction)
+    protected Quaternion GetMeleeCastRotation(Vector3 castDirection)
     {
-        return direction;
+        var castRotation = Quaternion.LookRotation(castDirection);
+        var castAngleX = castRotation.eulerAngles.x;
+
+        if (castAngleX > 180f) castAngleX -= 360f;
+
+        float newAngleX = Mathf.Clamp(castAngleX, MinMeleeVerticalAngle, MaxMeleeVerticalAngle);
+
+        return Quaternion.Euler(newAngleX, castRotation.eulerAngles.y, castRotation.eulerAngles.z);
     }
 }
