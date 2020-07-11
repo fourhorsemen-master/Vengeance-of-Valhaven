@@ -12,6 +12,9 @@ public class Wolf : Enemy
     [SerializeField]
     private float _pounceTotalCooldown = 0f;
 
+    [SerializeField]
+    private float agroTime = 0f;
+
     private float _biteRemainingCooldown = 0f;
     private float _pounceRemaningCooldown = 0f;
 
@@ -23,7 +26,6 @@ public class Wolf : Enemy
     public bool PounceOffCooldown => _pounceRemaningCooldown <= 0f;
 
     private Coroutine attentionCoroutine;
-    private float agroTime = 2;
 
     public Subject<Wolf> OnHowl { get; private set; } = new Subject<Wolf>();
 
