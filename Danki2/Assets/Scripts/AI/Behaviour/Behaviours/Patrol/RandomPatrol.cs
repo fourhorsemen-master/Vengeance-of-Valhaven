@@ -4,12 +4,12 @@
 /// With random patrol, we periodically path to a random location within maxDestinationDistance of the actor.
 /// We repath roughly once every repathInterval seconds.
 /// </summary>
-[Behaviour("Random patrol", new string[] { "Max destination distance", "Repath interval" }, new AIAction[] { AIAction.Patrol })]
+[Behaviour("Random patrol", new string[] { "Max destination distance", "Repath interval", "Attention Distance" }, new AIAction[] { AIAction.Patrol })]
 public class RandomPatrol : Behaviour
 {
     private float maxDestinationDistance;
     private float repathInterval;
-    private float attentionDistance = 13f;
+    private float attentionDistance;
 
     private bool repathedRecently = false;
 
@@ -17,6 +17,7 @@ public class RandomPatrol : Behaviour
     {
         maxDestinationDistance = Args[0];
         repathInterval = Args[1];
+        attentionDistance = Args[2];
     }
 
     public override void Behave(Actor actor)

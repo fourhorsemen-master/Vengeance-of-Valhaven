@@ -313,7 +313,6 @@ MonoBehaviour:
     - Recovery
     _values: 1400000004000000000000000000000000000000
   navmeshAgent: {fileID: -7685572653157387656}
-  meshRenderer: {fileID: 7327917836514509559}
   _biteCastTime: 0.5
   _pounceCastTime: 0.5
   _biteTotalCooldown: 5
@@ -363,6 +362,7 @@ MonoBehaviour:
       _serializedArgs:
       - 2
       - 3
+      - 12
     - _serializedType:
         _serializedType: WolfAttack, ScriptsAssembly, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
