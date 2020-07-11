@@ -9,6 +9,7 @@ public class RandomPatrol : Behaviour
 {
     private float maxDestinationDistance;
     private float repathInterval;
+    private float attentionDistance = 13f;
 
     private bool repathedRecently = false;
 
@@ -19,6 +20,28 @@ public class RandomPatrol : Behaviour
     }
 
     public override void Behave(Actor actor)
+    {
+        if (TryWatchPlayer(actor)) return;
+
+        Patrol(actor);
+    }
+
+    private bool TryWatchPlayer(Actor actor)
+    {
+        Player player = RoomManager.Instance.Player;
+
+        float distanceToPlayer = Vector3.Distance(
+            player.transform.position,
+            actor.transform.position
+        );
+
+        if (distanceToPlayer > attentionDistance) return false;
+
+        actor.MovementManager.Watch(player.transform);
+        return true;
+    }
+
+    private void Patrol(Actor actor)
     {
         if (repathedRecently) return;
 
