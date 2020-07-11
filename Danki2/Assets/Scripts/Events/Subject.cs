@@ -54,4 +54,14 @@ public class Subject<T> : IObservable<T>
             return s.Unsubscribed;
         });
     }
+
+    /// <summary>
+    /// Create a new observable from this observable where emitted events have the given mapping function applied.
+    /// </summary>
+    public Subject<TMappedType> Map<TMappedType>(Func<T, TMappedType> mappingFunction)
+    {
+        Subject<TMappedType> mappedSubject = new Subject<TMappedType>();
+        Subscribe(value => mappedSubject.Next(mappingFunction(value)));
+        return mappedSubject;
+    }
 }

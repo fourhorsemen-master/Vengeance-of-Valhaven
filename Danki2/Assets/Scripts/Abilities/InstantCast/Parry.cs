@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 [Ability(AbilityReference.Parry)]
@@ -8,7 +7,7 @@ public class Parry : InstantCast
     private const float waitTime = 1f;
     private const float damagePercent = 0.5f;
     
-    private Subscription<Tuple<int, Actor>> damageSourceSubscription;
+    private Subscription<DamageData> damageSourceSubscription;
     private readonly Dictionary<Actor, int> damageSourceToAmount = new Dictionary<Actor, int>();
 
     private bool receivedDamage = false;
@@ -19,17 +18,15 @@ public class Parry : InstantCast
 
     public override void Cast(Vector3 target)
     {
-        damageSourceSubscription = Owner.HealthManager.DamageSourceSubject.Subscribe(tuple =>
+        damageSourceSubscription = Owner.HealthManager.DamageSubject.Subscribe(damageData =>
         {
-            (int damage, Actor source) = tuple;
-
-            if (damageSourceToAmount.ContainsKey(source))
+            if (damageSourceToAmount.ContainsKey(damageData.Source))
             {
-                damageSourceToAmount[source] += damage;
+                damageSourceToAmount[damageData.Source] += damageData.Damage;
             }
             else
             {
-                damageSourceToAmount[source] = damage;
+                damageSourceToAmount[damageData.Source] = damageData.Damage;
             }
 
             if (!receivedDamage) SuccessFeedbackSubject.Next(true);

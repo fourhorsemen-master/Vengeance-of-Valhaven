@@ -11,8 +11,7 @@ public class HealthManager
 
     public bool IsDamaged => Health < MaxHealth;
 
-    public Subject<int> DamageSubject { get; } = new Subject<int>();
-    public Subject<Tuple<int, Actor>> DamageSourceSubject { get; } = new Subject<Tuple<int, Actor>>();
+    public Subject<DamageData> DamageSubject { get; } = new Subject<DamageData>();
     public Subject<int> TickDamageSubject { get; } = new Subject<int>();
     public Subject<int> HealSubject { get; } = new Subject<int>();
 
@@ -57,8 +56,7 @@ public class HealthManager
         }
 
         ModifyHealth(-damage);
-        DamageSubject.Next(damage);
-        DamageSourceSubject.Next(Tuple.Create(damage, source));
+        DamageSubject.Next(new DamageData(damage, source));
 
         actor.InterruptionManager.Interrupt(InterruptionType.Soft);
     }
