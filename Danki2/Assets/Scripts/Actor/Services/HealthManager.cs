@@ -12,6 +12,7 @@ public class HealthManager
     public bool IsDamaged => Health < MaxHealth;
 
     public Subject<int> DamageSubject { get; } = new Subject<int>();
+    public Subject<Tuple<int, Actor>> DamageSourceSubject { get; } = new Subject<Tuple<int, Actor>>();
     public Subject<int> TickDamageSubject { get; } = new Subject<int>();
     public Subject<int> HealSubject { get; } = new Subject<int>();
 
@@ -43,7 +44,7 @@ public class HealthManager
         TickDamageSubject.Next(damage);
     }
 
-    public void ReceiveDamage(int damage)
+    public void ReceiveDamage(int damage, Actor source)
     {
         // If already 0, damage should be left as 0, else reduce according to defence, but not below the minimum threshold.
         damage = damage == 0 ? 0 : Mathf.Max(MinimumDamageAfterStats, damage - actor.GetStat(Stat.Defence));
@@ -57,6 +58,7 @@ public class HealthManager
 
         ModifyHealth(-damage);
         DamageSubject.Next(damage);
+        DamageSourceSubject.Next(Tuple.Create(damage, source));
 
         actor.InterruptionManager.Interrupt(InterruptionType.Soft);
     }
