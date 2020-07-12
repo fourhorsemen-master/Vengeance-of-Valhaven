@@ -32,7 +32,7 @@ public class AbilityManager
         updateSubject.Subscribe(TickAbilityCooldown);
         lateUpdateSubject.Subscribe(HandleAbilities);
         this.player.RollSubject.Subscribe(Whiff);
-        this.player.HealthManager.DamageSubject.Subscribe(_ => Whiff());
+        this.player.HealthManager.ModifiedDamageSubject.Subscribe(_ => Whiff());
 
         AbilityTimeoutSubscription();
     }

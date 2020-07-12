@@ -18,7 +18,9 @@ public class Parry : InstantCast
 
     public override void Cast(Vector3 target)
     {
-        damageSourceSubscription = Owner.HealthManager.DamageSubject.Subscribe(damageData =>
+        Owner.EffectManager.AddActiveEffect(new BlockIncomingDamage(), duration);
+        
+        damageSourceSubscription = Owner.HealthManager.UnmodifiedDamageSubject.Subscribe(damageData =>
         {
             if (!ReceivedDamage) SuccessFeedbackSubject.Next(true);
             IncrementDamage(damageData);
