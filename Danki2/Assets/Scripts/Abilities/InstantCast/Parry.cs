@@ -38,6 +38,7 @@ public class Parry : InstantCast
             damageSourceSubscription.Unsubscribe();
             if (receivedDamage)
             {
+                CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
                 DamageAttackers();
             }
             else
