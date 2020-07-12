@@ -22,8 +22,7 @@ public class WolfFindPlayer : Behaviour
 
         if (distanceToTarget < _aggroRange || wolf.IsDamaged)
         {
-            wolf.Target = target;
-            wolf.CallFriends(target);
+            wolf.FindTarget(target);
         }
     }
 }

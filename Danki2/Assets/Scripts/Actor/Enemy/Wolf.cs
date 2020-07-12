@@ -12,6 +12,9 @@ public class Wolf : Enemy
     [SerializeField]
     private float _pounceTotalCooldown = 0f;
 
+    [SerializeField]
+    private float agroTime = 0f;
+
     private float _biteRemainingCooldown = 0f;
     private float _pounceRemaningCooldown = 0f;
 
@@ -21,6 +24,8 @@ public class Wolf : Enemy
     public override ActorType Type => ActorType.Wolf;
     public bool BiteOffCooldown => _biteRemainingCooldown <= 0f;
     public bool PounceOffCooldown => _pounceRemaningCooldown <= 0f;
+
+    private Coroutine attentionCoroutine;
 
     public Subject<Wolf> OnHowl { get; private set; } = new Subject<Wolf>();
 
@@ -108,8 +113,33 @@ public class Wolf : Enemy
         _pounceRemaningCooldown = _pounceTotalCooldown;
     }
 
-    public void CallFriends(Player player)
+    public void GetAttention(Player player)
     {
+        if (attentionCoroutine != null) return;
+
+        MovementManager.Watch(player.transform);
+        attentionCoroutine = this.WaitAndAct(agroTime, () =>
+        {
+            FindTarget(player);
+        });
+    }
+
+    public void LoseAttention()
+    {
+        if (attentionCoroutine != null)
+        {
+            StopCoroutine(attentionCoroutine);
+            attentionCoroutine = null;
+        }
+    }
+
+    public void FindTarget(Player player)
+    {
+        if (attentionCoroutine != null)
+        {
+            StopCoroutine(attentionCoroutine);
+        }
+        
         Target = player;
         Howl();
         OnHowl.Next(this);
