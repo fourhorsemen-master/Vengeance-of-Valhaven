@@ -9,6 +9,7 @@ public class Parry : InstantCast
     
     private Subscription<DamageData> damageSourceSubscription;
     private readonly Dictionary<Actor, int> damageSourceToAmount = new Dictionary<Actor, int>();
+    private ParryObject parryObject;
 
     private bool ReceivedDamage => damageSourceToAmount.Count > 0;
     
@@ -18,6 +19,8 @@ public class Parry : InstantCast
 
     public override void Cast(Vector3 target)
     {
+        parryObject = ParryObject.Create(Owner.transform);
+        
         Owner.EffectManager.AddActiveEffect(new BlockIncomingDamage(), duration);
         
         damageSourceSubscription = Owner.HealthManager.UnmodifiedDamageSubject.Subscribe(damageData =>
