@@ -27,6 +27,14 @@ public class Subject : IObservable
             return s.Unsubscribed;
         });
     }
+
+    /// <inheritdoc/>
+    public IObservable<T> Map<T>(Func<T> mappingFunction)
+    {
+        Subject<T> mappedSubject = new Subject<T>();
+        Subscribe(() => mappedSubject.Next(mappingFunction()));
+        return mappedSubject;
+    }
 }
 
 /// <inheritdoc cref="Subject"/>
@@ -55,12 +63,10 @@ public class Subject<T> : IObservable<T>
         });
     }
 
-    /// <summary>
-    /// Create a new observable from this observable where emitted events have the given mapping function applied.
-    /// </summary>
-    public Subject<TMappedType> Map<TMappedType>(Func<T, TMappedType> mappingFunction)
+    /// <inheritdoc/>
+    public IObservable<TMapped> Map<TMapped>(Func<T, TMapped> mappingFunction)
     {
-        Subject<TMappedType> mappedSubject = new Subject<TMappedType>();
+        Subject<TMapped> mappedSubject = new Subject<TMapped>();
         Subscribe(value => mappedSubject.Next(mappingFunction(value)));
         return mappedSubject;
     }
