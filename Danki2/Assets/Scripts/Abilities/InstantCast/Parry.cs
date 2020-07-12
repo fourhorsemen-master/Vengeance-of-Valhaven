@@ -23,8 +23,13 @@ public class Parry : InstantCast
             if (!ReceivedDamage) SuccessFeedbackSubject.Next(true);
             IncrementDamage(damageData);
         });
-        Owner.WaitAndAct(duration, Finish);
-        Owner.DeathSubject.Subscribe(damageSourceSubscription.Unsubscribe);
+
+        Coroutine finishCoroutine = Owner.WaitAndAct(duration, Finish);
+        Owner.DeathSubject.Subscribe(() =>
+        {
+            Owner.StopCoroutine(finishCoroutine);
+            damageSourceSubscription.Unsubscribe();
+        });
     }
 
     private void IncrementDamage(DamageData damageData)
