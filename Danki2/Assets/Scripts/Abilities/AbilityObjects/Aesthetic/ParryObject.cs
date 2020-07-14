@@ -1,15 +1,23 @@
 ﻿using UnityEngine;
 
-public class ParryObject : MonoBehaviour
+public class ParryObject : StaticAbilityObject
 {
-    private void Start()
-    {
-        Debug.Log("start of parry object...");
-    }
+    [SerializeField]
+    private AudioSource initialSound = null;
 
-    public static ParryObject Create(Transform transform)
+    [SerializeField]
+    private AudioSource parrySound = null;
+
+    private float duration;
+
+    public override float StickTime => Mathf.Max(initialSound.clip.length, duration + parrySound.clip.length);
+
+    public static ParryObject Create(Transform transform, float duration, Subject onParry)
     {
-        ParryObject prefab = AbilityObjectPrefabLookup.Instance.ParryObjectPrefab;
-        return Instantiate(prefab, transform);
+        ParryObject parryObject = Instantiate(AbilityObjectPrefabLookup.Instance.ParryObjectPrefab, transform);
+        parryObject.duration = duration;
+        onParry.Subscribe(parryObject.parrySound.Play);
+
+        return parryObject;
     }
 }

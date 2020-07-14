@@ -7,7 +7,7 @@ public class Parry : InstantCast
     private const float reflectedDamagePercent = 0.5f;
     
     private Subscription<DamageData> damageSourceSubscription;
-    private ParryObject parryObject;
+    private readonly Subject onParry = new Subject();
 
     private bool receivedDamage = false;
     
@@ -17,7 +17,7 @@ public class Parry : InstantCast
 
     public override void Cast(Vector3 target)
     {
-        parryObject = ParryObject.Create(Owner.transform);
+        ParryObject.Create(Owner.transform, duration, onParry);
         
         Owner.EffectManager.AddActiveEffect(new BlockIncomingDamage(), duration);
         
@@ -34,6 +34,8 @@ public class Parry : InstantCast
 
     private void HandleIncomingDamage(DamageData damageData)
     {
+        onParry.Next();
+        
         if (!receivedDamage) SuccessFeedbackSubject.Next(true);
         receivedDamage = true;
 
