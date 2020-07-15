@@ -21,20 +21,14 @@ public class SweepingStrike : InstantCast
 
         bool hasDealtDamage = false;
 
-        CollisionTemplateManager.Instance.GetCollidingActors(
-            CollisionTemplate.Wedge90,
-            Range,
-            position,
-            castRotation
-        ).ForEach(actor =>
-        {
-            if (Owner.Opposes(actor))
+        CollisionTemplateManager.Instance.GetCollidingActors(CollisionTemplate.Wedge90, Range, position, castRotation)
+            .Where(actor => Owner.Opposes(actor))
+            .ForEach(actor =>
             {
                 DealPrimaryDamage(actor);
                 hasDealtDamage = true;
                 KnockBack(actor);
-            }
-        });
+            });
 
         SuccessFeedbackSubject.Next(hasDealtDamage);
 

@@ -17,48 +17,45 @@ public class Lunge : InstantCast
     public override void Cast(Vector3 target)
     {
         Vector3 position = Owner.transform.position;
-        Vector3 direction = target - position;
-        direction.y = position.y;
+        Vector3 castDirection = target - Owner.Centre;
 
         float distance = Vector3.Distance(target, position);
         float lungeSpeed = Owner.GetStat(Stat.Speed) * LungeSpeedMultiplier;
         float duration = Mathf.Clamp(distance/lungeSpeed, MinMovementDuration, MaxMovementDuration);
 
-        Owner.MovementManager.TryLockMovement(MovementLockType.Dash, duration, lungeSpeed, direction, direction );
+        Owner.MovementManager.TryLockMovement(MovementLockType.Dash, duration, lungeSpeed, castDirection, castDirection);
 
         LungeObject lungeObject = LungeObject.Create(position, Quaternion.LookRotation(target - position));
 
         Owner.InterruptableAction(
             duration,
             InterruptionType.Hard,
-            () =>
-            {
-                bool hasDealtDamage = false;
-
-                CollisionTemplateManager.Instance.GetCollidingActors(
-                    CollisionTemplate.Wedge90,
-                    StunRange,
-                    Owner.transform.position,
-                    Quaternion.LookRotation(direction)
-                ).ForEach(actor =>
-                {
-                    if (Owner.Opposes(actor))
-                    {
-                        actor.EffectManager.AddActiveEffect(new Stun(StunDuration), StunDuration);
-                        DealPrimaryDamage(actor);
-                        hasDealtDamage = true;
-                    }
-                });
-
-                SuccessFeedbackSubject.Next(hasDealtDamage);
-                Owner.MovementManager.Stun(PauseDuration);
-
-                if (hasDealtDamage)
-                {
-                    CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
-                    lungeObject.PlayHitSound();
-                }
-            }
+            () => DamageOnLand(castDirection, lungeObject)
         );
+    }
+
+    private void DamageOnLand(Vector3 castDirection, LungeObject lungeObject)
+    {
+        Quaternion castRotation = GetMeleeCastRotation(castDirection);
+
+        bool hasDealtDamage = false;
+
+        CollisionTemplateManager.Instance.GetCollidingActors(CollisionTemplate.Wedge90, StunRange, Owner.transform.position, castRotation)
+            .Where(actor => actor.Opposes(Owner))
+            .ForEach(actor =>
+            {
+                actor.EffectManager.AddActiveEffect(new Stun(StunDuration), StunDuration);
+                DealPrimaryDamage(actor);
+                hasDealtDamage = true;
+            });
+
+        SuccessFeedbackSubject.Next(hasDealtDamage);
+        Owner.MovementManager.Stun(PauseDuration);
+
+        if (hasDealtDamage)
+        {
+            CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
+            lungeObject.PlayHitSound();
+        }
     }
 }

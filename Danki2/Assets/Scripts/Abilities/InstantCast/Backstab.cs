@@ -35,9 +35,10 @@ public class Backstab : InstantCast
         DealPrimaryDamage(target);
         SuccessFeedbackSubject.Next(true);
 
-        Vector3 castDirection = target.transform.position - Owner.transform.position;
-        castDirection.y = 0f;
-        BackstabObject backstabObject = BackstabObject.Create(Owner.transform.position, Quaternion.LookRotation(castDirection));
+        Vector3 castDirection = target.Centre - Owner.Centre;
+        Quaternion castRotation = GetMeleeCastRotation(castDirection);
+
+        BackstabObject backstabObject = BackstabObject.Create(Owner.transform.position, castRotation);
 
         CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
         backstabObject.PlayHitSound();

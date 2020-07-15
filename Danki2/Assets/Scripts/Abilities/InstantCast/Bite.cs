@@ -13,7 +13,8 @@ public class Bite : InstantCast
     public override void Cast(Vector3 target)
     {
         Vector3 position = Owner.transform.position;
-        target.y = 0f;
+        Vector3 castDirection = target - Owner.Centre;
+        Quaternion castRotation = GetMeleeCastRotation(castDirection);
 
         BiteObject.Create(Owner.transform);
 
@@ -22,19 +23,13 @@ public class Bite : InstantCast
 
         bool hasDealtDamage = false;
 
-        CollisionTemplateManager.Instance.GetCollidingActors(
-            CollisionTemplate.Wedge45,
-            Range,
-            position,
-            Quaternion.LookRotation(target - position)
-        ).ForEach(actor =>
-        {
-            if (Owner.Opposes(actor))
+        CollisionTemplateManager.Instance.GetCollidingActors(CollisionTemplate.Wedge45, Range, position, castRotation)
+            .Where(actor => Owner.Opposes(actor))
+            .ForEach(actor =>
             {
                 DealPrimaryDamage(actor);
                 hasDealtDamage = true;
-            }
-        });
+            });
 
         if (hasDealtDamage)
         {

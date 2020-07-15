@@ -67,19 +67,13 @@ public class Whirlwind : Channel
     {
         bool actorsHit = false;
 
-        CollisionTemplateManager.Instance.GetCollidingActors(
-            CollisionTemplate.Cylinder,
-            radius,
-            Owner.transform.position,
-            Quaternion.identity
-        ).ForEach(actor =>
-        {
-            if (actor.Opposes(Owner))
+        CollisionTemplateManager.Instance.GetCollidingActors(CollisionTemplate.Cylinder, radius, Owner.transform.position, Quaternion.identity)
+            .Where(actor => actor.Opposes(Owner))
+            .ForEach(actor =>
             {
                 damageAction(actor);
                 actorsHit = true;
-            }
-        });
+            });
 
         if (actorsHit)
         {
