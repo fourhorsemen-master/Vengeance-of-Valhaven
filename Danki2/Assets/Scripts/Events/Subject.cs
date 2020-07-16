@@ -27,6 +27,14 @@ public class Subject : IObservable
             return s.Unsubscribed;
         });
     }
+
+    /// <inheritdoc/>
+    public IObservable<T> Map<T>(Func<T> mappingFunction)
+    {
+        Subject<T> mappedSubject = new Subject<T>();
+        Subscribe(() => mappedSubject.Next(mappingFunction()));
+        return mappedSubject;
+    }
 }
 
 /// <inheritdoc cref="Subject"/>
@@ -53,5 +61,13 @@ public class Subject<T> : IObservable<T>
 
             return s.Unsubscribed;
         });
+    }
+
+    /// <inheritdoc/>
+    public IObservable<TMapped> Map<TMapped>(Func<T, TMapped> mappingFunction)
+    {
+        Subject<TMapped> mappedSubject = new Subject<TMapped>();
+        Subscribe(value => mappedSubject.Next(mappingFunction(value)));
+        return mappedSubject;
     }
 }

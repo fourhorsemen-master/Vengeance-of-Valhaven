@@ -53,6 +53,9 @@ public class AbilityObjectPrefabLookup : Singleton<AbilityObjectPrefabLookup>
     [SerializeField]
     private PiercingRushObject _piercingRushObjectPrefab = null;
 
+    [SerializeField]
+    private ParryObject _parryObjectPrefab = null;
+
     public FireballObject FireballObjectPrefab => _fireballObjectPrefab;
     public DaggerObject DaggerObjectPrefab => _daggerObjectPrefab;
     public BiteObject BiteObjectPrefab => _biteObjectPrefab;
@@ -70,4 +73,5 @@ public class AbilityObjectPrefabLookup : Singleton<AbilityObjectPrefabLookup>
     public HookObject HookObjectPrefab => _hookObjectPrefab;
     public BackstabObject BackstabObjectPrefab => _backstabObjectPrefab;
     public PiercingRushObject PiercingRushObjectPrefab => _piercingRushObjectPrefab;
+    public ParryObject ParryObjectPrefab => _parryObjectPrefab;
 }
