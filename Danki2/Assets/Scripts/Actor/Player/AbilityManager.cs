@@ -48,7 +48,7 @@ public class AbilityManager
     private void UpdateTarget()
     {
         // First, we raycast for an actor (ie. by ignoring other layers)
-        var mouseHitCollider = MouseGamePositionFinder.Instance.TryGetMouseGamePosition(
+        bool mouseHitCollider = MouseGamePositionFinder.Instance.TryGetMouseGamePosition(
             out Vector3 mousePosition,
             out Collider collider,
             Layers.GetLayerMask(new[] { Layers.Actors })
