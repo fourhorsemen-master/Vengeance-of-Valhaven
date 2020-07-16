@@ -5,7 +5,6 @@ public class DaggerThrow : InstantCast
 {
     private const float DaggerSpeed = 20f;
     private const float DotDuration = 3f;
-    private static readonly Vector3 positionTransform = new Vector3(0, 1.25f, 0);
 
     public DaggerThrow(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
@@ -13,9 +12,8 @@ public class DaggerThrow : InstantCast
 
     public override void Cast(Vector3 target)
     {
-        Vector3 position = Owner.transform.position + positionTransform;
-        Quaternion rotation = Quaternion.LookRotation(target - position);
-        DaggerObject.Fire(Owner, OnCollision, DaggerSpeed, position, rotation);
+        Quaternion rotation = Quaternion.LookRotation(target - Owner.Centre);
+        DaggerObject.Fire(Owner, OnCollision, DaggerSpeed, Owner.Centre, rotation);
     }
 
     private void OnCollision(GameObject gameObject)

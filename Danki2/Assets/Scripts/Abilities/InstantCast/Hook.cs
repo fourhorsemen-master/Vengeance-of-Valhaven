@@ -9,21 +9,18 @@ public class Hook : InstantCast
     private const float pullOffset = 2f;
     private const float stunDuration = 2f;
 
-    private static readonly Vector3 positionTransform = new Vector3(0, 1f, 0);
-
     public Hook(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
     }
 
     public override void Cast(Vector3 target)
     {
-        Vector3 position = Owner.transform.position + positionTransform;
-        Quaternion rotation = Quaternion.LookRotation(target - position);
+        Quaternion rotation = Quaternion.LookRotation(target - Owner.Centre);
 
-        Owner.MovementManager.LookAt(position);
+        Owner.MovementManager.LookAt(Owner.Centre);
         Owner.MovementManager.Stun(range / hookSpeed);
 
-        HookObject.Fire(Owner, OnCollision, MissCallback, hookSpeed, position, rotation, range);
+        HookObject.Fire(Owner, OnCollision, MissCallback, hookSpeed, Owner.Centre, rotation, range);
     }
 
     private void MissCallback()
