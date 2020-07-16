@@ -87,19 +87,13 @@ public class PiercingRush : Cast
 
         bool hasDealtDamage = false;
 
-        CollisionTemplateManager.Instance.GetCollidingActors(
-            CollisionTemplate.Wedge90,
-            jetstreamRange,
-            Owner.transform.position,
-            castRotation
-        ).ForEach(actor =>
-        {
-            if (Owner.Opposes(actor))
+        CollisionTemplateManager.Instance.GetCollidingActors(CollisionTemplate.Wedge90, jetstreamRange, Owner.transform.position, castRotation)
+            .Where(actor => Owner.Opposes(actor))
+            .ForEach(actor =>
             {
                 DealPrimaryDamage(actor);
                 hasDealtDamage = true;
-            }
-        });
+            });
 
         if (hasDealtDamage) CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
     }

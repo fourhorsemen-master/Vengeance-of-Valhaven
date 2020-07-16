@@ -47,16 +47,22 @@ public class AbilityManager
 
     private void UpdateTarget()
     {
-        // We try to get the mouse collider position if the mouse is over a collider.
-        var mouseHitCollider = MouseGamePositionFinder.Instance.TryGetMouseGamePosition(
+        // First, we raycast for an actor (ie. by ignoring other layers)
+        bool mouseHitCollider = MouseGamePositionFinder.Instance.TryGetMouseGamePosition(
             out Vector3 mousePosition,
             out Collider collider,
-            Layers.GetLayerMask(new []{ Layers.Actors })
+            Layers.GetLayerMask(new[] { Layers.Actors })
         );
 
+        // Then, if we don't hit any actors, we raycast for any collider
         if (!mouseHitCollider)
         {
-            // If the mouse has not hit a collider, we use the mouse position on a horizontal plane at the players height.
+            mouseHitCollider = MouseGamePositionFinder.Instance.TryGetMouseGamePosition(out mousePosition, out collider);
+        }
+
+        // Then, if no colliders are hit, we use the mouse position on a horizontal plane at the players height.
+        if (!mouseHitCollider)
+        {
             mousePosition = MouseGamePositionFinder.Instance.GetMousePlanePosition(player.transform.position.y, true);
         }
 
