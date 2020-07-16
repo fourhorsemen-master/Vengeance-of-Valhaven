@@ -17,5 +17,6 @@
     SweepingStrike,
     Hook,
     Backstab,
-    PiercingRush
+    PiercingRush,
+    Parry
 }

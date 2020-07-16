@@ -10,7 +10,7 @@ public class FlashOnHit : MonoBehaviour
 
     void Start()
     {
-        actor.HealthManager.DamageSubject.Subscribe(_ => Flash());
+        actor.HealthManager.ModifiedDamageSubject.Subscribe(_ => Flash());
     }
 
     public void Flash()
