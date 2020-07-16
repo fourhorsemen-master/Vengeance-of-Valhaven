@@ -4,7 +4,7 @@
 public class Parry : InstantCast
 {
     private const float duration = 1f;
-    private const float reflectedDamagePercent = 0.5f;
+    private const float reflectedDamageProportion = 0.5f;
     
     private Subscription<DamageData> damageSourceSubscription;
     private readonly Subject onParry = new Subject();
@@ -39,7 +39,7 @@ public class Parry : InstantCast
         if (!receivedDamage) SuccessFeedbackSubject.Next(true);
         receivedDamage = true;
 
-        int damage = Mathf.FloorToInt(damageData.Damage * reflectedDamagePercent);
+        int damage = Mathf.FloorToInt(damageData.Damage * reflectedDamageProportion);
         DealPrimaryDamage(damageData.Source, damage);
     }
 
