@@ -23,7 +23,7 @@ public class AbilityListingPanel : MonoBehaviour, IBeginDragHandler, IDragHandle
 
     public void OnPointerEnter(PointerEventData _)
     {
-        if (AbilityTreeEditorMenu.Instance.IsDragging) return;
+        if (AbilityTreeEditorMenu.Instance.IsDraggingFromList) return;
 
         AbilityTooltip.Instance.Activate();
         AbilityTooltip.Instance.UpdateTooltip(ability);
@@ -40,7 +40,7 @@ public class AbilityListingPanel : MonoBehaviour, IBeginDragHandler, IDragHandle
     {
         quantity -= 1;
         UpdateQuantityText();
-        AbilityTreeEditorMenu.Instance.AbilityDragStartSubject.Next(ability);
+        AbilityTreeEditorMenu.Instance.AbilityDragFromListStartSubject.Next(ability);
     }
 
     /// <summary>
@@ -52,7 +52,7 @@ public class AbilityListingPanel : MonoBehaviour, IBeginDragHandler, IDragHandle
     public void OnEndDrag(PointerEventData eventData)
     {
         DragEndSubject.Next();
-        AbilityTreeEditorMenu.Instance.AbilityDragStopSubject.Next(ability);
+        AbilityTreeEditorMenu.Instance.AbilityDragFromListStopSubject.Next(ability);
     }
 
     public void Initialise(AbilityReference ability, int quantity)

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class Node
 {
-    private readonly EnumDictionary<Direction, Node> _children = new EnumDictionary<Direction, Node>(defaultValue: null);
+    private readonly EnumDictionary<Direction, Node> children = new EnumDictionary<Direction, Node>(defaultValue: null);
 
     public bool IsRootNode => Parent == null;
 
@@ -26,21 +26,42 @@ public abstract class Node
 
     public bool HasChild(Direction direction)
     {
-        return _children[direction] != null;
+        return children[direction] != null;
     }
 
     public Node GetChild(Direction direction)
     {
-        return _children[direction];
+        return children[direction];
     }
 
     public void SetChild(Direction direction, Node child)
     {
-        _children[direction] = child;
+        children[direction] = child;
         child.Parent = this;
 
         childChangeSubscriptions[direction]?.Unsubscribe();
         childChangeSubscriptions[direction] = child.ChangeSubject.Subscribe(ChangeSubject.Next);
+    }
+
+    public void RemoveChild(Direction direction)
+    {
+        children[direction] = null;
+
+        childChangeSubscriptions[direction]?.Unsubscribe();
+
+        ChangeSubject.Next();
+    }
+
+    public Direction TryGetDirectionFromParent()
+    {
+        if (Parent.HasChild(Direction.Left) && Parent.GetChild(Direction.Left) == this)
+            return Direction.Left;
+
+        if (Parent.HasChild(Direction.Right) && Parent.GetChild(Direction.Right) == this)
+            return Direction.Right;
+
+        Debug.LogError("Parent doesn't recognise child.");
+        return default;
     }
 
     public int MaxDepth()
@@ -99,6 +120,22 @@ public abstract class Node
         ChangeSubject.Next();
     }
 
+    public void RemoveSelfAndDescendants()
+    {
+        Parent.RemoveChild(TryGetDirectionFromParent());
+    }
+
+    public void SwapAbilitiesWith(Node node)
+    {
+        if (this == node) return;
+
+        AbilityReference otherAbility = node.Ability;
+        node.Ability = Ability;
+        Ability = otherAbility;
+
+        ChangeSubject.Next();
+    }
+
     /// <summary>
     /// Runs the given action for this node and all ancestor nodes up the tree.
     /// </summary>
@@ -119,6 +156,6 @@ public abstract class Node
     {
         if (predicate == null || predicate(this)) action(this);
 
-        EnumUtils.ForEach<Direction>(d => _children[d]?.IterateDown(action, predicate));
+        EnumUtils.ForEach<Direction>(d => children[d]?.IterateDown(action, predicate));
     }
 }
