@@ -48,11 +48,12 @@ public abstract class Node
         children[direction] = null;
 
         childChangeSubscriptions[direction]?.Unsubscribe();
+        childChangeSubscriptions[direction] = null;
 
         ChangeSubject.Next();
     }
 
-    public Direction TryGetDirectionFromParent()
+    public Direction GetDirectionFromParent()
     {
         if (Parent.HasChild(Direction.Left) && Parent.GetChild(Direction.Left) == this)
             return Direction.Left;
@@ -122,7 +123,7 @@ public abstract class Node
 
     public void RemoveSelfAndDescendants()
     {
-        Parent.RemoveChild(TryGetDirectionFromParent());
+        Parent.RemoveChild(GetDirectionFromParent());
     }
 
     public void SwapAbilitiesWith(Node node)
