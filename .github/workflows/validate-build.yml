@@ -16,7 +16,7 @@ jobs:
   validate-build:
     name: Validate build for ${{ matrix.targetPlatform }} on version ${{ matrix.unityVersion }}
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 40
     strategy:
       matrix:
         projectPath:
