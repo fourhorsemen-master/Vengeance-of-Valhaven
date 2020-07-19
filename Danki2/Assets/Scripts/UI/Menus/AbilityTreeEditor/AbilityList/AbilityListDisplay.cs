@@ -19,7 +19,7 @@ public class AbilityListDisplay : MonoBehaviour
     {
         player = RoomManager.Instance.Player;
 
-        AbilityTreeEditorMenu.Instance.AbilityDragStopSubject.Subscribe(_ => PopulateAbilityList());
+        AbilityTreeEditorMenu.Instance.AbilityDragFromListStopSubject.Subscribe(_ => PopulateAbilityList());
     }
 
     private void OnEnable()

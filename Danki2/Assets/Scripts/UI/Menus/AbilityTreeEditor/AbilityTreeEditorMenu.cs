@@ -1,22 +1,25 @@
 ﻿public class AbilityTreeEditorMenu : Singleton<AbilityTreeEditorMenu>
 {
-    public bool IsDragging { get; private set; }
-    public AbilityReference AbilityDragging { get; private set; }
+    public bool IsDraggingFromList { get; private set; }
 
-    public Subject<AbilityReference> AbilityDragStartSubject { get; } = new Subject<AbilityReference>();
+    public AbilityReference AbilityDraggingFromList { get; private set; }
 
-    public Subject<AbilityReference> AbilityDragStopSubject { get; } = new Subject<AbilityReference>();
+    public Subject<AbilityReference> AbilityDragFromListStartSubject { get; } = new Subject<AbilityReference>();
+
+    public Subject<AbilityReference> AbilityDragFromListStopSubject { get; } = new Subject<AbilityReference>();
+
+    public Node CurrentTreeNodeHover { get; set; } = null;
 
     private void Start()
     {
-        AbilityDragStartSubject.Subscribe(ability => {
-            AbilityDragging = ability;
-            IsDragging = true;
+        AbilityDragFromListStartSubject.Subscribe(ability => {
+            AbilityDraggingFromList = ability;
+            IsDraggingFromList = true;
         });
 
-        AbilityDragStopSubject.Subscribe(ability => {
-            AbilityDragging = ability;
-            IsDragging = false;
+        AbilityDragFromListStopSubject.Subscribe(ability => {
+            AbilityDraggingFromList = ability;
+            IsDraggingFromList = false;
         });
 
         GameStateController.Instance.GameStateTransitionSubject.Subscribe(gameState =>
