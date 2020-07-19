@@ -3,6 +3,9 @@ using System.Collections;
 
 public class Player : Actor
 {
+    public override ActorType Type => ActorType.Player;
+
+    // Settings
     [HideInInspector]
     public float abilityCooldown = 1f;
     [HideInInspector]
@@ -13,21 +16,20 @@ public class Player : Actor
     public float rollSpeedMultiplier = 3f;
     [HideInInspector]
     public float abilityTimeoutLimit = 5f;
-
     private float remainingRollCooldown = 0f;
 
+    // Components
     [SerializeField]
     private TrailRenderer trailRenderer = null;
-
     [SerializeField]
     private AudioSource whiffAudio = null;
 
-    public AbilityTree AbilityTree { get; private set; }
-    
+    // Services
+    public AbilityTree AbilityTree { get; private set; }    
     public AbilityManager AbilityManager { get; private set; }
-
-    public override ActorType Type => ActorType.Player;
+    public PlayerTargetFinder TargetFinder { get; private set; }
     
+    // Subjects
     public Subject RollSubject { get; } = new Subject();
 
     protected override void Awake()
@@ -45,6 +47,7 @@ public class Player : Actor
         RegisterAbilityDataDiffer(new AbilityDataOrbsDiffer(AbilityTree));
         SetAbilityBonusCalculator(new AbilityBonusOrbsCalculator(AbilityTree));
         AbilityManager = new AbilityManager(this, abilityTimeoutLimit, abilityCooldown, updateSubject, lateUpdateSubject);
+        TargetFinder = new PlayerTargetFinder(this, updateSubject);
     }
 
     protected override void Start()
