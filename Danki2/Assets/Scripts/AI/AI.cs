@@ -17,10 +17,10 @@ public class AI : MonoBehaviour
     private void Start()
     {
         serializablePlanner.AiElement.OnStart(actor);
-        foreach (AIAction aiAction in Enum.GetValues(typeof(AIAction)))
+        EnumUtils.ForEach<AIAction>(action =>
         {
-            serializablePersonality[aiAction].AiElement.OnStart(actor);
-        }
+            serializablePersonality[action].AiElement.OnStart(actor);
+        });
     }
 
     private void Update()

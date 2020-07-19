@@ -15,10 +15,10 @@ public static class BindablePropertyLookup
 
     static BindablePropertyLookup()
     {
-        foreach (BindableProperty bindableProperty in Enum.GetValues(typeof(BindableProperty)))
+        EnumUtils.ForEach<BindableProperty>(bindableProperty =>
         {
             stringToBindableProperty.Add(bindablePropertyToString[bindableProperty], bindableProperty);
-        }
+        });
     }
 
     public static bool IsValidBindableProperty(string value)

@@ -1049,7 +1049,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1593497732697760947}
   m_Direction: 0
   m_Value: 1
-  m_Size: 0.9999999
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1169,6 +1169,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityListingPanelPrefab: {fileID: 6966794857247870339, guid: b4d825c974130f84aaaeff3972678117,
     type: 3}
+  rectTransform: {fileID: 1716801466120109581}
+  verticalLayoutGroup: {fileID: 8821586865759999706}
 --- !u!1 &3531365329406556642
 GameObject:
   m_ObjectHideFlags: 0
@@ -1653,6 +1655,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1716801466120109581}
     m_Modifications:
+    - target: {fileID: 7859317892095288869, guid: b4d825c974130f84aaaeff3972678117,
+        type: 3}
+      propertyPath: m_Name
+      value: AbilityPanel
+      objectReference: {fileID: 0}
     - target: {fileID: 7179800382927097761, guid: b4d825c974130f84aaaeff3972678117,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1757,11 +1764,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7859317892095288869, guid: b4d825c974130f84aaaeff3972678117,
-        type: 3}
-      propertyPath: m_Name
-      value: AbilityPanel
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b4d825c974130f84aaaeff3972678117, type: 3}

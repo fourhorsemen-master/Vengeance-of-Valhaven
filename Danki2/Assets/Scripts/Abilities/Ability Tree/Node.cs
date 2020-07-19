@@ -4,13 +4,16 @@ using UnityEngine;
 
 public abstract class Node
 {
-    private readonly Dictionary<Direction, Node> _children = new Dictionary<Direction, Node>();
+    private readonly EnumDictionary<Direction, Node> _children = new EnumDictionary<Direction, Node>(defaultValue: null);
 
     public bool IsRootNode => Parent == null;
 
     public Node Parent { get; set; }
 
-    public AbilityReference Ability { get; }
+    public AbilityReference Ability { get; private set; }
+
+    private EnumDictionary<Direction, Subscription> childChangeSubscriptions = new EnumDictionary<Direction, Subscription>(defaultValue: null);
+    public Subject ChangeSubject { get; } = new Subject();
 
     protected Node()
     {
@@ -23,7 +26,7 @@ public abstract class Node
 
     public bool HasChild(Direction direction)
     {
-        return _children.TryGetValue(direction, out _);
+        return _children[direction] != null;
     }
 
     public Node GetChild(Direction direction)
@@ -31,9 +34,13 @@ public abstract class Node
         return _children[direction];
     }
 
-    public void SetChild(Direction direction, Node value)
+    public void SetChild(Direction direction, Node child)
     {
-        _children[direction] = value;
+        _children[direction] = child;
+        child.Parent = this;
+
+        childChangeSubscriptions[direction]?.Unsubscribe();
+        childChangeSubscriptions[direction] = child.ChangeSubject.Subscribe(ChangeSubject.Next);
     }
 
     public int MaxDepth()
@@ -53,6 +60,45 @@ public abstract class Node
         return Mathf.Max(maxLeftDepth, maxRightDepth) + 1;
     }
 
+    public void Insert(AbilityReference ability, InsertArea area)
+    {
+        Node newNode = AbilityTreeFactory.CreateNode(ability);
+
+        switch (area)
+        {
+            case InsertArea.Centre:
+                if (IsRootNode)
+                {
+                    Debug.LogError("Tried to insert ability into root node.");
+                    return;
+                }
+                Ability = ability;
+                break;
+
+            case InsertArea.BottomLeft:
+                if (HasChild(Direction.Left))
+                {
+                    Node child = GetChild(Direction.Left);
+                    newNode.SetChild(Direction.Left, child);
+                }
+
+                SetChild(Direction.Left, newNode);
+                break;
+
+            case InsertArea.BottomRight:
+                if (HasChild(Direction.Right))
+                {
+                    Node child = GetChild(Direction.Right);
+                    newNode.SetChild(Direction.Right, child);
+                }
+
+                SetChild(Direction.Right, newNode);
+                break;
+        }
+
+        ChangeSubject.Next();
+    }
+
     /// <summary>
     /// Runs the given action for this node and all ancestor nodes up the tree.
     /// </summary>
@@ -62,5 +108,17 @@ public abstract class Node
     {
         if (predicate == null || predicate(this)) action(this);
         Parent?.IterateUp(action, predicate);
+    }
+
+    /// <summary>
+    /// Runs the given action for this node and all descendent nodes.
+    /// </summary>
+    /// <param name="action"> The action to run </param>
+    /// <param name="predicate"> Optional predicate, if not provided then the action will run for every node </param>
+    public void IterateDown(Action<Node> action, Func<Node, bool> predicate = null)
+    {
+        if (predicate == null || predicate(this)) action(this);
+
+        EnumUtils.ForEach<Direction>(d => _children[d]?.IterateDown(action, predicate));
     }
 }

@@ -14,5 +14,9 @@
     LeechingStrike,
     Meditate,
     Bash,
-    SweepingStrike
+    SweepingStrike,
+    Hook,
+    Backstab,
+    PiercingRush,
+    Parry
 }

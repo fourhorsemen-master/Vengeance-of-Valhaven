@@ -36,7 +36,7 @@ public class Circle : Behaviour
 
     public override void Behave(Actor actor)
     {
-        if (!actor.Target)
+        if (!actor.Target || !actor.MovementManager.CanMove)
         {
             return;
         }
