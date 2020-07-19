@@ -17,7 +17,7 @@ public class Hook : InstantCast
     {
         Quaternion rotation = Quaternion.LookRotation(target - Owner.Centre);
 
-        Owner.MovementManager.LookAt(Owner.Centre);
+        Owner.MovementManager.LookAt(target);
         Owner.MovementManager.Stun(range / hookSpeed);
 
         HookObject.Fire(Owner, OnCollision, MissCallback, hookSpeed, Owner.Centre, rotation, range);
