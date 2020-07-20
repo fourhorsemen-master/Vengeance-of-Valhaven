@@ -2,6 +2,9 @@
 
 public class OrbsPanel : MonoBehaviour
 {
+    [SerializeField]
+    private OrbsPanelItem orbsPanelItemPrefab = null;
+    
     private void Start()
     {
         Initialise();
