@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[Ability(AbilityReference.Sprint)]
+[Ability(AbilityReference.NetThrow)]
 public class NetThrow : Cast
 {
     protected override float CastTime => 1;
