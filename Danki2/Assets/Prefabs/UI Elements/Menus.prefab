@@ -1318,6 +1318,7 @@ GameObject:
   - component: {fileID: 2585768102797886322}
   - component: {fileID: 1991234998223869280}
   - component: {fileID: 9031102412669739328}
+  - component: {fileID: 1146710336464527319}
   m_Layer: 5
   m_Name: Viewport
   m_TagString: Untagged
@@ -1396,6 +1397,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 0
+--- !u!114 &1146710336464527319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4919151627310560110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e73c3ee71aa04845b249c198864dc29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6647661401843695833
 GameObject:
   m_ObjectHideFlags: 0
@@ -1655,11 +1668,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1716801466120109581}
     m_Modifications:
-    - target: {fileID: 7859317892095288869, guid: b4d825c974130f84aaaeff3972678117,
-        type: 3}
-      propertyPath: m_Name
-      value: AbilityPanel
-      objectReference: {fileID: 0}
     - target: {fileID: 7179800382927097761, guid: b4d825c974130f84aaaeff3972678117,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1764,6 +1772,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7859317892095288869, guid: b4d825c974130f84aaaeff3972678117,
+        type: 3}
+      propertyPath: m_Name
+      value: AbilityPanel
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b4d825c974130f84aaaeff3972678117, type: 3}
