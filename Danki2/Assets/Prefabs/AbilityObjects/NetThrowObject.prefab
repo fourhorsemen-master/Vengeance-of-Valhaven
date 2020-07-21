@@ -89,6 +89,7 @@ GameObject:
   - component: {fileID: 5483998091167511989}
   - component: {fileID: 1536503622424024113}
   - component: {fileID: -5414562188511540114}
+  - component: {fileID: 7065505003395625065}
   m_Layer: 0
   m_Name: NetThrowObject
   m_TagString: Untagged
@@ -139,3 +140,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1660441592db3764b94c2affc5d79060, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  landAudioSource: {fileID: 0}
+--- !u!65 &7065505003395625065
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4143333767268298818}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5, y: 1, z: 5}
+  m_Center: {x: 0, y: 0, z: 0}

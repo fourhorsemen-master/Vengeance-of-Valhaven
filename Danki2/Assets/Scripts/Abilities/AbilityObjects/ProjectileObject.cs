@@ -4,7 +4,8 @@ using UnityEngine;
 public abstract class ProjectileObject : MonoBehaviour
 {
     protected Actor caster;
-    private float speed;
+    private float horizontalSpeed;
+    private float verticalSpeed;
     private Action<GameObject> collisionCallback;
     private bool isSticky = false;
     private float stickTime = 0f;
@@ -14,12 +15,14 @@ public abstract class ProjectileObject : MonoBehaviour
     /// </summary>
     /// <param name="caster"></param>
     /// <param name="collisionCallback"></param>
-    /// <param name="speed"></param>
-    protected ProjectileObject InitialiseProjectile(Actor caster, Action<GameObject> collisionCallback, float speed)
+    /// <param name="horizontalSpeed"></param>
+    /// <param name="verticalSpeed">Initial vertical speed, affected by gravity.</param>
+    protected ProjectileObject InitialiseProjectile(Actor caster, Action<GameObject> collisionCallback, float horizontalSpeed, float verticalSpeed = 0f)
     {
         this.caster = caster;
         this.collisionCallback = collisionCallback;
-        this.speed = speed;
+        this.horizontalSpeed = horizontalSpeed;
+        this.verticalSpeed = verticalSpeed;
 
         return this;
     }
@@ -39,9 +42,16 @@ public abstract class ProjectileObject : MonoBehaviour
         });
     }
 
+    public void StopProjectile()
+    {
+        this.horizontalSpeed = 0f;
+        this.verticalSpeed = 0f;
+    }
+
     private void Update()
     {
-        transform.position += transform.forward * this.speed * Time.deltaTime;
+        transform.position += transform.forward * this.horizontalSpeed * Time.deltaTime;
+        transform.position += transform.up * this.verticalSpeed * Time.deltaTime;
     }
 
     protected virtual void OnTriggerEnter(Collider other)
@@ -61,7 +71,8 @@ public abstract class ProjectileObject : MonoBehaviour
         Collider coll = gameObject.GetComponent<Collider>();
         Destroy(coll);
         transform.SetParent(other.transform);
-        this.speed = 0f;
+        this.horizontalSpeed = 0f;
+        this.verticalSpeed = 0f;
 
         this.WaitAndAct(this.stickTime, () => Destroy(gameObject));
     }

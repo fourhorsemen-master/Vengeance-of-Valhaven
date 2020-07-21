@@ -6,10 +6,10 @@ public class NetThrow : Cast
     protected override float CastTime => 2f;
 
     private const float minimumThrowDistance = 3f;
-    private const float maximumThrowDistance = 15f;
+    private const float maximumThrowDistance = 10f;
 
     private float gravity => Physics.gravity.magnitude;
-    private float throwVelocity => Mathf.Sqrt(Mathf.Pow(maximumThrowDistance, 2) / gravity); // R,max = V^2/g
+    private float throwVelocity => Mathf.Sqrt(maximumThrowDistance * gravity); // R,max = V^2/g
 
     private const float netRootTime = 4f;
 
@@ -29,23 +29,24 @@ public class NetThrow : Cast
         float distance = Vector3.Distance(ownerXZPosition, targetXZPosition);
         distance = Mathf.Clamp(distance, minimumThrowDistance, maximumThrowDistance);
 
-        float throwHeightOffset = target.y - Owner.transform.position.y;
+        float throwHeightOffset = target.y - Owner.transform.position.y - MouseGamePositionFinder.Instance.HeightOffset;
 
         float throwAngle =
             Mathf.Atan(
-                Mathf.Pow(throwVelocity, 2) / (gravity * distance)
-                + Mathf.Sqrt(
+                (Mathf.Pow(throwVelocity, 2)
+                - Mathf.Sqrt(
                     Mathf.Pow(throwVelocity, 4)
                     - gravity * (gravity * Mathf.Pow(distance, 2) + 2 * throwHeightOffset * Mathf.Pow(throwVelocity, 2))
                     )
-                );
+                ) / (gravity * distance)
+            );
 
         float projectileTime = distance / (throwVelocity * Mathf.Cos(throwAngle));
 
         // instantiate a net throw object
-        Owner.transform.LookAt(target, Owner.transform.up);
+        Owner.MovementManager.LookAt(target);
 
-        NetThrowObject netThrowObject = NetThrowObject.Create()
+        NetThrowObject.Create(Owner, throwVelocity, throwAngle, projectileTime);
 
         // handle rooting of enemies & success feedback
         SuccessFeedbackSubject.Next(true);

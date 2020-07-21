@@ -4,16 +4,25 @@ using UnityEngine;
 public class NetThrowObject : ProjectileObject
 {
     [SerializeField]
-    private AudioSource hitAudioSource = null;
+    private AudioSource landAudioSource = null;
 
-    public static NetThrowObject Create(Quaternion rotation, float velocity, float throwAngle, float projectileTime)
-    {
+    public static void Create(Actor caster, float throwVelocity, float throwAngle, float projectileTime)
+    {        
         NetThrowObject prefab = AbilityObjectPrefabLookup.Instance.NetThrowObjectPrefab;
-        return Instantiate(prefab, position, rotation);
+        NetThrowObject netThrowObject = Instantiate(prefab, caster.transform.position, caster.transform.rotation);
+
+        netThrowObject.InitialiseProjectile(caster, null, throwVelocity * Mathf.Cos(throwAngle), throwVelocity * Mathf.Sin(throwAngle));
+        netThrowObject.WaitAndAct(projectileTime, () =>
+            {
+                // netThrowObject.PlayLandingSound();
+                netThrowObject.StopProjectile();
+            }  
+        );
     }
 
-    public void PlayHitSound()
+    private void PlayLandingSound()
     {
-        hitAudioSource.Play();
+        landAudioSource.Play();
+        this.WaitAndAct(landAudioSource.clip.length, () => Destroy(gameObject));
     }
 }
