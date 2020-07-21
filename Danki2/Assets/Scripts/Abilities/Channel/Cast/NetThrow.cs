@@ -41,7 +41,7 @@ public class NetThrow : Cast
                 ) / (gravity * distance)
             );
 
-        if (float.IsNaN(throwAngle)) throwAngle = Mathf.PI / 4; // when target is not physically reachable, fire for max range.
+        if (float.IsNaN(throwAngle)) throwAngle = Mathf.PI / 4; // when the target is not reachable due to its height, fire for max range.
 
         float projectileTime = distance / (throwVelocity * Mathf.Cos(throwAngle));
 

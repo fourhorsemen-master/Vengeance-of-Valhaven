@@ -22,6 +22,8 @@ public class NetThrowObject : ProjectileObject
         return netThrowObject;
     }
 
+    // override method for OnTriggerEnter to handle collision properties and action on hitting the scene.
+
     private void PlayLandingSound()
     {
         landAudioSource.Play();
