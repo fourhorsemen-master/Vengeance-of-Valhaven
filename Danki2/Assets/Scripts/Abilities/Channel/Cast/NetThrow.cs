@@ -41,14 +41,16 @@ public class NetThrow : Cast
                 ) / (gravity * distance)
             );
 
+        if (float.IsNaN(throwAngle)) throwAngle = Mathf.PI / 4; // when target is not physically reachable, fire for max range.
+
         float projectileTime = distance / (throwVelocity * Mathf.Cos(throwAngle));
 
         // instantiate a net throw object
         Owner.MovementManager.LookAt(target);
 
-        NetThrowObject.Create(Owner, throwVelocity, throwAngle, projectileTime);
+        NetThrowObject netThrowObject = NetThrowObject.Create(Owner, throwVelocity, throwAngle, projectileTime);
 
-        // handle rooting of enemies & success feedback
+        // handle rooting of enemies & success feedback, remember to do root from where the netThrowObject is after the projectile time period.
         SuccessFeedbackSubject.Next(true);
     }
 }

@@ -6,7 +6,7 @@ public class NetThrowObject : ProjectileObject
     [SerializeField]
     private AudioSource landAudioSource = null;
 
-    public static void Create(Actor caster, float throwVelocity, float throwAngle, float projectileTime)
+    public static NetThrowObject Create(Actor caster, float throwVelocity, float throwAngle, float projectileTime)
     {        
         NetThrowObject prefab = AbilityObjectPrefabLookup.Instance.NetThrowObjectPrefab;
         NetThrowObject netThrowObject = Instantiate(prefab, caster.transform.position, caster.transform.rotation);
@@ -18,6 +18,8 @@ public class NetThrowObject : ProjectileObject
                 netThrowObject.StopProjectile();
             }  
         );
+
+        return netThrowObject;
     }
 
     private void PlayLandingSound()
