@@ -209,7 +209,7 @@ MonoBehaviour:
         - displayName: Perfect Smash
           tooltip: Stun all affected enemies for 3 seconds.
           requiredOrbs: 0100000001000000
-      finisher: 0
+      finisher: 1
     - displayName: Sprint
       tooltip: Increase speed by 3 for 5 seconds.
       baseAbilityData:
@@ -282,7 +282,7 @@ MonoBehaviour:
         - displayName: Growing Rage
           tooltip: Increase power by 2 for every second charged instead.
           requiredOrbs: 000000000000000000000000
-      finisher: 0
+      finisher: 1
     - displayName: Bash
       tooltip: Deal {PRIMARY_DAMAGE} to enemies in a cone, stuns for 1 second.
       baseAbilityData:
@@ -370,7 +370,7 @@ MonoBehaviour:
           tooltip: After the dash the sharp winds of the jetstream causes {PRIMARY_DAMAGE}
             damage to enemies in a cone behind you.
           requiredOrbs: 020000000100000001000000
-      finisher: 0
+      finisher: 1
     - displayName: Parry
       tooltip: Absorb each attack for 1 second and return 50% damage back to attackers.
       baseAbilityData:
