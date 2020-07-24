@@ -11,7 +11,7 @@ public class OrbLookup : Singleton<OrbLookup>
     {
         base.Awake();
 
-        foreach (OrbType orbType in Enum.GetValues(typeof(OrbType)))
+        EnumUtils.ForEach<OrbType>(orbType =>
         {
             if (string.IsNullOrWhiteSpace(displayNameMap[orbType]))
             {
@@ -27,7 +27,7 @@ public class OrbLookup : Singleton<OrbLookup>
             {
                 Debug.LogError($"No icon found for orb type: {orbType.ToString()}");
             }
-        }
+        });
     }
     public string GetDisplayName(OrbType orbType) => displayNameMap[orbType];
 

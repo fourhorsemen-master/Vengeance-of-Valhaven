@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
 
-public class TreeAbility : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class TreeAbility : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField]
     private RectTransform rectTransform = null;
@@ -27,10 +27,40 @@ public class TreeAbility : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     [SerializeField]
     private UILineRenderer rightChildLineRenderer = null;
 
-    private Node node;
+    [SerializeField]
+    private AbilityInsertListener abilityInsertListener = null;
 
-    public void OnPointerEnter(PointerEventData _) {
-        if (node.IsRootNode) return;
+    private Node node;
+    private Subscription<AbilityReference> dragStartSubscription;
+    private Subscription<AbilityReference> dragStopSubscription;
+
+    private void Start()
+    {
+        abilityInsertListener.SetInsertableAreas(node);
+
+        dragStartSubscription = AbilityTreeEditorMenu.Instance.AbilityDragFromListStartSubject
+            .Subscribe(ability => abilityInsertListener.gameObject.SetActive(true));
+
+        dragStopSubscription = AbilityTreeEditorMenu.Instance.AbilityDragFromListStopSubject
+            .Subscribe(ability => abilityInsertListener.gameObject.SetActive(false));
+
+        abilityInsertListener.AbilityInsertSubject.Subscribe(location =>
+        {
+            node.Insert(AbilityTreeEditorMenu.Instance.AbilityDraggingFromList, location);
+        });
+    }
+
+    private void OnDisable()
+    {
+        dragStartSubscription?.Unsubscribe();
+        dragStopSubscription?.Unsubscribe();
+    }
+
+    public void OnPointerEnter(PointerEventData _)
+    {
+        if (node.IsRootNode || AbilityTreeEditorMenu.Instance.IsDraggingFromList) return;
+
+        AbilityTreeEditorMenu.Instance.CurrentTreeNodeHover = node;
 
         AbilityTooltip.Instance.Activate();
         AbilityTooltip.Instance.UpdateTooltip(node);
@@ -39,8 +69,33 @@ public class TreeAbility : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public void OnPointerExit(PointerEventData _)
     {
+        AbilityTreeEditorMenu.Instance.CurrentTreeNodeHover = null;
         AbilityTooltip.Instance.Deactivate();
         SetHighlighted(false);
+    }
+
+    public void OnBeginDrag(PointerEventData eventData) { }
+
+    /// <summary>
+    /// We implement this method to satisfy the IDragHandler.
+    /// </summary>
+    /// <param name="eventData"></param>
+    public void OnDrag(PointerEventData eventData) { }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        if (node.IsRootNode)
+        {
+            return;
+        }
+        else if (AbilityTreeEditorMenu.Instance.CurrentTreeNodeHover == null)
+        {
+            node.RemoveSelfAndDescendants();
+        }
+        else
+        {
+            node.SwapAbilitiesWith(AbilityTreeEditorMenu.Instance.CurrentTreeNodeHover);
+        }
     }
 
     public void ShiftRight(float amount)

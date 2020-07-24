@@ -4,7 +4,6 @@
 public class Fireball : InstantCast
 {
     private const float FireballSpeed = 5;
-    private static readonly Vector3 _positionTransform = new Vector3(0, 1.25f, 0);
 
     public Fireball(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
@@ -12,9 +11,8 @@ public class Fireball : InstantCast
 
     public override void Cast(Vector3 target)
     {
-        Vector3 position = Owner.transform.position + _positionTransform;
-        Quaternion rotation = Quaternion.LookRotation(target - position);
-        FireballObject.Fire(Owner, OnCollision, FireballSpeed, position, rotation);
+        Quaternion rotation = Quaternion.LookRotation(target - Owner.Centre);
+        FireballObject.Fire(Owner, OnCollision, FireballSpeed, Owner.Centre, rotation);
     }
 
     private void OnCollision(GameObject gameObject)

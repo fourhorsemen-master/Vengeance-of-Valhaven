@@ -13,24 +13,18 @@ public class LeechingStrike : InstantCast
     public override void Cast(Vector3 target)
     {
         Vector3 position = Owner.transform.position;
-        Vector3 castDirection = target - position;
-        castDirection.y = 0f;
+        Vector3 castDirection = target - Owner.Centre;
+        Quaternion castRotation = GetMeleeCastRotation(castDirection);
 
         int enemiesHit = 0;
 
-        CollisionTemplateManager.Instance.GetCollidingActors(
-            CollisionTemplate.Wedge90,
-            Range,
-            position,
-            Quaternion.LookRotation(castDirection)
-        ).ForEach(actor =>
-        {
-            if (Owner.Opposes(actor))
+        CollisionTemplateManager.Instance.GetCollidingActors(CollisionTemplate.Wedge90, Range, position, castRotation)
+            .Where(actor => Owner.Opposes(actor))
+            .ForEach(actor =>
             {
                 DealPrimaryDamage(actor);
                 enemiesHit++;
-            }
-        });
+            });
 
         bool hasDealtDamage = enemiesHit > 0;
 
@@ -38,7 +32,7 @@ public class LeechingStrike : InstantCast
 
         SuccessFeedbackSubject.Next(hasDealtDamage);
 
-        LeechingStrikeObject leechingStrikeObject = LeechingStrikeObject.Create(position, Quaternion.LookRotation(castDirection));
+        LeechingStrikeObject leechingStrikeObject = LeechingStrikeObject.Create(position, castRotation);
 
         Owner.MovementManager.LookAt(target);
         Owner.MovementManager.Stun(PauseDuration);

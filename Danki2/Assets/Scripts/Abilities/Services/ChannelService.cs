@@ -45,8 +45,7 @@ public class ChannelService : AbilityService
         Action<Subject<bool>> successFeedbackSubjectAction = null
     )
     {
-        MovementStatus status = actor.MovementManager.MovementStatus;
-        if (status == MovementStatus.Stunned || status == MovementStatus.MovementLocked) return false;
+        if (!CanCast) return false;
 
         if (!AbilityLookup.Instance.TryGetChannel(
             abilityReference,

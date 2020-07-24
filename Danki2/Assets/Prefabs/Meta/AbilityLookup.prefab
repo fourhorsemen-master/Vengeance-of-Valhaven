@@ -60,6 +60,10 @@ MonoBehaviour:
     - Meditate
     - Bash
     - SweepingStrike
+    - Hook
+    - Backstab
+    - PiercingRush
+    - Parry
     _values:
     - displayName: Slash
       tooltip: Deals {PRIMARY_DAMAGE} damage.
@@ -292,6 +296,74 @@ MonoBehaviour:
         hasValue: 1
         value: 1
       generatedOrbs: 
+      abilityBonusLookup:
+        _keys: []
+        _values: []
+    - displayName: Hook
+      tooltip: Throw a hook at an enemy and pull them towards the player. The hook
+        is coated in a serum which causes the target to be stunned for 2 seconds.
+      baseAbilityData:
+        primaryDamage: 0
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      abilityOrbType:
+        hasValue: 1
+        value: 0
+      generatedOrbs: 00000000
+      abilityBonusLookup:
+        _keys: []
+        _values: []
+    - displayName: Backstab
+      tooltip: With an unexpected stab from behind, deal {PRIMARY_DAMAGE} to a target.
+        However if the opponent is facing you the stab will fail!
+      baseAbilityData:
+        primaryDamage: 16
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      abilityOrbType:
+        hasValue: 1
+        value: 2
+      generatedOrbs: 02000000
+      abilityBonusLookup:
+        _keys: []
+        _values: []
+    - displayName: Piercing Rush
+      tooltip: 'Cast for 2 seconds, after which: dash for up to 10m dealing {PRIMARY_DAMAGE}
+        damage to all enemies you pass.'
+      baseAbilityData:
+        primaryDamage: 8
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      abilityOrbType:
+        hasValue: 1
+        value: 2
+      generatedOrbs: 
+      abilityBonusLookup:
+        _keys:
+        - Daze
+        - Jetstream
+        _values:
+        - displayName: Daze
+          tooltip: Slow all enemies hit.
+          requiredOrbs: 00000000
+        - displayName: Jetstream
+          tooltip: After the dash the sharp winds of the jetstream causes {PRIMARY_DAMAGE}
+            damage to enemies in a cone behind you.
+          requiredOrbs: 020000000100000001000000
+    - displayName: Parry
+      tooltip: Absorb each attack for 1 second and return 50% damage back to attackers.
+      baseAbilityData:
+        primaryDamage: 0
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      abilityOrbType:
+        hasValue: 1
+        value: 1
+      generatedOrbs: 01000000
       abilityBonusLookup:
         _keys: []
         _values: []

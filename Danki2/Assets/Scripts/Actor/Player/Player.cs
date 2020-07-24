@@ -3,6 +3,9 @@ using System.Collections;
 
 public class Player : Actor
 {
+    public override ActorType Type => ActorType.Player;
+
+    // Settings
     [HideInInspector]
     public float abilityCooldown = 1f;
     [HideInInspector]
@@ -13,61 +16,38 @@ public class Player : Actor
     public float rollSpeedMultiplier = 3f;
     [HideInInspector]
     public float abilityTimeoutLimit = 5f;
-
     private float remainingRollCooldown = 0f;
 
+    // Components
     [SerializeField]
     private TrailRenderer trailRenderer = null;
-
     [SerializeField]
     private AudioSource whiffAudio = null;
 
-    public AbilityTree AbilityTree { get; private set; }
-
-    public EnumDictionary<AbilityReference, int> AbilityInventory { get; private set; }
-    
+    // Services
+    public AbilityTree AbilityTree { get; private set; }    
     public AbilityManager AbilityManager { get; private set; }
-
-    public override ActorType Type => ActorType.Player;
+    public PlayerTargetFinder TargetFinder { get; private set; }
+    
+    // Subjects
+    public Subject RollSubject { get; } = new Subject();
 
     protected override void Awake()
     {
         base.Awake();
 
-        AbilityInventory = new EnumDictionary<AbilityReference, int>(0);
-        AbilityInventory[AbilityReference.Bite] = 1;
-        AbilityInventory[AbilityReference.Pounce] = 2;
-        AbilityInventory[AbilityReference.Slash] = 3;
-        AbilityInventory[AbilityReference.Dash] = 4;
-        AbilityInventory[AbilityReference.DaggerThrow] = 5;
-        AbilityInventory[AbilityReference.Lunge] = 6;
-        AbilityInventory[AbilityReference.Smash] = 7;
-        AbilityInventory[AbilityReference.Whirlwind] = 9;
+        EnumDictionary<AbilityReference, int> ownedAbilities = new EnumDictionary<AbilityReference, int>(3);
 
         AbilityTree = AbilityTreeFactory.CreateTree(
-            AbilityTreeFactory.CreateNode(
-                AbilityReference.SweepingStrike,
-                AbilityTreeFactory.CreateNode(
-                    AbilityReference.Dash,
-                    AbilityTreeFactory.CreateNode(AbilityReference.Leap),
-                    AbilityTreeFactory.CreateNode(AbilityReference.Smash)
-                ),
-                AbilityTreeFactory.CreateNode(AbilityReference.Whirlwind)
-            ),
-            AbilityTreeFactory.CreateNode(
-                AbilityReference.Lunge,
-                AbilityTreeFactory.CreateNode(AbilityReference.DaggerThrow),
-                AbilityTreeFactory.CreateNode(
-                    AbilityReference.Whirlwind,
-                    null,
-                    AbilityTreeFactory.CreateNode(AbilityReference.LeechingStrike)
-                )
-            )
+            ownedAbilities,
+            AbilityTreeFactory.CreateNode(AbilityReference.SweepingStrike),
+            AbilityTreeFactory.CreateNode(AbilityReference.Lunge)
         );
 
         RegisterAbilityDataDiffer(new AbilityDataOrbsDiffer(AbilityTree));
         SetAbilityBonusCalculator(new AbilityBonusOrbsCalculator(AbilityTree));
         AbilityManager = new AbilityManager(this, abilityTimeoutLimit, abilityCooldown, updateSubject, lateUpdateSubject);
+        TargetFinder = new PlayerTargetFinder(this, updateSubject);
     }
 
     protected override void Start()
@@ -86,16 +66,21 @@ public class Player : Actor
 
     public void Roll(Vector3 direction)
     {
-        if (remainingRollCooldown <= 0)
+        if (remainingRollCooldown > 0 || ChannelService.Active) return;
+
+        var rolled = MovementManager.TryLockMovement(
+            MovementLockType.Dash,
+            rollDuration,
+            GetStat(Stat.Speed) * rollSpeedMultiplier,
+            direction,
+            direction
+        );
+
+        if (rolled)
         {
-            MovementManager.LockMovement(
-                rollDuration,
-                GetStat(Stat.Speed) * rollSpeedMultiplier,
-                direction,
-                direction
-            );
             remainingRollCooldown = totalRollCooldown;
             trailRenderer.emitting = true;
+            RollSubject.Next();
             StartCoroutine(EndRollVisualAfterDelay());
         }
     }

@@ -20,44 +20,41 @@ public class Pounce : InstantCast
         target.y = position.y;
         Vector3 direction = target - position;
 
-
         float distance = Vector3.Distance(target, position);
         float pounceSpeed = Owner.GetStat(Stat.Speed) * PounceSpeedMultiplier;
         float duration = Mathf.Clamp(distance / pounceSpeed, MinMovementDuration, MaxMovementDuration);
 
-        Owner.MovementManager.LockMovement(duration, pounceSpeed, direction, direction);
+        Owner.MovementManager.TryLockMovement(MovementLockType.Dash, duration, pounceSpeed, direction, direction);
 
         PounceObject.Create(position, Quaternion.LookRotation(target - position));
 
-        Owner.InterruptableAction(
-            duration,
-            InterruptionType.Hard,
-            () =>
+        Owner.InterruptableAction(duration, InterruptionType.Hard, DamageOnLand);
+    }
+
+    private void DamageOnLand()
+    {
+        bool hasDealtDamage = false;
+
+        CollisionTemplateManager.Instance.GetCollidingActors(
+            CollisionTemplate.Wedge90,
+            DamageRadius,
+            Owner.transform.position,
+            Quaternion.LookRotation(Owner.transform.forward)
+        ).ForEach(actor =>
+        {
+            if (Owner.Opposes(actor))
             {
-                bool hasDealtDamage = false;
-
-                CollisionTemplateManager.Instance.GetCollidingActors(
-                    CollisionTemplate.Wedge90,
-                    DamageRadius,
-                    Owner.transform.position,
-                    Quaternion.LookRotation(Owner.transform.forward)
-                ).ForEach(actor =>
-                {
-                    if (Owner.Opposes(actor))
-                    {
-                        DealPrimaryDamage(actor);
-                        hasDealtDamage = true;
-                    }
-                });
-
-                Owner.MovementManager.Stun(PauseDuration);
-                SuccessFeedbackSubject.Next(hasDealtDamage);
-
-                if (hasDealtDamage)
-                {
-                    CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
-                }
+                DealPrimaryDamage(actor);
+                hasDealtDamage = true;
             }
-        );
+        });
+
+        Owner.MovementManager.Stun(PauseDuration);
+        SuccessFeedbackSubject.Next(hasDealtDamage);
+
+        if (hasDealtDamage)
+        {
+            CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
+        }
     }
 }

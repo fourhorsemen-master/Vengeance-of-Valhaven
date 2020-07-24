@@ -27,9 +27,10 @@ public static class BehaviourScanner
         SortBehaviourData();
 
         BehaviourDataByAction.Clear();
-        foreach (AIAction action in Enum.GetValues(typeof(AIAction))) {
+        EnumUtils.ForEach<AIAction>(action =>
+        {
             BehaviourDataByAction.Add(action, GetDataByAction(action));
-        }
+        });
     }
 
     private static void SortBehaviourData()

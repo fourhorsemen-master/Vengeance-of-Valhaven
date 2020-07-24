@@ -14,6 +14,12 @@ public interface IObservable
     /// Emit a new event from this observable.
     /// </summary>
     void Next();
+
+    /// <summary>
+    /// Returns an observable that emits the same events as this observable, but with the given mapping function
+    /// applied to each event.
+    /// </summary>
+    IObservable<T> Map<T>(Func<T> mappingFunction);
 }
 
 /// <inheritdoc cref="IObservable"/>
@@ -25,4 +31,7 @@ public interface IObservable<T>
     
     /// <inheritdoc cref="IObservable.Next"/>
     void Next(T value);
+
+    /// <inheritdoc cref="IObservable.Map{T}"/>
+    IObservable<TMapped> Map<TMapped>(Func<T, TMapped> mappingFunction);
 }

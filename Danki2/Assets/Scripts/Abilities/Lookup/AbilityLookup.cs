@@ -113,6 +113,23 @@ public class AbilityLookup : Singleton<AbilityLookup>
 
     private void BuildMetadataLookups()
     {
+        EnumUtils.ForEach<AbilityReference>(ability =>
+        {
+            SerializableAbilityMetadata serializableAbilityMetadata = serializableMetadataLookup[ability];
+
+            displayNameMap[ability] = serializableAbilityMetadata.DisplayName;
+            baseAbilityDataMap[ability] = serializableAbilityMetadata.BaseAbilityData;
+
+            if (serializableAbilityMetadata.AbilityOrbType.HasValue)
+            {
+                abilityOrbTypeMap[ability] = serializableAbilityMetadata.AbilityOrbType.Value;
+            }
+
+            generatedOrbsMap[ability] = new OrbCollection(serializableAbilityMetadata.GeneratedOrbs);
+            BuildTooltip(ability, serializableAbilityMetadata.Tooltip);
+            BuildAbilityBonusLookup(ability, serializableAbilityMetadata.AbilityBonusLookup);
+        });
+
         foreach (AbilityReference abilityReference in Enum.GetValues(typeof(AbilityReference)))
         {
             SerializableAbilityMetadata serializableAbilityMetadata = serializableMetadataLookup[abilityReference];

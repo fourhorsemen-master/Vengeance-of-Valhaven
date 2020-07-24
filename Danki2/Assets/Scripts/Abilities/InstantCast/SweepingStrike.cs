@@ -16,29 +16,23 @@ public class SweepingStrike : InstantCast
     public override void Cast(Vector3 target)
     {
         Vector3 position = Owner.transform.position;
-        Vector3 castDirection = target - position;
-        castDirection.y = 0f;
+        Vector3 castDirection = target - Owner.Centre;
+        Quaternion castRotation = GetMeleeCastRotation(castDirection);
 
         bool hasDealtDamage = false;
 
-        CollisionTemplateManager.Instance.GetCollidingActors(
-            CollisionTemplate.Wedge90,
-            Range,
-            position,
-            Quaternion.LookRotation(castDirection)
-        ).ForEach(actor =>
-        {
-            if (Owner.Opposes(actor))
+        CollisionTemplateManager.Instance.GetCollidingActors(CollisionTemplate.Wedge90, Range, position, castRotation)
+            .Where(actor => Owner.Opposes(actor))
+            .ForEach(actor =>
             {
                 DealPrimaryDamage(actor);
                 hasDealtDamage = true;
                 KnockBack(actor);
-            }
-        });
+            });
 
         SuccessFeedbackSubject.Next(hasDealtDamage);
 
-        SweepingStrikeObject sweepingStrikeObject = SweepingStrikeObject.Create(position, Quaternion.LookRotation(castDirection));
+        SweepingStrikeObject sweepingStrikeObject = SweepingStrikeObject.Create(position, castRotation);
 
         Owner.MovementManager.LookAt(target);
         Owner.MovementManager.Stun(PauseDuration);
@@ -55,11 +49,12 @@ public class SweepingStrike : InstantCast
         Vector3 knockBackDirection = actor.transform.position - Owner.transform.position;
         Vector3 knockBackFaceDirection = actor.transform.forward;
 
-        actor.MovementManager.LockMovement(
+        actor.MovementManager.TryLockMovement(
+            MovementLockType.Knockback,
             knockBackDuration,
             knockBackSpeed,
             knockBackDirection,
             knockBackFaceDirection
-            );
+        );
     }
 }

@@ -39,4 +39,12 @@ public class BehaviourSubject<T> : IObservable<T>
             return s.Unsubscribed;
         });
     }
+
+    /// <inheritdoc/>
+    public IObservable<TMapped> Map<TMapped>(Func<T, TMapped> mappingFunction)
+    {
+        BehaviourSubject<TMapped> mappedBehaviourSubject = new BehaviourSubject<TMapped>(mappingFunction(currentValue));
+        Subscribe(value => mappedBehaviourSubject.Next(mappingFunction(value)));
+        return mappedBehaviourSubject;
+    }
 }

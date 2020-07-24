@@ -19,13 +19,17 @@ public class AbilityTreeDisplay : MonoBehaviour
     private float numTreeVerticalSections;
     private Dictionary<Node, float> sectionIndices = new Dictionary<Node, float>();
 
+    private void Start()
+    {
+        RoomManager.Instance.Player.AbilityTree.ChangeSubject.Subscribe(RecalculateDisplay);
+    }
+
     private void OnEnable()
     {
         Player player = RoomManager.Instance.Player;
         abilityTree = player.AbilityTree;
 
         if (abilityTree != null) RecalculateDisplay();
-        // TODO: subscribe to changes in the Ability Tree to recalculate the display.
     }
 
     /// <summary>
@@ -43,7 +47,7 @@ public class AbilityTreeDisplay : MonoBehaviour
             Destroy(treeRowsPanel.GetChild(i).gameObject);
         }
 
-        for (int i = 0; i < abilityTree.MaxDepth + 1; i++)
+        for (int i = 0; i < abilityTree.MaxDepth; i++)
         {
             Instantiate(treeRowPanelPrefab, treeRowsPanel.transform, false);
         }
@@ -98,7 +102,6 @@ public class AbilityTreeDisplay : MonoBehaviour
     /// <returns></returns>
     private TreeAbility DrawNodes(Node node, int row = 0)
     {
-
         Transform treeRow = treeRowsPanel.GetChild(row);
         TreeAbility treeAbility = AddTreeAbility(treeRow, node);
 

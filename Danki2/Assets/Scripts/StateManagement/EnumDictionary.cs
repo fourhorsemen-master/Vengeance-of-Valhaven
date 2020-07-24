@@ -5,16 +5,13 @@ public class EnumDictionary<TEnumKey, TValue> : Dictionary<TEnumKey, TValue> whe
 {
     public EnumDictionary(Func<TValue> defaultValueProvider)
     {
-        foreach (TEnumKey key in Enum.GetValues(typeof(TEnumKey)))
-        {
-            Add(key, defaultValueProvider());
-        }
+        EnumUtils.ForEach<TEnumKey>(key => Add(key, defaultValueProvider()));
     }
     public EnumDictionary(TValue defaultValue)
     {
-        foreach (TEnumKey key in Enum.GetValues(typeof(TEnumKey)))
-        {
-            Add(key, defaultValue);
-        }
+        EnumUtils.ForEach<TEnumKey>(key => Add(key, defaultValue));
     }
+    
+    public EnumDictionary(EnumDictionary<TEnumKey, TValue> enumDictionary)
+        : base(enumDictionary) {}
 }

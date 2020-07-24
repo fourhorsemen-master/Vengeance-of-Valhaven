@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AbilityListDisplay : MonoBehaviour
 {
@@ -8,11 +9,23 @@ public class AbilityListDisplay : MonoBehaviour
     [SerializeField]
     private AbilityListingPanel abilityListingPanelPrefab = null;
 
+    [SerializeField]
+    private RectTransform rectTransform = null;
+
+    [SerializeField]
+    private VerticalLayoutGroup verticalLayoutGroup = null;
+
     void Start()
     {
         player = RoomManager.Instance.Player;
 
-        PopulateAbilityList();
+        AbilityTreeEditorMenu.Instance.AbilityDragFromListStopSubject.Subscribe(_ => PopulateAbilityList());
+    }
+
+    private void OnEnable()
+    {
+        // This is called before Start, at which point the player is still null
+        if (player != null) PopulateAbilityList();
     }
 
     private void PopulateAbilityList()
@@ -22,8 +35,8 @@ public class AbilityListDisplay : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-
-        foreach (KeyValuePair<AbilityReference, int> item in player.AbilityInventory)
+        
+        foreach (KeyValuePair<AbilityReference, int> item in player.AbilityTree.Inventory)
         {
             if (item.Value > 0)
             {
@@ -31,5 +44,10 @@ public class AbilityListDisplay : MonoBehaviour
                 abilityListingPanel.Initialise(item.Key, item.Value);
             }
         }
+
+        // PreferredHeight isn't up to date until next frame, so we set the content height then.
+        this.NextFrame(
+            () => rectTransform.SetHeight(verticalLayoutGroup.preferredHeight)
+        );
     }
 }

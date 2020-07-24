@@ -2,7 +2,7 @@
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class AbilityListingPanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class AbilityListingPanel : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField]
     private Image iconPanelImage = null;
@@ -17,9 +17,14 @@ public class AbilityListingPanel : MonoBehaviour, IPointerEnterHandler, IPointer
     private Image abilityHighlight = null;
 
     private AbilityReference ability;
+    private int quantity;
+
+    public Subject DragEndSubject { get; } = new Subject();
 
     public void OnPointerEnter(PointerEventData _)
     {
+        if (AbilityTreeEditorMenu.Instance.IsDraggingFromList) return;
+
         AbilityTooltip.Instance.Activate();
         AbilityTooltip.Instance.UpdateTooltip(ability);
         SetHighlighted(true);
@@ -31,9 +36,29 @@ public class AbilityListingPanel : MonoBehaviour, IPointerEnterHandler, IPointer
         SetHighlighted(false);
     }
 
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        quantity -= 1;
+        UpdateQuantityText();
+        AbilityTreeEditorMenu.Instance.AbilityDragFromListStartSubject.Next(ability);
+    }
+
+    /// <summary>
+    /// We implement this method to satisfy the IDragHandler.
+    /// </summary>
+    /// <param name="eventData"></param>
+    public void OnDrag(PointerEventData eventData) { }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        DragEndSubject.Next();
+        AbilityTreeEditorMenu.Instance.AbilityDragFromListStopSubject.Next(ability);
+    }
+
     public void Initialise(AbilityReference ability, int quantity)
     {
         this.ability = ability;
+        this.quantity = quantity;
 
         SetHighlighted(false);
 
@@ -41,6 +66,11 @@ public class AbilityListingPanel : MonoBehaviour, IPointerEnterHandler, IPointer
 
         namePanelText.text = AbilityLookup.Instance.GetAbilityDisplayName(ability);
 
+        UpdateQuantityText();
+    }
+
+    private void UpdateQuantityText()
+    {
         quantityPanelText.text = quantity.ToString();
     }
 
