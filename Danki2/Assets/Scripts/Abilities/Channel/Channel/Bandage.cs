@@ -1,13 +1,17 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 [Ability(AbilityReference.Bandage, new []{"Perseverance"})]
 public class Bandage : Channel
 {
     private const float HealInterval = 1f;
     private const float HealStartDelay = 1f;
+    private const int SpeedReduction = 2;
 
     private Repeater repeater;
     private bool hasHealed = false;
+
+    private Guid slowEffectId;
     
     public override float Duration => 5f;
     
@@ -18,6 +22,11 @@ public class Bandage : Channel
     public override void Start(Vector3 target)
     {
         repeater = new Repeater(HealInterval, Heal, HealStartDelay);
+
+        if (HasBonus("Perseverance"))
+        {
+            slowEffectId = Owner.EffectManager.AddPassiveEffect(new LinearStatModification(Stat.Speed, -SpeedReduction));
+        }
     }
 
     public override void Continue(Vector3 target)
@@ -41,5 +50,10 @@ public class Bandage : Channel
     private void End()
     {
         if (!hasHealed) SuccessFeedbackSubject.Next(false);
+
+        if (HasBonus("Perseverance"))
+        {
+            Owner.EffectManager.RemovePassiveEffect(slowEffectId);
+        }
     }
 }
