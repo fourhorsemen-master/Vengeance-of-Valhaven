@@ -13,8 +13,9 @@ public class OrbsPanel : MonoBehaviour
     private void Initialise()
     {
         EnumUtils.ForEach<OrbType>(orbType =>
-        {
-            Debug.Log(OrbLookup.Instance.GetDisplayName(orbType));
-        });
+            {
+                Instantiate(orbsPanelItemPrefab, Vector3.zero, Quaternion.identity, transform);
+            }
+        );
     }
 }
