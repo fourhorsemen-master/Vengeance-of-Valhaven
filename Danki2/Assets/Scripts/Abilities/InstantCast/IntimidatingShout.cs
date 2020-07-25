@@ -4,7 +4,7 @@ using UnityEngine;
 [Ability(AbilityReference.IntimidatingShout)]
 public class IntimidatingShout : InstantCast
 {
-    private const float Range = 3;
+    private const float Range = 4;
     private const int DefenceModification = -2;
     private const float Duration = 6;
 
