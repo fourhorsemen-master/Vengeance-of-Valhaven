@@ -14,11 +14,12 @@ public class IntimidatingShout : InstantCast
 
     public override void Cast(Vector3 target)
     {
-        IntimidatingShoutObject.Create(Owner.transform);
-        
         List<Actor> collidingActors = GetCollidingActors();
         SuccessFeedbackSubject.Next(collidingActors.Count > 0);
         collidingActors.ForEach(ReduceDefence);
+
+        IntimidatingShoutObject.Create(Owner.transform);
+        CustomCamera.Instance.AddShake(ShakeIntensity.High);
     }
 
     private List<Actor> GetCollidingActors()
