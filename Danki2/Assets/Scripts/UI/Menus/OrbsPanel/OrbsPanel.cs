@@ -14,6 +14,7 @@ public class OrbsPanel : MonoBehaviour
     {
         EnumUtils.ForEach<OrbType>(orbType =>
             {
+                Debug.Log($"Creating {orbType}");
                 Instantiate(orbsPanelItemPrefab, Vector3.zero, Quaternion.identity, transform);
             }
         );
