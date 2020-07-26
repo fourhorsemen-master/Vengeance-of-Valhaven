@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EffectManager : StatPipe
+public class EffectManager : StatPipe, MovementStatusProvider
 {
     private List<EffectWithDuration> _activeEffects;
     private Dictionary<Guid, Effect> _passiveEffects;
@@ -130,5 +130,27 @@ public class EffectManager : StatPipe
         {
             action(passiveEffect);
         }
+    }
+
+    public bool SetStunned()
+    {
+        bool setStunned = false;
+
+        ForEachEffect(e => {
+            if (e.Stuns) setStunned = true;
+        });
+
+        return setStunned;
+    }
+
+    public bool SetRooted()
+    {
+        bool setRooted = false;
+
+        ForEachEffect(e => {
+            if (e.Roots) setRooted = true;
+        });
+
+        return setRooted;
     }
 }
