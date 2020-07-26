@@ -7,16 +7,10 @@ public class OrbsPanel : MonoBehaviour
     
     private void Start()
     {
-        Initialise();
-    }
-
-    private void Initialise()
-    {
         EnumUtils.ForEach<OrbType>(orbType =>
-            {
-                Debug.Log($"Creating {orbType}");
-                Instantiate(orbsPanelItemPrefab, Vector3.zero, Quaternion.identity, transform);
-            }
-        );
+        {
+            Instantiate(orbsPanelItemPrefab, Vector3.zero, Quaternion.identity, transform)
+                .Initialise(orbType);
+        });
     }
 }
