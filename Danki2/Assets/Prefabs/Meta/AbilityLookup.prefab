@@ -67,7 +67,7 @@ MonoBehaviour:
     - IntimidatingShout
     _values:
     - displayName: Slash
-      tooltip: Deals {PRIMARY_DAMAGE} damage.
+      tooltip: Deals {PRIMARY_DAMAGE} damage to enemies in a cone.
       baseAbilityData:
         primaryDamage: 5
         secondaryDamage: 0
@@ -76,7 +76,7 @@ MonoBehaviour:
       abilityOrbType:
         hasValue: 0
         value: 0
-      generatedOrbs: 00000000
+      generatedOrbs: 
       abilityBonusLookup:
         _keys: []
         _values: []
@@ -91,8 +91,8 @@ MonoBehaviour:
         shield: 0
       abilityOrbType:
         hasValue: 1
-        value: 0
-      generatedOrbs: 
+        value: 1
+      generatedOrbs: 01000000
       abilityBonusLookup:
         _keys:
         - Cross-Step
@@ -103,7 +103,7 @@ MonoBehaviour:
           requiredOrbs: 02000000
       finisher: 0
     - displayName: Fireball
-      tooltip: Deals {PRIMARY_DAMAGE} damage.
+      tooltip: Casts a fireball that deals {PRIMARY_DAMAGE} damage on impact.
       baseAbilityData:
         primaryDamage: 5
         secondaryDamage: 0
@@ -163,7 +163,7 @@ MonoBehaviour:
         _values: []
       finisher: 0
     - displayName: Dash
-      tooltip: Deals {PRIMARY_DAMAGE} damage.
+      tooltip: Dash a short distance in the direction of casting.
       baseAbilityData:
         primaryDamage: 0
         secondaryDamage: 0
@@ -178,14 +178,14 @@ MonoBehaviour:
         _values: []
       finisher: 0
     - displayName: Lunge
-      tooltip: Deals {PRIMARY_DAMAGE} damage.
+      tooltip: Lunge 5m and deal {PRIMARY_DAMAGE} damage to enemies in a small cone.
       baseAbilityData:
         primaryDamage: 3
         secondaryDamage: 0
         heal: 0
         shield: 0
       abilityOrbType:
-        hasValue: 0
+        hasValue: 1
         value: 0
       generatedOrbs: 00000000
       abilityBonusLookup:
@@ -193,14 +193,14 @@ MonoBehaviour:
         _values: []
       finisher: 0
     - displayName: Smash
-      tooltip: Deals {PRIMARY_DAMAGE} damage.
+      tooltip: Deals {PRIMARY_DAMAGE} damage in a small circle near the caster.
       baseAbilityData:
         primaryDamage: 10
         secondaryDamage: 0
         heal: 0
         shield: 0
       abilityOrbType:
-        hasValue: 0
+        hasValue: 1
         value: 0
       generatedOrbs: 
       abilityBonusLookup:
