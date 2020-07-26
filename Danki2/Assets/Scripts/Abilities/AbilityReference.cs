@@ -18,5 +18,6 @@
     Hook,
     Backstab,
     PiercingRush,
-    Parry
+    Parry,
+    IntimidatingShout
 }
