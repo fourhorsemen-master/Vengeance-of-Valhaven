@@ -18,7 +18,7 @@ public abstract class Enemy : Actor
     {
         OnTelegraph.Next(waitTime);
 
-        MovementManager.Stun(waitTime);
+        MovementManager.Pause(waitTime);
 
         InterruptableAction(waitTime, InterruptionType.Hard, () =>
         {

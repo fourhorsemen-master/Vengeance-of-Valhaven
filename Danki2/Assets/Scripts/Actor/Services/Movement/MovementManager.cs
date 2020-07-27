@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 
-public class MovementManager
+public class MovementManager : MovementStatusProvider
 {
     private readonly Actor actor;
     private readonly NavMeshAgent navMeshAgent;
@@ -14,6 +14,9 @@ public class MovementManager
 
     private Vector3 movementLockDirection;
     private float movementLockSpeed;
+
+    private bool movementPaused = false;
+    private Coroutine endPauseCoroutine = null;
 
     private MovementStatusManager movementStatusManager;
 
@@ -32,6 +35,10 @@ public class MovementManager
         updateSubject.Subscribe(UpdateMovement);
         movementStatusManager = new MovementStatusManager(updateSubject);
     }
+
+    public bool SetStunned() => movementPaused;
+
+    public bool SetRooted() => false;
 
     /// <summary>
     /// Path towards the destination using navmesh pathfinding unless rooted, stunned or movement locked.
@@ -117,22 +124,16 @@ public class MovementManager
     /// Lock the position and rotation for the given duration.
     /// </summary>
     /// <param name="duration"></param>
-    public void Stun(float duration)
+    public void Pause(float duration)
     {
-        movementStatusManager.Stun(duration);
-        StopPathfinding();
-        navMeshAgent.isStopped = true;
-    }
+        movementPaused = true;
 
-    /// <summary>
-    /// Lock the position for the given duration (can still rotate).
-    /// </summary>
-    /// <param name="duration"></param>
-    public void Root(float duration)
-    {
-        movementStatusManager.Root(duration);
-        StopPathfinding();
-        navMeshAgent.isStopped = true;
+        if (endPauseCoroutine != null) actor.StopCoroutine(endPauseCoroutine);
+
+        endPauseCoroutine = actor.WaitAndAct(duration, () => {
+            movementPaused = false;
+            endPauseCoroutine = null;
+        });
     }
 
     public bool TryLockMovement(MovementLockType type, float duration, float speed, Vector3 direction, Vector3 rotation)
@@ -181,6 +182,12 @@ public class MovementManager
 
     private void UpdateMovement()
     {
+        if (!CanMove && !navMeshAgent.isStopped)
+        {
+            StopPathfinding();
+            navMeshAgent.isStopped = true;
+        }
+
         IsMoving = movedThisFrame || (navMeshAgent.hasPath && navMeshAgent.velocity.magnitude > 0f);
         movedThisFrame = false;
 

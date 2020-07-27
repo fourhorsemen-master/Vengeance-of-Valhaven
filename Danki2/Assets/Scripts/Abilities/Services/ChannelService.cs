@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class ChannelService : AbilityService
+public class ChannelService : AbilityService, MovementStatusProvider
 {
     private Channel _currentChannel;
 
@@ -39,6 +39,10 @@ public class ChannelService : AbilityService
             }
         });
     }
+
+    public bool SetStunned() => Active && _currentChannel.EffectOnMovement == ChannelEffectOnMovement.Stun;
+
+    public bool SetRooted() => Active && _currentChannel.EffectOnMovement == ChannelEffectOnMovement.Root;
 
     public bool StartChannel(
         AbilityReference abilityReference,

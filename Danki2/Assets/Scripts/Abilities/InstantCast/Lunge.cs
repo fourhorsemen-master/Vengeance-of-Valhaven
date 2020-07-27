@@ -50,7 +50,7 @@ public class Lunge : InstantCast
             });
 
         SuccessFeedbackSubject.Next(hasDealtDamage);
-        Owner.MovementManager.Stun(PauseDuration);
+        Owner.MovementManager.Pause(PauseDuration);
 
         if (hasDealtDamage)
         {

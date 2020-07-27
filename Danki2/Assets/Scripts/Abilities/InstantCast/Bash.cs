@@ -33,7 +33,7 @@ public class Bash : InstantCast
         BashObject.Create(position, castRotation);
 
         Owner.MovementManager.LookAt(target);
-        Owner.MovementManager.Stun(PauseDuration);
+        Owner.MovementManager.Pause(PauseDuration);
         
         if (hasDealtDamage)
         {
