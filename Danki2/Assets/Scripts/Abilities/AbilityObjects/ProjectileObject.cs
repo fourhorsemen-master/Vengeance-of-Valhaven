@@ -7,6 +7,7 @@ public abstract class ProjectileObject : MonoBehaviour
     private float horizontalSpeed;
     private float verticalSpeed;
     private Action<GameObject> collisionCallback;
+    private bool gravitationallyAffected = false;
     private bool isSticky = false;
     private float stickTime = 0f;
 
@@ -17,12 +18,17 @@ public abstract class ProjectileObject : MonoBehaviour
     /// <param name="collisionCallback"></param>
     /// <param name="horizontalSpeed"></param>
     /// <param name="verticalSpeed">Initial vertical speed, affected by gravity.</param>
-    protected ProjectileObject InitialiseProjectile(Actor caster, Action<GameObject> collisionCallback, float horizontalSpeed, float verticalSpeed = 0f)
+    protected ProjectileObject InitialiseProjectile(Actor caster, Action<GameObject> collisionCallback, float horizontalSpeed, float verticalSpeed = float.NaN)
     {
         this.caster = caster;
         this.collisionCallback = collisionCallback;
-        this.horizontalSpeed = horizontalSpeed;
-        this.verticalSpeed = verticalSpeed;
+        this.horizontalSpeed = horizontalSpeed;        
+
+        if (!float.IsNaN(verticalSpeed))
+        {
+            this.verticalSpeed = verticalSpeed;
+            this.gravitationallyAffected = true;
+        }
 
         return this;
     }
@@ -46,12 +52,18 @@ public abstract class ProjectileObject : MonoBehaviour
     {
         this.horizontalSpeed = 0f;
         this.verticalSpeed = 0f;
+        this.gravitationallyAffected = false;
     }
 
     private void Update()
     {
         transform.position += transform.forward * this.horizontalSpeed * Time.deltaTime;
-        transform.position += transform.up * this.verticalSpeed * Time.deltaTime;
+
+        if(gravitationallyAffected)
+        {
+            transform.position += transform.up * this.verticalSpeed * Time.deltaTime;
+            this.verticalSpeed -= Physics.gravity.magnitude * Time.deltaTime;
+        }        
     }
 
     protected virtual void OnTriggerEnter(Collider other)
@@ -73,6 +85,7 @@ public abstract class ProjectileObject : MonoBehaviour
         transform.SetParent(other.transform);
         this.horizontalSpeed = 0f;
         this.verticalSpeed = 0f;
+        this.gravitationallyAffected = false;
 
         this.WaitAndAct(this.stickTime, () => Destroy(gameObject));
     }
