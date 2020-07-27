@@ -19,5 +19,6 @@
     Backstab,
     PiercingRush,
     Parry,
-    IntimidatingShout
+    IntimidatingShout,
+    Rend
 }

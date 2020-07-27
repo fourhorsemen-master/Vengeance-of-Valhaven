@@ -65,6 +65,7 @@ MonoBehaviour:
     - PiercingRush
     - Parry
     - IntimidatingShout
+    - Rend
     _values:
     - displayName: Slash
       tooltip: Deals {PRIMARY_DAMAGE} damage to enemies in a cone.
@@ -398,6 +399,22 @@ MonoBehaviour:
         hasValue: 1
         value: 0
       generatedOrbs: 
+      abilityBonusLookup:
+        _keys: []
+        _values: []
+      finisher: 0
+    - displayName: Rend
+      tooltip: Applies a DOT for 3 times the time charged, plus {PRIMARY_DAMAGE},
+        damage over 3 seconds to all surrounding enemies.
+      baseAbilityData:
+        primaryDamage: 0
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      abilityOrbType:
+        hasValue: 1
+        value: 0
+      generatedOrbs: 00000000
       abilityBonusLookup:
         _keys: []
         _values: []
