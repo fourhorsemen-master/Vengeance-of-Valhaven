@@ -84,6 +84,9 @@ public class ChannelService : AbilityService, MovementStatusProvider
     {
         if (!Active) return;
 
+        RemainingDuration = 0f;
+        Active = false;
+
         if (HasTarget)
         {
             _currentChannel.Cancel(Target);
@@ -92,9 +95,6 @@ public class ChannelService : AbilityService, MovementStatusProvider
         {
             _currentChannel.Cancel(TargetPosition);
         }
-
-        RemainingDuration = 0f;
-        Active = false;
     }
 
     private void ContinueChannel()
@@ -111,6 +111,8 @@ public class ChannelService : AbilityService, MovementStatusProvider
 
     private void EndChannel()
     {
+        Active = false;
+
         if (HasTarget)
         {
             _currentChannel.End(Target);
@@ -119,7 +121,5 @@ public class ChannelService : AbilityService, MovementStatusProvider
         {
             _currentChannel.End(TargetPosition);
         }
-
-        Active = false;
     }
 }

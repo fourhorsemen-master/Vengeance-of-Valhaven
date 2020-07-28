@@ -1,4 +1,4 @@
-﻿interface MovementStatusProvider
+﻿public interface MovementStatusProvider
 {
     bool SetStunned();
 

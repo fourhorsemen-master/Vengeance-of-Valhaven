@@ -34,6 +34,7 @@ public class MovementManager : MovementStatusProvider
         this.navMeshAgent = navMeshAgent;
         updateSubject.Subscribe(UpdateMovement);
         movementStatusManager = new MovementStatusManager(updateSubject);
+        movementStatusManager.RegisterProviders(this, actor.EffectManager, actor.ChannelService);
     }
 
     public bool SetStunned() => movementPaused;
@@ -84,16 +85,18 @@ public class MovementManager : MovementStatusProvider
     {
         StopPathfinding();
 
-        if (!CanMove) return;
+        if (Stunned || MovementLocked) return;
 
         if (direction == Vector3.zero) return;
 
         ClearWatch();
 
+        RotateTowards(direction);
+
+        if (Rooted) return;
+
         navMeshAgent.Move(direction.normalized * (Time.deltaTime * actor.GetStat(Stat.Speed)));
         movedThisFrame = true;
-
-        RotateTowards(direction);
     }
 
     /// <summary>
