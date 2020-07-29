@@ -48,7 +48,8 @@ public class Rend : Charge
             {
                 actor.EffectManager.AddActiveEffect(new DOT(totalDamage, DotDuration), DotDuration);
             });
-        
+
+        RendObject.Create(Owner.transform);
         CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
     }
 }
