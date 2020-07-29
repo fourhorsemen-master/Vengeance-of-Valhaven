@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 
 [Ability(AbilityReference.Rend)]
 public class Rend : Charge
@@ -8,7 +7,7 @@ public class Rend : Charge
     private const float Range = 3f;
     private const float DotDuration = 3f;
 
-    private bool successful = false;
+    private int charges = 0;
     
     protected override float ChargeTime => 3f;
 
@@ -18,11 +17,14 @@ public class Rend : Charge
 
     protected override void Continue()
     {
-        if (successful) return;
-        if (TimeCharged < 1) return;
+        int newCharges = Mathf.FloorToInt(TimeCharged);
 
-        SuccessFeedbackSubject.Next(true);
-        successful = true;
+        if (charges == newCharges) return;
+
+        charges = newCharges;
+        CustomCamera.Instance.AddShake(ShakeIntensity.Low);
+        
+        if (charges == 1) SuccessFeedbackSubject.Next(true);
     }
 
     public override void Cancel(Vector3 target) => End();
@@ -31,13 +33,13 @@ public class Rend : Charge
 
     private void End()
     {
-        if (!successful)
+        if (charges == 0)
         {
             SuccessFeedbackSubject.Next(false);
             return;
         }
 
-        int totalDamage = Mathf.FloorToInt(TimeCharged) * DamageMultiplier;
+        int totalDamage = charges * DamageMultiplier;
         
         CollisionTemplateManager.Instance
             .GetCollidingActors(CollisionTemplate.Cylinder, Range, Owner.transform.position)
@@ -46,5 +48,7 @@ public class Rend : Charge
             {
                 actor.EffectManager.AddActiveEffect(new DOT(totalDamage, DotDuration), DotDuration);
             });
+        
+        CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
     }
 }
