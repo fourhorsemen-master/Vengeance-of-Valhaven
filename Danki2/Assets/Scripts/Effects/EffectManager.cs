@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EffectManager : StatPipe, MovementStatusProvider
+public class EffectManager : IStatPipe, IMovementStatusProvider
 {
     private List<EffectWithDuration> _activeEffects;
     private Dictionary<Guid, Effect> _passiveEffects;
@@ -100,6 +100,30 @@ public class EffectManager : StatPipe, MovementStatusProvider
         return Mathf.RoundToInt(floatHealing);
     }
 
+    // IMovementStatusProvider method:
+    public bool Stuns()
+    {
+        bool setStunned = false;
+
+        ForEachEffect(e => {
+            if (e.Stuns) setStunned = true;
+        });
+
+        return setStunned;
+    }
+
+    // IMovementStatusProvider method:
+    public bool Roots()
+    {
+        bool setRooted = false;
+
+        ForEachEffect(e => {
+            if (e.Roots) setRooted = true;
+        });
+
+        return setRooted;
+    }
+
     private void TickActiveEffects()
     {
         bool someExpired = false;
@@ -130,27 +154,5 @@ public class EffectManager : StatPipe, MovementStatusProvider
         {
             action(passiveEffect);
         }
-    }
-
-    public bool SetStunned()
-    {
-        bool setStunned = false;
-
-        ForEachEffect(e => {
-            if (e.Stuns) setStunned = true;
-        });
-
-        return setStunned;
-    }
-
-    public bool SetRooted()
-    {
-        bool setRooted = false;
-
-        ForEachEffect(e => {
-            if (e.Roots) setRooted = true;
-        });
-
-        return setRooted;
     }
 }

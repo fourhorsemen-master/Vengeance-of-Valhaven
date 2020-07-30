@@ -5,6 +5,7 @@ public class Smash : InstantCast
 {
     private const float DistanceFromCaster = 1.8f;
     private const float Radius = 1f;
+    private const float PerfectSmashStunDuration = 3f;
 
     public Smash(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
@@ -28,7 +29,7 @@ public class Smash : InstantCast
                     DealPrimaryDamage(actor);
                     hasDealtDamage = true;
 
-                    if (HasBonus("PerfectSmash")) actor.EffectManager.AddActiveEffect(new Stun(), 3);
+                    if (HasBonus("PerfectSmash")) actor.EffectManager.AddActiveEffect(new Stun(), PerfectSmashStunDuration);
                 }
             });
 

@@ -7,7 +7,7 @@ public class Hook : InstantCast
     private const float hookSpeed = 20f;
     private const float pullSpeed = 8f;
     private const float pullOffset = 2f;
-    private const float stunDuration = 2f;
+    private const float postHookPauseDuration = 2f;
 
     public Hook(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
@@ -56,7 +56,7 @@ public class Hook : InstantCast
                 pullFaceDirection
             );
 
-            actor.WaitAndAct(pullDuration, () => actor.MovementManager.Pause(stunDuration));
+            actor.WaitAndAct(pullDuration, () => actor.MovementManager.Pause(postHookPauseDuration));
 
             SuccessFeedbackSubject.Next(true);
 

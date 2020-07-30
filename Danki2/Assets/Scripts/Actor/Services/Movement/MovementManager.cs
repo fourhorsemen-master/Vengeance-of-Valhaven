@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 
-public class MovementManager : MovementStatusProvider
+public class MovementManager : IMovementStatusProvider
 {
     private readonly Actor actor;
     private readonly NavMeshAgent navMeshAgent;
@@ -37,9 +37,9 @@ public class MovementManager : MovementStatusProvider
         movementStatusManager.RegisterProviders(this, actor.EffectManager, actor.ChannelService);
     }
 
-    public bool SetStunned() => movementPaused;
+    public bool Stuns() => movementPaused;
 
-    public bool SetRooted() => false;
+    public bool Roots() => false;
 
     /// <summary>
     /// Path towards the destination using navmesh pathfinding unless rooted, stunned or movement locked.
