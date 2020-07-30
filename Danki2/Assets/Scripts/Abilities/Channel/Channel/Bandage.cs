@@ -15,6 +15,10 @@ public class Bandage : Channel
     
     public override float Duration => 5f;
     
+    public override ChannelEffectOnMovement EffectOnMovement => HasBonus("Perseverance")
+        ? ChannelEffectOnMovement.None
+        : ChannelEffectOnMovement.Stun;
+
     public Bandage(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
     }
