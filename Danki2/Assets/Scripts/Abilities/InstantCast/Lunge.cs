@@ -44,13 +44,13 @@ public class Lunge : InstantCast
             .Where(actor => actor.Opposes(Owner))
             .ForEach(actor =>
             {
-                actor.EffectManager.AddActiveEffect(new Stun(StunDuration), StunDuration);
+                actor.EffectManager.AddActiveEffect(new Stun(), StunDuration);
                 DealPrimaryDamage(actor);
                 hasDealtDamage = true;
             });
 
         SuccessFeedbackSubject.Next(hasDealtDamage);
-        Owner.MovementManager.Stun(PauseDuration);
+        Owner.MovementManager.Pause(PauseDuration);
 
         if (hasDealtDamage)
         {

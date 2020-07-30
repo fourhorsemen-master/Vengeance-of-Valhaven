@@ -28,7 +28,7 @@ public class Smash : InstantCast
                     DealPrimaryDamage(actor);
                     hasDealtDamage = true;
 
-                    if (HasBonus("PerfectSmash")) actor.EffectManager.AddActiveEffect(new Stun(3), 3);
+                    if (HasBonus("PerfectSmash")) actor.EffectManager.AddActiveEffect(new Stun(), 3);
                 }
             });
 

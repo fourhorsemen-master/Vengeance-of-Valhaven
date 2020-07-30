@@ -35,7 +35,7 @@ public class SweepingStrike : InstantCast
         SweepingStrikeObject sweepingStrikeObject = SweepingStrikeObject.Create(position, castRotation);
 
         Owner.MovementManager.LookAt(target);
-        Owner.MovementManager.Stun(PauseDuration);
+        Owner.MovementManager.Pause(PauseDuration);
 
         if (hasDealtDamage)
         {

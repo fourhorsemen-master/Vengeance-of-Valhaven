@@ -49,7 +49,7 @@ public class Pounce : InstantCast
             }
         });
 
-        Owner.MovementManager.Stun(PauseDuration);
+        Owner.MovementManager.Pause(PauseDuration);
         SuccessFeedbackSubject.Next(hasDealtDamage);
 
         if (hasDealtDamage)

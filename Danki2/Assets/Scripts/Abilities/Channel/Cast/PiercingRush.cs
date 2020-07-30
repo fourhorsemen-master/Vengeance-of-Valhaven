@@ -19,6 +19,8 @@ public class PiercingRush : Cast
 
     private const float abilityConcludedStun = 0.2f;
 
+    public override ChannelEffectOnMovement EffectOnMovement => ChannelEffectOnMovement.Root;
+
     public PiercingRush(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
     }
@@ -78,7 +80,7 @@ public class PiercingRush : Cast
 
         SuccessFeedbackSubject.Next(hasDealtDamage);
 
-        Owner.WaitAndAct(dashDuration, () => Owner.MovementManager.Stun(abilityConcludedStun));
+        Owner.WaitAndAct(dashDuration, () => Owner.MovementManager.Pause(abilityConcludedStun));
     }
 
     private void Jetstream()

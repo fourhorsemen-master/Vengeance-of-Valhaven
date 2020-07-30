@@ -1,28 +1,26 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 public class MovementStatusManager
 {
-    private EnumDictionary<MovementStatus, float> remainingDurations = new EnumDictionary<MovementStatus, float>(0f);
+	private readonly List<MovementStatusProvider> statusProviders = new List<MovementStatusProvider>();
+	private float movementLockRemainingDuration = 0f;
 
-	public bool Stunned => remainingDurations[MovementStatus.Stunned] > 0;
+	public bool MovementLocked => movementLockRemainingDuration > 0;
 
-	public bool Rooted => remainingDurations[MovementStatus.Rooted] > 0;
+	public bool Stunned => statusProviders.Any(p => p.SetStunned());
 
-	public bool MovementLocked => remainingDurations[MovementStatus.MovementLocked] > 0;
+	public bool Rooted => statusProviders.Any(p => p.SetRooted());
 
 	public MovementStatusManager(Subject updateSubject)
 	{
-		updateSubject.Subscribe(TickStatuses);
+		updateSubject.Subscribe(TickMovementLock);
 	}
 
-	public void Stun(float duration)
+	public void RegisterProviders(params MovementStatusProvider[] providers)
 	{
-		remainingDurations[MovementStatus.Stunned] = Mathf.Max(duration, remainingDurations[MovementStatus.Stunned]);
-	}
-
-	public void Root(float duration)
-	{
-		remainingDurations[MovementStatus.Rooted] = Mathf.Max(duration, remainingDurations[MovementStatus.Rooted]);
+		statusProviders.AddRange(providers);
 	}
 
 	/// <summary>
@@ -35,15 +33,12 @@ public class MovementStatusManager
 	{
 		if (!overrideLock && (Stunned || Rooted || MovementLocked)) return false;
 
-		remainingDurations[MovementStatus.MovementLocked] = duration;
+		movementLockRemainingDuration = duration;
 		return true;
 	}
 
-	private void TickStatuses()
+	private void TickMovementLock()
 	{
-		EnumUtils.ForEach<MovementStatus>(status =>
-		{
-			remainingDurations[status] = Mathf.Max(remainingDurations[status] - Time.deltaTime, 0);
-		});
+		movementLockRemainingDuration = Mathf.Max(movementLockRemainingDuration - Time.deltaTime, 0);
 	}
 }
