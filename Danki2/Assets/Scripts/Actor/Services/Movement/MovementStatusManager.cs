@@ -4,21 +4,21 @@ using UnityEngine;
 
 public class MovementStatusManager
 {
-	private readonly List<MovementStatusProvider> statusProviders = new List<MovementStatusProvider>();
+	private readonly List<IMovementStatusProvider> statusProviders = new List<IMovementStatusProvider>();
 	private float movementLockRemainingDuration = 0f;
 
 	public bool MovementLocked => movementLockRemainingDuration > 0;
 
-	public bool Stunned => statusProviders.Any(p => p.SetStunned());
+	public bool Stunned => statusProviders.Any(p => p.Stuns());
 
-	public bool Rooted => statusProviders.Any(p => p.SetRooted());
+	public bool Rooted => statusProviders.Any(p => p.Roots());
 
 	public MovementStatusManager(Subject updateSubject)
 	{
 		updateSubject.Subscribe(TickMovementLock);
 	}
 
-	public void RegisterProviders(params MovementStatusProvider[] providers)
+	public void RegisterProviders(params IMovementStatusProvider[] providers)
 	{
 		statusProviders.AddRange(providers);
 	}
