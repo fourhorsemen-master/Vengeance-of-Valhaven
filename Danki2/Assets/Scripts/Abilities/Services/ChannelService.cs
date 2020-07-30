@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class ChannelService : AbilityService
+public class ChannelService : AbilityService, IMovementStatusProvider
 {
     private Channel _currentChannel;
 
@@ -39,6 +39,10 @@ public class ChannelService : AbilityService
             }
         });
     }
+
+    public bool Stuns() => Active && _currentChannel.EffectOnMovement == ChannelEffectOnMovement.Stun;
+
+    public bool Roots() => Active && _currentChannel.EffectOnMovement == ChannelEffectOnMovement.Root;
 
     public bool StartChannel(
         AbilityReference abilityReference,
@@ -80,6 +84,9 @@ public class ChannelService : AbilityService
     {
         if (!Active) return;
 
+        RemainingDuration = 0f;
+        Active = false;
+
         if (HasTarget)
         {
             _currentChannel.Cancel(Target);
@@ -88,9 +95,6 @@ public class ChannelService : AbilityService
         {
             _currentChannel.Cancel(TargetPosition);
         }
-
-        RemainingDuration = 0f;
-        Active = false;
     }
 
     private void ContinueChannel()
@@ -107,6 +111,8 @@ public class ChannelService : AbilityService
 
     private void EndChannel()
     {
+        Active = false;
+
         if (HasTarget)
         {
             _currentChannel.End(Target);
@@ -115,7 +121,5 @@ public class ChannelService : AbilityService
         {
             _currentChannel.End(TargetPosition);
         }
-
-        Active = false;
     }
 }

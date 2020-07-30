@@ -5,13 +5,13 @@ public class StatsManager
 {
     private readonly StatsDictionary _baseStats;
     private readonly Dictionary<Stat, int> _cache;
-    private List<StatPipe> _pipes;
+    private List<IStatPipe> _pipes;
 
     public StatsManager(StatsDictionary baseStats)
     {
         _baseStats = baseStats;
         _cache = new Dictionary<Stat, int>();
-        _pipes = new List<StatPipe>();
+        _pipes = new List<IStatPipe>();
     }
 
     public int this[Stat stat]
@@ -33,7 +33,7 @@ public class StatsManager
         }
     }
 
-    public void RegisterPipe(StatPipe pipe)
+    public void RegisterPipe(IStatPipe pipe)
     {
         _pipes.Add(pipe);
     }

@@ -20,6 +20,8 @@ public class Whirlwind : Channel
 
     public override float Duration => 2f;
 
+    public override ChannelEffectOnMovement EffectOnMovement => ChannelEffectOnMovement.None;
+
     public Whirlwind(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
     }
