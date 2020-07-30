@@ -7,11 +7,8 @@ public class MPFXBehaviour : ScriptableObject, ImpfxCallable
 	[SerializeField]
 	protected string _behaviourName;
 
-	[SerializeField]
-	protected float _endTime;
-
-	[SerializeField]
 	protected float _timeElapsed;
+	protected float _endTime;
 
 	protected GameObject _graphic;
 
@@ -27,12 +24,9 @@ public class MPFXBehaviour : ScriptableObject, ImpfxCallable
 
 	virtual public bool UpdatePFX()
 	{
-		if(_timeElapsed > _endTime)
-		{
-			return true;
-		}
-
-		return false;
+		bool bShouldEnd = ShouldEnd((float)_timeElapsed, _endTime);
+		Debug.Log(_timeElapsed);
+		return bShouldEnd;
 	}
 
 	virtual protected void TearDown()
@@ -59,5 +53,10 @@ public class MPFXBehaviour : ScriptableObject, ImpfxCallable
 		}
 
 		OutTime = maxSeenTime;
+	}
+
+	private bool ShouldEnd(float Elapsed, float Threshold)
+	{
+		return Elapsed > Threshold;
 	}
 }

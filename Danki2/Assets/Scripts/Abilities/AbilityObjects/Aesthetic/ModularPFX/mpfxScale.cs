@@ -9,9 +9,6 @@ public class mpfxScale : MPFXBehaviour
 	[SerializeField]
 	private AnimationCurve _curve = new AnimationCurve();
 
-	private float _endTime;
-	private float _timeElapsed;
-
 	public override bool SetUp(GameObject InGraphic)
 	{
 		_graphic = InGraphic;
