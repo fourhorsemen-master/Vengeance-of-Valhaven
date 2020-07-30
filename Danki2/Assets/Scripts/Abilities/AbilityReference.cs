@@ -19,5 +19,6 @@
     Backstab,
     PiercingRush,
     Parry,
-    Bandage
+    Bandage,
+    IntimidatingShout
 }
