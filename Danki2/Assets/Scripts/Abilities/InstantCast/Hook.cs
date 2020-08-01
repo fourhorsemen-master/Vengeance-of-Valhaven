@@ -7,7 +7,7 @@ public class Hook : InstantCast
     private const float hookSpeed = 20f;
     private const float pullSpeed = 8f;
     private const float pullOffset = 2f;
-    private const float stunDuration = 2f;
+    private const float postHookPauseDuration = 2f;
 
     public Hook(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
@@ -18,7 +18,7 @@ public class Hook : InstantCast
         Quaternion rotation = Quaternion.LookRotation(target - Owner.Centre);
 
         Owner.MovementManager.LookAt(target);
-        Owner.MovementManager.Stun(range / hookSpeed);
+        Owner.MovementManager.Pause(range / hookSpeed);
 
         HookObject.Fire(Owner, OnCollision, MissCallback, hookSpeed, Owner.Centre, rotation, range);
     }
@@ -46,7 +46,7 @@ public class Hook : InstantCast
             Vector3 pullDirection = Owner.transform.position - actor.transform.position;
             Vector3 pullFaceDirection = actor.transform.forward;
 
-            Owner.MovementManager.Stun(pullDuration);
+            Owner.MovementManager.Pause(pullDuration);
 
             actor.MovementManager.TryLockMovement(
                 MovementLockType.Pull,
@@ -56,7 +56,7 @@ public class Hook : InstantCast
                 pullFaceDirection
             );
 
-            actor.WaitAndAct(pullDuration, () => actor.MovementManager.Stun(stunDuration));
+            actor.WaitAndAct(pullDuration, () => actor.MovementManager.Pause(postHookPauseDuration));
 
             SuccessFeedbackSubject.Next(true);
 

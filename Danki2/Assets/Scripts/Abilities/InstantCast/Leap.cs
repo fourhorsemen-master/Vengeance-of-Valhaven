@@ -44,7 +44,7 @@ public class Leap : InstantCast
         {
             if (Owner.Opposes(actor))
             {
-                actor.EffectManager.AddActiveEffect(new Stun(StunDuration), StunDuration);
+                actor.EffectManager.AddActiveEffect(new Stun(), StunDuration);
             }
         });
     }

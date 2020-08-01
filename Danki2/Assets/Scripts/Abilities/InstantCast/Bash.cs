@@ -24,7 +24,7 @@ public class Bash : InstantCast
             .ForEach(actor =>
             {
                 DealPrimaryDamage(actor);
-                actor.EffectManager.AddActiveEffect(new Stun(StunDuration), StunDuration);
+                actor.EffectManager.AddActiveEffect(new Stun(), StunDuration);
                 hasDealtDamage = true;
             });
 
@@ -33,7 +33,7 @@ public class Bash : InstantCast
         BashObject.Create(position, castRotation);
 
         Owner.MovementManager.LookAt(target);
-        Owner.MovementManager.Stun(PauseDuration);
+        Owner.MovementManager.Pause(PauseDuration);
         
         if (hasDealtDamage)
         {

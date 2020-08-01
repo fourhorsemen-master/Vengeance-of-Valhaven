@@ -6,6 +6,8 @@ public abstract class Channel : Ability
 
     public virtual ChannelType ChannelType => ChannelType.Channel;
 
+    public virtual ChannelEffectOnMovement EffectOnMovement => ChannelEffectOnMovement.Stun;
+
     protected Channel(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
     }

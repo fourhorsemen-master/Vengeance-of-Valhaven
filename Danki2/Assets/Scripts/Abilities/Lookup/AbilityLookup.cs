@@ -16,6 +16,7 @@ public class AbilityLookup : Singleton<AbilityLookup>
     private readonly AbilityMap<OrbCollection> generatedOrbsMap = new AbilityMap<OrbCollection>();
     private readonly AbilityMap<List<TemplatedTooltipSegment>> templatedTooltipSegmentsMap = new AbilityMap<List<TemplatedTooltipSegment>>();
     private readonly AbilityMap<Dictionary<string, AbilityBonusData>> abilityBonusDataMap = new AbilityMap<Dictionary<string, AbilityBonusData>>();
+    private readonly AbilityMap<bool> finisherLookup = new AbilityMap<bool>();
 
     private readonly AbilityMap<Func<Actor, AbilityData, string[], InstantCast>> instantCastBuilderMap = new AbilityMap<Func<Actor, AbilityData, string[], InstantCast>>();
     private readonly AbilityMap<Func<Actor, AbilityData, string[], Channel>> channelBuilderMap = new AbilityMap<Func<Actor, AbilityData, string[], Channel>>();
@@ -111,6 +112,8 @@ public class AbilityLookup : Singleton<AbilityLookup>
 
     public Dictionary<string, AbilityBonusData> GetAbilityBonusDataLookup(AbilityReference abilityReference) => abilityBonusDataMap[abilityReference];
 
+    public bool IsFinisher(AbilityReference abilityReference) => finisherLookup[abilityReference];
+
     private void BuildMetadataLookups()
     {
         EnumUtils.ForEach<AbilityReference>(ability =>
@@ -119,6 +122,7 @@ public class AbilityLookup : Singleton<AbilityLookup>
 
             displayNameMap[ability] = serializableAbilityMetadata.DisplayName;
             baseAbilityDataMap[ability] = serializableAbilityMetadata.BaseAbilityData;
+            finisherLookup[ability] = serializableAbilityMetadata.Finisher;
 
             if (serializableAbilityMetadata.AbilityOrbType.HasValue)
             {

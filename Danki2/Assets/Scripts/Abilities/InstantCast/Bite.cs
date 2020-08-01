@@ -19,7 +19,7 @@ public class Bite : InstantCast
         BiteObject.Create(Owner.transform);
 
         Owner.MovementManager.LookAt(target);
-        Owner.MovementManager.Stun(PauseDuration);
+        Owner.MovementManager.Pause(PauseDuration);
 
         bool hasDealtDamage = false;
 

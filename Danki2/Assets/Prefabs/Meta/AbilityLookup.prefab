@@ -64,9 +64,10 @@ MonoBehaviour:
     - Backstab
     - PiercingRush
     - Parry
+    - IntimidatingShout
     _values:
     - displayName: Slash
-      tooltip: Deals {PRIMARY_DAMAGE} damage.
+      tooltip: Deals {PRIMARY_DAMAGE} damage to enemies in a cone.
       baseAbilityData:
         primaryDamage: 5
         secondaryDamage: 0
@@ -75,10 +76,11 @@ MonoBehaviour:
       abilityOrbType:
         hasValue: 0
         value: 0
-      generatedOrbs: 00000000
+      generatedOrbs: 
       abilityBonusLookup:
         _keys: []
         _values: []
+      finisher: 0
     - displayName: Whirlwind
       tooltip: Deals {PRIMARY_DAMAGE} damage 6 times over 2 seconds while channeling
         and an additional {SECONDARY_DAMAGE} after 2 seconds to targets within 3 metres.
@@ -89,8 +91,8 @@ MonoBehaviour:
         shield: 0
       abilityOrbType:
         hasValue: 1
-        value: 0
-      generatedOrbs: 
+        value: 1
+      generatedOrbs: 01000000
       abilityBonusLookup:
         _keys:
         - Cross-Step
@@ -99,8 +101,9 @@ MonoBehaviour:
           tooltip: In an act of sheet cunning, the hero cross steps whilst whirlwinding
             his sword to avoid losing pace!
           requiredOrbs: 02000000
+      finisher: 0
     - displayName: Fireball
-      tooltip: Deals {PRIMARY_DAMAGE} damage.
+      tooltip: Casts a fireball that deals {PRIMARY_DAMAGE} damage on impact.
       baseAbilityData:
         primaryDamage: 5
         secondaryDamage: 0
@@ -113,6 +116,7 @@ MonoBehaviour:
       abilityBonusLookup:
         _keys: []
         _values: []
+      finisher: 0
     - displayName: Dagger Throw
       tooltip: Deals {PRIMARY_DAMAGE} damage.
       baseAbilityData:
@@ -127,6 +131,7 @@ MonoBehaviour:
       abilityBonusLookup:
         _keys: []
         _values: []
+      finisher: 0
     - displayName: Bite
       tooltip: Deals {PRIMARY_DAMAGE} damage.
       baseAbilityData:
@@ -141,6 +146,7 @@ MonoBehaviour:
       abilityBonusLookup:
         _keys: []
         _values: []
+      finisher: 0
     - displayName: Pounce
       tooltip: Deals {PRIMARY_DAMAGE} damage.
       baseAbilityData:
@@ -155,8 +161,9 @@ MonoBehaviour:
       abilityBonusLookup:
         _keys: []
         _values: []
+      finisher: 0
     - displayName: Dash
-      tooltip: Deals {PRIMARY_DAMAGE} damage.
+      tooltip: Dash a short distance in the direction of casting.
       baseAbilityData:
         primaryDamage: 0
         secondaryDamage: 0
@@ -169,29 +176,31 @@ MonoBehaviour:
       abilityBonusLookup:
         _keys: []
         _values: []
+      finisher: 0
     - displayName: Lunge
-      tooltip: Deals {PRIMARY_DAMAGE} damage.
+      tooltip: Lunge 5m and deal {PRIMARY_DAMAGE} damage to enemies in a small cone.
       baseAbilityData:
         primaryDamage: 3
         secondaryDamage: 0
         heal: 0
         shield: 0
       abilityOrbType:
-        hasValue: 0
+        hasValue: 1
         value: 0
       generatedOrbs: 00000000
       abilityBonusLookup:
         _keys: []
         _values: []
+      finisher: 0
     - displayName: Smash
-      tooltip: Deals {PRIMARY_DAMAGE} damage.
+      tooltip: Deals {PRIMARY_DAMAGE} damage in a small circle near the caster.
       baseAbilityData:
         primaryDamage: 10
         secondaryDamage: 0
         heal: 0
         shield: 0
       abilityOrbType:
-        hasValue: 0
+        hasValue: 1
         value: 0
       generatedOrbs: 
       abilityBonusLookup:
@@ -201,6 +210,7 @@ MonoBehaviour:
         - displayName: Perfect Smash
           tooltip: Stun all affected enemies for 3 seconds.
           requiredOrbs: 0100000001000000
+      finisher: 1
     - displayName: Sprint
       tooltip: Increase speed by 3 for 5 seconds.
       baseAbilityData:
@@ -215,6 +225,7 @@ MonoBehaviour:
       abilityBonusLookup:
         _keys: []
         _values: []
+      finisher: 0
     - displayName: Leap
       tooltip: Leap to a target location.
       baseAbilityData:
@@ -233,6 +244,7 @@ MonoBehaviour:
         - displayName: Momentum
           tooltip: On impact, stun surrounding enemies for 3 seconds.
           requiredOrbs: 0000000000000000
+      finisher: 0
     - displayName: Leeching Strike
       tooltip: Deals {PRIMARY_DAMAGE} damage in a cone and heals for {HEAL} +1 per
         enemy hit.
@@ -248,6 +260,7 @@ MonoBehaviour:
       abilityBonusLookup:
         _keys: []
         _values: []
+      finisher: 0
     - displayName: Meditate
       tooltip: Increase power by 1 for every second charged. Lasts 10 seconds.
       baseAbilityData:
@@ -270,6 +283,7 @@ MonoBehaviour:
         - displayName: Growing Rage
           tooltip: Increase power by 2 for every second charged instead.
           requiredOrbs: 000000000000000000000000
+      finisher: 1
     - displayName: Bash
       tooltip: Deal {PRIMARY_DAMAGE} to enemies in a cone, stuns for 1 second.
       baseAbilityData:
@@ -284,6 +298,7 @@ MonoBehaviour:
       abilityBonusLookup:
         _keys: []
         _values: []
+      finisher: 0
     - displayName: Sweeping Strike
       tooltip: Deal {PRIMARY_DAMAGE} damage to enemies in a cone and knockback all
         enemies hit.
@@ -299,6 +314,7 @@ MonoBehaviour:
       abilityBonusLookup:
         _keys: []
         _values: []
+      finisher: 0
     - displayName: Hook
       tooltip: Throw a hook at an enemy and pull them towards the player. The hook
         is coated in a serum which causes the target to be stunned for 2 seconds.
@@ -314,6 +330,7 @@ MonoBehaviour:
       abilityBonusLookup:
         _keys: []
         _values: []
+      finisher: 0
     - displayName: Backstab
       tooltip: With an unexpected stab from behind, deal {PRIMARY_DAMAGE} to a target.
         However if the opponent is facing you the stab will fail!
@@ -329,6 +346,7 @@ MonoBehaviour:
       abilityBonusLookup:
         _keys: []
         _values: []
+      finisher: 0
     - displayName: Piercing Rush
       tooltip: 'Cast for 2 seconds, after which: dash for up to 10m dealing {PRIMARY_DAMAGE}
         damage to all enemies you pass.'
@@ -353,6 +371,7 @@ MonoBehaviour:
           tooltip: After the dash the sharp winds of the jetstream causes {PRIMARY_DAMAGE}
             damage to enemies in a cone behind you.
           requiredOrbs: 020000000100000001000000
+      finisher: 1
     - displayName: Parry
       tooltip: Absorb each attack for 1 second and return 50% damage back to attackers.
       baseAbilityData:
@@ -367,3 +386,19 @@ MonoBehaviour:
       abilityBonusLookup:
         _keys: []
         _values: []
+      finisher: 0
+    - displayName: Intimidating Shout
+      tooltip: Reduce defence of surrounding enemies by 2 for 6 seconds.
+      baseAbilityData:
+        primaryDamage: 0
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      abilityOrbType:
+        hasValue: 1
+        value: 0
+      generatedOrbs: 
+      abilityBonusLookup:
+        _keys: []
+        _values: []
+      finisher: 0
