@@ -29,12 +29,6 @@ public class mpfxScale : MPFXBehaviour
 
 	public override bool End()
 	{
-		TearDown();
 		return true;
-	}
-
-	protected override void TearDown()
-	{
-		//Is this needed?
 	}
 }

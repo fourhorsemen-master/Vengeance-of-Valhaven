@@ -12,11 +12,6 @@ public class MPFXBehaviour : ScriptableObject, ImpfxCallable
 
 	protected GameObject _graphic;
 
-	virtual public bool End()
-	{
-		return false;
-	}
-
 	virtual public bool SetUp(GameObject InGraphic)
 	{
 		return false;
@@ -24,14 +19,12 @@ public class MPFXBehaviour : ScriptableObject, ImpfxCallable
 
 	virtual public bool UpdatePFX()
 	{
-		bool bShouldEnd = ShouldEnd((float)_timeElapsed, _endTime);
-		Debug.Log(_timeElapsed);
-		return bShouldEnd;
+		return _timeElapsed > _endTime; 
 	}
 
-	virtual protected void TearDown()
+	virtual public bool End()
 	{
-
+		return false;
 	}
 
 	protected static void GetEndTimeFromCurve(AnimationCurve InCurve, out float OutTime)

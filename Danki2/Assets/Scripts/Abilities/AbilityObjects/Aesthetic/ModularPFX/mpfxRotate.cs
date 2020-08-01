@@ -16,9 +16,7 @@ public class mpfxRotate : MPFXBehaviour
 		_graphic = InGraphic;
 		_rotator = Vector3.zero;
 		_timeElapsed = 0f;
-		float _calculatedEndTime;
-		GetEndTimeFromCurveArray(_curves, out _calculatedEndTime);
-		_endTime = _calculatedEndTime;
+		GetEndTimeFromCurveArray(_curves, out _endTime);
 
 		return true;
 	}
@@ -37,12 +35,6 @@ public class mpfxRotate : MPFXBehaviour
 
 	public override bool End()
 	{
-		TearDown();
 		return true;
-	}
-
-	protected override void TearDown()
-	{
-		//Is this needed?
 	}
 }

@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class ModularPFXComponent : MonoBehaviour
 {
+
+    [SerializeField, HideInInspector]
+    Material _mpfxMaterial = null;
+
     [SerializeField]
     private MPFXSettings _settings;
 
@@ -11,8 +15,7 @@ public class ModularPFXComponent : MonoBehaviour
     private MPFXBehaviour[] _behaviours;
 
     private GameObject _spawnedGraphic;
-    private bool isPlaying = false;
-    private int stencilsCompleted = 0;
+    private bool _isPlaying = false;
 
     public void Start()
     {
@@ -26,9 +29,9 @@ public class ModularPFXComponent : MonoBehaviour
         _spawnedGraphic = Instantiate(_settings.effectObject, transform);
         SetEffectColour();
 
-        if (isPlaying) return;
+        if (_isPlaying) return;
 
-        isPlaying = true;
+        _isPlaying = true;
 
         foreach (MPFXBehaviour stencil in _behaviours)
         {
@@ -40,17 +43,22 @@ public class ModularPFXComponent : MonoBehaviour
 
     public void Update()
     {
-        if (isPlaying) UpdatePFX();
+        if (_isPlaying) UpdatePFX();
     }
 
     private void UpdatePFX()
     {
+        int behavioursComplete = 0;
+
         foreach(MPFXBehaviour stencil in _behaviours)
         {
-            if (stencil.UpdatePFX()) ++stencilsCompleted;
+            if (stencil.UpdatePFX())
+            {
+                ++behavioursComplete;
+            }
         }
 
-        if (stencilsCompleted == _behaviours.Length)
+        if (behavioursComplete == _behaviours.Length)
         {
             EndPFX();
         }
@@ -58,14 +66,12 @@ public class ModularPFXComponent : MonoBehaviour
 
     private void EndPFX()
     {
-        stencilsCompleted = 0;
-
         foreach (MPFXBehaviour stencil in _behaviours)
         {
             stencil.End();
         }
 
-        isPlaying = false;
+        _isPlaying = false;
         Destroy(_spawnedGraphic);
         StopCoroutine("UpdatePFX");
     }
@@ -76,6 +82,8 @@ public class ModularPFXComponent : MonoBehaviour
 
         foreach(MeshRenderer mesh in meshes)
         {
+            mesh.material = _mpfxMaterial;
+
             //These magic strings are awful, but are needed to workaround a bug in our verion of Unity
             //These allow for the emissive colour to be altererd at runtime, which is broken when trying
             //to alter these through the built in shader variables.
