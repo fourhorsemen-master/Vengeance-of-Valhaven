@@ -92,7 +92,10 @@ public class TreeAbility : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         }
         else
         {
-            node.SwapAbilitiesWith(AbilityTreeEditorMenu.Instance.CurrentTreeNodeHover);
+            Node otherNode = AbilityTreeEditorMenu.Instance.CurrentTreeNodeHover;
+
+            if (node.CanSwapAbilitiesWith(otherNode))
+                node.SwapAbilitiesWith(otherNode);
         }
     }
 

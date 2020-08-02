@@ -128,9 +128,17 @@ public abstract class Node
         Parent.RemoveChild(GetDirectionFromParent());
     }
 
+    public bool CanSwapAbilitiesWith(Node otherNode)
+    {
+        return
+            this != otherNode
+            && !(otherNode.IsParent && AbilityLookup.Instance.IsFinisher(Ability))
+            && !(IsParent && AbilityLookup.Instance.IsFinisher(otherNode.Ability));
+    }
+
     public void SwapAbilitiesWith(Node node)
     {
-        if (this == node) return;
+        if (!CanSwapAbilitiesWith(node)) return;
 
         AbilityReference otherAbility = node.Ability;
         node.Ability = Ability;
