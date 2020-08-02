@@ -12,7 +12,7 @@ public class ModularPFXComponent : MonoBehaviour
     private MPFXSettings settings;
 
     [SerializeField]
-    private MPFXBehaviour[] behaviours;
+    private MPFXBehaviour[] behaviours = null;
 
     private GameObject spawnedGraphic;
 
@@ -68,8 +68,8 @@ public class ModularPFXComponent : MonoBehaviour
             //These magic strings are awful, but are needed to workaround a bug in our verion of Unity
             //These allow for the emissive colour to be altererd at runtime, which is broken when trying
             //to alter these through the built in shader variables.
-            mesh.material.SetColor("Color33632292", settings.effectColor);
-            mesh.material.SetColor("ColorA9688267", settings.effectEmissive);
+            mesh.material.SetColor(ColourKeyString, settings.effectColor);
+            mesh.material.SetColor(EmissiveKeyString, settings.effectEmissive);
         }
     }
 }
