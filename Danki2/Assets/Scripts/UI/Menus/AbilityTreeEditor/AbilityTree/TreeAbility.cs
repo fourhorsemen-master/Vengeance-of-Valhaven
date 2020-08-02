@@ -36,13 +36,11 @@ public class TreeAbility : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     private void Start()
     {
-        abilityInsertListener.SetInsertableAreas(node);
-
         dragStartSubscription = AbilityTreeEditorMenu.Instance.AbilityDragFromListStartSubject
-            .Subscribe(ability => abilityInsertListener.gameObject.SetActive(true));
+            .Subscribe(ability => abilityInsertListener.Activate(node, ability));
 
         dragStopSubscription = AbilityTreeEditorMenu.Instance.AbilityDragFromListStopSubject
-            .Subscribe(ability => abilityInsertListener.gameObject.SetActive(false));
+            .Subscribe(ability => abilityInsertListener.Deactivate());
 
         abilityInsertListener.AbilityInsertSubject.Subscribe(location =>
         {

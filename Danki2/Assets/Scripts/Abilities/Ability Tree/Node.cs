@@ -8,6 +8,8 @@ public abstract class Node
 
     public bool IsRootNode => Parent == null;
 
+    public bool IsParent => HasChild(Direction.Left) || HasChild(Direction.Right);
+
     public Node Parent { get; set; }
 
     public AbilityReference Ability { get; private set; }
