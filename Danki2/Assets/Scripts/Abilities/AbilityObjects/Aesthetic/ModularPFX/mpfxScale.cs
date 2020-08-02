@@ -1,28 +1,26 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using System;
 
 [Serializable, CreateAssetMenu(menuName = "MPFX/Behaviour/Scale")]
 public class mpfxScale : MPFXBehaviour
 {
 	[SerializeField]
-	private AnimationCurve _curve = new AnimationCurve();
+	private AnimationCurve curve = new AnimationCurve();
 
 	public override bool SetUp(GameObject InGraphic)
 	{
-		_graphic = InGraphic;
-		_timeElapsed = 0f;
-		GetEndTimeFromCurve(_curve, out _endTime);
-		_graphic.transform.localScale = Vector3.one * _curve.Evaluate(0f);
+		graphic = InGraphic;
+		timeElapsed = 0f;
+		GetEndTimeFromCurve(curve, out endTime);
+		graphic.transform.localScale = Vector3.one * curve.Evaluate(0f);
 
 		return true;
 	}
 
 	public override bool UpdatePFX()
 	{
-		_timeElapsed += Time.deltaTime;
-		_graphic.transform.localScale = Vector3.one * _curve.Evaluate(_timeElapsed);
+		timeElapsed += Time.deltaTime;
+		graphic.transform.localScale = Vector3.one * curve.Evaluate(timeElapsed);
 
 		return base.UpdatePFX();
 	}

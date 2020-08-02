@@ -1,56 +1,39 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ModularPFXComponent : MonoBehaviour
 {
+    const string ColourKeyString = "Color_33632292";
+    const string EmissiveKeyString = "Color_A9688267";
 
     [SerializeField, HideInInspector]
-    Material _mpfxMaterial = null;
+    Material mpfxMaterial = null;
 
     [SerializeField]
-    private MPFXSettings _settings;
+    private MPFXSettings settings;
 
     [SerializeField]
-    private MPFXBehaviour[] _behaviours;
+    private MPFXBehaviour[] behaviours;
 
-    private GameObject _spawnedGraphic;
-    private bool _isPlaying = false;
+    private GameObject spawnedGraphic;
 
     public void Start()
     {
-        BeginPFX();
-    }
+        if (!settings.effectObject) return;
 
-    public void BeginPFX()
-    {
-        if (!_settings.effectObject) return;
-
-        _spawnedGraphic = Instantiate(_settings.effectObject, transform);
+        spawnedGraphic = Instantiate(settings.effectObject, transform);
         SetEffectColour();
 
-        if (_isPlaying) return;
-
-        _isPlaying = true;
-
-        foreach (MPFXBehaviour stencil in _behaviours)
+        foreach (MPFXBehaviour stencil in behaviours)
         {
-            stencil.SetUp(_spawnedGraphic);
+            stencil.SetUp(spawnedGraphic);
         }
-
-        StartCoroutine("UpdatePFX");
     }
 
     public void Update()
     {
-        if (_isPlaying) UpdatePFX();
-    }
-
-    private void UpdatePFX()
-    {
         int behavioursComplete = 0;
 
-        foreach(MPFXBehaviour stencil in _behaviours)
+        foreach (MPFXBehaviour stencil in behaviours)
         {
             if (stencil.UpdatePFX())
             {
@@ -58,7 +41,7 @@ public class ModularPFXComponent : MonoBehaviour
             }
         }
 
-        if (behavioursComplete == _behaviours.Length)
+        if (behavioursComplete == behaviours.Length)
         {
             EndPFX();
         }
@@ -66,14 +49,12 @@ public class ModularPFXComponent : MonoBehaviour
 
     private void EndPFX()
     {
-        foreach (MPFXBehaviour stencil in _behaviours)
+        foreach (MPFXBehaviour stencil in behaviours)
         {
             stencil.End();
         }
 
-        _isPlaying = false;
-        Destroy(_spawnedGraphic);
-        StopCoroutine("UpdatePFX");
+        Destroy(spawnedGraphic);
     }
 
     private void SetEffectColour()
@@ -82,13 +63,13 @@ public class ModularPFXComponent : MonoBehaviour
 
         foreach(MeshRenderer mesh in meshes)
         {
-            mesh.material = _mpfxMaterial;
+            mesh.material = mpfxMaterial;
 
             //These magic strings are awful, but are needed to workaround a bug in our verion of Unity
             //These allow for the emissive colour to be altererd at runtime, which is broken when trying
             //to alter these through the built in shader variables.
-            mesh.material.SetColor("Color_33632292", _settings.effectColor);
-            mesh.material.SetColor("Color_A9688267", _settings.effectEmissive);
+            mesh.material.SetColor("Color33632292", settings.effectColor);
+            mesh.material.SetColor("ColorA9688267", settings.effectEmissive);
         }
     }
 }
