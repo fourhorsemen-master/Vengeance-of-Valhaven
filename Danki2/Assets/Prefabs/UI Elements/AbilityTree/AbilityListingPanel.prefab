@@ -287,6 +287,7 @@ GameObject:
   - component: {fileID: 1407149023251407613}
   - component: {fileID: 3946085311465520546}
   - component: {fileID: 6966794857247870339}
+  - component: {fileID: 3590809137505045542}
   m_Layer: 5
   m_Name: AbilityListingPanel
   m_TagString: Untagged
@@ -370,6 +371,19 @@ MonoBehaviour:
   iconPanelImage: {fileID: 4684333385211926195}
   namePanelText: {fileID: 1146242202942777782}
   quantityPanelText: {fileID: 7134639850914952853}
+  highlighter: {fileID: 3590809137505045542}
+--- !u!114 &3590809137505045542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7859317892095288869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a6c607e48958c248a01fc6c5d28e84b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   abilityHighlight: {fileID: 238340086642564862}
 --- !u!1 &8111051963802718149
 GameObject:
