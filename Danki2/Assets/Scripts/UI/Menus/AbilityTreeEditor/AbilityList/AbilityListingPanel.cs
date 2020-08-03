@@ -14,12 +14,10 @@ public class AbilityListingPanel : MonoBehaviour, IBeginDragHandler, IDragHandle
     private Text quantityPanelText = null;
 
     [SerializeField]
-    private Image abilityHighlight = null;
+    private DraggableHighlighter highlighter = null;
 
     private AbilityReference ability;
     private int quantity;
-
-    public Subject DragEndSubject { get; } = new Subject();
 
     public void OnPointerEnter(PointerEventData _)
     {
@@ -27,20 +25,23 @@ public class AbilityListingPanel : MonoBehaviour, IBeginDragHandler, IDragHandle
 
         AbilityTooltip.Instance.Activate();
         AbilityTooltip.Instance.UpdateTooltip(ability);
-        SetHighlighted(true);
+        if (highlighter.HighlightState != DraggableHighlightState.Dragging)
+            highlighter.HighlightState = DraggableHighlightState.Hover;
     }
 
     public void OnPointerExit(PointerEventData _)
     {
         AbilityTooltip.Instance.Deactivate();
-        SetHighlighted(false);
+        if (highlighter.HighlightState != DraggableHighlightState.Dragging)
+            highlighter.HighlightState = DraggableHighlightState.Default;
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
         quantity -= 1;
         UpdateQuantityText();
-        AbilityTreeEditorMenu.Instance.AbilityDragFromListStartSubject.Next(ability);
+        AbilityTreeEditorMenu.Instance.ListAbilityDragStartSubject.Next(ability);
+        highlighter.HighlightState = DraggableHighlightState.Dragging;
     }
 
     /// <summary>
@@ -51,8 +52,8 @@ public class AbilityListingPanel : MonoBehaviour, IBeginDragHandler, IDragHandle
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        DragEndSubject.Next();
-        AbilityTreeEditorMenu.Instance.AbilityDragFromListStopSubject.Next(ability);
+        AbilityTreeEditorMenu.Instance.ListAbilityDragStopSubject.Next(ability);
+        highlighter.HighlightState = DraggableHighlightState.Default;
     }
 
     public void Initialise(AbilityReference ability, int quantity)
@@ -60,7 +61,7 @@ public class AbilityListingPanel : MonoBehaviour, IBeginDragHandler, IDragHandle
         this.ability = ability;
         this.quantity = quantity;
 
-        SetHighlighted(false);
+        highlighter.HighlightState = DraggableHighlightState.Default;
 
         iconPanelImage.sprite = AbilityIconManager.Instance.GetIcon(ability);
 
@@ -72,10 +73,5 @@ public class AbilityListingPanel : MonoBehaviour, IBeginDragHandler, IDragHandle
     private void UpdateQuantityText()
     {
         quantityPanelText.text = quantity.ToString();
-    }
-
-    private void SetHighlighted(bool highlighted)
-    {
-        abilityHighlight.enabled = highlighted;
     }
 }

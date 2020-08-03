@@ -19,7 +19,7 @@ public class TreeAbility : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     private Image abilityOverlay = null;
 
     [SerializeField]
-    private Image abilityHighlight = null;
+    private DraggableHighlighter highlighter = null;
 
     [SerializeField]
     private UILineRenderer leftChildLineRenderer = null;
@@ -38,10 +38,10 @@ public class TreeAbility : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     {
         abilityInsertListener.SetInsertableAreas(node);
 
-        dragStartSubscription = AbilityTreeEditorMenu.Instance.AbilityDragFromListStartSubject
+        dragStartSubscription = AbilityTreeEditorMenu.Instance.ListAbilityDragStartSubject
             .Subscribe(ability => abilityInsertListener.gameObject.SetActive(true));
 
-        dragStopSubscription = AbilityTreeEditorMenu.Instance.AbilityDragFromListStopSubject
+        dragStopSubscription = AbilityTreeEditorMenu.Instance.ListAbilityDragStopSubject
             .Subscribe(ability => abilityInsertListener.gameObject.SetActive(false));
 
         abilityInsertListener.AbilityInsertSubject.Subscribe(location =>
@@ -64,17 +64,22 @@ public class TreeAbility : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
         AbilityTooltip.Instance.Activate();
         AbilityTooltip.Instance.UpdateTooltip(node);
-        SetHighlighted(true);
+        if (highlighter.HighlightState != DraggableHighlightState.Dragging)
+            highlighter.HighlightState = DraggableHighlightState.Hover;
     }
 
     public void OnPointerExit(PointerEventData _)
     {
         AbilityTreeEditorMenu.Instance.CurrentTreeNodeHover = null;
         AbilityTooltip.Instance.Deactivate();
-        SetHighlighted(false);
+        if (highlighter.HighlightState != DraggableHighlightState.Dragging)
+            highlighter.HighlightState = DraggableHighlightState.Default;
     }
 
-    public void OnBeginDrag(PointerEventData eventData) { }
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        highlighter.HighlightState = DraggableHighlightState.Dragging;
+    }
 
     /// <summary>
     /// We implement this method to satisfy the IDragHandler.
@@ -96,6 +101,9 @@ public class TreeAbility : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         {
             node.SwapAbilitiesWith(AbilityTreeEditorMenu.Instance.CurrentTreeNodeHover);
         }
+
+        AbilityTreeEditorMenu.Instance.TreeAbilityDragStopSubject.Next();
+        highlighter.HighlightState = DraggableHighlightState.Default;
     }
 
     public void ShiftRight(float amount)
@@ -108,7 +116,7 @@ public class TreeAbility : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     public void SetNode(Node node)
     {
         this.node = node;
-        SetHighlighted(false);
+        highlighter.HighlightState = DraggableHighlightState.Default;
 
         if (node.IsRootNode)
         {
@@ -142,10 +150,5 @@ public class TreeAbility : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     private void RemoveOverlay()
     {
         abilityOverlay.enabled = false;
-    }
-
-    private void SetHighlighted(bool highlighted)
-    {
-        abilityHighlight.enabled = highlighted;
     }
 }
