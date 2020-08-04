@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class AbilityInsertListener : MonoBehaviour
 {
@@ -28,15 +29,38 @@ public class AbilityInsertListener : MonoBehaviour
         );
     }
 
-    public void SetInsertableAreas(Node node)
+    internal void Activate(Node node, AbilityReference ability)
     {
-        bottomLeftArrow.gameObject.SetActive(true);
+        bool abilityIsFinisher = AbilityLookup.Instance.IsFinisher(ability);
+        bool nodeAbilityIsFinisher = AbilityLookup.Instance.IsFinisher(node.Ability);
 
-        bottomRightArrow.gameObject.SetActive(true);
-
-        if (!node.IsRootNode)
+        // Set Central area
+        if (
+            !node.IsRootNode
+            && !(abilityIsFinisher && node.IsParent)
+            && node.Ability != ability
+        )
         {
             centralArea.gameObject.SetActive(true);
         }
+
+        // Set Child areas
+        if (!nodeAbilityIsFinisher)
+        {
+            if (!abilityIsFinisher || !node.HasChild(Direction.Left))
+                bottomLeftArrow.gameObject.SetActive(true);
+
+            if (!abilityIsFinisher || !node.HasChild(Direction.Right))
+                bottomRightArrow.gameObject.SetActive(true);
+        }
+    }
+
+    internal void Deactivate()
+    {
+        bottomLeftArrow.gameObject.SetActive(false);
+
+        bottomRightArrow.gameObject.SetActive(false);
+
+        centralArea.gameObject.SetActive(false);
     }
 }

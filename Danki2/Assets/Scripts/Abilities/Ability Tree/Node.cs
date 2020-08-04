@@ -8,6 +8,8 @@ public abstract class Node
 
     public bool IsRootNode => Parent == null;
 
+    public bool IsParent => HasChild(Direction.Left) || HasChild(Direction.Right);
+
     public Node Parent { get; set; }
 
     public AbilityReference Ability { get; private set; }
@@ -126,9 +128,17 @@ public abstract class Node
         Parent.RemoveChild(GetDirectionFromParent());
     }
 
+    public bool CanSwapAbilitiesWith(Node otherNode)
+    {
+        return
+            this != otherNode
+            && !(otherNode.IsParent && AbilityLookup.Instance.IsFinisher(Ability))
+            && !(IsParent && AbilityLookup.Instance.IsFinisher(otherNode.Ability));
+    }
+
     public void SwapAbilitiesWith(Node node)
     {
-        if (this == node) return;
+        if (!CanSwapAbilitiesWith(node)) return;
 
         AbilityReference otherAbility = node.Ability;
         node.Ability = Ability;

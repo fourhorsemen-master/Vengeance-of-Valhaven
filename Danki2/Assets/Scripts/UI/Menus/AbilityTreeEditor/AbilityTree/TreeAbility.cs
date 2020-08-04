@@ -36,13 +36,11 @@ public class TreeAbility : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     private void Start()
     {
-        abilityInsertListener.SetInsertableAreas(node);
-
         dragStartSubscription = AbilityTreeEditorMenu.Instance.ListAbilityDragStartSubject
-            .Subscribe(ability => abilityInsertListener.gameObject.SetActive(true));
+            .Subscribe(ability => abilityInsertListener.Activate(node, ability));
 
         dragStopSubscription = AbilityTreeEditorMenu.Instance.ListAbilityDragStopSubject
-            .Subscribe(ability => abilityInsertListener.gameObject.SetActive(false));
+            .Subscribe(ability => abilityInsertListener.Deactivate());
 
         abilityInsertListener.AbilityInsertSubject.Subscribe(location =>
         {
@@ -99,7 +97,10 @@ public class TreeAbility : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         }
         else
         {
-            node.SwapAbilitiesWith(AbilityTreeEditorMenu.Instance.CurrentTreeNodeHover);
+            Node otherNode = AbilityTreeEditorMenu.Instance.CurrentTreeNodeHover;
+
+            if (node.CanSwapAbilitiesWith(otherNode))
+                node.SwapAbilitiesWith(otherNode);
         }
 
         AbilityTreeEditorMenu.Instance.TreeAbilityDragStopSubject.Next();
