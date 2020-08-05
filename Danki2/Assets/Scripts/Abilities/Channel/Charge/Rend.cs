@@ -7,10 +7,20 @@ public class Rend : Charge
     private const float Range = 3f;
     private const float DotDuration = 5f;
 
+    private int cameraShakeCount = 0;
+
     protected override float ChargeTime => 3f;
 
     public Rend(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
+    }
+
+    protected override void Continue()
+    {
+        int newCameraShakeCount = Mathf.FloorToInt(TimeCharged);
+        if (newCameraShakeCount == cameraShakeCount) return;
+        cameraShakeCount = newCameraShakeCount;
+        CustomCamera.Instance.AddShake(ShakeIntensity.Low);
     }
 
     public override void Cancel(Vector3 target) => End();
