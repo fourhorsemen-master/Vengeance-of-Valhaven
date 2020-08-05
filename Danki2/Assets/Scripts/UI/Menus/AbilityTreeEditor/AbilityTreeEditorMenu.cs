@@ -4,20 +4,22 @@
 
     public AbilityReference AbilityDraggingFromList { get; private set; }
 
-    public Subject<AbilityReference> AbilityDragFromListStartSubject { get; } = new Subject<AbilityReference>();
+    public Subject<AbilityReference> ListAbilityDragStartSubject { get; } = new Subject<AbilityReference>();
 
-    public Subject<AbilityReference> AbilityDragFromListStopSubject { get; } = new Subject<AbilityReference>();
+    public Subject<AbilityReference> ListAbilityDragStopSubject { get; } = new Subject<AbilityReference>();
+
+    public Subject TreeAbilityDragStopSubject { get; } = new Subject();
 
     public Node CurrentTreeNodeHover { get; set; } = null;
 
     private void Start()
     {
-        AbilityDragFromListStartSubject.Subscribe(ability => {
+        ListAbilityDragStartSubject.Subscribe(ability => {
             AbilityDraggingFromList = ability;
             IsDraggingFromList = true;
         });
 
-        AbilityDragFromListStopSubject.Subscribe(ability => {
+        ListAbilityDragStopSubject.Subscribe(ability => {
             AbilityDraggingFromList = ability;
             IsDraggingFromList = false;
         });
