@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EffectManager : StatPipe
+public class EffectManager : IStatPipe, IMovementStatusProvider
 {
     private List<EffectWithDuration> _activeEffects;
     private Dictionary<Guid, Effect> _passiveEffects;
@@ -98,6 +98,30 @@ public class EffectManager : StatPipe
         ForEachEffect(e => floatHealing += e.GetLinearIncomingHealModifier());
         ForEachEffect(e => floatHealing *= e.GetMultiplicativeIncomingHealModifier());
         return Mathf.RoundToInt(floatHealing);
+    }
+
+    // IMovementStatusProvider method:
+    public bool Stuns()
+    {
+        bool setStunned = false;
+
+        ForEachEffect(e => {
+            if (e.Stuns) setStunned = true;
+        });
+
+        return setStunned;
+    }
+
+    // IMovementStatusProvider method:
+    public bool Roots()
+    {
+        bool setRooted = false;
+
+        ForEachEffect(e => {
+            if (e.Roots) setRooted = true;
+        });
+
+        return setRooted;
     }
 
     private void TickActiveEffects()

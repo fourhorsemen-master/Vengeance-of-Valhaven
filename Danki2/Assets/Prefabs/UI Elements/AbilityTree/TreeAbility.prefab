@@ -575,7 +575,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8032305710682978201
 RectTransform:
   m_ObjectHideFlags: 0
@@ -610,8 +610,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e9ba1daa59abd04289d592be50c55b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  topLeftArrow: {fileID: 0}
-  topRightArrow: {fileID: 0}
   bottomRightArrow: {fileID: 5471951732179037308}
   bottomLeftArrow: {fileID: 98015080382988561}
   centralArea: {fileID: 710828283294399813}
@@ -807,6 +805,7 @@ GameObject:
   - component: {fileID: 7085372966491998884}
   - component: {fileID: 5997272382370403325}
   - component: {fileID: 170457490687672504}
+  - component: {fileID: 6273949556212597125}
   m_Layer: 5
   m_Name: TreeAbility
   m_TagString: Untagged
@@ -861,7 +860,20 @@ MonoBehaviour:
   rootNodeSprite: {fileID: 21300000, guid: 1e50d6f4232776841b5a8f640e680f41, type: 3}
   abilityImage: {fileID: 319307762464470183}
   abilityOverlay: {fileID: 4150911505441452678}
-  abilityHighlight: {fileID: 781681650871375362}
+  highlighter: {fileID: 6273949556212597125}
   leftChildLineRenderer: {fileID: 4679415453636632418}
   rightChildLineRenderer: {fileID: 3956334581050030073}
   abilityInsertListener: {fileID: 2213216200694190519}
+--- !u!114 &6273949556212597125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8767473813462871140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a6c607e48958c248a01fc6c5d28e84b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  abilityHighlight: {fileID: 781681650871375362}

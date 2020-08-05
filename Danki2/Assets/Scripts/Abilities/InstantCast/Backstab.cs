@@ -13,14 +13,14 @@ public class Backstab : InstantCast
     public override void Cast(Vector3 target)
     {
         Owner.MovementManager.LookAt(target);
-        Owner.MovementManager.Stun(PauseDuration);
+        Owner.MovementManager.Pause(PauseDuration);
         SuccessFeedbackSubject.Next(false);
     }
 
     public override void Cast(Actor target)
     {
         Owner.MovementManager.LookAt(target.transform.position);
-        Owner.MovementManager.Stun(PauseDuration);
+        Owner.MovementManager.Pause(PauseDuration);
 
         if (
             !Owner.Opposes(target)
