@@ -23,36 +23,31 @@ public abstract class Ability
         SuccessFeedbackSubject = new Subject<bool>();
     }
 
-    protected void DealPrimaryDamage(Actor target, int damageModifier = 0)
+    protected void DealPrimaryDamage(Actor target, int linearDamageModifier = 0, int multiplicativeDamageModifier = 1)
     {
-        Owner.DamageTarget(target, AbilityData.PrimaryDamage + damageModifier);
+        Owner.DamageTarget(target, GetModifiedValue(AbilityData.PrimaryDamage, linearDamageModifier, multiplicativeDamageModifier));
     }
 
-    protected void ApplyPrimaryDamageAsDOT(
-        Actor target,
-        float duration,
-        float tickRate = 1,
-        int linearDamageModifier = 0,
-        int multiplicativeDamageModifier = 1
-    )
+    protected void ApplyPrimaryDamageAsDOT(Actor target, float duration, float tickRate = 1, int linearDamageModifier = 0, int multiplicativeDamageModifier = 1)
     {
-        int totalDamage = (AbilityData.PrimaryDamage + linearDamageModifier) * multiplicativeDamageModifier;
+        int totalDamage = GetModifiedValue(AbilityData.PrimaryDamage, linearDamageModifier, multiplicativeDamageModifier);
         target.EffectManager.AddActiveEffect(new DOT(totalDamage, duration, tickRate), duration);
     }
 
-    protected void DealSecondaryDamage(Actor target, int damageModifier = 0)
+    protected void DealSecondaryDamage(Actor target, int linearDamageModifier = 0, int multiplicativeDamageModifier = 1)
     {
-        Owner.DamageTarget(target, AbilityData.SecondaryDamage + damageModifier);
+        Owner.DamageTarget(target, GetModifiedValue(AbilityData.SecondaryDamage, linearDamageModifier, multiplicativeDamageModifier));
     }
 
-    protected void ApplySecondaryDamageAsDOT(Actor target, float duration, float tickRate = 1, int damageModifier = 0)
+    protected void ApplySecondaryDamageAsDOT(Actor target, float duration, float tickRate = 1, int linearDamageModifier = 0, int multiplicativeDamageModifier = 1)
     {
-        target.EffectManager.AddActiveEffect(new DOT(AbilityData.SecondaryDamage + damageModifier, duration, tickRate), duration);
+        int totalDamage = GetModifiedValue(AbilityData.SecondaryDamage, linearDamageModifier, multiplicativeDamageModifier);
+        target.EffectManager.AddActiveEffect(new DOT(totalDamage, duration, tickRate), duration);
     }
 
-    protected void Heal(int healModifier = 0)
+    protected void Heal(int linearHealModifier = 0, int multiplicativeHealModifier = 1)
     {
-        Owner.HealthManager.ReceiveHeal(AbilityData.Heal + healModifier);
+        Owner.HealthManager.ReceiveHeal(GetModifiedValue(AbilityData.Heal, linearHealModifier, multiplicativeHealModifier));
     }
 
     protected bool HasBonus(string bonus)
@@ -71,4 +66,7 @@ public abstract class Ability
 
         return Quaternion.Euler(newAngleX, castRotation.eulerAngles.y, castRotation.eulerAngles.z);
     }
+
+    private int GetModifiedValue(int baseValue, int linearModifier, int multiplicativeModifier) =>
+        (baseValue + linearModifier) * multiplicativeModifier;
 }
