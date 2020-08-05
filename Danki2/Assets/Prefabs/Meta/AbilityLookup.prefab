@@ -404,10 +404,10 @@ MonoBehaviour:
         _values: []
       finisher: 0
     - displayName: Rend
-      tooltip: Applies a DOT for 3 times the time charged, plus {PRIMARY_DAMAGE},
-        damage over 3 seconds to all surrounding enemies.
+      tooltip: Applies a DOT for {PRIMARY_DAMAGE} damage, multiplied by the time charged,
+        over 5 seconds to all surrounding enemies.
       baseAbilityData:
-        primaryDamage: 0
+        primaryDamage: 3
         secondaryDamage: 0
         heal: 0
         shield: 0

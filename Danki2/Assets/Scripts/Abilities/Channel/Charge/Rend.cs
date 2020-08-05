@@ -1,30 +1,16 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 [Ability(AbilityReference.Rend)]
 public class Rend : Charge
 {
-    private const int DamageMultiplier = 3;
     private const float Range = 3f;
-    private const float DotDuration = 3f;
+    private const float DotDuration = 5f;
 
-    private int charges = 0;
-    
     protected override float ChargeTime => 3f;
 
     public Rend(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
-    }
-
-    protected override void Continue()
-    {
-        int newCharges = Mathf.FloorToInt(TimeCharged);
-
-        if (charges == newCharges) return;
-
-        charges = newCharges;
-        CustomCamera.Instance.AddShake(ShakeIntensity.Low);
-        
-        if (charges == 1) SuccessFeedbackSubject.Next(true);
     }
 
     public override void Cancel(Vector3 target) => End();
@@ -33,21 +19,30 @@ public class Rend : Charge
 
     private void End()
     {
+        int charges = Mathf.FloorToInt(TimeCharged);
+
         if (charges == 0)
         {
             SuccessFeedbackSubject.Next(false);
             return;
         }
 
-        int totalDamage = charges * DamageMultiplier;
-        
-        CollisionTemplateManager.Instance
+        List<Actor> opposingActors = CollisionTemplateManager.Instance
             .GetCollidingActors(CollisionTemplate.Cylinder, Range, Owner.transform.position)
-            .Where(Owner.Opposes)
-            .ForEach(actor =>
-            {
-                actor.EffectManager.AddActiveEffect(new DOT(totalDamage, DotDuration), DotDuration);
-            });
+            .Where(Owner.Opposes);
+
+        if (opposingActors.Count == 0)
+        {
+            SuccessFeedbackSubject.Next(false);
+            return;
+        }
+
+        SuccessFeedbackSubject.Next(true);
+
+        opposingActors.ForEach(actor =>
+        {
+            ApplyPrimaryDamageAsDOT(actor, DotDuration, multiplicativeDamageModifier: charges);
+        });
 
         RendObject.Create(Owner.transform);
         CustomCamera.Instance.AddShake(ShakeIntensity.Medium);

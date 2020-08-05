@@ -28,9 +28,16 @@ public abstract class Ability
         Owner.DamageTarget(target, AbilityData.PrimaryDamage + damageModifier);
     }
 
-    protected void ApplyPrimaryDamageAsDOT(Actor target, float duration, float tickRate = 1, int damageModifier = 0)
+    protected void ApplyPrimaryDamageAsDOT(
+        Actor target,
+        float duration,
+        float tickRate = 1,
+        int linearDamageModifier = 0,
+        int multiplicativeDamageModifier = 1
+    )
     {
-        target.EffectManager.AddActiveEffect(new DOT(AbilityData.PrimaryDamage + damageModifier, duration, tickRate), duration);
+        int totalDamage = (AbilityData.PrimaryDamage + linearDamageModifier) * multiplicativeDamageModifier;
+        target.EffectManager.AddActiveEffect(new DOT(totalDamage, duration, tickRate), duration);
     }
 
     protected void DealSecondaryDamage(Actor target, int damageModifier = 0)
