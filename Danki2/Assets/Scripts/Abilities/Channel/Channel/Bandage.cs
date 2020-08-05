@@ -8,6 +8,8 @@ public class Bandage : Channel
     private const float HealStartDelay = 1f;
     private const int SpeedReduction = 2;
 
+    private BandageObject bandageObject;
+
     private Repeater repeater;
     private bool hasHealed = false;
 
@@ -25,6 +27,8 @@ public class Bandage : Channel
 
     public override void Start(Vector3 target)
     {
+        bandageObject = BandageObject.Create(Owner.transform);
+        
         repeater = new Repeater(HealInterval, Heal, HealStartDelay);
 
         if (HasBonus("Perseverance"))
@@ -44,6 +48,9 @@ public class Bandage : Channel
 
     private void Heal()
     {
+        bandageObject.PlaySound();
+        CustomCamera.Instance.AddShake(ShakeIntensity.Low);
+
         base.Heal();
 
         if (hasHealed) return;
@@ -53,6 +60,8 @@ public class Bandage : Channel
 
     private void End()
     {
+        bandageObject.Destroy();
+
         if (!hasHealed) SuccessFeedbackSubject.Next(false);
 
         if (HasBonus("Perseverance"))
