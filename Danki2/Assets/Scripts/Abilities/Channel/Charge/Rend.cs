@@ -23,13 +23,13 @@ public class Rend : Charge
         CustomCamera.Instance.AddShake(ShakeIntensity.Low);
     }
 
-    public override void Cancel(Vector3 target) => End();
+    public override void Cancel(Vector3 target) => End(TimeCharged);
 
-    public override void End(Vector3 target) => End();
+    public override void End(Vector3 target) => End(ChargeTime);
 
-    private void End()
+    private void End(float timeCharged)
     {
-        int charges = Mathf.FloorToInt(TimeCharged);
+        int charges = Mathf.FloorToInt(timeCharged);
 
         if (charges == 0)
         {
