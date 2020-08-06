@@ -20,5 +20,6 @@
     PiercingRush,
     Parry,
     IntimidatingShout,
-    Rend
+    Rend,
+    Bandage
 }

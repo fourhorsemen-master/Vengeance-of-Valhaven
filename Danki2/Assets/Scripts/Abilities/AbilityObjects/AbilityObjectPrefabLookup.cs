@@ -62,6 +62,9 @@ public class AbilityObjectPrefabLookup : Singleton<AbilityObjectPrefabLookup>
     [SerializeField]
     private RendObject _rendObjectPrefab = null;
 
+    [SerializeField]
+    private BandageObject _bandageObjectPrefab = null;
+
     public FireballObject FireballObjectPrefab => _fireballObjectPrefab;
     public DaggerObject DaggerObjectPrefab => _daggerObjectPrefab;
     public BiteObject BiteObjectPrefab => _biteObjectPrefab;
@@ -82,4 +85,5 @@ public class AbilityObjectPrefabLookup : Singleton<AbilityObjectPrefabLookup>
     public ParryObject ParryObjectPrefab => _parryObjectPrefab;
     public IntimidatingShoutObject IntimidatingShoutObjectPrefab => _intimidatingShoutObjectPrefab;
     public RendObject RendObjectPrefab => _rendObjectPrefab;
+    public BandageObject BandageObjectPrefab => _bandageObjectPrefab;
 }
