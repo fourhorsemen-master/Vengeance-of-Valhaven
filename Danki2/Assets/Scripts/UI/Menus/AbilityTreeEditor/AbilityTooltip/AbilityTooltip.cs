@@ -4,8 +4,13 @@ using UnityEngine.UI;
 
 public class AbilityTooltip : Tooltip<AbilityTooltip>
 {
+    private const string FinisherText = "Finisher";
+    
     [SerializeField]
     private Text title = null;
+
+    [SerializeField]
+    private Text finisher = null;
 
     [SerializeField]
     private Text description = null;
@@ -43,12 +48,14 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
 
         string titleText = GenerateTitle(ability);
 
+        string finisherText = GenerateFinisherText(ability);
+
         List<TooltipSegment> segments = PlayerListTooltipBuilder.Build(ability);
         string descriptionText = GenerateDescription(segments, ability);
 
         OrbCollection generatedOrbs = AbilityLookup.Instance.GetGeneratedOrbs(ability);
 
-        SetContents(titleText, descriptionText, generatedOrbs);
+        SetContents(titleText, finisherText, descriptionText, generatedOrbs);
     }
 
     /// <summary>
@@ -61,12 +68,14 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
 
         string titleText = GenerateTitle(node.Ability);
 
+        string finisherText = GenerateFinisherText(node.Ability);
+
         List<TooltipSegment> segments = playerTreeTooltipBuilder.Build(node);
         string descriptionText = GenerateDescription(segments, node.Ability);
 
         OrbCollection generatedOrbs = AbilityLookup.Instance.GetGeneratedOrbs(node.Ability);
 
-        SetContents(titleText, descriptionText, generatedOrbs);
+        SetContents(titleText, finisherText, descriptionText, generatedOrbs);
     }
 
     private string GenerateTitle(AbilityReference ability)
@@ -82,6 +91,18 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
         }
 
         return title;
+    }
+
+    private string GenerateFinisherText(AbilityReference abilityReference)
+    {
+        if (!AbilityLookup.Instance.IsFinisher(abilityReference))
+        {
+            return "";
+        }
+
+        return AbilityLookup.Instance.TryGetAbilityOrbType(abilityReference, out OrbType abilityOrbType)
+            ? TextUtils.ColouredText(OrbLookup.Instance.GetColour(abilityOrbType), FinisherText)
+            : FinisherText;
     }
 
     private string GenerateDescription(List<TooltipSegment> segments, AbilityReference ability)
@@ -110,9 +131,10 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
         return description;
     }
 
-    private void SetContents(string titleText, string descriptionText, OrbCollection orbCollection)
+    private void SetContents(string titleText, string finisherText, string descriptionText, OrbCollection orbCollection)
     {
         title.text = titleText;
+        finisher.text = finisherText;
         description.text = descriptionText;
         abilityOrbPanel.DisplayOrbs(orbCollection);
 
