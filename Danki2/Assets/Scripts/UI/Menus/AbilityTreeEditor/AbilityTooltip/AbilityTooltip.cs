@@ -51,7 +51,7 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
         string finisherText = GenerateFinisherText(ability);
 
         List<TooltipSegment> segments = PlayerListTooltipBuilder.Build(ability);
-        string descriptionText = GenerateDescription(segments, ability);
+        string descriptionText = GenerateDescription(segments);
 
         OrbCollection generatedOrbs = AbilityLookup.Instance.GetGeneratedOrbs(ability);
 
@@ -71,7 +71,7 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
         string finisherText = GenerateFinisherText(node.Ability);
 
         List<TooltipSegment> segments = playerTreeTooltipBuilder.Build(node);
-        string descriptionText = GenerateDescription(segments, node.Ability);
+        string descriptionText = GenerateDescription(segments);
 
         OrbCollection generatedOrbs = AbilityLookup.Instance.GetGeneratedOrbs(node.Ability);
 
@@ -105,7 +105,7 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
             : FinisherText;
     }
 
-    private string GenerateDescription(List<TooltipSegment> segments, AbilityReference ability)
+    private string GenerateDescription(List<TooltipSegment> segments)
     {
         string description = "";
 
