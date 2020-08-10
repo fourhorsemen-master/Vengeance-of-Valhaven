@@ -39,7 +39,6 @@ public class WolfAttack : Behaviour
         )
         {
             wolf.Pounce();
-            return;
         }
 
     }
