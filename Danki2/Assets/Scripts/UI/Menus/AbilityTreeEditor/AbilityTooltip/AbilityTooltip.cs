@@ -1,13 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.UI.Extensions;
 
-public class AbilityTooltip : Singleton<AbilityTooltip>
+public class AbilityTooltip : Tooltip<AbilityTooltip>
 {
-    [SerializeField]
-    private RectTransform tooltipPanel = null;
-
     [SerializeField]
     private Text title = null;
 
@@ -35,37 +31,16 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
         playerTreeTooltipBuilder = new PlayerTreeTooltipBuilder(player);
     }
 
-    private void Update()
-    {
-        if (gameObject.activeInHierarchy)
-        {
-            MoveToMouse();
-        }
-    }
-
-    private void OnDisable()
-    {
-        // This is to avoid the tooltip being displayed if the menu is closed and reopened with the mouse no longer over an ability.
-        Deactivate();
-    }
-
-    public void Activate()
-    {
-        gameObject.SetActive(true);
-        MoveToMouse();
-    }
-
-    public void Deactivate()
-    {
-        gameObject.SetActive(false);
-    }
+    public void Deactivate() => DeactivateTooltip();
 
     /// <summary>
     /// Used to update the tooltip for abilities not in an ability tree.
     /// </summary>
     /// <param name="ability"></param>
-    public void UpdateTooltip(AbilityReference ability)
+    public void Activate(AbilityReference ability)
     {
+        ActivateTooltip();
+
         string titleText = GenerateTitle(ability);
 
         List<TooltipSegment> segments = PlayerListTooltipBuilder.Build(ability);
@@ -80,8 +55,10 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
     /// Used to update tooltip for abilities in the ability tree.
     /// </summary>
     /// <param name="node"></param>
-    public void UpdateTooltip(Node node)
+    public void Activate(Node node)
     {
+        ActivateTooltip();
+
         string titleText = GenerateTitle(node.Ability);
 
         List<TooltipSegment> segments = playerTreeTooltipBuilder.Build(node);
@@ -165,20 +142,5 @@ public class AbilityTooltip : Singleton<AbilityTooltip>
             tooltipPanel.sizeDelta.x,
             newHeight
         );
-    }
-
-    private void MoveToMouse()
-    {
-        Vector3 newPosition = Input.mousePosition;
-
-        Vector2 tooltipPanelSize = tooltipPanel.sizeDelta * tooltipPanel.GetParentCanvas().scaleFactor;
-
-        float xOverlap = Mathf.Max(0f, newPosition.x + tooltipPanelSize.x - Screen.width);
-        float yOverlap = Mathf.Max(0f, newPosition.y + tooltipPanelSize.y - Screen.height);
-
-        newPosition.x -= xOverlap;
-        newPosition.y -= yOverlap;
-
-        tooltipPanel.position = newPosition;
     }
 }
