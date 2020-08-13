@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class AbilityTooltip : Tooltip<AbilityTooltip>
 {
-    private const string FinisherText = "Finisher";
+    private const string FinisherText = "finisher";
     
     [SerializeField]
     private Text title = null;
@@ -95,14 +95,7 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
 
     private string GenerateFinisherText(AbilityReference abilityReference)
     {
-        if (!AbilityLookup.Instance.IsFinisher(abilityReference))
-        {
-            return "";
-        }
-
-        return AbilityLookup.Instance.TryGetAbilityOrbType(abilityReference, out OrbType abilityOrbType)
-            ? TextUtils.ColouredText(OrbLookup.Instance.GetColour(abilityOrbType), FinisherText)
-            : FinisherText;
+        return AbilityLookup.Instance.IsFinisher(abilityReference) ? FinisherText : "";
     }
 
     private string GenerateDescription(List<TooltipSegment> segments)
