@@ -5,10 +5,13 @@ using UnityEngine.UI;
 public class AbilityTooltip : Tooltip<AbilityTooltip>
 {
     [SerializeField]
-    private Text title = null;
+    private Text titleText = null;
 
     [SerializeField]
-    private Text description = null;
+    private Text finisherText = null;
+
+    [SerializeField]
+    private Text descriptionText = null;
 
     [SerializeField]
     private OrbGenerationPanel abilityOrbPanel = null;
@@ -22,8 +25,8 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
     private PlayerTreeTooltipBuilder playerTreeTooltipBuilder;
 
     private bool heightInitialised = false;
-    public float TooltipHeightNoOrbs => description.preferredHeight + 36f;
-    public float TooltipHeightWithOrbs => description.preferredHeight + 60f;
+    public float TooltipHeightNoOrbs => descriptionText.preferredHeight + 36f;
+    public float TooltipHeightWithOrbs => descriptionText.preferredHeight + 60f;
 
     private void Start()
     {
@@ -43,12 +46,14 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
 
         string titleText = GenerateTitle(ability);
 
+        bool isFinisher = AbilityLookup.Instance.IsFinisher(ability);
+
         List<TooltipSegment> segments = PlayerListTooltipBuilder.Build(ability);
-        string descriptionText = GenerateDescription(segments, ability);
+        string descriptionText = GenerateDescription(segments);
 
         OrbCollection generatedOrbs = AbilityLookup.Instance.GetGeneratedOrbs(ability);
 
-        SetContents(titleText, descriptionText, generatedOrbs);
+        SetContents(titleText, isFinisher, descriptionText, generatedOrbs);
     }
 
     /// <summary>
@@ -61,12 +66,14 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
 
         string titleText = GenerateTitle(node.Ability);
 
+        bool isFinisher = AbilityLookup.Instance.IsFinisher(node.Ability);
+
         List<TooltipSegment> segments = playerTreeTooltipBuilder.Build(node);
-        string descriptionText = GenerateDescription(segments, node.Ability);
+        string descriptionText = GenerateDescription(segments);
 
         OrbCollection generatedOrbs = AbilityLookup.Instance.GetGeneratedOrbs(node.Ability);
 
-        SetContents(titleText, descriptionText, generatedOrbs);
+        SetContents(titleText, isFinisher, descriptionText, generatedOrbs);
     }
 
     private string GenerateTitle(AbilityReference ability)
@@ -84,7 +91,7 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
         return title;
     }
 
-    private string GenerateDescription(List<TooltipSegment> segments, AbilityReference ability)
+    private string GenerateDescription(List<TooltipSegment> segments)
     {
         string description = "";
 
@@ -110,10 +117,11 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
         return description;
     }
 
-    private void SetContents(string titleText, string descriptionText, OrbCollection orbCollection)
+    private void SetContents(string title, bool isFinisher, string description, OrbCollection orbCollection)
     {
-        title.text = titleText;
-        description.text = descriptionText;
+        titleText.text = title;
+        finisherText.enabled = isFinisher;
+        descriptionText.text = description;
         abilityOrbPanel.DisplayOrbs(orbCollection);
 
         bool hasOrbs = !orbCollection.IsEmpty;
@@ -131,9 +139,9 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
 
     private void SetHeight(bool includeOrbs)
     {
-        description.rectTransform.sizeDelta = new Vector2(
-            description.rectTransform.sizeDelta.x,
-            description.preferredHeight
+        descriptionText.rectTransform.sizeDelta = new Vector2(
+            descriptionText.rectTransform.sizeDelta.x,
+            descriptionText.preferredHeight
         );
 
         float newHeight = includeOrbs ? TooltipHeightWithOrbs : TooltipHeightNoOrbs;
