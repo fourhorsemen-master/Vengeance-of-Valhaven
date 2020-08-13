@@ -4,16 +4,14 @@ using UnityEngine.UI;
 
 public class AbilityTooltip : Tooltip<AbilityTooltip>
 {
-    private const string FinisherText = "finisher";
-    
     [SerializeField]
-    private Text title = null;
+    private Text titleText = null;
 
     [SerializeField]
-    private Text finisher = null;
+    private Text finisherText = null;
 
     [SerializeField]
-    private Text description = null;
+    private Text descriptionText = null;
 
     [SerializeField]
     private OrbGenerationPanel abilityOrbPanel = null;
@@ -27,8 +25,8 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
     private PlayerTreeTooltipBuilder playerTreeTooltipBuilder;
 
     private bool heightInitialised = false;
-    public float TooltipHeightNoOrbs => description.preferredHeight + 36f;
-    public float TooltipHeightWithOrbs => description.preferredHeight + 60f;
+    public float TooltipHeightNoOrbs => descriptionText.preferredHeight + 36f;
+    public float TooltipHeightWithOrbs => descriptionText.preferredHeight + 60f;
 
     private void Start()
     {
@@ -48,14 +46,14 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
 
         string titleText = GenerateTitle(ability);
 
-        string finisherText = GenerateFinisherText(ability);
+        bool isFinisher = AbilityLookup.Instance.IsFinisher(ability);
 
         List<TooltipSegment> segments = PlayerListTooltipBuilder.Build(ability);
         string descriptionText = GenerateDescription(segments);
 
         OrbCollection generatedOrbs = AbilityLookup.Instance.GetGeneratedOrbs(ability);
 
-        SetContents(titleText, finisherText, descriptionText, generatedOrbs);
+        SetContents(titleText, isFinisher, descriptionText, generatedOrbs);
     }
 
     /// <summary>
@@ -68,14 +66,14 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
 
         string titleText = GenerateTitle(node.Ability);
 
-        string finisherText = GenerateFinisherText(node.Ability);
+        bool isFinisher = AbilityLookup.Instance.IsFinisher(node.Ability);
 
         List<TooltipSegment> segments = playerTreeTooltipBuilder.Build(node);
         string descriptionText = GenerateDescription(segments);
 
         OrbCollection generatedOrbs = AbilityLookup.Instance.GetGeneratedOrbs(node.Ability);
 
-        SetContents(titleText, finisherText, descriptionText, generatedOrbs);
+        SetContents(titleText, isFinisher, descriptionText, generatedOrbs);
     }
 
     private string GenerateTitle(AbilityReference ability)
@@ -91,11 +89,6 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
         }
 
         return title;
-    }
-
-    private string GenerateFinisherText(AbilityReference abilityReference)
-    {
-        return AbilityLookup.Instance.IsFinisher(abilityReference) ? FinisherText : "";
     }
 
     private string GenerateDescription(List<TooltipSegment> segments)
@@ -124,11 +117,11 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
         return description;
     }
 
-    private void SetContents(string titleText, string finisherText, string descriptionText, OrbCollection orbCollection)
+    private void SetContents(string title, bool isFinisher, string description, OrbCollection orbCollection)
     {
-        title.text = titleText;
-        finisher.text = finisherText;
-        description.text = descriptionText;
+        titleText.text = title;
+        finisherText.enabled = isFinisher;
+        descriptionText.text = description;
         abilityOrbPanel.DisplayOrbs(orbCollection);
 
         bool hasOrbs = !orbCollection.IsEmpty;
@@ -146,9 +139,9 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
 
     private void SetHeight(bool includeOrbs)
     {
-        description.rectTransform.sizeDelta = new Vector2(
-            description.rectTransform.sizeDelta.x,
-            description.preferredHeight
+        descriptionText.rectTransform.sizeDelta = new Vector2(
+            descriptionText.rectTransform.sizeDelta.x,
+            descriptionText.preferredHeight
         );
 
         float newHeight = includeOrbs ? TooltipHeightWithOrbs : TooltipHeightNoOrbs;

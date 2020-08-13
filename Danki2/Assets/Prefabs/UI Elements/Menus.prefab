@@ -173,9 +173,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tooltipPanel: {fileID: 236770764}
-  title: {fileID: 493106485}
-  finisher: {fileID: 4209494592348905552}
-  description: {fileID: 129833002}
+  titleText: {fileID: 493106485}
+  finisherText: {fileID: 4209494592348905552}
+  descriptionText: {fileID: 129833002}
   abilityOrbPanel: {fileID: 2692204660556413114}
   buffedNumericColour: {r: 0, g: 1, b: 0, a: 1}
   deBuffedNumericColour: {r: 1, g: 0, b: 0, a: 1}
@@ -1444,7 +1444,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: finisher
 --- !u!1 &6967023218799916311
 GameObject:
   m_ObjectHideFlags: 0
