@@ -1,0 +1,16 @@
+name: Schedule
+
+on:
+  push:
+    branches:
+      - artefact-cleaning-schedule
+
+jobs:
+  schedule:
+    name: Schedule test
+    runs-on: ubuntu-latest
+    timeout-minutes: 1
+
+    steps:
+      - name: Say hello
+        run: echo hello
