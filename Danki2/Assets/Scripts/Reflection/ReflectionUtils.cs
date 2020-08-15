@@ -37,6 +37,30 @@ public static class ReflectionUtils
         return attributeData;
     }
 
+    public static List<Type> GetInheritingTypes(Type baseType, bool includeAbstractTypes = true)
+    {
+        List<Type> types = new List<Type>();
+
+        foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+        {
+            if (assembly.IsDynamic)
+            {
+                continue;
+            }
+
+            types.AddRange(GetInheritingTypes(baseType, assembly, includeAbstractTypes));
+        }
+
+        return types;
+    }
+
+    public static List<Type> GetInheritingTypes(Type baseType, Assembly assembly, bool includeAbstractTypes = true)
+    {
+        return assembly.GetExportedTypes()
+            .Where(type => (includeAbstractTypes || !type.IsAbstract) && type.IsSubclassOf(baseType))
+            .ToList();
+    }
+
     private static bool TryGetAttribute<TAttribute>(Type type, out TAttribute attribute) where TAttribute : Attribute
     {
         attribute = type.GetCustomAttributes<TAttribute>().FirstOrDefault();
