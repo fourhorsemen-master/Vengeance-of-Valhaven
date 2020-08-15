@@ -1,9 +1,9 @@
-﻿public class LinearStatModification : Effect
+﻿public abstract class LinearStatModification : Effect
 {
     private readonly Stat statToModify;
     private readonly int modification;
 
-    public LinearStatModification(Stat statToModify, int modification)
+    protected LinearStatModification(Stat statToModify, int modification)
     {
         this.statToModify = statToModify;
         this.modification = modification;

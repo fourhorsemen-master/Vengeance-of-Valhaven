@@ -31,6 +31,6 @@ public class IntimidatingShout : InstantCast
 
     private void ReduceDefence(Actor actor)
     {
-        actor.EffectManager.AddActiveEffect(new LinearStatModification(Stat.Defence, DefenceModification), Duration);
+        actor.EffectManager.AddActiveEffect(new PowerBuff(DefenceModification), Duration);
     }
 }

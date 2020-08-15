@@ -1,9 +1,9 @@
-﻿public class MultiplicativeStatModification : Effect
+﻿public abstract class MultiplicativeStatModification : Effect
 {
     private readonly Stat statToModify;
     private readonly float modification;
 
-    public MultiplicativeStatModification(Stat statToModify, float modification)
+    protected MultiplicativeStatModification(Stat statToModify, float modification)
     {
         this.statToModify = statToModify;
         this.modification = modification;

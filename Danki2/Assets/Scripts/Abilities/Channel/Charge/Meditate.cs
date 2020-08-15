@@ -53,7 +53,7 @@ public class Meditate : Charge
             return;
         }
         
-        LinearStatModification powerModification = new LinearStatModification(Stat.Power, powerIncrease);
+        LinearStatModification powerModification = new PowerBuff(powerIncrease);
         Owner.EffectManager.AddActiveEffect(powerModification, PowerDuration);
     }
 
@@ -65,7 +65,7 @@ public class Meditate : Charge
 
             if (actor.Opposes(Owner))
             {
-                MultiplicativeStatModification slow = new MultiplicativeStatModification(Stat.Speed, SlowMultiplier);
+                MultiplicativeStatModification slow = new Slow(SlowMultiplier);
                 slowedActors[actor] = actor.EffectManager.AddPassiveEffect(slow);
             }
         });
