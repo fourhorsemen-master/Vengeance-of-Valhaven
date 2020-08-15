@@ -1,9 +1,8 @@
 name: Schedule
 
 on:
-  push:
-    branches:
-      - artefact-cleaning-schedule
+  schedule:
+    - cron:  '*/1 * * * *'
 
 jobs:
   schedule:
