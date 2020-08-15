@@ -37,7 +37,7 @@ public static class ReflectionUtils
         return attributeData;
     }
 
-    public static List<Type> GetInheritingTypes(Type baseType, bool includeAbstractTypes = true)
+    public static List<Type> GetInheritingTypes(Type baseType, params ClassModifier[] modifiersToIgnore)
     {
         List<Type> types = new List<Type>();
 
@@ -48,16 +48,21 @@ public static class ReflectionUtils
                 continue;
             }
 
-            types.AddRange(GetInheritingTypes(baseType, assembly, includeAbstractTypes));
+            types.AddRange(GetInheritingTypes(baseType, assembly, modifiersToIgnore));
         }
 
         return types;
     }
 
-    public static List<Type> GetInheritingTypes(Type baseType, Assembly assembly, bool includeAbstractTypes = true)
+    public static List<Type> GetInheritingTypes(Type baseType, Assembly assembly, params ClassModifier[] modifiersToIgnore)
     {
         return assembly.GetExportedTypes()
-            .Where(type => (includeAbstractTypes || !type.IsAbstract) && type.IsSubclassOf(baseType))
+            .Where(type =>
+            {
+                if (modifiersToIgnore.Contains(ClassModifier.Abstract) && type.IsAbstract) return false;
+                if (modifiersToIgnore.Contains(ClassModifier.Sealed) && type.IsSealed) return false;
+                return type.IsSubclassOf(baseType);
+            })
             .ToList();
     }
 
