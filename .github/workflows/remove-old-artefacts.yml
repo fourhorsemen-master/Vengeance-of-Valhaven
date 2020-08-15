@@ -8,7 +8,7 @@ on:
 jobs:
   remove-old-artefacts:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 5
 
     steps:
       # Remove all existing artefacts from GitHub aside from the most recent.
