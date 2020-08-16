@@ -5,7 +5,7 @@ using UnityEngine;
 public class IntimidatingShout : InstantCast
 {
     private const float Range = 4;
-    private const int DefenceModification = -2;
+    private const int DefenceModification = 2;
     private const float Duration = 6;
 
     public IntimidatingShout(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
@@ -31,6 +31,6 @@ public class IntimidatingShout : InstantCast
 
     private void ReduceDefence(Actor actor)
     {
-        actor.EffectManager.AddActiveEffect(new PowerBuff(DefenceModification), Duration);
+        actor.EffectManager.AddActiveEffect(new DefenceDebuff(DefenceModification), Duration);
     }
 }
