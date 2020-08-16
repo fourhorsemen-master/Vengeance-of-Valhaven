@@ -1,5 +1,10 @@
-﻿public abstract class Effect
+﻿using UnityEngine;
+
+public abstract class Effect
 {
+    public string GetDisplayName() => EffectLookup.Instance.GetDisplayName(GetType());
+    public Sprite GetSprite() => EffectLookup.Instance.GetSprite(GetType());
+    
     public virtual void Start(Actor actor) { }
 
     public virtual void Update(Actor actor) { }
