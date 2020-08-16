@@ -25,18 +25,10 @@ public class SerializableTypeDictionary<TValue> : Dictionary<Type, TValue>, ISer
     public void OnAfterDeserialize()
     {
         Clear();
-        for (int i = keys.Count - 1; i >= 0; i--)
+        for (int i = 0; i < keys.Count; i++)
         {
             Type type = Type.GetType(keys[i]);
-            if (type != null)
-            {
-                Add(type, values[i]);
-            }
-            else
-            {
-                keys.RemoveAt(i);
-                values.RemoveAt(i);
-            }
+            if (type != null) Add(type, values[i]);
         }
     }
 }
