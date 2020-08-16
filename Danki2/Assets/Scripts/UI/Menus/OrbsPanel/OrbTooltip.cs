@@ -12,7 +12,7 @@ public class OrbTooltip : Tooltip<OrbTooltip>
     {
         ActivateTooltip();
 
-        description.text = OrbLookup.Instance.GetDisplayName(orbType);
+        description.text = OrbLookup.Instance.GetDescription(orbType);
 
         if (!heightInitialised)
         {

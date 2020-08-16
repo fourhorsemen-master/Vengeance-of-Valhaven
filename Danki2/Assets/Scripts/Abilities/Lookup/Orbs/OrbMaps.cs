@@ -10,6 +10,14 @@ public class OrbDisplayNameMap : SerializableEnumDictionary<OrbType, string>
 }
 
 [Serializable]
+public class OrbDescriptionMap : SerializableEnumDictionary<OrbType, string>
+{
+    public OrbDescriptionMap(string defaultValue) : base(defaultValue) { }
+
+    public OrbDescriptionMap(Func<string> defaultValueProvider) : base(defaultValueProvider) { }
+}
+
+[Serializable]
 public class OrbColourMap : SerializableEnumDictionary<OrbType, Color>
 {
     public OrbColourMap(Color defaultValue) : base(defaultValue) { }
