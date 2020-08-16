@@ -16,6 +16,8 @@ public class ModularPFXComponent : MonoBehaviour
 
     private GameObject spawnedGraphic;
 
+    private bool isActive = true;
+
     public void Start()
     {
         if (!settings.effectObject) return;
@@ -23,19 +25,21 @@ public class ModularPFXComponent : MonoBehaviour
         spawnedGraphic = Instantiate(settings.effectObject, transform);
         SetEffectColour();
 
-        foreach (MPFXBehaviour stencil in behaviours)
+        foreach (MPFXBehaviour behaviour in behaviours)
         {
-            stencil.SetUp(spawnedGraphic);
+            behaviour.SetUp(spawnedGraphic);
         }
     }
 
     public void Update()
     {
+        if (!isActive) return;
+
         int behavioursComplete = 0;
 
-        foreach (MPFXBehaviour stencil in behaviours)
+        foreach (MPFXBehaviour behaviour in behaviours)
         {
-            if (stencil.UpdatePFX())
+            if (behaviour.UpdatePFX())
             {
                 ++behavioursComplete;
             }
@@ -49,12 +53,13 @@ public class ModularPFXComponent : MonoBehaviour
 
     private void EndPFX()
     {
-        foreach (MPFXBehaviour stencil in behaviours)
+        foreach (MPFXBehaviour behaviour in behaviours)
         {
-            stencil.End();
+            behaviour.End();
         }
 
         Destroy(spawnedGraphic);
+        isActive = false;
     }
 
     private void SetEffectColour()
