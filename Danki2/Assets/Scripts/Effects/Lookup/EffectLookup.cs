@@ -1,85 +1,53 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
 public class EffectLookup : Singleton<EffectLookup>
 {
-    public EffectDisplayNameMap serializedDisplayNameMap = new EffectDisplayNameMap();
-    public EffectSpriteNameMap serializedSpriteMap = new EffectSpriteNameMap();
-
-    private Dictionary<Type, string> displayNameMap = new Dictionary<Type, string>();
-    private Dictionary<Type, Sprite> spriteMap = new Dictionary<Type, Sprite>();
+    public EffectDisplayNameDictionary displayNameDictionary = new EffectDisplayNameDictionary();
+    public EffectSpriteNameDictionary spriteDictionary = new EffectSpriteNameDictionary();
 
     protected override void Awake()
     {
         base.Awake();
         
-        Validate();
-
-        displayNameMap = serializedDisplayNameMap.Keys
-            .ToDictionary(
-                Type.GetType,
-                key => serializedDisplayNameMap[key]
-            );
-
-        spriteMap = serializedSpriteMap.Keys
-            .ToDictionary(
-                Type.GetType,
-                key => serializedSpriteMap[key]
-            );
-    }
-
-    public string GetDisplayName(Type effectType) => displayNameMap[effectType];
-
-    public Sprite GetSprite(Type effectType) => spriteMap[effectType];
-
-    private void Validate()
-    {
-        List<string> stringEffectTypes = ReflectionUtils
-            .GetSubclasses(typeof(Effect), Assembly.GetExecutingAssembly(), ClassModifier.Abstract)
-            .Select(type => type.AssemblyQualifiedName)
-            .ToList();
+        List<Type> effectTypes = ReflectionUtils
+            .GetSubclasses(typeof(Effect), Assembly.GetExecutingAssembly(), ClassModifier.Abstract);
         
-        stringEffectTypes.ForEach(stringEffectType =>
+        Validate(displayNameDictionary, effectTypes, (s, t) =>
         {
-            if (!serializedDisplayNameMap.ContainsKey(stringEffectType))
-            {
-                Debug.LogError($"No display name entry for effect: {stringEffectType}");
-                return;
-            }
-
-            if (!serializedSpriteMap.ContainsKey(stringEffectType))
-            {
-                Debug.LogError($"No sprite entry for effect: {stringEffectType}");
-                return;
-            }
-            
-            if (string.IsNullOrWhiteSpace(serializedDisplayNameMap[stringEffectType]))
-            {
-                Debug.LogError($"No display name set for effect: {stringEffectType}");
-            }
-
-            if (serializedSpriteMap[stringEffectType] == null)
-            {
-                Debug.LogError($"No icon found for effect: {stringEffectType}");
-            }
+            if (string.IsNullOrWhiteSpace(s)) Debug.LogError($"Null or empty display name for effect: {t.Name}");
         });
         
-        foreach (string stringEffectType in serializedDisplayNameMap.Keys)
+        Validate(spriteDictionary, effectTypes, (s, t) =>
         {
-            if (!stringEffectTypes.Contains(stringEffectType))
+            if (s == null) Debug.LogError($"No sprite for effect: {t.Name}");
+        });
+    }
+
+    public string GetDisplayName(Type effectType) => displayNameDictionary[effectType];
+
+    public Sprite GetSprite(Type effectType) => spriteDictionary[effectType];
+
+    private void Validate<T>(SerializableTypeDictionary<T> dictionary, List<Type> effectTypes, Action<T, Type> validate)
+    {
+        effectTypes.ForEach(effectType =>
+        {
+            if (!dictionary.ContainsKey(effectType))
             {
-                Debug.LogError($"Invalid effect type found in display name map: {stringEffectType}");
+                Debug.LogError($"No entry for effect: {effectType.Name}");
+                return;
             }
-        }
+
+            validate(dictionary[effectType], effectType);
+        });
         
-        foreach (string stringEffectType in serializedSpriteMap.Keys)
+        foreach (Type type in dictionary.Keys)
         {
-            if (!stringEffectTypes.Contains(stringEffectType))
+            if (!effectTypes.Contains(type))
             {
-                Debug.LogError($"Invalid effect type found in sprite map: {stringEffectType}");
+                Debug.LogError($"Invalid effect type found in dictionary: {type.Name}");
             }
         }
     }

@@ -7,45 +7,22 @@ using UnityEngine;
 [CustomEditor(typeof(EffectLookup))]
 public class EffectLookupEditor : Editor
 {
+    private EffectLookup effectLookup;
     private List<Type> effectTypes;
-    private List<string> stringEffectTypes;
     
     public override void OnInspectorGUI()
     {
-        EffectLookup effectLookup = (EffectLookup) target;
+        effectLookup = (EffectLookup) target;
 
         if (effectTypes == null)
         {
             effectTypes = ReflectionUtils.GetSubclasses(typeof(Effect), ClassModifier.Abstract);
-            stringEffectTypes = effectTypes
-                .Select(type => type.AssemblyQualifiedName)
-                .ToList();
         }
 
-        SanitizeDictionaries(effectLookup);
+        Sanitize(effectLookup.displayNameDictionary, "");
+        Sanitize(effectLookup.spriteDictionary, null);
         
-        effectTypes.ForEach(effectType =>
-        {
-            string stringEffectType = effectType.AssemblyQualifiedName;
-            
-            EditorGUILayout.LabelField(effectType.Name, EditorStyles.boldLabel);
-            EditorGUI.indentLevel++;
-
-            effectLookup.serializedDisplayNameMap[stringEffectType] = EditorGUILayout.TextField(
-                "Display name",
-                effectLookup.serializedDisplayNameMap[stringEffectType]
-            );
-            
-            effectLookup.serializedSpriteMap[stringEffectType] = (Sprite) EditorGUILayout.ObjectField(
-                "Sprite",
-                effectLookup.serializedSpriteMap[stringEffectType],
-                typeof(Sprite),
-                false,
-                null
-            );
-            
-            EditorGUI.indentLevel--;
-        });
+        effectTypes.ForEach(Edit);
 
         if (GUI.changed)
         {
@@ -53,37 +30,43 @@ public class EffectLookupEditor : Editor
         }
     }
 
-    private void SanitizeDictionaries(EffectLookup effectLookup)
+    private void Sanitize<T>(SerializableTypeDictionary<T> dictionary, T defaultValue)
     {
-        stringEffectTypes.ForEach(stringEffectType =>
+        effectTypes.ForEach(effectType =>
         {
-            if (!effectLookup.serializedDisplayNameMap.ContainsKey(stringEffectType))
+            if (!dictionary.ContainsKey(effectType))
             {
-                effectLookup.serializedDisplayNameMap[stringEffectType] = "";
-            }
-
-            if (!effectLookup.serializedSpriteMap.ContainsKey(stringEffectType))
-            {
-                effectLookup.serializedSpriteMap[stringEffectType] = null;
+                dictionary[effectType] = defaultValue;
             }
         });
 
-        List<string> serializedDisplayNameKeys = effectLookup.serializedDisplayNameMap.Keys.ToList();
-        serializedDisplayNameKeys.ForEach(stringEffectType =>
+        dictionary.Keys.ToList().ForEach(type =>
         {
-            if (!stringEffectTypes.Contains(stringEffectType))
+            if (!effectTypes.Contains(type))
             {
-                effectLookup.serializedDisplayNameMap.Remove(stringEffectType);
+                dictionary.Remove(type);
             }
         });
+    }
 
-        List<string> serializedSpriteKeys = effectLookup.serializedSpriteMap.Keys.ToList();
-        serializedSpriteKeys.ForEach(stringEffectType =>
-        {
-            if (!stringEffectTypes.Contains(stringEffectType))
-            {
-                effectLookup.serializedSpriteMap.Remove(stringEffectType);
-            }
-        });
+    private void Edit(Type effectType)
+    {
+        EditorGUILayout.LabelField(effectType.Name, EditorStyles.boldLabel);
+        EditorGUI.indentLevel++;
+
+        effectLookup.displayNameDictionary[effectType] = EditorGUILayout.TextField(
+            "Display name",
+            effectLookup.displayNameDictionary[effectType]
+        );
+            
+        effectLookup.spriteDictionary[effectType] = (Sprite) EditorGUILayout.ObjectField(
+            "Sprite",
+            effectLookup.spriteDictionary[effectType],
+            typeof(Sprite),
+            false,
+            null
+        );
+            
+        EditorGUI.indentLevel--;
     }
 }
