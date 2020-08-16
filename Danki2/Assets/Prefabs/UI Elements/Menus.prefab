@@ -494,7 +494,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 1
     m_MaxSize: 40
-    m_Alignment: 3
+    m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -1382,7 +1382,6 @@ GameObject:
   - component: {fileID: 7799268316672610454}
   - component: {fileID: 4622306526160798768}
   - component: {fileID: 2791275244431946664}
-  - component: {fileID: 4819780916195637905}
   - component: {fileID: 7231030211355444676}
   m_Layer: 5
   m_Name: OrbTooltip
@@ -1474,19 +1473,6 @@ MonoBehaviour:
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
---- !u!114 &4819780916195637905
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4919800533473068338}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShowMaskGraphic: 1
 --- !u!114 &7231030211355444676
 MonoBehaviour:
   m_ObjectHideFlags: 0
