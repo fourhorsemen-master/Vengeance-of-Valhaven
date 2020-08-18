@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8092610029705101042}
   - component: {fileID: 8637028721699506189}
   m_Layer: 0
-  m_Name: TestModularPFX
+  m_Name: Example_ModularPFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,10 +44,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mpfxMaterial: {fileID: 2100000, guid: 3583ac946a9670b45b71435315e9f2c9, type: 2}
-  _settings:
-    effectObject: {fileID: 8669456010736171666, guid: 9e547c4aa096762438030b714ea9c346,
+  settings:
+    effectObject: {fileID: -927199367670048503, guid: cdf3286e7669bca47a779d7e2cc67aa5,
       type: 3}
-    effectColor: {r: 0, g: 0.3245139, b: 1, a: 1}
-    effectEmissive: {r: 0, g: 1, b: 0.99999976, a: 0.078431375}
-  _behaviours:
+    effectColor: {r: 0, g: 0.615541, b: 0.7169812, a: 0.5254902}
+    effectEmissive: {r: 0, g: 1.2699797, b: 1.0378329, a: 0}
+  behaviours:
+  - {fileID: 11400000, guid: 401b7fcb9f1d5df4b9c19137a43aa4d5, type: 2}
   - {fileID: 11400000, guid: 50bd7a4209c663c4588568113a50b78c, type: 2}

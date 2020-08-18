@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d48ae53a2dc8e394d953d8eb79494748, type: 3}
   m_Name: Example_Rotate
   m_EditorClassIdentifier: 
-  _behaviourName: 
-  _curves:
+  behaviourName: 
+  curves:
   - serializedVersion: 2
     m_Curve: []
     m_PreInfinity: 2
@@ -26,28 +26,28 @@ MonoBehaviour:
       value: 0
       inSlope: 0
       outSlope: 0
-      tangentMode: 136
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.33333334
+      outWeight: 0.08387218
     - serializedVersion: 3
       time: 1
-      value: 100
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
+      value: 200
+      inSlope: 521.79675
+      outSlope: 521.79675
+      tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
+      inWeight: 0.033670843
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 2
+      time: 3
       value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
+      inSlope: -197.82613
+      outSlope: -197.82613
+      tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0.059093595
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
