@@ -25,7 +25,14 @@ public class AbilityListDisplay : MonoBehaviour
 
     private void OnEnable()
     {
-        if (player == null) player = RoomManager.Instance.Player;
+        if (player == null)
+        {
+            if (RoomManager.Instance && RoomManager.Instance.Player)
+            {
+                player = RoomManager.Instance.Player;
+            }
+        }
+
         if (player != null) PopulateAbilityList();
     }
 
