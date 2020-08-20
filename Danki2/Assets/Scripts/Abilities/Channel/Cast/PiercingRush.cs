@@ -65,7 +65,7 @@ public class PiercingRush : Cast
                 if (HasBonus("Daze"))
                 {
                     actor.EffectManager.AddActiveEffect(
-                        new MultiplicativeStatModification(Stat.Speed, dazeSlowMultiplier),
+                        new Slow(dazeSlowMultiplier),
                         dazeSlowTime
                     );
                 }

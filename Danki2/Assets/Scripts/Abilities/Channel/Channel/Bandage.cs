@@ -6,7 +6,7 @@ public class Bandage : Channel
 {
     private const float HealInterval = 1f;
     private const float HealStartDelay = 1f;
-    private const int SpeedReduction = 2;
+    private const float SlowMultiplier = 0.5f;
 
     private BandageObject bandageObject;
 
@@ -33,7 +33,7 @@ public class Bandage : Channel
 
         if (HasBonus("Perseverance"))
         {
-            slowEffectId = Owner.EffectManager.AddPassiveEffect(new LinearStatModification(Stat.Speed, -SpeedReduction));
+            slowEffectId = Owner.EffectManager.AddPassiveEffect(new Slow(SlowMultiplier));
         }
     }
 

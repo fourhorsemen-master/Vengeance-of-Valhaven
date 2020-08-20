@@ -64,9 +64,9 @@ MonoBehaviour:
     - Backstab
     - PiercingRush
     - Parry
-    - Bandage
     - IntimidatingShout
     - Rend
+    - Bandage
     _values:
     - displayName: Slash
       tooltip: Deals {PRIMARY_DAMAGE} damage to enemies in a cone.
@@ -389,25 +389,6 @@ MonoBehaviour:
         _keys: []
         _values: []
       finisher: 0
-    - displayName: Bandage
-      tooltip: Gain {HEAL} health 5 times over 5 seconds. Rooted while channeling.
-      baseAbilityData:
-        primaryDamage: 0
-        secondaryDamage: 0
-        heal: 3
-        shield: 0
-      abilityOrbType:
-        hasValue: 1
-        value: 1
-      generatedOrbs: 
-      abilityBonusLookup:
-        _keys:
-        - Perseverance
-        _values:
-        - displayName: Perseverance
-          tooltip: Slowed by 2 rather than rooted while channeling.
-          requiredOrbs: 0000000001000000
-      finisher: 1
     - displayName: Intimidating Shout
       tooltip: Reduce defence of surrounding enemies by 2 for 6 seconds.
       baseAbilityData:
@@ -439,3 +420,22 @@ MonoBehaviour:
         _keys: []
         _values: []
       finisher: 0
+    - displayName: Bandage
+      tooltip: Gain {HEAL} health 5 times over 5 seconds. Rooted while channeling.
+      baseAbilityData:
+        primaryDamage: 0
+        secondaryDamage: 0
+        heal: 3
+        shield: 0
+      abilityOrbType:
+        hasValue: 1
+        value: 1
+      generatedOrbs: 
+      abilityBonusLookup:
+        _keys:
+        - Perseverance
+        _values:
+        - displayName: Perseverance
+          tooltip: Slowed rather than rooted while channeling.
+          requiredOrbs: 0000000001000000
+      finisher: 1
