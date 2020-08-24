@@ -25,7 +25,14 @@ public class AbilityListDisplay : MonoBehaviour
 
     private void OnEnable()
     {
-        // This is called before Start, at which point the player is still null
+        if (player == null)
+        {
+            if (RoomManager.Instance && RoomManager.Instance.Player)
+            {
+                player = RoomManager.Instance.Player;
+            }
+        }
+
         if (player != null) PopulateAbilityList();
     }
 

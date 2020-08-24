@@ -26,8 +26,10 @@ public class AbilityTreeDisplay : MonoBehaviour
 
     private void OnEnable()
     {
-        Player player = RoomManager.Instance.Player;
-        abilityTree = player.AbilityTree;
+        if (RoomManager.Instance && RoomManager.Instance.Player)
+        {
+            abilityTree = RoomManager.Instance.Player.AbilityTree;
+        }
 
         if (abilityTree != null) RecalculateDisplay();
     }
