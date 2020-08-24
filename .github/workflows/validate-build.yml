@@ -4,10 +4,15 @@ name: Validate Build
 
 # Run on pull requests to master as we want to check that the game at least compiles before
 # it can be merged into master.
+# Disabled as it's annoying
+# on:
+#   pull_request:
+#     branches:
+#       - master
 on:
-  pull_request:
-    branches:
-      - master
+  push:
+    branches-ignore:
+      - '**'
 
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}

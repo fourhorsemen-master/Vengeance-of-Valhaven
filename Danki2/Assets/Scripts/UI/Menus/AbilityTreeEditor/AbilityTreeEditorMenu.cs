@@ -1,5 +1,13 @@
-﻿public class AbilityTreeEditorMenu : Singleton<AbilityTreeEditorMenu>
+﻿using UnityEngine;
+
+public class AbilityTreeEditorMenu : Singleton<AbilityTreeEditorMenu>
 {
+    [SerializeField]
+    private AbilityListDisplay abilityListDisplay = null;
+
+    [SerializeField]
+    private AbilityTreeDisplay abilityTreeDisplay = null;
+
     public bool IsDraggingFromList { get; private set; }
 
     public AbilityReference AbilityDraggingFromList { get; private set; }
@@ -24,11 +32,16 @@
             IsDraggingFromList = false;
         });
 
+        abilityListDisplay.Initialise();
+        abilityTreeDisplay.Initialise();
+
         GameStateController.Instance.GameStateTransitionSubject.Subscribe(gameState =>
         {
             if (gameState == GameState.InAbilityTreeEditor)
             {
                 gameObject.SetActive(true);
+                abilityListDisplay.PopulateAbilityList();
+                abilityTreeDisplay.RecalculateDisplay();
             }
             else
             {

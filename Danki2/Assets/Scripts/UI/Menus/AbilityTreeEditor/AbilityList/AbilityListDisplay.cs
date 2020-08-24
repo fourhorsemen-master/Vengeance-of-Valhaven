@@ -15,7 +15,7 @@ public class AbilityListDisplay : MonoBehaviour
     [SerializeField]
     private VerticalLayoutGroup verticalLayoutGroup = null;
 
-    void Start()
+    public void Initialise()
     {
         player = RoomManager.Instance.Player;
 
@@ -23,20 +23,7 @@ public class AbilityListDisplay : MonoBehaviour
         AbilityTreeEditorMenu.Instance.TreeAbilityDragStopSubject.Subscribe(PopulateAbilityList);
     }
 
-    private void OnEnable()
-    {
-        if (player == null)
-        {
-            if (RoomManager.Instance && RoomManager.Instance.Player)
-            {
-                player = RoomManager.Instance.Player;
-            }
-        }
-
-        if (player != null) PopulateAbilityList();
-    }
-
-    private void PopulateAbilityList()
+    public void PopulateAbilityList()
     {
         //destroy all current panels
         foreach (Transform child in transform)
