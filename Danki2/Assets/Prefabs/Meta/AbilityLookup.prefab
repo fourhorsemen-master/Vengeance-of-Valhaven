@@ -48,7 +48,7 @@ MonoBehaviour:
     - Slash
     - Whirlwind
     - Fireball
-    - DaggerThrow
+    - PoisonDagger
     - Bite
     - Pounce
     - Dash
@@ -119,11 +119,11 @@ MonoBehaviour:
         _keys: []
         _values: []
       finisher: 0
-    - displayName: Dagger Throw
+    - displayName: Poison Dagger
       tooltip: Deals {PRIMARY_DAMAGE} damage.
       baseAbilityData:
         primaryDamage: 2
-        secondaryDamage: 3
+        secondaryDamage: 7
         heal: 0
         shield: 0
       abilityOrbType:
