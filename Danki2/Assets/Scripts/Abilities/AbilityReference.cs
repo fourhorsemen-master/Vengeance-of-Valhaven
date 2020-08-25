@@ -3,7 +3,7 @@
     Slash,
     Whirlwind,
     Fireball,
-    DaggerThrow,
+    PoisonDagger,
     Bite,
     Pounce,
     Dash,
