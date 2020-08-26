@@ -12,6 +12,8 @@ public class PoisonDagger : InstantCast
 
     public override void Cast(Vector3 target)
     {
+        CustomCamera.Instance.AddShake(ShakeIntensity.Low);
+
         Quaternion rotation = Quaternion.LookRotation(target - Owner.Centre);
         PoisonDaggerObject.Fire(Owner, OnCollision, DaggerSpeed, Owner.Centre, rotation);
     }
