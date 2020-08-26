@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,6 +18,9 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
     private OrbGenerationPanel abilityOrbPanel = null;
 
     [SerializeField]
+    private AbilityBonusTooltipSection bonusSectionPrefab = null;
+
+    [SerializeField]
     private Color buffedNumericColour = default;
 
     [SerializeField]
@@ -24,7 +28,8 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
 
     private PlayerTreeTooltipBuilder playerTreeTooltipBuilder;
 
-    private bool heightInitialised = false;
+    private List<AbilityBonusTooltipSection> bonusSections = new List<AbilityBonusTooltipSection>();
+
     public float TooltipHeightNoOrbs => descriptionText.preferredHeight + 36f;
     public float TooltipHeightWithOrbs => descriptionText.preferredHeight + 60f;
 
@@ -53,7 +58,9 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
 
         OrbCollection generatedOrbs = AbilityLookup.Instance.GetGeneratedOrbs(ability);
 
-        SetContents(titleText, isFinisher, descriptionText, generatedOrbs);
+        List<AbilityBonusData> bonuses = AbilityLookup.Instance.GetAbilityBonuses(ability);
+
+        SetContents(titleText, isFinisher, descriptionText, bonuses, generatedOrbs);
     }
 
     /// <summary>
@@ -73,7 +80,9 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
 
         OrbCollection generatedOrbs = AbilityLookup.Instance.GetGeneratedOrbs(node.Ability);
 
-        SetContents(titleText, isFinisher, descriptionText, generatedOrbs);
+        List<AbilityBonusData> bonuses = AbilityLookup.Instance.GetAbilityBonuses(node.Ability);
+
+        SetContents(titleText, isFinisher, descriptionText, bonuses, generatedOrbs);
     }
 
     private string GenerateTitle(AbilityReference ability)
@@ -117,24 +126,31 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
         return description;
     }
 
-    private void SetContents(string title, bool isFinisher, string description, OrbCollection orbCollection)
+    private void SetContents(string title, bool isFinisher, string description, List<AbilityBonusData> bonuses, OrbCollection orbCollection)
     {
         titleText.text = title;
         finisherText.enabled = isFinisher;
         descriptionText.text = description;
         abilityOrbPanel.DisplayOrbs(orbCollection);
 
+        foreach (AbilityBonusTooltipSection section in bonusSections)
+        {
+            Destroy(section.gameObject);
+        }
+
+        bonusSections = new List<AbilityBonusTooltipSection>();
+
+        foreach (AbilityBonusData bonus in bonuses)
+        {
+            AbilityBonusTooltipSection section = Instantiate(bonusSectionPrefab, Vector3.zero, Quaternion.identity, transform);
+            section.Initialise(bonus);
+
+            bonusSections.Add(section);
+        }
+
         bool hasOrbs = !orbCollection.IsEmpty;
 
-        if (!heightInitialised)
-        {
-            this.NextFrame(() => SetHeight(hasOrbs));
-            heightInitialised = true;
-        }
-        else
-        {
-            SetHeight(hasOrbs);
-        }
+        this.NextFrame(() => SetHeight(hasOrbs));
     }
 
     private void SetHeight(bool includeOrbs)
@@ -144,11 +160,15 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
             descriptionText.preferredHeight
         );
 
+        abilityOrbPanel.transform.parent.gameObject.SetActive(includeOrbs);
+
         float newHeight = includeOrbs ? TooltipHeightWithOrbs : TooltipHeightNoOrbs;
+
+        float bonusHeights = bonusSections.Select(s => s.GetSectionHeight()).Sum();
 
         tooltipPanel.sizeDelta = new Vector2(
             tooltipPanel.sizeDelta.x,
-            newHeight
+            newHeight + bonusHeights
         );
     }
 }
