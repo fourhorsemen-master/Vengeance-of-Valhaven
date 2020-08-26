@@ -3,12 +3,10 @@
 [Ability(AbilityReference.Disengage, new[] { "Parting Shot" })]
 public class Disengage : InstantCast
 {
-    private const float MinMovementDuration = 0.1f;
-    private const float MaxMovementDuration = 0.3f;
-    private const float LeapSpeedMultiplier = 6f;
+    private const float leapSpeed = 14f;
+    private const float leapDistance = 6f;
 
-    private const float StunRange = 2f;
-    private const float StunDuration = 3f;
+    private const float partingShotRange = 3.2f;
 
     public Disengage(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
@@ -16,36 +14,28 @@ public class Disengage : InstantCast
 
     public override void Cast(Vector3 target)
     {
-        Vector3 position = Owner.transform.position;
-        Vector3 direction = target - position;
-        direction.y = position.y;
+        Vector3 direction = Owner.transform.forward * -1;
+        float duration = leapDistance / leapSpeed;
 
-        float distance = Vector3.Distance(target, position);
-        float leapSpeed = Owner.GetStat(Stat.Speed) * LeapSpeedMultiplier;
-        float duration = Mathf.Clamp(distance / leapSpeed, MinMovementDuration, MaxMovementDuration);
+        Owner.MovementManager.TryLockMovement(MovementLockType.Dash, duration, leapSpeed, direction, Owner.transform.forward);
 
-
-        Owner.MovementManager.TryLockMovement(MovementLockType.Dash, duration, leapSpeed, direction, direction);
-
-        LeapObject.Create(Owner.transform);
+        DisengageObject.Create(Owner.transform);
 
         SuccessFeedbackSubject.Next(true);
 
-        if (HasBonus("Momentum")) Owner.WaitAndAct(duration, StunSurroundingEnemies);
-    }
-
-    private void StunSurroundingEnemies()
-    {
-        CollisionTemplateManager.Instance.GetCollidingActors(
-            CollisionTemplate.Cylinder,
-            StunRange,
-            Owner.transform.position
-        ).ForEach(actor =>
+        if (HasBonus("Parting Shot"))
         {
-            if (Owner.Opposes(actor))
+            CollisionTemplateManager.Instance.GetCollidingActors(
+                CollisionTemplate.Cylinder,
+                partingShotRange,
+                Owner.transform.position
+            ).ForEach(actor =>
             {
-                actor.EffectManager.AddActiveEffect(new Stun(), StunDuration);
-            }
-        });
+                if (Owner.Opposes(actor))
+                {
+                    DealPrimaryDamage(actor);
+                }
+            });
+        }
     }
 }

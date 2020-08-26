@@ -2,13 +2,13 @@
 
 public class DisengageObject : StaticAbilityObject
 {
-    public AudioSource dashSound = null;
+    public AudioSource disengageSound = null;
 
-    public override float StickTime => dashSound.clip.length;
+    public override float StickTime => disengageSound.clip.length;
 
     public static void Create(Transform casterTransform)
     {
-        DashObject prefab = AbilityObjectPrefabLookup.Instance.DashObjectPrefab;
+        DisengageObject prefab = AbilityObjectPrefabLookup.Instance.DisengageObjectPrefab;
         Instantiate(prefab, casterTransform);
     }
 }
