@@ -37,6 +37,7 @@ public class Leap : InstantCast
     private void StunSurroundingEnemies(LeapObject leapObject)
     {
         leapObject.PlayMomentumSound();
+        CustomCamera.Instance.AddShake(ShakeIntensity.Low);
 
         CollisionTemplateManager.Instance.GetCollidingActors(
             CollisionTemplate.Cylinder,
