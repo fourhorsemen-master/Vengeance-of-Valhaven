@@ -67,6 +67,7 @@ MonoBehaviour:
     - IntimidatingShout
     - Rend
     - Bandage
+    - Disengage
     _values:
     - displayName: Slash
       tooltip: Deals {PRIMARY_DAMAGE} damage to enemies in a cone.
@@ -440,3 +441,22 @@ MonoBehaviour:
           tooltip: Slowed rather than rooted while channeling.
           requiredOrbs: 0000000001000000
       finisher: 1
+    - displayName: Disengage
+      tooltip: Leap backwards.
+      baseAbilityData:
+        primaryDamage: 4
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      abilityOrbType:
+        hasValue: 1
+        value: 2
+      generatedOrbs: 02000000
+      abilityBonusLookup:
+        _keys:
+        - Parting Shot
+        _values:
+        - displayName: Parting Shot
+          tooltip: Deal {PRIMARY_DAMAGE} damage to enemies nearby before leaping.
+          requiredOrbs: 0100000001000000
+      finisher: 0
