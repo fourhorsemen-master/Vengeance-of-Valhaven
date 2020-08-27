@@ -9,6 +9,8 @@ public class Hook : InstantCast
     private const float pullOffset = 2f;
     private const float postHookPauseDuration = 2f;
 
+    private HookObject hookObject = null;
+
     public Hook(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
     }
@@ -20,7 +22,7 @@ public class Hook : InstantCast
         Owner.MovementManager.LookAt(target);
         Owner.MovementManager.Pause(range / hookSpeed);
 
-        HookObject.Fire(Owner, OnCollision, MissCallback, hookSpeed, Owner.Centre, rotation, range);
+        hookObject = HookObject.Fire(Owner, OnCollision, MissCallback, hookSpeed, Owner.Centre, rotation, range);
     }
 
     private void MissCallback()
@@ -30,6 +32,8 @@ public class Hook : InstantCast
 
     private void OnCollision(GameObject gameObject)
     {
+        hookObject.PlayHitAudio();
+        
         if (gameObject.IsActor())
         {
             Actor actor = gameObject.GetComponent<Actor>();
