@@ -27,15 +27,17 @@ public class Leap : InstantCast
 
         Owner.MovementManager.TryLockMovement(MovementLockType.Dash, duration, leapSpeed, direction, direction);
 
-        LeapObject.Create(Owner.transform);
+        LeapObject leapObject = LeapObject.Create(Owner.transform, duration);
 
         SuccessFeedbackSubject.Next(true);
 
-        if (HasBonus("Momentum")) Owner.WaitAndAct(duration, StunSurroundingEnemies);
+        if (HasBonus("Momentum")) Owner.WaitAndAct(duration, () => StunSurroundingEnemies(leapObject));
     }
 
-    private void StunSurroundingEnemies()
+    private void StunSurroundingEnemies(LeapObject leapObject)
     {
+        leapObject.PlayMomentumSound();
+
         CollisionTemplateManager.Instance.GetCollidingActors(
             CollisionTemplate.Cylinder,
             StunRange,
