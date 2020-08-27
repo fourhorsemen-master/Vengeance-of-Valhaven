@@ -150,6 +150,11 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
 
         bool hasOrbs = !orbCollection.IsEmpty;
 
+        tooltipPanel.sizeDelta = new Vector2(
+            tooltipPanel.sizeDelta.x,
+            0f
+        );
+
         this.NextFrame(() => SetHeight(hasOrbs));
     }
 
