@@ -36,8 +36,7 @@ public class Leap : InstantCast
 
     private void StunSurroundingEnemies(LeapObject leapObject)
     {
-        leapObject.PlayMomentumSound();
-        CustomCamera.Instance.AddShake(ShakeIntensity.Low);
+        bool stunHit = false;
 
         CollisionTemplateManager.Instance.GetCollidingActors(
             CollisionTemplate.Cylinder,
@@ -47,8 +46,15 @@ public class Leap : InstantCast
         {
             if (Owner.Opposes(actor))
             {
+                stunHit = true;
                 actor.EffectManager.AddActiveEffect(new Stun(), StunDuration);
             }
         });
+
+        if (stunHit)
+        {
+            leapObject.PlayMomentumSound();
+            CustomCamera.Instance.AddShake(ShakeIntensity.Low);
+        } 
     }
 }
