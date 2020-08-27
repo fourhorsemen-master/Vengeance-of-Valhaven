@@ -1,10 +1,5 @@
-﻿using UnityEngine;
-
-public enum EffectRenderMode
-{
-    WorldSpace,
-    ScreenSpace
-}
+﻿using System;
+using UnityEngine;
 
 public class EffectList : MonoBehaviour
 {
@@ -30,15 +25,14 @@ public class EffectList : MonoBehaviour
 
     private void AddImage()
     {
-        if (effectRenderMode.Equals(EffectRenderMode.WorldSpace))
+        switch (effectRenderMode)
         {
-            Instantiate(worldSpaceEffectListItemPrefab, transform);
-            return;
-        }
-        
-        if (effectRenderMode.Equals(EffectRenderMode.ScreenSpace))
-        {
-            Instantiate(screenSpaceEffectListItemPrefab, transform);
+            case EffectRenderMode.WorldSpace:
+                Instantiate(worldSpaceEffectListItemPrefab, transform);
+                break;
+            case EffectRenderMode.ScreenSpace:
+                Instantiate(screenSpaceEffectListItemPrefab, transform);
+                break;
         }
     }
 }
