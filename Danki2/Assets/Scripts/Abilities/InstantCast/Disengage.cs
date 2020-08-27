@@ -14,7 +14,7 @@ public class Disengage : InstantCast
 
     public override void Cast(Vector3 target)
     {
-        Vector3 direction = Owner.transform.forward * -1;
+        Vector3 direction = Owner.transform.position - target;
         float duration = leapDistance / leapSpeed;
 
         Owner.MovementManager.TryLockMovement(MovementLockType.Dash, duration, leapSpeed, direction, Owner.transform.forward);
