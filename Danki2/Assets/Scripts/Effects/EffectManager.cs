@@ -4,24 +4,30 @@ using UnityEngine;
 
 public class EffectManager : IStatPipe, IMovementStatusProvider
 {
-    private List<EffectWithDuration> _activeEffects;
-    private Dictionary<Guid, Effect> _passiveEffects;
-    private readonly Actor _actor;
-    private readonly StatsManager _statsManager;
+    private readonly Actor actor;
+    private readonly StatsManager statsManager;
+
+    private readonly Dictionary<Guid, Effect> effects = new Dictionary<Guid, Effect>();
+    private readonly Dictionary<Guid, float> remainingDurations = new Dictionary<Guid, float>();
+
+    public Subject<Guid> EffectAddedSubject { get; } = new Subject<Guid>();
+    public Subject<Guid> EffectRemovedSubject { get; }  = new Subject<Guid>();
 
     public EffectManager(Actor actor, Subject updateSubject, StatsManager statsManager)
     {
-        _activeEffects = new List<EffectWithDuration>();
-        _passiveEffects = new Dictionary<Guid, Effect>();
-        _actor = actor;
-        _statsManager = statsManager;
-        _statsManager.RegisterPipe(this);
+        this.actor = actor;
+        this.statsManager = statsManager;
+        this.statsManager.RegisterPipe(this);
         updateSubject.Subscribe(() =>
         {
-            ForEachEffect(e => e.Update(_actor));
+            ForEachEffect(e => e.Update(this.actor));
             TickActiveEffects();
         });
     }
+
+    public bool TryGetEffect(Guid id, out Effect effect) => effects.TryGetValue(id, out effect);
+
+    public bool TryGetRemainingDuration(Guid id, out float remainingDuration) => remainingDurations.TryGetValue(id, out remainingDuration);
 
     /// <summary>
     /// Adds an active effect to the actor, this effect will last for the given duration.
@@ -30,9 +36,14 @@ public class EffectManager : IStatPipe, IMovementStatusProvider
     /// <param name="duration"> The duration of the effect. </param>
     public void AddActiveEffect(Effect effect, float duration)
     {
-        effect.Start(_actor);
-        _activeEffects.Add(new EffectWithDuration(effect, duration));
-        _statsManager.ClearCache();
+        effect.Start(actor);
+
+        Guid id = Guid.NewGuid();
+        effects.Add(id, effect);
+        remainingDurations.Add(id, duration);
+        EffectAddedSubject.Next(id);
+
+        statsManager.ClearCache();
     }
 
     /// <summary>
@@ -42,31 +53,41 @@ public class EffectManager : IStatPipe, IMovementStatusProvider
     /// <returns> The Guid to use to remove the effect. </returns>
     public Guid AddPassiveEffect(Effect effect)
     {
-        effect.Start(_actor);
+        effect.Start(actor);
 
-        Guid effectId = Guid.NewGuid();
-        _passiveEffects.Add(effectId, effect);
-        _statsManager.ClearCache();
+        Guid id = Guid.NewGuid();
+        effects.Add(id, effect);
+        EffectAddedSubject.Next(id);
 
-        return effectId;
+        statsManager.ClearCache();
+
+        return id;
     }
 
     /// <summary>
     /// This will remove the effect with the given Guid from the actor. This id is the one returned from
     /// the AddPassiveEffect method.
     /// </summary>
-    /// <param name="effectId"> The id of the effect to remove. </param>
-    public void RemovePassiveEffect(Guid effectId)
+    /// <param name="id"> The id of the effect to remove. </param>
+    public void RemovePassiveEffect(Guid id)
     {
-        if (!_passiveEffects.ContainsKey(effectId))
+        if (!effects.ContainsKey(id))
         {
-            Debug.LogError($"Tried to remove passive effect with id that could not be found. Id: {effectId.ToString()}");
+            Debug.LogError($"Tried to remove passive effect with id that could not be found. Id: {id.ToString()}");
             return;
         }
 
-        _passiveEffects[effectId].Finish(_actor);
-        _passiveEffects.Remove(effectId);
-        _statsManager.ClearCache();
+        if (remainingDurations.ContainsKey(id))
+        {
+            Debug.LogError($"Tried to remove active effect with id. Id: {id.ToString()}");
+            return;
+        }
+
+        effects[id].Finish(actor);
+        effects.Remove(id);
+        EffectRemovedSubject.Next(id);
+
+        statsManager.ClearCache();
     }
 
     public float ProcessStat(Stat stat, float value)
@@ -126,33 +147,45 @@ public class EffectManager : IStatPipe, IMovementStatusProvider
 
     private void TickActiveEffects()
     {
-        bool someExpired = false;
-
-        _activeEffects = _activeEffects.FindAll(activeEffect =>
+        List<Guid> expiredEffectIds = new List<Guid>();
+        
+        ForEachEffectId(id =>
         {
-            activeEffect.RemainingDuration -= Time.deltaTime;
-            if (activeEffect.RemainingDuration <= 0)
+            if (!TryGetRemainingDuration(id, out float remainingDuration)) return;
+
+            remainingDurations[id] = remainingDuration - Time.deltaTime;
+            if (remainingDurations[id] <= 0)
             {
-                activeEffect.Effect.Finish(_actor);
-                someExpired = true;
-                return false;
+                expiredEffectIds.Add(id);
             }
-            return true;
         });
 
-        if (someExpired) _statsManager.ClearCache();
+        if (expiredEffectIds.Count == 0) return;
+        
+        statsManager.ClearCache();
+        
+        expiredEffectIds.ForEach(id =>
+        {
+            effects[id].Finish(actor);
+            effects.Remove(id);
+            remainingDurations.Remove(id);
+            EffectRemovedSubject.Next(id);
+        });
     }
 
     private void ForEachEffect(Action<Effect> action)
     {
-        foreach (EffectWithDuration effectWithDuration in _activeEffects)
+        foreach (Effect effect in effects.Values)
         {
-            action(effectWithDuration.Effect);
+            action(effect);
         }
+    }
 
-        foreach (Effect passiveEffect in _passiveEffects.Values)
+    private void ForEachEffectId(Action<Guid> action)
+    {
+        foreach (Guid id in effects.Keys)
         {
-            action(passiveEffect);
+            action(id);
         }
     }
 }
