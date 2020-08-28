@@ -22,5 +22,6 @@
     IntimidatingShout,
     Rend,
     Bandage,
-    Disengage
+    Disengage,
+    SwordThrow
 }
