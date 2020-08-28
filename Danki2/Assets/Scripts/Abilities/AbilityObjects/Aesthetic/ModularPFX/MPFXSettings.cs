@@ -10,4 +10,6 @@ public struct MPFXSettings
 
 	[ColorUsage(true, true)]
 	public Color effectEmissive;
+
+	public Texture2D effectAlbedo;
 }

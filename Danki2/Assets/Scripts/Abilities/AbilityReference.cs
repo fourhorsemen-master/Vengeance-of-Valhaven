@@ -21,5 +21,6 @@
     Parry,
     IntimidatingShout,
     Rend,
-    Bandage
+    Bandage,
+    Disengage
 }
