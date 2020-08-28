@@ -5,19 +5,8 @@ public class SwordThrow : Cast
 {
     protected override float CastTime => 2f;
 
-    private const float minimumCastRange = 2f;
-    private const float maximumCastRange = 10f;
-    private const float dashDamageWidth = 6f;
-    private const float dashDamageHeight = 5f;
-    private const float dashSpeedMultiplier = 6f;
-
-    private const float dazeSlowMultiplier = 0.5f;
-    private const float dazeSlowTime = 3f;
-
-    private const float jetstreamCastDelay = 0.2f;
-    private const float jetstreamRange = 3f;
-
-    private const float postDashPauseDuration = 0.2f;
+    private const float swordSpeed = 15f;
+    private const float poisonSwordDOTLength = 5f;
 
     public override ChannelEffectOnMovement EffectOnMovement => ChannelEffectOnMovement.Root;
 
@@ -27,76 +16,34 @@ public class SwordThrow : Cast
 
     public override void End(Vector3 target)
     {
-        // Dash.
-        Vector3 position = Owner.transform.position;
-        Vector3 direction = target - position;
-        direction.y = position.y;
+        CustomCamera.Instance.AddShake(ShakeIntensity.Low);
 
-        float distance = Vector3.Distance(target, position);
-        distance = Mathf.Clamp(distance, minimumCastRange, maximumCastRange);
-
-        float dashSpeed = Owner.GetStat(Stat.Speed) * dashSpeedMultiplier;
-        float dashDuration = distance / dashSpeed;
-
-        Owner.MovementManager.TryLockMovement(MovementLockType.Dash, dashDuration, dashSpeed, direction, direction);
-
-
-        // Dash damage and Daze.
-        Vector3 collisionDetectionScale = new Vector3(dashDamageWidth, dashDamageHeight, distance);
-
-        Vector3 collisionDetectionPosition = position;
-        Vector3 collisionDetectionOffset = position + Owner.transform.forward.normalized * distance / 2;
-
-        bool hasDealtDamage = false;
-
-        CollisionTemplateManager.Instance.GetCollidingActors(
-            CollisionTemplate.Cuboid,
-            collisionDetectionScale,
-            collisionDetectionPosition,
-            Quaternion.LookRotation(direction)
-        ).ForEach(actor =>
-        {
-            if (Owner.Opposes(actor))
-            {
-                DealPrimaryDamage(actor);
-                CustomCamera.Instance.AddShake(ShakeIntensity.High);
-                hasDealtDamage = true;
-
-                if (HasBonus("Daze"))
-                {
-                    actor.EffectManager.AddActiveEffect(
-                        new Slow(dazeSlowMultiplier),
-                        dazeSlowTime
-                    );
-                }
-            }
-        });
-
-
-        // Jetstream.
-        if (HasBonus("Jetstream")) Owner.WaitAndAct(dashDuration + jetstreamCastDelay, () => Jetstream());
-
-        PiercingRushObject.Create(Owner.transform, HasBonus("Jetstream"), dashDuration);
-
-        SuccessFeedbackSubject.Next(hasDealtDamage);
-
-        Owner.WaitAndAct(dashDuration, () => Owner.MovementManager.Pause(postDashPauseDuration));
+        Quaternion rotation = Quaternion.LookRotation(target - Owner.Centre);
+        SwordThrowObject.Fire(Owner, OnCollision, swordSpeed, Owner.Centre, rotation);
     }
 
-    private void Jetstream()
+    private void OnCollision(GameObject gameObject)
     {
-        Quaternion castRotation = Owner.transform.rotation.Backwards();
+        CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
 
-        bool hasDealtDamage = false;
+        if (gameObject.IsActor())
+        {
+            Actor actor = gameObject.GetComponent<Actor>();
 
-        CollisionTemplateManager.Instance.GetCollidingActors(CollisionTemplate.Wedge90, jetstreamRange, Owner.transform.position, castRotation)
-            .Where(actor => Owner.Opposes(actor))
-            .ForEach(actor =>
+            if (!actor.Opposes(Owner))
             {
-                DealPrimaryDamage(actor);
-                hasDealtDamage = true;
-            });
+                SuccessFeedbackSubject.Next(false);
+                return;
+            }
 
-        if (hasDealtDamage) CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
+            DealPrimaryDamage(actor);
+            if (HasBonus("Poison Sword")) ApplySecondaryDamageAsDOT(actor, poisonSwordDOTLength);
+
+            SuccessFeedbackSubject.Next(true);
+        }
+        else
+        {            
+            SuccessFeedbackSubject.Next(false);
+        }
     }
 }
