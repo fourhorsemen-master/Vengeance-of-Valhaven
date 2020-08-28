@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class SwordThrowObject : ProjectileObject
 {
-    public AudioSource collisionSound = null;
+    [SerializeField]
+    private AudioSource collisionSound = null;
 
     public static void Fire(Actor caster, Action<GameObject> collisionCallback, float speed, Vector3 position, Quaternion rotation)
     {
