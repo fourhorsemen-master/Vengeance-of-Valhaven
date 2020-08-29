@@ -39,7 +39,7 @@ public abstract class ProjectileObject : MonoBehaviour
         });
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         transform.position += transform.forward * this.speed * Time.deltaTime;
     }

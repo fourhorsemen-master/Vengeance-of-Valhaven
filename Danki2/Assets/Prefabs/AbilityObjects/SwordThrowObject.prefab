@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5838881021383520202}
   - component: {fileID: 5829570103634262600}
   - component: {fileID: 8397630173689890320}
+  - component: {fileID: 7895853542722693814}
   m_Layer: 0
   m_Name: Mesh
   m_TagString: Untagged
@@ -26,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7096623669362310275}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.059, y: -0.11, z: -1.5}
+  m_LocalPosition: {x: -0.059, y: -0.11, z: -1.748}
   m_LocalScale: {x: 107.3356, y: 107.3356, z: 107.3356}
   m_Children: []
   m_Father: {fileID: 7913147249956547550}
@@ -78,6 +79,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!136 &7895853542722693814
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7096623669362310275}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.00202855
+  m_Height: 0.010269602
+  m_Direction: 1
+  m_Center: {x: 0.00047584067, y: -0.017422669, z: 0.0010876374}
 --- !u!1 &8881005691551033489
 GameObject:
   m_ObjectHideFlags: 0
@@ -89,9 +104,8 @@ GameObject:
   - component: {fileID: 7913147249956547550}
   - component: {fileID: -5923860581982135077}
   - component: {fileID: 3267238044461941971}
-  - component: {fileID: 1887181588261815573}
-  - component: {fileID: 2495052258483119113}
   - component: {fileID: 3296078643024468198}
+  - component: {fileID: 2495052258483119113}
   m_Layer: 0
   m_Name: SwordThrowObject
   m_TagString: Untagged
@@ -127,6 +141,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collisionSound: {fileID: 3267238044461941971}
+  mesh: {fileID: 7096623669362310275}
 --- !u!82 &3267238044461941971
 AudioSource:
   m_ObjectHideFlags: 0
@@ -223,36 +238,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!136 &1887181588261815573
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8881005691551033489}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 0.2
-  m_Height: 1.1
-  m_Direction: 2
-  m_Center: {x: 0, y: 0, z: 0.4}
---- !u!54 &2495052258483119113
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8881005691551033489}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0
-  m_UseGravity: 1
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!82 &3296078643024468198
 AudioSource:
   m_ObjectHideFlags: 0
@@ -349,3 +334,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!54 &2495052258483119113
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8881005691551033489}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

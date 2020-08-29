@@ -5,7 +5,7 @@ public class SwordThrow : Cast
 {
     protected override float CastTime => 2f;
 
-    private const float swordSpeed = 15f;
+    private const float swordSpeed = 10f;
     private const float poisonSwordDOTLength = 5f;
 
     public override ChannelEffectOnMovement EffectOnMovement => ChannelEffectOnMovement.Root;
