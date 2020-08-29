@@ -2,7 +2,7 @@
 
 public class Billboard : MonoBehaviour
 {
-    private void Update()
+    private void LateUpdate()
     {
         Vector3 lookAtPosition = 2 * transform.position - Camera.main.transform.position;
         lookAtPosition.x = transform.position.x;
