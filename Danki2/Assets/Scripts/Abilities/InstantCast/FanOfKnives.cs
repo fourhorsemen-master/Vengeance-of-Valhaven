@@ -3,8 +3,10 @@
 [Ability(AbilityReference.FanOfKnives)]
 public class FanOfKnives : InstantCast
 {
-    private const float swordSpeed = 10f;
-    private const float poisonSwordDOTLength = 5f;
+    private const float knifeArcAngle = 30f;
+    private const float knifeSpeed = 10f;
+
+    private int collisionCounter = 0;
 
     public FanOfKnives(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
@@ -12,15 +14,23 @@ public class FanOfKnives : InstantCast
 
     public override void Cast(Vector3 target)
     {
-        CustomCamera.Instance.AddShake(ShakeIntensity.Low);
+        Quaternion rotation1 = Quaternion.LookRotation(target - Owner.Centre);
 
-        Quaternion rotation = Quaternion.LookRotation(target - Owner.Centre);
-        SwordThrowObject.Fire(Owner, OnCollision, swordSpeed, Owner.Centre, rotation);
+        Quaternion rotation2 = rotation1;
+        rotation2 *= Quaternion.Euler(Vector3.up * knifeArcAngle);
+
+        Quaternion rotation3 = rotation1;
+        rotation3 *= Quaternion.Euler(Vector3.up * -knifeArcAngle);
+
+        FanOfKnivesObject fanOfKnivesObject1 = FanOfKnivesObject.Fire(Owner, OnCollision, knifeSpeed, Owner.Centre, rotation1);
+        FanOfKnivesObject fanOfKnivesObject2 = FanOfKnivesObject.Fire(Owner, OnCollision, knifeSpeed, Owner.Centre, rotation2);
+        FanOfKnivesObject fanOfKnivesObject3 = FanOfKnivesObject.Fire(Owner, OnCollision, knifeSpeed, Owner.Centre, rotation3);
     }
 
     private void OnCollision(GameObject gameObject)
     {
-        CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
+        collisionCounter++;
+        CustomCamera.Instance.AddShake(ShakeIntensity.Low);
 
         if (gameObject.IsActor())
         {
@@ -33,13 +43,14 @@ public class FanOfKnives : InstantCast
             }
 
             DealPrimaryDamage(actor);
-            if (HasBonus("Poison Sword")) ApplySecondaryDamageAsDOT(actor, poisonSwordDOTLength);
-
             SuccessFeedbackSubject.Next(true);
         }
         else
         {
-            SuccessFeedbackSubject.Next(false);
+            if (collisionCounter == 3)
+            {
+                SuccessFeedbackSubject.Next(false);
+            }
         }
     }
 }

@@ -89,7 +89,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.00202855
+  m_Radius: 0.0015
   m_Height: 0.010269602
   m_Direction: 1
   m_Center: {x: 0.00047584067, y: -0.017422669, z: 0.0010876374}
@@ -154,4 +154,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 460ffb9f2e22e7d4aba3ec4bed702447, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fireSound: {fileID: 0}
   collisionSound: {fileID: 0}

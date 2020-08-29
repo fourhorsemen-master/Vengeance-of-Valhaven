@@ -4,20 +4,33 @@ using UnityEngine;
 public class FanOfKnivesObject : ProjectileObject
 {
     [SerializeField]
-    private AudioSource collisionSound = null;
+    private AudioSource fireSound = null;
 
-    public static void Fire(Actor caster, Action<GameObject> collisionCallback, float speed, Vector3 position, Quaternion rotation)
+    [SerializeField]
+    //private AudioSource collisionSound = null;
+
+    public static FanOfKnivesObject Fire(Actor caster, Action<GameObject> collisionCallback, float speed, Vector3 position, Quaternion rotation, bool playFireAudio = false)
     {
-        FanOfKnivesObject prefab = AbilityObjectPrefabLookup.Instance.FanOfKnivesObjectPrefab;
-        Instantiate(prefab, position, rotation)
-            .InitialiseProjectile(caster, collisionCallback, speed)
-            .SetSticky(2f);
+        FanOfKnivesObject fanOfKnivesObject = Instantiate(AbilityObjectPrefabLookup.Instance.FanOfKnivesObjectPrefab, position, rotation);
+
+        fanOfKnivesObject.InitialiseProjectile(caster, collisionCallback, speed).SetSticky(2f);
+
+        if (playFireAudio) fanOfKnivesObject.FireAudio();
+
+        return fanOfKnivesObject;
+    }
+
+    private void FireAudio()
+    {
+        fireSound.Play();
     }
 
     protected override void OnTriggerEnter(Collider other)
     {
+        if (other.gameObject.GetComponentInParent<FanOfKnivesObject>() != null) return;
+
         base.OnTriggerEnter(other);
 
-        if (other.gameObject != caster.gameObject) collisionSound.Play();
+        //if (other.gameObject != caster.gameObject) collisionSound.Play();
     }
 }
