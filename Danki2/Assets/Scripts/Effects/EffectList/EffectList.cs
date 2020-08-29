@@ -16,12 +16,33 @@ public abstract class EffectList : MonoBehaviour
         Actor.EffectManager.EffectRemovedSubject.Subscribe(RemoveEffectListItem);
     }
 
+    private void Update()
+    {
+        foreach (KeyValuePair<Guid,EffectListItem> keyValuePair in effectListItems)
+        {
+            Guid id = keyValuePair.Key;
+            EffectListItem effectListItem = keyValuePair.Value;
+
+            if (!Actor.EffectManager.TryGetRemainingDuration(id, out float remainingDuration)) return;
+
+            effectListItem.SetRemainingDuration(remainingDuration);
+        }
+    }
+
     private void AddEffectListItem(Guid id)
     {
         if (!Actor.EffectManager.TryGetEffect(id, out Effect effect)) return;
-        
-        EffectListItem effectListItem = Instantiate(EffectListItemPrefab, transform).Initialise(effect);
+
+        EffectListItem effectListItem = Instantiate(EffectListItemPrefab, transform);
         effectListItems.Add(id, effectListItem);
+
+        if (Actor.EffectManager.TryGetTotalDuration(id, out float totalDuration))
+        {
+            effectListItem.Initialise(effect, totalDuration);
+            return;
+        }
+
+        effectListItem.Initialise(effect);
     }
 
     private void RemoveEffectListItem(Guid id)

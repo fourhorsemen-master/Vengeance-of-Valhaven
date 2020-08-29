@@ -9,14 +9,33 @@ public class EffectListItem : MonoBehaviour
     [SerializeField]
     private Image cooldown = null;
 
-    public EffectListItem Initialise(Effect effect)
+    private float totalDuration;
+
+    public void Initialise(Effect effect)
     {
         image.sprite = effect.GetSprite();
-        return this;
+        SetCooldownProportion(0);
+    }
+
+    public void Initialise(Effect effect, float totalDuration)
+    {
+        image.sprite = effect.GetSprite();
+        this.totalDuration = totalDuration;
+        SetCooldownProportion(1f);
+    }
+
+    public void SetRemainingDuration(float remainingDuration)
+    {
+        SetCooldownProportion(remainingDuration / totalDuration);
     }
 
     public void Destroy()
     {
         Destroy(gameObject);
+    }
+
+    private void SetCooldownProportion(float cooldownProportion)
+    {
+        cooldown.transform.localScale = new Vector3(1f, cooldownProportion, 1f);
     }
 }

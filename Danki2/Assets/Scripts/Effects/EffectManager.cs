@@ -8,6 +8,7 @@ public class EffectManager : IStatPipe, IMovementStatusProvider
     private readonly StatsManager statsManager;
 
     private readonly Dictionary<Guid, Effect> effects = new Dictionary<Guid, Effect>();
+    private readonly Dictionary<Guid, float> totalDurations = new Dictionary<Guid, float>();
     private readonly Dictionary<Guid, float> remainingDurations = new Dictionary<Guid, float>();
 
     public Subject<Guid> EffectAddedSubject { get; } = new Subject<Guid>();
@@ -27,6 +28,8 @@ public class EffectManager : IStatPipe, IMovementStatusProvider
 
     public bool TryGetEffect(Guid id, out Effect effect) => effects.TryGetValue(id, out effect);
 
+    public bool TryGetTotalDuration(Guid id, out float totalDuration) => totalDurations.TryGetValue(id, out totalDuration);
+
     public bool TryGetRemainingDuration(Guid id, out float remainingDuration) => remainingDurations.TryGetValue(id, out remainingDuration);
 
     /// <summary>
@@ -40,6 +43,7 @@ public class EffectManager : IStatPipe, IMovementStatusProvider
 
         Guid id = Guid.NewGuid();
         effects.Add(id, effect);
+        totalDurations.Add(id, duration);
         remainingDurations.Add(id, duration);
         EffectAddedSubject.Next(id);
 
@@ -168,6 +172,7 @@ public class EffectManager : IStatPipe, IMovementStatusProvider
         {
             effects[id].Finish(actor);
             effects.Remove(id);
+            totalDurations.Remove(id);
             remainingDurations.Remove(id);
             EffectRemovedSubject.Next(id);
         });
