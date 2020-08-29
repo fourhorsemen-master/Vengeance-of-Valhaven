@@ -69,6 +69,7 @@ MonoBehaviour:
     - Bandage
     - Disengage
     - SwordThrow
+    - FanOfKnives
     _values:
     - displayName: Slash
       tooltip: Deals {PRIMARY_DAMAGE} damage to enemies in a cone.
@@ -481,3 +482,19 @@ MonoBehaviour:
             over 5 seconds.
           requiredOrbs: 0200000002000000
       finisher: 1
+    - displayName: Fan of Knives
+      tooltip: Throw a fan of 3 knives in an arc, which deal {PRIMARY_DAMAGE} damage
+        on impact.
+      baseAbilityData:
+        primaryDamage: 2
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      abilityOrbType:
+        hasValue: 1
+        value: 2
+      generatedOrbs: 02000000
+      abilityBonusLookup:
+        _keys: []
+        _values: []
+      finisher: 0
