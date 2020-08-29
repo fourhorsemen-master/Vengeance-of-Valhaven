@@ -1,38 +1,34 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class EffectList : MonoBehaviour
+public abstract class EffectList : MonoBehaviour
 {
-    [SerializeField, HideInInspector]
-    private EffectListItem worldSpaceEffectListItemPrefab = null;
-    
-    [SerializeField, HideInInspector]
-    private EffectListItem screenSpaceEffectListItemPrefab = null;
+    protected abstract Actor Actor { get; }
 
-    [SerializeField]
-    private Actor actor = null;
+    protected abstract EffectListItem EffectListItemPrefab { get; }
 
-    [SerializeField]
-    private EffectRenderMode effectRenderMode = EffectRenderMode.WorldSpace;
+    private readonly Dictionary<Guid, EffectListItem> effectListItems = new Dictionary<Guid, EffectListItem>();
 
-    private void Update()
+    private void Start()
     {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            AddImage();
-        }
+        Actor.EffectManager.EffectAddedSubject.Subscribe(AddEffectListItem);
+        Actor.EffectManager.EffectRemovedSubject.Subscribe(RemoveEffectListItem);
     }
 
-    private void AddImage()
+    private void AddEffectListItem(Guid id)
     {
-        switch (effectRenderMode)
-        {
-            case EffectRenderMode.WorldSpace:
-                Instantiate(worldSpaceEffectListItemPrefab, transform);
-                break;
-            case EffectRenderMode.ScreenSpace:
-                Instantiate(screenSpaceEffectListItemPrefab, transform);
-                break;
-        }
+        if (!Actor.EffectManager.TryGetEffect(id, out Effect effect)) return;
+        
+        EffectListItem effectListItem = Instantiate(EffectListItemPrefab, transform).Initialise(effect);
+        effectListItems.Add(id, effectListItem);
+    }
+
+    private void RemoveEffectListItem(Guid id)
+    {
+        if (!effectListItems.TryGetValue(id, out EffectListItem effectListItem)) return;
+        
+        effectListItem.Destroy();
+        effectListItems.Remove(id);
     }
 }

@@ -14,9 +14,10 @@ GameObject:
   - component: {fileID: 3780400938940547463}
   - component: {fileID: 5662206475416197186}
   - component: {fileID: 2191407938009447959}
-  - component: {fileID: 2151225496496317588}
+  - component: {fileID: 3724129485878086070}
+  - component: {fileID: 8780476783912971049}
   m_Layer: 5
-  m_Name: EffectList
+  m_Name: WorldSpaceEffectList
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -140,7 +141,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
   m_VerticalFit: 2
---- !u!114 &2151225496496317588
+--- !u!114 &3724129485878086070
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -149,12 +150,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 6035154047587968807}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc8101a064f1785499fe142389cb1a8f, type: 3}
+  m_Script: {fileID: 11500000, guid: 244836554e58f47479593aeb270ca0f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8780476783912971049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6035154047587968807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e6888649101d16459bf4b6615af740a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actor: {fileID: 0}
   worldSpaceEffectListItemPrefab: {fileID: 6099750122184018426, guid: 6d5a9aaf1588fb749bded7efb7861722,
     type: 3}
-  screenSpaceEffectListItemPrefab: {fileID: 2706127075826909779, guid: 512cd6649b5a01546879fd8e58e7d7f0,
-    type: 3}
-  actor: {fileID: 0}
-  effectRenderMode: 0
