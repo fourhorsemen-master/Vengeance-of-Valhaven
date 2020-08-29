@@ -152,7 +152,7 @@ public class EffectManager : IStatPipe, IMovementStatusProvider
     private void TickActiveEffects()
     {
         List<Guid> expiredEffectIds = new List<Guid>();
-        
+
         ForEachEffectId(id =>
         {
             if (!TryGetRemainingDuration(id, out float remainingDuration)) return;

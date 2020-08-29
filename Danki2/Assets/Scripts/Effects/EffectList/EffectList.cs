@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public abstract class EffectList : MonoBehaviour
@@ -14,6 +15,7 @@ public abstract class EffectList : MonoBehaviour
     {
         Actor.EffectManager.EffectAddedSubject.Subscribe(AddEffectListItem);
         Actor.EffectManager.EffectRemovedSubject.Subscribe(RemoveEffectListItem);
+        Actor.DeathSubject.Subscribe(RemoveAllEffectListItems);
     }
 
     private void Update()
@@ -43,6 +45,11 @@ public abstract class EffectList : MonoBehaviour
         }
 
         effectListItem.Initialise(effect);
+    }
+
+    private void RemoveAllEffectListItems()
+    {
+        effectListItems.Keys.ToList().ForEach(RemoveEffectListItem);
     }
 
     private void RemoveEffectListItem(Guid id)

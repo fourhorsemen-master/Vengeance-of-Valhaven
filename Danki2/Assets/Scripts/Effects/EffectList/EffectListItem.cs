@@ -21,7 +21,7 @@ public class EffectListItem : MonoBehaviour
     {
         image.sprite = effect.GetSprite();
         this.totalDuration = totalDuration;
-        SetCooldownProportion(1f);
+        SetCooldownProportion(1);
     }
 
     public void SetRemainingDuration(float remainingDuration)
