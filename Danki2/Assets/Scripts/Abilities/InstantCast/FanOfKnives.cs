@@ -3,7 +3,7 @@
 [Ability(AbilityReference.FanOfKnives)]
 public class FanOfKnives : InstantCast
 {
-    private const float knifeArcAngle = 30f;
+    private const float knifeArcAngle = 22.5f;
     private const float knifeSpeed = 10f;
 
     private int collisionCounter = 0;
