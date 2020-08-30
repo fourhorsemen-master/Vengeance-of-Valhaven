@@ -22,15 +22,14 @@ public class FanOfKnives : InstantCast
         Quaternion rotation3 = rotation1;
         rotation3 *= Quaternion.Euler(Vector3.up * -knifeArcAngle);
 
-        FanOfKnivesObject fanOfKnivesObject1 = FanOfKnivesObject.Fire(Owner, OnCollision, knifeSpeed, Owner.Centre, rotation1);
+        FanOfKnivesObject fanOfKnivesObject1 = FanOfKnivesObject.Fire(Owner, OnCollision, knifeSpeed, Owner.Centre, rotation1, true);
         FanOfKnivesObject fanOfKnivesObject2 = FanOfKnivesObject.Fire(Owner, OnCollision, knifeSpeed, Owner.Centre, rotation2);
         FanOfKnivesObject fanOfKnivesObject3 = FanOfKnivesObject.Fire(Owner, OnCollision, knifeSpeed, Owner.Centre, rotation3);
     }
 
     private void OnCollision(GameObject gameObject)
     {
-        collisionCounter++;
-        CustomCamera.Instance.AddShake(ShakeIntensity.Low);
+        collisionCounter++;        
 
         if (gameObject.IsActor())
         {
@@ -42,6 +41,7 @@ public class FanOfKnives : InstantCast
                 return;
             }
 
+            CustomCamera.Instance.AddShake(ShakeIntensity.Low);
             DealPrimaryDamage(actor);
             SuccessFeedbackSubject.Next(true);
         }

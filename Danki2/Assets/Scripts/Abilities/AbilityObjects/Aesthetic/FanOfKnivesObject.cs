@@ -7,7 +7,7 @@ public class FanOfKnivesObject : ProjectileObject
     private AudioSource fireSound = null;
 
     [SerializeField]
-    //private AudioSource collisionSound = null;
+    private AudioSource collisionSound = null;
 
     public static FanOfKnivesObject Fire(Actor caster, Action<GameObject> collisionCallback, float speed, Vector3 position, Quaternion rotation, bool playFireAudio = false)
     {
@@ -31,6 +31,6 @@ public class FanOfKnivesObject : ProjectileObject
 
         base.OnTriggerEnter(other);
 
-        //if (other.gameObject != caster.gameObject) collisionSound.Play();
+        if (other.gameObject != caster.gameObject) collisionSound.Play();
     }
 }
