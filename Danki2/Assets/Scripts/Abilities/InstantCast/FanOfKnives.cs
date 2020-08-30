@@ -35,7 +35,7 @@ public class FanOfKnives : InstantCast
         {
             Actor actor = gameObject.GetComponent<Actor>();
 
-            if (!actor.Opposes(Owner))
+            if (!actor.Opposes(Owner) && collisionCounter == 3)
             {
                 SuccessFeedbackSubject.Next(false);
                 return;
