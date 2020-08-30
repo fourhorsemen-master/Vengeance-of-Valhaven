@@ -9,15 +9,13 @@ public class FanOfKnivesObject : ProjectileObject
     [SerializeField]
     private AudioSource collisionSound = null;
 
-    public static FanOfKnivesObject Fire(Actor caster, Action<GameObject> collisionCallback, float speed, Vector3 position, Quaternion rotation, bool playFireAudio = false)
+    public static void Fire(Actor caster, Action<GameObject> collisionCallback, float speed, Vector3 position, Quaternion rotation, bool playFireAudio = false)
     {
         FanOfKnivesObject fanOfKnivesObject = Instantiate(AbilityObjectPrefabLookup.Instance.FanOfKnivesObjectPrefab, position, rotation);
 
         fanOfKnivesObject.InitialiseProjectile(caster, collisionCallback, speed).SetSticky(2f);
 
         if (playFireAudio) fanOfKnivesObject.FireAudio();
-
-        return fanOfKnivesObject;
     }
 
     private void FireAudio()
