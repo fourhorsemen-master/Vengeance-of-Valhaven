@@ -36,6 +36,6 @@ public class EffectListItem : MonoBehaviour
 
     private void SetCooldownProportion(float cooldownProportion)
     {
-        cooldown.transform.localScale = new Vector3(1f, cooldownProportion, 1f);
+        cooldown.transform.localScale = new Vector3(1f, 1 - cooldownProportion, 1f);
     }
 }
