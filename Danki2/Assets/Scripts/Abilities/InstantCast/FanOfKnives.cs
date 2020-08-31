@@ -3,7 +3,8 @@
 [Ability(AbilityReference.FanOfKnives)]
 public class FanOfKnives : InstantCast
 {
-    private const float knifeArcAngle = 22.5f;
+    private const int numberOfKnives = 3;
+    private const float knifeArcAngle = 45f;
     private const float knifeSpeed = 10f;
 
     private int collisionCounter = 0;
@@ -14,17 +15,14 @@ public class FanOfKnives : InstantCast
 
     public override void Cast(Vector3 target)
     {
-        Quaternion rotation1 = Quaternion.LookRotation(target - Owner.Centre);
-
-        Quaternion rotation2 = rotation1;
-        rotation2 *= Quaternion.Euler(Vector3.up * knifeArcAngle);
-
-        Quaternion rotation3 = rotation1;
-        rotation3 *= Quaternion.Euler(Vector3.up * -knifeArcAngle);
-
-        FanOfKnivesObject.Fire(Owner, OnCollision, knifeSpeed, Owner.Centre, rotation1, true);
-        FanOfKnivesObject.Fire(Owner, OnCollision, knifeSpeed, Owner.Centre, rotation2);
-        FanOfKnivesObject.Fire(Owner, OnCollision, knifeSpeed, Owner.Centre, rotation3);
+        Quaternion rotation = Quaternion.LookRotation(target - Owner.Centre);
+        
+        for (float i = 0; i < numberOfKnives; i++)
+        {
+            float angleOffset = ((i / (numberOfKnives - 1)) - 0.5f) * knifeArcAngle;
+            Quaternion castRotation = rotation * Quaternion.Euler(Vector3.up * angleOffset);
+            FanOfKnivesObject.Fire(Owner, OnCollision, knifeSpeed, Owner.Centre, castRotation);
+        }
     }
 
     private void OnCollision(GameObject gameObject)
@@ -37,7 +35,7 @@ public class FanOfKnives : InstantCast
 
             if (!actor.Opposes(Owner))
             {
-                if (collisionCounter == 3)
+                if (collisionCounter == numberOfKnives)
                 {
                     SuccessFeedbackSubject.Next(false);
                 }                
@@ -50,7 +48,7 @@ public class FanOfKnives : InstantCast
         }
         else
         {
-            if (collisionCounter == 3)
+            if (collisionCounter == numberOfKnives)
             {
                 SuccessFeedbackSubject.Next(false);
             }
