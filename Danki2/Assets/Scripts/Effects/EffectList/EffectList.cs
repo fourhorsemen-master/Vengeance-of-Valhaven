@@ -15,6 +15,7 @@ public abstract class EffectList : MonoBehaviour
     {
         Actor.EffectManager.EffectAddedSubject.Subscribe(AddEffectListItem);
         Actor.EffectManager.EffectRemovedSubject.Subscribe(RemoveEffectListItem);
+        // TODO: Remove this if effects end up getting removed by the EffectManager on death anyway.
         Actor.DeathSubject.Subscribe(RemoveAllEffectListItems);
     }
 
