@@ -128,12 +128,19 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
         return description;
     }
 
-    private void SetContents(string title, bool isFinisher, string description, Dictionary<string, AbilityBonusData> bonuses, OrbCollection orbCollection, Func<string, List<TooltipSegment>> segmenter)
+    private void SetContents(
+        string title,
+        bool isFinisher,
+        string description,
+        Dictionary<string, AbilityBonusData> bonuses,
+        OrbCollection generatedOrbs,
+        Func<string, List<TooltipSegment>> segmenter
+    )
     {
         titleText.text = title;
         finisherText.enabled = isFinisher;
         descriptionText.text = description;
-        abilityOrbPanel.DisplayOrbs(orbCollection);
+        abilityOrbPanel.DisplayOrbs(generatedOrbs);
 
         foreach (AbilityBonusTooltipSection section in bonusSections)
         {
@@ -151,7 +158,7 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
             bonusSections.Add(section);
         }
 
-        bool hasOrbs = !orbCollection.IsEmpty;
+        bool hasOrbs = !generatedOrbs.IsEmpty;
 
         tooltipPanel.sizeDelta = new Vector2(
             tooltipPanel.sizeDelta.x,
