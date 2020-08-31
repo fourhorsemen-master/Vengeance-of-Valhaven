@@ -12,10 +12,10 @@ public class AbilityBonusTooltipSection : MonoBehaviour
     [SerializeField]
     private Text descriptionText = null;
 
-    public void Initialise(AbilityBonusData bonus)
+    public void Initialise(string title, string tooltip)
     {
-        titleText.text = $"Bonus: {bonus.DisplayName}";
-        descriptionText.text = bonus.Tooltip;
+        titleText.text = $"Bonus: {title}";
+        descriptionText.text = tooltip;
     }
 
     public float GetSectionHeight()

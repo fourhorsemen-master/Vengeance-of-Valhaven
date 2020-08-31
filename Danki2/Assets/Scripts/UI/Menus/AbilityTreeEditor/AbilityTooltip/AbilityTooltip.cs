@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -60,7 +61,7 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
 
         List<AbilityBonusData> bonuses = AbilityLookup.Instance.GetAbilityBonuses(ability);
 
-        SetContents(titleText, isFinisher, descriptionText, bonuses, generatedOrbs);
+        SetContents(titleText, isFinisher, descriptionText, bonuses, generatedOrbs, l => PlayerListTooltipBuilder.Build(ability));
     }
 
     /// <summary>
@@ -143,7 +144,7 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
         foreach (AbilityBonusData bonus in bonuses)
         {
             AbilityBonusTooltipSection section = Instantiate(bonusSectionPrefab, Vector3.zero, Quaternion.identity, transform);
-            section.Initialise(bonus);
+            section.Initialise(bonus.DisplayName, GenerateDescription(segmenter(bonus)));
 
             bonusSections.Add(section);
         }

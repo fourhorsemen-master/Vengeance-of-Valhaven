@@ -32,6 +32,29 @@ public class PlayerTreeTooltipBuilder
             .ToList();
     }
 
+    /// <summary>
+    /// Builds the tooltip for the specified bonus of a given node returning a list of tooltip segments.
+    /// </summary
+    /// <param name="node"> The node to build the tooltip for </param>
+    /// <param name="bonus"> The bonus </param>
+    /// <returns> The build tooltip segments </returns>
+    public List<TooltipSegment> BuildBonus(Node node, string bonus)
+    {
+        AbilityReference abilityReference = node.Ability;
+
+        List<TemplatedTooltipSegment> templatedTooltipSegments = AbilityLookup.Instance
+            .GetAbilityBonusDataLookup(abilityReference)[bonus]
+            .TemplatedTooltipSegments;
+
+        return templatedTooltipSegments
+            .Select(templatedTooltipSegment => GetTooltipSegment(
+                templatedTooltipSegment,
+                AbilityLookup.Instance.GetBaseAbilityData(abilityReference),
+                AbilityData.FromAbilityDataDiffers(differs, node)
+            ))
+            .ToList();
+    }
+
     private TooltipSegment GetTooltipSegment(
         TemplatedTooltipSegment templatedTooltipSegment,
         AbilityData baseAbilityData,

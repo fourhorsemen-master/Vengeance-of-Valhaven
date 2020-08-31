@@ -132,30 +132,15 @@ public class AbilityLookup : Singleton<AbilityLookup>
             }
 
             generatedOrbsMap[ability] = new OrbCollection(serializableAbilityMetadata.GeneratedOrbs);
-            BuildTooltip(ability, serializableAbilityMetadata.Tooltip);
+            templatedTooltipSegmentsMap[ability] = BuildTooltip(serializableAbilityMetadata.Tooltip);
             BuildAbilityBonusLookup(ability, serializableAbilityMetadata.AbilityBonusLookup);
         });
-
-        foreach (AbilityReference abilityReference in Enum.GetValues(typeof(AbilityReference)))
-        {
-            SerializableAbilityMetadata serializableAbilityMetadata = serializableMetadataLookup[abilityReference];
-
-            displayNameMap[abilityReference] = serializableAbilityMetadata.DisplayName;
-            baseAbilityDataMap[abilityReference] = serializableAbilityMetadata.BaseAbilityData;
-            if (serializableAbilityMetadata.AbilityOrbType.HasValue)
-            {
-                abilityOrbTypeMap[abilityReference] = serializableAbilityMetadata.AbilityOrbType.Value;
-            }
-            generatedOrbsMap[abilityReference] = new OrbCollection(serializableAbilityMetadata.GeneratedOrbs);
-            BuildTooltip(abilityReference, serializableAbilityMetadata.Tooltip);
-            BuildAbilityBonusLookup(abilityReference, serializableAbilityMetadata.AbilityBonusLookup);
-        }
     }
 
-    private void BuildTooltip(AbilityReference abilityReference, string tooltip)
+    private List<TemplatedTooltipSegment> BuildTooltip(string tooltip)
     {
         List<Token> tokens = lexer.Lex(tooltip);
-        templatedTooltipSegmentsMap[abilityReference] = parser.Parse(tokens);
+        return parser.Parse(tokens);
     }
 
     private void BuildAbilityBonusLookup(
@@ -170,9 +155,10 @@ public class AbilityLookup : Singleton<AbilityLookup>
             abilityBonus =>
             {
                 SerializableAbilityBonusMetadata serializableAbilityBonusMetadata = serializableAbilityBonusLookup[abilityBonus];
+
                 return new AbilityBonusData(
                     serializableAbilityBonusMetadata.DisplayName,
-                    serializableAbilityBonusMetadata.Tooltip,
+                    BuildTooltip(serializableAbilityBonusMetadata.Tooltip),
                     new OrbCollection(serializableAbilityBonusMetadata.RequiredOrbs)
                 );
             }
