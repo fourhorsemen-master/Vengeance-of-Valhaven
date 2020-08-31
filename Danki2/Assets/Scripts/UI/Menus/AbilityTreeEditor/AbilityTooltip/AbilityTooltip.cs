@@ -48,20 +48,13 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
     /// <param name="ability"></param>
     public void Activate(AbilityReference ability)
     {
-        ActivateTooltip();
+        List<TooltipSegment> tooltipSegments = PlayerListTooltipBuilder.Build(ability);
 
-        string titleText = GenerateTitle(ability);
-
-        bool isFinisher = AbilityLookup.Instance.IsFinisher(ability);
-
-        List<TooltipSegment> segments = PlayerListTooltipBuilder.Build(ability);
-        string descriptionText = GenerateDescription(segments);
-
-        OrbCollection generatedOrbs = AbilityLookup.Instance.GetGeneratedOrbs(ability);
-
-        Dictionary<string, AbilityBonusData> bonuses = AbilityLookup.Instance.GetAbilityBonusDataLookup(ability);
-
-        SetContents(titleText, isFinisher, descriptionText, bonuses, generatedOrbs, bonus => PlayerListTooltipBuilder.BuildBonus(ability, bonus));
+        Activate(
+            ability,
+            tooltipSegments,
+            bonus => PlayerListTooltipBuilder.BuildBonus(ability, bonus)
+        );
     }
 
     /// <summary>
@@ -70,20 +63,28 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
     /// <param name="node"></param>
     public void Activate(Node node)
     {
+        List<TooltipSegment> tooltipSegments = playerTreeTooltipBuilder.Build(node);
+
+        Activate(
+            node.Ability,
+            tooltipSegments,
+            bonus => playerTreeTooltipBuilder.BuildBonus(node, bonus)
+        );
+    }
+
+    private void Activate(AbilityReference ability, List<TooltipSegment> tooltipSegments, Func<string, List<TooltipSegment>> bonusSegmenter)
+    {
         ActivateTooltip();
 
-        string titleText = GenerateTitle(node.Ability);
+        string titleText = GenerateTitle(ability);
+        bool isFinisher = AbilityLookup.Instance.IsFinisher(ability);
+        string descriptionText = GenerateDescription(tooltipSegments);
 
-        bool isFinisher = AbilityLookup.Instance.IsFinisher(node.Ability);
+        OrbCollection generatedOrbs = AbilityLookup.Instance.GetGeneratedOrbs(ability);
 
-        List<TooltipSegment> segments = playerTreeTooltipBuilder.Build(node);
-        string descriptionText = GenerateDescription(segments);
+        Dictionary<string, AbilityBonusData> bonuses = AbilityLookup.Instance.GetAbilityBonusDataLookup(ability);
 
-        OrbCollection generatedOrbs = AbilityLookup.Instance.GetGeneratedOrbs(node.Ability);
-
-        Dictionary<string, AbilityBonusData> bonuses = AbilityLookup.Instance.GetAbilityBonusDataLookup(node.Ability);
-
-        SetContents(titleText, isFinisher, descriptionText, bonuses, generatedOrbs, bonus => playerTreeTooltipBuilder.BuildBonus(node, bonus));
+        SetContents(titleText, isFinisher, descriptionText, bonuses, generatedOrbs, bonusSegmenter);
     }
 
     private string GenerateTitle(AbilityReference ability)
