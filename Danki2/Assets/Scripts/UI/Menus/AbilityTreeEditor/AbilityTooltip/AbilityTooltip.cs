@@ -59,9 +59,9 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
 
         OrbCollection generatedOrbs = AbilityLookup.Instance.GetGeneratedOrbs(ability);
 
-        List<AbilityBonusData> bonuses = AbilityLookup.Instance.GetAbilityBonuses(ability);
+        Dictionary<string, AbilityBonusData> bonuses = AbilityLookup.Instance.GetAbilityBonusDataLookup(ability);
 
-        SetContents(titleText, isFinisher, descriptionText, bonuses, generatedOrbs, l => PlayerListTooltipBuilder.Build(ability));
+        SetContents(titleText, isFinisher, descriptionText, bonuses, generatedOrbs, bonus => PlayerListTooltipBuilder.BuildBonus(ability, bonus));
     }
 
     /// <summary>
@@ -81,9 +81,9 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
 
         OrbCollection generatedOrbs = AbilityLookup.Instance.GetGeneratedOrbs(node.Ability);
 
-        List<AbilityBonusData> bonuses = AbilityLookup.Instance.GetAbilityBonuses(node.Ability);
+        Dictionary<string, AbilityBonusData> bonuses = AbilityLookup.Instance.GetAbilityBonusDataLookup(node.Ability);
 
-        SetContents(titleText, isFinisher, descriptionText, bonuses, generatedOrbs);
+        SetContents(titleText, isFinisher, descriptionText, bonuses, generatedOrbs, bonus => playerTreeTooltipBuilder.BuildBonus(node, bonus));
     }
 
     private string GenerateTitle(AbilityReference ability)
@@ -127,7 +127,7 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
         return description;
     }
 
-    private void SetContents(string title, bool isFinisher, string description, List<AbilityBonusData> bonuses, OrbCollection orbCollection)
+    private void SetContents(string title, bool isFinisher, string description, Dictionary<string, AbilityBonusData> bonuses, OrbCollection orbCollection, Func<string, List<TooltipSegment>> segmenter)
     {
         titleText.text = title;
         finisherText.enabled = isFinisher;
@@ -141,10 +141,11 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
 
         bonusSections = new List<AbilityBonusTooltipSection>();
 
-        foreach (AbilityBonusData bonus in bonuses)
+        foreach (string bonus in bonuses.Keys)
         {
+            AbilityBonusData bonusData = bonuses[bonus];
             AbilityBonusTooltipSection section = Instantiate(bonusSectionPrefab, Vector3.zero, Quaternion.identity, transform);
-            section.Initialise(bonus.DisplayName, GenerateDescription(segmenter(bonus)));
+            section.Initialise(bonusData.DisplayName, GenerateDescription(segmenter(bonus)));
 
             bonusSections.Add(section);
         }

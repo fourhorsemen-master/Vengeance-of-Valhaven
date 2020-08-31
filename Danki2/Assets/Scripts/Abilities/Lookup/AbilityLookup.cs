@@ -112,8 +112,6 @@ public class AbilityLookup : Singleton<AbilityLookup>
 
     public Dictionary<string, AbilityBonusData> GetAbilityBonusDataLookup(AbilityReference abilityReference) => abilityBonusDataMap[abilityReference];
 
-    public List<AbilityBonusData> GetAbilityBonuses(AbilityReference abilityReference) => abilityBonusDataMap[abilityReference].Values.ToList();
-
     public bool IsFinisher(AbilityReference abilityReference) => finisherLookup[abilityReference];
 
     private void BuildMetadataLookups()
