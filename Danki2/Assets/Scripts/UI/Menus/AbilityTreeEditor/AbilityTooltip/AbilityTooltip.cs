@@ -146,7 +146,7 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
         {
             AbilityBonusData bonusData = bonuses[bonus];
             AbilityBonusTooltipSection section = Instantiate(bonusSectionPrefab, Vector3.zero, Quaternion.identity, transform);
-            section.Initialise(bonusData.DisplayName, GenerateDescription(segmenter(bonus)));
+            section.Initialise(bonusData.DisplayName, GenerateDescription(segmenter(bonus)), bonusData.RequiredOrbs);
 
             bonusSections.Add(section);
         }

@@ -12,10 +12,16 @@ public class AbilityBonusTooltipSection : MonoBehaviour
     [SerializeField]
     private Text descriptionText = null;
 
-    public void Initialise(string title, string tooltip)
+    [SerializeField]
+    private OrbGenerationPanel requiredOrbsPanel = null;
+
+
+
+    public void Initialise(string title, string tooltip, OrbCollection requiredOrbs)
     {
         titleText.text = $"Bonus: {title}";
         descriptionText.text = tooltip;
+        requiredOrbsPanel.DisplayOrbs(requiredOrbs);
     }
 
     public float GetSectionHeight()
