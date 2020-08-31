@@ -496,8 +496,12 @@ MonoBehaviour:
         value: 2
       generatedOrbs: 02000000
       abilityBonusLookup:
-        _keys: []
-        _values: []
+        _keys:
+        - Spray
+        _values:
+        - displayName: Spray
+          tooltip: Throw an additional 2 knives.
+          requiredOrbs: 020000000000000001000000
       finisher: 0
     - displayName: Hamstring
       tooltip: Deals {PRIMARY_DAMAGE} damage to the target and decreases its defence

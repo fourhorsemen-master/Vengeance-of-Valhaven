@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 
-[Ability(AbilityReference.FanOfKnives)]
+[Ability(AbilityReference.FanOfKnives, new [] {"Spray"})]
 public class FanOfKnives : InstantCast
 {
-    private const int numberOfKnives = 3;
+    private const int baseNumberOfKnives = 3;
+    private const int sprayNumberOfKnives = 5;
     private const float knifeArcAngle = 45f;
     private const float knifeSpeed = 10f;
     private const float knifeCastInterval = 0.07f;
+
+    private int NumberOfKnives => HasBonus("Spray") ? sprayNumberOfKnives : baseNumberOfKnives;
 
     private int collisionCounter = 0;
 
@@ -18,11 +21,11 @@ public class FanOfKnives : InstantCast
     {
         Quaternion rotation = Quaternion.LookRotation(target - Owner.Centre);
 
-        Owner.MovementManager.Pause(knifeCastInterval * numberOfKnives);
+        Owner.MovementManager.Pause(knifeCastInterval * NumberOfKnives);
 
-        for (float i = 0; i < numberOfKnives; i++)
+        for (float i = 0; i < NumberOfKnives; i++)
         {
-            float angleOffset = ((i / (numberOfKnives - 1)) - 0.5f) * knifeArcAngle;
+            float angleOffset = ((i / (NumberOfKnives - 1)) - 0.5f) * knifeArcAngle;
             Quaternion castRotation = rotation * Quaternion.Euler(Vector3.up * angleOffset);
 
             Owner.WaitAndAct(
@@ -40,25 +43,18 @@ public class FanOfKnives : InstantCast
         {
             Actor actor = gameObject.GetComponent<Actor>();
 
-            if (!actor.Opposes(Owner))
+            if (actor.Opposes(Owner))
             {
-                if (collisionCounter == numberOfKnives)
-                {
-                    SuccessFeedbackSubject.Next(false);
-                }                
+                CustomCamera.Instance.AddShake(ShakeIntensity.Low);
+                DealPrimaryDamage(actor);
+                SuccessFeedbackSubject.Next(true);
                 return;
             }
-
-            CustomCamera.Instance.AddShake(ShakeIntensity.Low);
-            DealPrimaryDamage(actor);
-            SuccessFeedbackSubject.Next(true);
         }
-        else
+
+        if (collisionCounter == NumberOfKnives)
         {
-            if (collisionCounter == numberOfKnives)
-            {
-                SuccessFeedbackSubject.Next(false);
-            }
+            SuccessFeedbackSubject.Next(false);
         }
     }
 }
