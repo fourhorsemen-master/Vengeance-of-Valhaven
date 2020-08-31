@@ -14,7 +14,7 @@ public class EffectListItem : MonoBehaviour
     public void Initialise(Effect effect)
     {
         image.sprite = effect.GetSprite();
-        SetCooldownProportion(0);
+        SetCooldownProportion(1);
     }
 
     public void Initialise(Effect effect, float totalDuration)
@@ -34,8 +34,8 @@ public class EffectListItem : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void SetCooldownProportion(float cooldownProportion)
+    private void SetCooldownProportion(float remainingCooldownProportion)
     {
-        cooldown.transform.localScale = new Vector3(1f, 1 - cooldownProportion, 1f);
+        cooldown.transform.localScale = new Vector3(1f, 1 - remainingCooldownProportion, 1f);
     }
 }
