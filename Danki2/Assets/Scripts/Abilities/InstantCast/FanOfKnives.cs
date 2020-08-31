@@ -34,7 +34,7 @@ public class FanOfKnives : InstantCast
 
     private void OnCollision(GameObject gameObject)
     {
-        collisionCounter++;        
+        collisionCounter++; // counter to provide failure feedback early if all knives miss.
 
         if (gameObject.IsActor())
         {
