@@ -156,7 +156,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 460ffb9f2e22e7d4aba3ec4bed702447, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireSound: {fileID: -7517814924524117971}
   collisionSound: {fileID: -7272563846435621509}
 --- !u!82 &-7517814924524117971
 AudioSource:
@@ -169,7 +168,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: e9c99ef0794e50b40a3c7f2df9970431, type: 3}
-  m_PlayOnAwake: 0
+  m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -266,7 +265,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 2bff40c164ebbaf448ccb09902b11980, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.7
   m_Pitch: 1
   Loop: 0
   Mute: 0
