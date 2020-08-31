@@ -24,5 +24,6 @@
     Bandage,
     Disengage,
     SwordThrow,
-    FanOfKnives
+    FanOfKnives,
+    Hamstring
 }

@@ -70,6 +70,7 @@ MonoBehaviour:
     - Disengage
     - SwordThrow
     - FanOfKnives
+    - Hamstring
     _values:
     - displayName: Slash
       tooltip: Deals {PRIMARY_DAMAGE} damage to enemies in a cone.
@@ -497,4 +498,24 @@ MonoBehaviour:
       abilityBonusLookup:
         _keys: []
         _values: []
+      finisher: 0
+    - displayName: Hamstring
+      tooltip: Deals {PRIMARY_DAMAGE} damage to the target and decreases its defence
+        by 2 for 10 seconds.
+      baseAbilityData:
+        primaryDamage: 3
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      abilityOrbType:
+        hasValue: 1
+        value: 2
+      generatedOrbs: 
+      abilityBonusLookup:
+        _keys:
+        - Hack
+        _values:
+        - displayName: Hack
+          tooltip: Increase damage dealt by 4.
+          requiredOrbs: 00000000
       finisher: 0
