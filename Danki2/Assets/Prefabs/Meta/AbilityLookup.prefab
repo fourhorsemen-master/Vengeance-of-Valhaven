@@ -69,6 +69,7 @@ MonoBehaviour:
     - Bandage
     - Disengage
     - SwordThrow
+    - FanOfKnives
     - Hamstring
     _values:
     - displayName: Slash
@@ -482,6 +483,26 @@ MonoBehaviour:
             over 5 seconds.
           requiredOrbs: 0200000002000000
       finisher: 1
+    - displayName: Fan of Knives
+      tooltip: Throw a fan of 3 knives in an arc, which deal {PRIMARY_DAMAGE} damage
+        on impact.
+      baseAbilityData:
+        primaryDamage: 2
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      abilityOrbType:
+        hasValue: 1
+        value: 2
+      generatedOrbs: 02000000
+      abilityBonusLookup:
+        _keys:
+        - Spray
+        _values:
+        - displayName: Spray
+          tooltip: Throw an additional 2 knives.
+          requiredOrbs: 020000000000000001000000
+      finisher: 0
     - displayName: Hamstring
       tooltip: Deals {PRIMARY_DAMAGE} damage to the target and decreases its defence
         by 2 for 10 seconds.
