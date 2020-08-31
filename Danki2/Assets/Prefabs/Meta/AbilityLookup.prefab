@@ -483,8 +483,8 @@ MonoBehaviour:
           requiredOrbs: 0200000002000000
       finisher: 1
     - displayName: Hamstring
-      tooltip: Deals {PRIMARY_DAMAGE} damage to target and decreases defence by 2
-        for 10 seconds.
+      tooltip: Deals {PRIMARY_DAMAGE} damage to the target and decreases its defence
+        by 2 for 10 seconds.
       baseAbilityData:
         primaryDamage: 3
         secondaryDamage: 0
@@ -499,6 +499,6 @@ MonoBehaviour:
         - Hack
         _values:
         - displayName: Hack
-          tooltip: Increase damage by 4.
+          tooltip: Increase damage dealt by 4.
           requiredOrbs: 00000000
       finisher: 0
