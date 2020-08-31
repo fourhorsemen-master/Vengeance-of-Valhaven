@@ -10,5 +10,6 @@ public class Hamstring : InstantCast
     public override void Cast(Vector3 target)
     {
         Debug.Log("Casting hamstring");
+        HamstringObject.Create(Owner.transform);
     }
 }
