@@ -33,7 +33,11 @@ public abstract class EffectList : MonoBehaviour
 
     private void AddEffectListItem(Guid id)
     {
-        if (!Actor.EffectManager.TryGetEffect(id, out Effect effect)) return;
+        if (!Actor.EffectManager.TryGetEffect(id, out Effect effect))
+        {
+            Debug.LogError($"Tried to add effect list item with id: {id.ToString()}, when this does not exist in the effect manager.");
+            return;
+        }
 
         EffectListItem effectListItem = Instantiate(EffectListItemPrefab, transform);
         effectListItems.Add(id, effectListItem);
@@ -54,7 +58,11 @@ public abstract class EffectList : MonoBehaviour
 
     private void RemoveEffectListItem(Guid id)
     {
-        if (!effectListItems.TryGetValue(id, out EffectListItem effectListItem)) return;
+        if (!effectListItems.TryGetValue(id, out EffectListItem effectListItem))
+        {
+            Debug.LogError($"Tried to remove effect list item with id: {id.ToString()}, when this does not exist in the effect manager.");
+            return;
+        }
         
         effectListItem.Destroy();
         effectListItems.Remove(id);
