@@ -6,7 +6,7 @@ public class FanOfKnivesObject : ProjectileObject
     [SerializeField]
     private AudioSource collisionSound = null;
 
-    public static void Fire(Actor caster, Action<GameObject> collisionCallback, float speed, Vector3 position, Quaternion rotation, bool playFireAudio = false)
+    public static void Fire(Actor caster, Action<GameObject> collisionCallback, float speed, Vector3 position, Quaternion rotation)
     {
         FanOfKnivesObject fanOfKnivesObject = Instantiate(AbilityObjectPrefabLookup.Instance.FanOfKnivesObjectPrefab, position, rotation);
 
