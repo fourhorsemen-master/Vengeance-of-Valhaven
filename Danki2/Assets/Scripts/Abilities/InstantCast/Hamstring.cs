@@ -28,6 +28,7 @@ public class Hamstring : InstantCast
         Damage(target);
         ApplyDebuff(target);
         
+        CustomCamera.Instance.AddShake(ShakeIntensity.High);
         HamstringObject.Create(Owner.transform);
     }
 
