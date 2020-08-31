@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 5838881021383520202}
   - component: {fileID: 5829570103634262600}
   - component: {fileID: 8397630173689890320}
-  - component: {fileID: 7895853542722693814}
   m_Layer: 0
   m_Name: Mesh
   m_TagString: Untagged
@@ -79,20 +78,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!136 &7895853542722693814
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7096623669362310275}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 0.0015
-  m_Height: 0.003
-  m_Direction: 2
-  m_Center: {x: 0.00047584067, y: -0.01542267, z: 0.001387637}
 --- !u!1 &8881005691551033489
 GameObject:
   m_ObjectHideFlags: 0
@@ -106,6 +91,7 @@ GameObject:
   - component: {fileID: -7183519664642184903}
   - component: {fileID: -7517814924524117971}
   - component: {fileID: -7272563846435621509}
+  - component: {fileID: 7347126047899882097}
   m_Layer: 0
   m_Name: FanOfKnivesObject
   m_TagString: Untagged
@@ -349,3 +335,17 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!136 &7347126047899882097
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8881005691551033489}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.18
+  m_Height: 0.3
+  m_Direction: 1
+  m_Center: {x: 0, y: -0.1, z: 0.15}
