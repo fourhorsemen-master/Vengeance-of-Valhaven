@@ -28,7 +28,7 @@ public class Whirlwind : Channel
 
     public override void Start(Vector3 target)
     {
-        MultiplicativeStatModification slow = new MultiplicativeStatModification(Stat.Speed, selfSlowMultiplier);
+        MultiplicativeStatModification slow = new Slow(selfSlowMultiplier);
         repeater = new Repeater(spinDamageInterval, () => AOE(spinRange, a => DealPrimaryDamage(a)), spinDamageStartDelay);
 
         if (!HasBonus("Cross-Step"))

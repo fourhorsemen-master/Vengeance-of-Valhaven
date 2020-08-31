@@ -9,6 +9,6 @@ public class IntimidatingShoutObject : StaticAbilityObject
 
     public static void Create(Transform transform)
     {
-        Instantiate(AbilityObjectPrefabLookup.Instance.IntimidatingShoutObject, transform);
+        Instantiate(AbilityObjectPrefabLookup.Instance.IntimidatingShoutObjectPrefab, transform);
     }
 }

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-class DOT : Effect
+public class DOT : Effect
 {
     private readonly int[] damageArray;
     private readonly float tickInterval;

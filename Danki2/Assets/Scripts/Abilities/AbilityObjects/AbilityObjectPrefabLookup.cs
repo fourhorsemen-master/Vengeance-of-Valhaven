@@ -6,7 +6,7 @@ public class AbilityObjectPrefabLookup : Singleton<AbilityObjectPrefabLookup>
     private FireballObject _fireballObjectPrefab = null;
 
     [SerializeField]
-    private DaggerObject _daggerObjectPrefab = null;
+    private PoisonDaggerObject _poisonDaggerObjectPrefab = null;
 
     [SerializeField]
     private BiteObject _biteObjectPrefab = null;
@@ -60,10 +60,19 @@ public class AbilityObjectPrefabLookup : Singleton<AbilityObjectPrefabLookup>
     private IntimidatingShoutObject _intimidatingShoutObjectPrefab = null;
 
     [SerializeField]
+    private RendObject _rendObjectPrefab = null;
+
+    [SerializeField]
     private BandageObject _bandageObjectPrefab = null;
 
+    [SerializeField]
+    private DisengageObject _disengageObjectPrefab = null;
+
+    [SerializeField]
+    private SwordThrowObject _swordThrowObjectPrefab = null;
+
     public FireballObject FireballObjectPrefab => _fireballObjectPrefab;
-    public DaggerObject DaggerObjectPrefab => _daggerObjectPrefab;
+    public PoisonDaggerObject PoisonDaggerObjectPrefab => _poisonDaggerObjectPrefab;
     public BiteObject BiteObjectPrefab => _biteObjectPrefab;
     public PounceObject PounceObjectPrefab => _pounceObjectPrefab;
     public LungeObject LungeObjectPrefab => _lungeObjectPrefab;
@@ -80,6 +89,9 @@ public class AbilityObjectPrefabLookup : Singleton<AbilityObjectPrefabLookup>
     public BackstabObject BackstabObjectPrefab => _backstabObjectPrefab;
     public PiercingRushObject PiercingRushObjectPrefab => _piercingRushObjectPrefab;
     public ParryObject ParryObjectPrefab => _parryObjectPrefab;
-    public IntimidatingShoutObject IntimidatingShoutObject => _intimidatingShoutObjectPrefab;
+    public IntimidatingShoutObject IntimidatingShoutObjectPrefab => _intimidatingShoutObjectPrefab;
+    public RendObject RendObjectPrefab => _rendObjectPrefab;
     public BandageObject BandageObjectPrefab => _bandageObjectPrefab;
+    public DisengageObject DisengageObjectPrefab => _disengageObjectPrefab;
+    public SwordThrowObject SwordThrowObjectPrefab => _swordThrowObjectPrefab;
 }

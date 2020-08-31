@@ -27,15 +27,17 @@ public class Leap : InstantCast
 
         Owner.MovementManager.TryLockMovement(MovementLockType.Dash, duration, leapSpeed, direction, direction);
 
-        LeapObject.Create(Owner.transform);
+        LeapObject leapObject = LeapObject.Create(Owner.transform, duration);
 
         SuccessFeedbackSubject.Next(true);
 
-        if (HasBonus("Momentum")) Owner.WaitAndAct(duration, StunSurroundingEnemies);
+        if (HasBonus("Momentum")) Owner.WaitAndAct(duration, () => StunSurroundingEnemies(leapObject));
     }
 
-    private void StunSurroundingEnemies()
+    private void StunSurroundingEnemies(LeapObject leapObject)
     {
+        bool stunHit = false;
+
         CollisionTemplateManager.Instance.GetCollidingActors(
             CollisionTemplate.Cylinder,
             StunRange,
@@ -44,8 +46,15 @@ public class Leap : InstantCast
         {
             if (Owner.Opposes(actor))
             {
+                stunHit = true;
                 actor.EffectManager.AddActiveEffect(new Stun(), StunDuration);
             }
         });
+
+        if (stunHit)
+        {
+            leapObject.PlayMomentumSound();
+            CustomCamera.Instance.AddShake(ShakeIntensity.Low);
+        } 
     }
 }
