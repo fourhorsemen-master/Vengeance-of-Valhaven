@@ -69,6 +69,7 @@ MonoBehaviour:
     - Bandage
     - Disengage
     - SwordThrow
+    - Hamstring
     _values:
     - displayName: Slash
       tooltip: Deals {PRIMARY_DAMAGE} damage to enemies in a cone.
@@ -481,3 +482,23 @@ MonoBehaviour:
             over 5 seconds.
           requiredOrbs: 0200000002000000
       finisher: 1
+    - displayName: Hamstring
+      tooltip: Deals {PRIMARY_DAMAGE} damage to the target and decreases its defence
+        by 2 for 10 seconds.
+      baseAbilityData:
+        primaryDamage: 3
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      abilityOrbType:
+        hasValue: 1
+        value: 2
+      generatedOrbs: 
+      abilityBonusLookup:
+        _keys:
+        - Hack
+        _values:
+        - displayName: Hack
+          tooltip: Increase damage dealt by 4.
+          requiredOrbs: 00000000
+      finisher: 0

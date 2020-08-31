@@ -23,5 +23,6 @@
     Rend,
     Bandage,
     Disengage,
-    SwordThrow
+    SwordThrow,
+    Hamstring
 }
