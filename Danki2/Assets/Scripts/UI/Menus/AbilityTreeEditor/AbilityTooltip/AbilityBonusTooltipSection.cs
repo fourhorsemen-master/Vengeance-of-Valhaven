@@ -31,7 +31,6 @@ public class AbilityBonusTooltipSection : MonoBehaviour
             descriptionText.preferredHeight
         );
 
-        Debug.Log(descriptionText.preferredHeight);
         this.NextFrame(() => Debug.Log(descriptionText.preferredHeight));
 
         float newHeight = descriptionText.preferredHeight + 30f;
