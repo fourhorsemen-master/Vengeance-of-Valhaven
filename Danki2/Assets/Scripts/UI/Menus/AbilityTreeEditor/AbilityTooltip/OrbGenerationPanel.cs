@@ -8,8 +8,6 @@ public class OrbGenerationPanel : MonoBehaviour
     /// <summary>
     /// Displays the orbs in the panel. If <paramref name="providedOrbs"/> passed in, only provided orbs are highlighted.
     /// </summary>
-    /// <param name="generatedOrbs"></param>
-    /// <param name="providedOrbs"></param>
     public void DisplayOrbs(OrbCollection generatedOrbs, OrbCollection providedOrbs = null)
     {
         for (int i = 0; i < transform.childCount; i++)
