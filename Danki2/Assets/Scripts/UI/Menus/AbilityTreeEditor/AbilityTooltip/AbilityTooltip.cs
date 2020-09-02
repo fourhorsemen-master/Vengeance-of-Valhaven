@@ -29,7 +29,7 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
 
     private PlayerTreeTooltipBuilder playerTreeTooltipBuilder;
 
-    private List<AbilityBonusTooltipSection> bonusSections = new List<AbilityBonusTooltipSection>();
+    private readonly List<AbilityBonusTooltipSection> bonusSections = new List<AbilityBonusTooltipSection>();
 
     public float TooltipHeightNoOrbs => descriptionText.preferredHeight + 36f;
     public float TooltipHeightWithOrbs => descriptionText.preferredHeight + 60f;
@@ -151,7 +151,7 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
             Destroy(section.gameObject);
         }
 
-        bonusSections = new List<AbilityBonusTooltipSection>();
+        bonusSections.Clear();
 
         foreach (string bonus in bonuses.Keys)
         {
