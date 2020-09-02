@@ -65,7 +65,7 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
     {
         List<TooltipSegment> tooltipSegments = playerTreeTooltipBuilder.Build(node);
 
-        OrbCollection providedOrbs = node.GetProvidedOrbs(false);
+        OrbCollection providedOrbs = node.GetInputOrbs();
 
         Activate(
             node.Ability,

@@ -17,7 +17,7 @@ public class AbilityBonusOrbsCalculator : IAbilityBonusCalculator
     /// <returns> An array of the active bonuses. </returns>
     public string[] GetActiveBonuses(AbilityReference abilityReference)
     {
-        OrbCollection activeOrbs = currentNode.GetProvidedOrbs(true);
+        OrbCollection activeOrbs = currentNode.GetOutputOrbs();
 
         Dictionary<string, AbilityBonusData> abilityBonusDataLookup = AbilityLookup.Instance.GetAbilityBonusDataLookup(abilityReference);
 

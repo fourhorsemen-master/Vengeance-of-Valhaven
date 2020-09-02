@@ -84,7 +84,7 @@ public abstract class Node
         return Mathf.Max(maxLeftDepth, maxRightDepth) + 1;
     }
 
-    public OrbCollection GetProvidedOrbs(bool includeOwnGeneratedOrbs)
+    public OrbCollection GetOutputOrbs()
     {
         OrbCollection activeOrbs = new OrbCollection();
 
@@ -94,6 +94,13 @@ public abstract class Node
         );
 
         return activeOrbs;
+    }
+
+    public OrbCollection GetInputOrbs()
+    {
+        if (IsRootNode) return new OrbCollection();
+
+        return Parent.GetOutputOrbs();
     }
 
     public void Insert(AbilityReference ability, InsertArea area)
