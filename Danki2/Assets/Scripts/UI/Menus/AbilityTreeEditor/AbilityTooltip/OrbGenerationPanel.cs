@@ -6,10 +6,13 @@ public class OrbGenerationPanel : MonoBehaviour
     private TooltipAbilityOrb tooltipAbilityOrbPrefab = null;
 
     /// <summary>
-    /// Displays the orbs in the panel. If <paramref name="providedOrbs"/> passed in, only provided orbs are highlighted.
+    /// Displays the orbs in the panel. If <paramref name="inputOrbs"/> passed in, only provided orbs are highlighted.
     /// </summary>
-    public void DisplayOrbs(OrbCollection generatedOrbs, OrbCollection providedOrbs = null)
+    public void DisplayOrbs(OrbCollection generatedOrbs, OrbCollection inputOrbs = null)
     {
+        bool hasInputOrbs = inputOrbs != null;
+        OrbCollection remainingInputOrbs = hasInputOrbs ? new OrbCollection(inputOrbs) : null;
+
         for (int i = 0; i < transform.childCount; i++)
         {
             Destroy(transform.GetChild(i).gameObject);
@@ -18,13 +21,13 @@ public class OrbGenerationPanel : MonoBehaviour
         generatedOrbs.ForEachOrb(orbType => {
             bool highlighted = false;
 
-            if (providedOrbs == null)
+            if (!hasInputOrbs)
             {
                 highlighted = true;
             }
-            else if (providedOrbs[orbType] > 0)
+            else if (remainingInputOrbs[orbType] > 0)
             {
-                providedOrbs[orbType] -= 1;
+                remainingInputOrbs[orbType] -= 1;
                 highlighted = true;
             }
 
