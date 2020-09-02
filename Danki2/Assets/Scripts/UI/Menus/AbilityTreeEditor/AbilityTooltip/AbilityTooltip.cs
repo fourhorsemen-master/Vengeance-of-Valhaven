@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -164,30 +163,6 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
 
         bool hasOrbs = !generatedOrbs.IsEmpty;
 
-        tooltipPanel.sizeDelta = new Vector2(
-            tooltipPanel.sizeDelta.x,
-            0f
-        );
-
         abilityOrbPanel.transform.parent.gameObject.SetActive(hasOrbs);
-
-        this.NextFrame(() => SetHeight(hasOrbs));
-    }
-
-    private void SetHeight(bool includeOrbs)
-    {
-        descriptionText.rectTransform.sizeDelta = new Vector2(
-            descriptionText.rectTransform.sizeDelta.x,
-            descriptionText.preferredHeight
-        );
-
-        float newHeight = includeOrbs ? TooltipHeightWithOrbs : TooltipHeightNoOrbs;
-
-        float bonusHeights = bonusSections.Select(s => s.GetSectionHeight()).Sum();
-
-        tooltipPanel.sizeDelta = new Vector2(
-            tooltipPanel.sizeDelta.x,
-            newHeight + bonusHeights
-        );
     }
 }

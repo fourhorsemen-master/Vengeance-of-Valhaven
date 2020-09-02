@@ -58,8 +58,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8afb2027367a334fa9a676a11f7e300, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rectTransform: {fileID: 5501692422464394790, guid: b13bb7a1d344e7e4db790ec430bb8b4b,
-    type: 3}
   tooltipAbilityOrbPrefab: {fileID: 1851845965527753866, guid: b13bb7a1d344e7e4db790ec430bb8b4b,
     type: 3}
 --- !u!114 &3122996515365007521
@@ -123,7 +121,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 14}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &37451400431862691
 CanvasRenderer:
@@ -202,7 +200,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 11}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3408462932686473487
 CanvasRenderer:
@@ -259,6 +257,7 @@ GameObject:
   - component: {fileID: 460642973656654736}
   - component: {fileID: 8195293414371611511}
   - component: {fileID: 1509895735307431920}
+  - component: {fileID: 8344544448551905187}
   m_Layer: 5
   m_Name: AbilityTooltipBonusPanel
   m_TagString: Untagged
@@ -285,7 +284,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 11}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &7574653481351253648
 MonoBehaviour:
@@ -309,7 +308,7 @@ MonoBehaviour:
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
-  m_ChildControlHeight: 0
+  m_ChildControlHeight: 1
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
 --- !u!114 &460642973656654736
@@ -324,6 +323,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5cb3ef78536a834288de747b081320d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enabledTextColour: {r: 1, g: 1, b: 1, a: 1}
+  disabledTextColour: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   rectTransform: {fileID: 4138301239967199108}
   titleText: {fileID: 2635669726703809519}
   descriptionText: {fileID: 4919068891831014339}
@@ -366,3 +367,17 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8344544448551905187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6634786466780937495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 0
+  m_VerticalFit: 2

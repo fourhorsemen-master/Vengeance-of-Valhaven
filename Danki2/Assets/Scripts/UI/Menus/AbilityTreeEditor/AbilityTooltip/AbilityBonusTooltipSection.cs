@@ -10,9 +10,6 @@ public class AbilityBonusTooltipSection : MonoBehaviour
     private Color disabledTextColour = Color.grey;
 
     [SerializeField]
-    private RectTransform rectTransform = null;
-
-    [SerializeField]
     private Text titleText = null;
 
     [SerializeField]
@@ -33,22 +30,5 @@ public class AbilityBonusTooltipSection : MonoBehaviour
         descriptionText.color = textColor;
 
         requiredOrbsPanel.DisplayOrbs(requiredOrbs, providedOrbs);
-    }
-
-    public float GetSectionHeight()
-    {
-        descriptionText.rectTransform.sizeDelta = new Vector2(
-            descriptionText.rectTransform.sizeDelta.x,
-            descriptionText.preferredHeight
-        );
-
-        float newHeight = descriptionText.preferredHeight + 30f;
-
-        rectTransform.sizeDelta = new Vector2(
-            rectTransform.sizeDelta.x,
-            newHeight
-        );
-
-        return newHeight + 8f;
     }
 }
