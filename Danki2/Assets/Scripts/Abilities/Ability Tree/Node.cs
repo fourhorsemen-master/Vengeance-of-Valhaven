@@ -84,6 +84,18 @@ public abstract class Node
         return Mathf.Max(maxLeftDepth, maxRightDepth) + 1;
     }
 
+    public OrbCollection GetProvidedOrbs(bool includeOwnGeneratedOrbs)
+    {
+        OrbCollection activeOrbs = new OrbCollection();
+
+        IterateUp(
+            n => activeOrbs.Add(AbilityLookup.Instance.GetGeneratedOrbs(n.Ability)),
+            n => !n.IsRootNode
+        );
+
+        return activeOrbs;
+    }
+
     public void Insert(AbilityReference ability, InsertArea area)
     {
         Node newNode = AbilityTreeFactory.CreateNode(ability);

@@ -65,14 +65,17 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
     {
         List<TooltipSegment> tooltipSegments = playerTreeTooltipBuilder.Build(node);
 
+        OrbCollection providedOrbs = node.GetProvidedOrbs(false);
+
         Activate(
             node.Ability,
             tooltipSegments,
-            bonus => playerTreeTooltipBuilder.BuildBonus(node, bonus)
+            bonus => playerTreeTooltipBuilder.BuildBonus(node, bonus),
+            providedOrbs
         );
     }
 
-    private void Activate(AbilityReference ability, List<TooltipSegment> tooltipSegments, Func<string, List<TooltipSegment>> bonusSegmenter)
+    private void Activate(AbilityReference ability, List<TooltipSegment> tooltipSegments, Func<string, List<TooltipSegment>> bonusSegmenter, OrbCollection providedOrbs = null)
     {
         ActivateTooltip();
 
@@ -84,7 +87,7 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
 
         Dictionary<string, AbilityBonusData> bonuses = AbilityLookup.Instance.GetAbilityBonusDataLookup(ability);
 
-        SetContents(titleText, isFinisher, descriptionText, bonuses, generatedOrbs, bonusSegmenter);
+        SetContents(titleText, isFinisher, descriptionText, bonuses, bonusSegmenter, generatedOrbs, providedOrbs);
     }
 
     private string GenerateTitle(AbilityReference ability)
@@ -133,8 +136,9 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
         bool isFinisher,
         string description,
         Dictionary<string, AbilityBonusData> bonuses,
+        Func<string, List<TooltipSegment>> segmenter,
         OrbCollection generatedOrbs,
-        Func<string, List<TooltipSegment>> segmenter
+        OrbCollection providedOrbs
     )
     {
         titleText.text = title;
@@ -153,7 +157,7 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
         {
             AbilityBonusData bonusData = bonuses[bonus];
             AbilityBonusTooltipSection section = Instantiate(bonusSectionPrefab, Vector3.zero, Quaternion.identity, transform);
-            section.Initialise(bonusData.DisplayName, GenerateDescription(segmenter(bonus)), bonusData.RequiredOrbs);
+            section.Initialise(bonusData.DisplayName, GenerateDescription(segmenter(bonus)), bonusData.RequiredOrbs, providedOrbs);
 
             bonusSections.Add(section);
         }
