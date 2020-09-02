@@ -3,7 +3,10 @@ using UnityEngine.UI;
 
 public class TooltipAbilityOrb : MonoBehaviour
 {
+    [SerializeField]
     private Color highlightedColour = Color.white;
+
+    [SerializeField]
     private Color unhighlightedColour = Color.grey;
 
     [SerializeField]

@@ -3,7 +3,10 @@ using UnityEngine.UI;
 
 public class AbilityBonusTooltipSection : MonoBehaviour
 {
+    [SerializeField]
     private Color enabledTextColour = Color.white;
+
+    [SerializeField]
     private Color disabledTextColour = Color.grey;
 
     [SerializeField]
