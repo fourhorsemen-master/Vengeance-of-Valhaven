@@ -21,8 +21,6 @@ public class AbilityBonusTooltipSection : MonoBehaviour
     [SerializeField]
     private OrbGenerationPanel requiredOrbsPanel = null;
 
-
-
     public void Initialise(string title, string tooltip, OrbCollection requiredOrbs, OrbCollection providedOrbs = null)
     {
         bool bonusEnabled = providedOrbs == null || providedOrbs.IsSuperset(requiredOrbs);
