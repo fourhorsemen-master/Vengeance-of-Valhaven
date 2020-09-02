@@ -169,6 +169,8 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
             0f
         );
 
+        abilityOrbPanel.transform.parent.gameObject.SetActive(hasOrbs);
+
         this.NextFrame(() => SetHeight(hasOrbs));
     }
 
@@ -178,8 +180,6 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
             descriptionText.rectTransform.sizeDelta.x,
             descriptionText.preferredHeight
         );
-
-        abilityOrbPanel.transform.parent.gameObject.SetActive(includeOrbs);
 
         float newHeight = includeOrbs ? TooltipHeightWithOrbs : TooltipHeightNoOrbs;
 
