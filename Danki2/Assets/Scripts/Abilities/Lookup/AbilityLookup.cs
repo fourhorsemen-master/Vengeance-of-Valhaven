@@ -135,12 +135,6 @@ public class AbilityLookup : Singleton<AbilityLookup>
         });
     }
 
-    private List<TemplatedTooltipSegment> BuildTooltip(string tooltip)
-    {
-        List<Token> tokens = lexer.Lex(tooltip);
-        return parser.Parse(tokens);
-    }
-
     private void BuildAbilityBonusLookup(
         AbilityReference abilityReference,
         SerializableAbilityBonusLookup serializableAbilityBonusLookup
@@ -161,6 +155,12 @@ public class AbilityLookup : Singleton<AbilityLookup>
                 );
             }
         );
+    }
+
+    private List<TemplatedTooltipSegment> BuildTooltip(string tooltip)
+    {
+        List<Token> tokens = lexer.Lex(tooltip);
+        return parser.Parse(tokens);
     }
 
     /// <summary>
