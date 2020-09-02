@@ -3,9 +3,6 @@
 public class OrbGenerationPanel : MonoBehaviour
 {
     [SerializeField]
-    private RectTransform rectTransform = null;
-
-    [SerializeField]
     private TooltipAbilityOrb tooltipAbilityOrbPrefab = null;
 
     /// <summary>
@@ -15,9 +12,9 @@ public class OrbGenerationPanel : MonoBehaviour
     /// <param name="providedOrbs"></param>
     public void DisplayOrbs(OrbCollection generatedOrbs, OrbCollection providedOrbs = null)
     {
-        for (int i = 0; i < rectTransform.childCount; i++)
+        for (int i = 0; i < transform.childCount; i++)
         {
-            Destroy(rectTransform.GetChild(i).gameObject);
+            Destroy(transform.GetChild(i).gameObject);
         }
 
         generatedOrbs.ForEachOrb(orbType => {
