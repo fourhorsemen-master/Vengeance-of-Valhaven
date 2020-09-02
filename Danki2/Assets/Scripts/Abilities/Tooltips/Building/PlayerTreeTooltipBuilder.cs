@@ -20,16 +20,9 @@ public class PlayerTreeTooltipBuilder
     /// <returns> The build tooltip segments </returns>
     public List<TooltipSegment> Build(Node node)
     {
-        AbilityReference abilityReference = node.Ability;
-        List<TemplatedTooltipSegment> templatedTooltipSegments = AbilityLookup.Instance.GetTemplatedTooltipSegments(abilityReference);
+        List<TemplatedTooltipSegment> templatedTooltipSegments = AbilityLookup.Instance.GetTemplatedTooltipSegments(node.Ability);
 
-        return templatedTooltipSegments
-            .Select(templatedTooltipSegment => GetTooltipSegment(
-                templatedTooltipSegment,
-                AbilityLookup.Instance.GetBaseAbilityData(abilityReference),
-                AbilityData.FromAbilityDataDiffers(differs, node)
-            ))
-            .ToList();
+        return GetTooltipSegments(templatedTooltipSegments, node);
     }
 
     /// <summary>
@@ -40,16 +33,19 @@ public class PlayerTreeTooltipBuilder
     /// <returns> The build tooltip segments </returns>
     public List<TooltipSegment> BuildBonus(Node node, string bonus)
     {
-        AbilityReference abilityReference = node.Ability;
-
         List<TemplatedTooltipSegment> templatedTooltipSegments = AbilityLookup.Instance
-            .GetAbilityBonusDataLookup(abilityReference)[bonus]
+            .GetAbilityBonusDataLookup(node.Ability)[bonus]
             .TemplatedTooltipSegments;
 
+        return GetTooltipSegments(templatedTooltipSegments, node);
+    }
+
+    private List<TooltipSegment> GetTooltipSegments(List<TemplatedTooltipSegment> templatedTooltipSegments, Node node)
+    {
         return templatedTooltipSegments
             .Select(templatedTooltipSegment => GetTooltipSegment(
                 templatedTooltipSegment,
-                AbilityLookup.Instance.GetBaseAbilityData(abilityReference),
+                AbilityLookup.Instance.GetBaseAbilityData(node.Ability),
                 AbilityData.FromAbilityDataDiffers(differs, node)
             ))
             .ToList();
