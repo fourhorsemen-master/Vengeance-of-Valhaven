@@ -28,8 +28,8 @@ public class OrbGenerationPanel : MonoBehaviour
                 highlighted = true;
             }
 
-            TooltipAbilityOrb orb = Instantiate(tooltipAbilityOrbPrefab, transform, false);
-            orb.SetType(orbType, highlighted);
+            Instantiate(tooltipAbilityOrbPrefab, transform, false)
+                .SetType(orbType, highlighted);
         });
     }
 }
