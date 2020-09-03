@@ -3,21 +3,36 @@
 public class OrbGenerationPanel : MonoBehaviour
 {
     [SerializeField]
-    private RectTransform rectTransform = null;
-
-    [SerializeField]
     private TooltipAbilityOrb tooltipAbilityOrbPrefab = null;
 
-    public void DisplayOrbs(OrbCollection generatedOrbs)
+    /// <summary>
+    /// Displays the orbs in the panel. If <paramref name="inputOrbs"/> passed in, only provided orbs are highlighted.
+    /// </summary>
+    public void DisplayOrbs(OrbCollection generatedOrbs, OrbCollection inputOrbs = null)
     {
-        for (int i = 0; i < rectTransform.childCount; i++)
+        bool hasInputOrbs = inputOrbs != null;
+        OrbCollection remainingInputOrbs = hasInputOrbs ? new OrbCollection(inputOrbs) : null;
+
+        for (int i = 0; i < transform.childCount; i++)
         {
-            Destroy(rectTransform.GetChild(i).gameObject);
+            Destroy(transform.GetChild(i).gameObject);
         }
 
         generatedOrbs.ForEachOrb(orbType => {
-            TooltipAbilityOrb orb = Instantiate(tooltipAbilityOrbPrefab, transform, false);
-            orb.SetType(orbType);
+            bool highlighted = false;
+
+            if (!hasInputOrbs)
+            {
+                highlighted = true;
+            }
+            else if (remainingInputOrbs[orbType] > 0)
+            {
+                remainingInputOrbs[orbType] -= 1;
+                highlighted = true;
+            }
+
+            Instantiate(tooltipAbilityOrbPrefab, transform, false)
+                .SetType(orbType, highlighted);
         });
     }
 }
