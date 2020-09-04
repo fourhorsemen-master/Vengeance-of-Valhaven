@@ -73,7 +73,7 @@ MonoBehaviour:
     - Hamstring
     _values:
     - displayName: Slash
-      tooltip: Instantly casts. Deal {PRIMARY_DAMAGE} damage to enemies in a cone.
+      tooltip: Instant Cast - Deal {PRIMARY_DAMAGE} damage to enemies in a cone.
       baseAbilityData:
         primaryDamage: 5
         secondaryDamage: 0
@@ -88,9 +88,9 @@ MonoBehaviour:
         _values: []
       finisher: 0
     - displayName: Whirlwind
-      tooltip: Channel for up to 2 seconds, slowed by 50% during channel. Deal {PRIMARY_DAMAGE}
-        damage up to 6 times while channeling and an additional {SECONDARY_DAMAGE}
-        damage if the channel completes to all nearby enemies.
+      tooltip: Channel (2s) - Deal {PRIMARY_DAMAGE} damage up to 6 times while channeling
+        and an additional {SECONDARY_DAMAGE} damage if the channel completes to all
+        nearby enemies. Slowed by 50% during channel.
       baseAbilityData:
         primaryDamage: 1
         secondaryDamage: 3
@@ -109,7 +109,7 @@ MonoBehaviour:
           requiredOrbs: 02000000
       finisher: 0
     - displayName: Fireball
-      tooltip: Instantly casts a fireball that deals {PRIMARY_DAMAGE} damage on impact.
+      tooltip: Instant Cast - Deal {PRIMARY_DAMAGE} damage on impact.
       baseAbilityData:
         primaryDamage: 5
         secondaryDamage: 0
@@ -124,8 +124,8 @@ MonoBehaviour:
         _values: []
       finisher: 0
     - displayName: Poison Dagger
-      tooltip: Instantly casts. Throw a dagger which deals {PRIMARY_DAMAGE} damage
-        on impact and poisons the enemy for {SECONDARY_DAMAGE} damage over 5 seconds.
+      tooltip: Instant Cast - Throw a dagger which deals {PRIMARY_DAMAGE} damage on
+        impact and poisons the enemy for {SECONDARY_DAMAGE} damage over 5 seconds.
       baseAbilityData:
         primaryDamage: 2
         secondaryDamage: 7
@@ -140,7 +140,7 @@ MonoBehaviour:
         _values: []
       finisher: 0
     - displayName: Bite
-      tooltip: Instantly casts. Deal {PRIMARY_DAMAGE} damage.
+      tooltip: Instant Cast - Deal {PRIMARY_DAMAGE} damage.
       baseAbilityData:
         primaryDamage: 5
         secondaryDamage: 0
@@ -155,7 +155,7 @@ MonoBehaviour:
         _values: []
       finisher: 0
     - displayName: Pounce
-      tooltip: Instantly casts. Deal {PRIMARY_DAMAGE} damage.
+      tooltip: Instant Cast - Deal {PRIMARY_DAMAGE} damage.
       baseAbilityData:
         primaryDamage: 4
         secondaryDamage: 0
@@ -170,7 +170,7 @@ MonoBehaviour:
         _values: []
       finisher: 0
     - displayName: Dash
-      tooltip: Instantly casts. Dash a short distance in the direction of casting.
+      tooltip: Instant Cast - Dash a short distance in the direction of casting.
       baseAbilityData:
         primaryDamage: 0
         secondaryDamage: 0
@@ -185,8 +185,8 @@ MonoBehaviour:
         _values: []
       finisher: 0
     - displayName: Lunge
-      tooltip: Instantly casts. Lunge up to 5m and deal {PRIMARY_DAMAGE} damage to
-        enemies in a small cone.
+      tooltip: Instant Cast - Lunge up to 5m and deal {PRIMARY_DAMAGE} damage to enemies
+        in a small cone.
       baseAbilityData:
         primaryDamage: 3
         secondaryDamage: 0
@@ -201,7 +201,7 @@ MonoBehaviour:
         _values: []
       finisher: 0
     - displayName: Smash
-      tooltip: Instantly casts. Deal {PRIMARY_DAMAGE} damage in a small circle.
+      tooltip: Instant Cast - Deal {PRIMARY_DAMAGE} damage in a small circle.
       baseAbilityData:
         primaryDamage: 10
         secondaryDamage: 0
@@ -220,7 +220,7 @@ MonoBehaviour:
           requiredOrbs: 0100000001000000
       finisher: 1
     - displayName: Sprint
-      tooltip: Cast for 1 second. Increase speed by 3 for 5 seconds.
+      tooltip: Cast (1s) - Increase speed by 3 for 5 seconds.
       baseAbilityData:
         primaryDamage: 0
         secondaryDamage: 0
@@ -235,7 +235,7 @@ MonoBehaviour:
         _values: []
       finisher: 0
     - displayName: Leap
-      tooltip: Instantly casts. Leap to a target location.
+      tooltip: Instant Cast - Leap to a target location.
       baseAbilityData:
         primaryDamage: 0
         secondaryDamage: 0
@@ -254,8 +254,8 @@ MonoBehaviour:
           requiredOrbs: 0000000000000000
       finisher: 0
     - displayName: Leeching Strike
-      tooltip: Instantly casts. Deal {PRIMARY_DAMAGE} damage in a cone and heal for
-        {HEAL} +1 per enemy hit.
+      tooltip: Instant Cast - Deal {PRIMARY_DAMAGE} damage in a cone and heal for
+        {HEAL} + 1 per enemy hit.
       baseAbilityData:
         primaryDamage: 2
         secondaryDamage: 0
@@ -270,8 +270,8 @@ MonoBehaviour:
         _values: []
       finisher: 0
     - displayName: Meditate
-      tooltip: Charge for up to 5 seconds. Increase power by 1 for every second charged.
-        Lasts 10 seconds.
+      tooltip: Charge (5s) - Increase power by 1 for every second charged. Lasts 10
+        seconds.
       baseAbilityData:
         primaryDamage: 0
         secondaryDamage: 0
@@ -294,8 +294,8 @@ MonoBehaviour:
           requiredOrbs: 000000000000000000000000
       finisher: 1
     - displayName: Bash
-      tooltip: Instantly casts. Deal {PRIMARY_DAMAGE} to enemies in a cone, stuns
-        for 1 second.
+      tooltip: Instant Cast - Deal {PRIMARY_DAMAGE} to enemies in a cone, stuns for
+        1 second.
       baseAbilityData:
         primaryDamage: 3
         secondaryDamage: 0
@@ -310,8 +310,8 @@ MonoBehaviour:
         _values: []
       finisher: 0
     - displayName: Sweeping Strike
-      tooltip: Instantly casts. Deal {PRIMARY_DAMAGE} damage to enemies in a cone
-        and knockback all enemies hit.
+      tooltip: Instant Cast - Deal {PRIMARY_DAMAGE} damage to enemies in a cone and
+        knockback all enemies hit.
       baseAbilityData:
         primaryDamage: 5
         secondaryDamage: 0
@@ -326,9 +326,9 @@ MonoBehaviour:
         _values: []
       finisher: 0
     - displayName: Hook
-      tooltip: Instantly casts. Throw a hook at an enemy and pull them towards the
-        player. The hook is coated in a serum which causes the target to be stunned
-        for 2 seconds.
+      tooltip: Instant Cast - Throw a hook at an enemy and pull them towards the player.
+        The hook is coated in a serum which causes the target to be stunned for 2
+        seconds.
       baseAbilityData:
         primaryDamage: 0
         secondaryDamage: 0
@@ -343,7 +343,7 @@ MonoBehaviour:
         _values: []
       finisher: 0
     - displayName: Backstab
-      tooltip: Instantly casts. With an unexpected stab from behind, deal {PRIMARY_DAMAGE}
+      tooltip: Instant Cast - With an unexpected stab from behind, deal {PRIMARY_DAMAGE}
         to a target. However if the opponent is facing you the stab will fail!
       baseAbilityData:
         primaryDamage: 16
@@ -359,8 +359,8 @@ MonoBehaviour:
         _values: []
       finisher: 0
     - displayName: Piercing Rush
-      tooltip: 'Cast for 2 seconds, after which: dash for up to 10m dealing {PRIMARY_DAMAGE}
-        damage to all enemies you pass.'
+      tooltip: Cast (2s) - Dash for up to 10m dealing {PRIMARY_DAMAGE} damage to all
+        enemies you pass.
       baseAbilityData:
         primaryDamage: 8
         secondaryDamage: 0
@@ -384,8 +384,8 @@ MonoBehaviour:
           requiredOrbs: 020000000100000001000000
       finisher: 1
     - displayName: Parry
-      tooltip: Instantly casts. Absorb each attack for 1 second and return 50% damage
-        back to attackers.
+      tooltip: Instant Cast - Absorb each attack for 1 second and return 50% of the
+        damage back to attackers.
       baseAbilityData:
         primaryDamage: 0
         secondaryDamage: 0
@@ -400,7 +400,7 @@ MonoBehaviour:
         _values: []
       finisher: 0
     - displayName: Intimidating Shout
-      tooltip: Instantly casts. Reduce defence of surrounding enemies by 2 for 6 seconds.
+      tooltip: Instant Cast - Reduce defence of surrounding enemies by 2 for 6 seconds.
       baseAbilityData:
         primaryDamage: 0
         secondaryDamage: 0
@@ -415,8 +415,8 @@ MonoBehaviour:
         _values: []
       finisher: 0
     - displayName: Rend
-      tooltip: Charge for up to 3 seconds. Applies a 5 second DOT for {PRIMARY_DAMAGE}
-        damage, multiplied by the time charged, to all surrounding enemies.
+      tooltip: Charge (3s) - Applies a 5 second DOT for {PRIMARY_DAMAGE} damage, multiplied
+        by the time charged, to all surrounding enemies.
       baseAbilityData:
         primaryDamage: 5
         secondaryDamage: 0
@@ -431,8 +431,7 @@ MonoBehaviour:
         _values: []
       finisher: 0
     - displayName: Bandage
-      tooltip: Channel for up to 5 seconds, gaining {HEAL} health per second. Rooted
-        while channeling.
+      tooltip: Channel (5s) - Gain {HEAL} health per second. Rooted while channeling.
       baseAbilityData:
         primaryDamage: 0
         secondaryDamage: 0
@@ -451,7 +450,7 @@ MonoBehaviour:
           requiredOrbs: 0000000001000000
       finisher: 1
     - displayName: Disengage
-      tooltip: Instantly casts. Leap backwards.
+      tooltip: Instant Cast - Leap backwards.
       baseAbilityData:
         primaryDamage: 4
         secondaryDamage: 0
@@ -470,8 +469,7 @@ MonoBehaviour:
           requiredOrbs: 0100000001000000
       finisher: 0
     - displayName: Sword Throw
-      tooltip: Cast for 2 seconds. Throw a sword which deals {PRIMARY_DAMAGE} damage
-        on impact.
+      tooltip: Cast (2s) - Throw a sword which deals {PRIMARY_DAMAGE} damage on impact.
       baseAbilityData:
         primaryDamage: 12
         secondaryDamage: 6
@@ -491,7 +489,7 @@ MonoBehaviour:
           requiredOrbs: 0200000002000000
       finisher: 1
     - displayName: Fan of Knives
-      tooltip: Instantly casts. Throw a fan of 3 knives in an arc, which deal {PRIMARY_DAMAGE}
+      tooltip: Instant Cast - Throw a fan of 3 knives in an arc, which deal {PRIMARY_DAMAGE}
         damage on impact.
       baseAbilityData:
         primaryDamage: 2
@@ -511,7 +509,7 @@ MonoBehaviour:
           requiredOrbs: 020000000000000001000000
       finisher: 0
     - displayName: Hamstring
-      tooltip: Instantly casts. Deal {PRIMARY_DAMAGE} damage to the target and decrease
+      tooltip: Instant Cast - Deal {PRIMARY_DAMAGE} damage to the target and decrease
         their defence by 2 for 10 seconds.
       baseAbilityData:
         primaryDamage: 3
