@@ -24,10 +24,12 @@ public class OrbLookupEditor : Editor
 
             orbLookup.displayNameMap[orbType] = EditorGUILayout.TextField("Display name", orbLookup.displayNameMap[orbType]);
 
+            orbLookup.descriptionMap[orbType] = EditorUtils.MultilineTextField("Description", orbLookup.descriptionMap[orbType], 3);
+
             orbLookup.colourMap[orbType] = EditorGUILayout.ColorField("Colour (text etc.)", orbLookup.colourMap[orbType]);
 
             orbLookup.spriteMap[orbType] = (Sprite)EditorGUILayout.ObjectField(
-                orbType.ToString(),
+                "Sprite",
                 orbLookup.spriteMap[orbType],
                 typeof(Sprite),
                 false,

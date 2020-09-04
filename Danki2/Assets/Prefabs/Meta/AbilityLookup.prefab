@@ -48,7 +48,7 @@ MonoBehaviour:
     - Slash
     - Whirlwind
     - Fireball
-    - DaggerThrow
+    - PoisonDagger
     - Bite
     - Pounce
     - Dash
@@ -65,6 +65,12 @@ MonoBehaviour:
     - PiercingRush
     - Parry
     - IntimidatingShout
+    - Rend
+    - Bandage
+    - Disengage
+    - SwordThrow
+    - FanOfKnives
+    - Hamstring
     _values:
     - displayName: Slash
       tooltip: Deals {PRIMARY_DAMAGE} damage to enemies in a cone.
@@ -117,16 +123,17 @@ MonoBehaviour:
         _keys: []
         _values: []
       finisher: 0
-    - displayName: Dagger Throw
-      tooltip: Deals {PRIMARY_DAMAGE} damage.
+    - displayName: Poison Dagger
+      tooltip: Throw a dagger which deals {PRIMARY_DAMAGE} damage on impact and poisons
+        the enemy for {SECONDARY_DAMAGE} damage over 5 seconds.
       baseAbilityData:
         primaryDamage: 2
-        secondaryDamage: 3
+        secondaryDamage: 7
         heal: 0
         shield: 0
       abilityOrbType:
-        hasValue: 0
-        value: 0
+        hasValue: 1
+        value: 2
       generatedOrbs: 
       abilityBonusLookup:
         _keys: []
@@ -401,4 +408,118 @@ MonoBehaviour:
       abilityBonusLookup:
         _keys: []
         _values: []
+      finisher: 0
+    - displayName: Rend
+      tooltip: Applies a DOT for {PRIMARY_DAMAGE} damage, multiplied by the time charged,
+        over 5 seconds to all surrounding enemies.
+      baseAbilityData:
+        primaryDamage: 5
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      abilityOrbType:
+        hasValue: 1
+        value: 0
+      generatedOrbs: 00000000
+      abilityBonusLookup:
+        _keys: []
+        _values: []
+      finisher: 0
+    - displayName: Bandage
+      tooltip: Gain {HEAL} health 5 times over 5 seconds. Rooted while channeling.
+      baseAbilityData:
+        primaryDamage: 0
+        secondaryDamage: 0
+        heal: 3
+        shield: 0
+      abilityOrbType:
+        hasValue: 1
+        value: 1
+      generatedOrbs: 
+      abilityBonusLookup:
+        _keys:
+        - Perseverance
+        _values:
+        - displayName: Perseverance
+          tooltip: Slowed rather than rooted while channeling.
+          requiredOrbs: 0000000001000000
+      finisher: 1
+    - displayName: Disengage
+      tooltip: Leap backwards.
+      baseAbilityData:
+        primaryDamage: 4
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      abilityOrbType:
+        hasValue: 1
+        value: 2
+      generatedOrbs: 02000000
+      abilityBonusLookup:
+        _keys:
+        - Parting Shot
+        _values:
+        - displayName: Parting Shot
+          tooltip: Deal {PRIMARY_DAMAGE} damage to enemies nearby before leaping.
+          requiredOrbs: 0100000001000000
+      finisher: 0
+    - displayName: Sword Throw
+      tooltip: Throw a sword which deals {PRIMARY_DAMAGE} damage on impact.
+      baseAbilityData:
+        primaryDamage: 12
+        secondaryDamage: 6
+        heal: 0
+        shield: 0
+      abilityOrbType:
+        hasValue: 1
+        value: 1
+      generatedOrbs: 
+      abilityBonusLookup:
+        _keys:
+        - Poison Sword
+        _values:
+        - displayName: Poison Sword
+          tooltip: Coat the blade in deadly poison, dealing {SECONDARY_DAMAGE} damage
+            over 5 seconds.
+          requiredOrbs: 0200000002000000
+      finisher: 1
+    - displayName: Fan of Knives
+      tooltip: Throw a fan of 3 knives in an arc, which deal {PRIMARY_DAMAGE} damage
+        on impact.
+      baseAbilityData:
+        primaryDamage: 2
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      abilityOrbType:
+        hasValue: 1
+        value: 2
+      generatedOrbs: 02000000
+      abilityBonusLookup:
+        _keys:
+        - Spray
+        _values:
+        - displayName: Spray
+          tooltip: Throw an additional 2 knives.
+          requiredOrbs: 020000000000000001000000
+      finisher: 0
+    - displayName: Hamstring
+      tooltip: Deals {PRIMARY_DAMAGE} damage to the target and decreases its defence
+        by 2 for 10 seconds.
+      baseAbilityData:
+        primaryDamage: 3
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      abilityOrbType:
+        hasValue: 1
+        value: 2
+      generatedOrbs: 
+      abilityBonusLookup:
+        _keys:
+        - Hack
+        _values:
+        - displayName: Hack
+          tooltip: Increase damage dealt by 4.
+          requiredOrbs: 00000000
       finisher: 0

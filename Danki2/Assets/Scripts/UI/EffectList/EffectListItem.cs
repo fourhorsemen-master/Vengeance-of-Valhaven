@@ -1,0 +1,41 @@
+﻿using UnityEngine;
+using UnityEngine.UI;
+
+public class EffectListItem : MonoBehaviour
+{
+    [SerializeField]
+    private Image image = null;
+
+    [SerializeField]
+    private Image cooldown = null;
+
+    private float totalDuration;
+
+    public void Initialise(Effect effect)
+    {
+        image.sprite = effect.GetSprite();
+        SetCooldownProportion(1);
+    }
+
+    public void Initialise(Effect effect, float totalDuration)
+    {
+        image.sprite = effect.GetSprite();
+        this.totalDuration = totalDuration;
+        SetCooldownProportion(1);
+    }
+
+    public void SetRemainingDuration(float remainingDuration)
+    {
+        SetCooldownProportion(remainingDuration / totalDuration);
+    }
+
+    public void Destroy()
+    {
+        Destroy(gameObject);
+    }
+
+    private void SetCooldownProportion(float remainingCooldownProportion)
+    {
+        cooldown.transform.localScale = new Vector3(1f, 1 - remainingCooldownProportion, 1f);
+    }
+}

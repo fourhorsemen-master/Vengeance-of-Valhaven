@@ -1,9 +1,9 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class OrbLookup : Singleton<OrbLookup>
 {
     public OrbDisplayNameMap displayNameMap = new OrbDisplayNameMap(string.Empty);
+    public OrbDescriptionMap descriptionMap = new OrbDescriptionMap(string.Empty);
     public OrbColourMap colourMap = new OrbColourMap(Color.white);
     public OrbSpriteMap spriteMap = new OrbSpriteMap(defaultValue: null);
 
@@ -18,6 +18,11 @@ public class OrbLookup : Singleton<OrbLookup>
                 Debug.LogError($"No display name set for orb type: {orbType.ToString()}");
             }
 
+            if (string.IsNullOrWhiteSpace(descriptionMap[orbType]))
+            {
+                Debug.LogError($"No description set for orb type: {orbType.ToString()}");
+            }
+
             if (colourMap[orbType] == Color.white)
             {
                 Debug.LogError($"Default colour set for ability orb type: {orbType.ToString()}");
@@ -30,6 +35,8 @@ public class OrbLookup : Singleton<OrbLookup>
         });
     }
     public string GetDisplayName(OrbType orbType) => displayNameMap[orbType];
+
+    public string GetDescription(OrbType orbType) => descriptionMap[orbType];
 
     public Color GetColour(OrbType orbType) => colourMap[orbType];
 

@@ -19,8 +19,9 @@ public class Sprint : Cast
 
     private void End()
     {
-        LinearStatModification speedModification = new LinearStatModification(Stat.Speed, SpeedModification);
+        LinearStatModification speedModification = new SpeedBuff(SpeedModification);
         Owner.EffectManager.AddActiveEffect(speedModification, SprintDuration);
+        SprintObject.Create(Owner.transform);
         SuccessFeedbackSubject.Next(true);
     }
 }

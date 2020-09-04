@@ -1,13 +1,13 @@
 ﻿using System;
 using UnityEngine;
 
-public class DaggerObject : ProjectileObject
+public class PoisonDaggerObject : ProjectileObject
 {
     public AudioSource _collisionSound = null;
 
     public static void Fire(Actor caster, Action<GameObject> collisionCallback, float speed, Vector3 position, Quaternion rotation)
     {
-        DaggerObject prefab = AbilityObjectPrefabLookup.Instance.DaggerObjectPrefab;
+        PoisonDaggerObject prefab = AbilityObjectPrefabLookup.Instance.PoisonDaggerObjectPrefab;
         Instantiate(prefab, position, rotation)
             .InitialiseProjectile(caster, collisionCallback, speed)
             .SetSticky(5f);

@@ -60,8 +60,7 @@ public class TreeAbility : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
         AbilityTreeEditorMenu.Instance.CurrentTreeNodeHover = node;
 
-        AbilityTooltip.Instance.Activate();
-        AbilityTooltip.Instance.UpdateTooltip(node);
+        AbilityTooltip.Instance.Activate(node);
         if (highlighter.HighlightState != DraggableHighlightState.Dragging)
             highlighter.HighlightState = DraggableHighlightState.Hover;
     }
