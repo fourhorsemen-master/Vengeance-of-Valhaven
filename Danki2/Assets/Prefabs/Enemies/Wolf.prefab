@@ -410,8 +410,8 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
+  MinDistance: 10
+  MaxDistance: 100
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -446,7 +446,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -528,8 +528,8 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
+  MinDistance: 10
+  MaxDistance: 100
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -564,7 +564,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -1104,6 +1104,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8063099716140605082}
     m_Modifications:
+    - target: {fileID: 1979858862639965533, guid: 1c1ef6601784e49429e64e8545ef1c4a,
+        type: 3}
+      propertyPath: m_Name
+      value: FloatingDamageText
+      objectReference: {fileID: 0}
     - target: {fileID: 1979858862639965505, guid: 1c1ef6601784e49429e64e8545ef1c4a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1208,11 +1213,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1979858862639965533, guid: 1c1ef6601784e49429e64e8545ef1c4a,
-        type: 3}
-      propertyPath: m_Name
-      value: FloatingDamageText
       objectReference: {fileID: 0}
     - target: {fileID: 3486282139536815869, guid: 1c1ef6601784e49429e64e8545ef1c4a,
         type: 3}
