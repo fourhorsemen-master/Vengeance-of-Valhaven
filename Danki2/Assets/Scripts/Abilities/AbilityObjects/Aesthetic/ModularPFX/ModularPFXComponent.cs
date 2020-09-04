@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using System.Dynamic;
+using UnityEngine;
 
 public class ModularPFXComponent : MonoBehaviour
 {
-    const string ColourKeyString = "Color_33632292";
+    public const string ColourKeyString = "Color_33632292";
     const string EmissiveKeyString = "Color_A9688267";
     const string AlbedoKeyString = "Texture2D_1FF4AC07";
 
@@ -28,7 +29,7 @@ public class ModularPFXComponent : MonoBehaviour
 
         foreach (MPFXBehaviour behaviour in behaviours)
         {
-            behaviour.SetUp(spawnedGraphic);
+            behaviour.SetUp(spawnedGraphic, this);
         }
     }
 

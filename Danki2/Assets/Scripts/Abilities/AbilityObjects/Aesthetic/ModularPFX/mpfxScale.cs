@@ -7,7 +7,7 @@ public class mpfxScale : MPFXBehaviour
 	[SerializeField]
 	private AnimationCurve curve = new AnimationCurve();
 
-	public override bool SetUp(GameObject InGraphic)
+	public override bool SetUp(GameObject InGraphic, ModularPFXComponent OwningComponent)
 	{
 		graphic = InGraphic;
 		timeElapsed = 0f;

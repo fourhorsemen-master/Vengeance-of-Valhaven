@@ -12,7 +12,7 @@ public class MPFXBehaviour : ScriptableObject, ImpfxCallable
 
 	protected GameObject graphic;
 
-	virtual public bool SetUp(GameObject InGraphic)
+	virtual public bool SetUp(GameObject InGraphic, ModularPFXComponent OwningComponent)
 	{
 		return false;
 	}
