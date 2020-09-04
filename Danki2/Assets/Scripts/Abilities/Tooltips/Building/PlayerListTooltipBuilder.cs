@@ -8,6 +8,20 @@ public static class PlayerListTooltipBuilder
     {
         List<TemplatedTooltipSegment> templatedTooltipSegments = AbilityLookup.Instance.GetTemplatedTooltipSegments(ability);
 
+        return GetTooltipSegments(templatedTooltipSegments, ability);
+    }
+
+    public static List<TooltipSegment> BuildBonus(AbilityReference ability, string bonus)
+    {
+        List<TemplatedTooltipSegment> templatedTooltipSegments = AbilityLookup.Instance
+            .GetAbilityBonusDataLookup(ability)[bonus]
+            .TemplatedTooltipSegments;
+
+        return GetTooltipSegments(templatedTooltipSegments, ability);
+    }
+
+    private static List<TooltipSegment> GetTooltipSegments(List<TemplatedTooltipSegment> templatedTooltipSegments, AbilityReference ability)
+    {
         return templatedTooltipSegments
             .Select(templatedTooltipSegment => GetTooltipSegment(
                 templatedTooltipSegment,

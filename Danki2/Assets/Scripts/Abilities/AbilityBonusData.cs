@@ -1,13 +1,15 @@
-﻿public class AbilityBonusData
+﻿using System.Collections.Generic;
+
+public class AbilityBonusData
 {
     public string DisplayName { get; }
-    public string Tooltip { get; }
+    public List<TemplatedTooltipSegment> TemplatedTooltipSegments { get; }
     public OrbCollection RequiredOrbs { get; }
 
-    public AbilityBonusData(string displayName, string tooltip, OrbCollection requiredOrbs)
+    public AbilityBonusData(string displayName, List<TemplatedTooltipSegment> templatedTooltipSegments, OrbCollection requiredOrbs)
     {
         DisplayName = displayName;
-        Tooltip = tooltip;
+        TemplatedTooltipSegments = templatedTooltipSegments;
         RequiredOrbs = requiredOrbs;
     }
 }
