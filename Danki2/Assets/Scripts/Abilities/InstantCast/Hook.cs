@@ -4,7 +4,7 @@
 public class Hook : InstantCast
 {
     private const float range = 10f;
-    private const float hookSpeed = 20f;
+    private const float hookSpeed = 16f;
     private const float pullSpeed = 8f;
     private const float pullOffset = 2f;
     private const float stunDuration = 2f;
