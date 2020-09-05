@@ -6,6 +6,9 @@ public class HookObject : ProjectileObject
     [SerializeField]
     private AudioSource hookHitAudio = null;
 
+    [SerializeField]
+    private TrailRenderer trailRenderer = null;
+
     public static HookObject Fire(Actor caster, Action<GameObject> collisionCallback, Action missCallback, float speed, Vector3 position, Quaternion rotation, float maxRange)
     {
         float stickTime = maxRange / speed;
@@ -17,6 +20,16 @@ public class HookObject : ProjectileObject
         hookObject.SetSticky(hookObject.hookHitAudio.clip.length);
 
         return hookObject;
+    }
+
+    protected override void OnTriggerEnter(Collider collider)
+    {
+        base.OnTriggerEnter(collider);
+
+        if (!ReferenceEquals(this.caster.gameObject, collider.gameObject))
+        {
+            trailRenderer.enabled = false;
+        }
     }
 
     public void PlayHitAudio()
