@@ -40,7 +40,7 @@ public class Player : Actor
 
         AbilityTree = AbilityTreeFactory.CreateTree(
             ownedAbilities,
-            AbilityTreeFactory.CreateNode(AbilityReference.Backstab),
+            AbilityTreeFactory.CreateNode(AbilityReference.SweepingStrike),
             AbilityTreeFactory.CreateNode(AbilityReference.Lunge)
         );
 
