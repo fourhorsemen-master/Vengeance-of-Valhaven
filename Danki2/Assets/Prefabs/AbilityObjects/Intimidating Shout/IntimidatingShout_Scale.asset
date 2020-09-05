@@ -10,12 +10,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 886f58a86eefce44cb4ee110a7ec7918, type: 3}
-  m_Name: New Mpfx Scale
+  m_Name: IntimidatingShout_Scale
   m_EditorClassIdentifier: 
   behaviourName: 
   curve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1.7989811
+      outSlope: 1.7989811
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.49945068
+      value: 0.89850235
+      inSlope: 1.7989811
+      outSlope: 1.7989811
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
