@@ -7,6 +7,9 @@ public class LungeObject : StaticAbilityObject
     private ModularPFXComponent modularPFX = null;
 
     [SerializeField]
+    private TrailRenderer trailRenderer = null;
+
+    [SerializeField]
     private AudioSource hitAudioSource = null;
 
     public override float StickTime => 2f;
@@ -27,6 +30,8 @@ public class LungeObject : StaticAbilityObject
 
     private void Setup(Subject onFinishLunge)
     {
+        trailRenderer.emitting = true;
+
         onFinishLunge.Subscribe(() =>
             this.WaitAndAct(0.2f, () => modularPFX.gameObject.SetActive(false))
         ); ;
