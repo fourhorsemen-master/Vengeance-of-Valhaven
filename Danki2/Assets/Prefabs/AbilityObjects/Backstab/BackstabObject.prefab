@@ -166,13 +166,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9215028942137039129}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 1}
-  m_LocalScale: {x: 0.4, y: 1, z: 1}
+  m_LocalScale: {x: 0.2, y: 1, z: 0.6}
   m_Children: []
   m_Father: {fileID: 8508258753760504087}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3956293313539816689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -191,7 +191,7 @@ MonoBehaviour:
       type: 3}
     effectColor: {r: 1, g: 1, b: 1, a: 1}
     effectEmissive: {r: 0, g: 0, b: 0, a: 0}
-    effectAlbedo: {fileID: 2800000, guid: 4516fd027d192484689d994b3ce9d4f9, type: 3}
+    effectAlbedo: {fileID: 2800000, guid: 10e0aceca69a2e348a86a12c8ddd5f30, type: 3}
   behaviours:
-  - {fileID: 11400000, guid: 8311360139ce7a647b4d85350008910f, type: 2}
   - {fileID: 11400000, guid: 8b60feb4379547d448f20033367eb071, type: 2}
+  - {fileID: 11400000, guid: 8311360139ce7a647b4d85350008910f, type: 2}
