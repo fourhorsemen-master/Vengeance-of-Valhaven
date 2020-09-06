@@ -10,7 +10,7 @@ public class Lunge : InstantCast
     private const float StunDuration = 0.5f;
     private const float PauseDuration = 0.3f;
 
-    private Subject OnFinishLunge = new Subject();
+    private readonly Subject onFinishLunge = new Subject();
 
     public Lunge(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
@@ -27,7 +27,7 @@ public class Lunge : InstantCast
 
         Owner.MovementManager.TryLockMovement(MovementLockType.Dash, duration, lungeSpeed, castDirection, castDirection);
 
-        LungeObject lungeObject = LungeObject.Create(Owner.Centre, Quaternion.LookRotation(castDirection), OnFinishLunge, Owner.transform);
+        LungeObject lungeObject = LungeObject.Create(Owner.Centre, Quaternion.LookRotation(castDirection), onFinishLunge, Owner.transform);
 
         Owner.InterruptableAction(
             duration,
@@ -38,7 +38,7 @@ public class Lunge : InstantCast
 
     private void DamageOnLand(Vector3 castDirection, LungeObject lungeObject)
     {
-        OnFinishLunge.Next();
+        onFinishLunge.Next();
 
         Quaternion castRotation = GetMeleeCastRotation(castDirection);
 
