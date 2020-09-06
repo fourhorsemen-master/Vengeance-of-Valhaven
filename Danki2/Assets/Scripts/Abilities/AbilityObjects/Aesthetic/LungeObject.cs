@@ -13,11 +13,11 @@ public class LungeObject : StaticAbilityObject
 
     public override float StickTime => 2f;
 
-    public static LungeObject Create(Vector3 position, Quaternion rotation, Subject onFinishLunge, Transform parent)
+    public static LungeObject Create(Vector3 position, Quaternion rotation, Subject<Vector3> onFinishMovement)
     {
         LungeObject prefab = AbilityObjectPrefabLookup.Instance.LungeObjectPrefab;
-        var lungeObject = Instantiate(prefab, position, rotation, parent);
-        lungeObject.Setup(onFinishLunge);
+        var lungeObject = Instantiate(prefab, position, rotation);
+        lungeObject.Setup(onFinishMovement);
 
         return lungeObject;
     }
@@ -32,9 +32,13 @@ public class LungeObject : StaticAbilityObject
         hitAudioSource.Play();
     }
 
-    private void Setup(Subject onFinishLunge)
+    private void Setup(Subject<Vector3> onFinishMovement)
     {
-        onFinishLunge.Subscribe(() => modularPFX.enabled = true);
+        onFinishMovement.Subscribe(position =>
+        {
+            transform.position = position;
+            modularPFX.enabled = true;
+        });
     }
 }
 
