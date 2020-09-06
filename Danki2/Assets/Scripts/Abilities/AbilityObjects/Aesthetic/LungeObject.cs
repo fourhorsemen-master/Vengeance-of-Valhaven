@@ -32,7 +32,7 @@ public class LungeObject : StaticAbilityObject
     {
         onFinishLunge.Subscribe(() =>
         {
-            this.WaitAndAct(0.2f, () => modularPFX.gameObject.SetActive(false));
+            modularPFX.enabled = true;
             trailRenderer.emitting = false;
         });
     }
