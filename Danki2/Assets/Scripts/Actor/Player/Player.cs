@@ -23,6 +23,8 @@ public class Player : Actor
     private TrailRenderer trailRenderer = null;
     [SerializeField]
     private AudioSource whiffAudio = null;
+    [SerializeField]
+    private AudioSource rollAudio = null;
 
     // Services
     public AbilityTree AbilityTree { get; private set; }    
@@ -80,6 +82,7 @@ public class Player : Actor
         {
             remainingRollCooldown = totalRollCooldown;
             trailRenderer.emitting = true;
+            rollAudio.Play();
             RollSubject.Next();
             StartCoroutine(EndRollVisualAfterDelay());
         }
