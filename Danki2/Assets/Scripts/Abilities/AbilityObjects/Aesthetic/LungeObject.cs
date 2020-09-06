@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class LungeObject : StaticAbilityObject
 {
@@ -7,10 +6,10 @@ public class LungeObject : StaticAbilityObject
     private ModularPFXComponent modularPFX = null;
 
     [SerializeField]
-    private TrailRenderer trailRenderer = null;
+    private AudioSource hitAudioSource = null;
 
     [SerializeField]
-    private AudioSource hitAudioSource = null;
+    private AudioSource swingAudioSource = null;
 
     public override float StickTime => 2f;
 
@@ -23,6 +22,11 @@ public class LungeObject : StaticAbilityObject
         return lungeObject;
     }
 
+    public void PlaySwingSound()
+    {
+        swingAudioSource.Play();
+    }
+
     public void PlayHitSound()
     {
         hitAudioSource.Play();
@@ -30,11 +34,7 @@ public class LungeObject : StaticAbilityObject
 
     private void Setup(Subject onFinishLunge)
     {
-        onFinishLunge.Subscribe(() =>
-        {
-            modularPFX.enabled = true;
-            trailRenderer.emitting = false;
-        });
+        onFinishLunge.Subscribe(() => modularPFX.enabled = true);
     }
 }
 

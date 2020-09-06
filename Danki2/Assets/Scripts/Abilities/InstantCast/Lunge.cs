@@ -28,6 +28,7 @@ public class Lunge : InstantCast
         Owner.MovementManager.TryLockMovement(MovementLockType.Dash, duration, lungeSpeed, castDirection, castDirection);
 
         LungeObject lungeObject = LungeObject.Create(Owner.Centre, Quaternion.LookRotation(castDirection), onFinishLunge, Owner.transform);
+        Owner.StartTrail(duration + PauseDuration);
 
         Owner.InterruptableAction(
             duration,
@@ -55,6 +56,8 @@ public class Lunge : InstantCast
 
         SuccessFeedbackSubject.Next(hasDealtDamage);
         Owner.MovementManager.Pause(PauseDuration);
+
+        lungeObject.PlaySwingSound();
 
         if (hasDealtDamage)
         {
