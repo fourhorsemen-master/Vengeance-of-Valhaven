@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 886f58a86eefce44cb4ee110a7ec7918, type: 3}
+  m_Name: Leap_Scale
+  m_EditorClassIdentifier: 
+  behaviourName: 
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.0022258703
+      value: 0.0025894088
+      inSlope: 0.73724276
+      outSlope: 0.73724276
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.03670614
+    - serializedVersion: 3
+      time: 0.22107807
+      value: 0.2153185
+      inSlope: 0.5271264
+      outSlope: 0.5271264
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.14177825
+      outWeight: 0.057334676
+    - serializedVersion: 3
+      time: 0.9955524
+      value: 0.34606272
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
