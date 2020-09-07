@@ -18,6 +18,7 @@ public class mpfxFade : MPFXBehaviour
 		originalColour = mpfxMat.GetColor(ModularPFXComponent.ColourKeyString);
 		timeElapsed = 0f;
 		GetEndTimeFromCurve(curve, out endTime);
+		UpdateOpacity();
 
 		return true;
 	}
@@ -25,13 +26,7 @@ public class mpfxFade : MPFXBehaviour
 	public override bool UpdatePFX()
 	{
 		timeElapsed += Time.deltaTime;
-
-		float fadeFactor = curve.Evaluate(timeElapsed);
-
-		Color desiredColour = originalColour;
-		desiredColour.a *= fadeFactor;
-
-		mpfxMat.SetColor(ModularPFXComponent.ColourKeyString, desiredColour);
+		UpdateOpacity();
 
 		return base.UpdatePFX();
 	}
@@ -39,5 +34,15 @@ public class mpfxFade : MPFXBehaviour
 	public override bool End()
 	{
 		return true;
+	}
+
+	private void UpdateOpacity()
+	{
+		float fadeFactor = curve.Evaluate(timeElapsed);
+
+		Color desiredColour = originalColour;
+		desiredColour.a *= fadeFactor;
+
+		mpfxMat.SetColor(ModularPFXComponent.ColourKeyString, desiredColour);
 	}
 }
