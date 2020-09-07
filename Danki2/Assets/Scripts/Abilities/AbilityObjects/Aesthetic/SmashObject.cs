@@ -8,8 +8,10 @@ public class SmashObject : StaticAbilityObject
 
     public override float StickTime => smashSound.clip.length;
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
+    
         if (playSoundOnStart) smashSound.Play();
     }
 
