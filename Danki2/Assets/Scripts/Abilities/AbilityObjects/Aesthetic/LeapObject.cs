@@ -6,13 +6,10 @@ public class LeapObject : StaticAbilityObject
     private AudioSource leapSound = null;
 
     [SerializeField]
-    private AudioSource momentumSound = null;
+    private AudioSource hitSound = null;
 
     [SerializeField]
     private GameObject landingVisual = null;
-
-    [SerializeField]
-    private GameObject momentumVisual = null;
 
     public override float StickTime => 2;
 
@@ -30,22 +27,25 @@ public class LeapObject : StaticAbilityObject
         return leapObject;
     }
 
-    public void PlayMomentumSound()
+    public void PlayHitSound()
     {
         leapSound.Stop();
-        momentumSound.Play();
+        hitSound.Play();
     }
 
     private void Setup(Subject leapEndSubject)
     {
         leapEndSubject.Subscribe(() =>
         {
-            gameObject.transform.position = casterTransform.position;
+            Vector3 position = casterTransform.position;
+
             if (hasMomentum)
             {
-                momentumVisual.gameObject.SetActive(true);
+                SmashObject.CreateWithoutSound(position);
                 return;
             }
+
+            gameObject.transform.position = position;
             landingVisual.gameObject.SetActive(true);
         });
     }
