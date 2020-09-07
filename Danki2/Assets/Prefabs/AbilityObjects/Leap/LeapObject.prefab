@@ -152,7 +152,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1058816074742134720
 Transform:
   m_ObjectHideFlags: 0
@@ -335,6 +335,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leapSound: {fileID: -8612878317491250918}
   momentumSound: {fileID: 8959566061968980280}
+  visual: {fileID: 3901311709971586634}
 --- !u!82 &8959566061968980280
 AudioSource:
   m_ObjectHideFlags: 0

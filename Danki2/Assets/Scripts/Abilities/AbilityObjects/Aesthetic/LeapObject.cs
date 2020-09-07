@@ -8,14 +8,15 @@ public class LeapObject : StaticAbilityObject
     [SerializeField]
     private AudioSource momentumSound = null;
 
-    private float duration;
+    [SerializeField]
+    private GameObject visual = null;
 
-    public override float StickTime => Mathf.Max(leapSound.clip.length + momentumSound.clip.length, duration + momentumSound.clip.length);
+    public override float StickTime => 2;
 
-    public static LeapObject Create(Transform casterTransform, float duration)
+    public static LeapObject Create(Transform casterTransform, Subject leapEndSubject)
     {
         LeapObject leapObject = Instantiate(AbilityObjectPrefabLookup.Instance.LeapObjectPrefab, casterTransform);
-        leapObject.duration = duration;
+        leapObject.Setup(leapEndSubject);
         return leapObject;
     }
 
@@ -23,5 +24,13 @@ public class LeapObject : StaticAbilityObject
     {
         leapSound.Stop();
         momentumSound.Play();
+    }
+
+    private void Setup(Subject leapEndSubject)
+    {
+        leapEndSubject.Subscribe(() =>
+        {
+            visual.gameObject.SetActive(true);
+        });
     }
 }
