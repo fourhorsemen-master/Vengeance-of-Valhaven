@@ -30,6 +30,7 @@ public class Leap : InstantCast
         Owner.MovementManager.TryLockMovement(MovementLockType.Dash, duration, leapSpeed, direction, direction);
 
         LeapObject leapObject = LeapObject.Create(Owner.transform, leapEndSubject);
+        Owner.StartTrail(duration);
 
         SuccessFeedbackSubject.Next(true);
 
