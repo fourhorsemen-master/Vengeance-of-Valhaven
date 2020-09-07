@@ -9,7 +9,7 @@ public class mpfxRotate : MPFXBehaviour
 
 	private Vector3 rotator;
 
-	public override bool SetUp(GameObject InGraphic)
+	public override bool SetUp(GameObject InGraphic, ModularPFXComponent OwningComponent)
 	{
 		graphic = InGraphic;
 		rotator = Vector3.zero;

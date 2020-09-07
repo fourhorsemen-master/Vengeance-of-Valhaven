@@ -20,13 +20,32 @@ public class PlayerTreeTooltipBuilder
     /// <returns> The build tooltip segments </returns>
     public List<TooltipSegment> Build(Node node)
     {
-        AbilityReference abilityReference = node.Ability;
-        List<TemplatedTooltipSegment> templatedTooltipSegments = AbilityLookup.Instance.GetTemplatedTooltipSegments(abilityReference);
+        List<TemplatedTooltipSegment> templatedTooltipSegments = AbilityLookup.Instance.GetTemplatedTooltipSegments(node.Ability);
 
+        return GetTooltipSegments(templatedTooltipSegments, node);
+    }
+
+    /// <summary>
+    /// Builds the tooltip for the specified bonus of a given node returning a list of tooltip segments.
+    /// </summary
+    /// <param name="node"> The node to build the tooltip for </param>
+    /// <param name="bonus"> The bonus </param>
+    /// <returns> The build tooltip segments </returns>
+    public List<TooltipSegment> BuildBonus(Node node, string bonus)
+    {
+        List<TemplatedTooltipSegment> templatedTooltipSegments = AbilityLookup.Instance
+            .GetAbilityBonusDataLookup(node.Ability)[bonus]
+            .TemplatedTooltipSegments;
+
+        return GetTooltipSegments(templatedTooltipSegments, node);
+    }
+
+    private List<TooltipSegment> GetTooltipSegments(List<TemplatedTooltipSegment> templatedTooltipSegments, Node node)
+    {
         return templatedTooltipSegments
             .Select(templatedTooltipSegment => GetTooltipSegment(
                 templatedTooltipSegment,
-                AbilityLookup.Instance.GetBaseAbilityData(abilityReference),
+                AbilityLookup.Instance.GetBaseAbilityData(node.Ability),
                 AbilityData.FromAbilityDataDiffers(differs, node)
             ))
             .ToList();

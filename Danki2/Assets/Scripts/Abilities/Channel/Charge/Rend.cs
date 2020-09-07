@@ -41,7 +41,10 @@ public class Rend : Charge
             .GetCollidingActors(CollisionTemplate.Cylinder, Range, Owner.transform.position)
             .Where(Owner.Opposes);
 
-        if (opposingActors.Count == 0)
+        bool enemiesHit = opposingActors.Count > 0;
+        RendObject.Create(Owner.transform, Owner.Centre, enemiesHit);
+
+        if (!enemiesHit)
         {
             SuccessFeedbackSubject.Next(false);
             return;
@@ -54,7 +57,6 @@ public class Rend : Charge
             ApplyPrimaryDamageAsDOT(actor, DotDuration, multiplicativeDamageModifier: charges);
         });
 
-        RendObject.Create(Owner.transform);
         CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
     }
 }
