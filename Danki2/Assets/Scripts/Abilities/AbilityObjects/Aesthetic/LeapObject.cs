@@ -11,15 +11,20 @@ public class LeapObject : StaticAbilityObject
     [SerializeField]
     private GameObject landingVisual = null;
 
+    [SerializeField]
+    private GameObject momentumVisual = null;
+
     public override float StickTime => 2;
 
     private Transform casterTransform;
+    private bool hasMomentum;
 
-    public static LeapObject Create(Transform casterTransform, Subject leapEndSubject)
+    public static LeapObject Create(Transform casterTransform, Subject leapEndSubject, bool hasMomentum)
     {
         LeapObject leapObject = Instantiate(AbilityObjectPrefabLookup.Instance.LeapObjectPrefab, casterTransform.position, casterTransform.rotation);
 
         leapObject.casterTransform = casterTransform;
+        leapObject.hasMomentum = hasMomentum;
         leapObject.Setup(leapEndSubject);
 
         return leapObject;
@@ -36,7 +41,11 @@ public class LeapObject : StaticAbilityObject
         leapEndSubject.Subscribe(() =>
         {
             gameObject.transform.position = casterTransform.position;
-            
+            if (hasMomentum)
+            {
+                momentumVisual.gameObject.SetActive(true);
+                return;
+            }
             landingVisual.gameObject.SetActive(true);
         });
     }

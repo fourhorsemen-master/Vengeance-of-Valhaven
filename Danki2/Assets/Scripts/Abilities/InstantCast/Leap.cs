@@ -12,6 +12,8 @@ public class Leap : InstantCast
     
     private readonly Subject leapEndSubject = new Subject();
 
+    private bool HasMomentum => HasBonus("Momentum");
+
     public Leap(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
     }
@@ -29,7 +31,7 @@ public class Leap : InstantCast
 
         Owner.MovementManager.TryLockMovement(MovementLockType.Dash, duration, leapSpeed, direction, direction);
 
-        LeapObject leapObject = LeapObject.Create(Owner.transform, leapEndSubject);
+        LeapObject leapObject = LeapObject.Create(Owner.transform, leapEndSubject, HasMomentum);
         Owner.StartTrail(duration);
 
         SuccessFeedbackSubject.Next(true);
@@ -41,7 +43,7 @@ public class Leap : InstantCast
     {
         leapEndSubject.Next();
         
-        if (HasBonus("Momentum")) StunSurroundingEnemies(leapObject);
+        if (HasMomentum) StunSurroundingEnemies(leapObject);
     }
 
     private void StunSurroundingEnemies(LeapObject leapObject)
