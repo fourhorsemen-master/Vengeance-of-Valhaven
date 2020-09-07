@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1058816074742134720}
   - component: {fileID: 1644214966199492349}
   m_Layer: 0
-  m_Name: Visual
+  m_Name: LandingVisual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -63,8 +63,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 643707733976520194}
-  - component: {fileID: -8612878317491250918}
   - component: {fileID: 8900001124334339166}
+  - component: {fileID: -8612878317491250918}
   - component: {fileID: 8959566061968980280}
   m_Layer: 0
   m_Name: LeapObject
@@ -88,6 +88,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8900001124334339166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8906384120013563577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb9324a147a836241bc5b84631f41363, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leapSound: {fileID: -8612878317491250918}
+  momentumSound: {fileID: 8959566061968980280}
+  landingVisual: {fileID: 3901311709971586634}
 --- !u!82 &-8612878317491250918
 AudioSource:
   m_ObjectHideFlags: 0
@@ -184,21 +199,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &8900001124334339166
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8906384120013563577}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb9324a147a836241bc5b84631f41363, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  leapSound: {fileID: -8612878317491250918}
-  momentumSound: {fileID: 8959566061968980280}
-  visual: {fileID: 3901311709971586634}
 --- !u!82 &8959566061968980280
 AudioSource:
   m_ObjectHideFlags: 0
