@@ -600,12 +600,12 @@ MonoBehaviour:
     - Recovery
     _values: 1400000003000000000000000000000000000000
   navmeshAgent: {fileID: 6918691881617835041}
+  trailRenderer: {fileID: 1618317697}
   abilityCooldown: 1
   totalRollCooldown: 1
   rollDuration: 0.2
   rollSpeedMultiplier: 3
   abilityTimeoutLimit: 5
-  trailRenderer: {fileID: 1618317697}
   whiffAudio: {fileID: -2634619170240676585}
   rollAudio: {fileID: -1302190466873510689}
 --- !u!114 &-7333941826244338973
@@ -751,7 +751,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 7dedd5269fa50044cbdbfc32e7fee0db, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.25
+  m_Volume: 0.45
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -1278,6 +1278,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6792869166683982730}
     m_Modifications:
+    - target: {fileID: 1979858862639965533, guid: 1c1ef6601784e49429e64e8545ef1c4a,
+        type: 3}
+      propertyPath: m_Name
+      value: FloatingDamageText
+      objectReference: {fileID: 0}
     - target: {fileID: 1979858862639965505, guid: 1c1ef6601784e49429e64e8545ef1c4a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1382,11 +1387,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1979858862639965533, guid: 1c1ef6601784e49429e64e8545ef1c4a,
-        type: 3}
-      propertyPath: m_Name
-      value: FloatingDamageText
       objectReference: {fileID: 0}
     - target: {fileID: 3486282139536815869, guid: 1c1ef6601784e49429e64e8545ef1c4a,
         type: 3}
