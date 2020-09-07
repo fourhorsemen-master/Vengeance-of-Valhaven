@@ -5,7 +5,7 @@ public class RendObject : StaticAbilityObject
     [SerializeField]
     private AudioSource hitSound = null;
     
-    public override float StickTime => 0.5f;
+    public override float StickTime => 2f;
 
     public static RendObject Create(Transform transform, Vector3 position, bool enemiesHit)
     {
@@ -16,7 +16,7 @@ public class RendObject : StaticAbilityObject
         return rendObject;
     }
 
-    public void PlayHitSound()
+    private void PlayHitSound()
     {
         hitSound.Play();
     }
