@@ -20,6 +20,8 @@ public class Player : Actor
     // Components
     [SerializeField]
     private AudioSource whiffAudio = null;
+    [SerializeField]
+    private AudioSource rollAudio = null;
 
     // Services
     public AbilityTree AbilityTree { get; private set; }    
@@ -76,6 +78,7 @@ public class Player : Actor
         if (rolled)
         {
             remainingRollCooldown = totalRollCooldown;
+            rollAudio.Play();
             RollSubject.Next();
             StartTrail(rollDuration * 2);
         }
