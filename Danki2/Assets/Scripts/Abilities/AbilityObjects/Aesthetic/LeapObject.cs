@@ -41,7 +41,7 @@ public class LeapObject : StaticAbilityObject
 
             if (hasMomentum)
             {
-                SmashObject.CreateWithoutSound(position);
+                SmashObject.Create(position, false);
                 return;
             }
 

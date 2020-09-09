@@ -66,7 +66,7 @@ public class Leap : InstantCast
         if (stunHit)
         {
             leapObject.PlayHitSound();
-            CustomCamera.Instance.AddShake(ShakeIntensity.Low);
+            CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
         } 
     }
 }
