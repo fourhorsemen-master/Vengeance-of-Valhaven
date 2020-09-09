@@ -29,7 +29,7 @@ public class Hamstring : InstantCast
         ApplyDebuff(target);
         
         CustomCamera.Instance.AddShake(ShakeIntensity.High);
-        HamstringObject.Create(Owner.transform);
+        HamstringObject.Create(Owner.transform, target.transform.position);
     }
 
     private bool InRange(Actor target)
