@@ -6,6 +6,7 @@ public class Leap : InstantCast
     private const float MinMovementDuration = 0.1f;
     private const float MaxMovementDuration = 0.3f;
     private const float LeapSpeedMultiplier = 6f;
+    private const float PauseDuration = 0.3f;
 
     private const float StunRange = 2f;
     private const float StunDuration = 3f;
@@ -42,6 +43,7 @@ public class Leap : InstantCast
     private void End(LeapObject leapObject)
     {
         leapEndSubject.Next();
+        Owner.MovementManager.Pause(PauseDuration);
         
         if (HasMomentum) StunSurroundingEnemies(leapObject);
     }
