@@ -36,6 +36,8 @@ public class LeapObject : StaticAbilityObject
     {
         leapEndSubject.Subscribe(() =>
         {
+            landingSound.Play();
+
             Vector3 position = casterTransform.position;
 
             if (hasMomentum)
@@ -46,7 +48,6 @@ public class LeapObject : StaticAbilityObject
 
             gameObject.transform.position = position;
             landingVisual.gameObject.SetActive(true);
-            landingSound.Play();
         });
     }
 }
