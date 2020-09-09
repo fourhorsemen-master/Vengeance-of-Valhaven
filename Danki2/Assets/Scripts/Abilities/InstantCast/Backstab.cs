@@ -12,15 +12,13 @@ public class Backstab : InstantCast
 
     public override void Cast(Vector3 target)
     {
-        Owner.MovementManager.LookAt(target);
-        Owner.MovementManager.Pause(PauseDuration);
+        Swing(target);
         SuccessFeedbackSubject.Next(false);
     }
 
     public override void Cast(Actor target)
     {
-        Owner.MovementManager.LookAt(target.transform.position);
-        Owner.MovementManager.Pause(PauseDuration);
+        BackstabObject backstabObject = Swing(target.Centre);
 
         if (
             !Owner.Opposes(target)
@@ -35,12 +33,20 @@ public class Backstab : InstantCast
         DealPrimaryDamage(target);
         SuccessFeedbackSubject.Next(true);
 
-        Vector3 castDirection = target.Centre - Owner.Centre;
+        CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
+        backstabObject.PlayHitSound();
+    }
+
+    private BackstabObject Swing(Vector3 target)
+    {
+        Owner.MovementManager.LookAt(target);
+        Owner.MovementManager.Pause(PauseDuration);
+
+        Vector3 castDirection = target - Owner.Centre;
         Quaternion castRotation = GetMeleeCastRotation(castDirection);
 
         BackstabObject backstabObject = BackstabObject.Create(Owner.Centre, castRotation);
 
-        CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
-        backstabObject.PlayHitSound();
+        return backstabObject;
     }
 }
