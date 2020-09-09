@@ -3,7 +3,7 @@
 public class LeapObject : StaticAbilityObject
 {
     [SerializeField]
-    private AudioSource leapSound = null;
+    private AudioSource landingSound = null;
 
     [SerializeField]
     private AudioSource hitSound = null;
@@ -29,7 +29,6 @@ public class LeapObject : StaticAbilityObject
 
     public void PlayHitSound()
     {
-        leapSound.Stop();
         hitSound.Play();
     }
 
@@ -47,6 +46,7 @@ public class LeapObject : StaticAbilityObject
 
             gameObject.transform.position = position;
             landingVisual.gameObject.SetActive(true);
+            landingSound.Play();
         });
     }
 }
