@@ -19,13 +19,16 @@ public class Disengage : InstantCast
         float duration = leapDistance / leapSpeed;
 
         Owner.MovementManager.TryLockMovement(MovementLockType.Dash, duration, leapSpeed, travelDirection, faceDirection);
+        Owner.StartTrail(duration);
 
-        DisengageObject.Create(Owner.transform);
+        DisengageObject.Create(Owner.transform, duration);
 
         SuccessFeedbackSubject.Next(true);
 
         if (HasBonus("Parting Shot"))
         {
+            SmashObject.Create(Owner.transform.position, false);
+
             CollisionTemplateManager.Instance.GetCollidingActors(
                 CollisionTemplate.Cylinder,
                 partingShotRange,

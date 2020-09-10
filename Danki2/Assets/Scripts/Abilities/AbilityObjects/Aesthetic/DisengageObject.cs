@@ -2,13 +2,28 @@
 
 public class DisengageObject : StaticAbilityObject
 {
-    public AudioSource disengageSound = null;
+    [SerializeField]
+    private AudioSource landingSound = null;
 
-    public override float StickTime => disengageSound.clip.length;
+    [SerializeField]
+    private GameObject landingVisual = null;
 
-    public static void Create(Transform casterTransform)
+    public override float StickTime => 2f;
+
+    public static void Create(Transform casterTransform, float duration)
     {
-        DisengageObject prefab = AbilityObjectPrefabLookup.Instance.DisengageObjectPrefab;
-        Instantiate(prefab, casterTransform);
+        DisengageObject disengageObject = Instantiate(AbilityObjectPrefabLookup.Instance.DisengageObjectPrefab, casterTransform);
+
+        disengageObject.WaitAndAct(duration, () =>
+        {
+            disengageObject.Land(casterTransform);
+        });
+    }
+
+    private void Land(Transform casterTransform)
+    {
+        transform.position = casterTransform.position;
+        landingVisual.gameObject.SetActive(true);
+        landingSound.Play();
     }
 }
