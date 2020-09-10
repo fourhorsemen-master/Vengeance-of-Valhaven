@@ -6,9 +6,14 @@ public class Leap : InstantCast
     private const float MinMovementDuration = 0.1f;
     private const float MaxMovementDuration = 0.3f;
     private const float LeapSpeedMultiplier = 6f;
+    private const float PauseDuration = 0.3f;
 
     private const float StunRange = 2f;
     private const float StunDuration = 3f;
+    
+    private readonly Subject leapEndSubject = new Subject();
+
+    private bool HasMomentum => HasBonus("Momentum");
 
     public Leap(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
@@ -27,11 +32,20 @@ public class Leap : InstantCast
 
         Owner.MovementManager.TryLockMovement(MovementLockType.Dash, duration, leapSpeed, direction, direction);
 
-        LeapObject leapObject = LeapObject.Create(Owner.transform, duration);
+        LeapObject leapObject = LeapObject.Create(Owner.transform, leapEndSubject, HasMomentum);
+        Owner.StartTrail(duration);
 
         SuccessFeedbackSubject.Next(true);
 
-        if (HasBonus("Momentum")) Owner.WaitAndAct(duration, () => StunSurroundingEnemies(leapObject));
+        Owner.WaitAndAct(duration, () => End(leapObject));
+    }
+
+    private void End(LeapObject leapObject)
+    {
+        leapEndSubject.Next();
+        Owner.MovementManager.Pause(PauseDuration);
+        
+        if (HasMomentum) StunSurroundingEnemies(leapObject);
     }
 
     private void StunSurroundingEnemies(LeapObject leapObject)
@@ -53,8 +67,8 @@ public class Leap : InstantCast
 
         if (stunHit)
         {
-            leapObject.PlayMomentumSound();
-            CustomCamera.Instance.AddShake(ShakeIntensity.Low);
+            leapObject.PlayHitSound();
+            CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
         } 
     }
 }

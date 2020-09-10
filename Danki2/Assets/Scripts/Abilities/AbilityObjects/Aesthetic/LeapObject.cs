@@ -3,25 +3,51 @@
 public class LeapObject : StaticAbilityObject
 {
     [SerializeField]
-    private AudioSource leapSound = null;
+    private AudioSource landingSound = null;
 
     [SerializeField]
-    private AudioSource momentumSound = null;
+    private AudioSource hitSound = null;
 
-    private float duration;
+    [SerializeField]
+    private GameObject landingVisual = null;
 
-    public override float StickTime => Mathf.Max(leapSound.clip.length + momentumSound.clip.length, duration + momentumSound.clip.length);
+    public override float StickTime => 2;
 
-    public static LeapObject Create(Transform casterTransform, float duration)
+    private Transform casterTransform;
+    private bool hasMomentum;
+
+    public static LeapObject Create(Transform casterTransform, Subject leapEndSubject, bool hasMomentum)
     {
-        LeapObject leapObject = Instantiate(AbilityObjectPrefabLookup.Instance.LeapObjectPrefab, casterTransform);
-        leapObject.duration = duration;
+        LeapObject leapObject = Instantiate(AbilityObjectPrefabLookup.Instance.LeapObjectPrefab, casterTransform.position, casterTransform.rotation);
+
+        leapObject.casterTransform = casterTransform;
+        leapObject.hasMomentum = hasMomentum;
+        leapObject.Setup(leapEndSubject);
+
         return leapObject;
     }
 
-    public void PlayMomentumSound()
+    public void PlayHitSound()
     {
-        leapSound.Stop();
-        momentumSound.Play();
+        hitSound.Play();
+    }
+
+    private void Setup(Subject leapEndSubject)
+    {
+        leapEndSubject.Subscribe(() =>
+        {
+            landingSound.Play();
+
+            Vector3 position = casterTransform.position;
+
+            if (hasMomentum)
+            {
+                SmashObject.Create(position, false);
+                return;
+            }
+
+            gameObject.transform.position = position;
+            landingVisual.gameObject.SetActive(true);
+        });
     }
 }
