@@ -4,11 +4,21 @@ public class SmashObject : StaticAbilityObject
 {
     public AudioSource smashSound = null;
 
+    private bool playSoundOnStart = true;
+
     public override float StickTime => smashSound.clip.length;
 
-    public static void Create(Vector3 position)
+    protected override void Start()
+    {
+        base.Start();
+    
+        if (playSoundOnStart) smashSound.Play();
+    }
+
+    public static void Create(Vector3 position, bool playSoundOnStart = true)
     {
         SmashObject prefab = AbilityObjectPrefabLookup.Instance.SmashObjectPrefab;
-        Instantiate(prefab, position, Quaternion.identity);
+        SmashObject smashObject = Instantiate(prefab, position, Quaternion.identity);
+        smashObject.playSoundOnStart = playSoundOnStart;
     }
 }
