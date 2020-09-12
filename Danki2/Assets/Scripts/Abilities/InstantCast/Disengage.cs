@@ -5,6 +5,7 @@ public class Disengage : InstantCast
 {
     private const float leapSpeed = 14f;
     private const float leapDistance = 6f;
+    private const float pauseDuration = 0.3f;
 
     private const float partingShotRange = 3.2f;
 
@@ -22,6 +23,11 @@ public class Disengage : InstantCast
         Owner.StartTrail(duration);
 
         DisengageObject.Create(Owner.transform, duration);
+
+        Owner.WaitAndAct(duration, () =>
+        {
+            Owner.MovementManager.Pause(pauseDuration);
+        });
 
         SuccessFeedbackSubject.Next(true);
 

@@ -12,7 +12,7 @@ public class DisengageObject : StaticAbilityObject
 
     public static void Create(Transform casterTransform, float duration)
     {
-        DisengageObject disengageObject = Instantiate(AbilityObjectPrefabLookup.Instance.DisengageObjectPrefab, casterTransform);
+        DisengageObject disengageObject = Instantiate(AbilityObjectPrefabLookup.Instance.DisengageObjectPrefab, casterTransform.position, casterTransform.rotation);
 
         disengageObject.WaitAndAct(duration, () =>
         {
