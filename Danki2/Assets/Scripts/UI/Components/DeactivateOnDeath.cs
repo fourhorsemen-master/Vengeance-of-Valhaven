@@ -9,7 +9,8 @@ public class DeactivateOnDeath : MonoBehaviour
     {
         if (!usePlayer && actor == null)
         {
-            Debug.LogError("No actor found and not set to use player");
+            Debug.LogError($"No actor found and not set to use player on {GetType()}");
+            return;
         }
         
         Subject deathSubject = usePlayer
