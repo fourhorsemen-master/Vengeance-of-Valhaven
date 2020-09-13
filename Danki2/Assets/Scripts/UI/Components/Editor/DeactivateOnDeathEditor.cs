@@ -16,7 +16,7 @@ public class DeactivateOnDeathEditor : Editor
                 "Actor",
                 deactivateOnDeath.actor,
                 typeof(Actor),
-                false
+                true
             );
         }
         

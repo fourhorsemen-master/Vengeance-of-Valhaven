@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 2191407938009447959}
   - component: {fileID: 3724129485878086070}
   - component: {fileID: 8780476783912971049}
+  - component: {fileID: 3682941386759011557}
   m_Layer: 5
   m_Name: WorldSpaceEffectList
   m_TagString: Untagged
@@ -168,3 +169,17 @@ MonoBehaviour:
   actor: {fileID: 0}
   worldSpaceEffectListItemPrefab: {fileID: 6099750122184018426, guid: 6d5a9aaf1588fb749bded7efb7861722,
     type: 3}
+--- !u!114 &3682941386759011557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6035154047587968807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79eb13e07374d704e9c87b54957da96d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  usePlayer: 0
+  actor: {fileID: 0}
