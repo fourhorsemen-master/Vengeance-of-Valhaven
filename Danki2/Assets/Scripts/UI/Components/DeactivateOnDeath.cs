@@ -7,6 +7,11 @@ public class DeactivateOnDeath : MonoBehaviour
 
     private void Start()
     {
+        if (!usePlayer && actor == null)
+        {
+            Debug.LogError("No actor found and not set to use player");
+        }
+        
         Subject deathSubject = usePlayer
             ? RoomManager.Instance.Player.DeathSubject
             : actor.DeathSubject;
