@@ -136,7 +136,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 73c176f402d2c2f4d929aa5da7585d17, type: 2}
+  - {fileID: 2100000, guid: 34e4c27b6aa27324e87ab7c3beb8a326, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -215,7 +215,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 73c176f402d2c2f4d929aa5da7585d17, type: 2}
+  - {fileID: 2100000, guid: 34e4c27b6aa27324e87ab7c3beb8a326, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1239,11 +1239,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8063099716140605082}
     m_Modifications:
-    - target: {fileID: 1979858862639965533, guid: 1c1ef6601784e49429e64e8545ef1c4a,
-        type: 3}
-      propertyPath: m_Name
-      value: FloatingDamageText
-      objectReference: {fileID: 0}
     - target: {fileID: 1979858862639965505, guid: 1c1ef6601784e49429e64e8545ef1c4a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1348,6 +1343,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1979858862639965533, guid: 1c1ef6601784e49429e64e8545ef1c4a,
+        type: 3}
+      propertyPath: m_Name
+      value: FloatingDamageText
       objectReference: {fileID: 0}
     - target: {fileID: 3486282139536815869, guid: 1c1ef6601784e49429e64e8545ef1c4a,
         type: 3}
