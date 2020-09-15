@@ -34,12 +34,6 @@ public abstract class HealthBar : MonoBehaviour
             return;
         }
 
-        if (Actor.HealthManager.Health <= 0)
-        {
-            healthBar.canvas.enabled = false;
-            return;
-        }
-
         // Set the health bar to the correct width.
         float healthProportion = (float)Actor.HealthManager.Health / Actor.HealthManager.MaxHealth;
         healthBar.rectTransform.sizeDelta = new Vector2(healthProportion * barWidth, healthBar.rectTransform.sizeDelta.y);
