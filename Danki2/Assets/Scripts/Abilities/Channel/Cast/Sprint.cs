@@ -26,10 +26,10 @@ public class Sprint : Cast
 
     private void End()
     {
-        onCastEnd.Next();
-
         Owner.EffectManager.AddActiveEffect(new SpeedBuff(SpeedModification), SprintDuration);
-        Owner.StartTrail(SprintDuration);
         SuccessFeedbackSubject.Next(true);
+
+        onCastEnd.Next();
+        Owner.StartTrail(SprintDuration);
     }
 }

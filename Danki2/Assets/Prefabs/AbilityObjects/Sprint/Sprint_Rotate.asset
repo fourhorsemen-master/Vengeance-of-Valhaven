@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d2010ca5b2d2ea409699e4b311aaf75, type: 3}
-  m_Name: Sprint_AbsolutePosition
+  m_Script: {fileID: 11500000, guid: d48ae53a2dc8e394d953d8eb79494748, type: 3}
+  m_Name: Sprint_Rotate
   m_EditorClassIdentifier: 
   behaviourName: 
   curves:
@@ -24,20 +24,20 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: -0
-      outSlope: -0
+      inSlope: 32.143982
+      outSlope: 32.143982
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.04534213
+      outWeight: 0.03874691
     - serializedVersion: 3
       time: 1
-      value: 2
-      inSlope: 5.2676935
-      outSlope: 5.2676935
+      value: 720
+      inSlope: 1633.6324
+      outSlope: 1633.6324
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.022258878
+      inWeight: 0.031327307
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
