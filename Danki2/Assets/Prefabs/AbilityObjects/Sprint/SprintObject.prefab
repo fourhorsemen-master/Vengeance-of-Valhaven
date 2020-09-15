@@ -57,7 +57,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 1a2b10bfae6df584ab91dbe7d6cb25f0, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -192,4 +192,5 @@ MonoBehaviour:
     effectColor: {r: 1, g: 1, b: 1, a: 1}
     effectEmissive: {r: 0, g: 0, b: 0, a: 0}
     effectAlbedo: {fileID: 0}
-  behaviours: []
+  behaviours:
+  - {fileID: 11400000, guid: 0dc813731908ee14eaf3ecf3dc5fd76f, type: 2}
