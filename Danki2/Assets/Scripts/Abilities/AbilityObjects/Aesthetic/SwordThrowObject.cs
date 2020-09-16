@@ -12,6 +12,9 @@ public class SwordThrowObject : ProjectileObject
     [SerializeField]
     private TrailRenderer trailRenderer = null;
 
+    [SerializeField]
+    private GameObject landingVisual = null;
+
     private bool collided;
 
     public static void Fire(Actor caster, Action<GameObject> collisionCallback, float speed, Vector3 position, Quaternion rotation)
@@ -41,6 +44,7 @@ public class SwordThrowObject : ProjectileObject
             collided = true;
             collisionSound.Play();
             trailRenderer.emitting = false;
+            Instantiate(landingVisual, transform.position, Quaternion.identity).SetActive(true);
         }
     }
 }
