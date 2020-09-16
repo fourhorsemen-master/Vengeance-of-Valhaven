@@ -16,7 +16,7 @@ public class Bash : InstantCast
     {
         Vector3 castPosition = target.Centre;
 
-        if (NavMesh.SamplePosition(castPosition, out NavMeshHit navMeshHit, Range, -1))
+        if (NavMesh.SamplePosition(castPosition, out NavMeshHit navMeshHit, Range, NavMesh.AllAreas))
         {
             castPosition = navMeshHit.position;
         }
