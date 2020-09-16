@@ -44,7 +44,7 @@ public class SwordThrowObject : ProjectileObject
             collided = true;
             collisionSound.Play();
             trailRenderer.emitting = false;
-            Instantiate(landingVisual, transform.position, Quaternion.identity).SetActive(true);
+            Instantiate(landingVisual, transform.position, Quaternion.identity);
         }
     }
 }
