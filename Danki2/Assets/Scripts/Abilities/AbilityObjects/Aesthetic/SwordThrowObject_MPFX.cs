@@ -4,7 +4,7 @@ public class SwordThrowObject_MPFX : MonoBehaviour
 {
     private float stickTime = 1f;
 
-    void Start()
+    private void Start()
     {
         this.WaitAndAct(stickTime, () => Destroy(gameObject));
     }
