@@ -1,14 +1,25 @@
 ﻿using UnityEngine;
 
-public class SprintObject : StaticAbilityObject
+public class SprintObject : MonoBehaviour
 {
     [SerializeField]
     private AudioSource sprintSound = null;
 
-    public override float StickTime => sprintSound.clip.length;
-
-    public static void Create(Transform transform)
+    public static void Create(Transform transform, Subject onCastCancelled, Subject onCastEnd)
     {
-        Instantiate(AbilityObjectPrefabLookup.Instance.SprintObjectPrefab, transform);
+        SprintObject sprintObject = Instantiate(AbilityObjectPrefabLookup.Instance.SprintObjectPrefab, transform);
+        onCastCancelled.Subscribe(sprintObject.Destroy);
+        onCastEnd.Subscribe(sprintObject.HandleCastEnd);
+    }
+
+    private void HandleCastEnd()
+    {
+        sprintSound.Play();
+        this.WaitAndAct(sprintSound.clip.length, Destroy);
+    }
+
+    private void Destroy()
+    {
+        Destroy(gameObject);
     }
 }

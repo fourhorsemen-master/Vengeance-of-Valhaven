@@ -28,7 +28,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 4488882530587400581}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -56,7 +57,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 1a2b10bfae6df584ab91dbe7d6cb25f0, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -141,3 +142,58 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &7759023576981927755
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4488882530587400581}
+  - component: {fileID: 5187516720187820311}
+  m_Layer: 0
+  m_Name: Visual
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4488882530587400581
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7759023576981927755}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4180628023649700080}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5187516720187820311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7759023576981927755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4d8ecee363ab984eab323217dbf5a71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mpfxMaterial: {fileID: 2100000, guid: 3583ac946a9670b45b71435315e9f2c9, type: 2}
+  settings:
+    effectObject: {fileID: 7516510025786791067, guid: ffb6b6de607087544b3b5e404704c42c,
+      type: 3}
+    effectColor: {r: 0.9811321, g: 0.94167954, b: 0.11569952, a: 1}
+    effectEmissive: {r: 0, g: 0, b: 0, a: 0}
+    effectAlbedo: {fileID: 2800000, guid: a2802dbeebb917a4889a09a66c870589, type: 3}
+  behaviours:
+  - {fileID: 11400000, guid: 0dc813731908ee14eaf3ecf3dc5fd76f, type: 2}
+  - {fileID: 11400000, guid: a8d9197b98dd0794c9e7a14477a2c24a, type: 2}
+  - {fileID: 11400000, guid: 74f5efc3f67d2f44db0e9d08024a969f, type: 2}
+  - {fileID: 11400000, guid: ae19a47a7ae2ec0469536ac1e737144b, type: 2}
