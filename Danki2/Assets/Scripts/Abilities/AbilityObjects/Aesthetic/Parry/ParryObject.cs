@@ -15,6 +15,6 @@ public class ParryObject : StaticAbilityObject
 
     private void HandleParry()
     {
-        ParryVisual.Create(parryVisualPrefab, transform.position);
+        ParryVisual.Create(parryVisualPrefab, transform);
     }
 }

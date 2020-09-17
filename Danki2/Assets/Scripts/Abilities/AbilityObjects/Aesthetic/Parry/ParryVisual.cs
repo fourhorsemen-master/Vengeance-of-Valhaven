@@ -1,11 +1,9 @@
 ﻿using UnityEngine;
 
-public class ParryVisual : StaticAbilityObject
+public class ParryVisual : MonoBehaviour
 {
-    public override float StickTime => 2;
-
-    public static void Create(ParryVisual prefab, Vector3 position)
+    public static void Create(ParryVisual prefab, Transform transform)
     {
-        Instantiate(prefab, position, Quaternion.identity);
+        Instantiate(prefab, transform);
     }
 }
