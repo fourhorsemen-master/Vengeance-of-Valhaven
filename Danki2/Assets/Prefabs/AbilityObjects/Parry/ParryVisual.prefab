@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6645928567041085382}
-  - component: {fileID: 6626998269566453606}
   - component: {fileID: 5543961613269380249}
+  - component: {fileID: 6626998269566453606}
   - component: {fileID: 8849892600280699241}
   m_Layer: 0
   m_Name: ParryVisual
@@ -33,6 +33,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5543961613269380249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2518056881586159812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4eec425bde9b914e8710a8f197ba52f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6626998269566453606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49,23 +61,14 @@ MonoBehaviour:
   settings:
     effectObject: {fileID: 7516510025786791067, guid: ffb6b6de607087544b3b5e404704c42c,
       type: 3}
-    effectColor: {r: 1, g: 1, b: 1, a: 1}
+    effectColor: {r: 0, g: 0.48185924, b: 0.754717, a: 1}
     effectEmissive: {r: 0, g: 0, b: 0, a: 0}
-    effectAlbedo: {fileID: 2800000, guid: 9f0b638c71d413842b76e3d1f6ab6f7f, type: 3}
+    effectAlbedo: {fileID: 2800000, guid: a2802dbeebb917a4889a09a66c870589, type: 3}
   behaviours:
-  - {fileID: 11400000, guid: 442451e908a473a479f81e5fa5389315, type: 2}
---- !u!114 &5543961613269380249
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2518056881586159812}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4eec425bde9b914e8710a8f197ba52f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  - {fileID: 11400000, guid: 3d1d4c6768a128e4c8b0a239dccf2599, type: 2}
+  - {fileID: 11400000, guid: db2e4fafd2a80b14bba8fd5d003c01b1, type: 2}
+  - {fileID: 11400000, guid: 86aa8f0df912ac84ba13048b867b6c37, type: 2}
+  - {fileID: 11400000, guid: cd73a8aaeba29f5448f502cdd0271052, type: 2}
 --- !u!82 &8849892600280699241
 AudioSource:
   m_ObjectHideFlags: 0

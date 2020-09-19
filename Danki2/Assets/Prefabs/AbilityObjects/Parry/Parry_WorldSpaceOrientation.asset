@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d2010ca5b2d2ea409699e4b311aaf75, type: 3}
-  m_Name: Parry_AbsolutePosition
+  m_Script: {fileID: 11500000, guid: bc60d5a426305124bbdcbc687327d7aa, type: 3}
+  m_Name: Parry_WorldSpaceOrientation
   m_EditorClassIdentifier: 
   behaviourName: 
   curves:
@@ -24,17 +24,17 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 3.3333333
-      outSlope: 3.3333333
+      inSlope: 0
+      outSlope: 0
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 0.3
-      value: 1
-      inSlope: 3.3333333
-      outSlope: 3.3333333
+      value: 0
+      inSlope: 0
+      outSlope: 0
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334

@@ -52,6 +52,8 @@ MonoBehaviour:
     effectAlbedo: {fileID: 2800000, guid: a2802dbeebb917a4889a09a66c870589, type: 3}
   behaviours:
   - {fileID: 11400000, guid: 442451e908a473a479f81e5fa5389315, type: 2}
+  - {fileID: 11400000, guid: 4ef0ca9262b30d048aa7bd5eb3065744, type: 2}
+  - {fileID: 11400000, guid: 9f514c7506b63bc4a9d1b3a19cb9cdfe, type: 2}
 --- !u!1 &2244182444108577433
 GameObject:
   m_ObjectHideFlags: 0
@@ -97,8 +99,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed6625541a5498c4baecf9f2c45c9f1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialSound: {fileID: 1430618277899985474}
-  parrySound: {fileID: 0}
   parryVisualPrefab: {fileID: 5543961613269380249, guid: f5b244e04ac72f440bf464260b110cbe,
     type: 3}
 --- !u!82 &1430618277899985474
