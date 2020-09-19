@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class SwordThrowObject : ProjectileObject
 {
+    private const float rotationRate = 1080f;
+
     [SerializeField]
     private AudioSource collisionSound = null;
 
@@ -25,7 +27,7 @@ public class SwordThrowObject : ProjectileObject
 
         if (!collided)
         {
-            mesh.transform.RotateAround(transform.position, Vector3.up, 20f);
+            mesh.transform.RotateAround(transform.position, Vector3.up, rotationRate * Time.deltaTime);
         }
     }
 
