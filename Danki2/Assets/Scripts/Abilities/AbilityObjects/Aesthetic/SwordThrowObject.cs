@@ -4,9 +4,6 @@ using UnityEngine;
 public class SwordThrowObject : ProjectileObject
 {
     [SerializeField]
-    private AudioSource collisionSound = null;
-
-    [SerializeField]
     private GameObject mesh = null;
 
     [SerializeField]
@@ -42,7 +39,6 @@ public class SwordThrowObject : ProjectileObject
         if (other.gameObject != caster.gameObject)
         {
             collided = true;
-            collisionSound.Play();
             trailRenderer.emitting = false;
             Instantiate(landingVisual, transform.position, Quaternion.identity);
         }
