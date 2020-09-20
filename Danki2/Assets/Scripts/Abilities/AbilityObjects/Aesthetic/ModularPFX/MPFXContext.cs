@@ -8,4 +8,5 @@ public class MPFXContext
 	public float endTime;
 
 	public GameObject graphic;
+	public ModularPFXComponent owningComponent;
 }

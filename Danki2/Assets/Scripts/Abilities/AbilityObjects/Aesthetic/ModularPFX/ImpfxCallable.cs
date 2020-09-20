@@ -8,5 +8,5 @@ public interface ImpfxCallable
 
 	bool End(MPFXContext Context);
 
-	abstract MPFXContext ConstructContext();
+	MPFXContext ConstructContext();
 }

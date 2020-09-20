@@ -31,6 +31,8 @@ public class ModularPFXComponent : MonoBehaviour
         foreach (MPFXBehaviour behaviour in behaviours)
         {
             behavioursToContexts.Add(behaviour, behaviour.ConstructContext());
+            MPFXContext context = behavioursToContexts[behaviour];
+            context.owningComponent = this;
             behaviour.SetUp(behavioursToContexts[behaviour], spawnedGraphic);
         }
     }

@@ -11,7 +11,7 @@ public class MPFXBehaviour : ScriptableObject, ImpfxCallable
 
 	virtual public bool UpdatePFX(MPFXContext Context)
 	{
-		return timeElapsed > endTime; 
+		return Context.timeElapsed > Context.endTime; 
 	}
 
 	virtual public bool End(MPFXContext Context)
