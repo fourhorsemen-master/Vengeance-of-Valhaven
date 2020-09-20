@@ -1,48 +1,57 @@
 ﻿using UnityEngine;
 using System;
 
+public class MPFXContextFade : MPFXContext
+{
+	public Color originalColour;
+	public Material mpfxMat;
+}
+
 [Serializable, CreateAssetMenu(menuName = "MPFX/Behaviour/Fade")]
 public class mpfxFade : MPFXBehaviour
 {
 	[SerializeField]
 	private AnimationCurve curve = new AnimationCurve();
 
-	Color originalColour;
-
-	private Material mpfxMat;
-
-	public override bool SetUp(GameObject InGraphic, ModularPFXComponent OwningComponent)
+	public override bool SetUp(MPFXContext Context, GameObject InGraphic)
 	{
-		graphic = InGraphic;
-		mpfxMat = graphic.GetComponent<MeshRenderer>().material;
-		originalColour = mpfxMat.GetColor(ModularPFXComponent.ColourKeyString);
-		timeElapsed = 0f;
-		GetEndTimeFromCurve(curve, out endTime);
-		UpdateOpacity();
+		MPFXContextFade castedContext = (MPFXContextFade)Context;
+		castedContext.graphic = InGraphic;
+		castedContext.mpfxMat = castedContext.graphic.GetComponent<MeshRenderer>().material;
+		castedContext.originalColour = castedContext.mpfxMat.GetColor(ModularPFXComponent.ColourKeyString);
+		castedContext.timeElapsed = 0f;
+		GetEndTimeFromCurve(curve, out castedContext.endTime);
+		UpdateOpacity(castedContext);
 
 		return true;
 	}
 
-	public override bool UpdatePFX()
+	public override bool UpdatePFX(MPFXContext Context)
 	{
-		timeElapsed += Time.deltaTime;
-		UpdateOpacity();
+		MPFXContextFade castedContext = (MPFXContextFade)Context;
+		castedContext.timeElapsed += Time.deltaTime;
+		UpdateOpacity(castedContext);
 
-		return base.UpdatePFX();
+		return base.UpdatePFX(Context);
 	}
 
-	public override bool End()
+	public override bool End(MPFXContext Context)
 	{
 		return true;
 	}
 
-	private void UpdateOpacity()
+	private void UpdateOpacity(MPFXContextFade CastedContext)
 	{
-		float fadeFactor = curve.Evaluate(timeElapsed);
+		float fadeFactor = curve.Evaluate(CastedContext.timeElapsed);
 
-		Color desiredColour = originalColour;
+		Color desiredColour = CastedContext.originalColour;
 		desiredColour.a *= fadeFactor;
 
-		mpfxMat.SetColor(ModularPFXComponent.ColourKeyString, desiredColour);
+		CastedContext.mpfxMat.SetColor(ModularPFXComponent.ColourKeyString, desiredColour);
+	}
+
+	public override MPFXContext ConstructContext()
+	{
+		return new MPFXContextFade();
 	}
 }

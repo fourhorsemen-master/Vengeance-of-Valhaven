@@ -41,6 +41,6 @@ public class MPFXBehaviour : ScriptableObject, ImpfxCallable
 
 	virtual public MPFXContext ConstructContext()
 	{
-		return null;
+		return new MPFXContext();
 	}
 }
