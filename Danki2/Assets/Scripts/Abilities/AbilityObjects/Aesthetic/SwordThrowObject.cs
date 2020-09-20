@@ -3,11 +3,16 @@ using UnityEngine;
 
 public class SwordThrowObject : ProjectileObject
 {
-    [SerializeField]
-    private AudioSource collisionSound = null;
+    private const float rotationRate = 1080f;
 
     [SerializeField]
     private GameObject mesh = null;
+
+    [SerializeField]
+    private TrailRenderer trailRenderer = null;
+
+    [SerializeField]
+    private GameObject landingVisual = null;
 
     private bool collided;
 
@@ -25,7 +30,7 @@ public class SwordThrowObject : ProjectileObject
 
         if (!collided)
         {
-            mesh.transform.RotateAround(transform.position, Vector3.up, 20f);
+            mesh.transform.RotateAround(transform.position, Vector3.up, rotationRate * Time.deltaTime);
         }
     }
 
@@ -36,7 +41,8 @@ public class SwordThrowObject : ProjectileObject
         if (other.gameObject != caster.gameObject)
         {
             collided = true;
-            collisionSound.Play();
+            trailRenderer.emitting = false;
+            Instantiate(landingVisual, transform.position, Quaternion.identity);
         }
     }
 }

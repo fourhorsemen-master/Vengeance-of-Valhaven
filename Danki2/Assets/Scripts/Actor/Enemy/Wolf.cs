@@ -117,6 +117,7 @@ public class Wolf : Enemy
     {
         if (attentionCoroutine != null) return;
 
+        MovementManager.StopPathfinding();
         MovementManager.Watch(player.transform);
         attentionCoroutine = this.WaitAndAct(agroTime, () =>
         {

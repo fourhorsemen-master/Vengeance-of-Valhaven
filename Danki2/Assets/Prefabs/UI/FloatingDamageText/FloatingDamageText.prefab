@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1979858862639965507}
   - component: {fileID: 4890984467389697646}
   - component: {fileID: 3486282139536815869}
+  - component: {fileID: 7722246063824872118}
   m_Layer: 5
   m_Name: FloatingDamageText
   m_TagString: Untagged
@@ -109,3 +110,19 @@ MonoBehaviour:
   actor: {fileID: 0}
   floatingDamageNumberPrefab: {fileID: 4768312122270699529, guid: dd6fb6c939f4bca47a2df899bd0e2ef9,
     type: 3}
+  damageColour: {r: 1, g: 1, b: 1, a: 1}
+  healingColour: {r: 0, g: 1, b: 0, a: 1}
+--- !u!114 &7722246063824872118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1979858862639965533}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79eb13e07374d704e9c87b54957da96d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  usePlayer: 0
+  actor: {fileID: 0}

@@ -115,6 +115,7 @@ public class MovementManager : IMovementStatusProvider
     /// <param name="position"></param>
     public void LookAt(Vector3 position)
     {
+        position.y = actor.transform.position.y;
         actor.transform.rotation = Quaternion.LookRotation(position - actor.transform.position);
     }
 

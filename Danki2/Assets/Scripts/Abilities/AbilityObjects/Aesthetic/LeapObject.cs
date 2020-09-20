@@ -18,7 +18,7 @@ public class LeapObject : StaticAbilityObject
 
     public static LeapObject Create(Transform casterTransform, Subject leapEndSubject, bool hasMomentum)
     {
-        LeapObject leapObject = Instantiate(AbilityObjectPrefabLookup.Instance.LeapObjectPrefab, casterTransform.position, casterTransform.rotation);
+        LeapObject leapObject = Instantiate(AbilityObjectPrefabLookup.Instance.LeapObjectPrefab, casterTransform.position, Quaternion.identity);
 
         leapObject.casterTransform = casterTransform;
         leapObject.hasMomentum = hasMomentum;

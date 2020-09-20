@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5662206475416197186}
   - component: {fileID: 2191407938009447959}
   - component: {fileID: 316055241913238212}
+  - component: {fileID: 6661424434256475483}
   m_Layer: 5
   m_Name: ScreenSpaceEffectList
   m_TagString: Untagged
@@ -154,3 +155,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   screenSpaceEffectListItemPrefab: {fileID: 2706127075826909779, guid: 512cd6649b5a01546879fd8e58e7d7f0,
     type: 3}
+--- !u!114 &6661424434256475483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6035154047587968807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79eb13e07374d704e9c87b54957da96d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  usePlayer: 1
+  actor: {fileID: 0}

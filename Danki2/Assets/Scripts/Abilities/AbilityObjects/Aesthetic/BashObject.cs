@@ -2,13 +2,26 @@
 
 public class BashObject : StaticAbilityObject
 {
-    public AudioSource bashSound = null;
+    [SerializeField]
+    private AudioSource bashSound = null;
 
+    [SerializeField]
+    private ModularPFXComponent objectMPFX = null;
+
+    [SerializeField]
+    private Color successfulHitColour;
+    
     public override float StickTime => bashSound.clip.length;
 
-    public static void Create(Vector3 position, Quaternion rotation)
+    public static void Create(Vector3 position, bool successfulHit)
     {
-        BashObject prefab = AbilityObjectPrefabLookup.Instance.BashObjectPrefab;
-        Instantiate(prefab, position, rotation);
+        BashObject bashObject = Instantiate(AbilityObjectPrefabLookup.Instance.BashObjectPrefab, position, Quaternion.identity);
+
+        if (successfulHit) bashObject.SuccessfulHit();
+    }
+
+    private void SuccessfulHit()
+    {
+        objectMPFX.UpdateEffectColour(successfulHitColour);
     }
 }
