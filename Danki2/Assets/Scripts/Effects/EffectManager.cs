@@ -19,11 +19,14 @@ public class EffectManager : IStatPipe, IMovementStatusProvider
         this.actor = actor;
         this.statsManager = statsManager;
         this.statsManager.RegisterPipe(this);
+
         updateSubject.Subscribe(() =>
         {
             ForEachEffect(e => e.Update(this.actor));
             TickActiveEffects();
         });
+
+        actor.DeathSubject.Subscribe(effects.Clear);
     }
 
     public bool TryGetEffect(Guid id, out Effect effect) => effects.TryGetValue(id, out effect);
@@ -39,6 +42,8 @@ public class EffectManager : IStatPipe, IMovementStatusProvider
     /// <param name="duration"> The duration of the effect. </param>
     public void AddActiveEffect(Effect effect, float duration)
     {
+        if (actor.Dead) return;
+
         effect.Start(actor);
 
         Guid id = Guid.NewGuid();
@@ -57,6 +62,8 @@ public class EffectManager : IStatPipe, IMovementStatusProvider
     /// <returns> The Guid to use to remove the effect. </returns>
     public Guid AddPassiveEffect(Effect effect)
     {
+        if (actor.Dead) return default;
+
         effect.Start(actor);
 
         Guid id = Guid.NewGuid();
@@ -75,6 +82,8 @@ public class EffectManager : IStatPipe, IMovementStatusProvider
     /// <param name="id"> The id of the effect to remove. </param>
     public void RemovePassiveEffect(Guid id)
     {
+        if (actor.Dead) return;
+
         if (!effects.ContainsKey(id))
         {
             Debug.LogError($"Tried to remove passive effect with id that could not be found. Id: {id.ToString()}");
@@ -151,6 +160,8 @@ public class EffectManager : IStatPipe, IMovementStatusProvider
 
     private void TickActiveEffects()
     {
+        if (actor.Dead) return;
+
         List<Guid> expiredEffectIds = new List<Guid>();
 
         ForEachEffectId(id =>

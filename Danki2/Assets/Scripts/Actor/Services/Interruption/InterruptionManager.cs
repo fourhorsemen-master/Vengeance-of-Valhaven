@@ -7,6 +7,13 @@ public class InterruptionManager
         () => new List<Action>()
     );
 
+    private readonly Actor actor;
+
+    public InterruptionManager(Actor actor)
+    {
+        this.actor = actor;
+    }
+
     public void Register(InterruptionType interruptionType, Action action)
     {
         interruptionRegister[interruptionType].Add(action);
@@ -14,6 +21,8 @@ public class InterruptionManager
 
     public void Interrupt(InterruptionType interruptionType)
     {
+        if (actor.Dead) return;
+
         switch (interruptionType)
         {
             case InterruptionType.Soft:

@@ -39,7 +39,7 @@ public abstract class Actor : MonoBehaviour
         statsManager = new StatsManager(baseStats);
         EffectManager = new EffectManager(this, updateSubject, statsManager);
         HealthManager = new HealthManager(this, updateSubject);
-        InterruptionManager = new InterruptionManager();
+        InterruptionManager = new InterruptionManager(this);
 
         ChannelService = new ChannelService(this, lateUpdateSubject, InterruptionManager);
         InstantCastService = new InstantCastService(this);
@@ -58,14 +58,6 @@ public abstract class Actor : MonoBehaviour
 
     protected virtual void Update()
     {
-        if (HealthManager.Health <= 0 && !Dead)
-        {
-            MovementManager.StopPathfinding();
-            OnDeath();
-            Dead = true;
-        }
-
-        if (Dead) return;
 
         updateSubject.Next();
     }
@@ -73,6 +65,11 @@ public abstract class Actor : MonoBehaviour
     protected virtual void LateUpdate()
     {
         lateUpdateSubject.Next();
+
+        if (HealthManager.Health <= 0 && !Dead)
+        {
+            OnDeath();
+        }
     }
 
     public int GetStat(Stat stat)
@@ -114,6 +111,7 @@ public abstract class Actor : MonoBehaviour
         Debug.Log($"{tag} died");
 
         DeathSubject.Next();
+        Dead = true;
     }
 
     protected void RegisterAbilityDataDiffer(IAbilityDataDiffer abilityDataDiffer)
