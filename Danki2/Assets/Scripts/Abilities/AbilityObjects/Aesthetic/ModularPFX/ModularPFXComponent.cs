@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-﻿using UnityEngine;
+﻿﻿using UnityEngine;
 using System.Collections.Generic;
-=======
-﻿using System.Dynamic;
-using UnityEngine;
->>>>>>> master
 
 public class ModularPFXComponent : MonoBehaviour
 {
@@ -36,14 +31,10 @@ public class ModularPFXComponent : MonoBehaviour
 
         foreach (MPFXBehaviour behaviour in behaviours)
         {
-<<<<<<< HEAD
             behavioursToContexts.Add(behaviour, behaviour.ConstructContext());
             MPFXContext context = behavioursToContexts[behaviour];
             context.owningComponent = this;
             behaviour.SetUp(behavioursToContexts[behaviour], spawnedGraphic);
-=======
-            behaviour.SetUp(spawnedGraphic, this);
->>>>>>> master
         }
     }
 

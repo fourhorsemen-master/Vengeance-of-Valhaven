@@ -7,13 +7,7 @@ public class mpfxRotate : MPFXBehaviour
 	[SerializeField]
 	private AnimationCurve[] curves = new AnimationCurve[3];
 
-<<<<<<< HEAD
 	public override bool SetUp(MPFXContext Context, GameObject InGraphic)
-=======
-	private Vector3 rotator;
-
-	public override bool SetUp(GameObject InGraphic, ModularPFXComponent OwningComponent)
->>>>>>> master
 	{
 		Context.graphic = InGraphic;
 		Context.timeElapsed = 0f;

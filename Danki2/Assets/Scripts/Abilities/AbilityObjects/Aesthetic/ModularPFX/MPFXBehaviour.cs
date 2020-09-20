@@ -4,19 +4,7 @@ using UnityEngine;
 [Serializable]
 public class MPFXBehaviour : ScriptableObject, ImpfxCallable
 {
-<<<<<<< HEAD
 	virtual public bool SetUp(MPFXContext Context, GameObject InGraphic)
-=======
-	[SerializeField]
-	protected string behaviourName;
-
-	protected float timeElapsed;
-	protected float endTime;
-
-	protected GameObject graphic;
-
-	virtual public bool SetUp(GameObject InGraphic, ModularPFXComponent OwningComponent)
->>>>>>> master
 	{
 		return false;
 	}
