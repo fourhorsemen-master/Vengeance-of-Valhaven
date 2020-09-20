@@ -28,5 +28,9 @@ public class RoomManager : Singleton<RoomManager>
             })
             .Where(i => i != null)
             .ToList();
+
+        ActorCache.ForEach(a =>
+            a.Actor.DeathSubject.Subscribe(() => ActorCache.Remove(a))
+        );
     }
 }
