@@ -53,6 +53,12 @@ public class ModularPFXComponent : MonoBehaviour
         }
     }
 
+    public void UpdateEffectColour(Color color)
+    {
+        settings.effectColor = color;
+        SetEffectColour();
+    }
+
     private void EndPFX()
     {
         foreach (MPFXBehaviour behaviour in behaviours)
