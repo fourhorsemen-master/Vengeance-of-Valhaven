@@ -2,9 +2,11 @@
 
 public interface ImpfxCallable 
 {
-	bool SetUp(GameObject Graphic );
+	bool SetUp(MPFXContext Context, GameObject Graphic );
 
-	bool UpdatePFX();
+	bool UpdatePFX(MPFXContext Context);
 
-	bool End( );
+	bool End(MPFXContext Context);
+
+	abstract MPFXContext ConstructContext();
 }

@@ -4,25 +4,17 @@ using UnityEngine;
 [Serializable]
 public class MPFXBehaviour : ScriptableObject, ImpfxCallable
 {
-	[SerializeField]
-	protected string behaviourName;
-
-	protected float timeElapsed;
-	protected float endTime;
-
-	protected GameObject graphic;
-
-	virtual public bool SetUp(GameObject InGraphic)
+	virtual public bool SetUp(MPFXContext Context, GameObject InGraphic)
 	{
 		return false;
 	}
 
-	virtual public bool UpdatePFX()
+	virtual public bool UpdatePFX(MPFXContext Context)
 	{
 		return timeElapsed > endTime; 
 	}
 
-	virtual public bool End()
+	virtual public bool End(MPFXContext Context)
 	{
 		return false;
 	}
@@ -45,5 +37,10 @@ public class MPFXBehaviour : ScriptableObject, ImpfxCallable
 		}
 
 		OutTime = maxSeenTime;
+	}
+
+	virtual public MPFXContext ConstructContext()
+	{
+		return null;
 	}
 }

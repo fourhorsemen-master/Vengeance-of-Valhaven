@@ -7,31 +7,29 @@ public class mpfxRotate : MPFXBehaviour
 	[SerializeField]
 	private AnimationCurve[] curves = new AnimationCurve[3];
 
-	private Vector3 rotator;
-
-	public override bool SetUp(GameObject InGraphic)
+	public override bool SetUp(MPFXContext Context, GameObject InGraphic)
 	{
-		graphic = InGraphic;
-		rotator = Vector3.zero;
-		timeElapsed = 0f;
-		GetEndTimeFromCurveArray(curves, out endTime);
+		Context.graphic = InGraphic;
+		Context.timeElapsed = 0f;
+		GetEndTimeFromCurveArray(curves, out Context.endTime);
 
 		return true;
 	}
 
-	public override bool UpdatePFX()
+	public override bool UpdatePFX(MPFXContext Context)
 	{
-		timeElapsed += Time.deltaTime;
-		rotator.x = curves[0].Evaluate(timeElapsed) * Time.deltaTime;
-		rotator.y = curves[1].Evaluate(timeElapsed) * Time.deltaTime;
-		rotator.z = curves[2].Evaluate(timeElapsed) * Time.deltaTime;
+		Context.timeElapsed += Time.deltaTime;
+		Vector3 rotator;
+		rotator.x = curves[0].Evaluate(Context.timeElapsed) * Time.deltaTime;
+		rotator.y = curves[1].Evaluate(Context.timeElapsed) * Time.deltaTime;
+		rotator.z = curves[2].Evaluate(Context.timeElapsed) * Time.deltaTime;
 
-		graphic.transform.Rotate(rotator);
+		Context.graphic.transform.Rotate(rotator);
 
-		return base.UpdatePFX();
+		return base.UpdatePFX(Context);
 	}
 
-	public override bool End()
+	public override bool End(MPFXContext Context)
 	{
 		return true;
 	}

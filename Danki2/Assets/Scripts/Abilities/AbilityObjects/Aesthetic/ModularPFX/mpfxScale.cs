@@ -1,32 +1,42 @@
 ﻿using UnityEngine;
 using System;
 
+public class MPFXContextScale : MPFXContext
+{
+	public string hereWeAre = "nobhead";
+}
+
 [Serializable, CreateAssetMenu(menuName = "MPFX/Behaviour/Scale")]
 public class mpfxScale : MPFXBehaviour
 {
 	[SerializeField]
 	private AnimationCurve curve = new AnimationCurve();
 
-	public override bool SetUp(GameObject InGraphic)
+	public override bool SetUp(MPFXContext Context, GameObject InGraphic)
 	{
-		graphic = InGraphic;
-		timeElapsed = 0f;
-		GetEndTimeFromCurve(curve, out endTime);
-		graphic.transform.localScale = Vector3.one * curve.Evaluate(0f);
+		Context.graphic = InGraphic;
+		Context.timeElapsed = 0f;
+		GetEndTimeFromCurve(curve, out Context.endTime);
+		Context.graphic.transform.localScale = Vector3.one * curve.Evaluate(0f);
 
 		return true;
 	}
 
-	public override bool UpdatePFX()
+	public override bool UpdatePFX(MPFXContext Context)
 	{
-		timeElapsed += Time.deltaTime;
-		graphic.transform.localScale = Vector3.one * curve.Evaluate(timeElapsed);
+		Context.timeElapsed += Time.deltaTime;
+		Context.graphic.transform.localScale = Vector3.one * curve.Evaluate(Context.timeElapsed);
 
-		return base.UpdatePFX();
+		return base.UpdatePFX(Context);
 	}
 
-	public override bool End()
+	public override bool End(MPFXContext Context)
 	{
 		return true;
+	}
+
+	public override MPFXContext ConstructContext()
+	{
+		return new MPFXContextScale();
 	}
 }

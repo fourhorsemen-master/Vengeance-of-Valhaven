@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class ModularPFXComponent : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class ModularPFXComponent : MonoBehaviour
     [SerializeField]
     private MPFXBehaviour[] behaviours = null;
 
+    private Dictionary<MPFXBehaviour, MPFXContext> behavioursToContexts = new Dictionary<MPFXBehaviour, MPFXContext>();
+
     private GameObject spawnedGraphic;
 
     private bool isActive = true;
@@ -27,7 +30,8 @@ public class ModularPFXComponent : MonoBehaviour
 
         foreach (MPFXBehaviour behaviour in behaviours)
         {
-            behaviour.SetUp(spawnedGraphic);
+            behavioursToContexts.Add(behaviour, behaviour.ConstructContext());
+            behaviour.SetUp(behavioursToContexts[behaviour], spawnedGraphic);
         }
     }
 
@@ -39,7 +43,7 @@ public class ModularPFXComponent : MonoBehaviour
 
         foreach (MPFXBehaviour behaviour in behaviours)
         {
-            if (behaviour.UpdatePFX())
+            if (behaviour.UpdatePFX(behavioursToContexts[behaviour]))
             {
                 ++behavioursComplete;
             }
@@ -55,7 +59,7 @@ public class ModularPFXComponent : MonoBehaviour
     {
         foreach (MPFXBehaviour behaviour in behaviours)
         {
-            behaviour.End();
+            behaviour.End(behavioursToContexts[behaviour]);
         }
 
         Destroy(spawnedGraphic);
