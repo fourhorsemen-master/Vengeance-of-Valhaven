@@ -12,6 +12,7 @@ public class InterruptionManager
     public InterruptionManager(Actor actor)
     {
         this.actor = actor;
+        actor.DeathSubject.Subscribe(HardInterrupt);
     }
 
     public void Register(InterruptionType interruptionType, Action action)
@@ -26,12 +27,22 @@ public class InterruptionManager
         switch (interruptionType)
         {
             case InterruptionType.Soft:
-                interruptionRegister[InterruptionType.Soft].ForEach(a => a());
+                SoftInterrupt();
                 break;
             case InterruptionType.Hard:
-                interruptionRegister[InterruptionType.Soft].ForEach(a => a());
-                interruptionRegister[InterruptionType.Hard].ForEach(a => a());
+                HardInterrupt();
                 break;
         }
+    }
+
+    private void SoftInterrupt()
+    {
+        interruptionRegister[InterruptionType.Soft].ForEach(a => a());
+    }
+
+    private void HardInterrupt()
+    {
+        interruptionRegister[InterruptionType.Soft].ForEach(a => a());
+        interruptionRegister[InterruptionType.Hard].ForEach(a => a());
     }
 }
