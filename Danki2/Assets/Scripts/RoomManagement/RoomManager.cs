@@ -7,6 +7,18 @@ public class RoomManager : Singleton<RoomManager>
     public List<ActorCacheItem> ActorCache { get; private set; }
     public Player Player { get; private set; }
 
+    public bool TryGetActor(GameObject gameObject, out Actor actor)
+    {
+        actor = null;
+        if (gameObject.tag != Tags.Player && gameObject.tag != Tags.Enemy)
+        {
+            return false;
+        }
+
+        actor = gameObject.GetComponent<Actor>();
+        return true;
+    }
+
     private void Start()
     {
         Actor[] actors = FindObjectsOfType<Actor>();

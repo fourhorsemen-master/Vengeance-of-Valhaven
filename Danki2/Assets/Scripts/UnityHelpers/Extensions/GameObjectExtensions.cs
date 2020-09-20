@@ -8,9 +8,4 @@ public static class GameObjectExtensions
         component = @object.GetComponent<T>();
         return component != null;
     }
-
-    public static bool IsActor(this GameObject gameObject)
-    {
-        return gameObject.tag == Tags.Player || gameObject.tag == Tags.Enemy;
-    }
 }
