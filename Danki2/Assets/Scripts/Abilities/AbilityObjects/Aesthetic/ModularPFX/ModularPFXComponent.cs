@@ -1,12 +1,18 @@
+<<<<<<< HEAD
 ﻿using UnityEngine;
 using System.Collections.Generic;
+=======
+﻿using System.Dynamic;
+using UnityEngine;
+>>>>>>> master
 
 public class ModularPFXComponent : MonoBehaviour
 {
-    const string ColourKeyString = "Color_33632292";
+    public const string ColourKeyString = "Color_33632292";
     const string EmissiveKeyString = "Color_A9688267";
+    const string AlbedoKeyString = "Texture2D_1FF4AC07";
 
-    [SerializeField, HideInInspector]
+    [SerializeField]
     Material mpfxMaterial = null;
 
     [SerializeField]
@@ -30,10 +36,14 @@ public class ModularPFXComponent : MonoBehaviour
 
         foreach (MPFXBehaviour behaviour in behaviours)
         {
+<<<<<<< HEAD
             behavioursToContexts.Add(behaviour, behaviour.ConstructContext());
             MPFXContext context = behavioursToContexts[behaviour];
             context.owningComponent = this;
             behaviour.SetUp(behavioursToContexts[behaviour], spawnedGraphic);
+=======
+            behaviour.SetUp(spawnedGraphic, this);
+>>>>>>> master
         }
     }
 
@@ -57,6 +67,12 @@ public class ModularPFXComponent : MonoBehaviour
         }
     }
 
+    public void UpdateEffectColour(Color color)
+    {
+        settings.effectColor = color;
+        SetEffectColour();
+    }
+
     private void EndPFX()
     {
         foreach (MPFXBehaviour behaviour in behaviours)
@@ -76,11 +92,12 @@ public class ModularPFXComponent : MonoBehaviour
         {
             mesh.material = mpfxMaterial;
 
-            //These magic strings are awful, but are needed to workaround a bug in our verion of Unity
-            //These allow for the emissive colour to be altererd at runtime, which is broken when trying
+            //These magic strings are awful, but are needed to workaround a bug in our version of Unity
+            //These allow for the emissive colour to be altered at runtime, which is broken when trying
             //to alter these through the built in shader variables.
             mesh.material.SetColor(ColourKeyString, settings.effectColor);
             mesh.material.SetColor(EmissiveKeyString, settings.effectEmissive);
+            mesh.material.SetTexture(AlbedoKeyString, settings.effectAlbedo);
         }
     }
 }

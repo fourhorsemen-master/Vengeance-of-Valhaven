@@ -25,6 +25,7 @@ public class Pounce : InstantCast
         float duration = Mathf.Clamp(distance / pounceSpeed, MinMovementDuration, MaxMovementDuration);
 
         Owner.MovementManager.TryLockMovement(MovementLockType.Dash, duration, pounceSpeed, direction, direction);
+        Owner.StartTrail(duration);
 
         PounceObject.Create(position, Quaternion.LookRotation(target - position));
 
@@ -48,6 +49,8 @@ public class Pounce : InstantCast
                 hasDealtDamage = true;
             }
         });
+
+        BiteObject.Create(Owner.transform);
 
         Owner.MovementManager.Pause(PauseDuration);
         SuccessFeedbackSubject.Next(hasDealtDamage);

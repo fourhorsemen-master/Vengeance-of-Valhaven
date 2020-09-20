@@ -3,7 +3,7 @@
     Slash,
     Whirlwind,
     Fireball,
-    DaggerThrow,
+    PoisonDagger,
     Bite,
     Pounce,
     Dash,
@@ -21,5 +21,9 @@
     Parry,
     IntimidatingShout,
     Rend,
-    Bandage
+    Bandage,
+    Disengage,
+    SwordThrow,
+    FanOfKnives,
+    Hamstring
 }

@@ -17,7 +17,7 @@ public class Parry : InstantCast
 
     public override void Cast(Vector3 target)
     {
-        ParryObject.Create(Owner.transform, duration, onParry);
+        ParryObject.Create(Owner.transform, onParry);
         
         Owner.EffectManager.AddActiveEffect(new BlockIncomingDamage(), duration);
         

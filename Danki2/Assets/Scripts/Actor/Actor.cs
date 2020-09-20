@@ -10,6 +10,11 @@ public abstract class Actor : MonoBehaviour
     [SerializeField]
     private NavMeshAgent navmeshAgent = null;
 
+    [SerializeField]
+    private TrailRenderer trailRenderer = null;
+
+    private Coroutine stopTrailCoroutine;
+
     private StatsManager statsManager;
     protected readonly Subject updateSubject = new Subject();
     protected readonly Subject lateUpdateSubject = new Subject();
@@ -90,6 +95,18 @@ public abstract class Actor : MonoBehaviour
     {
         Coroutine coroutine = this.WaitAndAct(delay, action);
         InterruptionManager.Register(interruptionType, () => StopCoroutine(coroutine));
+    }
+
+    public void StartTrail(float duration)
+    {
+        trailRenderer.emitting = true;
+
+        if (stopTrailCoroutine != null)
+        {
+            StopCoroutine(stopTrailCoroutine);
+        }
+
+        stopTrailCoroutine = this.WaitAndAct(duration, () => trailRenderer.emitting = false);
     }
 
     protected virtual void OnDeath()

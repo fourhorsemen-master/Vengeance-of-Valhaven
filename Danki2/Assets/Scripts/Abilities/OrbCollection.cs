@@ -10,6 +10,8 @@ public class OrbCollection : EnumDictionary<OrbType, int>
     {
     }
 
+    public OrbCollection(OrbCollection orbCollection) : base(orbCollection) { }
+
     public OrbCollection(List<OrbType> orbTypes) : base (0)
     {
         EnumUtils.ForEach<OrbType>(type => this[type] = orbTypes.Count(o => o == type));

@@ -6,7 +6,7 @@ public class AbilityObjectPrefabLookup : Singleton<AbilityObjectPrefabLookup>
     private FireballObject _fireballObjectPrefab = null;
 
     [SerializeField]
-    private DaggerObject _daggerObjectPrefab = null;
+    private PoisonDaggerObject _poisonDaggerObjectPrefab = null;
 
     [SerializeField]
     private BiteObject _biteObjectPrefab = null;
@@ -65,8 +65,23 @@ public class AbilityObjectPrefabLookup : Singleton<AbilityObjectPrefabLookup>
     [SerializeField]
     private BandageObject _bandageObjectPrefab = null;
 
+    [SerializeField]
+    private DisengageObject _disengageObjectPrefab = null;
+
+    [SerializeField]
+    private SwordThrowObject _swordThrowObjectPrefab = null;
+
+    [SerializeField]
+    private FanOfKnivesObject _fanOfKnivesObjectPrefab = null;
+
+    [SerializeField]
+    private HamstringObject _hamstringObjectPrefab = null;
+
+    [SerializeField]
+    private SprintObject _sprintObjectPrefab = null;
+
     public FireballObject FireballObjectPrefab => _fireballObjectPrefab;
-    public DaggerObject DaggerObjectPrefab => _daggerObjectPrefab;
+    public PoisonDaggerObject PoisonDaggerObjectPrefab => _poisonDaggerObjectPrefab;
     public BiteObject BiteObjectPrefab => _biteObjectPrefab;
     public PounceObject PounceObjectPrefab => _pounceObjectPrefab;
     public LungeObject LungeObjectPrefab => _lungeObjectPrefab;
@@ -86,4 +101,9 @@ public class AbilityObjectPrefabLookup : Singleton<AbilityObjectPrefabLookup>
     public IntimidatingShoutObject IntimidatingShoutObjectPrefab => _intimidatingShoutObjectPrefab;
     public RendObject RendObjectPrefab => _rendObjectPrefab;
     public BandageObject BandageObjectPrefab => _bandageObjectPrefab;
+    public DisengageObject DisengageObjectPrefab => _disengageObjectPrefab;
+    public SwordThrowObject SwordThrowObjectPrefab => _swordThrowObjectPrefab;
+    public FanOfKnivesObject FanOfKnivesObjectPrefab => _fanOfKnivesObjectPrefab;
+    public HamstringObject HamstringObjectPrefab => _hamstringObjectPrefab;
+    public SprintObject SprintObjectPrefab => _sprintObjectPrefab;
 }
