@@ -12,35 +12,45 @@ public class Backstab : InstantCast
 
     public override void Cast(Vector3 target)
     {
-        Owner.MovementManager.LookAt(target);
-        Owner.MovementManager.Pause(PauseDuration);
+        Swing(target);
         SuccessFeedbackSubject.Next(false);
     }
 
     public override void Cast(Actor target)
     {
-        Owner.MovementManager.LookAt(target.transform.position);
-        Owner.MovementManager.Pause(PauseDuration);
+        BackstabObject backstabObject = Swing(target.Centre);
 
-        if (
-            !Owner.Opposes(target)
-            || Range < Vector3.Distance(target.transform.position, Owner.transform.position)
-            || Vector3.Dot(target.transform.forward, Owner.transform.position - target.transform.position) > 0
-        )
+        if (!InRange(target))
         {
             SuccessFeedbackSubject.Next(false);
             return;
         }
 
-        DealPrimaryDamage(target);
         SuccessFeedbackSubject.Next(true);
 
-        Vector3 castDirection = target.Centre - Owner.Centre;
-        Quaternion castRotation = GetMeleeCastRotation(castDirection);
-
-        BackstabObject backstabObject = BackstabObject.Create(Owner.Centre, castRotation);
+        DealPrimaryDamage(target);
 
         CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
         backstabObject.PlayHitSound();
+    }
+
+    private BackstabObject Swing(Vector3 target)
+    {
+        Owner.MovementManager.LookAt(target);
+        Owner.MovementManager.Pause(PauseDuration);
+
+        Vector3 castDirection = target - Owner.Centre;
+        Quaternion castRotation = GetMeleeCastRotation(castDirection);
+
+        return BackstabObject.Create(Owner.Centre, castRotation);
+    }
+
+    private bool InRange(Actor target)
+    {
+        bool opposesCaster = Owner.Opposes(target);
+        bool closeEnough = Vector3.Distance(target.transform.position, Owner.transform.position) < Range;
+        bool backTurned = Vector3.Dot(target.transform.forward, Owner.transform.position - target.transform.position) < 0;
+
+        return opposesCaster && closeEnough && backTurned;
     }
 }
