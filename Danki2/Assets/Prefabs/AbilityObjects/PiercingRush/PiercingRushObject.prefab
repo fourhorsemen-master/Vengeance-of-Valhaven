@@ -1,5 +1,60 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2475201383530539789
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6192433256412632975}
+  - component: {fileID: 3497211187800440532}
+  m_Layer: 0
+  m_Name: MPFX
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &6192433256412632975
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2475201383530539789}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6199901359796212524}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3497211187800440532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2475201383530539789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4d8ecee363ab984eab323217dbf5a71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mpfxMaterial: {fileID: 2100000, guid: 3583ac946a9670b45b71435315e9f2c9, type: 2}
+  settings:
+    effectObject: {fileID: 7516510025786791067, guid: ffb6b6de607087544b3b5e404704c42c,
+      type: 3}
+    effectColor: {r: 1, g: 0.28652775, b: 0, a: 1}
+    effectEmissive: {r: 0, g: 0, b: 0, a: 0}
+    effectAlbedo: {fileID: 2800000, guid: a2802dbeebb917a4889a09a66c870589, type: 3}
+  behaviours:
+  - {fileID: 11400000, guid: db9ae8d8db435b44184d3bff89b3f7f9, type: 2}
+  - {fileID: 11400000, guid: c794e0c0fe9602f4ea6f41b02e217528, type: 2}
+  - {fileID: 11400000, guid: 150e2d80f0e3a9346b4f7f0f77e16726, type: 2}
+  - {fileID: 11400000, guid: 9fe1d5fd4b6f54a41b50bad3d01d32e1, type: 2}
 --- !u!1 &6281845679081735181
 GameObject:
   m_ObjectHideFlags: 0
@@ -29,7 +84,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 6192433256412632975}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -45,8 +101,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8ede32ebab520348b47f408b632ec82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  castSound: {fileID: -6551646423874775727}
   jetstreamSound: {fileID: 3494248422896000710}
   piercingRushSound: {fileID: -6551646423874775727}
+  startMPFXObject: {fileID: 2475201383530539789}
 --- !u!82 &-6551646423874775727
 AudioSource:
   m_ObjectHideFlags: 0
@@ -58,7 +116,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 0b16a0bd7a508214abefa6e309e5c7da, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

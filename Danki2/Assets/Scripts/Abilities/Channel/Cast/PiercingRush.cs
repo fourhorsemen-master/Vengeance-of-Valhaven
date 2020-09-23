@@ -5,6 +5,8 @@ public class PiercingRush : Cast
 {
     protected override float CastTime => 2f;
 
+    private PiercingRushObject piercingRushObject = null;
+
     private const float minimumCastRange = 2f;
     private const float maximumCastRange = 10f;
     private const float dashDamageWidth = 6f;
@@ -19,11 +21,20 @@ public class PiercingRush : Cast
 
     private const float postDashPauseDuration = 0.2f;
 
+    private readonly Subject onCastCancelled = new Subject();
+
     public override ChannelEffectOnMovement EffectOnMovement => ChannelEffectOnMovement.Root;
 
     public PiercingRush(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
     }
+
+    protected override void Start()
+    {
+        piercingRushObject = PiercingRushObject.Create(Owner.transform, onCastCancelled);
+    }
+
+    protected override void Cancel() => onCastCancelled.Next();
 
     public override void End(Vector3 target)
     {
@@ -76,7 +87,7 @@ public class PiercingRush : Cast
         // Jetstream.
         if (HasBonus("Jetstream")) Owner.WaitAndAct(dashDuration + jetstreamCastDelay, () => Jetstream());
 
-        PiercingRushObject.Create(Owner.transform, HasBonus("Jetstream"), dashDuration);
+        piercingRushObject.OnEnd(HasBonus("Jetstream"), dashDuration);
 
         SuccessFeedbackSubject.Next(hasDealtDamage);
 
