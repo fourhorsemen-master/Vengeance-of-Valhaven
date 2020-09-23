@@ -23,7 +23,7 @@ public class PlayerControls : MonoBehaviour
         if (Input.GetAxis("Vertical") > 0) moveDirection.z += 1f;
         if (Input.GetAxis("Vertical") < 0) moveDirection.z -= 1f;
 
-        if (Input.GetAxis("Roll") > 0)
+        if (Input.GetAxis("Roll") > 0 && moveDirection != Vector3.zero)
         {
             _player.Roll(moveDirection);
         }
