@@ -3,9 +3,6 @@
 public class PiercingRushObject : MonoBehaviour
 {
     [SerializeField]
-    private AudioSource castSound = null;
-
-    [SerializeField]
     private AudioSource jetstreamSound = null;
 
     [SerializeField]
@@ -13,6 +10,9 @@ public class PiercingRushObject : MonoBehaviour
 
     [SerializeField]
     private GameObject startMPFXObject = null;
+
+    [SerializeField]
+    private GameObject rushMPFXObject = null;
 
     public static PiercingRushObject Create(Transform transform, Subject onCastCancelled)
     {
@@ -27,9 +27,10 @@ public class PiercingRushObject : MonoBehaviour
 
     public void OnEnd(bool hasJetstream, float dashDuration)
     {
-        startMPFXObject.SetActive(false);        
+        startMPFXObject.SetActive(false);
+        rushMPFXObject.SetActive(true);
 
-        castSound.Play();
+        piercingRushSound.Play();
 
         if (hasJetstream)
         {
