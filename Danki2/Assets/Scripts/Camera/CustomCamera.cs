@@ -16,7 +16,7 @@ public class CustomCamera : Singleton<CustomCamera>
     private float mouseFollowFactor = 0f;
 
     [SerializeField, Range(0f, 1f)]
-    private float smoothFactor = 0f;
+    private float smoothFactor = 0.1f;
 
     // Shake levels
     [SerializeField, Range(0, 50)]
@@ -42,6 +42,18 @@ public class CustomCamera : Singleton<CustomCamera>
 
     private CameraShakeManager shakeManager = new CameraShakeManager(4);
 
+    private void Start()
+    {
+        FollowTarget(true);
+        gameObject.transform.eulerAngles = new Vector3(angle, 0, 0);
+    }
+
+    private void Update()
+    {
+        FollowTarget(false);
+        shakeManager.ApplyShake(transform);
+    }
+
     public void AddShake(ShakeIntensity intensity)
     {
         switch (intensity)
@@ -58,19 +70,7 @@ public class CustomCamera : Singleton<CustomCamera>
         }
     }
 
-    private void Update()
-    {
-        UpdateRotation();
-        FollowTarget();
-        shakeManager.ApplyShake(transform);
-    }
-
-    private void UpdateRotation()
-    {
-        gameObject.transform.eulerAngles = new Vector3(angle, 0, 0);
-    }
-
-    private void FollowTarget()
+    private void FollowTarget(bool snap)
     {
         float zDistanceFromFloorIntersect = height / (Mathf.Tan(Mathf.Deg2Rad * angle));
         Vector3 targetPosition = target.transform.position;
@@ -84,6 +84,14 @@ public class CustomCamera : Singleton<CustomCamera>
             targetPosition.z - zDistanceFromFloorIntersect + (mouseOffsetV * mouseFollowFactor)
         );
 
-        transform.position = Vector3.Lerp(transform.position, desiredPosition, 1f - smoothFactor);
+        if (snap)
+        {
+            transform.position = desiredPosition;
+            return;
+        }
+
+        var lerpAmount = 1 - Mathf.Exp(- Time.deltaTime / smoothFactor);
+
+        transform.position = Vector3.Lerp(transform.position, desiredPosition, lerpAmount);
     }
 }
