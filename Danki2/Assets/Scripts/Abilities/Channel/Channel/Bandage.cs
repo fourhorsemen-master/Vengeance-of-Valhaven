@@ -34,7 +34,7 @@ public class Bandage : Channel
 
         if (HasBonus("Perseverance"))
         {
-            slowEffectId = Owner.EffectManager.AddPassiveEffect(new Slow(SlowMultiplier));
+            Owner.EffectManager.TryAddPassiveEffect(new Slow(SlowMultiplier), out slowEffectId);
         }
     }
 

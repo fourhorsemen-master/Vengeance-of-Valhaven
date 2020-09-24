@@ -68,7 +68,11 @@ public class Meditate : Charge
             if (actor.Opposes(Owner))
             {
                 MultiplicativeStatModification slow = new Slow(SlowMultiplier);
-                slowedActors[actor] = actor.EffectManager.AddPassiveEffect(slow);
+
+                if (actor.EffectManager.TryAddPassiveEffect(slow, out Guid slowEffectId))
+                {
+                    slowedActors[actor] = slowEffectId;
+                }
             }
         });
     }

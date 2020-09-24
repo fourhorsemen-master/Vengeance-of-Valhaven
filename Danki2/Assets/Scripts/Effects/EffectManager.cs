@@ -60,19 +60,23 @@ public class EffectManager : IStatPipe, IMovementStatusProvider
     /// </summary>
     /// <param name="effect"> The effect to add. </param>
     /// <returns> The Guid to use to remove the effect. </returns>
-    public Guid AddPassiveEffect(Effect effect)
+    public bool TryAddPassiveEffect(Effect effect, out Guid id)
     {
-        if (actor.Dead) return default;
+        if (actor.Dead)
+        {
+            id = default;
+            return false;
+        }
 
         effect.Start(actor);
 
-        Guid id = Guid.NewGuid();
+        id = Guid.NewGuid();
         effects.Add(id, effect);
         EffectAddedSubject.Next(id);
 
         statsManager.ClearCache();
 
-        return id;
+        return true;
     }
 
     /// <summary>
