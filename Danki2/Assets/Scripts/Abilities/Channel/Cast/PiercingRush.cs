@@ -50,6 +50,7 @@ public class PiercingRush : Cast
         float dashDuration = distance / dashSpeed;
         
         Owner.MovementManager.TryLockMovement(MovementLockType.Dash, dashDuration, dashSpeed, direction, direction);
+        Owner.StartTrail(dashDuration);
 
 
         // Dash damage and Daze.
