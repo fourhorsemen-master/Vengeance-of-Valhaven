@@ -1,11 +1,6 @@
 ﻿using UnityEngine;
 using System;
 
-public class MPFXContextScale : MPFXContext
-{
-	public string hereWeAre = "nobhead";
-}
-
 [Serializable, CreateAssetMenu(menuName = "MPFX/Behaviour/Scale")]
 public class mpfxScale : MPFXBehaviour
 {
@@ -33,10 +28,5 @@ public class mpfxScale : MPFXBehaviour
 	public override bool End(MPFXContext Context)
 	{
 		return true;
-	}
-
-	public override MPFXContext ConstructContext()
-	{
-		return new MPFXContextScale();
 	}
 }
