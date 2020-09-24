@@ -9,14 +9,17 @@ public class RoomManager : Singleton<RoomManager>
 
     public bool TryGetActor(GameObject gameObject, out Actor actor)
     {
-        actor = null;
-        if (gameObject.tag != Tags.Player && gameObject.tag != Tags.Enemy)
+        foreach(ActorCacheItem item in ActorCache)
         {
-            return false;
+            if (item.Actor.gameObject.GetInstanceID() == gameObject.GetInstanceID())
+            {
+                actor = item.Actor;
+                return true;
+            }
         }
 
-        actor = gameObject.GetComponent<Actor>();
-        return true;
+        actor = null;
+        return false;
     }
 
     private void Start()
