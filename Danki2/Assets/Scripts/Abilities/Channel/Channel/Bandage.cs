@@ -28,7 +28,8 @@ public class Bandage : Channel
     public override void Start(Vector3 target)
     {
         bandageObject = BandageObject.Create(Owner.transform);
-        
+        Owner.DeathSubject.Subscribe(bandageObject.Destroy);
+
         repeater = new Repeater(HealInterval, Heal, HealStartDelay);
 
         if (HasBonus("Perseverance"))
