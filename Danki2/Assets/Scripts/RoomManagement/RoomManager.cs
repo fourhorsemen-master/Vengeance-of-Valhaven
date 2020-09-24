@@ -11,7 +11,7 @@ public class RoomManager : Singleton<RoomManager>
     {
         foreach(ActorCacheItem item in ActorCache)
         {
-            if (item.Actor.gameObject.GetInstanceID() == gameObject.GetInstanceID())
+            if (item.Actor.gameObject.MatchesId(gameObject))
             {
                 actor = item.Actor;
                 return true;
