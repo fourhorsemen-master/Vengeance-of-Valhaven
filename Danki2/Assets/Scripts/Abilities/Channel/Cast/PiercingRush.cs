@@ -70,8 +70,7 @@ public class PiercingRush : Cast
         {
             if (Owner.Opposes(actor))
             {
-                DealPrimaryDamage(actor);
-                CustomCamera.Instance.AddShake(ShakeIntensity.High);
+                DealDamage(actor);                
                 hasDealtDamage = true;
 
                 if (HasBonus("Daze"))
@@ -93,6 +92,16 @@ public class PiercingRush : Cast
         SuccessFeedbackSubject.Next(hasDealtDamage);
 
         Owner.WaitAndAct(dashDuration, () => Owner.MovementManager.Pause(postDashPauseDuration));
+    }
+
+    private void DealDamage(Actor target)
+    {
+        // method for finding the direction of normal vector to movement path
+        // call the piercing rush object show damage method after the set time figured for below
+        // use a wait and act to deal damage only as we pass it by knowing closest point and dash speed
+        // finally want to add some jetstream mpfx
+        DealPrimaryDamage(target);
+        CustomCamera.Instance.AddShake(ShakeIntensity.High);
     }
 
     private void Jetstream()
