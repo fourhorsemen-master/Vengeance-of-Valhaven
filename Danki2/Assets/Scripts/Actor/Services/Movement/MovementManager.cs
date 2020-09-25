@@ -161,7 +161,6 @@ public class MovementManager : IMovementStatusProvider
 
             case MovementLockType.Pull:
             case MovementLockType.Knockback:
-                actor.InterruptionManager.Interrupt(InterruptionType.Hard);
                 overrideLock = true;
                 break;
         }
