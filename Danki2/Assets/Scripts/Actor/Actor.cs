@@ -24,7 +24,7 @@ public abstract class Actor : MonoBehaviour
     public InstantCastService InstantCastService { get; private set; }
     public EffectManager EffectManager { get; private set; }
     public MovementManager MovementManager { get; private set; }
-    public InterruptionManager InterruptionManager { get; private set; }
+    public InterruptionManager InterruptionManager { get; private set; } = new InterruptionManager();
     public Actor Target { get; set; } = null;
     public bool IsDamaged => HealthManager.Health < HealthManager.MaxHealth;
     public bool Dead { get; private set; }
@@ -39,12 +39,14 @@ public abstract class Actor : MonoBehaviour
         statsManager = new StatsManager(baseStats);
         EffectManager = new EffectManager(this, updateSubject, statsManager);
         HealthManager = new HealthManager(this, updateSubject);
-        InterruptionManager = new InterruptionManager();
 
         ChannelService = new ChannelService(this, lateUpdateSubject, InterruptionManager);
         InstantCastService = new InstantCastService(this);
 
+        // The MovementManager constructor needs EffectManager and ChannelService to be set up
         MovementManager = new MovementManager(this, updateSubject, navmeshAgent);
+        InterruptionManager.Setup(MovementManager);
+        
         AbilityDataStatsDiffer abilityDataStatsDiffer = new AbilityDataStatsDiffer(this);
         RegisterAbilityDataDiffer(abilityDataStatsDiffer);
 

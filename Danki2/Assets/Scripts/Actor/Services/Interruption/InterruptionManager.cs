@@ -7,6 +7,11 @@ public class InterruptionManager
         () => new List<Action>()
     );
 
+    public void Setup(MovementManager movementManager)
+    {
+        movementManager.MoveLockSubject.Subscribe(() => Interrupt(InterruptionType.Hard));
+    }
+
     public void Register(InterruptionType interruptionType, Action action)
     {
         interruptionRegister[interruptionType].Add(action);

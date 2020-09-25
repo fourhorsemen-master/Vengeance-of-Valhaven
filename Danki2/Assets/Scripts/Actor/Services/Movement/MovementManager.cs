@@ -1,10 +1,18 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.AI;
 
 public class MovementManager : IMovementStatusProvider
 {
     private readonly Actor actor;
     private readonly NavMeshAgent navMeshAgent;
+
+    private readonly List<MovementLockType> MoveLockOverrideTypes = new List<MovementLockType>
+    {
+        MovementLockType.Knockback,
+        MovementLockType.Pull
+    };
 
     private const float DestinationTolerance = 0.5f;
     private const float RotationSmoothing = 0.15f;
@@ -27,6 +35,8 @@ public class MovementManager : IMovementStatusProvider
 
     public bool IsMoving { get; private set; } = false;
     private bool movedThisFrame = false;
+
+    public Subject MoveLockSubject { get; set; } = new Subject();
 
     public MovementManager(Actor actor, Subject updateSubject, NavMeshAgent navMeshAgent)
     {
@@ -115,8 +125,7 @@ public class MovementManager : IMovementStatusProvider
     /// <param name="position"></param>
     public void LookAt(Vector3 position)
     {
-        position.y = actor.transform.position.y;
-        actor.transform.rotation = Quaternion.LookRotation(position - actor.transform.position);
+        Look(position - actor.transform.position);
     }
 
     public void StopPathfinding()
@@ -142,20 +151,7 @@ public class MovementManager : IMovementStatusProvider
 
     public bool TryLockMovement(MovementLockType type, float duration, float speed, Vector3 direction, Vector3 rotation)
     {
-        bool overrideLock = false;
-
-        // We override existing locks if the incoming lock is from an external source.
-        switch (type)
-        {
-            case MovementLockType.Dash:
-                overrideLock = false;
-                break;
-
-            case MovementLockType.Pull:
-            case MovementLockType.Knockback:
-                overrideLock = true;
-                break;
-        }
+        bool overrideLock = MoveLockOverrideTypes.Contains(type);
 
         return TryLockMovement(overrideLock, duration, speed, direction, rotation);
     }
@@ -172,16 +168,21 @@ public class MovementManager : IMovementStatusProvider
     {
         if (!movementStatusManager.TryLockMovement(overrideLock, duration)) return false;
 
+        MoveLockSubject.Next();
+
         StopPathfinding();
         movementLockSpeed = speed;
         movementLockDirection = direction.normalized;
 
-        if (rotation != Vector3.zero)
-        {
-            actor.transform.rotation = Quaternion.LookRotation(rotation);
-        }
+        if (rotation != Vector3.zero) Look(rotation);
 
         return true;
+    }
+
+    private void Look(Vector3 rotation)
+    {
+        rotation.y = actor.transform.position.y;
+        actor.transform.rotation = Quaternion.LookRotation(rotation);
     }
 
     private void UpdateMovement()
