@@ -23,5 +23,7 @@
     Rend,
     Bandage,
     Disengage,
-    SwordThrow
+    SwordThrow,
+    FanOfKnives,
+    Hamstring
 }

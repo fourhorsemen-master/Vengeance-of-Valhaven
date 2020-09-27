@@ -17,24 +17,12 @@ public class AbilityBonusOrbsCalculator : IAbilityBonusCalculator
     /// <returns> An array of the active bonuses. </returns>
     public string[] GetActiveBonuses(AbilityReference abilityReference)
     {
-        OrbCollection activeOrbs = GetActiveOrbs();
+        OrbCollection activeOrbs = currentNode.GetOutputOrbs();
 
         Dictionary<string, AbilityBonusData> abilityBonusDataLookup = AbilityLookup.Instance.GetAbilityBonusDataLookup(abilityReference);
 
         return abilityBonusDataLookup.Keys
             .Where(abilityBonus => activeOrbs.IsSuperset(abilityBonusDataLookup[abilityBonus].RequiredOrbs))
             .ToArray();
-    }
-
-    private OrbCollection GetActiveOrbs()
-    {
-        OrbCollection activeOrbs = new OrbCollection();
-        
-        currentNode.IterateUp(
-            n => activeOrbs.Add(AbilityLookup.Instance.GetGeneratedOrbs(n.Ability)),
-            n => !n.IsRootNode
-        );
-
-        return activeOrbs;
     }
 }

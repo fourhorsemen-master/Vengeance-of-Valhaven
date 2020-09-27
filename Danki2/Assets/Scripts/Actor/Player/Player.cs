@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class Player : Actor
 {
@@ -20,9 +19,9 @@ public class Player : Actor
 
     // Components
     [SerializeField]
-    private TrailRenderer trailRenderer = null;
-    [SerializeField]
     private AudioSource whiffAudio = null;
+    [SerializeField]
+    private AudioSource rollAudio = null;
 
     // Services
     public AbilityTree AbilityTree { get; private set; }    
@@ -79,9 +78,9 @@ public class Player : Actor
         if (rolled)
         {
             remainingRollCooldown = totalRollCooldown;
-            trailRenderer.emitting = true;
+            rollAudio.Play();
             RollSubject.Next();
-            StartCoroutine(EndRollVisualAfterDelay());
+            StartTrail(rollDuration * 2);
         }
     }
 
@@ -93,11 +92,5 @@ public class Player : Actor
     private void TickRollCooldown()
     {
         remainingRollCooldown = Mathf.Max(0f, remainingRollCooldown - Time.deltaTime);
-    }
-
-    private IEnumerator EndRollVisualAfterDelay()
-    {
-        yield return new WaitForSeconds(rollDuration * 2);
-        trailRenderer.emitting = false;
     }
 }

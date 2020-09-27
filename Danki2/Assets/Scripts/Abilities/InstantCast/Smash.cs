@@ -6,6 +6,7 @@ public class Smash : InstantCast
     private const float DistanceFromCaster = 1.8f;
     private const float Radius = 1f;
     private const float PerfectSmashStunDuration = 3f;
+    private const float PauseDuration = 0.3f;
 
     public Smash(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
@@ -13,6 +14,9 @@ public class Smash : InstantCast
 
     public override void Cast(Vector3 target)
     {
+        Owner.MovementManager.LookAt(target);
+        Owner.MovementManager.Pause(PauseDuration);
+
         Vector3 position = Owner.transform.position;
         target.y = position.y;
 
