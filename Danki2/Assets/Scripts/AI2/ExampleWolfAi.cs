@@ -1,11 +1,5 @@
 ﻿using UnityEngine;
 
-public enum WolfAiState
-{
-    Attack,
-    Defend
-}
-
 public class ExampleWolfAi : Ai2
 {
     [SerializeField]
@@ -18,6 +12,12 @@ public class ExampleWolfAi : Ai2
             .WithState(WolfAiState.Defend, new ExampleDefend())
             .WithTransition(WolfAiState.Attack, WolfAiState.Defend, new HealthLostTrigger(actor, 5))
             .WithTransition(WolfAiState.Defend, WolfAiState.Attack, new TimePeriodTrigger(3f));
+    }
+
+    private enum WolfAiState
+    {
+        Attack,
+        Defend
     }
 }
 
