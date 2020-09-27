@@ -45,6 +45,14 @@ public class AiFiniteStateMachine<TState> : IAiComponent where TState : Enum
         if (TryGetComponent(currentState, out IAiComponent aiComponent)) aiComponent.Update();
     }
 
+    public void Exit()
+    {
+        if (TryGetComponent(currentState, out IAiComponent currentAiComponent))
+        {
+            currentAiComponent.Exit();
+        };
+    }
+
     private bool TryTransition()
     {
         foreach (KeyValuePair<TState, ISet<IAiTrigger>> potentialTransition in transitions[currentState])
@@ -64,6 +72,8 @@ public class AiFiniteStateMachine<TState> : IAiComponent where TState : Enum
 
     private void Transition(TState toState)
     {
+        Exit();
+
         if (!TryGetComponent(toState, out IAiComponent aiComponent)) return;
 
         currentState = toState;

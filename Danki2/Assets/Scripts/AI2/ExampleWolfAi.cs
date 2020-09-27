@@ -3,7 +3,9 @@
 public class ExampleWolfAi : Ai2
 {
     [SerializeField]
-    private Actor actor;
+    private Actor actor = null;
+
+    protected override Actor Actor { get => actor; }
 
     protected override IAiComponent GenerateAiComponent()
     {
@@ -89,6 +91,8 @@ public class ExampleAttack1 : IAiComponent
     {
         Debug.Log("Attacking with attack 1");
     }
+
+    public void Exit() { }
 }
 
 public class ExampleAttack2 : IAiComponent
@@ -102,6 +106,8 @@ public class ExampleAttack2 : IAiComponent
     {
         Debug.Log("Attacking with attack 2");
     }
+
+    public void Exit() { }
 }
 
 public class ExampleDefend : IAiComponent
@@ -115,4 +121,7 @@ public class ExampleDefend : IAiComponent
     {
         Debug.Log("Defending");
     }
+
+    public void Exit() { }
 }
+
