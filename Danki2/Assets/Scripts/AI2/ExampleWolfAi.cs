@@ -16,8 +16,7 @@ public class ExampleWolfAi : Ai2
         return new AiFiniteStateMachine<WolfAiState>(WolfAiState.Attack)
             .WithState(WolfAiState.Attack, attackStateMachine)
             .WithState(WolfAiState.Defend, new ExampleDefend())
-            .WithTransition(WolfAiState.Attack, WolfAiState.Defend, new HealthLostTrigger(actor, 5))
-            .WithTransition(WolfAiState.Attack, WolfAiState.Defend, new TimePeriodTrigger(10))
+            .WithTransition(WolfAiState.Attack, WolfAiState.Defend, new HealthLostTrigger(actor, 5), new TimePeriodTrigger(10))
             .WithTransition(WolfAiState.Defend, WolfAiState.Attack, new TimePeriodTrigger(4));
     }
 
