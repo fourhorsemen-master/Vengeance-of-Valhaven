@@ -27,10 +27,7 @@ public class AiFiniteStateMachine<TState> : IAiComponent where TState : Enum
 
     public AiFiniteStateMachine<TState> WithTransition(TState from, TState to, params IAiTrigger[] triggers)
     {
-        foreach (IAiTrigger trigger in triggers)
-        {
-            transitions[from][to].Add(trigger);
-        }
+        transitions[from][to].UnionWith(triggers);
         return this;
     }
     
