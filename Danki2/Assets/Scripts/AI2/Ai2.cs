@@ -2,15 +2,18 @@
 
 public abstract class Ai2 : MonoBehaviour
 {
-    protected abstract IAiComponent AiComponent { get; }
+    private IAiComponent aiComponent;
 
     private void Start()
     {
-        AiComponent.Enter();
+        aiComponent = GenerateAiComponent();
+        aiComponent.Enter();
     }
 
     private void Update()
     {
-        AiComponent.Update();
+        aiComponent.Update();
     }
+
+    protected abstract IAiComponent GenerateAiComponent();
 }

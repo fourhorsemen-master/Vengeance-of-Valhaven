@@ -8,11 +8,41 @@ public enum WolfAiState
 
 public class ExampleWolfAi : Ai2
 {
-    protected override IAiComponent AiComponent { get; } = new AiFiniteStateMachine<WolfAiState>(WolfAiState.Attack)
-        .WithState(WolfAiState.Attack, new ExampleAttack())
-        .WithState(WolfAiState.Defend, new ExampleDefend())
-        .WithTransition(WolfAiState.Attack, WolfAiState.Defend, new TimePeriodTrigger(1))
-        .WithTransition(WolfAiState.Defend, WolfAiState.Attack, new TimePeriodTrigger(2));
+    [SerializeField]
+    private Actor actor;
+
+    protected override IAiComponent GenerateAiComponent()
+    {
+        return new AiFiniteStateMachine<WolfAiState>(WolfAiState.Attack)
+            .WithState(WolfAiState.Attack, new ExampleAttack())
+            .WithState(WolfAiState.Defend, new ExampleDefend())
+            .WithTransition(WolfAiState.Attack, WolfAiState.Defend, new HealthLostTrigger(actor, 5))
+            .WithTransition(WolfAiState.Defend, WolfAiState.Attack, new TimePeriodTrigger(3f));
+    }
+}
+
+public class HealthLostTrigger : IAiTrigger
+{
+    private readonly Actor actor;
+    private readonly int healthAmount;
+
+    private int initialHealth;
+
+    public HealthLostTrigger(Actor actor, int healthAmount)
+    {
+        this.actor = actor;
+        this.healthAmount = healthAmount;
+    }
+
+    public void Initialise()
+    {
+        initialHealth = actor.HealthManager.Health;
+    }
+
+    public bool Triggers()
+    {
+        return actor.HealthManager.Health <= initialHealth - healthAmount;
+    }
 }
 
 public class TimePeriodTrigger : IAiTrigger
@@ -40,11 +70,12 @@ public class ExampleAttack : IAiComponent
 {
     public void Enter()
     {
-        Debug.Log("Start Attack");
+        Debug.Log("Starting Attack");
     }
 
     public void Update()
     {
+        Debug.Log("Attacking");
     }
 }
 
@@ -52,10 +83,11 @@ public class ExampleDefend : IAiComponent
 {
     public void Enter()
     {
-        Debug.Log("Start Defend");
+        Debug.Log("Starting Defend");
     }
 
     public void Update()
     {
+        Debug.Log("Defending");
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 public class AiFiniteStateMachine<TState> : IAiComponent where TState : Enum
 {
@@ -38,7 +39,7 @@ public class AiFiniteStateMachine<TState> : IAiComponent where TState : Enum
     public void Update()
     {
         if (TryTransition()) return;
-        states[currentState].Update();
+        if (TryGetComponent(currentState, out IAiComponent aiComponent)) aiComponent.Update();
     }
 
     private bool TryTransition()
@@ -60,9 +61,19 @@ public class AiFiniteStateMachine<TState> : IAiComponent where TState : Enum
 
     private void Transition(TState toState)
     {
+        if (!TryGetComponent(toState, out IAiComponent aiComponent)) return;
+
         currentState = toState;
-        states[currentState].Enter();
+        aiComponent.Enter();
         InitialiseTriggers();
+    }
+
+    private bool TryGetComponent(TState state, out IAiComponent aiComponent)
+    {
+        if (states.TryGetValue(state, out aiComponent)) return true;
+
+        Debug.LogError($"Cannot find AI component for state: {state.ToString()}. Ensure a component is registered with this state.");
+        return false;
     }
 
     private void InitialiseTriggers()
