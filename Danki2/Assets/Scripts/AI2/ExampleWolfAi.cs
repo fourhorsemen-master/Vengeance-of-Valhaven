@@ -2,11 +2,6 @@
 
 public class ExampleWolfAi : Ai2
 {
-    [SerializeField]
-    private Actor actor = null;
-
-    protected override Actor Actor { get => actor; }
-
     protected override IAiComponent GenerateAiComponent()
     {
         IAiComponent attackStateMachine = new AiFiniteStateMachine<WolfAttackAiState>(WolfAttackAiState.Attack1)
