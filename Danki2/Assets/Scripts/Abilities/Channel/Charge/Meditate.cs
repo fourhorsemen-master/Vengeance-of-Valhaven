@@ -22,8 +22,6 @@ public class Meditate : Charge
     protected override void Start()
     {
         meditateObject = MeditateObject.Create(Owner.transform, ChargeTime);
-
-        Owner.DeathSubject.Subscribe(meditateObject.Destroy);
         
         if (HasBonus("Clarity")) AddSlowEffects();
     }

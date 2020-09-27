@@ -38,7 +38,6 @@ public class Whirlwind : Channel
         }
 
         whirlwindObject = WhirlwindObject.Create(Owner.transform);
-        Owner.DeathSubject.Subscribe(whirlwindObject.DissipateAndDestroy);
     }
 
     public override void Continue(Vector3 target)
