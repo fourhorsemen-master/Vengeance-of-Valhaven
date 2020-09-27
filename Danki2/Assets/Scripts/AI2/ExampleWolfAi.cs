@@ -43,7 +43,7 @@ public class HealthLostTrigger : IAiTrigger
         this.healthAmount = healthAmount;
     }
 
-    public void Initialise()
+    public void Activate()
     {
         initialHealth = actor.HealthManager.Health;
     }
@@ -51,6 +51,10 @@ public class HealthLostTrigger : IAiTrigger
     public bool Triggers()
     {
         return actor.HealthManager.Health <= initialHealth - healthAmount;
+    }
+
+    public void Deactivate()
+    {
     }
 }
 
@@ -64,7 +68,7 @@ public class TimePeriodTrigger : IAiTrigger
         this.timePeriod = timePeriod;
     }
 
-    public void Initialise()
+    public void Activate()
     {
         startTime = Time.time;
     }
@@ -72,6 +76,10 @@ public class TimePeriodTrigger : IAiTrigger
     public bool Triggers()
     {
         return Time.time - startTime >= timePeriod;
+    }
+
+    public void Deactivate()
+    {
     }
 }
 

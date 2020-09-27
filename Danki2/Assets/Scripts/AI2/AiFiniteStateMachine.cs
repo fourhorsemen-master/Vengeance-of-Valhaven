@@ -36,7 +36,11 @@ public class AiFiniteStateMachine<TState> : IAiComponent where TState : Enum
     
     public void Enter()
     {
-        Transition(initialState);
+        if (!TryGetComponent(initialState, out IAiComponent aiComponent)) return;
+
+        currentState = initialState;
+        aiComponent.Enter();
+        ActivateTriggers();
     }
 
     public void Update()
@@ -47,10 +51,8 @@ public class AiFiniteStateMachine<TState> : IAiComponent where TState : Enum
 
     public void Exit()
     {
-        if (TryGetComponent(currentState, out IAiComponent currentAiComponent))
-        {
-            currentAiComponent.Exit();
-        }
+        DeactivateTriggers();
+        if (TryGetComponent(currentState, out IAiComponent aiComponent)) aiComponent.Exit();
     }
 
     private void TryTransition()
@@ -75,7 +77,7 @@ public class AiFiniteStateMachine<TState> : IAiComponent where TState : Enum
         Exit();
         currentState = toState;
         aiComponent.Enter();
-        InitialiseTriggers();
+        ActivateTriggers();
     }
 
     private bool TryGetComponent(TState state, out IAiComponent aiComponent)
@@ -86,15 +88,23 @@ public class AiFiniteStateMachine<TState> : IAiComponent where TState : Enum
         return false;
     }
 
-    private void InitialiseTriggers()
+    private void ActivateTriggers()
     {
-        foreach (KeyValuePair<TState, ISet<IAiTrigger>> transition in transitions[currentState])
-        {
-            ISet<IAiTrigger> triggers = transition.Value;
+        ForEachTrigger(t => t.Activate());
+    }
 
+    private void DeactivateTriggers()
+    {
+        ForEachTrigger(t => t.Deactivate());
+    }
+
+    private void ForEachTrigger(Action<IAiTrigger> action)
+    {
+        foreach (ISet<IAiTrigger> triggers in transitions[currentState].Values)
+        {
             foreach (IAiTrigger trigger in triggers)
             {
-                trigger.Initialise();
+                action(trigger);
             }
         }
     }

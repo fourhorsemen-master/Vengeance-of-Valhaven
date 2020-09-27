@@ -1,5 +1,6 @@
 ﻿public interface IAiTrigger
 {
-    void Initialise();
+    void Activate();
     bool Triggers();
+    void Deactivate();
 }
