@@ -32,8 +32,7 @@ public class AiFiniteStateMachine<TState> : IAiComponent where TState : Enum
     
     public void Enter()
     {
-        currentState = initialState;
-        states[currentState].Enter();
+        Transition(initialState);
     }
 
     public void Update()
@@ -51,12 +50,31 @@ public class AiFiniteStateMachine<TState> : IAiComponent where TState : Enum
             
             if (triggers.Any(t => t.Triggers()))
             {
-                currentState = toState;
-                states[currentState].Enter();
+                Transition(toState);
                 return true;
             }
         }
 
         return false;
+    }
+
+    private void Transition(TState toState)
+    {
+        currentState = toState;
+        states[currentState].Enter();
+        InitialiseTriggers();
+    }
+
+    private void InitialiseTriggers()
+    {
+        foreach (KeyValuePair<TState, ISet<IAiTrigger>> transition in transitions[currentState])
+        {
+            ISet<IAiTrigger> triggers = transition.Value;
+
+            foreach (IAiTrigger trigger in triggers)
+            {
+                trigger.Initialise();
+            }
+        }
     }
 }

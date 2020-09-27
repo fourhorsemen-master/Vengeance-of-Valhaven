@@ -11,15 +11,28 @@ public class ExampleWolfAi : Ai2
     protected override IAiComponent AiComponent { get; } = new AiFiniteStateMachine<WolfAiState>(WolfAiState.Attack)
         .WithState(WolfAiState.Attack, new ExampleAttack())
         .WithState(WolfAiState.Defend, new ExampleDefend())
-        .WithTransition(WolfAiState.Attack, WolfAiState.Defend, new RandomTrigger())
-        .WithTransition(WolfAiState.Defend, WolfAiState.Attack, new RandomTrigger());
+        .WithTransition(WolfAiState.Attack, WolfAiState.Defend, new TimePeriodTrigger(1))
+        .WithTransition(WolfAiState.Defend, WolfAiState.Attack, new TimePeriodTrigger(2));
 }
 
-public class RandomTrigger : IAiTrigger
+public class TimePeriodTrigger : IAiTrigger
 {
+    private readonly float timePeriod;
+    private float startTime;
+
+    public TimePeriodTrigger(float timePeriod)
+    {
+        this.timePeriod = timePeriod;
+    }
+
+    public void Initialise()
+    {
+        startTime = Time.time;
+    }
+
     public bool Triggers()
     {
-        return Random.value < 0.001;
+        return Time.time - startTime >= timePeriod;
     }
 }
 
