@@ -7,17 +7,30 @@ public class ExampleWolfAi : Ai2
 
     protected override IAiComponent GenerateAiComponent()
     {
+        IAiComponent attackStateMachine = new AiFiniteStateMachine<WolfAttackAiState>(WolfAttackAiState.Attack1)
+            .WithState(WolfAttackAiState.Attack1, new ExampleAttack1())
+            .WithState(WolfAttackAiState.Attack2, new ExampleAttack2())
+            .WithTransition(WolfAttackAiState.Attack1, WolfAttackAiState.Attack2, new TimePeriodTrigger(1))
+            .WithTransition(WolfAttackAiState.Attack2, WolfAttackAiState.Attack1, new TimePeriodTrigger(1));
+
         return new AiFiniteStateMachine<WolfAiState>(WolfAiState.Attack)
-            .WithState(WolfAiState.Attack, new ExampleAttack())
+            .WithState(WolfAiState.Attack, attackStateMachine)
             .WithState(WolfAiState.Defend, new ExampleDefend())
             .WithTransition(WolfAiState.Attack, WolfAiState.Defend, new HealthLostTrigger(actor, 5))
-            .WithTransition(WolfAiState.Defend, WolfAiState.Attack, new TimePeriodTrigger(3f));
+            .WithTransition(WolfAiState.Attack, WolfAiState.Defend, new TimePeriodTrigger(10))
+            .WithTransition(WolfAiState.Defend, WolfAiState.Attack, new TimePeriodTrigger(4));
     }
 
     private enum WolfAiState
     {
         Attack,
         Defend
+    }
+
+    private enum WolfAttackAiState
+    {
+        Attack1,
+        Attack2
     }
 }
 
@@ -66,16 +79,29 @@ public class TimePeriodTrigger : IAiTrigger
     }
 }
 
-public class ExampleAttack : IAiComponent
+public class ExampleAttack1 : IAiComponent
 {
     public void Enter()
     {
-        Debug.Log("Starting Attack");
+        Debug.Log("Starting Attack 1");
     }
 
     public void Update()
     {
-        Debug.Log("Attacking");
+        Debug.Log("Attacking with attack 1");
+    }
+}
+
+public class ExampleAttack2 : IAiComponent
+{
+    public void Enter()
+    {
+        Debug.Log("Starting Attack 2");
+    }
+
+    public void Update()
+    {
+        Debug.Log("Attacking with attack 2");
     }
 }
 
