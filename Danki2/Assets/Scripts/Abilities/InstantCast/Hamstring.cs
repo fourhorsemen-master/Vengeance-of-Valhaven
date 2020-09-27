@@ -13,16 +13,13 @@ public class Hamstring : InstantCast
 
     public override void Cast(Vector3 target)
     {
-        Owner.transform.LookAt(target);
-        Owner.MovementManager.Pause(PauseDuration);
-
+        Swing(target);        
         SuccessFeedbackSubject.Next(false);
     }
 
     public override void Cast(Actor target)
     {
-        Owner.transform.LookAt(target.transform.position);
-        Owner.MovementManager.Pause(PauseDuration);
+        HamstringObject hamstringObject = Swing(target.Centre);
 
         if (!InRange(target))
         {
@@ -35,11 +32,19 @@ public class Hamstring : InstantCast
         Damage(target);
         ApplyDebuff(target);
 
-        Vector3 castDirection = target.Centre - Owner.Centre;
+        CustomCamera.Instance.AddShake(ShakeIntensity.High);
+        hamstringObject.PlayHitSound();
+    }
+
+    private HamstringObject Swing(Vector3 target)
+    {
+        Owner.MovementManager.LookAt(target);
+        Owner.MovementManager.Pause(PauseDuration);
+
+        Vector3 castDirection = target - Owner.Centre;
         Quaternion castRotation = GetMeleeCastRotation(castDirection);
 
-        CustomCamera.Instance.AddShake(ShakeIntensity.High);
-        HamstringObject.Create(Owner.Centre, castRotation);
+        return HamstringObject.Create(Owner.Centre, castRotation);
     }
 
     private bool InRange(Actor target)

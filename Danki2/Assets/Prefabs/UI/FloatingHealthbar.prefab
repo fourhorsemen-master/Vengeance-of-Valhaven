@@ -238,6 +238,7 @@ GameObject:
   - component: {fileID: 5647927768590009775}
   - component: {fileID: 1655322664169401986}
   - component: {fileID: 5282445073248747428}
+  - component: {fileID: 2733868483094654661}
   m_Layer: 5
   m_Name: FloatingHealthbar
   m_TagString: Untagged
@@ -336,4 +337,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthBar: {fileID: 5647927768287261910}
   damageLagBar: {fileID: 1391449682972806700}
+  actor: {fileID: 0}
+--- !u!114 &2733868483094654661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5647927768590009777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79eb13e07374d704e9c87b54957da96d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  usePlayer: 0
   actor: {fileID: 0}
