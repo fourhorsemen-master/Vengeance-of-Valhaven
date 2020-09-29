@@ -14,8 +14,9 @@ public abstract class Actor : MonoBehaviour
     private TrailRenderer trailRenderer = null;
 
     private Coroutine stopTrailCoroutine;
-
     private StatsManager statsManager;
+
+    protected readonly Subject startSubject = new Subject();
     protected readonly Subject updateSubject = new Subject();
     protected readonly Subject lateUpdateSubject = new Subject();
 
@@ -25,12 +26,13 @@ public abstract class Actor : MonoBehaviour
     public EffectManager EffectManager { get; private set; }
     public MovementManager MovementManager { get; private set; }
     public InterruptionManager InterruptionManager { get; private set; }
+
     public Actor Target { get; set; } = null;
     public bool IsDamaged => HealthManager.Health < HealthManager.MaxHealth;
     public bool Dead { get; private set; }
+    public Subject DeathSubject { get; } = new Subject();
 
     public virtual Vector3 Centre => transform.position + Vector3.up * MouseGamePositionFinder.Instance.HeightOffset;
-    public virtual Subject DeathSubject { get; } = new Subject();
 
     public abstract ActorType Type { get; }
 
@@ -39,14 +41,10 @@ public abstract class Actor : MonoBehaviour
         statsManager = new StatsManager(baseStats);
         EffectManager = new EffectManager(this, updateSubject, statsManager);
         HealthManager = new HealthManager(this, updateSubject);
-        InterruptionManager = new InterruptionManager(this);
-
-        ChannelService = new ChannelService(this, lateUpdateSubject, InterruptionManager);
+        InterruptionManager = new InterruptionManager(this, startSubject);
+        ChannelService = new ChannelService(this, startSubject, lateUpdateSubject, InterruptionManager);
         InstantCastService = new InstantCastService(this);
-
-        // The MovementManager constructor needs EffectManager and ChannelService to be set up
         MovementManager = new MovementManager(this, updateSubject, navmeshAgent);
-        InterruptionManager.Setup(MovementManager);
         
         AbilityDataStatsDiffer abilityDataStatsDiffer = new AbilityDataStatsDiffer(this);
         RegisterAbilityDataDiffer(abilityDataStatsDiffer);
@@ -56,12 +54,13 @@ public abstract class Actor : MonoBehaviour
 
     protected virtual void Start()
     {
+        startSubject.Next();
+
         gameObject.layer = Layers.Actors;
     }
 
     protected virtual void Update()
     {
-
         updateSubject.Next();
     }
 

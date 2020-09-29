@@ -9,10 +9,11 @@ public class InterruptionManager
 
     private readonly Actor actor;
 
-    public InterruptionManager(Actor actor)
+    public InterruptionManager(Actor actor, Subject startSubject)
     {
         this.actor = actor;
         actor.DeathSubject.Subscribe(HardInterrupt);
+        startSubject.Subscribe(() => Setup(actor.MovementManager));
     }
 
     public void Setup(MovementManager movementManager)
