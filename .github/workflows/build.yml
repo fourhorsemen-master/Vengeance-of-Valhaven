@@ -1,5 +1,4 @@
-# Builds the project, removes any old artefacts and then uploads the built project as
-# an artefact.
+# Builds the project and then uploads the built project as an artefact.
 name: Build
 
 # Only run on master as this is the only time we want to build and save the project.
@@ -49,15 +48,8 @@ jobs:
           unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
 
-      # Remove all existing artefacts from GitHub as we only need the latest build. This
-      # is to save on GitHub storage as it has a low limit.
-      - name: Delete Existing Artefacts
-        uses: c-hive/gha-remove-artifacts@v1
-        with:
-          age: '1 second'
-
       # Upload artefacts, i.e. the built projects.
-      - name: Upload Artifacts
+      - name: Upload Artefacts
         uses: actions/upload-artifact@v1.0.0
         with:
           name: Build

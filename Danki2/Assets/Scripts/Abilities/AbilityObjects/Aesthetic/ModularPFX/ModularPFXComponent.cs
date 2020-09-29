@@ -1,11 +1,13 @@
-﻿using UnityEngine;
+﻿using System.Dynamic;
+using UnityEngine;
 
 public class ModularPFXComponent : MonoBehaviour
 {
-    const string ColourKeyString = "Color_33632292";
+    public const string ColourKeyString = "Color_33632292";
     const string EmissiveKeyString = "Color_A9688267";
+    const string AlbedoKeyString = "Texture2D_1FF4AC07";
 
-    [SerializeField, HideInInspector]
+    [SerializeField]
     Material mpfxMaterial = null;
 
     [SerializeField]
@@ -16,6 +18,8 @@ public class ModularPFXComponent : MonoBehaviour
 
     private GameObject spawnedGraphic;
 
+    private bool isActive = true;
+
     public void Start()
     {
         if (!settings.effectObject) return;
@@ -23,19 +27,21 @@ public class ModularPFXComponent : MonoBehaviour
         spawnedGraphic = Instantiate(settings.effectObject, transform);
         SetEffectColour();
 
-        foreach (MPFXBehaviour stencil in behaviours)
+        foreach (MPFXBehaviour behaviour in behaviours)
         {
-            stencil.SetUp(spawnedGraphic);
+            behaviour.SetUp(spawnedGraphic, this);
         }
     }
 
     public void Update()
     {
+        if (!isActive) return;
+
         int behavioursComplete = 0;
 
-        foreach (MPFXBehaviour stencil in behaviours)
+        foreach (MPFXBehaviour behaviour in behaviours)
         {
-            if (stencil.UpdatePFX())
+            if (behaviour.UpdatePFX())
             {
                 ++behavioursComplete;
             }
@@ -47,14 +53,21 @@ public class ModularPFXComponent : MonoBehaviour
         }
     }
 
+    public void UpdateEffectColour(Color color)
+    {
+        settings.effectColor = color;
+        SetEffectColour();
+    }
+
     private void EndPFX()
     {
-        foreach (MPFXBehaviour stencil in behaviours)
+        foreach (MPFXBehaviour behaviour in behaviours)
         {
-            stencil.End();
+            behaviour.End();
         }
 
         Destroy(spawnedGraphic);
+        isActive = false;
     }
 
     private void SetEffectColour()
@@ -65,11 +78,12 @@ public class ModularPFXComponent : MonoBehaviour
         {
             mesh.material = mpfxMaterial;
 
-            //These magic strings are awful, but are needed to workaround a bug in our verion of Unity
-            //These allow for the emissive colour to be altererd at runtime, which is broken when trying
+            //These magic strings are awful, but are needed to workaround a bug in our version of Unity
+            //These allow for the emissive colour to be altered at runtime, which is broken when trying
             //to alter these through the built in shader variables.
             mesh.material.SetColor(ColourKeyString, settings.effectColor);
             mesh.material.SetColor(EmissiveKeyString, settings.effectEmissive);
+            mesh.material.SetTexture(AlbedoKeyString, settings.effectAlbedo);
         }
     }
 }

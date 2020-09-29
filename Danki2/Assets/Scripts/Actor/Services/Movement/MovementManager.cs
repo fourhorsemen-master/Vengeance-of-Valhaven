@@ -23,7 +23,10 @@ public class MovementManager : IMovementStatusProvider
     public bool Stunned => movementStatusManager.Stunned;
     public bool Rooted => movementStatusManager.Rooted;
     public bool MovementLocked => movementStatusManager.MovementLocked;
-    public bool CanMove => !movementStatusManager.Stunned && !movementStatusManager.Rooted && !movementStatusManager.MovementLocked;
+    public bool CanMove => !actor.Dead
+        && !movementStatusManager.Stunned
+        && !movementStatusManager.Rooted
+        && !movementStatusManager.MovementLocked;
 
     public bool IsMoving { get; private set; } = false;
     private bool movedThisFrame = false;
@@ -31,7 +34,10 @@ public class MovementManager : IMovementStatusProvider
     public MovementManager(Actor actor, Subject updateSubject, NavMeshAgent navMeshAgent)
     {
         this.actor = actor;
+        actor.DeathSubject.Subscribe(StopPathfinding);
+
         this.navMeshAgent = navMeshAgent;
+
         updateSubject.Subscribe(UpdateMovement);
         movementStatusManager = new MovementStatusManager(updateSubject);
         movementStatusManager.RegisterProviders(this, actor.EffectManager, actor.ChannelService);
@@ -83,6 +89,8 @@ public class MovementManager : IMovementStatusProvider
     /// <param name="direction"></param>
     public void Move(Vector3 direction)
     {
+        if (actor.Dead) return;
+
         StopPathfinding();
 
         if (Stunned || MovementLocked) return;
@@ -115,6 +123,7 @@ public class MovementManager : IMovementStatusProvider
     /// <param name="position"></param>
     public void LookAt(Vector3 position)
     {
+        position.y = actor.transform.position.y;
         actor.transform.rotation = Quaternion.LookRotation(position - actor.transform.position);
     }
 
@@ -185,6 +194,8 @@ public class MovementManager : IMovementStatusProvider
 
     private void UpdateMovement()
     {
+        if (actor.Dead) return;
+
         if (!CanMove && !navMeshAgent.isStopped)
         {
             StopPathfinding();

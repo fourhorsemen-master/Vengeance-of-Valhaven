@@ -2,7 +2,7 @@
 
 public interface ImpfxCallable 
 {
-	bool SetUp(GameObject Graphic );
+	bool SetUp(GameObject Graphic, ModularPFXComponent OwningComponent);
 
 	bool UpdatePFX();
 

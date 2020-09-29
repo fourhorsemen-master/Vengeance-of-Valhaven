@@ -32,6 +32,8 @@ public class HealthManager
 
     public void TickDamage(int damage)
     {
+        if (actor.Dead) return;
+
         damage = actor.EffectManager.ProcessIncomingDamage(damage);
 
         if (damage < 0)
@@ -46,6 +48,8 @@ public class HealthManager
 
     public void ReceiveDamage(int damage, Actor source)
     {
+        if (actor.Dead) return;
+
         UnmodifiedDamageSubject.Next(new DamageData(damage, source));
 
         // If already 0, damage should be left as 0, else reduce according to defence, but not below the minimum threshold.
@@ -66,6 +70,8 @@ public class HealthManager
 
     public void ReceiveHeal(int healing)
     {
+        if (actor.Dead) return;
+
         healing = actor.EffectManager.ProcessIncomingHeal(healing);
 
         if (healing < 0)

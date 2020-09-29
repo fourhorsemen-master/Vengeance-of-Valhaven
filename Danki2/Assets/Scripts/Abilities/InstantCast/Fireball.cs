@@ -19,10 +19,8 @@ public class Fireball : InstantCast
     {
         CustomCamera.Instance.AddShake(ShakeIntensity.High);
 
-        if (gameObject.IsActor())
+        if (RoomManager.Instance.TryGetActor(gameObject, out Actor actor))
         {
-            Actor actor = gameObject.GetComponent<Actor>();
-
             if (!actor.Opposes(Owner))
             {
                 SuccessFeedbackSubject.Next(false);

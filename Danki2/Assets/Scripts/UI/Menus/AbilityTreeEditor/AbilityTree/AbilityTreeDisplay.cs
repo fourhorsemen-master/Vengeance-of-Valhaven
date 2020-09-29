@@ -19,17 +19,11 @@ public class AbilityTreeDisplay : MonoBehaviour
     private float numTreeVerticalSections;
     private Dictionary<Node, float> sectionIndices = new Dictionary<Node, float>();
 
-    private void Start()
+    public void Initialise()
     {
-        RoomManager.Instance.Player.AbilityTree.ChangeSubject.Subscribe(RecalculateDisplay);
-    }
+        abilityTree = RoomManager.Instance.Player.AbilityTree;
 
-    private void OnEnable()
-    {
-        Player player = RoomManager.Instance.Player;
-        abilityTree = player.AbilityTree;
-
-        if (abilityTree != null) RecalculateDisplay();
+        abilityTree.ChangeSubject.Subscribe(RecalculateDisplay);
     }
 
     /// <summary>

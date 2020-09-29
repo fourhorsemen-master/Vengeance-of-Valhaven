@@ -21,7 +21,7 @@ public class WhirlwindObject : MonoBehaviour
         return Instantiate(prefab, casterTransform);
     }
 
-    public void DestroyWhirlwind()
+    public void DissipateAndDestroy()
     {
         pfx.Stop();
         whirlwindSound.Stop();

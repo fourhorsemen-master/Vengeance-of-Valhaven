@@ -12,28 +12,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 886f58a86eefce44cb4ee110a7ec7918, type: 3}
   m_Name: Example_Scale
   m_EditorClassIdentifier: 
-  _behaviourName: Scale
-  _curve:
+  behaviourName: 
+  curve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 4.979549
-      outSlope: 4.979549
-      tangentMode: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.028154328
+      outWeight: 0.33333334
     - serializedVersion: 3
-      time: 10
-      value: 10
-      inSlope: 1.0429991
-      outSlope: 1.0429991
+      time: 1
+      value: 1.2
+      inSlope: 2.2669072
+      outSlope: 2.2669072
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.046923924
-      outWeight: 0.33333334
+      inWeight: 0.03380376
+      outWeight: 0.178123
+    - serializedVersion: 3
+      time: 1.5
+      value: 1.6
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4

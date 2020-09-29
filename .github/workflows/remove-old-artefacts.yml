@@ -1,0 +1,20 @@
+name: Remove old artefacts
+
+on:
+  schedule:
+    # Every Monday at 01:00.
+    - cron: '0 1 * * 1'
+
+jobs:
+  remove-old-artefacts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      # Remove all existing artefacts from GitHub aside from the most recent.
+      # This is to save on GitHub storage as it has a low limit.
+      - name: Remove old artefacts
+        uses: c-hive/gha-remove-artifacts@v1
+        with:
+          age: '1 second'
+          skip-recent: 1

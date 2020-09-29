@@ -10,6 +10,11 @@ public abstract class Actor : MonoBehaviour
     [SerializeField]
     private NavMeshAgent navmeshAgent = null;
 
+    [SerializeField]
+    private TrailRenderer trailRenderer = null;
+
+    private Coroutine stopTrailCoroutine;
+
     private StatsManager statsManager;
     protected readonly Subject updateSubject = new Subject();
     protected readonly Subject lateUpdateSubject = new Subject();
@@ -34,7 +39,7 @@ public abstract class Actor : MonoBehaviour
         statsManager = new StatsManager(baseStats);
         EffectManager = new EffectManager(this, updateSubject, statsManager);
         HealthManager = new HealthManager(this, updateSubject);
-        InterruptionManager = new InterruptionManager();
+        InterruptionManager = new InterruptionManager(this);
 
         ChannelService = new ChannelService(this, lateUpdateSubject, InterruptionManager);
         InstantCastService = new InstantCastService(this);
@@ -53,14 +58,6 @@ public abstract class Actor : MonoBehaviour
 
     protected virtual void Update()
     {
-        if (HealthManager.Health <= 0 && !Dead)
-        {
-            MovementManager.StopPathfinding();
-            OnDeath();
-            Dead = true;
-        }
-
-        if (Dead) return;
 
         updateSubject.Next();
     }
@@ -68,6 +65,11 @@ public abstract class Actor : MonoBehaviour
     protected virtual void LateUpdate()
     {
         lateUpdateSubject.Next();
+
+        if (HealthManager.Health <= 0 && !Dead)
+        {
+            OnDeath();
+        }
     }
 
     public int GetStat(Stat stat)
@@ -82,7 +84,6 @@ public abstract class Actor : MonoBehaviour
 
     public void DamageTarget(Actor target, int damage)
     {
-        if (target.Dead) return;
         target.HealthManager.ReceiveDamage(EffectManager.ProcessOutgoingDamage(damage), this);
     }
 
@@ -92,11 +93,24 @@ public abstract class Actor : MonoBehaviour
         InterruptionManager.Register(interruptionType, () => StopCoroutine(coroutine));
     }
 
+    public void StartTrail(float duration)
+    {
+        trailRenderer.emitting = true;
+
+        if (stopTrailCoroutine != null)
+        {
+            StopCoroutine(stopTrailCoroutine);
+        }
+
+        stopTrailCoroutine = this.WaitAndAct(duration, () => trailRenderer.emitting = false);
+    }
+
     protected virtual void OnDeath()
     {
         Debug.Log($"{tag} died");
 
         DeathSubject.Next();
+        Dead = true;
     }
 
     protected void RegisterAbilityDataDiffer(IAbilityDataDiffer abilityDataDiffer)
