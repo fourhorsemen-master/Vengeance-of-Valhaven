@@ -20,10 +20,8 @@ public class PoisonDagger : InstantCast
 
     private void OnCollision(GameObject gameObject)
     {
-        if (gameObject.IsActor())
+        if (RoomManager.Instance.TryGetActor(gameObject, out Actor actor))
         {
-            Actor actor = gameObject.GetComponent<Actor>();
-
             if (!actor.Opposes(Owner))
             {
                 SuccessFeedbackSubject.Next(false);

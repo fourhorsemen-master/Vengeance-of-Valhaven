@@ -7,6 +7,14 @@ public class InterruptionManager
         () => new List<Action>()
     );
 
+    private readonly Actor actor;
+
+    public InterruptionManager(Actor actor)
+    {
+        this.actor = actor;
+        actor.DeathSubject.Subscribe(HardInterrupt);
+    }
+
     public void Setup(MovementManager movementManager)
     {
         movementManager.MoveLockSubject.Subscribe(() => Interrupt(InterruptionType.Hard));
@@ -19,15 +27,27 @@ public class InterruptionManager
 
     public void Interrupt(InterruptionType interruptionType)
     {
+        if (actor.Dead) return;
+
         switch (interruptionType)
         {
             case InterruptionType.Soft:
-                interruptionRegister[InterruptionType.Soft].ForEach(a => a());
+                SoftInterrupt();
                 break;
             case InterruptionType.Hard:
-                interruptionRegister[InterruptionType.Soft].ForEach(a => a());
-                interruptionRegister[InterruptionType.Hard].ForEach(a => a());
+                HardInterrupt();
                 break;
         }
+    }
+
+    private void SoftInterrupt()
+    {
+        interruptionRegister[InterruptionType.Soft].ForEach(a => a());
+    }
+
+    private void HardInterrupt()
+    {
+        interruptionRegister[InterruptionType.Soft].ForEach(a => a());
+        interruptionRegister[InterruptionType.Hard].ForEach(a => a());
     }
 }

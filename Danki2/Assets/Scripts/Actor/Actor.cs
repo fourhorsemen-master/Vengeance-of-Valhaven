@@ -24,7 +24,7 @@ public abstract class Actor : MonoBehaviour
     public InstantCastService InstantCastService { get; private set; }
     public EffectManager EffectManager { get; private set; }
     public MovementManager MovementManager { get; private set; }
-    public InterruptionManager InterruptionManager { get; private set; } = new InterruptionManager();
+    public InterruptionManager InterruptionManager { get; private set; }
     public Actor Target { get; set; } = null;
     public bool IsDamaged => HealthManager.Health < HealthManager.MaxHealth;
     public bool Dead { get; private set; }
@@ -39,6 +39,7 @@ public abstract class Actor : MonoBehaviour
         statsManager = new StatsManager(baseStats);
         EffectManager = new EffectManager(this, updateSubject, statsManager);
         HealthManager = new HealthManager(this, updateSubject);
+        InterruptionManager = new InterruptionManager(this);
 
         ChannelService = new ChannelService(this, lateUpdateSubject, InterruptionManager);
         InstantCastService = new InstantCastService(this);
@@ -60,14 +61,6 @@ public abstract class Actor : MonoBehaviour
 
     protected virtual void Update()
     {
-        if (HealthManager.Health <= 0 && !Dead)
-        {
-            MovementManager.StopPathfinding();
-            OnDeath();
-            Dead = true;
-        }
-
-        if (Dead) return;
 
         updateSubject.Next();
     }
@@ -75,6 +68,11 @@ public abstract class Actor : MonoBehaviour
     protected virtual void LateUpdate()
     {
         lateUpdateSubject.Next();
+
+        if (HealthManager.Health <= 0 && !Dead)
+        {
+            OnDeath();
+        }
     }
 
     public int GetStat(Stat stat)
@@ -89,7 +87,6 @@ public abstract class Actor : MonoBehaviour
 
     public void DamageTarget(Actor target, int damage)
     {
-        if (target.Dead) return;
         target.HealthManager.ReceiveDamage(EffectManager.ProcessOutgoingDamage(damage), this);
     }
 
@@ -116,6 +113,7 @@ public abstract class Actor : MonoBehaviour
         Debug.Log($"{tag} died");
 
         DeathSubject.Next();
+        Dead = true;
     }
 
     protected void RegisterAbilityDataDiffer(IAbilityDataDiffer abilityDataDiffer)

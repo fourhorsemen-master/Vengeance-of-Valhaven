@@ -35,7 +35,10 @@ public abstract class HealthBar : MonoBehaviour
         }
 
         // Set the health bar to the correct width.
-        float healthProportion = (float)Actor.HealthManager.Health / Actor.HealthManager.MaxHealth;
+        float healthProportion = Actor.Dead
+            ? 0
+            : (float)Actor.HealthManager.Health / Actor.HealthManager.MaxHealth;
+
         healthBar.rectTransform.sizeDelta = new Vector2(healthProportion * barWidth, healthBar.rectTransform.sizeDelta.y);
 
         // Decrement recent damage if there is any.

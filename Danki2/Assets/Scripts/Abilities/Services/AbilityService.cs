@@ -7,7 +7,9 @@ public abstract class AbilityService
     private readonly List<IAbilityDataDiffer> differs = new List<IAbilityDataDiffer>();
     private IAbilityBonusCalculator abilityBonusCalculator = new AbilityBonusNoOpCalculator();
 
-    public bool CanCast => !actor.MovementManager.Stunned && !actor.MovementManager.MovementLocked;
+    public bool CanCast => !actor.Dead
+        && !actor.MovementManager.Stunned
+        && !actor.MovementManager.MovementLocked;
 
     protected AbilityService(Actor actor)
     {
