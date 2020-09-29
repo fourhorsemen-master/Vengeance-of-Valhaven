@@ -548,7 +548,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 14
   MaxDistance: 200
   Pan2D: 0
   rolloffMode: 0
@@ -666,7 +666,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 14
   MaxDistance: 200
   Pan2D: 0
   rolloffMode: 0
@@ -1079,12 +1079,12 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 5282445073248747428, guid: eeb7c8dc7550f0e4fb4f8c457b7fe4ad,
+    - target: {fileID: 2733868483094654661, guid: eeb7c8dc7550f0e4fb4f8c457b7fe4ad,
         type: 3}
       propertyPath: actor
       value: 
       objectReference: {fileID: -1347520900970919038}
-    - target: {fileID: 2733868483094654661, guid: eeb7c8dc7550f0e4fb4f8c457b7fe4ad,
+    - target: {fileID: 5282445073248747428, guid: eeb7c8dc7550f0e4fb4f8c457b7fe4ad,
         type: 3}
       propertyPath: actor
       value: 
@@ -1214,12 +1214,12 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8780476783912971049, guid: bb4df8ade51d93c46b7624021b9a0502,
+    - target: {fileID: 3682941386759011557, guid: bb4df8ade51d93c46b7624021b9a0502,
         type: 3}
       propertyPath: actor
       value: 
       objectReference: {fileID: -1347520900970919038}
-    - target: {fileID: 3682941386759011557, guid: bb4df8ade51d93c46b7624021b9a0502,
+    - target: {fileID: 8780476783912971049, guid: bb4df8ade51d93c46b7624021b9a0502,
         type: 3}
       propertyPath: actor
       value: 
@@ -1239,6 +1239,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8063099716140605082}
     m_Modifications:
+    - target: {fileID: 1979858862639965533, guid: 1c1ef6601784e49429e64e8545ef1c4a,
+        type: 3}
+      propertyPath: m_Name
+      value: FloatingDamageText
+      objectReference: {fileID: 0}
     - target: {fileID: 1979858862639965505, guid: 1c1ef6601784e49429e64e8545ef1c4a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1343,11 +1348,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1979858862639965533, guid: 1c1ef6601784e49429e64e8545ef1c4a,
-        type: 3}
-      propertyPath: m_Name
-      value: FloatingDamageText
       objectReference: {fileID: 0}
     - target: {fileID: 3486282139536815869, guid: 1c1ef6601784e49429e64e8545ef1c4a,
         type: 3}
