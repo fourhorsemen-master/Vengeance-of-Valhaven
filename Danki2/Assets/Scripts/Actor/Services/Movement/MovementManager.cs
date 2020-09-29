@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -8,7 +7,7 @@ public class MovementManager : IMovementStatusProvider
     private readonly Actor actor;
     private readonly NavMeshAgent navMeshAgent;
 
-    private readonly List<MovementLockType> MoveLockOverrideTypes = new List<MovementLockType>
+    private readonly ISet<MovementLockType> MoveLockOverrideTypes = new HashSet<MovementLockType>
     {
         MovementLockType.Knockback,
         MovementLockType.Pull
@@ -39,7 +38,7 @@ public class MovementManager : IMovementStatusProvider
     public bool IsMoving { get; private set; } = false;
     private bool movedThisFrame = false;
 
-    public Subject MoveLockSubject { get; set; } = new Subject();
+    public Subject MoveLockSubject { get; } = new Subject();
 
     public MovementManager(Actor actor, Subject updateSubject, NavMeshAgent navMeshAgent)
     {
