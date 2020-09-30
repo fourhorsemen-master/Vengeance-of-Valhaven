@@ -12,13 +12,13 @@ public class InterruptionManager
     public InterruptionManager(Actor actor, Subject startSubject)
     {
         this.actor = actor;
-        actor.DeathSubject.Subscribe(HardInterrupt);
-        startSubject.Subscribe(() => Setup(actor.MovementManager));
+        startSubject.Subscribe(Setup);
     }
 
-    public void Setup(MovementManager movementManager)
+    private void Setup()
     {
-        movementManager.MoveLockSubject.Subscribe(() => Interrupt(InterruptionType.Hard));
+        actor.DeathSubject.Subscribe(HardInterrupt);
+        actor.MovementManager.MoveLockSubject.Subscribe(HardInterrupt);
     }
 
     public void Register(InterruptionType interruptionType, Action action)

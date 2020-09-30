@@ -175,14 +175,13 @@ public class MovementManager : IMovementStatusProvider
     {
         if (!movementStatusManager.TryLockMovement(overrideLock, duration)) return false;
 
-        MoveLockSubject.Next();
-
         StopPathfinding();
         movementLockSpeed = speed;
         movementLockDirection = direction.normalized;
 
         if (rotation != Vector3.zero) Look(rotation);
 
+        MoveLockSubject.Next();
         return true;
     }
 

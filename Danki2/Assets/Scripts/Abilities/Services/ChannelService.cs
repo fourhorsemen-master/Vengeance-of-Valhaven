@@ -13,11 +13,9 @@ public class ChannelService : AbilityService, IMovementStatusProvider
     public Actor Target { get; set; } = null;
     public bool HasTarget => Target != null;
 
-    public ChannelService(Actor actor, Subject startSubject, Subject lateUpdateSubject, InterruptionManager interruptionManager)
-        : base(actor)
+    public ChannelService(Actor actor, Subject startSubject, Subject lateUpdateSubject) : base(actor)
     {
-        startSubject.Subscribe(() => Setup(interruptionManager));
-
+        startSubject.Subscribe(Setup);
         lateUpdateSubject.Subscribe(TickChannel);
     }
 
@@ -25,9 +23,9 @@ public class ChannelService : AbilityService, IMovementStatusProvider
 
     public bool Roots() => Active && _currentChannel.EffectOnMovement == ChannelEffectOnMovement.Root;
 
-    public void Setup(InterruptionManager interruptionManager)
+    public void Setup()
     {
-        interruptionManager.Register(InterruptionType.Soft, CancelChannel);
+        actor.InterruptionManager.Register(InterruptionType.Soft, CancelChannel);
     }
 
     public bool StartChannel(

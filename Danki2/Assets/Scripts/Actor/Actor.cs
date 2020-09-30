@@ -42,7 +42,7 @@ public abstract class Actor : MonoBehaviour
         EffectManager = new EffectManager(this, updateSubject, statsManager);
         HealthManager = new HealthManager(this, updateSubject);
         InterruptionManager = new InterruptionManager(this, startSubject);
-        ChannelService = new ChannelService(this, startSubject, lateUpdateSubject, InterruptionManager);
+        ChannelService = new ChannelService(this, startSubject, lateUpdateSubject);
         InstantCastService = new InstantCastService(this);
         MovementManager = new MovementManager(this, updateSubject, navmeshAgent);
         
