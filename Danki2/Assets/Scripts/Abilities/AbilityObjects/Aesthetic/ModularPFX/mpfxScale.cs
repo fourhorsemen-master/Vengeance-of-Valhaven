@@ -7,26 +7,15 @@ public class mpfxScale : MPFXBehaviour
 	[SerializeField]
 	private AnimationCurve curve = new AnimationCurve();
 
-	public override bool SetUp(MPFXContext Context, GameObject InGraphic)
+	public override void SetUp(MPFXContext context, GameObject inGraphic)
 	{
-		Context.graphic = InGraphic;
-		Context.timeElapsed = 0f;
-		GetEndTimeFromCurve(curve, out Context.endTime);
-		Context.graphic.transform.localScale = Vector3.one * curve.Evaluate(0f);
-
-		return true;
+		base.SetUp(context, inGraphic);
+		GetEndTimeFromCurve(curve, out context.endTime);
+		context.graphic.transform.localScale = Vector3.one * curve.Evaluate(0f);
 	}
 
-	public override bool UpdatePFX(MPFXContext Context)
+	protected override void UpdateInternal(MPFXContext context)
 	{
-		Context.timeElapsed += Time.deltaTime;
-		Context.graphic.transform.localScale = Vector3.one * curve.Evaluate(Context.timeElapsed);
-
-		return base.UpdatePFX(Context);
-	}
-
-	public override bool End(MPFXContext Context)
-	{
-		return true;
+		context.graphic.transform.localScale = Vector3.one * curve.Evaluate(context.timeElapsed);
 	}
 }

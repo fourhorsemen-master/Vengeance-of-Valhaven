@@ -31,10 +31,10 @@ public class ModularPFXComponent : MonoBehaviour
 
         foreach (MPFXBehaviour behaviour in behaviours)
         {
-            behavioursToContexts.Add(behaviour, behaviour.ConstructContext());
-            MPFXContext context = behavioursToContexts[behaviour];
+            MPFXContext context = behaviour.ConstructContext();
             context.owningComponent = this;
-            behaviour.SetUp(behavioursToContexts[behaviour], spawnedGraphic);
+            behavioursToContexts.Add(behaviour, context);
+            behaviour.SetUp(context, spawnedGraphic);
         }
     }
 
@@ -66,11 +66,6 @@ public class ModularPFXComponent : MonoBehaviour
 
     private void EndPFX()
     {
-        foreach (MPFXBehaviour behaviour in behaviours)
-        {
-            behaviour.End(behavioursToContexts[behaviour]);
-        }
-
         Destroy(spawnedGraphic);
         isActive = false;
     }

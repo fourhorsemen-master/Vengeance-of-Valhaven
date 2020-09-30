@@ -2,22 +2,22 @@
 using UnityEngine;
 
 [Serializable]
-public class MPFXBehaviour : ScriptableObject, ImpfxCallable
+public abstract class MPFXBehaviour : ScriptableObject
 {
-	virtual public bool SetUp(MPFXContext Context, GameObject InGraphic)
+	virtual public void SetUp(MPFXContext Context, GameObject InGraphic)
 	{
-		return false;
+		Context.graphic = InGraphic;
+		Context.timeElapsed = 0f;
 	}
 
-	virtual public bool UpdatePFX(MPFXContext Context)
+	public bool UpdatePFX(MPFXContext Context)
 	{
-		return Context.timeElapsed > Context.endTime; 
+		Context.timeElapsed += Time.deltaTime;
+		UpdateInternal(Context);
+		return Context.timeElapsed > Context.endTime;
 	}
 
-	virtual public bool End(MPFXContext Context)
-	{
-		return false;
-	}
+	protected abstract void UpdateInternal(MPFXContext Context);
 
 	protected static void GetEndTimeFromCurve(AnimationCurve InCurve, out float OutTime)
 	{
