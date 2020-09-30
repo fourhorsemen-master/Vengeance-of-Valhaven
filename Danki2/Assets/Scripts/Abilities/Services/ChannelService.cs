@@ -23,7 +23,7 @@ public class ChannelService : AbilityService, IMovementStatusProvider
 
     public bool Roots() => Active && _currentChannel.EffectOnMovement == ChannelEffectOnMovement.Root;
 
-    public void Setup()
+    private void Setup()
     {
         actor.InterruptionManager.Register(InterruptionType.Soft, CancelChannel);
     }
