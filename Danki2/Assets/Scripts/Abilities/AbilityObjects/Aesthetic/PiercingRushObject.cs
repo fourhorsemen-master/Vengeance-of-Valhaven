@@ -19,16 +19,15 @@ public class PiercingRushObject : StaticAbilityObject
 
     public override float StickTime =>  5f;
 
-    public static PiercingRushObject Create(Transform transform, Subject onCastCancelled)
+    public static void Create(Transform transform, Subject onCastCancelled, Subject<float> onCastComplete, bool hasJetStream)
     {
         PiercingRushObject piercingRushObject = Instantiate(AbilityObjectPrefabLookup.Instance.PiercingRushObjectPrefab, transform);
 
         onCastCancelled.Subscribe(piercingRushObject.Destroy);
-
-        return piercingRushObject;
+        onCastComplete.Subscribe(duration => piercingRushObject.OnCastComplete(hasJetStream, duration));
     }
 
-    public void OnCastComplete(bool hasJetstream, float dashDuration)
+    private void OnCastComplete(bool hasJetstream, float dashDuration)
     {
         startMPFXObject.SetActive(false);
         rushMPFXObject.SetActive(true);

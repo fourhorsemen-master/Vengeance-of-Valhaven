@@ -5,8 +5,6 @@ public class PiercingRush : Cast
 {
     protected override float CastTime => 2f;
 
-    private PiercingRushObject piercingRushObject = null;
-
     private const float minimumCastRange = 2f;
     private const float maximumCastRange = 10f;
     private const float dashDamageWidth = 6f;
@@ -22,6 +20,7 @@ public class PiercingRush : Cast
     private const float postDashPauseDuration = 0.2f;
 
     private readonly Subject onCastCancelled = new Subject();
+    private readonly Subject<float> onCastComplete = new Subject<float>();
 
     public override ChannelEffectOnMovement EffectOnMovement => ChannelEffectOnMovement.Root;
 
@@ -31,7 +30,7 @@ public class PiercingRush : Cast
 
     protected override void Start()
     {
-        piercingRushObject = PiercingRushObject.Create(Owner.transform, onCastCancelled);
+        PiercingRushObject.Create(Owner.transform, onCastCancelled, onCastComplete, HasBonus("Jetstream"));
     }
 
     protected override void Cancel() => onCastCancelled.Next();
@@ -51,6 +50,7 @@ public class PiercingRush : Cast
 
         Owner.MovementManager.TryLockMovement(MovementLockType.Dash, dashDuration, dashSpeed, direction, direction);
         Owner.StartTrail(dashDuration);
+        onCastComplete.Next(dashDuration);
 
 
         // Dash damage and Daze.
@@ -78,8 +78,6 @@ public class PiercingRush : Cast
 
         // Jetstream.
         if (HasBonus("Jetstream")) Owner.WaitAndAct(dashDuration + jetstreamCastDelay, () => Jetstream());
-
-        piercingRushObject.OnCastComplete(HasBonus("Jetstream"), dashDuration);
 
         SuccessFeedbackSubject.Next(hasDealtDamage);
 
