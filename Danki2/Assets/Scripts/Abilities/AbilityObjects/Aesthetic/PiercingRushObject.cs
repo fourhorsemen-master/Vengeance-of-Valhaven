@@ -2,8 +2,6 @@
 
 public class PiercingRushObject : MonoBehaviour
 {
-    private const float piercingRushDamageObjectDuration = 0.5f;
-
     [SerializeField]
     private AudioSource jetstreamSound = null;
 
@@ -17,7 +15,7 @@ public class PiercingRushObject : MonoBehaviour
     private GameObject rushMPFXObject = null;
 
     [SerializeField]
-    private GameObject piercingRushDamageObject = null;
+    private GameObject landMPFXObject = null;
 
     public static PiercingRushObject Create(Transform transform, Subject onCastCancelled)
     {
@@ -43,14 +41,8 @@ public class PiercingRushObject : MonoBehaviour
         }
         else
         {
-            NoBonus();
+            this.WaitAndAct(dashDuration, NoBonus);
         }
-    }
-
-    public void ShowRushDamage(Actor target, Quaternion normalDirection)
-    {
-        GameObject rushDamageObject = Instantiate(piercingRushDamageObject, target.transform.position, normalDirection);
-        this.WaitAndAct(piercingRushDamageObjectDuration, () => Destroy(rushDamageObject));
     }
 
     private void Destroy()
@@ -60,12 +52,16 @@ public class PiercingRushObject : MonoBehaviour
 
     private void Jetstream()
     {
+        rushMPFXObject.SetActive(false);
+        landMPFXObject.SetActive(true);
         jetstreamSound.Play();
         this.WaitAndAct(jetstreamSound.clip.length, () => Destroy(gameObject));
     }
 
     private void NoBonus()
     {
+        rushMPFXObject.SetActive(false);
+        landMPFXObject.SetActive(true);
         this.WaitAndAct(piercingRushSound.clip.length, () => Destroy(gameObject));
     }
 }

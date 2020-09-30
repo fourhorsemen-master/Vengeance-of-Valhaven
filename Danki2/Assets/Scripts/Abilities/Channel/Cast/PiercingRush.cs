@@ -48,7 +48,8 @@ public class PiercingRush : Cast
 
         float dashSpeed = Owner.GetStat(Stat.Speed) * dashSpeedMultiplier;
         float dashDuration = distance / dashSpeed;
-        
+
+        Owner.MovementManager.LookAt(target);
         Owner.MovementManager.TryLockMovement(MovementLockType.Dash, dashDuration, dashSpeed, direction, direction);
         Owner.StartTrail(dashDuration);
 
@@ -57,7 +58,7 @@ public class PiercingRush : Cast
         Vector3 collisionDetectionScale = new Vector3(dashDamageWidth, dashDamageHeight, distance);
 
         Vector3 collisionDetectionPosition = position;
-        Vector3 collisionDetectionOffset = position + Owner.transform.forward.normalized * distance / 2;
+        collisionDetectionPosition += Owner.transform.forward.normalized * distance / 2;
 
         bool hasDealtDamage = false;
 
@@ -70,16 +71,8 @@ public class PiercingRush : Cast
         {
             if (Owner.Opposes(actor))
             {
-                DealDamage(actor);                
+                DealDamageDuringRush(actor, direction, dashSpeed);                
                 hasDealtDamage = true;
-
-                if (HasBonus("Daze"))
-                {
-                    actor.EffectManager.AddActiveEffect(
-                        new Slow(dazeSlowMultiplier),
-                        dazeSlowTime
-                    );
-                }
             }
         });
 
@@ -94,14 +87,29 @@ public class PiercingRush : Cast
         Owner.WaitAndAct(dashDuration, () => Owner.MovementManager.Pause(postDashPauseDuration));
     }
 
-    private void DealDamage(Actor target)
+    private void DealDamageDuringRush(Actor enemy, Vector3 rushDirection, float rushSpeed)
     {
-        // method for finding the direction of normal vector to movement path
-        // call the piercing rush object show damage method after the set time figured for below
-        // use a wait and act to deal damage only as we pass it by knowing closest point and dash speed
-        // finally want to add some jetstream mpfx
-        DealPrimaryDamage(target);
-        CustomCamera.Instance.AddShake(ShakeIntensity.High);
+        Vector3 ownerToEnemy = enemy.transform.position - Owner.transform.position;
+
+        float perpendicularDistance = Vector3.Magnitude(Vector3.Cross(ownerToEnemy, rushDirection)) / Vector3.Magnitude(rushDirection);
+        float hypotenuseDistance = Vector3.Distance(Owner.transform.position, enemy.transform.position);
+
+        float passingDistance = Mathf.Sqrt(Mathf.Pow(hypotenuseDistance, 2) - Mathf.Pow(perpendicularDistance, 2));
+        float passingTime = passingDistance / rushSpeed;
+
+        Owner.WaitAndAct(passingTime, () =>
+        {
+            DealPrimaryDamage(enemy);
+            CustomCamera.Instance.AddShake(ShakeIntensity.High);
+
+            if (HasBonus("Daze"))
+            {
+                enemy.EffectManager.AddActiveEffect(
+                    new Slow(dazeSlowMultiplier),
+                    dazeSlowTime
+                );
+            }
+        });
     }
 
     private void Jetstream()

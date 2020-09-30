@@ -110,6 +110,60 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 220f247701c44f1439454d48aae4e0b4, type: 2}
   - {fileID: 11400000, guid: 12d2d0c0af0a00a4ba5534eb2add0780, type: 2}
   - {fileID: 11400000, guid: fe5914dab5943f348ac28cd989fe9ba6, type: 2}
+--- !u!1 &4838784666624649390
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8997664403828055384}
+  - component: {fileID: 8287276863341610288}
+  m_Layer: 0
+  m_Name: LandMPFX
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &8997664403828055384
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4838784666624649390}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6199901359796212524}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8287276863341610288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4838784666624649390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4d8ecee363ab984eab323217dbf5a71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mpfxMaterial: {fileID: 2100000, guid: 3583ac946a9670b45b71435315e9f2c9, type: 2}
+  settings:
+    effectObject: {fileID: 7516510025786791067, guid: ffb6b6de607087544b3b5e404704c42c,
+      type: 3}
+    effectColor: {r: 0.8113208, g: 0.8113208, b: 0.8113208, a: 1}
+    effectEmissive: {r: 0, g: 0, b: 0, a: 0}
+    effectAlbedo: {fileID: 2800000, guid: a2802dbeebb917a4889a09a66c870589, type: 3}
+  behaviours:
+  - {fileID: 11400000, guid: 1cb1e0dadfc42cb4a8fb3c4976adcf70, type: 2}
+  - {fileID: 11400000, guid: de155b99f08be694f9309595470e92ea, type: 2}
+  - {fileID: 11400000, guid: 28749d143cb5c9b4e8009d6cd741ae3e, type: 2}
 --- !u!1 &6281845679081735181
 GameObject:
   m_ObjectHideFlags: 0
@@ -142,6 +196,7 @@ Transform:
   m_Children:
   - {fileID: 6192433256412632975}
   - {fileID: 491717810633388185}
+  - {fileID: 8997664403828055384}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -161,8 +216,7 @@ MonoBehaviour:
   piercingRushSound: {fileID: -6551646423874775727}
   startMPFXObject: {fileID: 2475201383530539789}
   rushMPFXObject: {fileID: 3694682687817971246}
-  piercingRushDamageObject: {fileID: 8144634115967058744, guid: 9ac37faa5da14634eaa12e8da13e1874,
-    type: 3}
+  landMPFXObject: {fileID: 4838784666624649390}
 --- !u!82 &-6551646423874775727
 AudioSource:
   m_ObjectHideFlags: 0

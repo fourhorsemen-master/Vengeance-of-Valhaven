@@ -9,31 +9,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad86a3ec96d24644ea3b091ceb338242, type: 3}
-  m_Name: PiercingRushDamageObject_Fade
+  m_Script: {fileID: 11500000, guid: 886f58a86eefce44cb4ee110a7ec7918, type: 3}
+  m_Name: PiercingRushLand_Scale
   m_EditorClassIdentifier: 
   behaviourName: 
   curve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
+      time: -0.0022258703
+      value: 0.1
+      inSlope: 0.6484921
+      outSlope: 0.6484921
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
-      outWeight: 0
+      inWeight: 0.33333334
+      outWeight: 0.03132731
     - serializedVersion: 3
-      time: 0.39935303
-      value: 0.5003929
+      time: 0.9997028
+      value: 0.3805781
       inSlope: 0
       outSlope: 0
-      tangentMode: 0
+      tangentMode: 136
       weightedMode: 0
-      inWeight: 0
-      outWeight: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
