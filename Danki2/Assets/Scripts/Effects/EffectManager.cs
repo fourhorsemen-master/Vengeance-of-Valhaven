@@ -19,11 +19,14 @@ public class EffectManager : IStatPipe, IMovementStatusProvider
         this.actor = actor;
         this.statsManager = statsManager;
         this.statsManager.RegisterPipe(this);
+
         updateSubject.Subscribe(() =>
         {
             ForEachEffect(e => e.Update(this.actor));
             TickActiveEffects();
         });
+
+        actor.DeathSubject.Subscribe(effects.Clear);
     }
 
     public bool TryGetEffect(Guid id, out Effect effect) => effects.TryGetValue(id, out effect);
@@ -39,6 +42,8 @@ public class EffectManager : IStatPipe, IMovementStatusProvider
     /// <param name="duration"> The duration of the effect. </param>
     public void AddActiveEffect(Effect effect, float duration)
     {
+        if (actor.Dead) return;
+
         effect.Start(actor);
 
         Guid id = Guid.NewGuid();
@@ -55,17 +60,23 @@ public class EffectManager : IStatPipe, IMovementStatusProvider
     /// </summary>
     /// <param name="effect"> The effect to add. </param>
     /// <returns> The Guid to use to remove the effect. </returns>
-    public Guid AddPassiveEffect(Effect effect)
+    public bool TryAddPassiveEffect(Effect effect, out Guid id)
     {
+        if (actor.Dead)
+        {
+            id = default;
+            return false;
+        }
+
         effect.Start(actor);
 
-        Guid id = Guid.NewGuid();
+        id = Guid.NewGuid();
         effects.Add(id, effect);
         EffectAddedSubject.Next(id);
 
         statsManager.ClearCache();
 
-        return id;
+        return true;
     }
 
     /// <summary>
@@ -75,6 +86,8 @@ public class EffectManager : IStatPipe, IMovementStatusProvider
     /// <param name="id"> The id of the effect to remove. </param>
     public void RemovePassiveEffect(Guid id)
     {
+        if (actor.Dead) return;
+
         if (!effects.ContainsKey(id))
         {
             Debug.LogError($"Tried to remove passive effect with id that could not be found. Id: {id.ToString()}");
@@ -151,6 +164,8 @@ public class EffectManager : IStatPipe, IMovementStatusProvider
 
     private void TickActiveEffects()
     {
+        if (actor.Dead) return;
+
         List<Guid> expiredEffectIds = new List<Guid>();
 
         ForEachEffectId(id =>

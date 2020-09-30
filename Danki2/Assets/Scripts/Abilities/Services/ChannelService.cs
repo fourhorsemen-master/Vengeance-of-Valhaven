@@ -17,10 +17,10 @@ public class ChannelService : AbilityService, IMovementStatusProvider
     {
         interruptionManager.Register(InterruptionType.Soft, CancelChannel);
 
-        actor.DeathSubject.Subscribe(CancelChannel);
-
         lateUpdateSubject.Subscribe(() =>
         {
+            if (actor.Dead) return;
+
             if (!Active)
             {
                 RemainingDuration = 0f;
@@ -82,7 +82,7 @@ public class ChannelService : AbilityService, IMovementStatusProvider
 
     public void CancelChannel()
     {
-        if (!Active) return;
+        if (!Active || actor.Dead) return;
 
         RemainingDuration = 0f;
         Active = false;

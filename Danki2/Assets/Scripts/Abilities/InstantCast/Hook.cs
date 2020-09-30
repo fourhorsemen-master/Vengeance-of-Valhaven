@@ -33,11 +33,9 @@ public class Hook : InstantCast
     private void OnCollision(GameObject gameObject)
     {
         hookObject.PlayHitAudio();
-        
-        if (gameObject.IsActor())
-        {
-            Actor actor = gameObject.GetComponent<Actor>();
 
+        if (RoomManager.Instance.TryGetActor(gameObject, out Actor actor))
+        {
             if (!actor.Opposes(Owner))
             {
                 SuccessFeedbackSubject.Next(false);
