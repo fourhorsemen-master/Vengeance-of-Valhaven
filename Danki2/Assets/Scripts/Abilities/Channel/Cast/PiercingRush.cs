@@ -49,7 +49,6 @@ public class PiercingRush : Cast
         float dashSpeed = Owner.GetStat(Stat.Speed) * dashSpeedMultiplier;
         float dashDuration = distance / dashSpeed;
 
-        Owner.MovementManager.LookAt(target);
         Owner.MovementManager.TryLockMovement(MovementLockType.Dash, dashDuration, dashSpeed, direction, direction);
         Owner.StartTrail(dashDuration);
 
@@ -80,7 +79,7 @@ public class PiercingRush : Cast
         // Jetstream.
         if (HasBonus("Jetstream")) Owner.WaitAndAct(dashDuration + jetstreamCastDelay, () => Jetstream());
 
-        piercingRushObject.OnEnd(HasBonus("Jetstream"), dashDuration);
+        piercingRushObject.OnCastComplete(HasBonus("Jetstream"), dashDuration);
 
         SuccessFeedbackSubject.Next(hasDealtDamage);
 
@@ -91,13 +90,10 @@ public class PiercingRush : Cast
     {
         Vector3 ownerToEnemy = enemy.transform.position - Owner.transform.position;
 
-        float perpendicularDistance = Vector3.Magnitude(Vector3.Cross(ownerToEnemy, rushDirection)) / Vector3.Magnitude(rushDirection);
-        float hypotenuseDistance = Vector3.Distance(Owner.transform.position, enemy.transform.position);
-
-        float passingDistance = Mathf.Sqrt(Mathf.Pow(hypotenuseDistance, 2) - Mathf.Pow(perpendicularDistance, 2));
+        float passingDistance = Vector3.Dot(ownerToEnemy, rushDirection.normalized);
         float passingTime = passingDistance / rushSpeed;
 
-        Owner.WaitAndAct(passingTime, () =>
+        Owner.InterruptableAction(passingTime, InterruptionType.Hard, () =>
         {
             DealPrimaryDamage(enemy);
             CustomCamera.Instance.AddShake(ShakeIntensity.High);

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PiercingRushObject : MonoBehaviour
+public class PiercingRushObject : StaticAbilityObject
 {
     [SerializeField]
     private AudioSource jetstreamSound = null;
@@ -17,32 +17,25 @@ public class PiercingRushObject : MonoBehaviour
     [SerializeField]
     private GameObject landMPFXObject = null;
 
+    public override float StickTime =>  5f;
+
     public static PiercingRushObject Create(Transform transform, Subject onCastCancelled)
     {
         PiercingRushObject piercingRushObject = Instantiate(AbilityObjectPrefabLookup.Instance.PiercingRushObjectPrefab, transform);
-
-        piercingRushObject.startMPFXObject.SetActive(true);
 
         onCastCancelled.Subscribe(piercingRushObject.Destroy);
 
         return piercingRushObject;
     }
 
-    public void OnEnd(bool hasJetstream, float dashDuration)
+    public void OnCastComplete(bool hasJetstream, float dashDuration)
     {
         startMPFXObject.SetActive(false);
         rushMPFXObject.SetActive(true);
 
         piercingRushSound.Play();
-
-        if (hasJetstream)
-        {
-            this.WaitAndAct(dashDuration, Jetstream);
-        }
-        else
-        {
-            this.WaitAndAct(dashDuration, NoBonus);
-        }
+        
+        this.WaitAndAct(dashDuration, () => Landing(hasJetstream));
     }
 
     private void Destroy()
@@ -50,18 +43,10 @@ public class PiercingRushObject : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void Jetstream()
+    private void Landing(bool hasJetstream)
     {
         rushMPFXObject.SetActive(false);
         landMPFXObject.SetActive(true);
-        jetstreamSound.Play();
-        this.WaitAndAct(jetstreamSound.clip.length, () => Destroy(gameObject));
-    }
-
-    private void NoBonus()
-    {
-        rushMPFXObject.SetActive(false);
-        landMPFXObject.SetActive(true);
-        this.WaitAndAct(piercingRushSound.clip.length, () => Destroy(gameObject));
+        if (hasJetstream) jetstreamSound.Play();
     }
 }
