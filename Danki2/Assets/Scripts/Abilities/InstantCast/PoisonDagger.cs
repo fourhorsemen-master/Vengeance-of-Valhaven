@@ -4,7 +4,7 @@
 public class PoisonDagger : InstantCast
 {
     private const float DaggerSpeed = 20f;
-    private const float DotDuration = 5f;
+    private const float DotDuration = 3f;
 
     public PoisonDagger(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
