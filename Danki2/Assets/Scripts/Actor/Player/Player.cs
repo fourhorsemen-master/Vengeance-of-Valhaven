@@ -35,12 +35,14 @@ public class Player : Actor
     {
         base.Awake();
 
-        EnumDictionary<AbilityReference, int> ownedAbilities = new EnumDictionary<AbilityReference, int>(3);
+        EnumDictionary<AbilityReference, int> ownedAbilities = new EnumDictionary<AbilityReference, int>(0);
+        ownedAbilities[AbilityReference.Slash] = 1;
+        ownedAbilities[AbilityReference.PoisonDagger] = 1;
 
         AbilityTree = AbilityTreeFactory.CreateTree(
             ownedAbilities,
-            AbilityTreeFactory.CreateNode(AbilityReference.SweepingStrike),
-            AbilityTreeFactory.CreateNode(AbilityReference.Lunge)
+            AbilityTreeFactory.CreateNode(AbilityReference.Slash),
+            AbilityTreeFactory.CreateNode(AbilityReference.PoisonDagger)
         );
 
         RegisterAbilityDataDiffer(new AbilityDataOrbsDiffer(AbilityTree));
