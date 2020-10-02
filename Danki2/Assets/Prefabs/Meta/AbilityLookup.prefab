@@ -125,10 +125,10 @@ MonoBehaviour:
       finisher: 0
     - displayName: Poison Dagger
       tooltip: Instant Cast - Throw a dagger which deals {PRIMARY_DAMAGE} damage on
-        impact and poisons the enemy for {SECONDARY_DAMAGE} damage over 5 seconds.
+        impact and poisons the enemy for {SECONDARY_DAMAGE} damage over 3 seconds.
       baseAbilityData:
         primaryDamage: 2
-        secondaryDamage: 7
+        secondaryDamage: 3
         heal: 0
         shield: 0
       abilityOrbType:
