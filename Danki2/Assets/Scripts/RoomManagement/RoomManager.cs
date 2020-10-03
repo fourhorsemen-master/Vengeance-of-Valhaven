@@ -5,7 +5,7 @@ using Random = UnityEngine.Random;
 
 public class RoomManager : Singleton<RoomManager>
 {
-    private const float MinClusterDistance = 1f;
+    private const float MinClusterDistanceFromPlayer = 10f;
     
     public List<ActorCacheItem> ActorCache { get; } = new List<ActorCacheItem>();
     public Player Player { get; private set; }
@@ -88,7 +88,7 @@ public class RoomManager : Singleton<RoomManager>
         {
             Vector3 averagePosition = keyValuePair.Value.GetAveragePosition();
             
-            if (Vector3.Distance(Player.transform.position, averagePosition) >= MinClusterDistance)
+            if (Vector3.Distance(Player.transform.position, averagePosition) >= MinClusterDistanceFromPlayer)
             {
                 potentialClusterIds.Add(keyValuePair.Key);
             }
