@@ -73,6 +73,14 @@ public class RoomManager : Singleton<RoomManager>
         }
     }
 
+    private void TryStartNextWave()
+    {
+        if (ActorCache.Count == 1 && ActorCache[0].Actor.Type == ActorType.Player)
+        {
+            StartNextWave();
+        }
+    }
+
     private void StartNextWave()
     {
         wave++;
@@ -97,13 +105,5 @@ public class RoomManager : Singleton<RoomManager>
         return potentialClusterIds.Count == 0
             ? clusters.Keys.First()
             : potentialClusterIds[Random.Range(0, potentialClusterIds.Count)];
-    }
-
-    private void TryStartNextWave()
-    {
-        if (ActorCache.Count == 1 && ActorCache[0].Actor.Type == ActorType.Player)
-        {
-            StartNextWave();
-        }
     }
 }
