@@ -115,6 +115,11 @@ public abstract class Actor : MonoBehaviour
         Dead = true;
     }
 
+    protected void DisableNavMeshAgent()
+    {
+        navmeshAgent.enabled = false;
+    }
+
     protected void RegisterAbilityDataDiffer(IAbilityDataDiffer abilityDataDiffer)
     {
         ChannelService.RegisterAbilityDataDiffer(abilityDataDiffer);

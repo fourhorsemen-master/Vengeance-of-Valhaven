@@ -15,8 +15,16 @@ public class Wolf : Enemy
     [SerializeField]
     private float agroTime = 0f;
 
+    [SerializeField]
+    private BoxCollider boxCollider = null;
+
+    [SerializeField]
+    private GameObject meshGameObject = null;
+
     private float _biteRemainingCooldown = 0f;
     private float _pounceRemaningCooldown = 0f;
+
+    private const float meshDisableOnDeathDelay = 2f;
 
     public AudioSource howl;
 
@@ -149,5 +157,17 @@ public class Wolf : Enemy
     private void Howl()
     {
         howl.Play();
+    }
+
+    protected override void OnDeath()
+    {
+        base.OnDeath();
+
+        this.WaitAndAct(meshDisableOnDeathDelay, () =>
+        {
+            boxCollider.enabled = false;
+            DisableNavMeshAgent();
+            meshGameObject.SetActive(false);
+        });        
     }
 }
