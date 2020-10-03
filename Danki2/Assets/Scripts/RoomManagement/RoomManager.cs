@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class RoomManager : Singleton<RoomManager>
 {
@@ -17,6 +18,11 @@ public class RoomManager : Singleton<RoomManager>
     {
         SetupGameObjectReferences();
         StartNextWave();
+    }
+
+    private void Update()
+    {
+        TryStartNextWave();
     }
 
     public bool TryGetActor(GameObject gameObject, out Actor actor)
@@ -91,5 +97,13 @@ public class RoomManager : Singleton<RoomManager>
         return potentialClusterIds.Count == 0
             ? clusters.Keys.First()
             : potentialClusterIds[Random.Range(0, potentialClusterIds.Count)];
+    }
+
+    private void TryStartNextWave()
+    {
+        if (ActorCache.Count == 1 && ActorCache[0].Actor.Type == ActorType.Player)
+        {
+            StartNextWave();
+        }
     }
 }
