@@ -10,9 +10,11 @@ public class RoomManager : Singleton<RoomManager>
     public List<ActorCacheItem> ActorCache { get; } = new List<ActorCacheItem>();
     public Player Player { get; private set; }
     public Subject<int> WaveStartSubject { get; } = new Subject<int>();
+    public Subject<int> KillsSubject { get; } = new Subject<int>();
     
     private readonly Dictionary<int, Cluster> clusters = new Dictionary<int, Cluster>();
     private int wave = 0;
+    private int kills = 0;
 
     private void Start()
     {
@@ -50,7 +52,15 @@ public class RoomManager : Singleton<RoomManager>
 
         ActorCacheItem actorCacheItem = new ActorCacheItem(actor, collider);
         ActorCache.Add(actorCacheItem);
-        actor.DeathSubject.Subscribe(() => ActorCache.Remove(actorCacheItem));
+        actor.DeathSubject.Subscribe(() =>
+        {
+            ActorCache.Remove(actorCacheItem);
+
+            if (actorCacheItem.Actor.Type != ActorType.Wolf) return;
+
+            kills++;
+            KillsSubject.Next(kills);
+        });
     }
 
     private void SetupGameObjectReferences()
