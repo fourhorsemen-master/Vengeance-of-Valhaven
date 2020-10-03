@@ -1,31 +1,22 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class RoomManager : Singleton<RoomManager>
 {
+    private const float MinClusterDistance = 1f;
+    
     public List<ActorCacheItem> ActorCache { get; } = new List<ActorCacheItem>();
     public Player Player { get; private set; }
+    public Subject<int> WaveStartSubject { get; } = new Subject<int>();
     
-    private readonly Dictionary<int, List<WolfSpawner>> clusters = new Dictionary<int, List<WolfSpawner>>();
+    private readonly Dictionary<int, Cluster> clusters = new Dictionary<int, Cluster>();
+    private int wave = 0;
 
     private void Start()
     {
-        Player = FindObjectOfType<Player>();
-        TryAddToCache(Player);
-
-        WolfSpawner[] spawners = FindObjectsOfType<WolfSpawner>();
-        foreach (WolfSpawner spawner in spawners)
-        {
-            int clusterId = spawner.Cluster;
-
-            if (clusters.TryGetValue(clusterId, out List<WolfSpawner> cluster))
-            {
-                cluster.Add(spawner);
-                continue;
-            }
-
-            clusters[clusterId] = ListUtils.Singleton(spawner);
-        }
+        SetupGameObjectReferences();
+        StartNextWave();
     }
 
     public bool TryGetActor(GameObject gameObject, out Actor actor)
@@ -54,5 +45,51 @@ public class RoomManager : Singleton<RoomManager>
         ActorCacheItem actorCacheItem = new ActorCacheItem(actor, collider);
         ActorCache.Add(actorCacheItem);
         actor.DeathSubject.Subscribe(() => ActorCache.Remove(actorCacheItem));
+    }
+
+    private void SetupGameObjectReferences()
+    {
+        Player = FindObjectOfType<Player>();
+        TryAddToCache(Player);
+
+        WolfSpawner[] spawners = FindObjectsOfType<WolfSpawner>();
+        foreach (WolfSpawner spawner in spawners)
+        {
+            int clusterId = spawner.Cluster;
+
+            if (clusters.TryGetValue(clusterId, out Cluster cluster))
+            {
+                cluster.AddSpawner(spawner);
+                continue;
+            }
+
+            clusters[clusterId] = new Cluster(spawner);
+        }
+    }
+
+    private void StartNextWave()
+    {
+        wave++;
+        clusters[SelectCluster()].Spawn(wave);
+        WaveStartSubject.Next(wave);
+    }
+
+    private int SelectCluster()
+    {
+        List<int> potentialClusterIds = new List<int>();
+        
+        foreach (KeyValuePair<int, Cluster> keyValuePair in clusters)
+        {
+            Vector3 averagePosition = keyValuePair.Value.GetAveragePosition();
+            
+            if (Vector3.Distance(Player.transform.position, averagePosition) >= MinClusterDistance)
+            {
+                potentialClusterIds.Add(keyValuePair.Key);
+            }
+        }
+        
+        return potentialClusterIds.Count == 0
+            ? clusters.Keys.First()
+            : potentialClusterIds[Random.Range(0, potentialClusterIds.Count)];
     }
 }
