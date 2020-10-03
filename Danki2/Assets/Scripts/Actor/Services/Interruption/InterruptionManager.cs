@@ -67,12 +67,13 @@ public class InterruptionManager
 
     private void InterruptWhere(Predicate<Interruptable> predicate)
     {
-        var toInterrupt = interruptables.Where(i => predicate(i));
-
-        toInterrupt.ForEach(i =>
-        {
-            i.OnInterrupt();
-            if (!i.Repeat) interruptables.Remove(i);
-        });
+        interruptables
+            .Where(i => predicate(i))
+            .ForEach(i =>
+                {
+                    i.OnInterrupt();
+                    if (!i.Repeat) interruptables.Remove(i);
+                }
+            );
     }
 }
