@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class InterruptionManager
 {
@@ -69,8 +68,6 @@ public class InterruptionManager
     private void InterruptWhere(Predicate<Interruptable> predicate)
     {
         var toInterrupt = interruptables.Where(i => predicate(i));
-
-        Debug.Log($"Interrupting {toInterrupt.Count} interruptables");
 
         toInterrupt.ForEach(i =>
         {
