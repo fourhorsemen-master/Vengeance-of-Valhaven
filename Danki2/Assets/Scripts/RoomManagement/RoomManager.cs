@@ -5,6 +5,28 @@ public class RoomManager : Singleton<RoomManager>
 {
     public List<ActorCacheItem> ActorCache { get; } = new List<ActorCacheItem>();
     public Player Player { get; private set; }
+    
+    private readonly Dictionary<int, List<WolfSpawner>> clusters = new Dictionary<int, List<WolfSpawner>>();
+
+    private void Start()
+    {
+        Player = FindObjectOfType<Player>();
+        TryAddToCache(Player);
+
+        WolfSpawner[] spawners = FindObjectsOfType<WolfSpawner>();
+        foreach (WolfSpawner spawner in spawners)
+        {
+            int clusterId = spawner.Cluster;
+
+            if (clusters.TryGetValue(clusterId, out List<WolfSpawner> cluster))
+            {
+                cluster.Add(spawner);
+                continue;
+            }
+
+            clusters[clusterId] = ListUtils.Singleton(spawner);
+        }
+    }
 
     public bool TryGetActor(GameObject gameObject, out Actor actor)
     {
@@ -19,20 +41,6 @@ public class RoomManager : Singleton<RoomManager>
 
         actor = null;
         return false;
-    }
-
-    private void Start()
-    {
-        Actor[] actors = FindObjectsOfType<Actor>();
-        foreach (Actor actor in actors)
-        {
-            TryAddToCache(actor);
-
-            if (actor.Type == ActorType.Player)
-            {
-                Player = (Player)actor;
-            }
-        }
     }
 
     public void TryAddToCache(Actor actor)
