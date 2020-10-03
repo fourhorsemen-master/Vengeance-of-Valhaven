@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 9105719238049568583}
   - component: {fileID: 5019733397410533546}
   m_Layer: 5
-  m_Name: KillNumber
+  m_Name: Tracker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -100,8 +100,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: -0.00035614133
-      value: 1.0020915
+      time: 0
+      value: 0.5
       inSlope: 0
       outSlope: 0
       tangentMode: 136
@@ -109,22 +109,22 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.15
-      value: 1
-      inSlope: -0.02799897
-      outSlope: -0.02799897
-      tangentMode: 136
+      time: 0.031286627
+      value: 0.99832153
+      inSlope: -0.33741724
+      outSlope: -0.33741724
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.33333334
+      outWeight: 0.05115933
     - serializedVersion: 3
       time: 0.29844442
       value: 0.00083558285
-      inSlope: -15.746639
-      outSlope: -15.746639
+      inSlope: -13.29266
+      outSlope: -13.29266
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.084309116
+      inWeight: 0.0193454
       outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -134,7 +134,7 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1.5
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 136
@@ -142,8 +142,8 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.15
-      value: 1.5
+      time: 0.020605475
+      value: 1.5012054
       inSlope: 0
       outSlope: 0
       tangentMode: 136
