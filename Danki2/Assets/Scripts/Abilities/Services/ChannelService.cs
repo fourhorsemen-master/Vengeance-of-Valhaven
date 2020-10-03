@@ -25,7 +25,7 @@ public class ChannelService : AbilityService, IMovementStatusProvider
 
     private void Setup()
     {
-        actor.InterruptionManager.Register(InterruptionType.Soft, CancelChannel);
+        actor.InterruptionManager.Register(InterruptionType.Soft, CancelChannel, true, true);
     }
 
     public bool StartChannel(
