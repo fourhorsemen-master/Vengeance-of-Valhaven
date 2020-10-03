@@ -57,8 +57,8 @@ public abstract class Ability
 
     protected Quaternion GetMeleeCastRotation(Vector3 castDirection)
     {
-        var castRotation = Quaternion.LookRotation(castDirection);
-        var castAngleX = castRotation.eulerAngles.x;
+        Quaternion castRotation = Quaternion.LookRotation(castDirection);
+        float castAngleX = castRotation.eulerAngles.x;
 
         if (castAngleX > 180f) castAngleX -= 360f;
 
