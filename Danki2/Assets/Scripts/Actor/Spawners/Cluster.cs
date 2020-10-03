@@ -34,11 +34,9 @@ public class Cluster
 
     public void Spawn(int wave)
     {
-        int count = Mathf.Min(wave, spawners.Count);
-
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < wave; i++)
         {
-            spawners[i].Spawn();
+            spawners[i % spawners.Count].Spawn();
         }
     }
 }
