@@ -1,10 +1,10 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class MusicManager : Singleton<MusicManager>
 {
-    private const float TargetVolume = 1;
+    [SerializeField]
+    private float targetVolume = 1f;
 
     [SerializeField]
     private float fadeTime = 3f;
@@ -26,7 +26,7 @@ public class MusicManager : Singleton<MusicManager>
         if (playing) return;
         if (fadeCoroutine != null) StopCoroutine(fadeCoroutine);
         selectedAudioSource = audioSources[Random.Range(0, audioSources.Length)];
-        fadeCoroutine = StartCoroutine(selectedAudioSource.FadeInRoutine(fadeTime, TargetVolume));
+        fadeCoroutine = StartCoroutine(selectedAudioSource.FadeInRoutine(fadeTime, targetVolume));
         playing = true;
     }
 
