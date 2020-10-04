@@ -2,11 +2,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Tracker : MonoBehaviour
+public class NewAbilityMessage : MonoBehaviour
 {
-    [SerializeField]
-    private TrackerType trackerType = default;
-    
     [SerializeField]
     private Text text = null;
 
@@ -22,21 +19,37 @@ public class Tracker : MonoBehaviour
     [SerializeField]
     private AnimationCurve sizeCurve = null;
 
+    private Coroutine disappearCoroutine = null;
+    private const float disappearTime = 4;
+
     private void Start()
     {
-        text.color = baseColor;
+        text.enabled = false;
 
-        Subject<int> subject = trackerType == TrackerType.Kills
-            ? RoomManager.Instance.KillsSubject
-            : RoomManager.Instance.WaveStartSubject;
-        
-        subject.Subscribe(i =>
+        GameStateController.Instance.GameStateTransitionSubject.Subscribe(gameState =>
         {
-            text.text = i.ToString();
-            if (GameStateController.Instance.GameState != GameState.Playing) return;
-            StartCoroutine(Flash());
-            StartCoroutine(ChangeSize());
+            if (gameState == GameState.InAbilityTreeEditor)
+            {
+                text.enabled = false;
+            }
         });
+        RoomManager.Instance.WaveStartSubject.Subscribe(OnWaveStart);
+    }
+
+    private void OnWaveStart(int wave)
+    {
+        if (wave == 1 || GameStateController.Instance.GameState == GameState.InAbilityTreeEditor) return;
+
+        text.enabled = true;
+        StartCoroutine(Flash());
+        StartCoroutine(ChangeSize());
+
+        if (disappearCoroutine != null)
+        {
+            StopCoroutine(disappearCoroutine);
+        }
+
+        disappearCoroutine = this.WaitAndAct(disappearTime, () => text.enabled = false);
     }
 
     private IEnumerator Flash()

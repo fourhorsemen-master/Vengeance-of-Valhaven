@@ -20,6 +20,7 @@ public abstract class AbilityTree
     public BehaviourSubject<int> CurrentDepthSubject { get; }
 
     public Subject ChangeSubject { get; } = new Subject();
+    public Subject InventoryChangeSubject { get; } = new Subject();
 
     private EnumDictionary<AbilityReference, int> ownedAbilities;
 
@@ -80,6 +81,14 @@ public abstract class AbilityTree
 
         _currentDepth = 0;
         CurrentDepthSubject.Next(_currentDepth);
+    }
+
+    public void AddToInventory(AbilityReference abilityReference)
+    {
+        Reset();
+        ownedAbilities[abilityReference]++;
+        UpdateInventory();
+        InventoryChangeSubject.Next();
     }
 
     private void UpdateInventory()
