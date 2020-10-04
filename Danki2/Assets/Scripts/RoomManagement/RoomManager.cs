@@ -5,7 +5,7 @@ using Random = UnityEngine.Random;
 
 public class RoomManager : Singleton<RoomManager>
 {
-    private const float MinClusterDistanceFromPlayer = 10f;
+    private const float MinClusterDistanceFromPlayer = 15f;
     
     public List<ActorCacheItem> ActorCache { get; } = new List<ActorCacheItem>();
     public Player Player { get; private set; }
