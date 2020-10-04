@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class MusicManager : Singleton<MusicManager>
 {
@@ -11,23 +13,26 @@ public class MusicManager : Singleton<MusicManager>
     private AudioSource[] audioSources = null;
 
     private Coroutine fadeCoroutine;
+    private bool playing = false;
 
-    private void Update()
+    private void Start()
     {
-        if (Input.GetKeyDown(KeyCode.K)) StartCombatMusic();
-        if (Input.GetKeyDown(KeyCode.L)) StopCombatMusic();
+        RoomManager.Instance.WaveStartSubject.Subscribe(_ => StopCombatMusic());
     }
 
     public void StartCombatMusic()
     {
+        if (playing) return;
         if (fadeCoroutine != null) StopCoroutine(fadeCoroutine);
         fadeCoroutine = StartCoroutine(SelectAudioSource().FadeInRoutine(fadeTime, TargetVolume));
+        playing = true;
     }
 
-    public void StopCombatMusic()
+    private void StopCombatMusic()
     {
         if (fadeCoroutine != null) StopCoroutine(fadeCoroutine);
         fadeCoroutine = StartCoroutine(SelectAudioSource().FadeOutRoutine(fadeTime));
+        playing = false;
     }
 
     private AudioSource SelectAudioSource()
