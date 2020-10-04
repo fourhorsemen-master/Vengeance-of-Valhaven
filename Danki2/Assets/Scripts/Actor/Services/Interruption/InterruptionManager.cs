@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class InterruptionManager
 {
-    private readonly List<Interruptable> interruptables = new List<Interruptable>();
+    private readonly Dictionary<Guid, Interruptable> interruptables = new Dictionary<Guid, Interruptable>();
 
     private readonly Actor actor;
 
@@ -19,17 +20,21 @@ public class InterruptionManager
         actor.MovementManager.MoveLockSubject.Subscribe(HardInterrupt);
     }
 
-    public Guid Register(InterruptionType type, Action onInterrupt, bool repeat, bool interruptOnDeath)
+    public Guid Register(InterruptionType type, Action onInterrupt, params InterruptableFeature[] features)
     {
-        Interruptable interruptable = new Interruptable(type, onInterrupt, repeat, interruptOnDeath);
-        interruptables.Add(interruptable);
+        Guid id = Guid.NewGuid();
+        Interruptable interruptable = new Interruptable(type, onInterrupt, features);
+        interruptables.Add(id, interruptable);
 
-        return interruptable.Id;
+        return id;
     }
 
     public void Deregister(Guid id)
     {
-        interruptables.RemoveAll(i => i.Id == id);
+        if (interruptables.ContainsKey(id))
+        {
+            interruptables.Remove(id);
+        }
     }
 
     public void Interrupt(InterruptionType interruptionType)
@@ -49,14 +54,14 @@ public class InterruptionManager
 
     private void SoftInterrupt()
     {
-        InterruptWhere(i => i.Threshold == InterruptionType.Soft);
+        InterruptWhere(i => i.Type == InterruptionType.Soft);
     }
 
     private void HardInterrupt()
     {
         InterruptWhere(i =>
-            i.Threshold == InterruptionType.Soft
-            || i.Threshold == InterruptionType.Hard
+            i.Type == InterruptionType.Soft
+            || i.Type == InterruptionType.Hard
         );
     }
 
@@ -67,13 +72,16 @@ public class InterruptionManager
 
     private void InterruptWhere(Predicate<Interruptable> predicate)
     {
-        interruptables
-            .Where(i => predicate(i))
-            .ForEach(i =>
+        interruptables.ToList()
+            .ForEach(kvp =>
+            {
+                Interruptable interruptable = kvp.Value;
+
+                if (predicate(interruptable))
                 {
-                    i.OnInterrupt();
-                    if (!i.Repeat) interruptables.Remove(i);
+                    interruptable.OnInterrupt();
+                    if (!interruptable.Repeat) interruptables.Remove(kvp.Key);
                 }
-            );
+            });
     }
 }

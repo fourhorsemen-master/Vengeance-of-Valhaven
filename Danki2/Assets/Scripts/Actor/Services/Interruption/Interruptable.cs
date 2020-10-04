@@ -1,20 +1,19 @@
 ﻿using System;
+using System.Linq;
 
 public class Interruptable
 {
-    public Guid Id { get; }
-    public InterruptionType Threshold { get; }
+    public InterruptionType Type { get; }
+    public Action OnInterrupt { get; }
     public bool Repeat { get; }
     public bool InterruptOnDeath { get; }
-    public Action OnInterrupt { get; }
 
-    public Interruptable(InterruptionType type, Action onInterrupt, bool repeat, bool interruptOnDeath)
+    public Interruptable(InterruptionType type, Action onInterrupt, InterruptableFeature[] features)
     {
-        Id = Guid.NewGuid();
-        Threshold = type;
-        Repeat = repeat;
-        InterruptOnDeath = interruptOnDeath;
+        Type = type;
         OnInterrupt = onInterrupt;
+        Repeat = features.Contains(InterruptableFeature.Repeat);
+        InterruptOnDeath = features.Contains(InterruptableFeature.InterruptOnDeath);
     }
 
 }

@@ -91,9 +91,14 @@ public abstract class Actor : MonoBehaviour
 
     public void InterruptableAction(float delay, InterruptionType interruptionType, Action action)
     {
-        // We don't need to worry about deregistering the interruptable as Stopping a finished coroutine doesn't cause any problems.
         Coroutine coroutine = this.WaitAndAct(delay, action);
-        InterruptionManager.Register(interruptionType, () => StopCoroutine(coroutine), false, true);
+        
+        // We don't need to worry about deregistering the interruptable as Stopping a finished coroutine doesn't cause any problems.
+        InterruptionManager.Register(
+            interruptionType,
+            () => StopCoroutine(coroutine),
+            InterruptableFeature.InterruptOnDeath
+        );
     }
 
     public void StartTrail(float duration)
