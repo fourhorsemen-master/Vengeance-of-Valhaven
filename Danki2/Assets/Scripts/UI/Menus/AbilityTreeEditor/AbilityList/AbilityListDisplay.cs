@@ -22,7 +22,7 @@ public class AbilityListDisplay : MonoBehaviour
         AbilityTreeEditorMenu.Instance.ListAbilityDragStopSubject.Subscribe(_ => PopulateAbilityList());
         AbilityTreeEditorMenu.Instance.TreeAbilityDragStopSubject.Subscribe(PopulateAbilityList);
 
-        player.AbilityTree.ChangeSubject.Subscribe(PopulateAbilityList);
+        player.AbilityTree.InventoryChangeSubject.Subscribe(PopulateAbilityList);
     }
 
     public void PopulateAbilityList()
