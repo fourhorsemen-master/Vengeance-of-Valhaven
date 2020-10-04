@@ -33,6 +33,7 @@ public class Tracker : MonoBehaviour
         subject.Subscribe(i =>
         {
             text.text = i.ToString();
+            if (GameStateController.Instance.GameState != GameState.Playing) return;
             StartCoroutine(Flash());
             StartCoroutine(ChangeSize());
         });

@@ -32,6 +32,8 @@ public class AbilityTreeDisplay : MonoBehaviour
     /// </summary>
     public void RecalculateDisplay()
     {
+        if (GameStateController.Instance.GameState != GameState.InAbilityTreeEditor) return;
+
         numTreeVerticalSections = 0;
         sectionIndices.Clear();
         CalculateIndices(abilityTree.RootNode);

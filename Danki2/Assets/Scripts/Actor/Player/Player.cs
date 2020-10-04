@@ -49,6 +49,7 @@ public class Player : Actor
         SetAbilityBonusCalculator(new AbilityBonusOrbsCalculator(AbilityTree));
         AbilityManager = new AbilityManager(this, abilityTimeoutLimit, abilityCooldown, updateSubject, lateUpdateSubject);
         TargetFinder = new PlayerTargetFinder(this, updateSubject);
+        new RandomAbilityManager(this);
     }
 
     protected override void Start()

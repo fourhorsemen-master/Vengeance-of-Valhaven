@@ -21,10 +21,14 @@ public class AbilityListDisplay : MonoBehaviour
 
         AbilityTreeEditorMenu.Instance.ListAbilityDragStopSubject.Subscribe(_ => PopulateAbilityList());
         AbilityTreeEditorMenu.Instance.TreeAbilityDragStopSubject.Subscribe(PopulateAbilityList);
+
+        player.AbilityTree.ChangeSubject.Subscribe(PopulateAbilityList);
     }
 
     public void PopulateAbilityList()
     {
+        if (GameStateController.Instance.GameState != GameState.InAbilityTreeEditor) return;
+        
         //destroy all current panels
         foreach (Transform child in transform)
         {
