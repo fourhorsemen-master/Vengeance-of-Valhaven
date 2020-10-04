@@ -20,7 +20,7 @@ public class NewAbilityMessage : MonoBehaviour
     private AnimationCurve sizeCurve = null;
 
     private Coroutine disappearCoroutine = null;
-    private const float disappearTime = 3;
+    private const float disappearTime = 4;
 
     private void Start()
     {
