@@ -152,6 +152,7 @@ public class Wolf : Enemy
         Target = player;
         Howl();
         OnHowl.Next(this);
+        MusicManager.Instance.StartCombatMusic();
     }
 
     private void Howl()
