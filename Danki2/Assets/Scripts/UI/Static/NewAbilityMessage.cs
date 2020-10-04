@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,22 +19,37 @@ public class NewAbilityMessage : MonoBehaviour
     [SerializeField]
     private AnimationCurve sizeCurve = null;
 
+    private Coroutine disappearCoroutine = null;
+    private const float disappearTime = 3;
+
     private void Start()
     {
-        RoomManager.Instance.WaveStartSubject.Subscribe(OnWaveStart);
-    }
+        text.enabled = false;
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.K)) OnWaveStart(2);
+        GameStateController.Instance.GameStateTransitionSubject.Subscribe(gameState =>
+        {
+            if (gameState == GameState.InAbilityTreeEditor)
+            {
+                text.enabled = false;
+            }
+        });
+        RoomManager.Instance.WaveStartSubject.Subscribe(OnWaveStart);
     }
 
     private void OnWaveStart(int wave)
     {
-        if (wave == 1) return;
+        if (wave == 1 || GameStateController.Instance.GameState == GameState.InAbilityTreeEditor) return;
 
+        text.enabled = true;
         StartCoroutine(Flash());
         StartCoroutine(ChangeSize());
+
+        if (disappearCoroutine != null)
+        {
+            StopCoroutine(disappearCoroutine);
+        }
+
+        disappearCoroutine = this.WaitAndAct(disappearTime, () => text.enabled = false);
     }
 
     private IEnumerator Flash()
