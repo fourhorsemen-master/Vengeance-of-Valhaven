@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
 
-public class TreeAbility : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
+public class TreeAbility : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField]
     private RectTransform rectTransform = null;
@@ -71,39 +71,6 @@ public class TreeAbility : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         AbilityTooltip.Instance.Deactivate();
         if (highlighter.HighlightState != DraggableHighlightState.Dragging)
             highlighter.HighlightState = DraggableHighlightState.Default;
-    }
-
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-        highlighter.HighlightState = DraggableHighlightState.Dragging;
-    }
-
-    /// <summary>
-    /// We implement this method to satisfy the IDragHandler.
-    /// </summary>
-    /// <param name="eventData"></param>
-    public void OnDrag(PointerEventData eventData) { }
-
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        if (node.IsRootNode)
-        {
-            return;
-        }
-        else if (AbilityTreeEditorMenu.Instance.CurrentTreeNodeHover == null)
-        {
-            node.RemoveSelfAndDescendants();
-        }
-        else
-        {
-            Node otherNode = AbilityTreeEditorMenu.Instance.CurrentTreeNodeHover;
-
-            if (node.CanSwapAbilitiesWith(otherNode))
-                node.SwapAbilitiesWith(otherNode);
-        }
-
-        AbilityTreeEditorMenu.Instance.TreeAbilityDragStopSubject.Next();
-        highlighter.HighlightState = DraggableHighlightState.Default;
     }
 
     public void ShiftRight(float amount)
