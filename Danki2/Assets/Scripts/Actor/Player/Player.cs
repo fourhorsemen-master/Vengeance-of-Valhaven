@@ -69,7 +69,7 @@ public class Player : Actor
     {
         if (remainingRollCooldown > 0 || ChannelService.Active) return;
 
-        var rolled = MovementManager.TryLockMovement(
+        bool rolled = MovementManager.TryLockMovement(
             MovementLockType.Dash,
             rollDuration,
             GetStat(Stat.Speed) * rollSpeedMultiplier,
