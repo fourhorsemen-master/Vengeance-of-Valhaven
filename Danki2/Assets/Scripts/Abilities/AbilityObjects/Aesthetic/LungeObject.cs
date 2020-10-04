@@ -16,7 +16,7 @@ public class LungeObject : StaticAbilityObject
     public static LungeObject Create(Vector3 position, Quaternion rotation, Subject<Vector3> onFinishMovement)
     {
         LungeObject prefab = AbilityObjectPrefabLookup.Instance.LungeObjectPrefab;
-        var lungeObject = Instantiate(prefab, position, rotation);
+        LungeObject lungeObject = Instantiate(prefab, position, rotation);
         lungeObject.Setup(onFinishMovement);
 
         return lungeObject;

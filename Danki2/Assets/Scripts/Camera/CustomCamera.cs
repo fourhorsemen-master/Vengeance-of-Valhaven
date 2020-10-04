@@ -90,7 +90,7 @@ public class CustomCamera : Singleton<CustomCamera>
             return;
         }
 
-        var lerpAmount = 1 - Mathf.Exp(- Time.deltaTime / smoothFactor);
+        float lerpAmount = 1 - Mathf.Exp(- Time.deltaTime / smoothFactor);
 
         transform.position = Vector3.Lerp(transform.position, desiredPosition, lerpAmount);
     }
