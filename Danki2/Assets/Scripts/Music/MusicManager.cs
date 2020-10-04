@@ -13,6 +13,7 @@ public class MusicManager : Singleton<MusicManager>
     private AudioSource[] audioSources = null;
 
     private Coroutine fadeCoroutine;
+    private AudioSource selectedAudioSource;
     private bool playing = false;
 
     private void Start()
@@ -24,19 +25,16 @@ public class MusicManager : Singleton<MusicManager>
     {
         if (playing) return;
         if (fadeCoroutine != null) StopCoroutine(fadeCoroutine);
-        fadeCoroutine = StartCoroutine(SelectAudioSource().FadeInRoutine(fadeTime, TargetVolume));
+        selectedAudioSource = audioSources[Random.Range(0, audioSources.Length)];
+        fadeCoroutine = StartCoroutine(selectedAudioSource.FadeInRoutine(fadeTime, TargetVolume));
         playing = true;
     }
 
     private void StopCombatMusic()
     {
+        if (!playing) return;
         if (fadeCoroutine != null) StopCoroutine(fadeCoroutine);
-        fadeCoroutine = StartCoroutine(SelectAudioSource().FadeOutRoutine(fadeTime));
+        fadeCoroutine = StartCoroutine(selectedAudioSource.FadeOutRoutine(fadeTime));
         playing = false;
-    }
-
-    private AudioSource SelectAudioSource()
-    {
-        return audioSources[Random.Range(0, audioSources.Length)];
     }
 }
