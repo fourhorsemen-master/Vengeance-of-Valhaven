@@ -29,9 +29,28 @@ public class GameStateController : Singleton<GameStateController>
     {
         if (Input.GetButtonDown("AbilityTreeMenu"))
         {
-            GameState = GameState == GameState.InAbilityTreeEditor
-                ? GameState.Playing
-                : GameState.InAbilityTreeEditor;
+            if (GameState == GameState.Playing)
+            {
+                GameState = GameState.InAbilityTreeEditor;
+                return;
+            }
+
+            if (GameState == GameState.InAbilityTreeEditor) GameState = GameState.Playing;
+            return;
+        }
+
+        if (Input.GetButtonDown("GameMenu"))
+        {
+            if (GameState == GameState.Playing)
+            {
+                GameState = GameState.InGameMenu;
+                return;
+            }
+
+            if (GameState == GameState.InGameMenu || GameState == GameState.InAbilityTreeEditor)
+            {
+                GameState = GameState.Playing;
+            }
         }
     }
 }

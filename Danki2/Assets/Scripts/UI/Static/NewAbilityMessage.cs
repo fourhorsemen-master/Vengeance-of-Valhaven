@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -34,6 +35,13 @@ public class NewAbilityMessage : MonoBehaviour
             }
         });
         RoomManager.Instance.WaveStartSubject.Subscribe(OnWaveStart);
+    }
+
+    private void OnDisable()
+    {
+        if (disappearCoroutine == null) return;
+        StopCoroutine(disappearCoroutine);
+        text.enabled = false;
     }
 
     private void OnWaveStart(int wave)
