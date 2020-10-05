@@ -15,7 +15,6 @@ public class mpfxAbsolutePosition : MPFXBehaviour
 
     protected override void UpdateInternal(MPFXContext context)
     {
-        context.timeElapsed += Time.deltaTime;
         Vector3 translator;
         translator.x = curves[0].Evaluate(context.timeElapsed);
         translator.y = curves[1].Evaluate(context.timeElapsed);
