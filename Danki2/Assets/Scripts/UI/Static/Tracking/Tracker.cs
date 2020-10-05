@@ -39,6 +39,12 @@ public class Tracker : MonoBehaviour
         });
     }
 
+    private void OnDisable()
+    {
+        text.color = baseColor;
+        transform.localScale = Vector3.one;
+    }
+
     private IEnumerator Flash()
     {
         float flashTime = flashCurve.keys[flashCurve.keys.Length - 1].time;
