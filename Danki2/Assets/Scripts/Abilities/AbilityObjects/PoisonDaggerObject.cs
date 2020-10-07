@@ -3,26 +3,27 @@ using UnityEngine;
 
 public class PoisonDaggerObject : ProjectileObject
 {
-    public AudioSource _collisionSound = null;
+    [SerializeField]
+    private AudioSource collisionSound = null;
+
+    [SerializeField]
+    private TrailRenderer trailRenderer = null;
 
     public static void Fire(Actor caster, Action<GameObject> collisionCallback, float speed, Vector3 position, Quaternion rotation)
     {
-        PoisonDaggerObject prefab = AbilityObjectPrefabLookup.Instance.PoisonDaggerObjectPrefab;
-        Instantiate(prefab, position, rotation)
+        Instantiate(AbilityObjectPrefabLookup.Instance.PoisonDaggerObjectPrefab, position, rotation)
             .InitialiseProjectile(caster, collisionCallback, speed)
             .SetSticky(5f);
     }
 
     protected override void OnTriggerEnter(Collider other)
     {
-        base.OnTriggerEnter(other);
-
-        _collisionSound.Play();
-
-        if (!ReferenceEquals(caster.gameObject, other.gameObject))
+        if (other.gameObject != caster.gameObject)
         {
-            TrailRenderer tr = gameObject.GetComponentInChildren<TrailRenderer>();
-            Destroy(tr);
+            collisionSound.Play();
+            trailRenderer.emitting = false;
         }
+
+        base.OnTriggerEnter(other);
     }
 }

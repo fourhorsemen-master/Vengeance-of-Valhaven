@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PiercingRushObject : MonoBehaviour
+public class PiercingRushObject : StaticAbilityObject
 {
     [SerializeField]
     private AudioSource jetstreamSound = null;
@@ -8,31 +8,44 @@ public class PiercingRushObject : MonoBehaviour
     [SerializeField]
     private AudioSource piercingRushSound = null;
 
-    public static PiercingRushObject Create(Transform casterTransform, bool hasJetstream, float dashDuration)
+    [SerializeField]
+    private GameObject startMPFXObject = null;
+
+    [SerializeField]
+    private GameObject rushMPFXObject = null;
+
+    [SerializeField]
+    private GameObject landMPFXObject = null;
+
+    public override float StickTime =>  5f;
+
+    public static void Create(Transform transform, Subject onCastCancelled, Subject<float> onCastComplete, bool hasJetStream)
     {
-        PiercingRushObject prefab = AbilityObjectPrefabLookup.Instance.PiercingRushObjectPrefab;
-        PiercingRushObject piercingRushObject = Instantiate(prefab, casterTransform);
+        PiercingRushObject piercingRushObject = Instantiate(AbilityObjectPrefabLookup.Instance.PiercingRushObjectPrefab, transform);
 
-        if (hasJetstream)
-        {
-            piercingRushObject.WaitAndAct(dashDuration, piercingRushObject.Jetstream);
-        }
-        else
-        {
-            piercingRushObject.NoBonus();
-        }
-
-        return piercingRushObject;
+        onCastCancelled.Subscribe(piercingRushObject.Destroy);
+        onCastComplete.Subscribe(duration => piercingRushObject.OnCastComplete(hasJetStream, duration));
     }
 
-    private void Jetstream()
+    private void OnCastComplete(bool hasJetstream, float dashDuration)
     {
-        jetstreamSound.Play();
-        this.WaitAndAct(jetstreamSound.clip.length, () => Destroy(gameObject));
+        startMPFXObject.SetActive(false);
+        rushMPFXObject.SetActive(true);
+
+        piercingRushSound.Play();
+        
+        this.WaitAndAct(dashDuration, () => Landing(hasJetstream));
     }
 
-    private void NoBonus()
+    private void Destroy()
     {
-        this.WaitAndAct(piercingRushSound.clip.length, () => Destroy(gameObject));
+        Destroy(gameObject);
+    }
+
+    private void Landing(bool hasJetstream)
+    {
+        rushMPFXObject.SetActive(false);
+        landMPFXObject.SetActive(true);
+        if (hasJetstream) jetstreamSound.Play();
     }
 }

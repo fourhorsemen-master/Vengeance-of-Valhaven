@@ -62,7 +62,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19cd30491b616bb448c311ec42b4f625, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _collisionSound: {fileID: 5460335939368299065}
+  collider: {fileID: 3202411135486486904}
+  rigidBody: {fileID: -5140422250883935027}
+  collisionSound: {fileID: 5460335939368299065}
+  trailRenderer: {fileID: 4460194356530006560}
 --- !u!54 &-5140422250883935027
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -99,7 +102,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 14
   MaxDistance: 200
   Pan2D: 0
   rolloffMode: 0
@@ -195,7 +198,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 14
   MaxDistance: 200
   Pan2D: 0
   rolloffMode: 0

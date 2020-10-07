@@ -28,12 +28,12 @@ public class Bandage : Channel
     public override void Start(Vector3 target)
     {
         bandageObject = BandageObject.Create(Owner.transform);
-        
+
         repeater = new Repeater(HealInterval, Heal, HealStartDelay);
 
         if (HasBonus("Perseverance"))
         {
-            slowEffectId = Owner.EffectManager.AddPassiveEffect(new Slow(SlowMultiplier));
+            Owner.EffectManager.TryAddPassiveEffect(new Slow(SlowMultiplier), out slowEffectId);
         }
     }
 

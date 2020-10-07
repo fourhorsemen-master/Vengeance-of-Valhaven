@@ -4,6 +4,7 @@
 public class Hamstring : InstantCast
 {
     private const float Range = 3;
+    private const float PauseDuration = 0.3f;
     private const int DefenceDebuff = 2;
     private const float DefenceDebuffDuration = 10;
     private const int HackDamageBonus = 4;
@@ -12,24 +13,38 @@ public class Hamstring : InstantCast
 
     public override void Cast(Vector3 target)
     {
+        Swing(target);        
         SuccessFeedbackSubject.Next(false);
     }
 
     public override void Cast(Actor target)
     {
+        HamstringObject hamstringObject = Swing(target.Centre);
+
         if (!InRange(target))
         {
             SuccessFeedbackSubject.Next(false);
             return;
         }
-        
+
         SuccessFeedbackSubject.Next(true);
         
         Damage(target);
         ApplyDebuff(target);
-        
+
         CustomCamera.Instance.AddShake(ShakeIntensity.High);
-        HamstringObject.Create(Owner.transform);
+        hamstringObject.PlayHitSound();
+    }
+
+    private HamstringObject Swing(Vector3 target)
+    {
+        Owner.MovementManager.LookAt(target);
+        Owner.MovementManager.Pause(PauseDuration);
+
+        Vector3 castDirection = target - Owner.Centre;
+        Quaternion castRotation = GetMeleeCastRotation(castDirection);
+
+        return HamstringObject.Create(Owner.Centre, castRotation);
     }
 
     private bool InRange(Actor target)

@@ -27,6 +27,7 @@ public class AbilityManager
 
         updateSubject.Subscribe(TickAbilityCooldown);
         lateUpdateSubject.Subscribe(HandleAbilities);
+
         this.player.RollSubject.Subscribe(Whiff);
         this.player.HealthManager.ModifiedDamageSubject.Subscribe(d =>
         {
@@ -50,7 +51,10 @@ public class AbilityManager
 
         if (remainingAbilityCooldown > 0f || CastingStatus != CastingStatus.Cooldown) return;
 
-        abilityFeedbackSubscription.Unsubscribe();
+        if (abilityFeedbackSubscription != null)
+        {
+            abilityFeedbackSubscription.Unsubscribe();
+        }
 
         CastingStatus = CastingStatus.Ready;
         player.AbilityTree.Walk(lastCastDirection);
@@ -85,6 +89,8 @@ public class AbilityManager
 
         whiffed = true;
         player.AbilityTree.Reset();
+        remainingAbilityCooldown = abilityCooldown;
+        CastingStatus = CastingStatus.Cooldown;
     }
 
     private void HandleAbilities()

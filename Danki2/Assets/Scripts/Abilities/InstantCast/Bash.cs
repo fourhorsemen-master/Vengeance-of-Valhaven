@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
+using UnityEngine.AI;
 
 [Ability(AbilityReference.Bash)]
 public class Bash : InstantCast
 {
     private const float StunDuration = 1f;
     private const float Range = 2f;
+    private const float Radius = 0.8f;
     private const float PauseDuration = 0.3f;
 
     public Bash(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
@@ -13,13 +15,18 @@ public class Bash : InstantCast
 
     public override void Cast(Vector3 target)
     {
+        Owner.MovementManager.LookAt(target);
+        Owner.MovementManager.Pause(PauseDuration);
+
         Vector3 position = Owner.transform.position;
-        Vector3 castDirection = target - Owner.Centre;
-        Quaternion castRotation = GetMeleeCastRotation(castDirection);
+        target.y = position.y;
+
+        Vector3 directionToTarget = target == position ? Vector3.right : (target - position).normalized;
+        Vector3 center = position + (directionToTarget * Range);
 
         bool hasDealtDamage = false;
 
-        CollisionTemplateManager.Instance.GetCollidingActors(CollisionTemplate.Wedge90, Range, position, castRotation)
+        CollisionTemplateManager.Instance.GetCollidingActors(CollisionTemplate.Cylinder, Radius, center)
             .Where(actor => Owner.Opposes(actor))
             .ForEach(actor =>
             {
@@ -29,11 +36,8 @@ public class Bash : InstantCast
             });
 
         SuccessFeedbackSubject.Next(hasDealtDamage);
-
-        BashObject.Create(position, castRotation);
-
-        Owner.MovementManager.LookAt(target);
-        Owner.MovementManager.Pause(PauseDuration);
+        
+        BashObject.Create(center, hasDealtDamage);
         
         if (hasDealtDamage)
         {

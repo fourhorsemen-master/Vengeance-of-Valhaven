@@ -7,30 +7,18 @@ public class mpfxWorldSpaceOrientation : MPFXBehaviour
 	[SerializeField]
 	private AnimationCurve[] curves = new AnimationCurve[3];
 
-	public override bool SetUp(GameObject InGraphic, ModularPFXComponent OwningComponent)
+	public override void SetUp(MPFXContext context, GameObject inGraphic)
 	{
-		graphic = InGraphic;
-		timeElapsed = 0f;
-		GetEndTimeFromCurveArray(curves, out endTime);
-
-		return true;
+		base.SetUp(context, inGraphic);
+		GetEndTimeFromCurveArray(curves, out context.endTime);
 	}
 
-	public override bool UpdatePFX()
+	protected override void UpdateInternal(MPFXContext context)
 	{
-		timeElapsed += Time.deltaTime;
+		float xOrientation = curves[0].Evaluate(context.timeElapsed);
+		float yOrientation = curves[1].Evaluate(context.timeElapsed);
+		float zOrientation = curves[2].Evaluate(context.timeElapsed);
 
-		float xOrientation = curves[0].Evaluate(timeElapsed);
-		float yOrientation = curves[1].Evaluate(timeElapsed);
-		float zOrientation = curves[2].Evaluate(timeElapsed);
-
-		graphic.transform.rotation = Quaternion.Euler(xOrientation, yOrientation, zOrientation);
-
-		return base.UpdatePFX();
-	}
-
-	public override bool End()
-	{
-		return true;
+		context.graphic.transform.rotation = Quaternion.Euler(xOrientation, yOrientation, zOrientation);
 	}
 }

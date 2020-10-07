@@ -7,8 +7,13 @@ public class HamstringObject : StaticAbilityObject
 
     public override float StickTime => hamstringSound.clip.length;
 
-    public static void Create(Transform transform)
+    public static HamstringObject Create(Vector3 position, Quaternion rotation)
     {
-        Instantiate(AbilityObjectPrefabLookup.Instance.HamstringObjectPrefab, transform);
+        return Instantiate(AbilityObjectPrefabLookup.Instance.HamstringObjectPrefab, position, rotation);
+    }
+
+    public void PlayHitSound()
+    {
+        hamstringSound.Play();
     }
 }

@@ -3,6 +3,13 @@ using UnityEngine;
 
 public abstract class ProjectileObject : MonoBehaviour
 {
+    // Need the new keyword here to show we are overriding the deprecated base collider property.
+    [SerializeField]
+    new Collider collider = null;
+
+    [SerializeField]
+    Rigidbody rigidBody = null;
+
     protected Actor caster;
     private float speed;
     private Action<GameObject> collisionCallback;
@@ -24,10 +31,13 @@ public abstract class ProjectileObject : MonoBehaviour
         return this;
     }
 
-    public void SetSticky(float stickTime)
+    /// <summary>
+    /// Set a time after which the object is destroyed.
+    /// </summary>
+    public void SetSticky(float duration)
     {
-        this.isSticky = true;
-        this.stickTime = stickTime;
+        isSticky = true;
+        stickTime = duration;
     }
 
     public void DestroyAfterTime(float timePeriod, Action callback = null)
@@ -41,28 +51,26 @@ public abstract class ProjectileObject : MonoBehaviour
 
     protected virtual void Update()
     {
-        transform.position += transform.forward * this.speed * Time.deltaTime;
+        transform.position += transform.forward * speed * Time.deltaTime;
     }
 
     protected virtual void OnTriggerEnter(Collider other)
     {
-        if (ReferenceEquals(this.caster.gameObject, other.gameObject)) return;
+        if (ReferenceEquals(caster.gameObject, other.gameObject)) return;
 
-        this.collisionCallback(other.gameObject);
+        collisionCallback(other.gameObject);
 
-        if (!this.isSticky)
+        if (!isSticky)
         {
             Destroy(gameObject);
             return;
         }
 
-        Rigidbody rb = gameObject.GetComponent<Rigidbody>();
-        Destroy(rb);
-        Collider coll = gameObject.GetComponent<Collider>();
-        Destroy(coll);
+        Destroy(rigidBody);
+        Destroy(collider);
         transform.SetParent(other.transform);
-        this.speed = 0f;
+        speed = 0f;
 
-        this.WaitAndAct(this.stickTime, () => Destroy(gameObject));
+        this.WaitAndAct(stickTime, () => Destroy(gameObject));
     }
 }

@@ -1,10 +1,17 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.AI;
 
 public class MovementManager : IMovementStatusProvider
 {
     private readonly Actor actor;
     private readonly NavMeshAgent navMeshAgent;
+
+    private readonly ISet<MovementLockType> MoveLockOverrideTypes = new HashSet<MovementLockType>
+    {
+        MovementLockType.Knockback,
+        MovementLockType.Pull
+    };
 
     private const float DestinationTolerance = 0.5f;
     private const float RotationSmoothing = 0.15f;
@@ -23,15 +30,23 @@ public class MovementManager : IMovementStatusProvider
     public bool Stunned => movementStatusManager.Stunned;
     public bool Rooted => movementStatusManager.Rooted;
     public bool MovementLocked => movementStatusManager.MovementLocked;
-    public bool CanMove => !movementStatusManager.Stunned && !movementStatusManager.Rooted && !movementStatusManager.MovementLocked;
+    public bool CanMove => !actor.Dead
+        && !movementStatusManager.Stunned
+        && !movementStatusManager.Rooted
+        && !movementStatusManager.MovementLocked;
 
     public bool IsMoving { get; private set; } = false;
     private bool movedThisFrame = false;
 
+    public Subject MoveLockSubject { get; } = new Subject();
+
     public MovementManager(Actor actor, Subject updateSubject, NavMeshAgent navMeshAgent)
     {
         this.actor = actor;
+        actor.DeathSubject.Subscribe(StopPathfinding);
+
         this.navMeshAgent = navMeshAgent;
+
         updateSubject.Subscribe(UpdateMovement);
         movementStatusManager = new MovementStatusManager(updateSubject);
         movementStatusManager.RegisterProviders(this, actor.EffectManager, actor.ChannelService);
@@ -83,6 +98,8 @@ public class MovementManager : IMovementStatusProvider
     /// <param name="direction"></param>
     public void Move(Vector3 direction)
     {
+        if (actor.Dead) return;
+
         StopPathfinding();
 
         if (Stunned || MovementLocked) return;
@@ -115,7 +132,7 @@ public class MovementManager : IMovementStatusProvider
     /// <param name="position"></param>
     public void LookAt(Vector3 position)
     {
-        actor.transform.rotation = Quaternion.LookRotation(position - actor.transform.position);
+        Look(position - actor.transform.position);
     }
 
     public void StopPathfinding()
@@ -141,20 +158,7 @@ public class MovementManager : IMovementStatusProvider
 
     public bool TryLockMovement(MovementLockType type, float duration, float speed, Vector3 direction, Vector3 rotation)
     {
-        bool overrideLock = false;
-
-        // We override existing locks if the incoming lock is from an external source.
-        switch (type)
-        {
-            case MovementLockType.Dash:
-                overrideLock = false;
-                break;
-
-            case MovementLockType.Pull:
-            case MovementLockType.Knockback:
-                overrideLock = true;
-                break;
-        }
+        bool overrideLock = MoveLockOverrideTypes.Contains(type);
 
         return TryLockMovement(overrideLock, duration, speed, direction, rotation);
     }
@@ -175,16 +179,22 @@ public class MovementManager : IMovementStatusProvider
         movementLockSpeed = speed;
         movementLockDirection = direction.normalized;
 
-        if (rotation != Vector3.zero)
-        {
-            actor.transform.rotation = Quaternion.LookRotation(rotation);
-        }
+        if (rotation != Vector3.zero) Look(rotation);
 
+        MoveLockSubject.Next();
         return true;
+    }
+
+    private void Look(Vector3 rotation)
+    {
+        rotation.y = actor.transform.position.y;
+        actor.transform.rotation = Quaternion.LookRotation(rotation);
     }
 
     private void UpdateMovement()
     {
+        if (actor.Dead) return;
+
         if (!CanMove && !navMeshAgent.isStopped)
         {
             StopPathfinding();

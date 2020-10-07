@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6845215341094753285}
-  - component: {fileID: 2243448003287332008}
   - component: {fileID: 4242918077250897191}
+  - component: {fileID: 279410235161546785}
   m_Layer: 0
   m_Name: PounceObject
   m_TagString: Untagged
@@ -32,7 +32,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!82 &2243448003287332008
+--- !u!114 &4242918077250897191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8455357942889521820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3620634a085c2224db588a88aef4ff51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pounceSound: {fileID: 279410235161546785}
+--- !u!82 &279410235161546785
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,9 +55,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 76c1afd87773ad54e82bcdc4055d069f, type: 3}
+  m_audioClip: {fileID: 8300000, guid: c5436000253d1164aa13fb93f9483d88, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.6
+  m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -52,8 +65,8 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 200
+  MinDistance: 14
+  MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -128,16 +141,3 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &4242918077250897191
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8455357942889521820}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3620634a085c2224db588a88aef4ff51, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pounceSound: {fileID: 2243448003287332008}

@@ -431,7 +431,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3714804332437411191}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: -0.21643952, z: 0, w: 0.97629607}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -443,7 +443,7 @@ Transform:
   - {fileID: 2811960716143973140}
   m_Father: {fileID: 6792869166683982730}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -25, z: 0}
 --- !u!1 &4409835755670124470
 GameObject:
   m_ObjectHideFlags: 0
@@ -601,7 +601,7 @@ MonoBehaviour:
     _values: 1400000003000000000000000000000000000000
   navmeshAgent: {fileID: 6918691881617835041}
   trailRenderer: {fileID: 1618317697}
-  abilityCooldown: 1
+  abilityCooldown: 0.5
   totalRollCooldown: 1
   rollDuration: 0.2
   rollSpeedMultiplier: 3
@@ -663,7 +663,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 14
   MaxDistance: 200
   Pan2D: 0
   rolloffMode: 0
@@ -759,7 +759,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 14
   MaxDistance: 200
   Pan2D: 0
   rolloffMode: 0
@@ -855,7 +855,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 14
   MaxDistance: 200
   Pan2D: 0
   rolloffMode: 0
@@ -1403,6 +1403,11 @@ PrefabInstance:
       propertyPath: damageColour.b
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7722246063824872118, guid: 1c1ef6601784e49429e64e8545ef1c4a,
+        type: 3}
+      propertyPath: actor
+      value: 
+      objectReference: {fileID: -5201030127241623248}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1c1ef6601784e49429e64e8545ef1c4a, type: 3}
 --- !u!224 &5442417311508495822 stripped
