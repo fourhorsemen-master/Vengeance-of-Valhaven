@@ -187,7 +187,7 @@ public class MovementManager : IMovementStatusProvider
 
     private void Look(Vector3 rotation)
     {
-        rotation.y = actor.transform.position.y;
+        rotation.y = 0;
         actor.transform.rotation = Quaternion.LookRotation(rotation);
     }
 
