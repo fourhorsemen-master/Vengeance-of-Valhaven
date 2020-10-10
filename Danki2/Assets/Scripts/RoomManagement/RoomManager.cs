@@ -11,7 +11,9 @@ public class RoomManager : Singleton<RoomManager>
     public Player Player { get; private set; }
     public Subject<int> WaveStartSubject { get; } = new Subject<int>();
     public Subject<int> KillsSubject { get; } = new Subject<int>();
-    
+    public int alphaSpawnIncrement { get; set; } = 1;
+    public int wolfSpawnIncrement { get; set; } = 0;
+
     private readonly Dictionary<int, Cluster> clusters = new Dictionary<int, Cluster>();
     private int wave = 0;
     private int kills = 0;
