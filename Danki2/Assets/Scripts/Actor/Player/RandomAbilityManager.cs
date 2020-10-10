@@ -11,7 +11,8 @@ public class RandomAbilityManager
     {
         AbilityReference.Fireball,
         AbilityReference.Pounce,
-        AbilityReference.Bite
+        AbilityReference.Bite,
+        AbilityReference.Slash
     };
 
     public RandomAbilityManager(Player player)
