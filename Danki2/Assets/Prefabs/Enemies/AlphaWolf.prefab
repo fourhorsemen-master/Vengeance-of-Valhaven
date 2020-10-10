@@ -449,7 +449,7 @@ MonoBehaviour:
     - Power
     - Defence
     - Recovery
-    _values: 1e00000005000000020000000000000000000000
+    _values: 2300000005000000020000000000000000000000
   navmeshAgent: {fileID: -7685572653157387656}
   trailRenderer: {fileID: 1836045994299074019}
   _biteCastTime: 0.5
@@ -1044,7 +1044,7 @@ PrefabInstance:
     - target: {fileID: 5647927768590009773, guid: eeb7c8dc7550f0e4fb4f8c457b7fe4ad,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 1
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 5647927768590009773, guid: eeb7c8dc7550f0e4fb4f8c457b7fe4ad,
         type: 3}
@@ -1080,6 +1080,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931816138570644676, guid: eeb7c8dc7550f0e4fb4f8c457b7fe4ad,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5647927768155394315, guid: eeb7c8dc7550f0e4fb4f8c457b7fe4ad,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5647927768287261913, guid: eeb7c8dc7550f0e4fb4f8c457b7fe4ad,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 2733868483094654661, guid: eeb7c8dc7550f0e4fb4f8c457b7fe4ad,
         type: 3}
