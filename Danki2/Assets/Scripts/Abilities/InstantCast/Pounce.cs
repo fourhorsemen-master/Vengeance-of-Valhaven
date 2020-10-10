@@ -50,7 +50,7 @@ public class Pounce : InstantCast
             }
         });
 
-        BiteObject.Create(Owner.transform);
+        BiteObject.Create(Owner.transform, ((Wolf) Owner).isAlpha);
 
         Owner.MovementManager.Pause(PauseDuration);
         SuccessFeedbackSubject.Next(hasDealtDamage);

@@ -2,6 +2,8 @@
 
 public class Wolf : Enemy
 {
+    public bool isAlpha = false;
+    
     [SerializeField]
     private float _biteCastTime = 0f;
     [SerializeField]

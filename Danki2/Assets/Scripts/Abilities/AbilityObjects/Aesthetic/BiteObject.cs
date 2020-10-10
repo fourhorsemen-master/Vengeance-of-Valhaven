@@ -12,9 +12,11 @@ public class BiteObject : StaticAbilityObject
         biteSound.Play();
     }
 
-    public static void Create(Transform casterTransform)
+    public static void Create(Transform casterTransform, bool isAlpha)
     {
-        BiteObject prefab = AbilityObjectPrefabLookup.Instance.BiteObjectPrefab;
+        BiteObject prefab = isAlpha
+            ? AbilityObjectPrefabLookup.Instance.AlphaWolfBiteObject
+            : AbilityObjectPrefabLookup.Instance.BiteObjectPrefab;
         Instantiate(prefab, casterTransform);
     }
 }
