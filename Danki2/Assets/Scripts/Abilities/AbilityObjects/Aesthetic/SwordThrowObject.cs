@@ -21,7 +21,7 @@ public class SwordThrowObject : ProjectileObject
         SwordThrowObject prefab = AbilityObjectPrefabLookup.Instance.SwordThrowObjectPrefab;
         Instantiate(prefab, position, rotation)
             .InitialiseProjectile(caster, collisionCallback, speed)
-            .SetSticky(2f);
+            .SetSticky();
     }
 
     protected override void Update()

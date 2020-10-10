@@ -34,10 +34,10 @@ public abstract class ProjectileObject : MonoBehaviour
     /// <summary>
     /// Set a time after which the object is destroyed.
     /// </summary>
-    public void SetSticky(float duration)
+    public void SetSticky()
     {
         isSticky = true;
-        stickTime = duration;
+        stickTime = 1;
     }
 
     public void DestroyAfterTime(float timePeriod, Action callback = null)

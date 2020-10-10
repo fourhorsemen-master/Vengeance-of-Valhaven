@@ -17,7 +17,7 @@ public class HookObject : ProjectileObject
         hookObject.InitialiseProjectile(caster, collisionCallback, speed)
             .DestroyAfterTime(stickTime, missCallback);
 
-        hookObject.SetSticky(hookObject.hookHitAudio.clip.length);
+        hookObject.SetSticky();
 
         return hookObject;
     }
