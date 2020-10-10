@@ -37,12 +37,12 @@ public class Player : Actor
 
         EnumDictionary<AbilityReference, int> ownedAbilities = new EnumDictionary<AbilityReference, int>(0);
         ownedAbilities[AbilityReference.Slash] = 1;
-        ownedAbilities[AbilityReference.PoisonDagger] = 1;
+        ownedAbilities[AbilityReference.FanOfKnives] = 1;
 
         AbilityTree = AbilityTreeFactory.CreateTree(
             ownedAbilities,
             AbilityTreeFactory.CreateNode(AbilityReference.Slash),
-            AbilityTreeFactory.CreateNode(AbilityReference.PoisonDagger)
+            AbilityTreeFactory.CreateNode(AbilityReference.FanOfKnives)
         );
 
         RegisterAbilityDataDiffer(new AbilityDataOrbsDiffer(AbilityTree));
