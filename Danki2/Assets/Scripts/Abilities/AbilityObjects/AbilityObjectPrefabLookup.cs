@@ -80,6 +80,9 @@ public class AbilityObjectPrefabLookup : Singleton<AbilityObjectPrefabLookup>
     [SerializeField]
     private SprintObject _sprintObjectPrefab = null;
 
+    [SerializeField]
+    private BiteObject _alphaWolfBiteObject = null;
+
     public FireballObject FireballObjectPrefab => _fireballObjectPrefab;
     public PoisonDaggerObject PoisonDaggerObjectPrefab => _poisonDaggerObjectPrefab;
     public BiteObject BiteObjectPrefab => _biteObjectPrefab;
@@ -106,4 +109,5 @@ public class AbilityObjectPrefabLookup : Singleton<AbilityObjectPrefabLookup>
     public FanOfKnivesObject FanOfKnivesObjectPrefab => _fanOfKnivesObjectPrefab;
     public HamstringObject HamstringObjectPrefab => _hamstringObjectPrefab;
     public SprintObject SprintObjectPrefab => _sprintObjectPrefab;
+    public BiteObject AlphaWolfBiteObject => _alphaWolfBiteObject;
 }

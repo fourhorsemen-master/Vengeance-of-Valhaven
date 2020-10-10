@@ -16,7 +16,7 @@ public class Bite : InstantCast
         Vector3 castDirection = target - Owner.Centre;
         Quaternion castRotation = GetMeleeCastRotation(castDirection);
 
-        BiteObject.Create(Owner.transform);
+        BiteObject.Create(Owner.transform, ((Wolf) Owner).isAlpha);
 
         Owner.MovementManager.LookAt(target);
         Owner.MovementManager.Pause(PauseDuration);
