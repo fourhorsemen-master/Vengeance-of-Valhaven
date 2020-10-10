@@ -13,7 +13,7 @@ public class FanOfKnivesObject : ProjectileObject
     {
         Instantiate(AbilityObjectPrefabLookup.Instance.FanOfKnivesObjectPrefab, position, rotation)
             .InitialiseProjectile(caster, collisionCallback, speed)
-            .SetSticky(5f);
+            .SetSticky();
     }
 
     protected override void OnTriggerEnter(Collider other)

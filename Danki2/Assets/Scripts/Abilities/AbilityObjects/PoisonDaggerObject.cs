@@ -13,7 +13,7 @@ public class PoisonDaggerObject : ProjectileObject
     {
         Instantiate(AbilityObjectPrefabLookup.Instance.PoisonDaggerObjectPrefab, position, rotation)
             .InitialiseProjectile(caster, collisionCallback, speed)
-            .SetSticky(5f);
+            .SetSticky();
     }
 
     protected override void OnTriggerEnter(Collider other)
