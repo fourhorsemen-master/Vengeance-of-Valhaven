@@ -36,7 +36,7 @@ public class Cluster
     {
         for (int i = 0; i < wave; i++)
         {
-            spawners[i % spawners.Count].Spawn();
+            spawners[i % spawners.Count].SpawnWolf();
         }
     }
 }
