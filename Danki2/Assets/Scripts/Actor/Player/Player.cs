@@ -36,12 +36,12 @@ public class Player : Actor
         base.Awake();
 
         EnumDictionary<AbilityReference, int> ownedAbilities = new EnumDictionary<AbilityReference, int>(0);
-        ownedAbilities[AbilityReference.PiercingRush] = 1;
+        ownedAbilities[AbilityReference.Slash] = 1;
         ownedAbilities[AbilityReference.FanOfKnives] = 1;
 
         AbilityTree = AbilityTreeFactory.CreateTree(
             ownedAbilities,
-            AbilityTreeFactory.CreateNode(AbilityReference.PiercingRush),
+            AbilityTreeFactory.CreateNode(AbilityReference.Slash),
             AbilityTreeFactory.CreateNode(AbilityReference.FanOfKnives)
         );
 
