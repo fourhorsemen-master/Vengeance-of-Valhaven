@@ -46,7 +46,7 @@ public class NewAbilityMessage : MonoBehaviour
 
     private void OnWaveStart(int wave)
     {
-        if (wave == 1 || GameStateController.Instance.GameState == GameState.InAbilityTreeEditor) return;
+        if (wave % 2 == 1 || GameStateController.Instance.GameState == GameState.InAbilityTreeEditor) return;
 
         text.enabled = true;
         StartCoroutine(Flash());

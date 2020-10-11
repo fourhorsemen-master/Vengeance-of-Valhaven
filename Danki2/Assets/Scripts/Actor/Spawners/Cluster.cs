@@ -34,9 +34,34 @@ public class Cluster
 
     public void Spawn(int wave)
     {
-        for (int i = 0; i < wave; i++)
+        int wolvesToSpawn = 0;
+        int alphaWolvesToSpawn = 0;
+
+        if (wave % 3 == 0)
         {
-            spawners[i % spawners.Count].Spawn();
+            alphaWolvesToSpawn = RoomManager.Instance.alphaSpawnIncrement;
+            wolvesToSpawn = RoomManager.Instance.wolfSpawnIncrement;
+            RoomManager.Instance.wolfSpawnIncrement++;
+
+            if (wolvesToSpawn == RoomManager.Instance.alphaSpawnIncrement)
+            {
+                RoomManager.Instance.alphaSpawnIncrement++;
+                RoomManager.Instance.wolfSpawnIncrement = 0;
+            }
+        }
+        else
+        {
+            wolvesToSpawn = 1 + (wave / 3);
+        } 
+
+        for (int i = 0; i < wolvesToSpawn; i++)
+        {
+            spawners[i % spawners.Count].SpawnWolf();
+        }
+
+        for (int i = 0; i < alphaWolvesToSpawn; i++)
+        {
+            spawners[i % spawners.Count].SpawnAlphaWolf();
         }
     }
 }

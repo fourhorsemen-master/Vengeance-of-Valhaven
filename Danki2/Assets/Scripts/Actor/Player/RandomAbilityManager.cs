@@ -34,7 +34,7 @@ public class RandomAbilityManager
 
     private void OnWaveStart(int wave)
     {
-        if (wave == 1) return;
+        if (wave % 2 == 1) return;
         
         player.AbilityTree.AddToInventory(GetRandomAbility());
     }
