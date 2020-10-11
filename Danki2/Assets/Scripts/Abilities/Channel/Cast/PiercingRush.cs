@@ -3,7 +3,7 @@
 [Ability(AbilityReference.PiercingRush, new[] { "Daze", "Jetstream" })]
 public class PiercingRush : Cast
 {
-    protected override float CastTime => 2f;
+    protected override float CastTime => 1.2f;
 
     private const float minimumCastRange = 2f;
     private const float maximumCastRange = 10f;

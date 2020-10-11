@@ -3,7 +3,7 @@
 [Ability(AbilityReference.SwordThrow, new[] { "Poison Sword" })]
 public class SwordThrow : Cast
 {
-    protected override float CastTime => 2f;
+    protected override float CastTime => 1.2f;
 
     private const float swordSpeed = 10f;
     private const float poisonSwordDOTLength = 5f;

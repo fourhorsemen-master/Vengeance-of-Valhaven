@@ -74,6 +74,14 @@ public abstract class AbilityTree
         return _currentNode.Ability;
     }
 
+    // Hacky as hell
+    public bool WillReset(Direction lastCastDirection)
+    {
+        if (!_currentNode.HasChild(lastCastDirection)) return true; // Shouldn't happen
+
+        return !_currentNode.GetChild(lastCastDirection).IsParent;
+    }
+
     public void Reset()
     {
         _currentNode = RootNode;
