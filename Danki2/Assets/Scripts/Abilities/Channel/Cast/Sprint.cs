@@ -3,7 +3,7 @@
 [Ability(AbilityReference.Sprint)]
 public class Sprint : Cast
 {
-    protected override float CastTime => 0.75f;
+    protected override float CastTime => 0.8f;
 
     private const int SpeedModification = 3;
     private const float SprintDuration = 5;
