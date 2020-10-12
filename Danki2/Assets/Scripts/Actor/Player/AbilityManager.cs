@@ -46,9 +46,7 @@ public class AbilityManager
     {
         if (player.ChannelService.Active) return;
 
-        float decrement = Time.deltaTime;
-
-        if (player.AbilityTree.WillReset(lastCastDirection)) decrement = decrement / 3;
+        float decrement = whiffed ? Time.deltaTime / 2 : Time.deltaTime;
 
         remainingAbilityCooldown = Mathf.Max(0f, remainingAbilityCooldown - decrement);
 
