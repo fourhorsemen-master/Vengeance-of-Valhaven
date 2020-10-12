@@ -220,7 +220,7 @@ MonoBehaviour:
           requiredOrbs: 0100000001000000
       finisher: 1
     - displayName: Sprint
-      tooltip: Cast (1s) - Increase speed by 3 for 5 seconds.
+      tooltip: Cast (0.8s) - Increase speed by 3 for 5 seconds.
       baseAbilityData:
         primaryDamage: 0
         secondaryDamage: 0
@@ -359,8 +359,8 @@ MonoBehaviour:
         _values: []
       finisher: 0
     - displayName: Piercing Rush
-      tooltip: Cast (2s) - Dash for up to 10m dealing {PRIMARY_DAMAGE} damage to all
-        enemies you pass.
+      tooltip: Cast (1.2s) - Dash for up to 10m dealing {PRIMARY_DAMAGE} damage to
+        all enemies you pass.
       baseAbilityData:
         primaryDamage: 8
         secondaryDamage: 0
@@ -469,7 +469,8 @@ MonoBehaviour:
           requiredOrbs: 0100000001000000
       finisher: 0
     - displayName: Sword Throw
-      tooltip: Cast (2s) - Throw a sword which deals {PRIMARY_DAMAGE} damage on impact.
+      tooltip: Cast (1.2s) - Throw a sword which deals {PRIMARY_DAMAGE} damage on
+        impact.
       baseAbilityData:
         primaryDamage: 12
         secondaryDamage: 6
