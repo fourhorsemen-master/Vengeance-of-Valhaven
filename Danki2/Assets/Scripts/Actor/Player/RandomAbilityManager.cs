@@ -15,21 +15,12 @@ public class RandomAbilityManager
         AbilityReference.Slash
     };
 
+    private AbilityReference lastAbility = AbilityReference.FanOfKnives;
+
     public RandomAbilityManager(Player player)
     {
         this.player = player;
-
-        SetupAvailableAbilities();
         RoomManager.Instance.WaveStartSubject.Subscribe(OnWaveStart);
-    }
-
-    private void SetupAvailableAbilities()
-    {
-        EnumUtils.ForEach<AbilityReference>(abilityReference =>
-        {
-            if (blockedAbilities.Contains(abilityReference)) return;
-            availableAbilities.Add(abilityReference);
-        });
     }
 
     private void OnWaveStart(int wave)
@@ -41,6 +32,22 @@ public class RandomAbilityManager
 
     private AbilityReference GetRandomAbility()
     {
-        return availableAbilities[Random.Range(0, availableAbilities.Count)];
+        blockedAbilities.Add(lastAbility);
+        SetupAvailableAbilities();
+        AbilityReference nextAbility = availableAbilities[Random.Range(0, availableAbilities.Count)];
+        blockedAbilities.Remove(lastAbility);
+        lastAbility = nextAbility;
+        return nextAbility;
+    }
+
+    private void SetupAvailableAbilities()
+    {
+        availableAbilities.Clear();
+        
+        EnumUtils.ForEach<AbilityReference>(abilityReference =>
+        {
+            if (blockedAbilities.Contains(abilityReference)) return;
+            availableAbilities.Add(abilityReference);
+        });
     }
 }
