@@ -2,13 +2,52 @@
 
 public class LeapObject : StaticAbilityObject
 {
-    public AudioSource leapSound = null;
+    [SerializeField]
+    private AudioSource landingSound = null;
 
-    public override float StickTime => leapSound.clip.length;
+    [SerializeField]
+    private AudioSource hitSound = null;
 
-    public static void Create(Transform casterTransform)
+    [SerializeField]
+    private GameObject landingVisual = null;
+
+    public override float StickTime => 2;
+
+    private Transform casterTransform;
+    private bool hasMomentum;
+
+    public static LeapObject Create(Transform casterTransform, Subject leapEndSubject, bool hasMomentum)
     {
-        LeapObject prefab = AbilityObjectPrefabLookup.Instance.LeapObjectPrefab;
-        Instantiate(prefab, casterTransform);
+        LeapObject leapObject = Instantiate(AbilityObjectPrefabLookup.Instance.LeapObjectPrefab, casterTransform.position, Quaternion.identity);
+
+        leapObject.casterTransform = casterTransform;
+        leapObject.hasMomentum = hasMomentum;
+        leapObject.Setup(leapEndSubject);
+
+        return leapObject;
+    }
+
+    public void PlayHitSound()
+    {
+        hitSound.Play();
+    }
+
+    private void Setup(Subject leapEndSubject)
+    {
+        leapEndSubject.Subscribe(() =>
+        {
+            landingSound.Play();
+
+            Vector3 position = casterTransform.position;
+
+            if (hasMomentum)
+            {
+                SmashObject.Create(position, false);
+                return;
+            }
+
+            gameObject.transform.position = position;
+            landingVisual.gameObject.SetActive(true);
+        });
     }
 }

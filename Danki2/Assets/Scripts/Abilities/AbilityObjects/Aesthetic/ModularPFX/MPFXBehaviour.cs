@@ -2,30 +2,22 @@
 using UnityEngine;
 
 [Serializable]
-public class MPFXBehaviour : ScriptableObject, ImpfxCallable
+public abstract class MPFXBehaviour : ScriptableObject
 {
-	[SerializeField]
-	protected string behaviourName;
-
-	protected float timeElapsed;
-	protected float endTime;
-
-	protected GameObject graphic;
-
-	virtual public bool SetUp(GameObject InGraphic)
+	virtual public void SetUp(MPFXContext context, GameObject inGraphic)
 	{
-		return false;
+		context.graphic = inGraphic;
+		context.timeElapsed = 0f;
 	}
 
-	virtual public bool UpdatePFX()
+	public bool UpdatePFX(MPFXContext context)
 	{
-		return timeElapsed > endTime; 
+		context.timeElapsed += Time.deltaTime;
+		UpdateInternal(context);
+		return context.timeElapsed > context.endTime;
 	}
 
-	virtual public bool End()
-	{
-		return false;
-	}
+	protected abstract void UpdateInternal(MPFXContext context);
 
 	protected static void GetEndTimeFromCurve(AnimationCurve InCurve, out float OutTime)
 	{
@@ -33,17 +25,22 @@ public class MPFXBehaviour : ScriptableObject, ImpfxCallable
 		OutTime = InCurve.length > 0 ? InCurve.keys[InCurve.keys.Length - 1].time : 0f;
 	}
 
-	protected static void GetEndTimeFromCurveArray(AnimationCurve[] InCurves, out float OutTime)
+	protected static void GetEndTimeFromCurveArray(AnimationCurve[] inCurves, out float outTime)
 	{
 		float maxSeenTime = 0f;
 
-		foreach(AnimationCurve curve in InCurves)
+		foreach(AnimationCurve curve in inCurves)
 		{
 			GetEndTimeFromCurve(curve, out float thisCurveTime);
 
 			maxSeenTime = Mathf.Max(maxSeenTime, thisCurveTime);
 		}
 
-		OutTime = maxSeenTime;
+		outTime = maxSeenTime;
+	}
+
+	virtual public MPFXContext ConstructContext()
+	{
+		return new MPFXContext();
 	}
 }

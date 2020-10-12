@@ -19,11 +19,21 @@ public class PiercingRush : Cast
 
     private const float postDashPauseDuration = 0.2f;
 
+    private readonly Subject onCastCancelled = new Subject();
+    private readonly Subject<float> onCastComplete = new Subject<float>();
+
     public override ChannelEffectOnMovement EffectOnMovement => ChannelEffectOnMovement.Root;
 
     public PiercingRush(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
     }
+
+    protected override void Start()
+    {
+        PiercingRushObject.Create(Owner.transform, onCastCancelled, onCastComplete, HasBonus("Jetstream"));
+    }
+
+    protected override void Cancel() => onCastCancelled.Next();
 
     public override void End(Vector3 target)
     {
@@ -37,15 +47,17 @@ public class PiercingRush : Cast
 
         float dashSpeed = Owner.GetStat(Stat.Speed) * dashSpeedMultiplier;
         float dashDuration = distance / dashSpeed;
-        
+
         Owner.MovementManager.TryLockMovement(MovementLockType.Dash, dashDuration, dashSpeed, direction, direction);
+        Owner.StartTrail(dashDuration);
+        onCastComplete.Next(dashDuration);
 
 
         // Dash damage and Daze.
         Vector3 collisionDetectionScale = new Vector3(dashDamageWidth, dashDamageHeight, distance);
 
         Vector3 collisionDetectionPosition = position;
-        Vector3 collisionDetectionOffset = position + Owner.transform.forward.normalized * distance / 2;
+        collisionDetectionPosition += Owner.transform.forward.normalized * distance / 2;
 
         bool hasDealtDamage = false;
 
@@ -58,17 +70,8 @@ public class PiercingRush : Cast
         {
             if (Owner.Opposes(actor))
             {
-                DealPrimaryDamage(actor);
-                CustomCamera.Instance.AddShake(ShakeIntensity.High);
+                DealDamageDuringRush(actor, direction, dashSpeed);                
                 hasDealtDamage = true;
-
-                if (HasBonus("Daze"))
-                {
-                    actor.EffectManager.AddActiveEffect(
-                        new MultiplicativeStatModification(Stat.Speed, dazeSlowMultiplier),
-                        dazeSlowTime
-                    );
-                }
             }
         });
 
@@ -76,11 +79,31 @@ public class PiercingRush : Cast
         // Jetstream.
         if (HasBonus("Jetstream")) Owner.WaitAndAct(dashDuration + jetstreamCastDelay, () => Jetstream());
 
-        PiercingRushObject.Create(Owner.transform, HasBonus("Jetstream"), dashDuration);
-
         SuccessFeedbackSubject.Next(hasDealtDamage);
 
         Owner.WaitAndAct(dashDuration, () => Owner.MovementManager.Pause(postDashPauseDuration));
+    }
+
+    private void DealDamageDuringRush(Actor enemy, Vector3 rushDirection, float rushSpeed)
+    {
+        Vector3 ownerToEnemy = enemy.transform.position - Owner.transform.position;
+
+        float passingDistance = Vector3.Dot(ownerToEnemy, rushDirection.normalized);
+        float passingTime = passingDistance / rushSpeed;
+
+        Owner.InterruptableAction(passingTime, InterruptionType.Hard, () =>
+        {
+            DealPrimaryDamage(enemy);
+            CustomCamera.Instance.AddShake(ShakeIntensity.High);
+
+            if (HasBonus("Daze"))
+            {
+                enemy.EffectManager.AddActiveEffect(
+                    new Slow(dazeSlowMultiplier),
+                    dazeSlowTime
+                );
+            }
+        });
     }
 
     private void Jetstream()

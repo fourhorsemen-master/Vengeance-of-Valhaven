@@ -37,6 +37,35 @@ public static class ReflectionUtils
         return attributeData;
     }
 
+    public static List<Type> GetSubclasses(Type baseType, params ClassModifier[] modifiersToIgnore)
+    {
+        List<Type> types = new List<Type>();
+
+        foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+        {
+            if (assembly.IsDynamic)
+            {
+                continue;
+            }
+
+            types.AddRange(GetSubclasses(baseType, assembly, modifiersToIgnore));
+        }
+
+        return types;
+    }
+
+    public static List<Type> GetSubclasses(Type baseType, Assembly assembly, params ClassModifier[] modifiersToIgnore)
+    {
+        return assembly.GetExportedTypes()
+            .Where(type =>
+            {
+                if (modifiersToIgnore.Contains(ClassModifier.Abstract) && type.IsAbstract) return false;
+                if (modifiersToIgnore.Contains(ClassModifier.Sealed) && type.IsSealed) return false;
+                return type.IsSubclassOf(baseType);
+            })
+            .ToList();
+    }
+
     private static bool TryGetAttribute<TAttribute>(Type type, out TAttribute attribute) where TAttribute : Attribute
     {
         attribute = type.GetCustomAttributes<TAttribute>().FirstOrDefault();

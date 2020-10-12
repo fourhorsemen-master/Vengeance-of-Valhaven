@@ -23,8 +23,7 @@ public class AbilityListingPanel : MonoBehaviour, IBeginDragHandler, IDragHandle
     {
         if (AbilityTreeEditorMenu.Instance.IsDraggingFromList) return;
 
-        AbilityTooltip.Instance.Activate();
-        AbilityTooltip.Instance.UpdateTooltip(ability);
+        AbilityTooltip.Instance.Activate(ability);
         if (highlighter.HighlightState != DraggableHighlightState.Dragging)
             highlighter.HighlightState = DraggableHighlightState.Hover;
     }

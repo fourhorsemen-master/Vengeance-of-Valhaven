@@ -33,11 +33,9 @@ public class CameraShake
         if (intervalTimer < 0f)
         {
             intervalTimer += Interval;
-            float rndX = Random.Range(-Strength, Strength);
-            float rndZ = Random.Range(-Strength, Strength);
 
-            direction.x = rndX;
-            direction.z = rndZ;
+            direction = Random.onUnitSphere * Strength;
+            direction.y = 0f;
         }
 
         return direction;

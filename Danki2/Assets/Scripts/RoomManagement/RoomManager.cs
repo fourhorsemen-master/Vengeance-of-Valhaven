@@ -7,10 +7,23 @@ public class RoomManager : Singleton<RoomManager>
     public List<ActorCacheItem> ActorCache { get; private set; }
     public Player Player { get; private set; }
 
-    protected override void Awake()
+    public bool TryGetActor(GameObject gameObject, out Actor actor)
     {
-        base.Awake();
+        foreach(ActorCacheItem item in ActorCache)
+        {
+            if (item.Actor.gameObject.MatchesId(gameObject))
+            {
+                actor = item.Actor;
+                return true;
+            }
+        }
 
+        actor = null;
+        return false;
+    }
+
+    private void Start()
+    {
         Actor[] actors = FindObjectsOfType<Actor>();
         ActorCache = actors
             .Select(actor =>
@@ -30,5 +43,9 @@ public class RoomManager : Singleton<RoomManager>
             })
             .Where(i => i != null)
             .ToList();
+
+        ActorCache.ForEach(a =>
+            a.Actor.DeathSubject.Subscribe(() => ActorCache.Remove(a))
+        );
     }
 }
