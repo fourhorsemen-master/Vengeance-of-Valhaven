@@ -2,15 +2,14 @@
 
 public abstract class Ai2 : MonoBehaviour
 {
-    [SerializeField]
-    protected Actor actor = null;
+    protected abstract Actor Actor { get; }
     
     private IAiComponent aiComponent;
 
     private void Start()
     {
-        actor.DeathSubject.Subscribe(OnDeath);
-        aiComponent = GenerateAiComponent();
+        Actor.DeathSubject.Subscribe(OnDeath);
+        aiComponent = BuildAiComponent();
         aiComponent.Enter();
     }
 
@@ -25,5 +24,5 @@ public abstract class Ai2 : MonoBehaviour
         enabled = false;
     }
 
-    protected abstract IAiComponent GenerateAiComponent();
+    protected abstract IAiComponent BuildAiComponent();
 }

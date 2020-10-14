@@ -69,11 +69,14 @@ public class AiFiniteStateMachine<TState> : IAiComponent where TState : Enum
 
     private void Transition(TState toState)
     {
-        if (!TryGetComponent(toState, out IAiComponent aiComponent)) return;
+        if (!TryGetComponent(currentState, out IAiComponent fromComponent)) return;
+        if (!TryGetComponent(toState, out IAiComponent toComponent)) return;
+        
+        DeactivateTriggers();
+        fromComponent.Exit();
 
-        Exit();
         currentState = toState;
-        aiComponent.Enter();
+        toComponent.Enter();
         ActivateTriggers();
     }
 
