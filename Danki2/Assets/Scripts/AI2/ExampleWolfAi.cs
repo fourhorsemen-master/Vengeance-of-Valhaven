@@ -10,14 +10,14 @@ public class ExampleWolfAi : Ai2
     protected override IAiComponent BuildAiComponent()
     {
         IAiComponent attackStateMachine = new AiFiniteStateMachine<WolfAttackAiState>(WolfAttackAiState.Attack1)
-            .WithState(WolfAttackAiState.Attack1, new ExampleAttack1())
-            .WithState(WolfAttackAiState.Attack2, new ExampleAttack2())
+            .WithComponent(WolfAttackAiState.Attack1, new ExampleAttack1())
+            .WithComponent(WolfAttackAiState.Attack2, new ExampleAttack2())
             .WithTransition(WolfAttackAiState.Attack1, WolfAttackAiState.Attack2, new TimePeriodTrigger(1))
             .WithTransition(WolfAttackAiState.Attack2, WolfAttackAiState.Attack1, new TimePeriodTrigger(1));
 
         return new AiFiniteStateMachine<WolfAiState>(WolfAiState.Attack)
-            .WithState(WolfAiState.Attack, attackStateMachine)
-            .WithState(WolfAiState.Defend, new ExampleDefend())
+            .WithComponent(WolfAiState.Attack, attackStateMachine)
+            .WithComponent(WolfAiState.Defend, new ExampleDefend())
             .WithTransition(WolfAiState.Attack, WolfAiState.Defend, new HealthLostTrigger(actor, 5), new TimePeriodTrigger(10))
             .WithTransition(WolfAiState.Defend, WolfAiState.Attack, new TimePeriodTrigger(4));
     }

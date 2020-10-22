@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class AiFiniteStateMachine<TState> : IAiComponent where TState : Enum
 {
-    private readonly EnumDictionary<TState, IAiComponent> states =
+    private readonly EnumDictionary<TState, IAiComponent> components =
         new EnumDictionary<TState, IAiComponent>(() => new NoOpAiComponent());
 
-    private readonly EnumDictionary<TState, Dictionary<TState, ISet<IAiTrigger>>> transitions =
+    private readonly EnumDictionary<TState, Dictionary<TState, ISet<IAiTrigger>>> localTriggers =
         new EnumDictionary<TState, Dictionary<TState, ISet<IAiTrigger>>>(() =>
             new EnumDictionary<TState, ISet<IAiTrigger>>(() => new HashSet<IAiTrigger>()));
 
-    private readonly EnumDictionary<TState, ISet<IAiTrigger>> globalTransitions =
+    private readonly EnumDictionary<TState, ISet<IAiTrigger>> globalTriggers =
         new EnumDictionary<TState, ISet<IAiTrigger>>(() => new HashSet<IAiTrigger>());
 
     private readonly TState initialState;
@@ -23,9 +23,9 @@ public class AiFiniteStateMachine<TState> : IAiComponent where TState : Enum
         this.initialState = initialState;
     }
 
-    public AiFiniteStateMachine<TState> WithState(TState state, IAiComponent component)
+    public AiFiniteStateMachine<TState> WithComponent(TState state, IAiComponent component)
     {
-        states[state] = component;
+        components[state] = component;
         return this;
     }
 
@@ -37,38 +37,40 @@ public class AiFiniteStateMachine<TState> : IAiComponent where TState : Enum
             return this;
         }
         
-        transitions[from][to].UnionWith(triggers);
+        localTriggers[from][to].UnionWith(triggers);
         return this;
     }
 
     public AiFiniteStateMachine<TState> WithGlobalTransition(TState to, params IAiTrigger[] triggers)
     {
-        globalTransitions[to].UnionWith(triggers);
+        globalTriggers[to].UnionWith(triggers);
         return this;
     }
     
     public void Enter()
     {
         currentState = initialState;
-        states[currentState].Enter();
-        ActivateCurrentTriggers();
+        ActivateGlobalTriggers();
+        ActivateLocalTriggers();
+        components[currentState].Enter();
     }
 
     public void Update()
     {
-        states[currentState].Update();
+        components[currentState].Update();
         TryTransition();
     }
 
     public void Exit()
     {
-        DeactivateCurrentTriggers();
-        states[currentState].Exit();
+        DeactivateGlobalTriggers();
+        DeactivateLocalTriggers();
+        components[currentState].Exit();
     }
 
     private void TryTransition()
     {
-        foreach (KeyValuePair<TState, ISet<IAiTrigger>> potentialTransition in transitions[currentState])
+        foreach (KeyValuePair<TState, ISet<IAiTrigger>> potentialTransition in localTriggers[currentState])
         {
             TState toState = potentialTransition.Key;
             ISet<IAiTrigger> triggers = potentialTransition.Value;
@@ -80,10 +82,10 @@ public class AiFiniteStateMachine<TState> : IAiComponent where TState : Enum
             }
         }
         
-        foreach (KeyValuePair<TState,ISet<IAiTrigger>> globalTransition in globalTransitions)
+        foreach (KeyValuePair<TState,ISet<IAiTrigger>> potentialTransition in globalTriggers)
         {
-            TState toState = globalTransition.Key;
-            ISet<IAiTrigger> triggers = globalTransition.Value;
+            TState toState = potentialTransition.Key;
+            ISet<IAiTrigger> triggers = potentialTransition.Value;
 
             if (toState.Equals(currentState))
             {
@@ -100,27 +102,48 @@ public class AiFiniteStateMachine<TState> : IAiComponent where TState : Enum
 
     private void Transition(TState toState)
     {
-        DeactivateCurrentTriggers();
-        states[currentState].Exit();
+        DeactivateLocalTriggers();
+        components[currentState].Exit();
 
         currentState = toState;
-        states[currentState].Enter();
-        ActivateCurrentTriggers();
+        ActivateLocalTriggers();
+        components[currentState].Enter();
     }
 
-    private void ActivateCurrentTriggers()
+    private void ActivateLocalTriggers()
     {
-        ForEachCurrentTrigger(t => t.Activate());
+        ForEachLocalTrigger(t => t.Activate());
     }
 
-    private void DeactivateCurrentTriggers()
+    private void DeactivateLocalTriggers()
     {
-        ForEachCurrentTrigger(t => t.Deactivate());
+        ForEachLocalTrigger(t => t.Deactivate());
     }
 
-    private void ForEachCurrentTrigger(Action<IAiTrigger> action)
+    private void ForEachLocalTrigger(Action<IAiTrigger> action)
     {
-        foreach (ISet<IAiTrigger> triggers in transitions[currentState].Values)
+        foreach (ISet<IAiTrigger> triggers in localTriggers[currentState].Values)
+        {
+            foreach (IAiTrigger trigger in triggers)
+            {
+                action(trigger);
+            }
+        }
+    }
+
+    private void ActivateGlobalTriggers()
+    {
+        ForEachGlobalTrigger(t => t.Activate());
+    }
+
+    private void DeactivateGlobalTriggers()
+    {
+        ForEachGlobalTrigger(t => t.Deactivate());
+    }
+
+    private void ForEachGlobalTrigger(Action<IAiTrigger> action)
+    {
+        foreach (ISet<IAiTrigger> triggers in globalTriggers.Values)
         {
             foreach (IAiTrigger trigger in triggers)
             {
