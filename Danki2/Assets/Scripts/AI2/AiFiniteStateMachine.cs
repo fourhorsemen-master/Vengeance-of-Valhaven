@@ -5,11 +5,15 @@ using UnityEngine;
 
 public class AiFiniteStateMachine<TState> : IAiComponent where TState : Enum
 {
-    private readonly Dictionary<TState, IAiComponent> states = new Dictionary<TState, IAiComponent>();
+    private readonly EnumDictionary<TState, IAiComponent> states =
+        new EnumDictionary<TState, IAiComponent>(() => new NoOpAiComponent());
 
-    private readonly Dictionary<TState, Dictionary<TState, ISet<IAiTrigger>>> transitions =
+    private readonly EnumDictionary<TState, Dictionary<TState, ISet<IAiTrigger>>> transitions =
         new EnumDictionary<TState, Dictionary<TState, ISet<IAiTrigger>>>(() =>
             new EnumDictionary<TState, ISet<IAiTrigger>>(() => new HashSet<IAiTrigger>()));
+
+    private readonly EnumDictionary<TState, ISet<IAiTrigger>> globalTransitions =
+        new EnumDictionary<TState, ISet<IAiTrigger>>(() => new HashSet<IAiTrigger>());
 
     private readonly TState initialState;
     private TState currentState;
@@ -27,29 +31,39 @@ public class AiFiniteStateMachine<TState> : IAiComponent where TState : Enum
 
     public AiFiniteStateMachine<TState> WithTransition(TState from, TState to, params IAiTrigger[] triggers)
     {
+        if (from.Equals(to))
+        {
+            Debug.LogError($"Cannot add transition with same from and to state: {from.ToString()}.");
+            return this;
+        }
+        
         transitions[from][to].UnionWith(triggers);
+        return this;
+    }
+
+    public AiFiniteStateMachine<TState> WithGlobalTransition(TState to, params IAiTrigger[] triggers)
+    {
+        globalTransitions[to].UnionWith(triggers);
         return this;
     }
     
     public void Enter()
     {
-        if (!TryGetComponent(initialState, out IAiComponent aiComponent)) return;
-
         currentState = initialState;
-        aiComponent.Enter();
-        ActivateTriggers();
+        states[currentState].Enter();
+        ActivateCurrentTriggers();
     }
 
     public void Update()
     {
         TryTransition();
-        if (TryGetComponent(currentState, out IAiComponent aiComponent)) aiComponent.Update();
+        states[currentState].Update();
     }
 
     public void Exit()
     {
-        DeactivateTriggers();
-        if (TryGetComponent(currentState, out IAiComponent aiComponent)) aiComponent.Exit();
+        DeactivateCurrentTriggers();
+        states[currentState].Exit();
     }
 
     private void TryTransition()
@@ -65,40 +79,46 @@ public class AiFiniteStateMachine<TState> : IAiComponent where TState : Enum
                 return;
             }
         }
+        
+        foreach (KeyValuePair<TState,ISet<IAiTrigger>> globalTransition in globalTransitions)
+        {
+            TState toState = globalTransition.Key;
+            ISet<IAiTrigger> triggers = globalTransition.Value;
+
+            if (toState.Equals(currentState))
+            {
+                continue;
+            }
+
+            if (triggers.Any(t => t.Triggers()))
+            {
+                Transition(toState);
+                return;
+            }
+        }
     }
 
     private void Transition(TState toState)
     {
-        if (!TryGetComponent(currentState, out IAiComponent fromComponent)) return;
-        if (!TryGetComponent(toState, out IAiComponent toComponent)) return;
-        
-        DeactivateTriggers();
-        fromComponent.Exit();
+        DeactivateCurrentTriggers();
+        states[currentState].Exit();
 
         currentState = toState;
-        toComponent.Enter();
-        ActivateTriggers();
+        states[currentState].Enter();
+        ActivateCurrentTriggers();
     }
 
-    private bool TryGetComponent(TState state, out IAiComponent aiComponent)
+    private void ActivateCurrentTriggers()
     {
-        if (states.TryGetValue(state, out aiComponent)) return true;
-
-        Debug.LogError($"Cannot find AI component for state: {state.ToString()}. Ensure a component is registered with this state.");
-        return false;
+        ForEachCurrentTrigger(t => t.Activate());
     }
 
-    private void ActivateTriggers()
+    private void DeactivateCurrentTriggers()
     {
-        ForEachTrigger(t => t.Activate());
+        ForEachCurrentTrigger(t => t.Deactivate());
     }
 
-    private void DeactivateTriggers()
-    {
-        ForEachTrigger(t => t.Deactivate());
-    }
-
-    private void ForEachTrigger(Action<IAiTrigger> action)
+    private void ForEachCurrentTrigger(Action<IAiTrigger> action)
     {
         foreach (ISet<IAiTrigger> triggers in transitions[currentState].Values)
         {
