@@ -56,8 +56,8 @@ public class AiFiniteStateMachine<TState> : IAiComponent where TState : Enum
 
     public void Update()
     {
-        TryTransition();
         states[currentState].Update();
+        TryTransition();
     }
 
     public void Exit()
