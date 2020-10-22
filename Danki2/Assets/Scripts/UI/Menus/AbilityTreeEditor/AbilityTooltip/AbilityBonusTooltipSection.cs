@@ -21,7 +21,7 @@ public class AbilityBonusTooltipSection : MonoBehaviour
     public void Initialise(string title, string tooltip, OrbCollection requiredOrbs, OrbCollection providedOrbs = null)
     {
         bool bonusEnabled = providedOrbs == null || providedOrbs.IsSuperset(requiredOrbs);
-        var textColor = bonusEnabled ? enabledTextColour : disabledTextColour;
+        Color textColor = bonusEnabled ? enabledTextColour : disabledTextColour;
 
         titleText.text = $"Bonus: {title}";
         titleText.color = textColor;

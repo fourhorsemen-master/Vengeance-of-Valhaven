@@ -16,13 +16,80 @@ MonoBehaviour:
   m_AdvancedMode: 0
   skyType:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 3
   skyAmbientMode:
     m_OverrideState: 0
     m_Value: 0
   fogType:
     m_OverrideState: 1
     m_Value: 3
+--- !u!114 &-4742281551794273641
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a81bcacc415a1f743bfdf703afc52027, type: 3}
+  m_Name: GradientSky
+  m_EditorClassIdentifier: 
+  active: 1
+  m_AdvancedMode: 0
+  rotation:
+    m_OverrideState: 0
+    m_Value: 0
+    min: 0
+    max: 360
+  skyIntensityMode:
+    m_OverrideState: 0
+    m_Value: 0
+  exposure:
+    m_OverrideState: 1
+    m_Value: 0.1
+  multiplier:
+    m_OverrideState: 1
+    m_Value: 1
+    min: 0
+  upperHemisphereLuxValue:
+    m_OverrideState: 0
+    m_Value: 1
+    min: 0
+  desiredLuxValue:
+    m_OverrideState: 0
+    m_Value: 20000
+  updateMode:
+    m_OverrideState: 0
+    m_Value: 0
+  updatePeriod:
+    m_OverrideState: 0
+    m_Value: 0
+    min: 0
+  includeSunInBaking:
+    m_OverrideState: 0
+    m_Value: 0
+  top:
+    m_OverrideState: 1
+    m_Value: {r: 0.08610717, g: 0.08610717, b: 0.4056604, a: 1}
+    hdr: 1
+    showAlpha: 0
+    showEyeDropper: 1
+  middle:
+    m_OverrideState: 1
+    m_Value: {r: 0.11694552, g: 0.24269257, b: 0.33962262, a: 1}
+    hdr: 1
+    showAlpha: 0
+    showEyeDropper: 1
+  bottom:
+    m_OverrideState: 1
+    m_Value: {r: 0, g: 0, b: 0, a: 1}
+    hdr: 1
+    showAlpha: 0
+    showEyeDropper: 1
+  gradientDiffusion:
+    m_OverrideState: 0
+    m_Value: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39,6 +106,7 @@ MonoBehaviour:
   - {fileID: 680722647084173561}
   - {fileID: -6769201835961612977}
   - {fileID: 1291493011623758027}
+  - {fileID: -4742281551794273641}
 --- !u!114 &680722647084173561
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -98,7 +166,7 @@ MonoBehaviour:
   active: 1
   m_AdvancedMode: 0
   colorMode:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 1
   color:
     m_OverrideState: 0
@@ -112,8 +180,8 @@ MonoBehaviour:
     min: 0
     max: 1
   maxFogDistance:
-    m_OverrideState: 0
-    m_Value: 5000
+    m_OverrideState: 1
+    m_Value: 100
     min: 0
   mipFogMaxMip:
     m_OverrideState: 0
@@ -125,8 +193,8 @@ MonoBehaviour:
     m_Value: 0
     min: 0
   mipFogFar:
-    m_OverrideState: 0
-    m_Value: 1000
+    m_OverrideState: 1
+    m_Value: 100
     min: 0
   albedo:
     m_OverrideState: 0
@@ -136,17 +204,17 @@ MonoBehaviour:
     showEyeDropper: 1
   meanFreePath:
     m_OverrideState: 1
-    m_Value: 150
+    m_Value: 70
     min: 1
   baseHeight:
-    m_OverrideState: 0
-    m_Value: 0
+    m_OverrideState: 1
+    m_Value: 25.51
   meanHeight:
     m_OverrideState: 1
-    m_Value: 25
+    m_Value: 27.96
   anisotropy:
     m_OverrideState: 1
-    m_Value: 0.6
+    m_Value: 0.3
     min: -1
     max: 1
   globalLightProbeDimmer:
@@ -155,5 +223,5 @@ MonoBehaviour:
     min: 0
     max: 1
   enableDistantFog:
-    m_OverrideState: 1
-    m_Value: 1
+    m_OverrideState: 0
+    m_Value: 0

@@ -34,7 +34,7 @@ public class Whirlwind : Channel
         if (!HasBonus("Cross-Step"))
         {
             slowEffect = true;
-            slowEffectId = Owner.EffectManager.AddPassiveEffect(slow);
+            Owner.EffectManager.TryAddPassiveEffect(slow, out slowEffectId);
         }
 
         whirlwindObject = WhirlwindObject.Create(Owner.transform);
@@ -51,7 +51,7 @@ public class Whirlwind : Channel
 
         if(slowEffect) Owner.EffectManager.RemovePassiveEffect(slowEffectId);
 
-        whirlwindObject.DestroyWhirlwind();
+        whirlwindObject.DissipateAndDestroy();
     }
 
     public override void End(Vector3 target)
@@ -62,7 +62,7 @@ public class Whirlwind : Channel
 
         if(slowEffect) Owner.EffectManager.RemovePassiveEffect(slowEffectId);
 
-        whirlwindObject.DestroyWhirlwind();
+        whirlwindObject.DissipateAndDestroy();
     }
 
     private void AOE(float radius, Action<Actor> damageAction)

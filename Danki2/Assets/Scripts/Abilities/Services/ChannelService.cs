@@ -13,36 +13,25 @@ public class ChannelService : AbilityService, IMovementStatusProvider
     public Actor Target { get; set; } = null;
     public bool HasTarget => Target != null;
 
-    public ChannelService(Actor actor, Subject lateUpdateSubject, InterruptionManager interruptionManager) : base(actor)
+    public ChannelService(Actor actor, Subject startSubject, Subject lateUpdateSubject) : base(actor)
     {
-        interruptionManager.Register(InterruptionType.Soft, CancelChannel);
-
-        actor.DeathSubject.Subscribe(CancelChannel);
-
-        lateUpdateSubject.Subscribe(() =>
-        {
-            if (!Active)
-            {
-                RemainingDuration = 0f;
-                return;
-            };
-
-            RemainingDuration = Mathf.Max(0f, RemainingDuration - Time.deltaTime);
-
-            if (RemainingDuration > 0f)
-            {
-                ContinueChannel();
-            }
-            else
-            {
-                EndChannel();
-            }
-        });
+        startSubject.Subscribe(Setup);
+        lateUpdateSubject.Subscribe(TickChannel);
     }
 
     public bool Stuns() => Active && _currentChannel.EffectOnMovement == ChannelEffectOnMovement.Stun;
 
     public bool Roots() => Active && _currentChannel.EffectOnMovement == ChannelEffectOnMovement.Root;
+
+    private void Setup()
+    {
+        actor.InterruptionManager.Register(
+            InterruptionType.Soft,
+            CancelChannel,
+            InterruptableFeature.InterruptOnDeath,
+            InterruptableFeature.Repeat
+        );
+    }
 
     public bool StartChannel(
         AbilityReference abilityReference,
@@ -82,7 +71,7 @@ public class ChannelService : AbilityService, IMovementStatusProvider
 
     public void CancelChannel()
     {
-        if (!Active) return;
+        if (!Active || actor.Dead) return;
 
         RemainingDuration = 0f;
         Active = false;
@@ -94,6 +83,28 @@ public class ChannelService : AbilityService, IMovementStatusProvider
         else
         {
             _currentChannel.Cancel(TargetPosition);
+        }
+    }
+
+    private void TickChannel()
+    {
+        if (actor.Dead) return;
+
+        if (!Active)
+        {
+            RemainingDuration = 0f;
+            return;
+        };
+
+        RemainingDuration = Mathf.Max(0f, RemainingDuration - Time.deltaTime);
+
+        if (RemainingDuration > 0f)
+        {
+            ContinueChannel();
+        }
+        else
+        {
+            EndChannel();
         }
     }
 

@@ -142,7 +142,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   collider: {fileID: 7895853542722693814}
   rigidBody: {fileID: 2495052258483119113}
-  collisionSound: {fileID: 0}
   mesh: {fileID: 7096623669362310275}
   trailRenderer: {fileID: -7706995172187848588}
   landingVisual: {fileID: 1670052526117532193, guid: 383e864f95b9076468b4dfe9fbe0faee,
@@ -167,7 +166,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 14
   MaxDistance: 200
   Pan2D: 0
   rolloffMode: 0

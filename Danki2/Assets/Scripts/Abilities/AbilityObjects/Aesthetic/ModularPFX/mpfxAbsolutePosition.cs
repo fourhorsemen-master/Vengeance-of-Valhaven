@@ -7,35 +7,19 @@ public class mpfxAbsolutePosition : MPFXBehaviour
     [SerializeField]
     private AnimationCurve[] curves = new AnimationCurve[3];
 
-    private Vector3 translator;
-
-    private ModularPFXComponent owningComponent;
-
-    public override bool SetUp(GameObject InGraphic, ModularPFXComponent OwningComponent)
+    public override void SetUp(MPFXContext context, GameObject inGraphic)
     {
-        graphic = InGraphic;
-        translator = Vector3.zero;
-        timeElapsed = 0f;
-        owningComponent = OwningComponent;
-        GetEndTimeFromCurveArray(curves, out endTime);
-
-        return true;
+        base.SetUp(context, inGraphic);
+        GetEndTimeFromCurveArray(curves, out context.endTime);
     }
 
-    public override bool UpdatePFX()
+    protected override void UpdateInternal(MPFXContext context)
     {
-        timeElapsed += Time.deltaTime;
-        translator.x = curves[0].Evaluate(timeElapsed);
-        translator.y = curves[1].Evaluate(timeElapsed);
-        translator.z = curves[2].Evaluate(timeElapsed);
+        Vector3 translator;
+        translator.x = curves[0].Evaluate(context.timeElapsed);
+        translator.y = curves[1].Evaluate(context.timeElapsed);
+        translator.z = curves[2].Evaluate(context.timeElapsed);
 
-        graphic.transform.position = owningComponent.transform.position + translator;
-
-        return base.UpdatePFX();
-    }
-
-    public override bool End()
-    {
-        return true;
+        context.graphic.transform.position = context.owningComponent.transform.position + translator;
     }
 }

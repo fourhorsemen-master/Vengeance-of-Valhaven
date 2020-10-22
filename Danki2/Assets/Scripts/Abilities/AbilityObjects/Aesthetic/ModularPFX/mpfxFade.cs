@@ -4,45 +4,43 @@ using System;
 [Serializable, CreateAssetMenu(menuName = "MPFX/Behaviour/Fade")]
 public class mpfxFade : MPFXBehaviour
 {
+	private class MPFXContextFade : MPFXContext
+	{
+		public Color originalColour;
+		public Material mpfxMat;
+	}
+
 	[SerializeField]
 	private AnimationCurve curve = new AnimationCurve();
 
-	Color originalColour;
-
-	private Material mpfxMat;
-
-	public override bool SetUp(GameObject InGraphic, ModularPFXComponent OwningComponent)
+	public override void SetUp(MPFXContext context, GameObject inGraphic)
 	{
-		graphic = InGraphic;
-		mpfxMat = graphic.GetComponent<MeshRenderer>().material;
-		originalColour = mpfxMat.GetColor(ModularPFXComponent.ColourKeyString);
-		timeElapsed = 0f;
-		GetEndTimeFromCurve(curve, out endTime);
-		UpdateOpacity();
-
-		return true;
+		base.SetUp(context, inGraphic);
+		MPFXContextFade castedContext = (MPFXContextFade)context;
+		castedContext.mpfxMat = castedContext.graphic.GetComponent<MeshRenderer>().material;
+		castedContext.originalColour = castedContext.mpfxMat.GetColor(ModularPFXComponent.ColourKeyString);
+		GetEndTimeFromCurve(curve, out castedContext.endTime);
+		UpdateOpacity(castedContext);
 	}
 
-	public override bool UpdatePFX()
+	protected override void UpdateInternal(MPFXContext context)
 	{
-		timeElapsed += Time.deltaTime;
-		UpdateOpacity();
-
-		return base.UpdatePFX();
+		MPFXContextFade castedContext = (MPFXContextFade)context;
+		UpdateOpacity(castedContext);
 	}
 
-	public override bool End()
+	private void UpdateOpacity(MPFXContextFade castedContext)
 	{
-		return true;
-	}
+		float fadeFactor = curve.Evaluate(castedContext.timeElapsed);
 
-	private void UpdateOpacity()
-	{
-		float fadeFactor = curve.Evaluate(timeElapsed);
-
-		Color desiredColour = originalColour;
+		Color desiredColour = castedContext.originalColour;
 		desiredColour.a *= fadeFactor;
 
-		mpfxMat.SetColor(ModularPFXComponent.ColourKeyString, desiredColour);
+		castedContext.mpfxMat.SetColor(ModularPFXComponent.ColourKeyString, desiredColour);
+	}
+
+	public override MPFXContext ConstructContext()
+	{
+		return new MPFXContextFade();
 	}
 }

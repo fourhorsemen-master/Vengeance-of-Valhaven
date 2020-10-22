@@ -7,32 +7,19 @@ public class mpfxTranslate : MPFXBehaviour
 	[SerializeField]
 	private AnimationCurve[] curves = new AnimationCurve[3];
 
-	private Vector3 Translator;
-
-	public override bool SetUp(GameObject InGraphic, ModularPFXComponent OwningComponent)
+	public override void SetUp(MPFXContext context, GameObject inGraphic)
 	{
-		graphic = InGraphic;
-		Translator = Vector3.zero;
-		timeElapsed = 0f;
-		GetEndTimeFromCurveArray(curves, out endTime);
-
-		return true;
+		base.SetUp(context, inGraphic);
+		GetEndTimeFromCurveArray(curves, out context.endTime);
 	}
 
-	public override bool UpdatePFX()
+	protected override void UpdateInternal(MPFXContext context)
 	{
-		timeElapsed += Time.deltaTime;
-		Translator.x = curves[0].Evaluate(timeElapsed) * Time.deltaTime;
-		Translator.y = curves[1].Evaluate(timeElapsed) * Time.deltaTime;
-		Translator.z = curves[2].Evaluate(timeElapsed) * Time.deltaTime;
+		Vector3 Translator;
+		Translator.x = curves[0].Evaluate(context.timeElapsed) * Time.deltaTime;
+		Translator.y = curves[1].Evaluate(context.timeElapsed) * Time.deltaTime;
+		Translator.z = curves[2].Evaluate(context.timeElapsed) * Time.deltaTime;
 
-		graphic.transform.Translate(Translator);
-
-		return base.UpdatePFX();
-	}
-
-	public override bool End()
-	{
-		return true;
+		context.graphic.transform.Translate(Translator);
 	}
 }
