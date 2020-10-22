@@ -12,14 +12,14 @@ public class ExampleWolfAi : Ai2
         IAiComponent attackStateMachine = new AiFiniteStateMachine<WolfAttackAiState>(WolfAttackAiState.Attack1)
             .WithComponent(WolfAttackAiState.Attack1, new ExampleAttack1())
             .WithComponent(WolfAttackAiState.Attack2, new ExampleAttack2())
-            .WithTransition(WolfAttackAiState.Attack1, WolfAttackAiState.Attack2, new TimePeriodTrigger(1))
-            .WithTransition(WolfAttackAiState.Attack2, WolfAttackAiState.Attack1, new TimePeriodTrigger(1));
+            .WithTransition(WolfAttackAiState.Attack1, WolfAttackAiState.Attack2, new IfTimeElapsed(1))
+            .WithTransition(WolfAttackAiState.Attack2, WolfAttackAiState.Attack1, new IfTimeElapsed(1));
 
         return new AiFiniteStateMachine<WolfAiState>(WolfAiState.Attack)
             .WithComponent(WolfAiState.Attack, attackStateMachine)
             .WithComponent(WolfAiState.Defend, new ExampleDefend())
-            .WithTransition(WolfAiState.Attack, WolfAiState.Defend, new HealthLostTrigger(actor, 5), new TimePeriodTrigger(10))
-            .WithTransition(WolfAiState.Defend, WolfAiState.Attack, new TimePeriodTrigger(4));
+            .WithTransition(WolfAiState.Attack, WolfAiState.Defend, new IfHealthLost(actor, 5), new IfTimeElapsed(10))
+            .WithTransition(WolfAiState.Defend, WolfAiState.Attack, new IfTimeElapsed(4));
     }
 
     private enum WolfAiState
@@ -35,14 +35,14 @@ public class ExampleWolfAi : Ai2
     }
 }
 
-public class HealthLostTrigger : IAiTrigger
+public class IfHealthLost : IAiTrigger
 {
     private readonly Actor actor;
     private readonly int healthAmount;
 
     private int initialHealth;
 
-    public HealthLostTrigger(Actor actor, int healthAmount)
+    public IfHealthLost(Actor actor, int healthAmount)
     {
         this.actor = actor;
         this.healthAmount = healthAmount;
@@ -63,12 +63,12 @@ public class HealthLostTrigger : IAiTrigger
     }
 }
 
-public class TimePeriodTrigger : IAiTrigger
+public class IfTimeElapsed : IAiTrigger
 {
     private readonly float timePeriod;
     private float startTime;
 
-    public TimePeriodTrigger(float timePeriod)
+    public IfTimeElapsed(float timePeriod)
     {
         this.timePeriod = timePeriod;
     }

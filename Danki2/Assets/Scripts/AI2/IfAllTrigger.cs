@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 
-public class AllTrigger : IAiTrigger
+public class IfAllTrigger : IAiTrigger
 {
     private readonly IAiTrigger[] triggers;
     
-    public AllTrigger(params IAiTrigger[] triggers)
+    public IfAllTrigger(params IAiTrigger[] triggers)
     {
         this.triggers = triggers;
     }
