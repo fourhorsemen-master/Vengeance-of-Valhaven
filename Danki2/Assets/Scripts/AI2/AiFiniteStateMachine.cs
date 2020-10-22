@@ -31,12 +31,6 @@ public class AiFiniteStateMachine<TState> : IAiComponent where TState : Enum
 
     public AiFiniteStateMachine<TState> WithTransition(TState from, TState to, params IAiTrigger[] triggers)
     {
-        if (from.Equals(to))
-        {
-            Debug.LogError($"Cannot add transition with same from and to state: {from.ToString()}.");
-            return this;
-        }
-        
         localTriggers[from][to].UnionWith(triggers);
         return this;
     }
