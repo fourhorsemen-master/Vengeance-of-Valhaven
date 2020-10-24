@@ -9,7 +9,7 @@ public class BashObject : StaticAbilityObject
     private ModularPFXComponent objectMPFX = null;
 
     [SerializeField]
-    private Color successfulHitColour;
+    private Color successfulHitColour = Color.white;
     
     public override float StickTime => bashSound.clip.length;
 
