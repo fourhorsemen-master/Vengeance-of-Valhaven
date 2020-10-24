@@ -20,7 +20,7 @@ public class WolfFindPlayer : Behaviour
             wolf.transform.position
         );
 
-        if (distanceToTarget < _aggroRange || wolf.IsDamaged)
+        if (distanceToTarget < _aggroRange || wolf.HealthManager.IsDamaged)
         {
             wolf.FindTarget(target);
         }
