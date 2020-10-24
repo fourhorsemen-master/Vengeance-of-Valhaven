@@ -28,7 +28,6 @@ public abstract class Actor : MonoBehaviour
     public InterruptionManager InterruptionManager { get; private set; }
 
     public Actor Target { get; set; } = null;
-    public bool IsDamaged => HealthManager.Health < HealthManager.MaxHealth;
     public bool Dead { get; private set; }
     public Subject DeathSubject { get; } = new Subject();
 
