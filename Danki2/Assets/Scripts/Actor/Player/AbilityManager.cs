@@ -4,8 +4,9 @@ using UnityEngine;
 public class AbilityManager
 {
 	private readonly Player player;
-    private readonly float abilityTimeoutLimit;
-    private readonly float abilityCooldown;
+    private readonly float comboTimeout;
+    private readonly float cooldownDuringCombo;
+    private readonly float cooldownAfterCombo;
     private float remainingAbilityCooldown = 0f;
 
     private Direction lastCastDirection;
@@ -15,20 +16,25 @@ public class AbilityManager
     private ActionControlState previousActionControlState = ActionControlState.None;
     private ActionControlState currentActionControlState = ActionControlState.None;
 
-    public float RemainingCooldownProportion => remainingAbilityCooldown / abilityCooldown;
+    public float RemainingCooldownProportion => remainingAbilityCooldown / cooldownDuringCombo;
     public CastingStatus CastingStatus { get; private set; } = CastingStatus.Ready;
     public Subject<Tuple<bool, Direction>> AbilityCompletionSubject { get; } = new Subject<Tuple<bool, Direction>>();
 
     public AbilityManager(Player player, Subject updateSubject, Subject lateUpdateSubject)
 	{
 		this.player = player;
-        this.abilityTimeoutLimit = player.Settings.ComboTimeout;
-        this.abilityCooldown = player.Settings.CooldownDuringCombo;
+        comboTimeout = player.Settings.ComboTimeout;
+        cooldownDuringCombo = player.Settings.CooldownDuringCombo;
+        cooldownAfterCombo = player.Settings.CooldownAfterCombo;
+
+        if (player.Settings.RollResetsCombo)
+        {
+            this.player.RollSubject.Subscribe(Whiff);
+        }
 
         updateSubject.Subscribe(TickAbilityCooldown);
         lateUpdateSubject.Subscribe(HandleAbilities);
 
-        this.player.RollSubject.Subscribe(Whiff);
         this.player.HealthManager.ModifiedDamageSubject.Subscribe(d =>
         {
             if (d.Damage > 0) Whiff();
@@ -78,7 +84,7 @@ public class AbilityManager
 
             if (treeDepth > 0)
             {
-                abilityTimeout = player.WaitAndAct(abilityTimeoutLimit, Whiff);
+                abilityTimeout = player.WaitAndAct(comboTimeout, Whiff);
             }
         });
     }
@@ -89,7 +95,7 @@ public class AbilityManager
 
         whiffed = true;
         player.AbilityTree.Reset();
-        remainingAbilityCooldown = abilityCooldown;
+        remainingAbilityCooldown = cooldownDuringCombo;
         CastingStatus = CastingStatus.Cooldown;
     }
 
@@ -164,7 +170,7 @@ public class AbilityManager
         }
 
         CastingStatus = nextStatus;
-        remainingAbilityCooldown = abilityCooldown;
+        remainingAbilityCooldown = cooldownDuringCombo;
         if (abilityTimeout != null)
         {
             player.StopCoroutine(abilityTimeout);
