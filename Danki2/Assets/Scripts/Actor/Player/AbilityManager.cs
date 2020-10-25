@@ -14,7 +14,6 @@ public class AbilityManager
     private Coroutine abilityTimeout = null;
     private Subscription<bool> abilityFeedbackSubscription;
     private ActionControlState previousActionControlState = ActionControlState.None;
-    private ActionControlState currentActionControlState = ActionControlState.None;
 
     public float RemainingCooldownProportion => remainingAbilityCooldown / cooldownDuringCombo;
     public CastingStatus CastingStatus { get; private set; } = CastingStatus.Ready;
@@ -41,11 +40,6 @@ public class AbilityManager
         });
 
         AbilityTimeoutSubscription();
-    }
-
-    public void SetCurrentControlState(ActionControlState controlState)
-    {
-        currentActionControlState = controlState;
     }
 
     private void TickAbilityCooldown()
@@ -101,6 +95,8 @@ public class AbilityManager
 
     private void HandleAbilities()
     {
+        ActionControlState currentActionControlState = PlayerControls.Instance.ActionControlState;
+
         CastingCommand castingCommand = ControlMatrix.GetCastingCommand(
             CastingStatus,
             previousActionControlState,
@@ -108,7 +104,6 @@ public class AbilityManager
         );
 
         previousActionControlState = currentActionControlState;
-        currentActionControlState = ActionControlState.None;
 
         switch (castingCommand)
         {
