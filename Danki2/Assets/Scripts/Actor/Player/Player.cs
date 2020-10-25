@@ -4,17 +4,9 @@ public class Player : Actor
 {
     public override ActorType Type => ActorType.Player;
 
-    // Settings
-    [HideInInspector]
-    public float abilityCooldown = 1f;
-    [HideInInspector]
-    public float totalRollCooldown = 1f;
-    [HideInInspector]
-    public float rollDuration = 0.2f;
-    [HideInInspector]
-    public float rollSpeedMultiplier = 3f;
-    [HideInInspector]
-    public float abilityTimeoutLimit = 5f;
+    // This is no readonly as the editor needs to updates it. Seems safer than risking individual settings being updated.
+    public PlayerSettings Settings { get; set; } = new PlayerSettings();
+
     private float remainingRollCooldown = 0f;
 
     // Components
@@ -45,7 +37,7 @@ public class Player : Actor
 
         RegisterAbilityDataDiffer(new AbilityDataOrbsDiffer(AbilityTree));
         SetAbilityBonusCalculator(new AbilityBonusOrbsCalculator(AbilityTree));
-        AbilityManager = new AbilityManager(this, abilityTimeoutLimit, abilityCooldown, updateSubject, lateUpdateSubject);
+        AbilityManager = new AbilityManager(this, updateSubject, lateUpdateSubject);
         TargetFinder = new PlayerTargetFinder(this, updateSubject);
     }
 
@@ -69,18 +61,18 @@ public class Player : Actor
 
         bool rolled = MovementManager.TryLockMovement(
             MovementLockType.Dash,
-            rollDuration,
-            GetStat(Stat.Speed) * rollSpeedMultiplier,
+            Settings.RollDuration,
+            GetStat(Stat.Speed) * Settings.RollSpeedMultiplier,
             direction,
             direction
         );
 
         if (rolled)
         {
-            remainingRollCooldown = totalRollCooldown;
+            remainingRollCooldown = Settings.TotalRollCooldown;
             rollAudio.Play();
             RollSubject.Next();
-            StartTrail(rollDuration * 2);
+            StartTrail(Settings.RollDuration * 2);
         }
     }
 

@@ -12,16 +12,28 @@ public class PlayerEditor : ActorEditor
 
         EditorGUILayout.LabelField("Abilities", EditorStyles.boldLabel);
         EditorGUI.indentLevel++;
-            player.abilityCooldown = EditorGUILayout.Slider("Cooldown", player.abilityCooldown, 0, 2);
-            player.abilityTimeoutLimit = EditorGUILayout.Slider("Timeout", player.abilityTimeoutLimit, 2, 10);
+            var cooldownDuringCombo = EditorGUILayout.Slider("CD during combo", player.Settings.CooldownDuringCombo, 0, 2);
+            var cooldownAfterCombo = EditorGUILayout.Slider("CD after combo", player.Settings.CooldownAfterCombo, 0, 2);
+            var comboTimeout = EditorGUILayout.Slider("Combo timeout", player.Settings.ComboTimeout, 2, 10);
+            var rollResetsCombo = EditorGUILayout.Toggle("Roll resets combo", player.Settings.RollResetsCombo);
         EditorGUI.indentLevel--;
 
         EditorGUILayout.LabelField("Roll", EditorStyles.boldLabel);
         EditorGUI.indentLevel++;
-            player.totalRollCooldown = EditorGUILayout.Slider("Cooldown", player.totalRollCooldown, 0, 5);
-            player.rollDuration = EditorGUILayout.Slider("Duration", player.rollDuration, 0, 1);
-            player.rollSpeedMultiplier = EditorGUILayout.Slider("Speed Multiplier", player.rollSpeedMultiplier, 1, 10);
+            var totalRollCooldown = EditorGUILayout.Slider("Cooldown", player.Settings.TotalRollCooldown, 0, 5);
+            var rollDuration = EditorGUILayout.Slider("Duration", player.Settings.RollDuration, 0, 1);
+            var rollSpeedMultiplier = EditorGUILayout.Slider("Speed Multiplier", player.Settings.RollSpeedMultiplier, 1, 10);
         EditorGUI.indentLevel--;
+
+        player.Settings = new PlayerSettings(
+            cooldownDuringCombo,
+            cooldownAfterCombo,
+            comboTimeout,
+            rollResetsCombo,
+            totalRollCooldown,
+            rollDuration,
+            rollSpeedMultiplier
+        );
 
         if (GUI.changed)
         {

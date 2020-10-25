@@ -19,11 +19,11 @@ public class AbilityManager
     public CastingStatus CastingStatus { get; private set; } = CastingStatus.Ready;
     public Subject<Tuple<bool, Direction>> AbilityCompletionSubject { get; } = new Subject<Tuple<bool, Direction>>();
 
-    public AbilityManager(Player player, float abilityTimeoutLimit, float abilityCooldown, Subject updateSubject, Subject lateUpdateSubject)
+    public AbilityManager(Player player, Subject updateSubject, Subject lateUpdateSubject)
 	{
 		this.player = player;
-        this.abilityTimeoutLimit = abilityTimeoutLimit;
-        this.abilityCooldown = abilityCooldown;
+        this.abilityTimeoutLimit = player.Settings.ComboTimeout;
+        this.abilityCooldown = player.Settings.CooldownDuringCombo;
 
         updateSubject.Subscribe(TickAbilityCooldown);
         lateUpdateSubject.Subscribe(HandleAbilities);
