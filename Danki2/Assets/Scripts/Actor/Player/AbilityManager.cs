@@ -89,7 +89,7 @@ public class AbilityManager
 
         whiffed = true;
         player.AbilityTree.Reset();
-        remainingAbilityCooldown = cooldownDuringCombo;
+        remainingAbilityCooldown = cooldownAfterCombo;
         CastingStatus = CastingStatus.Cooldown;
     }
 
