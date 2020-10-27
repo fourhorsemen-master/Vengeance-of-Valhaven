@@ -14,7 +14,11 @@ public abstract class Enemy : Actor
         gameObject.tag = Tags.Enemy;
     }
 
-    public void WaitAndCast(float waitTime, AbilityReference abilityReference, Func<Vector3> targeter)
+    public void WaitAndCast(
+        float waitTime,
+        AbilityReference abilityReference,
+        Func<Vector3> targeter,
+        Action castCallback = null)
     {
         OnTelegraph.Next(waitTime);
 
@@ -23,6 +27,7 @@ public abstract class Enemy : Actor
         InterruptableAction(waitTime, InterruptionType.Hard, () =>
         {
             InstantCastService.Cast(abilityReference, targeter());
+            castCallback?.Invoke();
         });
     }
 }

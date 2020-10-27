@@ -27,7 +27,8 @@ public class Wolf : Enemy
 
     private Coroutine attentionCoroutine;
 
-    public Subject<Wolf> OnHowl { get; private set; } = new Subject<Wolf>();
+    public Subject<Wolf> OnHowl { get; } = new Subject<Wolf>();
+    public Subject OnAttack { get; } = new Subject();
 
     protected override void Start()
     {
@@ -90,7 +91,8 @@ public class Wolf : Enemy
         WaitAndCast(
             _biteCastTime,
             AbilityReference.Bite,
-            () => transform.position + transform.forward
+            () => transform.position + transform.forward,
+            () => OnAttack.Next()
         );
         
         _biteRemainingCooldown = _biteTotalCooldown;
@@ -106,7 +108,8 @@ public class Wolf : Enemy
         WaitAndCast(
             _pounceCastTime,
             AbilityReference.Pounce,
-            () => Target.transform.position + (transform.position - Target.transform.position).normalized
+            () => Target.transform.position + (transform.position - Target.transform.position).normalized,
+            () => OnAttack.Next()
         );
         
         _biteRemainingCooldown = _biteTotalCooldown;

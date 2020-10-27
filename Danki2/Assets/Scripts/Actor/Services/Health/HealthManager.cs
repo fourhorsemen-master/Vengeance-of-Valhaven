@@ -14,6 +14,7 @@ public class HealthManager
     public Subject<DamageData> UnmodifiedDamageSubject { get; } = new Subject<DamageData>();
     public Subject<DamageData> ModifiedDamageSubject { get; } = new Subject<DamageData>();
     public Subject<int> TickDamageSubject { get; } = new Subject<int>();
+    public Subject DamageSubject { get; } = new Subject();
     public Subject<int> HealSubject { get; } = new Subject<int>();
 
     private const int MinimumDamageAfterStats = 1;
@@ -43,6 +44,7 @@ public class HealthManager
         }
 
         ModifyHealth(-damage);
+        DamageSubject.Next();
         TickDamageSubject.Next(damage);
     }
 
@@ -63,6 +65,7 @@ public class HealthManager
         }
 
         ModifyHealth(-damage);
+        DamageSubject.Next();
         ModifiedDamageSubject.Next(new DamageData(damage, source));
 
         actor.InterruptionManager.Interrupt(InterruptionType.Soft);
