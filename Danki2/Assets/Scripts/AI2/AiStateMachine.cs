@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class AiFiniteStateMachine<TState> : IAiComponent where TState : Enum
+public class AiStateMachine<TState> : IAiComponent where TState : Enum
 {
     private readonly EnumDictionary<TState, IAiComponent> components =
-        new EnumDictionary<TState, IAiComponent>(() => new NoOpAiComponent());
+        new EnumDictionary<TState, IAiComponent>(() => new NoOpComponent());
 
-    private readonly EnumDictionary<TState, Dictionary<TState, ISet<IAiTrigger>>> localTriggers =
-        new EnumDictionary<TState, Dictionary<TState, ISet<IAiTrigger>>>(() =>
+    private readonly EnumDictionary<TState, EnumDictionary<TState, ISet<IAiTrigger>>> localTriggers =
+        new EnumDictionary<TState, EnumDictionary<TState, ISet<IAiTrigger>>>(() =>
             new EnumDictionary<TState, ISet<IAiTrigger>>(() => new HashSet<IAiTrigger>()));
 
     private readonly EnumDictionary<TState, ISet<IAiTrigger>> globalTriggers =
@@ -18,24 +18,24 @@ public class AiFiniteStateMachine<TState> : IAiComponent where TState : Enum
     private readonly TState initialState;
     private TState currentState;
 
-    public AiFiniteStateMachine(TState initialState)
+    public AiStateMachine(TState initialState)
     {
         this.initialState = initialState;
     }
 
-    public AiFiniteStateMachine<TState> WithComponent(TState state, IAiComponent component)
+    public AiStateMachine<TState> WithComponent(TState state, IAiComponent component)
     {
         components[state] = component;
         return this;
     }
 
-    public AiFiniteStateMachine<TState> WithTransition(TState from, TState to, params IAiTrigger[] triggers)
+    public AiStateMachine<TState> WithTransition(TState from, TState to, params IAiTrigger[] triggers)
     {
         localTriggers[from][to].UnionWith(triggers);
         return this;
     }
 
-    public AiFiniteStateMachine<TState> WithGlobalTransition(TState to, params IAiTrigger[] triggers)
+    public AiStateMachine<TState> WithGlobalTransition(TState to, params IAiTrigger[] triggers)
     {
         globalTriggers[to].UnionWith(triggers);
         return this;
@@ -49,17 +49,17 @@ public class AiFiniteStateMachine<TState> : IAiComponent where TState : Enum
         components[currentState].Enter();
     }
 
-    public void Update()
-    {
-        components[currentState].Update();
-        TryTransition();
-    }
-
     public void Exit()
     {
         DeactivateGlobalTriggers();
         DeactivateLocalTriggers();
         components[currentState].Exit();
+    }
+
+    public void Update()
+    {
+        components[currentState].Update();
+        TryTransition();
     }
 
     private void TryTransition()
