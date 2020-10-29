@@ -8,9 +8,9 @@ public abstract class Ai2 : MonoBehaviour
 
     private void Start()
     {
-        Actor.DeathSubject.Subscribe(OnDeath);
         aiComponent = BuildAiComponent();
         aiComponent.Enter();
+        Actor.DeathSubject.Subscribe(OnDeath);
     }
 
     private void Update()
