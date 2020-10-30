@@ -6,15 +6,22 @@ public class Player : Actor
     public override ActorType Type => ActorType.Player;
 
     // Ability tree settings
+    [HideInInspector]
     public float CooldownDuringCombo = 0.75f;
+    [HideInInspector]
     public float CooldownAfterCombo = 1.5f;
     public float ComboTimeout = 2f;
+    [HideInInspector]
     public float FeedbackTimeout = 1f;
+    [HideInInspector]
     public bool RollResetsCombo = false;
 
     // Roll settings
+    [HideInInspector]
     public float TotalRollCooldown = 1f;
+    [HideInInspector]
     public float RollDuration = 0.3f;
+    [HideInInspector]
     public float RollSpeedMultiplier = 2f;
 
     private float remainingRollCooldown = 0f;

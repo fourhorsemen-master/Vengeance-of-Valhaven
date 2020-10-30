@@ -216,6 +216,10 @@ public class AbilityManager
 
         feedbackRecieved = true;
 
+        whiffed = !successful;
+
+        if (whiffed) player.PlayWhiffSound();
+
         if (CastingStatus == CastingStatus.AwaitingFeedback)
         {
             CastingStatus = CastingStatus.Cooldown;
@@ -226,9 +230,6 @@ public class AbilityManager
             : cooldownAfterCombo;
 
         remainingAbilityCooldown = currentCooldownPeriod;
-
-        whiffed = !successful;
-        if (whiffed) player.PlayWhiffSound();
 
         AbilityCompletionSubject.Next(
             new Tuple<bool, Direction>(successful, lastCastDirection)

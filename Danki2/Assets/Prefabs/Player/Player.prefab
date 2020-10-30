@@ -601,11 +601,14 @@ MonoBehaviour:
     _values: 1400000003000000000000000000000000000000
   navmeshAgent: {fileID: 6918691881617835041}
   trailRenderer: {fileID: 1618317697}
-  abilityCooldown: 0.5
-  totalRollCooldown: 1
-  rollDuration: 0.2
-  rollSpeedMultiplier: 3
-  abilityTimeoutLimit: 5
+  CooldownDuringCombo: 0.75
+  CooldownAfterCombo: 1.5
+  ComboTimeout: 2
+  FeedbackTimeout: 2
+  RollResetsCombo: 0
+  TotalRollCooldown: 1
+  RollDuration: 0.2
+  RollSpeedMultiplier: 4
   whiffAudio: {fileID: -2634619170240676585}
   rollAudio: {fileID: -1302190466873510689}
 --- !u!114 &-7333941826244338973
