@@ -7,22 +7,23 @@ public class Player : Actor
 
     // Ability tree settings
     [HideInInspector]
-    public float CooldownDuringCombo = 0.75f;
+    public float cooldownDuringCombo = 0.75f;
     [HideInInspector]
-    public float CooldownAfterCombo = 1.5f;
-    public float ComboTimeout = 2f;
+    public float cooldownAfterCombo = 1.5f;
     [HideInInspector]
-    public float FeedbackTimeout = 1f;
+    public float comboTimeout = 2f;
     [HideInInspector]
-    public bool RollResetsCombo = false;
+    public float feedbackTimeout = 1f;
+    [HideInInspector]
+    public bool rollResetsCombo = false;
 
     // Roll settings
     [HideInInspector]
-    public float TotalRollCooldown = 1f;
+    public float totalRollCooldown = 1f;
     [HideInInspector]
-    public float RollDuration = 0.3f;
+    public float rollDuration = 0.3f;
     [HideInInspector]
-    public float RollSpeedMultiplier = 2f;
+    public float rollSpeedMultiplier = 2f;
 
     private float remainingRollCooldown = 0f;
 
@@ -78,18 +79,18 @@ public class Player : Actor
 
         bool rolled = MovementManager.TryLockMovement(
             MovementLockType.Dash,
-            RollDuration,
-            GetStat(Stat.Speed) * RollSpeedMultiplier,
+            rollDuration,
+            GetStat(Stat.Speed) * rollSpeedMultiplier,
             direction,
             direction
         );
 
         if (rolled)
         {
-            remainingRollCooldown = TotalRollCooldown;
+            remainingRollCooldown = totalRollCooldown;
             rollAudio.Play();
             RollSubject.Next();
-            StartTrail(RollDuration * 2);
+            StartTrail(rollDuration * 2);
         }
     }
 

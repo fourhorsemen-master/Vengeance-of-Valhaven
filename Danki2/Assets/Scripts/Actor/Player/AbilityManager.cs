@@ -26,12 +26,12 @@ public class AbilityManager
     public AbilityManager(Player player, Subject updateSubject, Subject lateUpdateSubject)
 	{
 		this.player = player;
-        comboTimeout = player.ComboTimeout;
-        feedbackTimeout = player.FeedbackTimeout;
-        cooldownDuringCombo = player.CooldownDuringCombo;
-        cooldownAfterCombo = player.CooldownAfterCombo;
+        comboTimeout = player.comboTimeout;
+        feedbackTimeout = player.feedbackTimeout;
+        cooldownDuringCombo = player.cooldownDuringCombo;
+        cooldownAfterCombo = player.cooldownAfterCombo;
 
-        if (player.RollResetsCombo)
+        if (player.rollResetsCombo)
         {
             this.player.RollSubject.Subscribe(() => {
                 if (!player.AbilityTree.AtRoot) Whiff();
