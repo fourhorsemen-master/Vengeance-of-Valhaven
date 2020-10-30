@@ -1,11 +1,21 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Player : Actor
 {
     public override ActorType Type => ActorType.Player;
 
-    // This is no readonly as the editor needs to updates it. Seems safer than risking individual settings being updated.
-    public PlayerSettings Settings { get; set; } = new PlayerSettings();
+    // Ability tree settings
+    public float CooldownDuringCombo = 0.75f;
+    public float CooldownAfterCombo = 1.5f;
+    public float ComboTimeout = 2f;
+    public float FeedbackTimeout = 1f;
+    public bool RollResetsCombo = false;
+
+    // Roll settings
+    public float TotalRollCooldown = 1f;
+    public float RollDuration = 0.3f;
+    public float RollSpeedMultiplier = 2f;
 
     private float remainingRollCooldown = 0f;
 
@@ -61,18 +71,18 @@ public class Player : Actor
 
         bool rolled = MovementManager.TryLockMovement(
             MovementLockType.Dash,
-            Settings.RollDuration,
-            GetStat(Stat.Speed) * Settings.RollSpeedMultiplier,
+            RollDuration,
+            GetStat(Stat.Speed) * RollSpeedMultiplier,
             direction,
             direction
         );
 
         if (rolled)
         {
-            remainingRollCooldown = Settings.TotalRollCooldown;
+            remainingRollCooldown = TotalRollCooldown;
             rollAudio.Play();
             RollSubject.Next();
-            StartTrail(Settings.RollDuration * 2);
+            StartTrail(RollDuration * 2);
         }
     }
 

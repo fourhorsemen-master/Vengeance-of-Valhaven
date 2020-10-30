@@ -12,28 +12,19 @@ public class PlayerEditor : ActorEditor
 
         EditorGUILayout.LabelField("Abilities", EditorStyles.boldLabel);
         EditorGUI.indentLevel++;
-            var cooldownDuringCombo = EditorGUILayout.Slider("CD during combo", player.Settings.CooldownDuringCombo, 0, 2);
-            var cooldownAfterCombo = EditorGUILayout.Slider("CD after combo", player.Settings.CooldownAfterCombo, 0, 2);
-            var comboTimeout = EditorGUILayout.Slider("Combo timeout", player.Settings.ComboTimeout, 2, 10);
-            var rollResetsCombo = EditorGUILayout.Toggle("Roll resets combo", player.Settings.RollResetsCombo);
+            player.CooldownDuringCombo = EditorGUILayout.Slider("CD during combo", player.CooldownDuringCombo, 0, 2);
+            player.CooldownAfterCombo = EditorGUILayout.Slider("CD after combo", player.CooldownAfterCombo, 0, 2);
+            player.ComboTimeout = EditorGUILayout.Slider("Combo timeout", player.ComboTimeout, 2, 10);
+            player.FeedbackTimeout = EditorGUILayout.Slider("Feedback timeout", player.ComboTimeout, 0, 2);
+            player.RollResetsCombo = EditorGUILayout.Toggle("Roll resets combo", player.RollResetsCombo);
         EditorGUI.indentLevel--;
 
         EditorGUILayout.LabelField("Roll", EditorStyles.boldLabel);
         EditorGUI.indentLevel++;
-            var totalRollCooldown = EditorGUILayout.Slider("Cooldown", player.Settings.TotalRollCooldown, 0, 5);
-            var rollDuration = EditorGUILayout.Slider("Duration", player.Settings.RollDuration, 0, 1);
-            var rollSpeedMultiplier = EditorGUILayout.Slider("Speed Multiplier", player.Settings.RollSpeedMultiplier, 1, 10);
+            player.TotalRollCooldown = EditorGUILayout.Slider("Cooldown", player.TotalRollCooldown, 0, 5);
+            player.RollDuration = EditorGUILayout.Slider("Duration", player.RollDuration, 0, 1);
+            player.RollSpeedMultiplier = EditorGUILayout.Slider("Speed Multiplier", player.RollSpeedMultiplier, 1, 10);
         EditorGUI.indentLevel--;
-
-        player.Settings = new PlayerSettings(
-            cooldownDuringCombo,
-            cooldownAfterCombo,
-            comboTimeout,
-            rollResetsCombo,
-            totalRollCooldown,
-            rollDuration,
-            rollSpeedMultiplier
-        );
 
         if (GUI.changed)
         {

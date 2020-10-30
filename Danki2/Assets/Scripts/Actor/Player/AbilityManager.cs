@@ -5,30 +5,37 @@ public class AbilityManager
 {
 	private readonly Player player;
     private readonly float comboTimeout;
+    private readonly float feedbackTimeout;
     private readonly float cooldownDuringCombo;
     private readonly float cooldownAfterCombo;
+    private float currentCooldownPeriod = 1f;
     private float remainingAbilityCooldown = 0f;
 
     private Direction lastCastDirection;
     private bool whiffed = true;
+    private bool feedbackRecieved = false;
     private Coroutine abilityTimeout = null;
+    private Coroutine feedbackTimer = null;
     private Subscription<bool> abilityFeedbackSubscription;
     private ActionControlState previousActionControlState = ActionControlState.None;
 
-    public float RemainingCooldownProportion => remainingAbilityCooldown / cooldownDuringCombo;
+    public float RemainingCooldownProportion => remainingAbilityCooldown / currentCooldownPeriod;
     public CastingStatus CastingStatus { get; private set; } = CastingStatus.Ready;
     public Subject<Tuple<bool, Direction>> AbilityCompletionSubject { get; } = new Subject<Tuple<bool, Direction>>();
 
     public AbilityManager(Player player, Subject updateSubject, Subject lateUpdateSubject)
 	{
 		this.player = player;
-        comboTimeout = player.Settings.ComboTimeout;
-        cooldownDuringCombo = player.Settings.CooldownDuringCombo;
-        cooldownAfterCombo = player.Settings.CooldownAfterCombo;
+        comboTimeout = player.ComboTimeout;
+        feedbackTimeout = player.FeedbackTimeout;
+        cooldownDuringCombo = player.CooldownDuringCombo;
+        cooldownAfterCombo = player.CooldownAfterCombo;
 
-        if (player.Settings.RollResetsCombo)
+        if (player.RollResetsCombo)
         {
-            this.player.RollSubject.Subscribe(Whiff);
+            this.player.RollSubject.Subscribe(() => {
+                if (!player.AbilityTree.AtRoot) Whiff();
+            });
         }
 
         updateSubject.Subscribe(TickAbilityCooldown);
@@ -44,12 +51,11 @@ public class AbilityManager
 
     private void TickAbilityCooldown()
     {
-        if (player.ChannelService.Active) return;
+        if (CastingStatus != CastingStatus.Cooldown) return;
 
-        float decrement = whiffed ? Time.deltaTime / 2 : Time.deltaTime;
-        remainingAbilityCooldown = Mathf.Max(0f, remainingAbilityCooldown - decrement);
+        remainingAbilityCooldown = Mathf.Max(0f, remainingAbilityCooldown - Time.deltaTime);
 
-        if (remainingAbilityCooldown > 0f || CastingStatus != CastingStatus.Cooldown) return;
+        if (remainingAbilityCooldown > 0f) return;
 
         if (abilityFeedbackSubscription != null)
         {
@@ -65,6 +71,22 @@ public class AbilityManager
         }
 
         whiffed = true;
+        feedbackRecieved = false;
+    }
+
+    private void StartFeedbackTimer()
+    {
+        StopFeedbackTimer();
+
+        feedbackTimer = player.WaitAndAct(feedbackTimeout, Whiff);
+    }
+
+    private void StopFeedbackTimer()
+    {
+        if (feedbackTimer != null)
+        {
+            player.StopCoroutine(feedbackTimer);
+        }
     }
 
     private void AbilityTimeoutSubscription()
@@ -85,11 +107,14 @@ public class AbilityManager
 
     private void Whiff()
     {
-        if (!player.AbilityTree.AtRoot) player.PlayWhiffSound();
+        player.PlayWhiffSound();
 
         whiffed = true;
         player.AbilityTree.Reset();
-        remainingAbilityCooldown = cooldownAfterCombo;
+
+        currentCooldownPeriod = cooldownAfterCombo;
+        remainingAbilityCooldown = currentCooldownPeriod;
+
         CastingStatus = CastingStatus.Cooldown;
     }
 
@@ -111,12 +136,28 @@ public class AbilityManager
                 // Handle case where channel has ended naturally.
                 if (!player.ChannelService.Active)
                 {
-                    CastingStatus = remainingAbilityCooldown <= 0f ? CastingStatus.Ready : CastingStatus.Cooldown;
+                    if (feedbackRecieved)
+                    {
+                        CastingStatus = CastingStatus.Cooldown;
+                    }
+                    else
+                    {
+                        CastingStatus = CastingStatus.AwaitingFeedback;
+                        StartFeedbackTimer();
+                    }
                 }
                 break;
             case CastingCommand.CancelChannel:
                 player.ChannelService.CancelChannel();
-                CastingStatus = remainingAbilityCooldown <= 0f ? CastingStatus.Ready : CastingStatus.Cooldown;
+                if (feedbackRecieved)
+                {
+                    CastingStatus = CastingStatus.Cooldown;
+                }
+                else
+                {
+                    CastingStatus = CastingStatus.AwaitingFeedback;
+                    StartFeedbackTimer();
+                }
                 break;
             case CastingCommand.CastLeft:
                 BranchAndCast(Direction.Left);
@@ -133,50 +174,62 @@ public class AbilityManager
         lastCastDirection = direction;
 
         AbilityReference abilityReference = player.AbilityTree.GetAbility(direction);
-        bool abilityCast = false;
-        CastingStatus nextStatus = CastingStatus;
+
+        if (abilityTimeout != null)
+        {
+            player.StopCoroutine(abilityTimeout);
+        }
 
         switch (AbilityLookup.Instance.GetAbilityType(abilityReference))
         {
             case AbilityType.InstantCast:
-                abilityCast = player.InstantCastService.Cast(
+                CastingStatus = CastingStatus.AwaitingFeedback;
+                player.InstantCastService.Cast(
                     abilityReference,
                     player.TargetFinder.TargetPosition,
                     subject => abilityFeedbackSubscription = subject.Subscribe(AbilityFeedbackSubscription),
                     player.TargetFinder.Target
                 );
-                nextStatus = CastingStatus.Cooldown;
                 break;
             case AbilityType.Channel:
-                abilityCast = player.ChannelService.StartChannel(
+                CastingStatus = direction == Direction.Left
+                    ? CastingStatus.ChannelingLeft
+                    : CastingStatus.ChannelingRight;
+                player.ChannelService.StartChannel(
                     abilityReference,
                     subject => abilityFeedbackSubscription = subject.Subscribe(AbilityFeedbackSubscription)
                 );
-                nextStatus = direction == Direction.Left
-                    ? CastingStatus.ChannelingLeft
-                    : CastingStatus.ChannelingRight;
                 break;
         }
 
-        if (!abilityCast)
+        if (CastingStatus == CastingStatus.AwaitingFeedback)
         {
-            player.PlayWhiffSound();
-            return;
-        }
-
-        CastingStatus = nextStatus;
-        remainingAbilityCooldown = cooldownDuringCombo;
-        if (abilityTimeout != null)
-        {
-            player.StopCoroutine(abilityTimeout);
+            StartFeedbackTimer();
         }
     }
 
     private void AbilityFeedbackSubscription(bool successful)
     {
         abilityFeedbackSubscription.Unsubscribe();
+
+        StopFeedbackTimer();
+
+        feedbackRecieved = true;
+
+        if (CastingStatus == CastingStatus.AwaitingFeedback)
+        {
+            CastingStatus = CastingStatus.Cooldown;
+        }
+
+        currentCooldownPeriod = successful
+            ? cooldownDuringCombo
+            : cooldownAfterCombo;
+
+        remainingAbilityCooldown = currentCooldownPeriod;
+
         whiffed = !successful;
         if (whiffed) player.PlayWhiffSound();
+
         AbilityCompletionSubject.Next(
             new Tuple<bool, Direction>(successful, lastCastDirection)
         );

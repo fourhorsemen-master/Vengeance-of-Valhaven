@@ -60,6 +60,15 @@ public class ControlMatrix
             )
         },
         {
+            CastingStatus.AwaitingFeedback,
+            new Layer(
+                new Row(CastingCommand.None),
+                new Row(CastingCommand.None),
+                new Row(CastingCommand.None),
+                new Row(CastingCommand.None)
+            )
+        },
+        {
             CastingStatus.Ready,
             new Layer(
                 new Row(
