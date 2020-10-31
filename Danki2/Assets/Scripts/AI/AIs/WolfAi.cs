@@ -23,6 +23,14 @@ public class WolfAi : Ai
     [SerializeField] private float retreatTime = 0;
     [SerializeField] private int firstRetreatHealth = 0;
     [SerializeField] private int secondRetreatHealth = 0;
+
+    [Header("Attack")]
+    [SerializeField] private float followDistance = 0;
+    [SerializeField] private float biteRange = 0;
+    [SerializeField] private float biteCooldown = 0;
+    [SerializeField] private float pounceMinRange = 0;
+    [SerializeField] private float pounceMaxRange = 0;
+    [SerializeField] private float pounceCooldown = 0;
     
     [Header("Evade")]
     [SerializeField] private float minCircleDistance = 0;
@@ -42,6 +50,26 @@ public class WolfAi : Ai
 
         float circleDistance = (minCircleDistance + maxCircleDistance) / 2;
 
+        IAiComponent attackStateMachine = new AiStateMachine<AttackState>(AttackState.Reposition)
+            .WithComponent(AttackState.Reposition, new MoveTowardsAtDistance(wolf, player, followDistance))
+            .WithComponent(AttackState.Bite, new WolfBite(wolf))
+            .WithComponent(AttackState.Pounce, new WolfPounce(wolf, player))
+            .WithTransition(
+                AttackState.Reposition,
+                AttackState.Bite,
+                new IfAllTrigger(new IfDistanceLessThan(wolf, player, biteRange), new IfTimeElapsed(biteCooldown))
+            )
+            .WithTransition(AttackState.Bite, AttackState.Reposition, new IfWolfBiteDone(wolf))
+            .WithTransition(
+                AttackState.Reposition,
+                AttackState.Pounce,
+                new IfAllTrigger(
+                    new IfDistanceGreaterThan(wolf, player, pounceMinRange),
+                    new IfDistanceLessThan(wolf, player, pounceMaxRange),
+                    new IfTimeElapsed(pounceCooldown))
+            )
+            .WithTransition(AttackState.Pounce, AttackState.Reposition, new IfWolfPounceDone(wolf));
+
         IAiComponent evadeStateMachine = new AiStateMachine<EvadeState>(EvadeState.Circle)
             .WithComponent(EvadeState.Circle, new Circle(wolf, player))
             .WithComponent(EvadeState.MoveTowards, new MoveTowards(wolf, player))
@@ -53,7 +81,7 @@ public class WolfAi : Ai
 
         IAiComponent engageStateMachine = new AiStateMachine<EngageState>(EngageState.Howl)
             .WithComponent(EngageState.Howl, new WolfHowl(wolf))
-            .WithComponent(EngageState.Attack, new WolfAttack())
+            .WithComponent(EngageState.Attack, attackStateMachine)
             .WithComponent(EngageState.Evade, evadeStateMachine)
             .WithComponent(EngageState.Retreat, new MoveAway(wolf, player))
             .WithTransition(EngageState.Howl, EngageState.Attack, new IfAnything())
@@ -83,6 +111,13 @@ public class WolfAi : Ai
     {
         StandStill,
         RandomMovement
+    }
+
+    private enum AttackState
+    {
+        Reposition,
+        Bite,
+        Pounce
     }
 
     private enum EvadeState

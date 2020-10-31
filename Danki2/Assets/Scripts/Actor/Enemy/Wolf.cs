@@ -14,7 +14,8 @@ public class Wolf : Enemy
     public override ActorType Type => ActorType.Wolf;
 
     public Subject OnHowl { get; } = new Subject();
-    public Subject OnAttack { get; } = new Subject();
+    public Subject OnBite { get; } = new Subject();
+    public Subject OnPounce { get; } = new Subject();
 
     public void Bite()
     {
@@ -22,17 +23,17 @@ public class Wolf : Enemy
             biteDelay,
             AbilityReference.Bite,
             () => transform.position + transform.forward,
-            () => OnAttack.Next()
+            () => OnBite.Next()
         );
     }
 
-    public void Pounce()
+    public void Pounce(Vector3 target)
     {
         WaitAndCast(
             pounceDelay,
             AbilityReference.Pounce,
-            () => Target.transform.position + (transform.position - Target.transform.position).normalized,
-            () => OnAttack.Next()
+            () => target + (transform.position - target).normalized,
+            () => OnPounce.Next()
         );
     }
 
@@ -41,37 +42,4 @@ public class Wolf : Enemy
         howl.Play();
         OnHowl.Next();
     }
-
-    // public void GetAttention(Player player)
-    // {
-    //     if (attentionCoroutine != null) return;
-    //
-    //     MovementManager.StopPathfinding();
-    //     MovementManager.Watch(player.transform);
-    //     attentionCoroutine = this.WaitAndAct(agroTime, () =>
-    //     {
-    //         FindTarget(player);
-    //     });
-    // }
-
-    // public void LoseAttention()
-    // {
-    //     if (attentionCoroutine != null)
-    //     {
-    //         StopCoroutine(attentionCoroutine);
-    //         attentionCoroutine = null;
-    //     }
-    // }
-
-    // public void FindTarget(Player player)
-    // {
-    //     if (attentionCoroutine != null)
-    //     {
-    //         StopCoroutine(attentionCoroutine);
-    //     }
-    //     
-    //     Target = player;
-    //     Howl();
-    //     OnHowl.Next();
-    // }
 }

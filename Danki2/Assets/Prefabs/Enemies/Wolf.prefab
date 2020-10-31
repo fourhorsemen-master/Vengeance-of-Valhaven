@@ -468,22 +468,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wolf: {fileID: -1347520900970919038}
+  noticeDistance: 5
+  noticeTime: 3
+  engageDistance: 2
+  howlHearingRange: 10
   minStillTime: 1
   maxStillTime: 3
   minMovementTime: 1
   maxMovementTime: 2
-  minCircleDistance: 2
-  maxCircleDistance: 5
   minAttacks: 2
   maxAttacks: 4
   evadeTime: 3
   retreatTime: 3
   firstRetreatHealth: 14
   secondRetreatHealth: 9
-  noticeDistance: 5
-  noticeTime: 3
-  engageDistance: 2
-  howlHearingRange: 10
+  followDistance: 2
+  biteRange: 3
+  biteCooldown: 3
+  pounceMinRange: 5
+  pounceMaxRange: 10
+  pounceCooldown: 3
+  minCircleDistance: 2
+  maxCircleDistance: 5
 --- !u!82 &-3268726625634297962
 AudioSource:
   m_ObjectHideFlags: 0

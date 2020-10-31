@@ -213,7 +213,7 @@ public class IfRandomWolfAttackCount : IAiTrigger
 
     private int attacks;
     private int requiredAttacks;
-    private Subscription attackSubscription;
+    private readonly List<Subscription> attackSubscriptions = new List<Subscription>();
 
     public IfRandomWolfAttackCount(Wolf wolf, int minAttacks, int maxAttacks)
     {
@@ -226,16 +226,76 @@ public class IfRandomWolfAttackCount : IAiTrigger
     {
         attacks = 0;
         requiredAttacks = Random.Range(minAttacks, maxAttacks + 1);
-        attackSubscription = wolf.OnAttack.Subscribe(() => attacks++);
+        attackSubscriptions.Add(wolf.OnBite.Subscribe(() => attacks++));
+        attackSubscriptions.Add(wolf.OnPounce.Subscribe(() => attacks++));
     }
 
     public void Deactivate()
     {
-        attackSubscription.Unsubscribe();
+        attackSubscriptions.ForEach(s => s.Unsubscribe());
+        attackSubscriptions.Clear();
     }
 
     public bool Triggers()
     {
         return attacks >= requiredAttacks;
+    }
+}
+
+public class IfWolfBiteDone : IAiTrigger
+{
+    private readonly Wolf wolf;
+
+    private bool biteDone;
+    private Subscription biteSubscription;
+
+    public IfWolfBiteDone(Wolf wolf)
+    {
+        this.wolf = wolf;
+    }
+
+    public void Activate()
+    {
+        biteDone = false;
+        biteSubscription = wolf.OnBite.Subscribe(() => biteDone = true);
+    }
+
+    public void Deactivate()
+    {
+        biteSubscription.Unsubscribe();
+    }
+
+    public bool Triggers()
+    {
+        return biteDone;
+    }
+}
+
+public class IfWolfPounceDone : IAiTrigger
+{
+    private readonly Wolf wolf;
+
+    private bool pounceDone;
+    private Subscription pounceSubscription;
+
+    public IfWolfPounceDone(Wolf wolf)
+    {
+        this.wolf = wolf;
+    }
+
+    public void Activate()
+    {
+        pounceDone = false;
+        pounceSubscription = wolf.OnPounce.Subscribe(() => pounceDone = true);
+    }
+
+    public void Deactivate()
+    {
+        pounceSubscription.Unsubscribe();
+    }
+
+    public bool Triggers()
+    {
+        return pounceDone;
     }
 }
