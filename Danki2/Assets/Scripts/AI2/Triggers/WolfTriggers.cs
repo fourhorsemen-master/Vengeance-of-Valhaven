@@ -172,14 +172,14 @@ public class IfTakenDamage : IAiTrigger
     }
 }
 
-public class IfHealthGoesLessThan : IAiTrigger
+public class IfHealthGoesBelow : IAiTrigger
 {
     private readonly Actor actor;
     private readonly int threshold;
     
     private bool canTrigger;
 
-    public IfHealthGoesLessThan(Actor actor, int threshold)
+    public IfHealthGoesBelow(Actor actor, int threshold)
     {
         this.actor = actor;
         this.threshold = threshold;

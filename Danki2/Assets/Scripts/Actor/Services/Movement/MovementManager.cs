@@ -126,6 +126,12 @@ public class MovementManager : IMovementStatusProvider
         watching = true;
     }
 
+    public void ClearWatch()
+    {
+        watchTarget = null;
+        watching = false;
+    }
+
     /// <summary>
     /// Snap rotate the actor to face the position.
     /// </summary>
@@ -219,12 +225,6 @@ public class MovementManager : IMovementStatusProvider
         {
             navMeshAgent.Move(movementLockDirection * (Time.deltaTime * movementLockSpeed));
         }
-    }
-
-    private void ClearWatch()
-    {
-        watchTarget = null;
-        watching = false;
     }
 
     private void RotateTowards(Vector3 direction)

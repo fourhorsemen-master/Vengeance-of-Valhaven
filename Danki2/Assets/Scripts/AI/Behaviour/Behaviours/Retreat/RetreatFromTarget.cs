@@ -1,5 +1,5 @@
 ﻿[Behaviour("Retreat From Target", new string[0], new AIAction[] { AIAction.Retreat })]
-public class RetreatFromTarget : Behaviour
+public class RetreatFromTarget2 : Behaviour
 {
     public override void Behave(Actor actor)
     {
