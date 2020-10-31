@@ -28,13 +28,13 @@ public class WolfAi : Ai2
 
     protected override IAiComponent BuildAiComponent()
     {
-        IAiComponent patrolStateMachine = new AiFiniteStateMachine<PatrolState>(PatrolState.Still)
+        IAiComponent patrolStateMachine = new AiStateMachine<PatrolState>(PatrolState.Still)
             .WithComponent(PatrolState.Still, new WolfStill())
             .WithComponent(PatrolState.RandomMovement, new WolfRandomMovement())
             .WithTransition(PatrolState.Still, PatrolState.RandomMovement, new IfRandomTimeElapsed(minStillTime, maxStillTime))
             .WithTransition(PatrolState.RandomMovement, PatrolState.Still, new IfRandomTimeElapsed(minMovementTime, maxMovementTime));
 
-        IAiComponent engageStateMachine = new AiFiniteStateMachine<EngageState>(EngageState.Howl)
+        IAiComponent engageStateMachine = new AiStateMachine<EngageState>(EngageState.Howl)
             .WithComponent(EngageState.Howl, new WolfHowl())
             .WithComponent(EngageState.Attack, new WolfAttack2())
             .WithComponent(EngageState.Evade, new WolfEvade())
@@ -47,7 +47,7 @@ public class WolfAi : Ai2
 
         Player player = RoomManager.Instance.Player;
 
-        return new AiFiniteStateMachine<State>(State.Patrol)
+        return new AiStateMachine<State>(State.Patrol)
             .WithComponent(State.Patrol, patrolStateMachine)
             .WithComponent(State.Notice, new WolfNotice())
             .WithComponent(State.Engage, engageStateMachine)
