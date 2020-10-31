@@ -29,6 +29,9 @@ public class HealthManager
         {
             Health = Math.Min(Health, MaxHealth);
         });
+
+        TickDamageSubject.Subscribe(_ => DamageSubject.Next());
+        ModifiedDamageSubject.Subscribe(_ => DamageSubject.Next());
     }
 
     public void TickDamage(int damage)
@@ -44,7 +47,6 @@ public class HealthManager
         }
 
         ModifyHealth(-damage);
-        DamageSubject.Next();
         TickDamageSubject.Next(damage);
     }
 
@@ -65,7 +67,6 @@ public class HealthManager
         }
 
         ModifyHealth(-damage);
-        DamageSubject.Next();
         ModifiedDamageSubject.Next(new DamageData(damage, source));
 
         actor.InterruptionManager.Interrupt(InterruptionType.Soft);

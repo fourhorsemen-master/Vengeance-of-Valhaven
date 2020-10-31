@@ -6,7 +6,6 @@ public class IfRandomTimeElapsed : IAiTrigger
     private readonly float minTime;
     private readonly float maxTime;
 
-    private float startTime;
     private float requiredTime;
 
     public IfRandomTimeElapsed(float minTime, float maxTime)
@@ -17,16 +16,39 @@ public class IfRandomTimeElapsed : IAiTrigger
 
     public void Activate()
     {
-        startTime = Time.time;
-        requiredTime = Random.Range(minTime, maxTime + 1);
-    }
-
-    public bool Triggers()
-    {
-        return Time.time - startTime >= requiredTime;
+        requiredTime = Time.time + Random.Range(minTime, maxTime);
     }
 
     public void Deactivate() {}
+
+    public bool Triggers()
+    {
+        return Time.time >= requiredTime;
+    }
+}
+
+public class IfTimeElapsed : IAiTrigger
+{
+    private readonly float time;
+
+    private float requiredTime;
+
+    public IfTimeElapsed(float time)
+    {
+        this.time = time;
+    }
+
+    public void Activate()
+    {
+        requiredTime = Time.time + time;
+    }
+
+    public void Deactivate() {}
+
+    public bool Triggers()
+    {
+        return Time.time >= requiredTime;
+    }
 }
 
 public class IfDistanceLessThan : IAiTrigger
@@ -44,12 +66,12 @@ public class IfDistanceLessThan : IAiTrigger
 
     public void Activate() {}
 
+    public void Deactivate() {}
+
     public bool Triggers()
     {
-        return Vector3.Distance(actor1.Centre, actor2.Centre) < distance;
+        return Vector3.Distance(actor1.transform.position, actor2.transform.position) < distance;
     }
-
-    public void Deactivate() {}
 }
 
 public class IfDistanceGreaterThan : IAiTrigger
@@ -67,48 +89,24 @@ public class IfDistanceGreaterThan : IAiTrigger
 
     public void Activate() {}
 
-    public bool Triggers()
-    {
-        return Vector3.Distance(actor1.Centre, actor2.Centre) > distance;
-    }
-
     public void Deactivate() {}
-}
-
-public class IfTimeGreaterThan : IAiTrigger
-{
-    private readonly float requiredTime;
-
-    private float startTime;
-
-    public IfTimeGreaterThan(float requiredTime)
-    {
-        this.requiredTime = requiredTime;
-    }
-
-    public void Activate()
-    {
-        startTime = Time.time;
-    }
 
     public bool Triggers()
     {
-        return Time.time - startTime >= requiredTime;
+        return Vector3.Distance(actor1.transform.position, actor2.transform.position) > distance;
     }
-
-    public void Deactivate() {}
 }
 
-public class IfHearsHowl : IAiTrigger
+public class IfHeardHowl : IAiTrigger
 {
     private readonly Actor actor;
     private readonly float range;
 
-    private readonly List<Subscription<Wolf>> howlSubscriptions = new List<Subscription<Wolf>>();
+    private readonly List<Subscription> howlSubscriptions = new List<Subscription>();
 
-    private bool heardHowl = false;
+    private bool heardHowl;
 
-    public IfHearsHowl(Actor actor, float range)
+    public IfHeardHowl(Actor actor, float range)
     {
         this.actor = actor;
         this.range = range;
@@ -116,59 +114,61 @@ public class IfHearsHowl : IAiTrigger
 
     public void Activate()
     {
+        heardHowl = false;
+        
         RoomManager.Instance.ActorCache.ForEach(actorCacheItem =>
         {
             if (actorCacheItem.Actor.Equals(actor)) return;
             if (actorCacheItem.Actor.Type != ActorType.Wolf) return;
 
-            howlSubscriptions.Add(((Wolf) actorCacheItem.Actor).OnHowl.Subscribe(wolf =>
+            Wolf wolf = (Wolf) actorCacheItem.Actor;
+            howlSubscriptions.Add(wolf.OnHowl.Subscribe(() =>
             {
-                heardHowl = heardHowl || Vector3.Distance(actor.Centre, wolf.Centre) <= range;
+                heardHowl = heardHowl || Vector3.Distance(actor.transform.position, wolf.transform.position) <= range;
             }));
         });
-    }
-
-    public bool Triggers()
-    {
-        return heardHowl;
     }
 
     public void Deactivate()
     {
         howlSubscriptions.ForEach(s => s.Unsubscribe());
         howlSubscriptions.Clear();
-        heardHowl = false;
+    }
+
+    public bool Triggers()
+    {
+        return heardHowl;
     }
 }
 
-public class IfTakesDamage : IAiTrigger
+public class IfTakenDamage : IAiTrigger
 {
     private readonly Actor actor;
-    
+
+    private bool takenDamage;
     private Subscription damageSubscription;
 
-    private bool takenDamage = false;
-
-    public IfTakesDamage(Actor actor)
+    public IfTakenDamage(Actor actor)
     {
         this.actor = actor;
     }
 
     public void Activate()
     {
+        takenDamage = false;
+
         damageSubscription = actor.HealthManager.DamageSubject
             .Subscribe(() => takenDamage = true);
-    }
-
-    public bool Triggers()
-    {
-        return takenDamage;
     }
 
     public void Deactivate()
     {
         damageSubscription.Unsubscribe();
-        takenDamage = false;
+    }
+
+    public bool Triggers()
+    {
+        return takenDamage;
     }
 }
 
@@ -177,7 +177,6 @@ public class IfHealthGoesLessThan : IAiTrigger
     private readonly Actor actor;
     private readonly int threshold;
     
-    private int initialHealth;
     private bool canTrigger;
 
     public IfHealthGoesLessThan(Actor actor, int threshold)
@@ -188,36 +187,35 @@ public class IfHealthGoesLessThan : IAiTrigger
 
     public void Activate()
     {
-        initialHealth = actor.HealthManager.Health;
-        canTrigger = initialHealth >= threshold;
+        canTrigger = actor.HealthManager.Health >= threshold;
     }
+
+    public void Deactivate() {}
 
     public bool Triggers()
     {
         return canTrigger && actor.HealthManager.Health < threshold;
     }
-
-    public void Deactivate() {}
 }
 
-public class InstantTrigger : IAiTrigger
+public class IfAnything : IAiTrigger
 {
     public void Activate() {}
-    public bool Triggers() => true;
     public void Deactivate() {}
+    public bool Triggers() => true;
 }
 
-public class IfAttacksGreaterThanRandom : IAiTrigger
+public class IfRandomWolfAttackCount : IAiTrigger
 {
     private readonly Wolf wolf;
     private readonly int minAttacks;
     private readonly int maxAttacks;
 
+    private int attacks;
     private int requiredAttacks;
-    private int attacks = 0;
     private Subscription attackSubscription;
 
-    public IfAttacksGreaterThanRandom(Wolf wolf, int minAttacks, int maxAttacks)
+    public IfRandomWolfAttackCount(Wolf wolf, int minAttacks, int maxAttacks)
     {
         this.wolf = wolf;
         this.minAttacks = minAttacks;
@@ -226,18 +224,18 @@ public class IfAttacksGreaterThanRandom : IAiTrigger
 
     public void Activate()
     {
-        requiredAttacks = Random.Range(minAttacks, maxAttacks + 1);
         attacks = 0;
+        requiredAttacks = Random.Range(minAttacks, maxAttacks + 1);
         attackSubscription = wolf.OnAttack.Subscribe(() => attacks++);
-    }
-
-    public bool Triggers()
-    {
-        return attacks >= requiredAttacks;
     }
 
     public void Deactivate()
     {
         attackSubscription.Unsubscribe();
+    }
+
+    public bool Triggers()
+    {
+        return attacks >= requiredAttacks;
     }
 }

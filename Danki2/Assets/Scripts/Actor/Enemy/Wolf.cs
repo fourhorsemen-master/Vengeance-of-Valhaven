@@ -27,7 +27,7 @@ public class Wolf : Enemy
 
     private Coroutine attentionCoroutine;
 
-    public Subject<Wolf> OnHowl { get; } = new Subject<Wolf>();
+    public Subject OnHowl { get; } = new Subject();
     public Subject OnAttack { get; } = new Subject();
 
     protected override void Start()
@@ -42,16 +42,16 @@ public class Wolf : Enemy
 
             if (wolf.Equals(this)) return;
 
-            wolf.OnHowl.Subscribe(other =>
+            wolf.OnHowl.Subscribe(() =>
             {
                 float distance = Vector3.Distance(
                     transform.position,
-                    other.transform.position
+                    wolf.transform.position
                 );
 
                 if (distance < HowlRange)
                 {
-                    Target = other.Target;
+                    Target = wolf.Target;
                     Howl();
                 }
             });
@@ -146,7 +146,7 @@ public class Wolf : Enemy
         
         Target = player;
         Howl();
-        OnHowl.Next(this);
+        OnHowl.Next();
     }
 
     private void Howl()

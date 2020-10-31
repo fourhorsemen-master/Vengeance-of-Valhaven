@@ -5,12 +5,12 @@
         throw new System.NotImplementedException();
     }
 
-    public void Update()
+    public void Exit()
     {
         throw new System.NotImplementedException();
     }
 
-    public void Exit()
+    public void Update()
     {
         throw new System.NotImplementedException();
     }
@@ -23,12 +23,12 @@ public class WolfStill : IAiComponent
         throw new System.NotImplementedException();
     }
 
-    public void Update()
+    public void Exit()
     {
         throw new System.NotImplementedException();
     }
 
-    public void Exit()
+    public void Update()
     {
         throw new System.NotImplementedException();
     }
@@ -41,12 +41,12 @@ public class WolfRandomMovement : IAiComponent
         throw new System.NotImplementedException();
     }
 
-    public void Update()
+    public void Exit()
     {
         throw new System.NotImplementedException();
     }
 
-    public void Exit()
+    public void Update()
     {
         throw new System.NotImplementedException();
     }
@@ -59,12 +59,12 @@ public class WolfHowl : IAiComponent
         throw new System.NotImplementedException();
     }
 
-    public void Update()
+    public void Exit()
     {
         throw new System.NotImplementedException();
     }
 
-    public void Exit()
+    public void Update()
     {
         throw new System.NotImplementedException();
     }
@@ -77,12 +77,12 @@ public class WolfAttack2 : IAiComponent
         throw new System.NotImplementedException();
     }
 
-    public void Update()
+    public void Exit()
     {
         throw new System.NotImplementedException();
     }
 
-    public void Exit()
+    public void Update()
     {
         throw new System.NotImplementedException();
     }
@@ -95,12 +95,12 @@ public class WolfEvade : IAiComponent
         throw new System.NotImplementedException();
     }
 
-    public void Update()
+    public void Exit()
     {
         throw new System.NotImplementedException();
     }
 
-    public void Exit()
+    public void Update()
     {
         throw new System.NotImplementedException();
     }
@@ -113,12 +113,12 @@ public class WolfRetreat : IAiComponent
         throw new System.NotImplementedException();
     }
 
-    public void Update()
+    public void Exit()
     {
         throw new System.NotImplementedException();
     }
 
-    public void Exit()
+    public void Update()
     {
         throw new System.NotImplementedException();
     }

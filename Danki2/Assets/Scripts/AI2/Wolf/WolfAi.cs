@@ -39,10 +39,10 @@ public class WolfAi : Ai2
             .WithComponent(EngageState.Attack, new WolfAttack2())
             .WithComponent(EngageState.Evade, new WolfEvade())
             .WithComponent(EngageState.Retreat, new WolfRetreat())
-            .WithTransition(EngageState.Howl, EngageState.Attack, new InstantTrigger())
-            .WithTransition(EngageState.Attack, EngageState.Evade, new IfAttacksGreaterThanRandom(wolf, minAttacks, maxAttacks))
-            .WithTransition(EngageState.Evade, EngageState.Attack, new IfTimeGreaterThan(evadeTime))
-            .WithTransition(EngageState.Retreat, EngageState.Howl, new IfTimeGreaterThan(retreatTime))
+            .WithTransition(EngageState.Howl, EngageState.Attack, new IfAnything())
+            .WithTransition(EngageState.Attack, EngageState.Evade, new IfRandomWolfAttackCount(wolf, minAttacks, maxAttacks))
+            .WithTransition(EngageState.Evade, EngageState.Attack, new IfTimeElapsed(evadeTime))
+            .WithTransition(EngageState.Retreat, EngageState.Howl, new IfTimeElapsed(retreatTime))
             .WithGlobalTransition(EngageState.Retreat, new IfHealthGoesLessThan(wolf, firstRetreatHealth), new IfHealthGoesLessThan(wolf, secondRetreatHealth));
 
         Player player = RoomManager.Instance.Player;
@@ -53,8 +53,8 @@ public class WolfAi : Ai2
             .WithComponent(State.Engage, engageStateMachine)
             .WithTransition(State.Patrol, State.Notice, new IfDistanceLessThan(wolf, player, noticeDistance))
             .WithTransition(State.Notice, State.Patrol, new IfDistanceGreaterThan(wolf, player, noticeDistance))
-            .WithTransition(State.Notice, State.Engage, new IfTimeGreaterThan(noticeTime), new IfDistanceLessThan(wolf, player, engageDistance))
-            .WithGlobalTransition(State.Engage, new IfHearsHowl(wolf, howlHearingRange), new IfTakesDamage(wolf));
+            .WithTransition(State.Notice, State.Engage, new IfTimeElapsed(noticeTime), new IfDistanceLessThan(wolf, player, engageDistance))
+            .WithGlobalTransition(State.Engage, new IfHeardHowl(wolf, howlHearingRange), new IfTakenDamage(wolf));
     }
 
     private enum State
