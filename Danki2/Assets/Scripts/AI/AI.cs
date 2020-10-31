@@ -1,40 +1,28 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class AI : MonoBehaviour
+public abstract class Ai : MonoBehaviour
 {
-    [SerializeField]
-    private Actor actor = null;
-
-    [HideInInspector]
-    public SerializablePlanner serializablePlanner = new SerializablePlanner();
-
-    [HideInInspector]
-    public SerializablePersonality serializablePersonality = new SerializablePersonality(() => new SerializableBehaviour());
-
-    private Agenda agenda = new Agenda();
+    protected abstract Actor Actor { get; }
+    
+    private IAiComponent aiComponent;
 
     private void Start()
     {
-        serializablePlanner.AiElement.OnStart(actor);
-        EnumUtils.ForEach<AIAction>(action =>
-        {
-            serializablePersonality[action].AiElement.OnStart(actor);
-        });
+        aiComponent = BuildAiComponent();
+        aiComponent.Enter();
+        Actor.DeathSubject.Subscribe(OnDeath);
     }
 
     private void Update()
     {
-        if (actor.Dead) return;
-
-        agenda = serializablePlanner.AiElement.Plan(actor, agenda);
-
-        foreach (AIAction action in agenda.Keys)
-        {
-            if (agenda[action])
-            {
-                serializablePersonality[action].AiElement.Behave(actor);
-            }
-        }
+        aiComponent.Update();
     }
+
+    private void OnDeath()
+    {
+        aiComponent.Exit();
+        enabled = false;
+    }
+
+    protected abstract IAiComponent BuildAiComponent();
 }

@@ -1,18 +1,20 @@
 ﻿using UnityEngine;
 
-public class WolfAi : Ai2
+public class WolfAi : Ai
 {
     [SerializeField] private Wolf wolf = null;
+    
+    [Header("Overarching")]
+    [SerializeField] private float noticeDistance = 0;
+    [SerializeField] private float noticeTime = 0;
+    [SerializeField] private float engageDistance = 0;
+    [SerializeField] private float howlHearingRange = 0;
 
     [Header("Patrol")]
     [SerializeField] private float minStillTime = 0;
     [SerializeField] private float maxStillTime = 0;
     [SerializeField] private float minMovementTime = 0;
     [SerializeField] private float maxMovementTime = 0;
-    
-    [Header("Evade")]
-    [SerializeField] private float minCircleDistance = 0;
-    [SerializeField] private float maxCircleDistance = 0;
 
     [Header("Engage")]
     [SerializeField] private int minAttacks = 0;
@@ -22,11 +24,9 @@ public class WolfAi : Ai2
     [SerializeField] private int firstRetreatHealth = 0;
     [SerializeField] private int secondRetreatHealth = 0;
     
-    [Header("Overarching")]
-    [SerializeField] private float noticeDistance = 0;
-    [SerializeField] private float noticeTime = 0;
-    [SerializeField] private float engageDistance = 0;
-    [SerializeField] private float howlHearingRange = 0;
+    [Header("Evade")]
+    [SerializeField] private float minCircleDistance = 0;
+    [SerializeField] private float maxCircleDistance = 0;
 
     protected override Actor Actor => wolf;
 
@@ -53,7 +53,7 @@ public class WolfAi : Ai2
 
         IAiComponent engageStateMachine = new AiStateMachine<EngageState>(EngageState.Howl)
             .WithComponent(EngageState.Howl, new WolfHowl(wolf))
-            .WithComponent(EngageState.Attack, new WolfAttack2())
+            .WithComponent(EngageState.Attack, new WolfAttack())
             .WithComponent(EngageState.Evade, evadeStateMachine)
             .WithComponent(EngageState.Retreat, new MoveAway(wolf, player))
             .WithTransition(EngageState.Howl, EngageState.Attack, new IfAnything())

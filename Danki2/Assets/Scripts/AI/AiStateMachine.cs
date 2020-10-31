@@ -96,10 +96,12 @@ public class AiStateMachine<TState> : IAiComponent where TState : Enum
 
     private void Transition(TState toState)
     {
+        DeactivateGlobalTriggers();
         DeactivateLocalTriggers();
         components[currentState].Exit();
 
         currentState = toState;
+        ActivateGlobalTriggers();
         ActivateLocalTriggers();
         components[currentState].Enter();
     }
