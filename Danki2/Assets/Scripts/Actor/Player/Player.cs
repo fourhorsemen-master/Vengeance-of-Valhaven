@@ -4,33 +4,23 @@ public class Player : Actor
 {
     public override ActorType Type => ActorType.Player;
 
-    // Ability tree settings
-    [HideInInspector]
-    public float cooldownDuringCombo = 0.75f;
-    [HideInInspector]
-    public float cooldownAfterCombo = 1.5f;
-    [HideInInspector]
-    public float comboTimeout = 2f;
-    [HideInInspector]
-    public float feedbackTimeout = 1f;
-    [HideInInspector]
-    public bool rollResetsCombo = false;
+    [Header("Ability tree")]
+    [SerializeField] private float cooldownDuringCombo = 0.75f;
+    [SerializeField] private float cooldownAfterCombo = 1.5f;
+    [SerializeField] private float comboTimeout = 2f;
+    [SerializeField] private float feedbackTimeout = 1f;
+    [SerializeField] private bool rollResetsCombo = false;
 
-    // Roll settings
-    [HideInInspector]
-    public float totalRollCooldown = 1f;
-    [HideInInspector]
-    public float rollDuration = 0.3f;
-    [HideInInspector]
-    public float rollSpeedMultiplier = 2f;
+    [Header("Roll")]
+    [SerializeField] private float totalRollCooldown = 1f;
+    [SerializeField] private float rollDuration = 0.3f;
+    [SerializeField] private float rollSpeedMultiplier = 2f;
+
+    [Header("Audio")]
+    [SerializeField] private AudioSource whiffAudio = null;
+    [SerializeField] private AudioSource rollAudio = null;
 
     private float remainingRollCooldown = 0f;
-
-    // Components
-    [SerializeField]
-    private AudioSource whiffAudio = null;
-    [SerializeField]
-    private AudioSource rollAudio = null;
 
     // Services
     public AbilityTree AbilityTree { get; private set; }    
@@ -54,7 +44,13 @@ public class Player : Actor
 
         RegisterAbilityDataDiffer(new AbilityDataOrbsDiffer(AbilityTree));
         SetAbilityBonusCalculator(new AbilityBonusOrbsCalculator(AbilityTree));
-        AbilityManager = new AbilityManager(this, updateSubject, lateUpdateSubject);
+
+        AbilityManager = new AbilityManager(
+            this,
+            updateSubject,
+            lateUpdateSubject,
+            new AbilityManagerSettings(comboTimeout, feedbackTimeout, cooldownDuringCombo, cooldownAfterCombo, rollResetsCombo)   
+        );
         TargetFinder = new PlayerTargetFinder(this, updateSubject);
     }
 

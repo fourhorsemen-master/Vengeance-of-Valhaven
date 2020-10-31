@@ -4,10 +4,12 @@ using UnityEngine;
 public class AbilityManager
 {
 	private readonly Player player;
-    private readonly float comboTimeout;
+
     private readonly float feedbackTimeout;
     private readonly float cooldownDuringCombo;
     private readonly float cooldownAfterCombo;
+    public float ComboTimeout { get; private set; }
+
     private float currentCooldownPeriod = 1f;
     private float remainingAbilityCooldown = 0f;
 
@@ -23,15 +25,15 @@ public class AbilityManager
     public CastingStatus CastingStatus { get; private set; } = CastingStatus.Ready;
     public Subject<Tuple<bool, Direction>> AbilityCompletionSubject { get; } = new Subject<Tuple<bool, Direction>>();
 
-    public AbilityManager(Player player, Subject updateSubject, Subject lateUpdateSubject)
+    public AbilityManager(Player player, Subject updateSubject, Subject lateUpdateSubject, AbilityManagerSettings settings)
 	{
 		this.player = player;
-        comboTimeout = player.comboTimeout;
-        feedbackTimeout = player.feedbackTimeout;
-        cooldownDuringCombo = player.cooldownDuringCombo;
-        cooldownAfterCombo = player.cooldownAfterCombo;
+        ComboTimeout = settings.ComboTimeout;
+        feedbackTimeout = settings.FeedbackTimeout;
+        cooldownDuringCombo = settings.CooldownDuringCombo;
+        cooldownAfterCombo = settings.CooldownAfterCombo;
 
-        if (player.rollResetsCombo)
+        if (settings.RollResetsCombo)
         {
             this.player.RollSubject.Subscribe(() => {
                 if (!player.AbilityTree.AtRoot) Whiff();
@@ -100,7 +102,7 @@ public class AbilityManager
 
             if (treeDepth > 0)
             {
-                abilityTimeout = player.WaitAndAct(comboTimeout, Whiff);
+                abilityTimeout = player.WaitAndAct(ComboTimeout, Whiff);
             }
         });
     }

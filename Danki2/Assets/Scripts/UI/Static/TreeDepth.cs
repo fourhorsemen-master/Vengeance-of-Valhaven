@@ -22,7 +22,7 @@ public class TreeDepth : MonoBehaviour
     private void Start()
     {
         this.player = RoomManager.Instance.Player;
-        this.abilityTimeOutLimit = this.player.comboTimeout;
+        this.abilityTimeOutLimit = this.player.AbilityManager.ComboTimeout;
 
         this.player.AbilityTree.CurrentDepthSubject.Subscribe(newDepth =>
         {
