@@ -44,15 +44,13 @@ public class AiStateMachine<TState> : IAiComponent where TState : Enum
     public void Enter()
     {
         currentState = initialState;
-        ActivateGlobalTriggers();
-        ActivateLocalTriggers();
+        ActivateTriggers();
         components[currentState].Enter();
     }
 
     public void Exit()
     {
-        DeactivateGlobalTriggers();
-        DeactivateLocalTriggers();
+        DeactivateTriggers();
         components[currentState].Exit();
     }
 
@@ -96,29 +94,29 @@ public class AiStateMachine<TState> : IAiComponent where TState : Enum
 
     private void Transition(TState toState)
     {
-        DeactivateGlobalTriggers();
-        DeactivateLocalTriggers();
+        DeactivateTriggers();
         components[currentState].Exit();
 
         currentState = toState;
-        ActivateGlobalTriggers();
-        ActivateLocalTriggers();
+        ActivateTriggers();
         components[currentState].Enter();
     }
 
-    private void ActivateLocalTriggers()
+    private void ActivateTriggers()
     {
+        ForEachGlobalTrigger(t => t.Activate());
         ForEachLocalTrigger(t => t.Activate());
     }
 
-    private void DeactivateLocalTriggers()
+    private void DeactivateTriggers()
     {
+        ForEachGlobalTrigger(t => t.Deactivate());
         ForEachLocalTrigger(t => t.Deactivate());
     }
 
-    private void ForEachLocalTrigger(Action<IAiTrigger> action)
+    private void ForEachGlobalTrigger(Action<IAiTrigger> action)
     {
-        foreach (ISet<IAiTrigger> triggers in localTriggers[currentState].Values)
+        foreach (ISet<IAiTrigger> triggers in globalTriggers.Values)
         {
             foreach (IAiTrigger trigger in triggers)
             {
@@ -127,19 +125,9 @@ public class AiStateMachine<TState> : IAiComponent where TState : Enum
         }
     }
 
-    private void ActivateGlobalTriggers()
+    private void ForEachLocalTrigger(Action<IAiTrigger> action)
     {
-        ForEachGlobalTrigger(t => t.Activate());
-    }
-
-    private void DeactivateGlobalTriggers()
-    {
-        ForEachGlobalTrigger(t => t.Deactivate());
-    }
-
-    private void ForEachGlobalTrigger(Action<IAiTrigger> action)
-    {
-        foreach (ISet<IAiTrigger> triggers in globalTriggers.Values)
+        foreach (ISet<IAiTrigger> triggers in localTriggers[currentState].Values)
         {
             foreach (IAiTrigger trigger in triggers)
             {
