@@ -112,8 +112,7 @@ public class AbilityManager
         whiffed = true;
         player.AbilityTree.Reset();
 
-        currentCooldownPeriod = cooldownAfterCombo;
-        remainingAbilityCooldown = currentCooldownPeriod;
+        ResetCooldown(cooldownAfterCombo);
 
         CastingStatus = CastingStatus.Cooldown;
     }
@@ -225,14 +224,25 @@ public class AbilityManager
             CastingStatus = CastingStatus.Cooldown;
         }
 
-        currentCooldownPeriod = successful
-            ? cooldownDuringCombo
-            : cooldownAfterCombo;
+        float cooldownTime = whiffed || ComboComplete()
+            ? cooldownAfterCombo
+            : cooldownDuringCombo;
 
-        remainingAbilityCooldown = currentCooldownPeriod;
+        ResetCooldown(cooldownTime);
 
         AbilityCompletionSubject.Next(
             new Tuple<bool, Direction>(successful, lastCastDirection)
         );
+    }
+
+    private bool ComboComplete()
+    {
+        return player.AbilityTree.WalkingEndsCombo(lastCastDirection);
+    }
+
+    private void ResetCooldown(float duration)
+    {
+        currentCooldownPeriod = duration;
+        remainingAbilityCooldown = duration;
     }
 }
