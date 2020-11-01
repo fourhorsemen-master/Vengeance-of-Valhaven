@@ -17,10 +17,13 @@ public class MoveInRandomDirection : IAiComponent
         direction = new Vector3(offset.x, 0f, offset.y);
     }
 
-    public void Exit() {}
+    public void Exit()
+    {
+        actor.MovementManager.StopPathfinding();
+    }
 
     public void Update()
     {
-        actor.MovementManager.Move(direction);
+        actor.MovementManager.StartPathfinding(actor.transform.position + direction);
     }
 }
