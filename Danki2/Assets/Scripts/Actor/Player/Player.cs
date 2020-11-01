@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class Player : Actor
 {
@@ -31,13 +32,24 @@ public class Player : Actor
     // Subjects
     public Subject RollSubject { get; } = new Subject();
 
+    private readonly ISet<AbilityReference> blockedAbilities = new HashSet<AbilityReference>
+    {
+        AbilityReference.Fireball,
+        AbilityReference.Pounce,
+        AbilityReference.Bite
+    };
+
+
     protected override void Awake()
     {
         base.Awake();
 
         EnumDictionary<AbilityReference, int> ownedAbilities = new EnumDictionary<AbilityReference, int>(0);
-        ownedAbilities[AbilityReference.Slash] = 1;
-        ownedAbilities[AbilityReference.FanOfKnives] = 1;
+        EnumUtils.ForEach<AbilityReference>(a =>
+        {
+            if (blockedAbilities.Contains(a)) return;
+            ownedAbilities[a] = 10;
+        });
 
         AbilityTree = AbilityTreeFactory.CreateTree(
             ownedAbilities,
