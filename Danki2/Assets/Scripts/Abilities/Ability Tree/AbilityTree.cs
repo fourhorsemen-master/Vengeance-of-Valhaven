@@ -73,6 +73,11 @@ public abstract class AbilityTree
         return _currentNode.Ability;
     }
 
+    public bool WalkingEndsCombo(Direction direction)
+    {
+        return _currentNode.HasChild(direction) && !_currentNode.GetChild(direction).IsParent;
+    }
+
     public void Reset()
     {
         _currentNode = RootNode;
