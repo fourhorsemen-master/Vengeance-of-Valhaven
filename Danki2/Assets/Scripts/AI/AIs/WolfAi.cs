@@ -54,11 +54,21 @@ public class WolfAi : Ai
             .WithComponent(AttackState.Reposition, new MoveTowardsAtDistance(wolf, player, followDistance))
             .WithComponent(AttackState.Bite, new WolfBite(wolf))
             .WithComponent(AttackState.Pounce, new WolfPounce(wolf, player))
-            .WithTransition(AttackState.Reposition, AttackState.Bite,
-                new AndTrigger(new DistanceLessThan(wolf, player, biteRange), new TimeElapsed(biteCooldown)))
+            .WithTransition(
+                AttackState.Reposition,
+                AttackState.Bite,
+                new AndTrigger(new DistanceLessThan(wolf, player, biteRange), new TimeElapsed(biteCooldown))
+            )
             .WithTransition(AttackState.Bite, AttackState.Reposition, new WolfBiteFinished(wolf))
-            .WithTransition(AttackState.Reposition, AttackState.Pounce,
-                new AndTrigger(new DistanceGreaterThan(wolf, player, pounceMinRange), new DistanceLessThan(wolf, player, pounceMaxRange), new TimeElapsed(pounceCooldown)))
+            .WithTransition(
+                AttackState.Reposition,
+                AttackState.Pounce,
+                new AndTrigger(
+                    new DistanceGreaterThan(wolf, player, pounceMinRange),
+                    new DistanceLessThan(wolf, player, pounceMaxRange),
+                    new TimeElapsed(pounceCooldown)
+                )
+            )
             .WithTransition(AttackState.Pounce, AttackState.Reposition, new WolfPounceFinished(wolf));
 
         IAiComponent evadeStateMachine = new AiStateMachine<EvadeState>(EvadeState.Circle)
@@ -79,8 +89,11 @@ public class WolfAi : Ai
             .WithTransition(EngageState.Attack, EngageState.Evade, new WolfRandomAttackCountReached(wolf, minAttacks, maxAttacks))
             .WithTransition(EngageState.Evade, EngageState.Attack, new TimeElapsed(evadeTime))
             .WithTransition(EngageState.Retreat, EngageState.Howl, new TimeElapsed(retreatTime))
-            .WithGlobalTransition(EngageState.Retreat,
-                new HealthGoesBelowProportion(wolf, firstRetreatHealthProportion), new HealthGoesBelowProportion(wolf, secondRetreatHealthProportion));
+            .WithGlobalTransition(
+                EngageState.Retreat,
+                new HealthGoesBelowProportion(wolf, firstRetreatHealthProportion),
+                new HealthGoesBelowProportion(wolf, secondRetreatHealthProportion)
+            );
 
         return new AiStateMachine<State>(State.Patrol)
             .WithComponent(State.Patrol, patrolStateMachine)
