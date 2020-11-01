@@ -3,7 +3,7 @@ using UnityEngine;
 
 public abstract class Enemy : Actor
 {
-    public Subject<float> OnTelegraph { get; private set; } = new Subject<float>();
+    public Subject<float> OnTelegraph { get; } = new Subject<float>();
 
     public BehaviourSubject<bool> PlayerTargeted { get; } = new BehaviourSubject<bool>(false);
 
@@ -14,7 +14,7 @@ public abstract class Enemy : Actor
         gameObject.tag = Tags.Enemy;
     }
 
-    public void WaitAndCast(
+    protected void WaitAndCast(
         float waitTime,
         AbilityReference abilityReference,
         Func<Vector3> targeter,

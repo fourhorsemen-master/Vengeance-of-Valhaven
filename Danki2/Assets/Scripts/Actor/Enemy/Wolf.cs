@@ -9,7 +9,7 @@ public class Wolf : Enemy
     private float pounceDelay = 0f;
 
     [SerializeField]
-    private AudioSource howl;
+    private AudioSource howl = null;
 
     public override ActorType Type => ActorType.Wolf;
 

@@ -27,7 +27,6 @@ public abstract class Actor : MonoBehaviour
     public MovementManager MovementManager { get; private set; }
     public InterruptionManager InterruptionManager { get; private set; }
 
-    public Actor Target { get; set; } = null;
     public bool Dead { get; private set; }
     public Subject DeathSubject { get; } = new Subject();
 
