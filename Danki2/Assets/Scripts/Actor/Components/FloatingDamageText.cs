@@ -26,7 +26,7 @@ public class FloatingDamageText : MonoBehaviour
     {
         HealthManager healthManager = actor.HealthManager;
         SubscribeToNumberSource(healthManager.ModifiedDamageSubject.Map(d => d.Damage), damageColour);
-        SubscribeToNumberSource(healthManager.TickDamageSubject, damageColour);
+        SubscribeToNumberSource(healthManager.ModifiedTickDamageSubject, damageColour);
         SubscribeToNumberSource(healthManager.HealSubject, healingColour);
     }
 
