@@ -18,17 +18,20 @@ public class MoveTowardsAtDistance : IAiComponent
     public void Exit()
     {
         actor.MovementManager.StopPathfinding();
+        actor.MovementManager.ClearWatch();
     }
 
     public void Update()
     {
         if (Vector3.Distance(actor.transform.position, target.transform.position) > distance)
         {
+            actor.MovementManager.ClearWatch();
             actor.MovementManager.StartPathfinding(target.transform.position);
         }
         else
         {
             actor.MovementManager.StopPathfinding();
+            actor.MovementManager.Watch(target.transform);
         }
     }
 }
