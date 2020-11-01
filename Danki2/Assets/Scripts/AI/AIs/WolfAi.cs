@@ -21,8 +21,8 @@ public class WolfAi : Ai
     [SerializeField] private int maxAttacks = 0;
     [SerializeField] private float evadeTime = 0;
     [SerializeField] private float retreatTime = 0;
-    [SerializeField] private int firstRetreatHealth = 0;
-    [SerializeField] private int secondRetreatHealth = 0;
+    [SerializeField] [Range(0, 1)] private float firstRetreatHealthProportion = 0;
+    [SerializeField] [Range(0, 1)] private float secondRetreatHealthProportion = 0;
 
     [Header("Attack")]
     [SerializeField] private float followDistance = 0;
@@ -79,7 +79,8 @@ public class WolfAi : Ai
             .WithTransition(EngageState.Attack, EngageState.Evade, new WolfRandomAttackCountReached(wolf, minAttacks, maxAttacks))
             .WithTransition(EngageState.Evade, EngageState.Attack, new TimeElapsed(evadeTime))
             .WithTransition(EngageState.Retreat, EngageState.Howl, new TimeElapsed(retreatTime))
-            .WithGlobalTransition(EngageState.Retreat, new HealthGoesBelow(wolf, firstRetreatHealth), new HealthGoesBelow(wolf, secondRetreatHealth));
+            .WithGlobalTransition(EngageState.Retreat,
+                new HealthGoesBelowProportion(wolf, firstRetreatHealthProportion), new HealthGoesBelowProportion(wolf, secondRetreatHealthProportion));
 
         return new AiStateMachine<State>(State.Patrol)
             .WithComponent(State.Patrol, patrolStateMachine)
