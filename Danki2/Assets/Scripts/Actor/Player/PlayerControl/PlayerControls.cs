@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 
-public class PlayerControls : MonoBehaviour
+public class PlayerControls : Singleton<PlayerControls>
 {
     [SerializeField]
     private Player _player = null;
+
+    public ActionControlState ActionControlState { get; private set; } = ActionControlState.None;
 
     private void Update()
     {
@@ -36,10 +38,8 @@ public class PlayerControls : MonoBehaviour
         bool left = Input.GetAxis("Left Action") > 0;
         bool right = Input.GetAxis("Right Action") > 0;
 
-        ActionControlState currentControlState = left
+        ActionControlState = left
             ? (right ? ActionControlState.Both : ActionControlState.Left)
             : (right ? ActionControlState.Right : ActionControlState.None);
-
-        _player.AbilityManager.SetCurrentControlState(currentControlState);
     }
 }
