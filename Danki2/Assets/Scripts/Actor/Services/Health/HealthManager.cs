@@ -31,8 +31,14 @@ public class HealthManager
             Health = Math.Min(Health, MaxHealth);
         });
 
-        ModifiedTickDamageSubject.Subscribe(_ => DamageSubject.Next());
-        ModifiedDamageSubject.Subscribe(_ => DamageSubject.Next());
+        ModifiedTickDamageSubject.Subscribe(damage =>
+        {
+            if (damage > 0) DamageSubject.Next();
+        });
+        ModifiedDamageSubject.Subscribe(damageData =>
+        {
+            if (damageData.Damage > 0) DamageSubject.Next();
+        });
     }
 
     public void TickDamage(int damage)
