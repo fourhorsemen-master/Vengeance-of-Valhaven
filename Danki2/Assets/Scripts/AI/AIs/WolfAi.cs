@@ -45,8 +45,8 @@ public class WolfAi : Ai
         IAiComponent patrolStateMachine = new AiStateMachine<PatrolState>(PatrolState.StandStill)
             .WithComponent(PatrolState.StandStill, new StandStill(wolf))
             .WithComponent(PatrolState.RandomMovement, new MoveInRandomDirection(wolf))
-            .WithTransition(PatrolState.StandStill, PatrolState.RandomMovement, new IfRandomTimeElapsed(minStillTime, maxStillTime))
-            .WithTransition(PatrolState.RandomMovement, PatrolState.StandStill, new IfRandomTimeElapsed(minMovementTime, maxMovementTime));
+            .WithTransition(PatrolState.StandStill, PatrolState.RandomMovement, new RandomTimeElapsed(minStillTime, maxStillTime))
+            .WithTransition(PatrolState.RandomMovement, PatrolState.StandStill, new RandomTimeElapsed(minMovementTime, maxMovementTime));
 
         float circleDistance = (minCircleDistance + maxCircleDistance) / 2;
 
@@ -54,50 +54,41 @@ public class WolfAi : Ai
             .WithComponent(AttackState.Reposition, new MoveTowardsAtDistance(wolf, player, followDistance))
             .WithComponent(AttackState.Bite, new WolfBite(wolf))
             .WithComponent(AttackState.Pounce, new WolfPounce(wolf, player))
-            .WithTransition(
-                AttackState.Reposition,
-                AttackState.Bite,
-                new IfAllTrigger(new IfDistanceLessThan(wolf, player, biteRange), new IfTimeElapsed(biteCooldown))
-            )
-            .WithTransition(AttackState.Bite, AttackState.Reposition, new IfWolfBiteDone(wolf))
-            .WithTransition(
-                AttackState.Reposition,
-                AttackState.Pounce,
-                new IfAllTrigger(
-                    new IfDistanceGreaterThan(wolf, player, pounceMinRange),
-                    new IfDistanceLessThan(wolf, player, pounceMaxRange),
-                    new IfTimeElapsed(pounceCooldown))
-            )
-            .WithTransition(AttackState.Pounce, AttackState.Reposition, new IfWolfPounceDone(wolf));
+            .WithTransition(AttackState.Reposition, AttackState.Bite,
+                new AndTrigger(new DistanceLessThan(wolf, player, biteRange), new TimeElapsed(biteCooldown)))
+            .WithTransition(AttackState.Bite, AttackState.Reposition, new WolfBiteFinished(wolf))
+            .WithTransition(AttackState.Reposition, AttackState.Pounce,
+                new AndTrigger(new DistanceGreaterThan(wolf, player, pounceMinRange), new DistanceLessThan(wolf, player, pounceMaxRange), new TimeElapsed(pounceCooldown)))
+            .WithTransition(AttackState.Pounce, AttackState.Reposition, new WolfPounceFinished(wolf));
 
         IAiComponent evadeStateMachine = new AiStateMachine<EvadeState>(EvadeState.Circle)
             .WithComponent(EvadeState.Circle, new Circle(wolf, player))
             .WithComponent(EvadeState.MoveTowards, new MoveTowards(wolf, player))
             .WithComponent(EvadeState.MoveAway, new MoveAway(wolf, player))
-            .WithTransition(EvadeState.MoveTowards, EvadeState.Circle, new IfDistanceLessThan(wolf, player, circleDistance))
-            .WithTransition(EvadeState.MoveAway, EvadeState.Circle, new IfDistanceGreaterThan(wolf, player, circleDistance))
-            .WithGlobalTransition(EvadeState.MoveTowards, new IfDistanceGreaterThan(wolf, player, maxCircleDistance))
-            .WithGlobalTransition(EvadeState.MoveAway, new IfDistanceLessThan(wolf, player, minCircleDistance));
+            .WithTransition(EvadeState.MoveTowards, EvadeState.Circle, new DistanceLessThan(wolf, player, circleDistance))
+            .WithTransition(EvadeState.MoveAway, EvadeState.Circle, new DistanceGreaterThan(wolf, player, circleDistance))
+            .WithGlobalTransition(EvadeState.MoveTowards, new DistanceGreaterThan(wolf, player, maxCircleDistance))
+            .WithGlobalTransition(EvadeState.MoveAway, new DistanceLessThan(wolf, player, minCircleDistance));
 
         IAiComponent engageStateMachine = new AiStateMachine<EngageState>(EngageState.Howl)
             .WithComponent(EngageState.Howl, new WolfHowl(wolf))
             .WithComponent(EngageState.Attack, attackStateMachine)
             .WithComponent(EngageState.Evade, evadeStateMachine)
             .WithComponent(EngageState.Retreat, new MoveAway(wolf, player))
-            .WithTransition(EngageState.Howl, EngageState.Attack, new IfAnything())
-            .WithTransition(EngageState.Attack, EngageState.Evade, new IfRandomWolfAttackCount(wolf, minAttacks, maxAttacks))
-            .WithTransition(EngageState.Evade, EngageState.Attack, new IfTimeElapsed(evadeTime))
-            .WithTransition(EngageState.Retreat, EngageState.Howl, new IfTimeElapsed(retreatTime))
-            .WithGlobalTransition(EngageState.Retreat, new IfHealthGoesBelow(wolf, firstRetreatHealth), new IfHealthGoesBelow(wolf, secondRetreatHealth));
+            .WithTransition(EngageState.Howl, EngageState.Attack, new InstantTrigger())
+            .WithTransition(EngageState.Attack, EngageState.Evade, new WolfRandomAttackCountReached(wolf, minAttacks, maxAttacks))
+            .WithTransition(EngageState.Evade, EngageState.Attack, new TimeElapsed(evadeTime))
+            .WithTransition(EngageState.Retreat, EngageState.Howl, new TimeElapsed(retreatTime))
+            .WithGlobalTransition(EngageState.Retreat, new HealthGoesBelow(wolf, firstRetreatHealth), new HealthGoesBelow(wolf, secondRetreatHealth));
 
         return new AiStateMachine<State>(State.Patrol)
             .WithComponent(State.Patrol, patrolStateMachine)
             .WithComponent(State.Watch, new WatchTarget(wolf, player))
             .WithComponent(State.Engage, engageStateMachine)
-            .WithTransition(State.Patrol, State.Watch, new IfDistanceLessThan(wolf, player, noticeDistance))
-            .WithTransition(State.Watch, State.Patrol, new IfDistanceGreaterThan(wolf, player, noticeDistance))
-            .WithTransition(State.Watch, State.Engage, new IfTimeElapsed(noticeTime), new IfDistanceLessThan(wolf, player, engageDistance))
-            .WithGlobalTransition(State.Engage, new IfHeardHowl(wolf, howlHearingRange), new IfTakenDamage(wolf));
+            .WithTransition(State.Patrol, State.Watch, new DistanceLessThan(wolf, player, noticeDistance))
+            .WithTransition(State.Watch, State.Patrol, new DistanceGreaterThan(wolf, player, noticeDistance))
+            .WithTransition(State.Watch, State.Engage, new TimeElapsed(noticeTime), new DistanceLessThan(wolf, player, engageDistance))
+            .WithGlobalTransition(State.Engage, new HearsHowl(wolf, howlHearingRange), new TakesDamage(wolf));
     }
 
     private enum State

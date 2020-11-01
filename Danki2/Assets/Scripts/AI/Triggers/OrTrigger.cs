@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 
-public class IfAllTrigger : IAiTrigger
+public class OrTrigger : IAiTrigger
 {
     private readonly IAiTrigger[] triggers;
     
-    public IfAllTrigger(params IAiTrigger[] triggers)
+    public OrTrigger(params IAiTrigger[] triggers)
     {
         this.triggers = triggers;
     }
@@ -21,6 +21,6 @@ public class IfAllTrigger : IAiTrigger
 
     public bool Triggers()
     {
-        return triggers.All(t => t.Triggers());
+        return triggers.Any(t => t.Triggers());
     }
 }
