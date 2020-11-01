@@ -5,9 +5,9 @@ public class WolfAi : Ai
     [SerializeField] private Wolf wolf = null;
     
     [Header("Overarching")]
-    [SerializeField] private float noticeDistance = 0;
-    [SerializeField] private float noticeTime = 0;
-    [SerializeField] private float engageDistance = 0;
+    [SerializeField] private float watchDistance = 0;
+    [SerializeField] private float agroTime = 0;
+    [SerializeField] private float agroDistance = 0;
     [SerializeField] private float howlHearingRange = 0;
 
     [Header("Patrol")]
@@ -86,9 +86,9 @@ public class WolfAi : Ai
             .WithComponent(State.Patrol, patrolStateMachine)
             .WithComponent(State.Watch, new WatchTarget(wolf, player))
             .WithComponent(State.Engage, engageStateMachine)
-            .WithTransition(State.Patrol, State.Watch, new DistanceLessThan(wolf, player, noticeDistance))
-            .WithTransition(State.Watch, State.Patrol, new DistanceGreaterThan(wolf, player, noticeDistance))
-            .WithTransition(State.Watch, State.Engage, new TimeElapsed(noticeTime), new DistanceLessThan(wolf, player, engageDistance))
+            .WithTransition(State.Patrol, State.Watch, new DistanceLessThan(wolf, player, watchDistance))
+            .WithTransition(State.Watch, State.Patrol, new DistanceGreaterThan(wolf, player, watchDistance))
+            .WithTransition(State.Watch, State.Engage, new TimeElapsed(agroTime), new DistanceLessThan(wolf, player, agroDistance))
             .WithGlobalTransition(State.Engage, new HearsHowl(wolf, howlHearingRange), new TakesDamage(wolf));
     }
 

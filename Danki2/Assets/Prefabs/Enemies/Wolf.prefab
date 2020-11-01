@@ -452,8 +452,8 @@ MonoBehaviour:
     _values: 1400000004000000000000000000000000000000
   navmeshAgent: {fileID: -7685572653157387656}
   trailRenderer: {fileID: 1836045994299074019}
-  biteDelay: 1
-  pounceDelay: 1
+  biteDelay: 0.5
+  pounceDelay: 0.5
   howl: {fileID: -3268726625634297962}
 --- !u!114 &471336020241693269
 MonoBehaviour:
@@ -468,28 +468,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wolf: {fileID: -1347520900970919038}
-  noticeDistance: 20
-  noticeTime: 3
-  engageDistance: 15
+  watchDistance: 12
+  agroTime: 3
+  agroDistance: 10
   howlHearingRange: 10
   minStillTime: 1
   maxStillTime: 3
-  minMovementTime: 1
-  maxMovementTime: 2
+  minMovementTime: 0.5
+  maxMovementTime: 1.5
   minAttacks: 2
   maxAttacks: 4
-  evadeTime: 3
+  evadeTime: 4
   retreatTime: 3
-  firstRetreatHealthProportion: 0.7
-  secondRetreatHealthProportion: 0.4
+  firstRetreatHealthProportion: 0.5
+  secondRetreatHealthProportion: 0.2
   followDistance: 2
   biteRange: 3
-  biteCooldown: 3
+  biteCooldown: 2.5
   pounceMinRange: 5
   pounceMaxRange: 10
-  pounceCooldown: 3
-  minCircleDistance: 2
-  maxCircleDistance: 5
+  pounceCooldown: 5
+  minCircleDistance: 3
+  maxCircleDistance: 6
 --- !u!82 &-3268726625634297962
 AudioSource:
   m_ObjectHideFlags: 0
