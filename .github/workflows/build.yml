@@ -5,7 +5,7 @@ name: Build
 on:
   push:
     branches:
-      - master
+      - run-build-without-cache
 
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
@@ -28,16 +28,6 @@ jobs:
       # Checkout the repository.
       - name: Checkout
         uses: actions/checkout@v2.1.0
-
-      # GitHub cache.
-      - name: Cache
-        uses: actions/cache@v1.1.2
-        with:
-          path: ${{ matrix.projectPath }}/Library
-          key: Library-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
-          restore-keys: |
-            Library-${{ matrix.projectPath }}-
-            Library-
 
       # Build the project with all combinations of the target platforms and unity versions
       # in the matrix defined above.
