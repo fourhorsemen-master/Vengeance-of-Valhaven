@@ -21,8 +21,8 @@ public class WolfAi : Ai
     [SerializeField] private int maxAttacks = 0;
     [SerializeField] private float evadeTime = 0;
     [SerializeField] private float retreatTime = 0;
-    [SerializeField] [Range(0, 1)] private float firstRetreatHealthProportion = 0;
-    [SerializeField] [Range(0, 1)] private float secondRetreatHealthProportion = 0;
+    [SerializeField, Range(0, 1)] private float firstRetreatHealthProportion = 0;
+    [SerializeField, Range(0, 1)] private float secondRetreatHealthProportion = 0;
 
     [Header("Attack")]
     [SerializeField] private float followDistance = 0;
@@ -50,10 +50,20 @@ public class WolfAi : Ai
 
         float circleDistance = (minCircleDistance + maxCircleDistance) / 2;
 
-        IAiComponent attackStateMachine = new AiStateMachine<AttackState>(AttackState.Reposition)
+        IAiComponent attackStateMachine = new AiStateMachine<AttackState>(AttackState.InitialReposition)
+            .WithComponent(AttackState.InitialReposition, new MoveTowardsAtDistance(wolf, player, followDistance))
             .WithComponent(AttackState.Reposition, new MoveTowardsAtDistance(wolf, player, followDistance))
             .WithComponent(AttackState.Bite, new WolfBite(wolf))
             .WithComponent(AttackState.Pounce, new WolfPounce(wolf, player))
+            .WithTransition(AttackState.InitialReposition, AttackState.Bite, new DistanceLessThan(wolf, player, biteRange))
+            .WithTransition(
+                AttackState.InitialReposition,
+                AttackState.Pounce,
+                new AndTrigger(
+                    new DistanceGreaterThan(wolf, player, pounceMinRange),
+                    new DistanceLessThan(wolf, player, pounceMaxRange)
+                )
+            )
             .WithTransition(
                 AttackState.Reposition,
                 AttackState.Bite,
@@ -120,6 +130,7 @@ public class WolfAi : Ai
 
     private enum AttackState
     {
+        InitialReposition,
         Reposition,
         Bite,
         Pounce
