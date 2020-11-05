@@ -22,8 +22,7 @@ public class WolfRandomAttackCountReached : IAiTrigger
     {
         attacks = 0;
         requiredAttacks = Random.Range(minAttacks, maxAttacks + 1);
-        attackSubscriptions.Add(wolf.OnBite.Subscribe(() => attacks++));
-        attackSubscriptions.Add(wolf.OnPounce.Subscribe(() => attacks++));
+        attackSubscriptions.Add(wolf.OnAttack.Subscribe(() => attacks++));
     }
 
     public void Deactivate()

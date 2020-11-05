@@ -452,8 +452,6 @@ MonoBehaviour:
     _values: 1400000004000000000000000000000000000000
   navmeshAgent: {fileID: -7685572653157387656}
   trailRenderer: {fileID: 1836045994299074019}
-  biteDelay: 0.5
-  pounceDelay: 0.5
   howl: {fileID: -3268726625634297962}
 --- !u!114 &471336020241693269
 MonoBehaviour:
@@ -484,9 +482,11 @@ MonoBehaviour:
   secondRetreatHealthProportion: 0.2
   followDistance: 2
   biteRange: 3
+  biteDelay: 0.5
   biteCooldown: 2.5
   pounceMinRange: 5
   pounceMaxRange: 10
+  pounceDelay: 0.5
   pounceCooldown: 5
   minCircleDistance: 3
   maxCircleDistance: 6
@@ -1201,6 +1201,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8063099716140605082}
     m_Modifications:
+    - target: {fileID: 1979858862639965533, guid: 1c1ef6601784e49429e64e8545ef1c4a,
+        type: 3}
+      propertyPath: m_Name
+      value: FloatingDamageText
+      objectReference: {fileID: 0}
     - target: {fileID: 1979858862639965505, guid: 1c1ef6601784e49429e64e8545ef1c4a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1305,11 +1310,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1979858862639965533, guid: 1c1ef6601784e49429e64e8545ef1c4a,
-        type: 3}
-      propertyPath: m_Name
-      value: FloatingDamageText
       objectReference: {fileID: 0}
     - target: {fileID: 3486282139536815869, guid: 1c1ef6601784e49429e64e8545ef1c4a,
         type: 3}

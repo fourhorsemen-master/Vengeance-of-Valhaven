@@ -27,9 +27,11 @@ public class WolfAi : Ai
     [Header("Attack")]
     [SerializeField] private float followDistance = 0;
     [SerializeField] private float biteRange = 0;
+    [SerializeField] private float biteDelay = 0;
     [SerializeField] private float biteCooldown = 0;
     [SerializeField] private float pounceMinRange = 0;
     [SerializeField] private float pounceMaxRange = 0;
+    [SerializeField] private float pounceDelay = 0;
     [SerializeField] private float pounceCooldown = 0;
     
     [Header("Evade")]
@@ -53,12 +55,15 @@ public class WolfAi : Ai
         IAiComponent attackStateMachine = new AiStateMachine<AttackState>(AttackState.InitialReposition)
             .WithComponent(AttackState.InitialReposition, new MoveTowardsAtDistance(wolf, player, followDistance))
             .WithComponent(AttackState.Reposition, new MoveTowardsAtDistance(wolf, player, followDistance))
+            .WithComponent(AttackState.TelegraphBite, new TelegraphAttack(wolf, biteDelay))
             .WithComponent(AttackState.Bite, new WolfBite(wolf))
+            .WithComponent(AttackState.TelegraphPounce, new TelegraphAttack(wolf, pounceDelay))
             .WithComponent(AttackState.Pounce, new WolfPounce(wolf, player))
-            .WithTransition(AttackState.InitialReposition, AttackState.Bite, new DistanceLessThan(wolf, player, biteRange))
+            .WithTransition(AttackState.InitialReposition, AttackState.TelegraphBite,
+                new DistanceLessThan(wolf, player, biteRange))
             .WithTransition(
                 AttackState.InitialReposition,
-                AttackState.Pounce,
+                AttackState.TelegraphPounce,
                 new AndTrigger(
                     new DistanceGreaterThan(wolf, player, pounceMinRange),
                     new DistanceLessThan(wolf, player, pounceMaxRange)
@@ -66,20 +71,24 @@ public class WolfAi : Ai
             )
             .WithTransition(
                 AttackState.Reposition,
-                AttackState.Bite,
+                AttackState.TelegraphBite,
                 new AndTrigger(new DistanceLessThan(wolf, player, biteRange), new TimeElapsed(biteCooldown))
             )
-            .WithTransition(AttackState.Bite, AttackState.Reposition, new WolfBiteFinished(wolf))
+            .WithTransition(AttackState.TelegraphBite, AttackState.Reposition, new Interrupted(wolf, InterruptionType.Hard))
+            .WithTransition(AttackState.TelegraphBite, AttackState.Bite, new TimeElapsed(biteDelay))
+            .WithTransition(AttackState.Bite, AttackState.Reposition, new InstantTrigger())
             .WithTransition(
                 AttackState.Reposition,
-                AttackState.Pounce,
+                AttackState.TelegraphPounce,
                 new AndTrigger(
                     new DistanceGreaterThan(wolf, player, pounceMinRange),
                     new DistanceLessThan(wolf, player, pounceMaxRange),
                     new TimeElapsed(pounceCooldown)
                 )
             )
-            .WithTransition(AttackState.Pounce, AttackState.Reposition, new WolfPounceFinished(wolf));
+            .WithTransition(AttackState.TelegraphPounce, AttackState.Reposition, new Interrupted(wolf, InterruptionType.Hard))
+            .WithTransition(AttackState.TelegraphPounce, AttackState.Pounce, new TimeElapsed(pounceDelay))
+            .WithTransition(AttackState.Pounce, AttackState.Reposition, new InstantTrigger());
 
         IAiComponent evadeStateMachine = new AiStateMachine<EvadeState>(EvadeState.Circle)
             .WithComponent(EvadeState.Circle, new Circle(wolf, player))
@@ -132,7 +141,9 @@ public class WolfAi : Ai
     {
         InitialReposition,
         Reposition,
+        TelegraphBite,
         Bite,
+        TelegraphPounce,
         Pounce
     }
 
