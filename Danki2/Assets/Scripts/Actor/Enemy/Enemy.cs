@@ -10,4 +10,9 @@
         
         gameObject.tag = Tags.Enemy;
     }
+
+    public void Telegraph(float telegraphTime)
+    {
+        OnTelegraph.Next(telegraphTime);
+    }
 }

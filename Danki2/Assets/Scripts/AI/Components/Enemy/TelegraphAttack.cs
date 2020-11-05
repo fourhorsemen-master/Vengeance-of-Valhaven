@@ -12,7 +12,7 @@
     public void Enter()
     {
         enemy.MovementManager.StopPathfinding();
-        enemy.OnTelegraph.Next(telegraphTime);
+        enemy.Telegraph(telegraphTime);
     }
 
     public void Exit() {}
