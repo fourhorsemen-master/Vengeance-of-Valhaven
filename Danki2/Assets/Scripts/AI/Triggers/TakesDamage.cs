@@ -1,4 +1,4 @@
-﻿public class TakesDamage : IAiTrigger
+﻿public class TakesDamage : AiTrigger
 {
     private readonly Actor actor;
 
@@ -10,7 +10,7 @@
         this.actor = actor;
     }
 
-    public void Activate()
+    public override void Activate()
     {
         takenDamage = false;
 
@@ -18,12 +18,12 @@
             .Subscribe(() => takenDamage = true);
     }
 
-    public void Deactivate()
+    public override void Deactivate()
     {
         damageSubscription.Unsubscribe();
     }
 
-    public bool Triggers()
+    public override bool Triggers()
     {
         return takenDamage;
     }

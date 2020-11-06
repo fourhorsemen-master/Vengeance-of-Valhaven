@@ -1,6 +1,6 @@
 ﻿using System;
 
-public class Interrupted : IAiTrigger
+public class Interrupted : AiTrigger
 {
     private readonly Actor actor;
     private readonly InterruptionType interruptionType;
@@ -14,18 +14,18 @@ public class Interrupted : IAiTrigger
         this.interruptionType = interruptionType;
     }
 
-    public void Activate()
+    public override void Activate()
     {
         interrupted = false;
         interruptionId = actor.InterruptionManager.Register(interruptionType, () => interrupted = true);
     }
 
-    public void Deactivate()
+    public override void Deactivate()
     {
         actor.InterruptionManager.Deregister(interruptionId);
     }
 
-    public bool Triggers()
+    public override bool Triggers()
     {
         return interrupted;
     }

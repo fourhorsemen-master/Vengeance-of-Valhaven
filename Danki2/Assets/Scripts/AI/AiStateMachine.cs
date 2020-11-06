@@ -8,12 +8,12 @@ public class AiStateMachine<TState> : IAiComponent where TState : Enum
     private readonly EnumDictionary<TState, IAiComponent> components =
         new EnumDictionary<TState, IAiComponent>(() => new NoOpComponent());
 
-    private readonly EnumDictionary<TState, EnumDictionary<TState, ISet<IAiTrigger>>> localTriggers =
-        new EnumDictionary<TState, EnumDictionary<TState, ISet<IAiTrigger>>>(() =>
-            new EnumDictionary<TState, ISet<IAiTrigger>>(() => new HashSet<IAiTrigger>()));
+    private readonly EnumDictionary<TState, EnumDictionary<TState, ISet<AiTrigger>>> localTriggers =
+        new EnumDictionary<TState, EnumDictionary<TState, ISet<AiTrigger>>>(() =>
+            new EnumDictionary<TState, ISet<AiTrigger>>(() => new HashSet<AiTrigger>()));
 
-    private readonly EnumDictionary<TState, ISet<IAiTrigger>> globalTriggers =
-        new EnumDictionary<TState, ISet<IAiTrigger>>(() => new HashSet<IAiTrigger>());
+    private readonly EnumDictionary<TState, ISet<AiTrigger>> globalTriggers =
+        new EnumDictionary<TState, ISet<AiTrigger>>(() => new HashSet<AiTrigger>());
 
     private readonly TState initialState;
     private TState currentState;
@@ -29,13 +29,13 @@ public class AiStateMachine<TState> : IAiComponent where TState : Enum
         return this;
     }
 
-    public AiStateMachine<TState> WithTransition(TState from, TState to, params IAiTrigger[] triggers)
+    public AiStateMachine<TState> WithTransition(TState from, TState to, params AiTrigger[] triggers)
     {
         localTriggers[from][to].UnionWith(triggers);
         return this;
     }
 
-    public AiStateMachine<TState> WithGlobalTransition(TState to, params IAiTrigger[] triggers)
+    public AiStateMachine<TState> WithGlobalTransition(TState to, params AiTrigger[] triggers)
     {
         globalTriggers[to].UnionWith(triggers);
         return this;
@@ -62,10 +62,10 @@ public class AiStateMachine<TState> : IAiComponent where TState : Enum
 
     private void TryTransition()
     {
-        foreach (KeyValuePair<TState, ISet<IAiTrigger>> potentialTransition in localTriggers[currentState])
+        foreach (KeyValuePair<TState, ISet<AiTrigger>> potentialTransition in localTriggers[currentState])
         {
             TState toState = potentialTransition.Key;
-            ISet<IAiTrigger> triggers = potentialTransition.Value;
+            ISet<AiTrigger> triggers = potentialTransition.Value;
             
             if (triggers.Any(t => t.Triggers()))
             {
@@ -74,10 +74,10 @@ public class AiStateMachine<TState> : IAiComponent where TState : Enum
             }
         }
         
-        foreach (KeyValuePair<TState,ISet<IAiTrigger>> potentialTransition in globalTriggers)
+        foreach (KeyValuePair<TState,ISet<AiTrigger>> potentialTransition in globalTriggers)
         {
             TState toState = potentialTransition.Key;
-            ISet<IAiTrigger> triggers = potentialTransition.Value;
+            ISet<AiTrigger> triggers = potentialTransition.Value;
 
             if (toState.Equals(currentState))
             {
@@ -114,22 +114,22 @@ public class AiStateMachine<TState> : IAiComponent where TState : Enum
         ForEachLocalTrigger(t => t.Deactivate());
     }
 
-    private void ForEachGlobalTrigger(Action<IAiTrigger> action)
+    private void ForEachGlobalTrigger(Action<AiTrigger> action)
     {
-        foreach (ISet<IAiTrigger> triggers in globalTriggers.Values)
+        foreach (ISet<AiTrigger> triggers in globalTriggers.Values)
         {
-            foreach (IAiTrigger trigger in triggers)
+            foreach (AiTrigger trigger in triggers)
             {
                 action(trigger);
             }
         }
     }
 
-    private void ForEachLocalTrigger(Action<IAiTrigger> action)
+    private void ForEachLocalTrigger(Action<AiTrigger> action)
     {
-        foreach (ISet<IAiTrigger> triggers in localTriggers[currentState].Values)
+        foreach (ISet<AiTrigger> triggers in localTriggers[currentState].Values)
         {
-            foreach (IAiTrigger trigger in triggers)
+            foreach (AiTrigger trigger in triggers)
             {
                 action(trigger);
             }

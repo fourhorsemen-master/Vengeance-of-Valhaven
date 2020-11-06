@@ -1,4 +1,4 @@
-﻿public class HealthGoesBelowProportion : IAiTrigger
+﻿public class HealthGoesBelowProportion : AiTrigger
 {
     private readonly Actor actor;
     private readonly float proportion;
@@ -11,14 +11,14 @@
         this.proportion = proportion;
     }
 
-    public void Activate()
+    public override void Activate()
     {
         canTrigger = (float) actor.HealthManager.Health / actor.HealthManager.MaxHealth >= proportion;
     }
 
-    public void Deactivate() {}
+    public override void Deactivate() {}
 
-    public bool Triggers()
+    public override bool Triggers()
     {
         return canTrigger && (float) actor.HealthManager.Health / actor.HealthManager.MaxHealth < proportion;
     }

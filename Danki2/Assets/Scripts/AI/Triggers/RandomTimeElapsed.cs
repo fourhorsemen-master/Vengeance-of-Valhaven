@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class RandomTimeElapsed : IAiTrigger
+public class RandomTimeElapsed : AiTrigger
 {
     private readonly float minTime;
     private readonly float maxTime;
@@ -13,14 +13,14 @@ public class RandomTimeElapsed : IAiTrigger
         this.maxTime = maxTime;
     }
 
-    public void Activate()
+    public override void Activate()
     {
         requiredTime = Time.time + Random.Range(minTime, maxTime);
     }
 
-    public void Deactivate() {}
+    public override void Deactivate() {}
 
-    public bool Triggers()
+    public override bool Triggers()
     {
         return Time.time >= requiredTime;
     }

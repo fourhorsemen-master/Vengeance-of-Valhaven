@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class DistanceGreaterThan : IAiTrigger
+public class DistanceGreaterThan : AiTrigger
 {
     private readonly Actor actor1;
     private readonly Actor actor2;
@@ -13,11 +13,11 @@ public class DistanceGreaterThan : IAiTrigger
         this.distance = distance;
     }
 
-    public void Activate() {}
+    public override void Activate() {}
 
-    public void Deactivate() {}
+    public override void Deactivate() {}
 
-    public bool Triggers()
+    public override bool Triggers()
     {
         return Vector3.Distance(actor1.transform.position, actor2.transform.position) > distance;
     }
