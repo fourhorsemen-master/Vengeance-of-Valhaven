@@ -64,7 +64,7 @@ public class WolfAi : Ai
             .WithTransition(
                 AttackState.InitialReposition,
                 AttackState.TelegraphPounce,
-                new DistanceGreaterThan(wolf, player, pounceMinRange) & new DistanceLessThan(wolf, player, pounceMaxRange)
+                new DistanceWithin(wolf, player, pounceMinRange, pounceMaxRange)
             )
             .WithTransition(
                 AttackState.Reposition,
@@ -77,7 +77,7 @@ public class WolfAi : Ai
             .WithTransition(
                 AttackState.Reposition,
                 AttackState.TelegraphPounce,
-                new DistanceGreaterThan(wolf, player, pounceMinRange) & new DistanceLessThan(wolf, player, pounceMaxRange) & new TimeElapsed(pounceCooldown)
+                new DistanceWithin(wolf, player, pounceMinRange, pounceMaxRange) & new TimeElapsed(pounceCooldown)
             )
             .WithTransition(AttackState.TelegraphPounce, AttackState.Reposition, new Interrupted(wolf, InterruptionType.Hard))
             .WithTransition(AttackState.TelegraphPounce, AttackState.Pounce, new TimeElapsed(pounceDelay))
