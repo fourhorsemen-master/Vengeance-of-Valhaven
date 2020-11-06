@@ -3,151 +3,28 @@
 public class Wolf : Enemy
 {
     [SerializeField]
-    private float _biteCastTime = 0f;
-    [SerializeField]
-    private float _pounceCastTime = 0f;
+    private AudioSource howl = null;
 
-    [SerializeField]
-    private float _biteTotalCooldown = 0f;
-    [SerializeField]
-    private float _pounceTotalCooldown = 0f;
-
-    [SerializeField]
-    private float agroTime = 0f;
-
-    private float _biteRemainingCooldown = 0f;
-    private float _pounceRemaningCooldown = 0f;
-
-    public AudioSource howl;
-
-    private const float HowlRange = 10f;
     public override ActorType Type => ActorType.Wolf;
-    public bool BiteOffCooldown => _biteRemainingCooldown <= 0f;
-    public bool PounceOffCooldown => _pounceRemaningCooldown <= 0f;
 
-    private Coroutine attentionCoroutine;
-
-    public Subject<Wolf> OnHowl { get; private set; } = new Subject<Wolf>();
-
-    protected override void Start()
-    {
-        base.Start();
-
-        RoomManager.Instance.ActorCache.ForEach(actorCacheItem =>
-        {
-            if (actorCacheItem.Actor.Type != ActorType.Wolf) return;
-
-            Wolf wolf = (Wolf)actorCacheItem.Actor;
-
-            if (wolf.Equals(this)) return;
-
-            wolf.OnHowl.Subscribe(other =>
-            {
-                float distance = Vector3.Distance(
-                    transform.position,
-                    other.transform.position
-                );
-
-                if (distance < HowlRange)
-                {
-                    Target = other.Target;
-                    Howl();
-                }
-            });
-        });
-    }
-
-    protected override void Update()
-    {
-        base.Update();
-
-        if (!BiteOffCooldown)
-        {
-            _biteRemainingCooldown -= Time.deltaTime;
-            if (_biteRemainingCooldown <= 0f)
-            {
-                _biteRemainingCooldown = 0f;
-            }
-        }
-
-        if (!PounceOffCooldown)
-        {
-            _pounceRemaningCooldown -= Time.deltaTime;
-            if (_pounceRemaningCooldown <= 0f)
-            {
-                _pounceRemaningCooldown = 0f;
-            }
-        }
-    }
+    public Subject OnHowl { get; } = new Subject();
+    public Subject OnAttack { get; } = new Subject();
 
     public void Bite()
     {
-        if (_biteRemainingCooldown > 0)
-        {
-            return;
-        }
-
-        WaitAndCast(
-            _biteCastTime,
-            AbilityReference.Bite,
-            () => transform.position + transform.forward
-        );
-        
-        _biteRemainingCooldown = _biteTotalCooldown;
+        InstantCastService.Cast(AbilityReference.Bite, transform.position + transform.forward);
+        OnAttack.Next();
     }
 
-    public void Pounce()
+    public void Pounce(Vector3 target)
     {
-        if (_pounceRemaningCooldown > 0)
-        {
-            return;
-        }
-
-        WaitAndCast(
-            _pounceCastTime,
-            AbilityReference.Pounce,
-            () => Target.transform.position + (transform.position - Target.transform.position).normalized
-        );
-        
-        _biteRemainingCooldown = _biteTotalCooldown;
-        _pounceRemaningCooldown = _pounceTotalCooldown;
+        InstantCastService.Cast(AbilityReference.Pounce, target + (transform.position - target).normalized);
+        OnAttack.Next();
     }
 
-    public void GetAttention(Player player)
-    {
-        if (attentionCoroutine != null) return;
-
-        MovementManager.StopPathfinding();
-        MovementManager.Watch(player.transform);
-        attentionCoroutine = this.WaitAndAct(agroTime, () =>
-        {
-            FindTarget(player);
-        });
-    }
-
-    public void LoseAttention()
-    {
-        if (attentionCoroutine != null)
-        {
-            StopCoroutine(attentionCoroutine);
-            attentionCoroutine = null;
-        }
-    }
-
-    public void FindTarget(Player player)
-    {
-        if (attentionCoroutine != null)
-        {
-            StopCoroutine(attentionCoroutine);
-        }
-        
-        Target = player;
-        Howl();
-        OnHowl.Next(this);
-    }
-
-    private void Howl()
+    public void Howl()
     {
         howl.Play();
+        OnHowl.Next();
     }
 }

@@ -383,7 +383,7 @@ GameObject:
   - component: {fileID: 8063099716140605082}
   - component: {fileID: 2369984067544073560}
   - component: {fileID: -1347520900970919038}
-  - component: {fileID: 3467548966888005537}
+  - component: {fileID: 471336020241693269}
   - component: {fileID: -3268726625634297962}
   - component: {fileID: -7685572653157387656}
   - component: {fileID: 682735494094879737}
@@ -452,13 +452,8 @@ MonoBehaviour:
     _values: 1400000004000000000000000000000000000000
   navmeshAgent: {fileID: -7685572653157387656}
   trailRenderer: {fileID: 1836045994299074019}
-  _biteCastTime: 0.5
-  _pounceCastTime: 0.5
-  _biteTotalCooldown: 2.5
-  _pounceTotalCooldown: 5
-  agroTime: 3
   howl: {fileID: -3268726625634297962}
---- !u!114 &3467548966888005537
+--- !u!114 &471336020241693269
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -467,67 +462,34 @@ MonoBehaviour:
   m_GameObject: {fileID: 8501680027219967870}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19514c5d500c2bd459b1f556adf129a8, type: 3}
+  m_Script: {fileID: 11500000, guid: 7945b91cd893b704cbd97ed77891f9c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actor: {fileID: -1347520900970919038}
-  serializablePlanner:
-    _serializedType:
-      _serializedType: WolfPlanner, ScriptsAssembly, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-    _serializedArgs:
-    - 3
-    - 4
-    - 1
-    - 2
-    - 4
-  serializablePersonality:
-    _keys:
-    - FindTarget
-    - Patrol
-    - Attack
-    - Defend
-    - Advance
-    - Retreat
-    - Evade
-    _values:
-    - _serializedType:
-        _serializedType: WolfFindPlayer, ScriptsAssembly, Version=0.0.0.0, Culture=neutral,
-          PublicKeyToken=null
-      _serializedArgs:
-      - 10
-    - _serializedType:
-        _serializedType: RandomPatrol, ScriptsAssembly, Version=0.0.0.0, Culture=neutral,
-          PublicKeyToken=null
-      _serializedArgs:
-      - 2
-      - 3
-      - 12
-    - _serializedType:
-        _serializedType: WolfAttack, ScriptsAssembly, Version=0.0.0.0, Culture=neutral,
-          PublicKeyToken=null
-      _serializedArgs:
-      - 5
-      - 10
-    - _serializedType:
-        _serializedType: NoOpBehaviour, ScriptsAssembly, Version=0.0.0.0, Culture=neutral,
-          PublicKeyToken=null
-      _serializedArgs: []
-    - _serializedType:
-        _serializedType: FollowTargetAtDistance, ScriptsAssembly, Version=0.0.0.0,
-          Culture=neutral, PublicKeyToken=null
-      _serializedArgs:
-      - 2
-    - _serializedType:
-        _serializedType: RetreatFromTarget, ScriptsAssembly, Version=0.0.0.0, Culture=neutral,
-          PublicKeyToken=null
-      _serializedArgs: []
-    - _serializedType:
-        _serializedType: Circle, ScriptsAssembly, Version=0.0.0.0, Culture=neutral,
-          PublicKeyToken=null
-      _serializedArgs:
-      - 6
-      - 3
+  wolf: {fileID: -1347520900970919038}
+  watchDistance: 12
+  agroTime: 3
+  agroDistance: 10
+  howlHearingRange: 10
+  minStillTime: 1
+  maxStillTime: 3
+  minMovementTime: 0.5
+  maxMovementTime: 1.5
+  minAttacks: 2
+  maxAttacks: 4
+  evadeTime: 4
+  retreatTime: 3
+  firstRetreatHealthProportion: 0.5
+  secondRetreatHealthProportion: 0.2
+  followDistance: 2
+  biteRange: 3
+  biteDelay: 0.5
+  biteCooldown: 2.5
+  pounceMinRange: 5
+  pounceMaxRange: 10
+  pounceDelay: 0.5
+  pounceCooldown: 5
+  minCircleDistance: 3
+  maxCircleDistance: 6
 --- !u!82 &-3268726625634297962
 AudioSource:
   m_ObjectHideFlags: 0

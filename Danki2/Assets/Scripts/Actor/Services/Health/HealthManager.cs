@@ -9,11 +9,11 @@ public class HealthManager
 
     public int MaxHealth => actor.GetStat(Stat.MaxHealth);
 
-    public bool IsDamaged => Health < MaxHealth;
-
     public Subject<DamageData> UnmodifiedDamageSubject { get; } = new Subject<DamageData>();
     public Subject<DamageData> ModifiedDamageSubject { get; } = new Subject<DamageData>();
-    public Subject<int> TickDamageSubject { get; } = new Subject<int>();
+    public Subject<int> UnmodifiedTickDamageSubject { get; } = new Subject<int>();
+    public Subject<int> ModifiedTickDamageSubject { get; } = new Subject<int>();
+    public Subject DamageSubject { get; } = new Subject();
     public Subject<int> HealSubject { get; } = new Subject<int>();
 
     private const int MinimumDamageAfterStats = 1;
@@ -28,11 +28,22 @@ public class HealthManager
         {
             Health = Math.Min(Health, MaxHealth);
         });
+
+        ModifiedTickDamageSubject.Subscribe(damage =>
+        {
+            if (damage > 0) DamageSubject.Next();
+        });
+        ModifiedDamageSubject.Subscribe(damageData =>
+        {
+            if (damageData.Damage > 0) DamageSubject.Next();
+        });
     }
 
     public void TickDamage(int damage)
     {
         if (actor.Dead) return;
+
+        UnmodifiedTickDamageSubject.Next(damage);
 
         damage = actor.EffectManager.ProcessIncomingDamage(damage);
 
@@ -43,7 +54,7 @@ public class HealthManager
         }
 
         ModifyHealth(-damage);
-        TickDamageSubject.Next(damage);
+        ModifiedTickDamageSubject.Next(damage);
     }
 
     public void ReceiveDamage(int damage, Actor source)
