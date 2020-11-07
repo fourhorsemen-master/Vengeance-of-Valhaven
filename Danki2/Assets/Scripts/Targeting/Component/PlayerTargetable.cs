@@ -1,14 +1,14 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class PlayerTargetable : MonoBehaviour
 {
-    public static readonly Color HighlightedColor = new Color(0.02f, 0.02f, 0.02f);
-
     [SerializeField]
     private Enemy enemy = null;
 
-    [SerializeField]
-    private MeshRenderer meshRenderer = null;
+    public const float HighlightIntensity = 0.02f;
+
+    private Guid highlightId = Guid.Empty;
     
     void Start()
     {
@@ -17,8 +17,14 @@ public class PlayerTargetable : MonoBehaviour
 
     private void SetHighlighted(bool highlighted)
     {
-        Color colour = highlighted ? HighlightedColor : Color.clear;
-
-        meshRenderer.material.SetEmissiveColour(colour);
+        if (highlighted)
+        {
+            highlightId = enemy.HightlightManager.AddIndefiniteHighlight(HighlightIntensity);
+        }
+        else if (highlightId != Guid.Empty)
+        {
+            enemy.HightlightManager.RemoveHightlight(highlightId);
+            highlightId = Guid.Empty;
+        }
     }
 }

@@ -13,6 +13,9 @@ public abstract class Actor : MonoBehaviour
     [SerializeField]
     private TrailRenderer trailRenderer = null;
 
+    [SerializeField]
+    private MeshRenderer meshRenderer = null;
+
     private Coroutine stopTrailCoroutine;
     private StatsManager statsManager;
 
@@ -26,6 +29,7 @@ public abstract class Actor : MonoBehaviour
     public EffectManager EffectManager { get; private set; }
     public MovementManager MovementManager { get; private set; }
     public InterruptionManager InterruptionManager { get; private set; }
+    public HighlightManager HightlightManager { get; private set; }
 
     public bool Dead { get; private set; }
     public Subject DeathSubject { get; } = new Subject();
@@ -43,7 +47,8 @@ public abstract class Actor : MonoBehaviour
         ChannelService = new ChannelService(this, startSubject, lateUpdateSubject);
         InstantCastService = new InstantCastService(this);
         MovementManager = new MovementManager(this, updateSubject, navmeshAgent);
-        
+        HightlightManager = new HighlightManager(updateSubject, meshRenderer);
+
         AbilityDataStatsDiffer abilityDataStatsDiffer = new AbilityDataStatsDiffer(this);
         RegisterAbilityDataDiffer(abilityDataStatsDiffer);
 
