@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class TimeElapsed : IAiTrigger
+public class TimeElapsed : AiTrigger
 {
     private readonly float time;
 
@@ -11,14 +11,14 @@ public class TimeElapsed : IAiTrigger
         this.time = time;
     }
 
-    public void Activate()
+    public override void Activate()
     {
         requiredTime = Time.time + time;
     }
 
-    public void Deactivate() {}
+    public override void Deactivate() {}
 
-    public bool Triggers()
+    public override bool Triggers()
     {
         return Time.time >= requiredTime;
     }

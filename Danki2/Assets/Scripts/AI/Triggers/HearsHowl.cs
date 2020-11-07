@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class HearsHowl : IAiTrigger
+public class HearsHowl : AiTrigger
 {
     private readonly Actor actor;
     private readonly float range;
@@ -16,7 +16,7 @@ public class HearsHowl : IAiTrigger
         this.range = range;
     }
 
-    public void Activate()
+    public override void Activate()
     {
         heardHowl = false;
         
@@ -33,13 +33,13 @@ public class HearsHowl : IAiTrigger
         });
     }
 
-    public void Deactivate()
+    public override void Deactivate()
     {
         howlSubscriptions.ForEach(s => s.Unsubscribe());
         howlSubscriptions.Clear();
     }
 
-    public bool Triggers()
+    public override bool Triggers()
     {
         return heardHowl;
     }

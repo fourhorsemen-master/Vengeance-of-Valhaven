@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class WolfRandomAttackCountReached : IAiTrigger
+public class WolfRandomAttackCountReached : AiTrigger
 {
     private readonly Wolf wolf;
     private readonly int minAttacks;
@@ -18,20 +18,20 @@ public class WolfRandomAttackCountReached : IAiTrigger
         this.maxAttacks = maxAttacks;
     }
 
-    public void Activate()
+    public override void Activate()
     {
         attacks = 0;
         requiredAttacks = Random.Range(minAttacks, maxAttacks + 1);
         attackSubscriptions.Add(wolf.OnAttack.Subscribe(() => attacks++));
     }
 
-    public void Deactivate()
+    public override void Deactivate()
     {
         attackSubscriptions.ForEach(s => s.Unsubscribe());
         attackSubscriptions.Clear();
     }
 
-    public bool Triggers()
+    public override bool Triggers()
     {
         return attacks >= requiredAttacks;
     }
