@@ -1,4 +1,4 @@
-﻿public class InstantTrigger : AiTrigger
+﻿public class AlwaysTrigger : AiTrigger
 {
     public override void Activate() {}
     public override void Deactivate() {}

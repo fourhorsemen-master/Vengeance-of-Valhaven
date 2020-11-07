@@ -7,13 +7,13 @@ public class AiStateMachine<TState> : IAiComponent where TState : Enum
 {
     private readonly EnumDictionary<TState, IAiComponent> components =
         new EnumDictionary<TState, IAiComponent>(() => new NoOpComponent());
+    
+    private readonly EnumDictionary<TState, EnumDictionary<TState, AiTrigger>> localTriggers =
+        new EnumDictionary<TState, EnumDictionary<TState, AiTrigger>>(() =>
+            new EnumDictionary<TState, AiTrigger>(new NeverTrigger()));
 
-    private readonly EnumDictionary<TState, EnumDictionary<TState, ISet<AiTrigger>>> localTriggers =
-        new EnumDictionary<TState, EnumDictionary<TState, ISet<AiTrigger>>>(() =>
-            new EnumDictionary<TState, ISet<AiTrigger>>(() => new HashSet<AiTrigger>()));
-
-    private readonly EnumDictionary<TState, ISet<AiTrigger>> globalTriggers =
-        new EnumDictionary<TState, ISet<AiTrigger>>(() => new HashSet<AiTrigger>());
+    private readonly EnumDictionary<TState, AiTrigger> globalTriggers =
+        new EnumDictionary<TState, AiTrigger>(new NeverTrigger());
 
     private readonly TState initialState;
     private TState currentState;
@@ -29,15 +29,15 @@ public class AiStateMachine<TState> : IAiComponent where TState : Enum
         return this;
     }
 
-    public AiStateMachine<TState> WithTransition(TState from, TState to, params AiTrigger[] triggers)
+    public AiStateMachine<TState> WithTransition(TState from, TState to, AiTrigger trigger)
     {
-        localTriggers[from][to].UnionWith(triggers);
+        localTriggers[from][to] = trigger;
         return this;
     }
 
-    public AiStateMachine<TState> WithGlobalTransition(TState to, params AiTrigger[] triggers)
+    public AiStateMachine<TState> WithGlobalTransition(TState to, AiTrigger trigger)
     {
-        globalTriggers[to].UnionWith(triggers);
+        globalTriggers[to] = trigger;
         return this;
     }
     
@@ -62,29 +62,29 @@ public class AiStateMachine<TState> : IAiComponent where TState : Enum
 
     private void TryTransition()
     {
-        foreach (KeyValuePair<TState, ISet<AiTrigger>> potentialTransition in localTriggers[currentState])
+        foreach (KeyValuePair<TState, AiTrigger> potentialTransition in localTriggers[currentState])
         {
             TState toState = potentialTransition.Key;
-            ISet<AiTrigger> triggers = potentialTransition.Value;
+            AiTrigger trigger = potentialTransition.Value;
             
-            if (triggers.Any(t => t.Triggers()))
+            if (trigger.Triggers())
             {
                 Transition(toState);
                 return;
             }
         }
         
-        foreach (KeyValuePair<TState,ISet<AiTrigger>> potentialTransition in globalTriggers)
+        foreach (KeyValuePair<TState, AiTrigger> potentialTransition in globalTriggers)
         {
             TState toState = potentialTransition.Key;
-            ISet<AiTrigger> triggers = potentialTransition.Value;
+            AiTrigger trigger = potentialTransition.Value;
 
             if (toState.Equals(currentState))
             {
                 continue;
             }
 
-            if (triggers.Any(t => t.Triggers()))
+            if (trigger.Triggers())
             {
                 Transition(toState);
                 return;
@@ -116,23 +116,17 @@ public class AiStateMachine<TState> : IAiComponent where TState : Enum
 
     private void ForEachGlobalTrigger(Action<AiTrigger> action)
     {
-        foreach (ISet<AiTrigger> triggers in globalTriggers.Values)
+        foreach (AiTrigger trigger in globalTriggers.Values)
         {
-            foreach (AiTrigger trigger in triggers)
-            {
-                action(trigger);
-            }
+            action(trigger);
         }
     }
 
     private void ForEachLocalTrigger(Action<AiTrigger> action)
     {
-        foreach (ISet<AiTrigger> triggers in localTriggers[currentState].Values)
+        foreach (AiTrigger trigger in localTriggers[currentState].Values)
         {
-            foreach (AiTrigger trigger in triggers)
-            {
-                action(trigger);
-            }
+            action(trigger);
         }
     }
 }
