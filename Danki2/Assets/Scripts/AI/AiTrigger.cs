@@ -4,15 +4,9 @@
     public abstract void Deactivate();
     public abstract bool Triggers();
 
-    public static AiTrigger operator &(AiTrigger t1, AiTrigger t2)
-    {
-        return new AndTrigger(t1, t2);
-    }
-
-    public static AiTrigger operator |(AiTrigger t1, AiTrigger t2)
-    {
-        return new OrTrigger(t1, t2);
-    }
+    public static AiTrigger operator &(AiTrigger t1, AiTrigger t2) => new AndTrigger(t1, t2);
+    public static AiTrigger operator |(AiTrigger t1, AiTrigger t2) => new OrTrigger(t1, t2);
+    public static AiTrigger operator !(AiTrigger t) => new NotTrigger(t);
     
     private class AndTrigger : CompositeTrigger
     {
@@ -26,6 +20,20 @@
         public OrTrigger(AiTrigger t1, AiTrigger t2) : base(t1, t2) {}
 
         public override bool Triggers() => t1.Triggers() || t2.Triggers();
+    }
+
+    private class NotTrigger : AiTrigger
+    {
+        private readonly AiTrigger trigger;
+
+        public NotTrigger(AiTrigger trigger)
+        {
+            this.trigger = trigger;
+        }
+
+        public override void Activate() => trigger.Activate();
+        public override void Deactivate() => trigger.Deactivate();
+        public override bool Triggers() => !trigger.Triggers();
     }
 
     private abstract class CompositeTrigger : AiTrigger
