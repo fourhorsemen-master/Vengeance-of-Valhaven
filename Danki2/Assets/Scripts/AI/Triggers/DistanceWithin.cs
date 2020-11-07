@@ -22,6 +22,6 @@ public class DistanceWithin : AiTrigger
     public override bool Triggers()
     {
         float distance = Vector3.Distance(actor1.transform.position, actor2.transform.position);
-        return minDistance <= distance && distance <= maxDistance;
+        return minDistance < distance && distance < maxDistance;
     }
 }
