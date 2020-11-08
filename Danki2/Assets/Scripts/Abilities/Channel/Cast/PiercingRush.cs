@@ -91,7 +91,7 @@ public class PiercingRush : Cast
         float passingDistance = Vector3.Dot(ownerToEnemy, rushDirection.normalized);
         float passingTime = passingDistance / rushSpeed;
 
-        Owner.InterruptableAction(passingTime, InterruptionType.Hard, () =>
+        Owner.InterruptibleAction(passingTime, InterruptionType.Hard, () =>
         {
             DealPrimaryDamage(enemy);
             CustomCamera.Instance.AddShake(ShakeIntensity.High);

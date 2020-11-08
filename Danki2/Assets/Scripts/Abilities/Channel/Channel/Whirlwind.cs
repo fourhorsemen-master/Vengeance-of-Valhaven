@@ -49,7 +49,7 @@ public class Whirlwind : Channel
     {
         if (!hasHitActor) SuccessFeedbackSubject.Next(false);
 
-        if(slowEffect) Owner.EffectManager.RemovePassiveEffect(slowEffectId);
+        if(slowEffect) Owner.EffectManager.RemoveEffect(slowEffectId);
 
         whirlwindObject.DissipateAndDestroy();
     }
@@ -60,7 +60,7 @@ public class Whirlwind : Channel
 
         if (!hasHitActor) SuccessFeedbackSubject.Next(false);
 
-        if(slowEffect) Owner.EffectManager.RemovePassiveEffect(slowEffectId);
+        if(slowEffect) Owner.EffectManager.RemoveEffect(slowEffectId);
 
         whirlwindObject.DissipateAndDestroy();
     }

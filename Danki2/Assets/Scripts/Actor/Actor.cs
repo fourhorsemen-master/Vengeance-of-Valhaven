@@ -13,6 +13,9 @@ public abstract class Actor : MonoBehaviour
     [SerializeField]
     private TrailRenderer trailRenderer = null;
 
+    [SerializeField]
+    private MeshRenderer[] meshRenderers = null;
+
     private Coroutine stopTrailCoroutine;
     private StatsManager statsManager;
 
@@ -26,6 +29,7 @@ public abstract class Actor : MonoBehaviour
     public EffectManager EffectManager { get; private set; }
     public MovementManager MovementManager { get; private set; }
     public InterruptionManager InterruptionManager { get; private set; }
+    public HighlightManager HightlightManager { get; private set; }
 
     public bool Dead { get; private set; }
     public Subject DeathSubject { get; } = new Subject();
@@ -39,11 +43,12 @@ public abstract class Actor : MonoBehaviour
         statsManager = new StatsManager(baseStats);
         EffectManager = new EffectManager(this, updateSubject, statsManager);
         HealthManager = new HealthManager(this, updateSubject);
-        InterruptionManager = new InterruptionManager(this, startSubject);
+        InterruptionManager = new InterruptionManager(this, startSubject, updateSubject);
         ChannelService = new ChannelService(this, startSubject, lateUpdateSubject);
         InstantCastService = new InstantCastService(this);
         MovementManager = new MovementManager(this, updateSubject, navmeshAgent);
-        
+        HightlightManager = new HighlightManager(updateSubject, meshRenderers);
+
         AbilityDataStatsDiffer abilityDataStatsDiffer = new AbilityDataStatsDiffer(this);
         RegisterAbilityDataDiffer(abilityDataStatsDiffer);
 
@@ -87,15 +92,15 @@ public abstract class Actor : MonoBehaviour
         target.HealthManager.ReceiveDamage(EffectManager.ProcessOutgoingDamage(damage), this);
     }
 
-    public void InterruptableAction(float delay, InterruptionType interruptionType, Action action)
+    public void InterruptibleAction(float delay, InterruptionType interruptionType, Action action)
     {
         Coroutine coroutine = this.WaitAndAct(delay, action);
         
-        // We don't need to worry about deregistering the interruptable as Stopping a finished coroutine doesn't cause any problems.
+        // We don't need to worry about deregistering the interruptible as Stopping a finished coroutine doesn't cause any problems.
         InterruptionManager.Register(
             interruptionType,
             () => StopCoroutine(coroutine),
-            InterruptableFeature.InterruptOnDeath
+            InterruptibleFeature.InterruptOnDeath
         );
     }
 

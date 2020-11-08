@@ -66,7 +66,7 @@ public class Bandage : Channel
 
         if (HasBonus("Perseverance"))
         {
-            Owner.EffectManager.RemovePassiveEffect(slowEffectId);
+            Owner.EffectManager.RemoveEffect(slowEffectId);
         }
     }
 }
