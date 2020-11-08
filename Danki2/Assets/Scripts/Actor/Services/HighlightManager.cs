@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using UnityEngine;
 
 public class HighlightManager
@@ -27,12 +26,16 @@ public class HighlightManager
 
     private void ApplyCurrentHighlight()
     {
-        var nexIntensity = intensities.Entities.Any() ? intensities.Entities.Values.Max() : 0f;
+        float nextIntensity = 0f;
 
-        if (currentIntensity == nexIntensity) return;
+        intensities.ForEach(i => {
+            nextIntensity = Mathf.Max(nextIntensity, i);
+        });
 
-        currentIntensity = nexIntensity;
-        Color highlight = new Color(nexIntensity, nexIntensity, nexIntensity);
+        if (currentIntensity == nextIntensity) return;
+
+        currentIntensity = nextIntensity;
+        Color highlight = new Color(nextIntensity, nextIntensity, nextIntensity);
         meshRenderer.material.SetEmissiveColour(highlight);
     }
 }

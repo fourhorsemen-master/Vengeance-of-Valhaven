@@ -1,16 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 
 public class InterruptionManager
 {
-    private readonly Dictionary<Guid, Interruptable> interruptables = new Dictionary<Guid, Interruptable>();
+    private readonly Registry<Interruptable> interruptables;
 
     private readonly Actor actor;
 
-    public InterruptionManager(Actor actor, Subject startSubject)
+    public InterruptionManager(Actor actor, Subject startSubject, Subject updateSubject)
     {
         this.actor = actor;
+
+        interruptables = new Registry<Interruptable>(updateSubject);
+
         startSubject.Subscribe(Setup);
     }
 
@@ -22,20 +23,13 @@ public class InterruptionManager
 
     public Guid Register(InterruptionType type, Action onInterrupt, params InterruptableFeature[] features)
     {
-        Guid id = Guid.NewGuid();
         Interruptable interruptable = new Interruptable(type, onInterrupt, features);
-        interruptables.Add(id, interruptable);
+        Guid id = interruptables.AddIndefinite(interruptable);
 
         return id;
     }
 
-    public void Deregister(Guid id)
-    {
-        if (interruptables.ContainsKey(id))
-        {
-            interruptables.Remove(id);
-        }
-    }
+    public void Deregister(Guid id) => interruptables.Remove(id);
 
     public void Interrupt(InterruptionType interruptionType)
     {
@@ -72,16 +66,8 @@ public class InterruptionManager
 
     private void InterruptWhere(Predicate<Interruptable> predicate)
     {
-        interruptables.ToList()
-            .ForEach(kvp =>
-            {
-                Interruptable interruptable = kvp.Value;
+        interruptables.ForEach(i => i.OnInterrupt(), predicate);
 
-                if (predicate(interruptable))
-                {
-                    interruptable.OnInterrupt();
-                    if (!interruptable.Repeat) interruptables.Remove(kvp.Key);
-                }
-            });
+        interruptables.RemoveWhere(i => predicate(i) && !i.Repeat);
     }
 }

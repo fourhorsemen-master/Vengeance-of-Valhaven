@@ -8,11 +8,11 @@ public class Registry<TEntity>
     private readonly Action<Guid, TEntity> onEffectAdded = (id, effect) => { };
     private readonly Action<Guid, TEntity> onEffectRemoved = (id, effect) => { };
 
-    public Dictionary<Guid, TEntity> Entities { get; } = new Dictionary<Guid, TEntity>();
+    private Dictionary<Guid, TEntity> entities = new Dictionary<Guid, TEntity>();
 
-    public Dictionary<Guid, float> TotalDurations { get; } = new Dictionary<Guid, float>();
+    private Dictionary<Guid, float> totalDurations = new Dictionary<Guid, float>();
 
-    public Dictionary<Guid, float> Durations { get; } = new Dictionary<Guid, float>();
+    private Dictionary<Guid, float> durations = new Dictionary<Guid, float>();
 
     public Registry(Subject updateSubject, Action<Guid, TEntity> onEffectAdded = null, Action<Guid, TEntity> onEffectRemoved = null)
     {
@@ -29,17 +29,20 @@ public class Registry<TEntity>
         }
     }
 
-    public bool TryGet(Guid id, out TEntity entity) => Entities.TryGetValue(id, out entity);
+    public bool TryGet(Guid id, out TEntity entity) => entities.TryGetValue(id, out entity);
 
-    public bool TryGetTotalDuration(Guid id, out float totalDuration) => TotalDurations.TryGetValue(id, out totalDuration);
+    public bool TryGetTotalDuration(Guid id, out float totalDuration) => totalDurations.TryGetValue(id, out totalDuration);
 
-    public bool TryGetRemainingDuration(Guid id, out float remainingDuration) => Durations.TryGetValue(id, out remainingDuration);
+    public bool TryGetRemainingDuration(Guid id, out float remainingDuration) => durations.TryGetValue(id, out remainingDuration);
 
-    public void ForEach(Action<TEntity> action)
+    public void ForEach(Action<TEntity> action, Predicate<TEntity> filter = null)
     {
-        foreach (TEntity entity in Entities.Values)
+        foreach (TEntity entity in entities.Values)
         {
-            action(entity);
+            if (filter == null || filter(entity))
+            {
+                action(entity);
+            }
         }
     }
 
@@ -49,33 +52,44 @@ public class Registry<TEntity>
 
     public void Remove(Guid id)
     {
-        if (Entities.TryGetValue(id, out TEntity entity))
+        if (entities.TryGetValue(id, out TEntity entity))
         {
             onEffectRemoved(id, entity);
 
-            Entities.Remove(id);
-            Durations.Remove(id);
-            TotalDurations.Remove(id);
+            entities.Remove(id);
+            durations.Remove(id);
+            totalDurations.Remove(id);
+        }
+    }
+
+    public void RemoveWhere(Predicate<TEntity> predicate)
+    {
+        foreach (Guid id in entities.Keys)
+        {
+            if (predicate(entities[id]))
+            {
+                Remove(id);
+            }
         }
     }
 
     public void Clear()
     {
-        Entities.Clear();
-        TotalDurations.Clear();
-        Durations.Clear();
+        entities.Clear();
+        totalDurations.Clear();
+        durations.Clear();
     }
 
     private Guid Add(TEntity entity, float? duration = null)
     {
         Guid id = Guid.NewGuid();
 
-        Entities.Add(id, entity);
+        entities.Add(id, entity);
 
         if (duration.HasValue)
         {
-            Durations.Add(id, duration.Value);
-            TotalDurations.Add(id, duration.Value);
+            durations.Add(id, duration.Value);
+            totalDurations.Add(id, duration.Value);
         }
 
         onEffectAdded(id, entity);
@@ -85,11 +99,11 @@ public class Registry<TEntity>
 
     private void TickDurations()
     {
-        Durations.Keys.ToList().ForEach(id =>
+        durations.Keys.ToList().ForEach(id =>
         {
-            Durations[id] -= Time.deltaTime;
+            durations[id] -= Time.deltaTime;
 
-            if (Durations[id] <= 0)
+            if (durations[id] <= 0)
             {
                 Remove(id);
             }
