@@ -3,16 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+/// <summary>
+/// Keeps track of entities of given type, which can be added indefinitely or temporarily (in which case they will be ticked down and expired).
+/// It exposes methods for adding, and for getting and removing the entities either by id or by predicate.
+/// </summary>
+/// <typeparam name="TEntity"></typeparam>
 public class Registry<TEntity>
 {
-    private readonly Action<Guid, TEntity> onEffectAdded = (id, effect) => { };
-    private readonly Action<Guid, TEntity> onEffectRemoved = (id, effect) => { };
+    private readonly Action<Guid, TEntity> onEntityAdded = (id, effect) => { };
+    private readonly Action<Guid, TEntity> onEntityRemoved = (id, effect) => { };
 
-    private Dictionary<Guid, TEntity> entities = new Dictionary<Guid, TEntity>();
+    private readonly Dictionary<Guid, TEntity> entities = new Dictionary<Guid, TEntity>();
 
-    private Dictionary<Guid, float> totalDurations = new Dictionary<Guid, float>();
+    private readonly Dictionary<Guid, float> totalDurations = new Dictionary<Guid, float>();
 
-    private Dictionary<Guid, float> durations = new Dictionary<Guid, float>();
+    private readonly Dictionary<Guid, float> durations = new Dictionary<Guid, float>();
 
     public Registry(Subject updateSubject, Action<Guid, TEntity> onEffectAdded = null, Action<Guid, TEntity> onEffectRemoved = null)
     {
@@ -20,12 +25,12 @@ public class Registry<TEntity>
 
         if (onEffectAdded != null)
         {
-            this.onEffectAdded = onEffectAdded;
+            this.onEntityAdded = onEffectAdded;
         }
 
         if (onEffectRemoved != null)
         {
-            this.onEffectRemoved = onEffectRemoved;
+            this.onEntityRemoved = onEffectRemoved;
         }
     }
 
@@ -54,23 +59,19 @@ public class Registry<TEntity>
     {
         if (entities.TryGetValue(id, out TEntity entity))
         {
-            onEffectRemoved(id, entity);
-
             entities.Remove(id);
             durations.Remove(id);
             totalDurations.Remove(id);
+
+            onEntityRemoved(id, entity);
         }
     }
 
     public void RemoveWhere(Predicate<TEntity> predicate)
     {
-        foreach (Guid id in entities.Keys)
-        {
-            if (predicate(entities[id]))
-            {
-                Remove(id);
-            }
-        }
+        entities.Keys.ToList()
+            .Where(id => predicate(entities[id]))
+            .ForEach(Remove);
     }
 
     public void Clear()
@@ -92,21 +93,19 @@ public class Registry<TEntity>
             totalDurations.Add(id, duration.Value);
         }
 
-        onEffectAdded(id, entity);
+        onEntityAdded(id, entity);
 
         return id;
     }
 
     private void TickDurations()
     {
-        durations.Keys.ToList().ForEach(id =>
-        {
-            durations[id] -= Time.deltaTime;
-
-            if (durations[id] <= 0)
+        durations.Keys.ToList()
+            .Where(id =>
             {
-                Remove(id);
-            }
-        });
+                durations[id] -= Time.deltaTime;
+                return durations[id] <= 0;
+            })
+            .ForEach(Remove);
     }
 }

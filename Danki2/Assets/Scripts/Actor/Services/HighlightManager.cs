@@ -7,7 +7,7 @@ public class HighlightManager
 
     private float currentIntensity = 0;
 
-    private Registry<float> intensities;
+    private readonly Registry<float> intensities;
 
     public HighlightManager(Subject updateSubject, MeshRenderer meshRenderer)
     {
@@ -22,7 +22,7 @@ public class HighlightManager
 
     public Guid AddTemporaryHighlight(float intensity, float duration) => intensities.AddTemporary(intensity, duration);
 
-    public void RemoveHightlight(Guid id) => intensities.Remove(id);
+    public void RemoveHighlight(Guid id) => intensities.Remove(id);
 
     private void ApplyCurrentHighlight()
     {

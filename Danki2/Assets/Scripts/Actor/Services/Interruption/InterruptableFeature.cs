@@ -1,4 +1,4 @@
-﻿public enum InterruptableFeature
+﻿public enum InterruptibleFeature
 {
     Repeat,
     InterruptOnDeath

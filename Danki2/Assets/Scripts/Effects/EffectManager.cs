@@ -6,7 +6,7 @@ public class EffectManager : IStatPipe, IMovementStatusProvider
     private readonly Actor actor;
     private readonly StatsManager statsManager;
 
-    private Registry<Effect> effects;
+    private readonly Registry<Effect> effects;
 
     public Subject<Guid> EffectAddedSubject { get; } = new Subject<Guid>();
     public Subject<Guid> EffectRemovedSubject { get; }  = new Subject<Guid>();
@@ -98,7 +98,6 @@ public class EffectManager : IStatPipe, IMovementStatusProvider
         return Mathf.RoundToInt(floatHealing);
     }
 
-    // IMovementStatusProvider method:
     public bool Stuns()
     {
         bool setStunned = false;
@@ -110,7 +109,6 @@ public class EffectManager : IStatPipe, IMovementStatusProvider
         return setStunned;
     }
 
-    // IMovementStatusProvider method:
     public bool Roots()
     {
         bool setRooted = false;

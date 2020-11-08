@@ -6,7 +6,7 @@ public class PlayerTargetable : MonoBehaviour
     [SerializeField]
     private Enemy enemy = null;
 
-    public const float HighlightIntensity = 0.02f;
+    private const float HighlightIntensity = 0.02f;
 
     private Guid highlightId = Guid.Empty;
     
@@ -23,7 +23,7 @@ public class PlayerTargetable : MonoBehaviour
         }
         else if (highlightId != Guid.Empty)
         {
-            enemy.HightlightManager.RemoveHightlight(highlightId);
+            enemy.HightlightManager.RemoveHighlight(highlightId);
             highlightId = Guid.Empty;
         }
     }

@@ -92,15 +92,15 @@ public abstract class Actor : MonoBehaviour
         target.HealthManager.ReceiveDamage(EffectManager.ProcessOutgoingDamage(damage), this);
     }
 
-    public void InterruptableAction(float delay, InterruptionType interruptionType, Action action)
+    public void InterruptibleAction(float delay, InterruptionType interruptionType, Action action)
     {
         Coroutine coroutine = this.WaitAndAct(delay, action);
         
-        // We don't need to worry about deregistering the interruptable as Stopping a finished coroutine doesn't cause any problems.
+        // We don't need to worry about deregistering the interruptible as Stopping a finished coroutine doesn't cause any problems.
         InterruptionManager.Register(
             interruptionType,
             () => StopCoroutine(coroutine),
-            InterruptableFeature.InterruptOnDeath
+            InterruptibleFeature.InterruptOnDeath
         );
     }
 

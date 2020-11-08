@@ -2,7 +2,7 @@
 
 public class InterruptionManager
 {
-    private readonly Registry<Interruptable> interruptables;
+    private readonly Registry<Interruptible> interruptibles;
 
     private readonly Actor actor;
 
@@ -10,7 +10,7 @@ public class InterruptionManager
     {
         this.actor = actor;
 
-        interruptables = new Registry<Interruptable>(updateSubject);
+        interruptibles = new Registry<Interruptible>(updateSubject);
 
         startSubject.Subscribe(Setup);
     }
@@ -21,15 +21,15 @@ public class InterruptionManager
         actor.MovementManager.MoveLockSubject.Subscribe(HardInterrupt);
     }
 
-    public Guid Register(InterruptionType type, Action onInterrupt, params InterruptableFeature[] features)
+    public Guid Register(InterruptionType type, Action onInterrupt, params InterruptibleFeature[] features)
     {
-        Interruptable interruptable = new Interruptable(type, onInterrupt, features);
-        Guid id = interruptables.AddIndefinite(interruptable);
+        Interruptible interruptible = new Interruptible(type, onInterrupt, features);
+        Guid id = interruptibles.AddIndefinite(interruptible);
 
         return id;
     }
 
-    public void Deregister(Guid id) => interruptables.Remove(id);
+    public void Deregister(Guid id) => interruptibles.Remove(id);
 
     public void Interrupt(InterruptionType interruptionType)
     {
@@ -64,10 +64,10 @@ public class InterruptionManager
         InterruptWhere(i => i.InterruptOnDeath);
     }
 
-    private void InterruptWhere(Predicate<Interruptable> predicate)
+    private void InterruptWhere(Predicate<Interruptible> predicate)
     {
-        interruptables.ForEach(i => i.OnInterrupt(), predicate);
+        interruptibles.ForEach(i => i.OnInterrupt(), predicate);
 
-        interruptables.RemoveWhere(i => predicate(i) && !i.Repeat);
+        interruptibles.RemoveWhere(i => predicate(i) && !i.Repeat);
     }
 }
