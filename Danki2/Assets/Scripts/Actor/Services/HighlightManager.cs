@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using UnityEngine;
 
 public class HighlightManager
@@ -38,7 +37,9 @@ public class HighlightManager
         currentIntensity = nextIntensity;
         Color highlight = new Color(nextIntensity, nextIntensity, nextIntensity);
 
-        meshRenderers.ToList()
-            .ForEach(m => m.material.SetEmissiveColour(highlight));
+        foreach (MeshRenderer meshRenderer in meshRenderers)
+        {
+            meshRenderer.material.SetEmissiveColour(highlight);
+        }
     }
 }
