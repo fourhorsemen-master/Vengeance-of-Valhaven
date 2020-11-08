@@ -20,7 +20,7 @@ public class AbilityLookup : Singleton<AbilityLookup>
     private readonly AbilityMap<float> channelDurationMap = new AbilityMap<float>();
 
     private readonly AbilityMap<Func<Actor, AbilityData, string[], InstantCast>> instantCastBuilderMap = new AbilityMap<Func<Actor, AbilityData, string[], InstantCast>>();
-    private readonly AbilityMap<Func<Actor, AbilityData, string[], Channel>> channelBuilderMap = new AbilityMap<Func<Actor, AbilityData, string[], Channel>>();
+    private readonly AbilityMap<Func<Actor, AbilityData, string[], float, Channel>> channelBuilderMap = new AbilityMap<Func<Actor, AbilityData, string[], float, Channel>>();
     private readonly AbilityMap<AbilityType> abilityTypeMap = new AbilityMap<AbilityType>();
 
     private readonly Lexer lexer = new Lexer();
@@ -78,10 +78,10 @@ public class AbilityLookup : Singleton<AbilityLookup>
         out Channel ability
     )
     {
-        if (channelBuilderMap.ContainsKey(abilityReference))
+        if (channelBuilderMap.ContainsKey(abilityReference) && channelDurationMap.ContainsKey(abilityReference))
         {
             AbilityData abilityData = baseAbilityDataMap[abilityReference] + abilityDataDiff;
-            ability = channelBuilderMap[abilityReference](owner, abilityData, activeBonuses);
+            ability = channelBuilderMap[abilityReference](owner, abilityData, activeBonuses, channelDurationMap[abilityReference]);
             return true;
         }
 
@@ -184,10 +184,10 @@ public class AbilityLookup : Singleton<AbilityLookup>
         foreach (AbilityReference abilityReference in Enum.GetValues(typeof(AbilityReference)))
         {
             Type type = abilityReferenceToType[abilityReference];
-            ConstructorInfo constructor = type.GetConstructor(new [] {typeof(Actor), typeof(AbilityData), typeof(string[])});
 
             if (type.IsSubclassOf(typeof(InstantCast)))
             {
+                ConstructorInfo constructor = type.GetConstructor(new [] {typeof(Actor), typeof(AbilityData), typeof(string[])});
                 instantCastBuilderMap[abilityReference] = (a, b, c) => (InstantCast)constructor.Invoke(new object[] {a, b, c});
                 abilityTypeMap[abilityReference] = AbilityType.InstantCast;
                 continue;
@@ -195,7 +195,8 @@ public class AbilityLookup : Singleton<AbilityLookup>
 
             if (type.IsSubclassOf(typeof(Channel)))
             {
-                channelBuilderMap[abilityReference] = (a, b, c) => (Channel)constructor.Invoke(new object[] {a, b, c});
+                ConstructorInfo constructor = type.GetConstructor(new [] {typeof(Actor), typeof(AbilityData), typeof(string[]), typeof(float)});
+                channelBuilderMap[abilityReference] = (a, b, c, d) => (Channel)constructor.Invoke(new object[] {a, b, c, d});
                 abilityTypeMap[abilityReference] = AbilityType.Channel;
             }
         }

@@ -3,14 +3,13 @@
 [Ability(AbilityReference.SwordThrow, new[] { "Poison Sword" })]
 public class SwordThrow : Cast
 {
-    protected override float CastTime => 2f;
-
     private const float swordSpeed = 10f;
     private const float poisonSwordDOTLength = 5f;
 
     public override ChannelEffectOnMovement EffectOnMovement => ChannelEffectOnMovement.Root;
 
-    public SwordThrow(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
+    public SwordThrow(Actor owner, AbilityData abilityData, string[] availableBonuses, float duration)
+        : base(owner, abilityData, availableBonuses, duration)
     {
     }
 

@@ -9,9 +9,8 @@ public class Rend : Charge
 
     private int cameraShakeCount = 0;
 
-    protected override float ChargeTime => 3f;
-
-    public Rend(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
+    public Rend(Actor owner, AbilityData abilityData, string[] availableBonuses, float duration)
+        : base(owner, abilityData, availableBonuses, duration)
     {
     }
 
@@ -25,7 +24,7 @@ public class Rend : Charge
 
     public override void Cancel(Vector3 target) => End(TimeCharged);
 
-    public override void End(Vector3 target) => End(ChargeTime);
+    public override void End(Vector3 target) => End(Duration);
 
     private void End(float timeCharged)
     {
