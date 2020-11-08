@@ -6,6 +6,7 @@
 
     public static AiTrigger operator &(AiTrigger t1, AiTrigger t2) => new AndTrigger(t1, t2);
     public static AiTrigger operator |(AiTrigger t1, AiTrigger t2) => new OrTrigger(t1, t2);
+    public static AiTrigger operator ^(AiTrigger t1, AiTrigger t2) => new XOrTrigger(t1, t2);
     public static AiTrigger operator !(AiTrigger t) => new NotTrigger(t);
     
     private class AndTrigger : CompositeTrigger
@@ -20,6 +21,13 @@
         public OrTrigger(AiTrigger t1, AiTrigger t2) : base(t1, t2) {}
 
         public override bool Triggers() => t1.Triggers() || t2.Triggers();
+    }
+
+    private class XOrTrigger : CompositeTrigger
+    {
+        public XOrTrigger(AiTrigger t1, AiTrigger t2) : base(t1, t2) {}
+
+        public override bool Triggers() => t1.Triggers() ^ t2.Triggers();
     }
 
     private class NotTrigger : AiTrigger
