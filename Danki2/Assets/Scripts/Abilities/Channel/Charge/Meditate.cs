@@ -82,7 +82,7 @@ public class Meditate : Charge
             Actor actor = keyValuePair.Key;
             Guid effectId = keyValuePair.Value;
             
-            actor.EffectManager.RemovePassiveEffect(effectId);
+            actor.EffectManager.RemoveEffect(effectId);
         }
     }
 

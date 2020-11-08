@@ -8,26 +8,26 @@ public class HighlightManager
 
     private float currentIntensity = 0;
 
-    private Registry<float> registry;
+    private Registry<float> intensities;
 
     public HighlightManager(Subject updateSubject, MeshRenderer meshRenderer)
     {
         this.meshRenderer = meshRenderer;
 
-        registry = new Registry<float>(updateSubject);
+        intensities = new Registry<float>(updateSubject);
 
         updateSubject.Subscribe(ApplyCurrentHighlight);
     }
 
-    public Guid AddIndefiniteHighlight(float intensity) => registry.AddIndefinite(intensity);
+    public Guid AddIndefiniteHighlight(float intensity) => intensities.AddIndefinite(intensity);
 
-    public Guid AddTemporaryHighlight(float intensity, float duration) => registry.AddTemporary(intensity, duration);
+    public Guid AddTemporaryHighlight(float intensity, float duration) => intensities.AddTemporary(intensity, duration);
 
-    public void RemoveHightlight(Guid id) => registry.Remove(id);
+    public void RemoveHightlight(Guid id) => intensities.Remove(id);
 
     private void ApplyCurrentHighlight()
     {
-        var nexIntensity = registry.Entities.Any() ? registry.Entities.Values.Max() : 0f;
+        var nexIntensity = intensities.Entities.Any() ? intensities.Entities.Values.Max() : 0f;
 
         if (currentIntensity == nexIntensity) return;
 
