@@ -19,6 +19,8 @@ public class SerializableAbilityMetadata
     private SerializableAbilityBonusLookup abilityBonusLookup = new SerializableAbilityBonusLookup();
     [SerializeField]
     private bool finisher = false;
+    [SerializeField]
+    private float channelDuration = 0f;
 
     public string DisplayName { get => displayName; set => displayName = value; }
     public string Tooltip { get => tooltip; set => tooltip = value; }
@@ -27,6 +29,7 @@ public class SerializableAbilityMetadata
     public List<OrbType> GeneratedOrbs { get => generatedOrbs; set => generatedOrbs = value; }
     public SerializableAbilityBonusLookup AbilityBonusLookup { get => abilityBonusLookup; set => abilityBonusLookup = value; }
     public bool Finisher { get => finisher; set => finisher = value; }
+    public float ChannelDuration { get => channelDuration; set => channelDuration = value; }
 
     public bool MissingData => string.IsNullOrWhiteSpace(displayName) ||
                                string.IsNullOrWhiteSpace(tooltip) ||

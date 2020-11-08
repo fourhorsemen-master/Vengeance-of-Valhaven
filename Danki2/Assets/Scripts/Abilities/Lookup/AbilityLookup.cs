@@ -17,6 +17,7 @@ public class AbilityLookup : Singleton<AbilityLookup>
     private readonly AbilityMap<List<TemplatedTooltipSegment>> templatedTooltipSegmentsMap = new AbilityMap<List<TemplatedTooltipSegment>>();
     private readonly AbilityMap<Dictionary<string, AbilityBonusData>> abilityBonusDataMap = new AbilityMap<Dictionary<string, AbilityBonusData>>();
     private readonly AbilityMap<bool> finisherLookup = new AbilityMap<bool>();
+    private readonly AbilityMap<float> channelDurationMap = new AbilityMap<float>();
 
     private readonly AbilityMap<Func<Actor, AbilityData, string[], InstantCast>> instantCastBuilderMap = new AbilityMap<Func<Actor, AbilityData, string[], InstantCast>>();
     private readonly AbilityMap<Func<Actor, AbilityData, string[], Channel>> channelBuilderMap = new AbilityMap<Func<Actor, AbilityData, string[], Channel>>();
@@ -114,6 +115,9 @@ public class AbilityLookup : Singleton<AbilityLookup>
 
     public bool IsFinisher(AbilityReference abilityReference) => finisherLookup[abilityReference];
 
+    public bool TryGetChannelDuration(AbilityReference abilityReference, out float channelDuration) =>
+        channelDurationMap.TryGetValue(abilityReference, out channelDuration);
+
     private void BuildMetadataLookups()
     {
         EnumUtils.ForEach<AbilityReference>(ability =>
@@ -127,6 +131,11 @@ public class AbilityLookup : Singleton<AbilityLookup>
             if (serializableAbilityMetadata.AbilityOrbType.HasValue)
             {
                 abilityOrbTypeMap[ability] = serializableAbilityMetadata.AbilityOrbType.Value;
+            }
+
+            if (abilityAttributeDataLookup[ability].Type.IsSubclassOf(typeof(Channel)))
+            {
+                channelDurationMap[ability] = serializableAbilityMetadata.ChannelDuration;
             }
 
             generatedOrbsMap[ability] = new OrbCollection(serializableAbilityMetadata.GeneratedOrbs);

@@ -73,12 +73,28 @@ public class AbilityLookupEditor : Editor
         serializableAbilityMetadata.DisplayName = EditorGUILayout.TextField("Display Name", serializableAbilityMetadata.DisplayName);
         serializableAbilityMetadata.Tooltip = EditorUtils.MultilineTextField("Tooltip", serializableAbilityMetadata.Tooltip, 3);
         serializableAbilityMetadata.Finisher = EditorGUILayout.Toggle("Finisher", serializableAbilityMetadata.Finisher);
+        EditChannelDuration(abilityReference, serializableAbilityMetadata);
         EditAbilityOrbType(serializableAbilityMetadata);
         EditBaseAbilityData(abilityReference, serializableAbilityMetadata);
         EditGeneratedOrbs(abilityReference, serializableAbilityMetadata);
         EditAbilityBonusData(abilityReference, serializableAbilityMetadata);
             
         EditorGUI.indentLevel--;
+    }
+
+    private void EditChannelDuration(AbilityReference abilityReference, SerializableAbilityMetadata serializableAbilityMetadata)
+    {
+        if (!IsChannel(abilityReference)) return;
+
+        serializableAbilityMetadata.ChannelDuration = EditorGUILayout.FloatField(
+            "Channel Duration",
+            serializableAbilityMetadata.ChannelDuration);
+    }
+
+    private bool IsChannel(AbilityReference abilityReference)
+    {
+        Type abilityType = abilityAttributeDataLookup[abilityReference].Type;
+        return abilityType.IsSubclassOf(typeof(Channel));
     }
 
     private void EditAbilityOrbType(SerializableAbilityMetadata serializableAbilityMetadata)
