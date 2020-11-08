@@ -14,7 +14,7 @@ public abstract class Actor : MonoBehaviour
     private TrailRenderer trailRenderer = null;
 
     [SerializeField]
-    private MeshRenderer meshRenderer = null;
+    private MeshRenderer[] meshRenderers = null;
 
     private Coroutine stopTrailCoroutine;
     private StatsManager statsManager;
@@ -47,7 +47,7 @@ public abstract class Actor : MonoBehaviour
         ChannelService = new ChannelService(this, startSubject, lateUpdateSubject);
         InstantCastService = new InstantCastService(this);
         MovementManager = new MovementManager(this, updateSubject, navmeshAgent);
-        HightlightManager = new HighlightManager(updateSubject, meshRenderer);
+        HightlightManager = new HighlightManager(updateSubject, meshRenderers);
 
         AbilityDataStatsDiffer abilityDataStatsDiffer = new AbilityDataStatsDiffer(this);
         RegisterAbilityDataDiffer(abilityDataStatsDiffer);

@@ -601,7 +601,13 @@ MonoBehaviour:
     _values: 1400000003000000000000000000000000000000
   navmeshAgent: {fileID: 6918691881617835041}
   trailRenderer: {fileID: 1618317697}
-  meshRenderer: {fileID: 238146866297834099}
+  meshRenderers:
+  - {fileID: 2246581342822197071}
+  - {fileID: 4492375800495704376}
+  - {fileID: 238146866297834099}
+  - {fileID: 3945926852287790573}
+  - {fileID: 2218463001632857925}
+  - {fileID: 231292674930942495}
   cooldownDuringCombo: 0.75
   cooldownAfterCombo: 1.5
   comboTimeout: 2

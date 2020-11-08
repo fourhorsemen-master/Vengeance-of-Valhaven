@@ -1,17 +1,18 @@
 ﻿using System;
+using System.Linq;
 using UnityEngine;
 
 public class HighlightManager
 {
-    private readonly MeshRenderer meshRenderer;
+    private readonly MeshRenderer[] meshRenderers;
 
     private float currentIntensity = 0;
 
     private readonly Registry<float> intensities;
 
-    public HighlightManager(Subject updateSubject, MeshRenderer meshRenderer)
+    public HighlightManager(Subject updateSubject, MeshRenderer[] meshRenderers)
     {
-        this.meshRenderer = meshRenderer;
+        this.meshRenderers = meshRenderers;
 
         intensities = new Registry<float>(updateSubject);
 
@@ -36,6 +37,8 @@ public class HighlightManager
 
         currentIntensity = nextIntensity;
         Color highlight = new Color(nextIntensity, nextIntensity, nextIntensity);
-        meshRenderer.material.SetEmissiveColour(highlight);
+
+        meshRenderers.ToList()
+            .ForEach(m => m.material.SetEmissiveColour(highlight));
     }
 }
