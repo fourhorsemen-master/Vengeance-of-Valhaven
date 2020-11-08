@@ -22,7 +22,10 @@ public class PlayerTreeTooltipBuilder
     {
         List<TemplatedTooltipSegment> templatedTooltipSegments = AbilityLookup.Instance.GetTemplatedTooltipSegments(node.Ability);
 
-        return GetTooltipSegments(templatedTooltipSegments, node);
+        List<TooltipSegment> tooltipSegments = TooltipUtils.GetTooltipPrefix(node.Ability);
+        tooltipSegments.AddRange(GetTooltipSegments(templatedTooltipSegments, node));
+
+        return tooltipSegments;
     }
 
     /// <summary>

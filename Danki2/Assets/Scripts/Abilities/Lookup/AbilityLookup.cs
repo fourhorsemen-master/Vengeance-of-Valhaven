@@ -22,6 +22,7 @@ public class AbilityLookup : Singleton<AbilityLookup>
     private readonly AbilityMap<Func<Actor, AbilityData, string[], InstantCast>> instantCastBuilderMap = new AbilityMap<Func<Actor, AbilityData, string[], InstantCast>>();
     private readonly AbilityMap<Func<Actor, AbilityData, string[], float, Channel>> channelBuilderMap = new AbilityMap<Func<Actor, AbilityData, string[], float, Channel>>();
     private readonly AbilityMap<AbilityType> abilityTypeMap = new AbilityMap<AbilityType>();
+    private readonly AbilityMap<ChannelType> channelTypeMap = new AbilityMap<ChannelType>();
 
     private readonly Lexer lexer = new Lexer();
     private readonly Parser parser = new Parser();
@@ -102,6 +103,9 @@ public class AbilityLookup : Singleton<AbilityLookup>
     }
 
     public AbilityType GetAbilityType(AbilityReference abilityReference) => abilityTypeMap[abilityReference];
+
+    public bool TryGetChannelType(AbilityReference abilityReference, out ChannelType channelType) =>
+        channelTypeMap.TryGetValue(abilityReference, out channelType);
 
     public AbilityData GetBaseAbilityData(AbilityReference abilityReference) => baseAbilityDataMap[abilityReference];
 
@@ -198,7 +202,28 @@ public class AbilityLookup : Singleton<AbilityLookup>
                 ConstructorInfo constructor = type.GetConstructor(new [] {typeof(Actor), typeof(AbilityData), typeof(string[]), typeof(float)});
                 channelBuilderMap[abilityReference] = (a, b, c, d) => (Channel)constructor.Invoke(new object[] {a, b, c, d});
                 abilityTypeMap[abilityReference] = AbilityType.Channel;
+                BuildChannelTypeLookup(abilityReference, type);
             }
+        }
+    }
+
+    private void BuildChannelTypeLookup(AbilityReference abilityReference, Type type)
+    {
+        if (type.IsSubclassOf(typeof(Cast)))
+        {
+            channelTypeMap[abilityReference] = ChannelType.Cast;
+            return;
+        }
+
+        if (type.IsSubclassOf(typeof(Charge)))
+        {
+            channelTypeMap[abilityReference] = ChannelType.Charge;
+            return;
+        }
+
+        if (type.IsSubclassOf(typeof(Channel)))
+        {
+            channelTypeMap[abilityReference] = ChannelType.Channel;
         }
     }
 }
