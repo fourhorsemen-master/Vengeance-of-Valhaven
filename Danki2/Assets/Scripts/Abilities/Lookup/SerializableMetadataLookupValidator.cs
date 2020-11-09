@@ -65,17 +65,37 @@ public class SerializableMetadataLookupValidator
         abilityAttributeData.ForEach(attributeData =>
         {
             Type type = attributeData.Type;
-            
-            if (!type.IsSubclassOf(typeof(InstantCast)) && !type.IsSubclassOf(typeof(Channel)))
+
+            if (type.IsSubclassOf(typeof(InstantCast)))
             {
-                LogError($"Found ability attribute on type \"{type}\", which does not inherit from a recognised ability class.");
+                ValidateInstantCast(type);
+                return;
             }
 
-            if (type.GetConstructor(new [] {typeof(Actor), typeof(AbilityData), typeof(string[])}) == null)
+            if (type.IsSubclassOf(typeof(Channel)))
             {
-                LogError($"Could not find valid ability constructor on annotated type \"{type}\".");
+                ValidateChannel(type);
+                return;
             }
+
+            LogError($"Found ability attribute on type \"{type}\", which does not inherit from a recognised ability class.");
         });
+    }
+
+    private void ValidateInstantCast(Type type)
+    {
+        if (type.GetConstructor(new[] {typeof(Actor), typeof(AbilityData), typeof(string[])}) == null)
+        {
+            LogError($"Could not find valid instant cast constructor on \"{type}\".");
+        }
+    }
+
+    private void ValidateChannel(Type type)
+    {
+        if (type.GetConstructor(new[] {typeof(Actor), typeof(AbilityData), typeof(string[]), typeof(float)}) == null)
+        {
+            LogError($"Could not find valid channel constructor on \"{type}\".");
+        }
     }
 
     private void ValidateSerializableAbilityMetadataLookup()

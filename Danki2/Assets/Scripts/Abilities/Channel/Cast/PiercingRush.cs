@@ -3,8 +3,6 @@
 [Ability(AbilityReference.PiercingRush, new[] { "Daze", "Jetstream" })]
 public class PiercingRush : Cast
 {
-    protected override float CastTime => 2f;
-
     private const float minimumCastRange = 2f;
     private const float maximumCastRange = 10f;
     private const float dashDamageWidth = 6f;
@@ -24,7 +22,8 @@ public class PiercingRush : Cast
 
     public override ChannelEffectOnMovement EffectOnMovement => ChannelEffectOnMovement.Root;
 
-    public PiercingRush(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
+    public PiercingRush(Actor owner, AbilityData abilityData, string[] availableBonuses, float duration)
+        : base(owner, abilityData, availableBonuses, duration)
     {
     }
 

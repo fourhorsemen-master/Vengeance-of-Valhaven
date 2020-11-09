@@ -3,16 +3,14 @@
 [Ability(AbilityReference.Sprint)]
 public class Sprint : Cast
 {
-    protected override float CastTime => 1;
-
     private const int SpeedModification = 3;
     private const float SprintDuration = 5;
     
     private readonly Subject onCastCancelled = new Subject();
     private readonly Subject onCastEnd = new Subject();
 
-    public Sprint(Actor owner, AbilityData abilityData, string[] availableBonuses)
-        : base(owner, abilityData, availableBonuses)
+    public Sprint(Actor owner, AbilityData abilityData, string[] availableBonuses, float duration)
+        : base(owner, abilityData, availableBonuses, duration)
     {
     }
 

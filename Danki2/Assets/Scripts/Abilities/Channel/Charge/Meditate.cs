@@ -5,8 +5,6 @@ using UnityEngine;
 [Ability(AbilityReference.Meditate, new []{"Clarity", "GrowingRage"})]
 public class Meditate : Charge
 {
-    protected override float ChargeTime => 5;
-    
     private readonly Dictionary<Actor, Guid> slowedActors = new Dictionary<Actor, Guid>();
 
     private MeditateObject meditateObject;
@@ -15,13 +13,14 @@ public class Meditate : Charge
     private const int GrowingRageMultiplier = 2;
     private const float SlowMultiplier = 0.5f;
 
-    public Meditate(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
+    public Meditate(Actor owner, AbilityData abilityData, string[] availableBonuses, float duration)
+        : base(owner, abilityData, availableBonuses, duration)
     {
     }
 
     protected override void Start()
     {
-        meditateObject = MeditateObject.Create(Owner.transform, ChargeTime);
+        meditateObject = MeditateObject.Create(Owner.transform, Duration);
         
         if (HasBonus("Clarity")) AddSlowEffects();
     }
