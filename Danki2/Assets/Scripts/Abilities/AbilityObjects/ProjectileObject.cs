@@ -10,7 +10,7 @@ public abstract class ProjectileObject : MonoBehaviour
     [SerializeField]
     Rigidbody rigidBody = null;
 
-    private const float MaxDistanceFromPlayer = 500f;
+    private const float MaxDistanceFromPlayer = 200f;
 
     protected Actor caster;
     private float speed;
