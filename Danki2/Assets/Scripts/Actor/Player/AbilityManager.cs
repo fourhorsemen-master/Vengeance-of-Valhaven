@@ -45,7 +45,7 @@ public class AbilityManager
 
         this.player.HealthManager.ModifiedDamageSubject.Subscribe(d =>
         {
-            if (d.Damage > 0) Whiff();
+            if (d.Damage > 0 && !player.AbilityTree.AtRoot) Whiff();
         });
 
         AbilityTimeoutSubscription();
@@ -110,6 +110,11 @@ public class AbilityManager
     private void Whiff()
     {
         player.PlayWhiffSound();
+
+        if (abilityFeedbackSubscription != null)
+        {
+            abilityFeedbackSubscription.Unsubscribe();
+        }
 
         whiffed = true;
         player.AbilityTree.Reset();
