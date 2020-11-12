@@ -4,7 +4,7 @@ public class WolfAi : Ai
 {
     [SerializeField] private Wolf wolf = null;
     
-    [Header("Overarching")]
+    [Header("General")]
     [SerializeField] private float watchDistance = 0;
     [SerializeField] private float agroTime = 0;
     [SerializeField] private float agroDistance = 0;
