@@ -1,4 +1,4 @@
-﻿public class WolfBite : StateMachineComponent
+﻿public class WolfBite : IStateMachineComponent
 {
     private readonly Wolf wolf;
 

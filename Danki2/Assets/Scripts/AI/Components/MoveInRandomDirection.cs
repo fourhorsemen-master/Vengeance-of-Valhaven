@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class MoveInRandomDirection : StateMachineComponent
+public class MoveInRandomDirection : IStateMachineComponent
 {
     private readonly Actor actor;
 

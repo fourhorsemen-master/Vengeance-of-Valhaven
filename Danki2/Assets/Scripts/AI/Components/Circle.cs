@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Circle : StateMachineComponent
+public class Circle : IStateMachineComponent
 {
     private readonly Actor actor;
     private readonly Actor target;

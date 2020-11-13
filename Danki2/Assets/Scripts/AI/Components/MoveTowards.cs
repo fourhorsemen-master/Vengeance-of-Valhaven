@@ -1,4 +1,4 @@
-﻿public class MoveTowards : StateMachineComponent
+﻿public class MoveTowards : IStateMachineComponent
 {
     private readonly Actor actor;
     private readonly Actor target;

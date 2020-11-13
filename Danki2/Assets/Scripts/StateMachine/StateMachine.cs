@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
-public class StateMachine<TState> : StateMachineComponent where TState : Enum
+public class StateMachine<TState> : IStateMachineComponent where TState : Enum
 {
-    private readonly EnumDictionary<TState, StateMachineComponent> components =
-        new EnumDictionary<TState, StateMachineComponent>(() => new NoOpComponent());
+    private readonly EnumDictionary<TState, IStateMachineComponent> components =
+        new EnumDictionary<TState, IStateMachineComponent>(() => new NoOpComponent());
     
     private readonly EnumDictionary<TState, EnumDictionary<TState, StateMachineTrigger>> localTriggers =
         new EnumDictionary<TState, EnumDictionary<TState, StateMachineTrigger>>(() =>
@@ -21,7 +21,7 @@ public class StateMachine<TState> : StateMachineComponent where TState : Enum
         this.initialState = initialState;
     }
 
-    public StateMachine<TState> WithComponent(TState state, StateMachineComponent component)
+    public StateMachine<TState> WithComponent(TState state, IStateMachineComponent component)
     {
         components[state] = component;
         return this;

@@ -1,4 +1,4 @@
-﻿public interface StateMachineComponent
+﻿public interface IStateMachineComponent
 {
     void Enter();
     void Exit();

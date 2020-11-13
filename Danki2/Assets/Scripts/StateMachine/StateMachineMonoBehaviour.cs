@@ -2,7 +2,7 @@
 
 public abstract class StateMachineMonoBehaviour : MonoBehaviour
 {
-    protected StateMachineComponent StateMachineComponent { get; private set; }
+    protected IStateMachineComponent StateMachineComponent { get; private set; }
 
     protected virtual void Start()
     {
@@ -15,5 +15,5 @@ public abstract class StateMachineMonoBehaviour : MonoBehaviour
         StateMachineComponent.Update();
     }
 
-    protected abstract StateMachineComponent BuildStateMachineComponent();
+    protected abstract IStateMachineComponent BuildStateMachineComponent();
 }
