@@ -11,7 +11,7 @@
 
     private void OnDeath()
     {
-        stateMachineComponent.Exit();
+        StateMachineComponent.Exit();
         enabled = false;
     }
 }

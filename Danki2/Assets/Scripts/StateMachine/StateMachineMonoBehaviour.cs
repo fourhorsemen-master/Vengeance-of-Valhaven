@@ -2,17 +2,17 @@
 
 public abstract class StateMachineMonoBehaviour : MonoBehaviour
 {
-    protected StateMachineComponent stateMachineComponent;
+    protected StateMachineComponent StateMachineComponent { get; private set; }
 
     protected virtual void Start()
     {
-        stateMachineComponent = BuildStateMachineComponent();
-        stateMachineComponent.Enter();
+        StateMachineComponent = BuildStateMachineComponent();
+        StateMachineComponent.Enter();
     }
 
     protected void Update()
     {
-        stateMachineComponent.Update();
+        StateMachineComponent.Update();
     }
 
     protected abstract StateMachineComponent BuildStateMachineComponent();
