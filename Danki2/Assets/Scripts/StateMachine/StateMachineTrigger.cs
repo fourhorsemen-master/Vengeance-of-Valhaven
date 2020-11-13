@@ -7,34 +7,34 @@
     public static StateMachineTrigger operator &(StateMachineTrigger t1, StateMachineTrigger t2) => new AndTrigger(t1, t2);
     public static StateMachineTrigger operator |(StateMachineTrigger t1, StateMachineTrigger t2) => new OrTrigger(t1, t2);
     public static StateMachineTrigger operator ^(StateMachineTrigger t1, StateMachineTrigger t2) => new XOrTrigger(t1, t2);
-    public static StateMachineTrigger operator !(StateMachineTrigger t) => new NotStateMachineTrigger(t);
+    public static StateMachineTrigger operator !(StateMachineTrigger t) => new NotTrigger(t);
     
-    private class AndTrigger : CompositeStateMachineTrigger
+    private class AndTrigger : CompositeTrigger
     {
         public AndTrigger(StateMachineTrigger t1, StateMachineTrigger t2) : base(t1, t2) {}
 
         public override bool Triggers() => t1.Triggers() && t2.Triggers();
     }
     
-    private class OrTrigger : CompositeStateMachineTrigger
+    private class OrTrigger : CompositeTrigger
     {
         public OrTrigger(StateMachineTrigger t1, StateMachineTrigger t2) : base(t1, t2) {}
 
         public override bool Triggers() => t1.Triggers() || t2.Triggers();
     }
 
-    private class XOrTrigger : CompositeStateMachineTrigger
+    private class XOrTrigger : CompositeTrigger
     {
         public XOrTrigger(StateMachineTrigger t1, StateMachineTrigger t2) : base(t1, t2) {}
 
         public override bool Triggers() => t1.Triggers() ^ t2.Triggers();
     }
 
-    private class NotStateMachineTrigger : StateMachineTrigger
+    private class NotTrigger : StateMachineTrigger
     {
         private readonly StateMachineTrigger stateMachineTrigger;
 
-        public NotStateMachineTrigger(StateMachineTrigger stateMachineTrigger)
+        public NotTrigger(StateMachineTrigger stateMachineTrigger)
         {
             this.stateMachineTrigger = stateMachineTrigger;
         }
@@ -44,12 +44,12 @@
         public override bool Triggers() => !stateMachineTrigger.Triggers();
     }
 
-    private abstract class CompositeStateMachineTrigger : StateMachineTrigger
+    private abstract class CompositeTrigger : StateMachineTrigger
     {
         protected readonly StateMachineTrigger t1;
         protected readonly StateMachineTrigger t2;
 
-        protected CompositeStateMachineTrigger(StateMachineTrigger t1, StateMachineTrigger t2)
+        protected CompositeTrigger(StateMachineTrigger t1, StateMachineTrigger t2)
         {
             this.t1 = t1;
             this.t2 = t2;
