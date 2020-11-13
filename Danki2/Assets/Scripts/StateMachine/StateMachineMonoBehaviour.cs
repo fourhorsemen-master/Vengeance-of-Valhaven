@@ -10,7 +10,7 @@ public abstract class StateMachineMonoBehaviour : MonoBehaviour
         StateMachineComponent.Enter();
     }
 
-    protected void Update()
+    private void Update()
     {
         StateMachineComponent.Update();
     }
