@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class DistanceGreaterThan : AiTrigger
+public class DistanceGreaterThan : StateMachineTrigger
 {
     private readonly Actor actor1;
     private readonly Actor actor2;

@@ -1,4 +1,4 @@
-﻿public class MoveAway : IAiComponent
+﻿public class MoveAway : StateMachineComponent
 {
     private readonly Actor actor;
     private readonly Actor target;

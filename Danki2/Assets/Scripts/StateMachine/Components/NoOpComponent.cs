@@ -1,4 +1,4 @@
-﻿public class NoOpComponent : IAiComponent
+﻿public class NoOpComponent : StateMachineComponent
 {
     public void Enter() { }
     public void Exit() { }

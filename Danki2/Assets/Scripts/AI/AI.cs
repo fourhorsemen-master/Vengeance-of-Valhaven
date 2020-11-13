@@ -1,28 +1,17 @@
-﻿using UnityEngine;
-
-public abstract class Ai : MonoBehaviour
+﻿public abstract class Ai : StateMachineMonoBehaviour
 {
     protected abstract Actor Actor { get; }
-    
-    private IAiComponent aiComponent;
 
-    private void Start()
+    protected override void Start()
     {
-        aiComponent = BuildAiComponent();
-        aiComponent.Enter();
+        base.Start();
+
         Actor.DeathSubject.Subscribe(OnDeath);
-    }
-
-    private void Update()
-    {
-        aiComponent.Update();
     }
 
     private void OnDeath()
     {
-        aiComponent.Exit();
+        stateMachineComponent.Exit();
         enabled = false;
     }
-
-    protected abstract IAiComponent BuildAiComponent();
 }

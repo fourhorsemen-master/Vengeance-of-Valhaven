@@ -1,4 +1,4 @@
-﻿public class WatchTarget : IAiComponent
+﻿public class WatchTarget : StateMachineComponent
 {
     private readonly Actor actor;
     private readonly Actor target;

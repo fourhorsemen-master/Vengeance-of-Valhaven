@@ -1,4 +1,4 @@
-﻿public class WolfHowl : IAiComponent
+﻿public class WolfHowl : StateMachineComponent
 {
     private readonly Wolf wolf;
 

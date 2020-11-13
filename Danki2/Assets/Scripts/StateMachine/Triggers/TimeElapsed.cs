@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class TimeElapsed : AiTrigger
+public class TimeElapsed : StateMachineTrigger
 {
     private readonly float time;
 

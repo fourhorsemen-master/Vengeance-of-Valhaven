@@ -1,6 +1,6 @@
 ﻿using System;
 
-public class Interrupted : AiTrigger
+public class Interrupted : StateMachineTrigger
 {
     private readonly Actor actor;
     private readonly InterruptionType interruptionType;

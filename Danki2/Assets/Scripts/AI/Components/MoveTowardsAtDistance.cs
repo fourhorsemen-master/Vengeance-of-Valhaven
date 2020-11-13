@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class MoveTowardsAtDistance : IAiComponent
+public class MoveTowardsAtDistance : StateMachineComponent
 {
     private readonly Actor actor;
     private readonly Actor target;

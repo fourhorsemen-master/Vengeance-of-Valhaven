@@ -1,4 +1,4 @@
-﻿public class AlwaysTrigger : AiTrigger
+﻿public class AlwaysTrigger : StateMachineTrigger
 {
     public override void Activate() {}
     public override void Deactivate() {}

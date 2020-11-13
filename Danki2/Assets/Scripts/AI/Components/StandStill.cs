@@ -1,4 +1,4 @@
-﻿public class StandStill : IAiComponent
+﻿public class StandStill : StateMachineComponent
 {
     private readonly Actor actor;
 
