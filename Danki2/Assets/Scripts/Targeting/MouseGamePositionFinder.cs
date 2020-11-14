@@ -13,6 +13,52 @@ public class MouseGamePositionFinder : Singleton<MouseGamePositionFinder>
 
     public float HeightOffset => heightOffset;
 
+    public bool TryGetCollider(out Collider collider, out Vector3 position, int layerMask = int.MaxValue)
+    {
+        if (Physics.Raycast(GetCameraToMouseRay(), out RaycastHit raycastHit, Mathf.Infinity, layerMask))
+        {
+            collider = raycastHit.collider;
+            position = raycastHit.point;
+            return true;
+        }
+
+        collider = null;
+        position = default;
+        return false;
+    }
+
+    public bool TryGetNavMeshPositions(out Vector3 floorPosition, out Vector3 offsetPosition)
+    {
+        floorPosition = default;
+        offsetPosition = default;
+
+        if (!Physics.Raycast(GetCameraToMouseRay(), out RaycastHit raycastHit, Mathf.Infinity, int.MaxValue)) return false;
+
+        if (!NavMesh.SamplePosition(raycastHit.point, out _, navmeshClearance, NavMesh.AllAreas)) return false;
+
+        floorPosition = raycastHit.point;
+        Vector3 positionToCamera = Camera.main.transform.position - floorPosition;
+        Vector3 offset = positionToCamera * heightOffset / positionToCamera.y;
+        offsetPosition = floorPosition + offset;
+
+        return true;
+    }
+
+    public void GetPlanePositions(float planeHeight, out Vector3 floorPosition, out Vector3 offsetPosition)
+    {
+        Ray ray = GetCameraToMouseRay();
+
+        plane.distance = planeHeight;
+        plane.Raycast(ray, out float distanceAlongRay);
+        floorPosition = ray.GetPoint(distanceAlongRay);
+
+        plane.distance += heightOffset;
+        plane.Raycast(ray, out float offsetDistanceAlongRay);
+        offsetPosition = ray.GetPoint(offsetDistanceAlongRay);
+    }
+
+    private Ray GetCameraToMouseRay() => Camera.main.ScreenPointToRay(Input.mousePosition);
+
     /// <summary>
     /// Casts a ray from the camera through the mouse to get the position where it collides with a collider.
     /// If this point is close to the navMesh, we add a vector that moves the point towards the camera such that y-value is increased by heightOffset.

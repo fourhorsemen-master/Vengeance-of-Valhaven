@@ -192,7 +192,8 @@ public class AbilityManager
                 CastingStatus = CastingStatus.AwaitingFeedback;
                 player.InstantCastService.Cast(
                     abilityReference,
-                    player.TargetFinder.TargetPosition,
+                    player.TargetFinder.FloorTargetPosition,
+                    player.TargetFinder.OffsetTargetPosition,
                     subject => abilityFeedbackSubscription = subject.Subscribe(AbilityFeedbackSubscription),
                     player.TargetFinder.Target
                 );

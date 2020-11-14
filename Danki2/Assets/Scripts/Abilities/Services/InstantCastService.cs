@@ -3,20 +3,17 @@ using UnityEngine;
 
 public class InstantCastService : AbilityService
 {
-    public Subject CastSubject { get; } = new Subject();
+    public InstantCastService(Actor actor) : base(actor) {}
 
-    public InstantCastService(Actor actor) : base(actor)
-    {
-    }
-
-    public bool Cast(
+    public void Cast(
         AbilityReference abilityReference,
-        Vector3 targetPosition,
+        Vector3 floorTargetPosition,
+        Vector3 offsetTargetPosition,
         Action<Subject<bool>> successFeedbackSubjectAction = null,
         Actor target = null
     )
     {
-        if (!CanCast) return false;
+        if (!CanCast) return;
 
         if (!AbilityLookup.Instance.TryGetInstantCast(
             abilityReference,
@@ -24,7 +21,7 @@ public class InstantCastService : AbilityService
             GetAbilityDataDiff(abilityReference),
             GetActiveBonuses(abilityReference),
             out InstantCast instantCast
-        )) return false;
+        )) return;
 
         successFeedbackSubjectAction?.Invoke(instantCast.SuccessFeedbackSubject);
 
@@ -34,10 +31,7 @@ public class InstantCastService : AbilityService
         }
         else
         {
-            instantCast.Cast(targetPosition);
+            instantCast.Cast(floorTargetPosition, offsetTargetPosition);
         }
-
-        CastSubject.Next();
-        return true;
     }
 }

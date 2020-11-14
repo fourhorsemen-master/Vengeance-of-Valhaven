@@ -9,7 +9,8 @@ public class ChannelService : AbilityService, IMovementStatusProvider
     public bool Active { get; private set; } = false;
     public float RemainingDuration { get; private set; }
     public float TotalDuration => _currentChannel.Duration;
-    public Vector3 TargetPosition { get; set; } = Vector3.zero;
+    public Vector3 FloorTargetPosition { get; set; } = Vector3.zero;
+    public Vector3 OffsetTargetPosition { get; set; } = Vector3.zero;
     public Actor Target { get; set; } = null;
     public bool HasTarget => Target != null;
 
@@ -61,8 +62,8 @@ public class ChannelService : AbilityService, IMovementStatusProvider
         }
         else
         {
-            _currentChannel.Start(TargetPosition);
-            _currentChannel.Continue(TargetPosition);
+            _currentChannel.Start(FloorTargetPosition, OffsetTargetPosition);
+            _currentChannel.Continue(FloorTargetPosition, OffsetTargetPosition);
         }
 
         ChannelStartSubject.Next(channel.ChannelType);
@@ -82,7 +83,7 @@ public class ChannelService : AbilityService, IMovementStatusProvider
         }
         else
         {
-            _currentChannel.Cancel(TargetPosition);
+            _currentChannel.Cancel(FloorTargetPosition, OffsetTargetPosition);
         }
     }
 
@@ -116,7 +117,7 @@ public class ChannelService : AbilityService, IMovementStatusProvider
         }
         else
         {
-            _currentChannel.Continue(TargetPosition);
+            _currentChannel.Continue(FloorTargetPosition, OffsetTargetPosition);
         }
     }
 
@@ -130,7 +131,7 @@ public class ChannelService : AbilityService, IMovementStatusProvider
         }
         else
         {
-            _currentChannel.End(TargetPosition);
+            _currentChannel.End(FloorTargetPosition, OffsetTargetPosition);
         }
     }
 }
