@@ -1,4 +1,4 @@
-﻿public class MoveTowards : IAiComponent
+﻿public class MoveTowards : IStateMachineComponent
 {
     private readonly Actor actor;
     private readonly Actor target;

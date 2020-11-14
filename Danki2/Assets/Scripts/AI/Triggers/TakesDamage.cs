@@ -1,4 +1,4 @@
-﻿public class TakesDamage : AiTrigger
+﻿public class TakesDamage : StateMachineTrigger
 {
     private readonly Actor actor;
 

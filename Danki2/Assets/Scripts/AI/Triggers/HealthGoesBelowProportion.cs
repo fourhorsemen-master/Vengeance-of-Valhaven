@@ -1,4 +1,4 @@
-﻿public class HealthGoesBelowProportion : AiTrigger
+﻿public class HealthGoesBelowProportion : StateMachineTrigger
 {
     private readonly Actor actor;
     private readonly float proportion;

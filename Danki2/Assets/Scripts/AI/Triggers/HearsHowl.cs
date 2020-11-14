@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class HearsHowl : AiTrigger
+public class HearsHowl : StateMachineTrigger
 {
     private readonly Actor actor;
     private readonly float range;

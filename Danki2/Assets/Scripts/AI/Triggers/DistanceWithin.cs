@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class DistanceWithin : AiTrigger
+public class DistanceWithin : StateMachineTrigger
 {
     private readonly Actor actor1;
     private readonly Actor actor2;
