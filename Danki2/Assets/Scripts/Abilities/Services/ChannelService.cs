@@ -12,7 +12,8 @@ public class ChannelService : AbilityService, IMovementStatusProvider
     public Vector3 FloorTargetPosition { get; set; } = Vector3.zero;
     public Vector3 OffsetTargetPosition { get; set; } = Vector3.zero;
     public Actor Target { get; set; } = null;
-    public bool HasTarget => Target != null;
+
+    private bool HasTarget => Target != null;
 
     public ChannelService(Actor actor, Subject startSubject, Subject lateUpdateSubject) : base(actor)
     {

@@ -24,7 +24,7 @@ public class PlayerTargetFinder
         if (TryHitEnemy()) return;
         RemoveTarget();
         if (TryHitNavmesh()) return;
-        if (TryHitCollider()) return;
+        if (TryHitAnyCollider()) return;
         HitPlane();
     }
 
@@ -86,11 +86,9 @@ public class PlayerTargetFinder
         return true;
     }
 
-    private bool TryHitCollider()
+    private bool TryHitAnyCollider()
     {
-        bool mouseHitCollider = MouseGamePositionFinder.Instance.TryGetCollider(out Collider collider, out Vector3 position);
-
-        if (!mouseHitCollider) return false;
+        if (!MouseGamePositionFinder.Instance.TryGetCollider(out _, out Vector3 position)) return false;
 
         SetTargetPositions(position, position);
         return true;
