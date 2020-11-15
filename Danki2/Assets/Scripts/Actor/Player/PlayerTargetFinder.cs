@@ -8,10 +8,10 @@ public class PlayerTargetFinder
     private readonly Player player;
     private Subscription targetDeathSubscription;
 
-    public Vector3 FloorTargetPosition { get; private set; }
-    public Vector3 OffsetTargetPosition { get; private set; }
+    public Vector3 FloorTargetPosition { get; private set; } = Vector3.zero;
+    public Vector3 OffsetTargetPosition { get; private set; } = Vector3.zero;
 
-    public Enemy Target { get; private set; }
+    public Enemy Target { get; private set; } = null;
 
     public PlayerTargetFinder(Player player, Subject updateSubject)
     {

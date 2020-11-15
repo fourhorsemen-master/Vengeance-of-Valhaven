@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 
 [Ability(AbilityReference.Smash, new []{"PerfectSmash"})]
 public class Smash : InstantCast

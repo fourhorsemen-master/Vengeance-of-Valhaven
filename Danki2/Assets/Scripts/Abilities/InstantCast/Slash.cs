@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 
 [Ability(AbilityReference.Slash)]
 public class Slash : InstantCast

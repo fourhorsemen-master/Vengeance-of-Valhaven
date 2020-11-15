@@ -24,7 +24,7 @@ public class Bandage : Channel
     {
     }
 
-    public override void Start(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
+    public override void Start(Vector3 _, Vector3 __)
     {
         bandageObject = BandageObject.Create(Owner.transform);
 
@@ -36,14 +36,14 @@ public class Bandage : Channel
         }
     }
 
-    public override void Continue(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
+    public override void Continue(Vector3 _, Vector3 __)
     {
         repeater.Update();
     }
 
-    public override void Cancel(Vector3 floorTargetPosition, Vector3 offsetTargetPosition) => End();
+    public override void Cancel(Vector3 _, Vector3 __) => End();
     
-    public override void End(Vector3 floorTargetPosition, Vector3 offsetTargetPosition) => End();
+    public override void End(Vector3 _, Vector3 __) => End();
 
     private void Heal()
     {
