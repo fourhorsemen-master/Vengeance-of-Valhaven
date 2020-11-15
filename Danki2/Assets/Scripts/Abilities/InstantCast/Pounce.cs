@@ -14,20 +14,19 @@ public class Pounce : InstantCast
     {
     }
 
-    public override void Cast(Vector3 target)
+    public override void Cast(Vector3 floorTargetPosition, Vector3 _)
     {
         Vector3 position = Owner.transform.position;
-        target.y = position.y;
-        Vector3 direction = target - position;
+        Vector3 direction = floorTargetPosition - position;
 
-        float distance = Vector3.Distance(target, position);
+        float distance = Vector3.Distance(floorTargetPosition, position);
         float pounceSpeed = Owner.GetStat(Stat.Speed) * PounceSpeedMultiplier;
         float duration = Mathf.Clamp(distance / pounceSpeed, MinMovementDuration, MaxMovementDuration);
 
         Owner.MovementManager.TryLockMovement(MovementLockType.Dash, duration, pounceSpeed, direction, direction);
         Owner.StartTrail(duration);
 
-        PounceObject.Create(position, Quaternion.LookRotation(target - position));
+        PounceObject.Create(position, Quaternion.LookRotation(floorTargetPosition - position));
 
         Owner.InterruptibleAction(duration, InterruptionType.Hard, DamageOnLand);
     }

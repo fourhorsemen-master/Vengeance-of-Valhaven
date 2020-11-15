@@ -13,15 +13,16 @@ public class Bash : InstantCast
     {
     }
 
-    public override void Cast(Vector3 target)
+    public override void Cast(Vector3 floorTargetPosition, Vector3 _)
     {
-        Owner.MovementManager.LookAt(target);
+        Owner.MovementManager.LookAt(floorTargetPosition);
         Owner.MovementManager.Pause(PauseDuration);
 
         Vector3 position = Owner.transform.position;
-        target.y = position.y;
 
-        Vector3 directionToTarget = target == position ? Vector3.right : (target - position).normalized;
+        Vector3 directionToTarget = floorTargetPosition == position
+            ? Vector3.right
+            : (floorTargetPosition - position).normalized;
         Vector3 center = position + (directionToTarget * Range);
 
         bool hasDealtDamage = false;

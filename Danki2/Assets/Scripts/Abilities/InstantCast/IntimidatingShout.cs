@@ -12,7 +12,7 @@ public class IntimidatingShout : InstantCast
     {
     }
 
-    public override void Cast(Vector3 target)
+    public override void Cast(Vector3 _, Vector3 __)
     {
         List<Actor> collidingActors = GetCollidingActors();
         SuccessFeedbackSubject.Next(collidingActors.Count > 0);
