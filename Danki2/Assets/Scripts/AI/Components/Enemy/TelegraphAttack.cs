@@ -1,4 +1,4 @@
-﻿public class TelegraphAttack : IAiComponent
+﻿public class TelegraphAttack : IStateMachineComponent
 {
     private readonly Enemy enemy;
     private readonly float telegraphTime;

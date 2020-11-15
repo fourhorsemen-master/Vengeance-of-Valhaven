@@ -1,4 +1,4 @@
-﻿public class NeverTrigger : AiTrigger
+﻿public class NeverTrigger : StateMachineTrigger
 {
     public override void Activate() {}
     public override void Deactivate() {}
