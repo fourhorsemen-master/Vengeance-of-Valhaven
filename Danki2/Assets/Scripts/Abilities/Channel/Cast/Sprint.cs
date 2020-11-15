@@ -18,7 +18,7 @@ public class Sprint : Cast
 
     protected override void Cancel() => onCastCancelled.Next();
 
-    public override void End(Vector3 target) => End();
+    public override void End(Vector3 _, Vector3 __) => End();
 
     public override void End(Actor actor) => End();
 

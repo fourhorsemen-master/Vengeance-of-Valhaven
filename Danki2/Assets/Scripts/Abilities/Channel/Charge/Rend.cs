@@ -22,9 +22,9 @@ public class Rend : Charge
         CustomCamera.Instance.AddShake(ShakeIntensity.Low);
     }
 
-    public override void Cancel(Vector3 target) => End(TimeCharged);
+    public override void Cancel(Vector3 _, Vector3 __) => End(TimeCharged);
 
-    public override void End(Vector3 target) => End(Duration);
+    public override void End(Vector3 _, Vector3 __) => End(Duration);
 
     private void End(float timeCharged)
     {

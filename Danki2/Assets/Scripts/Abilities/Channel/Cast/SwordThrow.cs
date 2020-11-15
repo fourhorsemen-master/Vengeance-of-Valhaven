@@ -13,11 +13,11 @@ public class SwordThrow : Cast
     {
     }
 
-    public override void End(Vector3 target)
+    public override void End(Vector3 _, Vector3 offsetTargetPosition)
     {
         CustomCamera.Instance.AddShake(ShakeIntensity.Low);
 
-        Quaternion rotation = Quaternion.LookRotation(target - Owner.Centre);
+        Quaternion rotation = Quaternion.LookRotation(offsetTargetPosition - Owner.Centre);
         SwordThrowObject.Fire(Owner, OnCollision, swordSpeed, Owner.Centre, rotation);
     }
 

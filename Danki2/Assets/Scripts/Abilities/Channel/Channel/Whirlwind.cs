@@ -25,7 +25,7 @@ public class Whirlwind : Channel
     {
     }
 
-    public override void Start(Vector3 target)
+    public override void Start(Vector3 _, Vector3 __)
     {
         MultiplicativeStatModification slow = new Slow(selfSlowMultiplier);
         repeater = new Repeater(spinDamageInterval, () => AOE(spinRange, a => DealPrimaryDamage(a)), spinDamageStartDelay);
@@ -39,12 +39,12 @@ public class Whirlwind : Channel
         whirlwindObject = WhirlwindObject.Create(Owner.transform);
     }
 
-    public override void Continue(Vector3 target)
+    public override void Continue(Vector3 _, Vector3 __)
     {
         repeater.Update();
     }
 
-    public override void Cancel(Vector3 target)
+    public override void Cancel(Vector3 _, Vector3 __)
     {
         if (!hasHitActor) SuccessFeedbackSubject.Next(false);
 
@@ -53,7 +53,7 @@ public class Whirlwind : Channel
         whirlwindObject.DissipateAndDestroy();
     }
 
-    public override void End(Vector3 target)
+    public override void End(Vector3 _, Vector3 __)
     {
         AOE(finishRange, a => DealSecondaryDamage(a));
 

@@ -30,11 +30,11 @@ public class Meditate : Charge
         if (GetPowerIncrease() > 0) SuccessFeedbackSubject.Next(true);
     }
 
-    public override void End(Vector3 target) => End();
+    public override void End(Vector3 _, Vector3 __) => End();
 
     public override void End(Actor actor) => End();
 
-    public override void Cancel(Vector3 target) => End();
+    public override void Cancel(Vector3 _, Vector3 __) => End();
 
     public override void Cancel(Actor actor) => End();
 
