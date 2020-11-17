@@ -6,6 +6,7 @@ public class ChannelService : AbilityService, IMovementStatusProvider
     private Channel _currentChannel;
 
     public Subject<ChannelType> ChannelStartSubject { get; } = new Subject<ChannelType>();
+    public Subject ChannelEndSubject { get; } = new Subject();
     public bool Active { get; private set; } = false;
     public float RemainingDuration { get; private set; }
     public float TotalDuration => _currentChannel.Duration;
@@ -84,6 +85,8 @@ public class ChannelService : AbilityService, IMovementStatusProvider
         {
             _currentChannel.Cancel(TargetPosition);
         }
+
+        ChannelEndSubject.Next();
     }
 
     private void TickChannel()
@@ -132,5 +135,7 @@ public class ChannelService : AbilityService, IMovementStatusProvider
         {
             _currentChannel.End(TargetPosition);
         }
+
+        ChannelEndSubject.Next();
     }
 }

@@ -29,6 +29,10 @@ public class Player : Actor
     
     // Subjects
     public Subject RollSubject { get; } = new Subject();
+    public Subject<Direction> ChannelStartSubject { get; } = new Subject<Direction>();
+    public Subject ComboCompleteSubject { get; } = new Subject();
+    public Subject ComboFailedSubject { get; } = new Subject();
+    public Subject ComboContinueSubject { get; } = new Subject();
 
     protected override void Awake()
     {
