@@ -46,15 +46,13 @@ public class MouseGamePositionFinder : Singleton<MouseGamePositionFinder>
     /// Gets the <paramref name="floorPosition"/> and the <paramref name="offsetPosition"/> (the position with the
     /// global height offset) of the mouse on the navmesh, if the mouse is sufficiently close to the navmesh.
     /// </summary>
-    /// <param name="floorPosition"></param>
-    /// <param name="offsetPosition"></param>
-    /// <returns></returns>
     public bool TryGetNavMeshPositions(out Vector3 floorPosition, out Vector3 offsetPosition)
     {
         floorPosition = default;
         offsetPosition = default;
 
-        if (!Physics.Raycast(GetCameraToMouseRay(), out RaycastHit raycastHit, Mathf.Infinity, int.MaxValue)) return false;
+        int layerMask = Layers.GetInvertedLayerMask(Layers.GetLayerMask(new[] {Layers.Actors}));
+        if (!Physics.Raycast(GetCameraToMouseRay(), out RaycastHit raycastHit, Mathf.Infinity, layerMask)) return false;
 
         if (!NavMesh.SamplePosition(raycastHit.point, out _, navmeshClearance, NavMesh.AllAreas)) return false;
 
