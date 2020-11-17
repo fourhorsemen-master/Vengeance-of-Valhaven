@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class WolfRandomAttackCountReached : AiTrigger
+public class WolfRandomAttackCountReached : StateMachineTrigger
 {
     private readonly Wolf wolf;
     private readonly int minAttacks;

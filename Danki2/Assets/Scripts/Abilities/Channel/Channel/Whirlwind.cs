@@ -18,11 +18,10 @@ public class Whirlwind : Channel
 
     private Repeater repeater;
 
-    public override float Duration => 2f;
-
     public override ChannelEffectOnMovement EffectOnMovement => ChannelEffectOnMovement.None;
 
-    public Whirlwind(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
+    public Whirlwind(Actor owner, AbilityData abilityData, string[] availableBonuses, float duration)
+        : base(owner, abilityData, availableBonuses, duration)
     {
     }
 
@@ -49,7 +48,7 @@ public class Whirlwind : Channel
     {
         if (!hasHitActor) SuccessFeedbackSubject.Next(false);
 
-        if(slowEffect) Owner.EffectManager.RemovePassiveEffect(slowEffectId);
+        if(slowEffect) Owner.EffectManager.RemoveEffect(slowEffectId);
 
         whirlwindObject.DissipateAndDestroy();
     }
@@ -60,7 +59,7 @@ public class Whirlwind : Channel
 
         if (!hasHitActor) SuccessFeedbackSubject.Next(false);
 
-        if(slowEffect) Owner.EffectManager.RemovePassiveEffect(slowEffectId);
+        if(slowEffect) Owner.EffectManager.RemoveEffect(slowEffectId);
 
         whirlwindObject.DissipateAndDestroy();
     }

@@ -10,6 +10,8 @@ public abstract class ProjectileObject : MonoBehaviour
     [SerializeField]
     Rigidbody rigidBody = null;
 
+    private const float MaxDistanceFromPlayer = 200f;
+
     protected Actor caster;
     private float speed;
     private Action<GameObject> collisionCallback;
@@ -27,6 +29,14 @@ public abstract class ProjectileObject : MonoBehaviour
         this.caster = caster;
         this.collisionCallback = collisionCallback;
         this.speed = speed;
+
+        // Every second, destroy projectile if beyond certain distance from player
+        this.ActOnInterval(1, () => {
+            if (transform.DistanceFromPlayer() > MaxDistanceFromPlayer)
+            {
+                Destroy(gameObject);
+            }
+        });
 
         return this;
     }
@@ -60,15 +70,21 @@ public abstract class ProjectileObject : MonoBehaviour
 
         collisionCallback(other.gameObject);
 
-        if (!isSticky)
+        if (isSticky)
+        {
+            StickTo(other.transform);
+        }
+        else
         {
             Destroy(gameObject);
-            return;
         }
+    }
 
+    private void StickTo(Transform transform)
+    {
         Destroy(rigidBody);
         Destroy(collider);
-        transform.SetParent(other.transform);
+        transform.SetParent(transform);
         speed = 0f;
 
         this.WaitAndAct(stickTime, () => Destroy(gameObject));

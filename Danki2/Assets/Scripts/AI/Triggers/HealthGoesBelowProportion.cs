@@ -1,9 +1,11 @@
-﻿public class HealthGoesBelowProportion : AiTrigger
+﻿public class HealthGoesBelowProportion : StateMachineTrigger
 {
     private readonly Actor actor;
     private readonly float proportion;
     
     private bool canTrigger;
+
+    private float HealthProportion => (float) actor.HealthManager.Health / actor.HealthManager.MaxHealth;
 
     public HealthGoesBelowProportion(Actor actor, float proportion)
     {
@@ -13,13 +15,18 @@
 
     public override void Activate()
     {
-        canTrigger = (float) actor.HealthManager.Health / actor.HealthManager.MaxHealth >= proportion;
+        canTrigger = HealthProportion >= proportion;
     }
 
     public override void Deactivate() {}
 
     public override bool Triggers()
     {
-        return canTrigger && (float) actor.HealthManager.Health / actor.HealthManager.MaxHealth < proportion;
+        if (HealthProportion >= proportion)
+        {
+            canTrigger = true;
+        }
+
+        return canTrigger && HealthProportion < proportion;
     }
 }

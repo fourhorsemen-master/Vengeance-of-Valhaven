@@ -1,4 +1,4 @@
-﻿public class WolfPounce : IAiComponent
+﻿public class WolfPounce : IStateMachineComponent
 {
     private readonly Wolf wolf;
     private readonly Actor target;

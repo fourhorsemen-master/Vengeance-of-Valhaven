@@ -29,7 +29,7 @@ public class Pounce : InstantCast
 
         PounceObject.Create(position, Quaternion.LookRotation(target - position));
 
-        Owner.InterruptableAction(duration, InterruptionType.Hard, DamageOnLand);
+        Owner.InterruptibleAction(duration, InterruptionType.Hard, DamageOnLand);
     }
 
     private void DamageOnLand()

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class RandomTimeElapsed : AiTrigger
+public class RandomTimeElapsed : StateMachineTrigger
 {
     private readonly float minTime;
     private readonly float maxTime;

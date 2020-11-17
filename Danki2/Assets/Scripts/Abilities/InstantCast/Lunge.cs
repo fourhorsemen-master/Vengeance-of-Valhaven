@@ -30,7 +30,7 @@ public class Lunge : InstantCast
         LungeObject lungeObject = LungeObject.Create(Owner.Centre, Quaternion.LookRotation(castDirection), onFinishMovement);
         Owner.StartTrail(duration + PauseDuration);
 
-        Owner.InterruptableAction(
+        Owner.InterruptibleAction(
             duration,
             InterruptionType.Hard,
             () => DamageOnLand(castDirection, lungeObject)

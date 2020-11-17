@@ -5,8 +5,8 @@ public class FlashOnHit : MonoBehaviour
     [SerializeField]
     private Actor actor = null;
 
-    [SerializeField]
-    private MeshRenderer meshRenderer = null;
+    private const float FlashIntensity = 0.3f;
+    private const float FlashDuration = 0.1f;
 
     void Start()
     {
@@ -15,8 +15,6 @@ public class FlashOnHit : MonoBehaviour
 
     public void Flash()
     {
-        meshRenderer.material.SetEmissiveColour(new Color(0.3f, 0.3f, 0.3f));
-
-        this.WaitAndAct(0.1f, () => meshRenderer.material.SetEmissiveColour(Color.black));
+        actor.HightlightManager.AddTemporaryHighlight(FlashIntensity, FlashDuration);
     }
 }

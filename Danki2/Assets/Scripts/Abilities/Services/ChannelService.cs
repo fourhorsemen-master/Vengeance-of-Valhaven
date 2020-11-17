@@ -28,8 +28,8 @@ public class ChannelService : AbilityService, IMovementStatusProvider
         actor.InterruptionManager.Register(
             InterruptionType.Soft,
             CancelChannel,
-            InterruptableFeature.InterruptOnDeath,
-            InterruptableFeature.Repeat
+            InterruptibleFeature.InterruptOnDeath,
+            InterruptibleFeature.Repeat
         );
     }
 

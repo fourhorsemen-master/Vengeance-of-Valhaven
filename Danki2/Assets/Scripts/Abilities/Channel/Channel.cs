@@ -2,14 +2,16 @@
 
 public abstract class Channel : Ability
 {
-    public abstract float Duration { get; }
+    public float Duration { get; }
 
     public virtual ChannelType ChannelType => ChannelType.Channel;
 
     public virtual ChannelEffectOnMovement EffectOnMovement => ChannelEffectOnMovement.Stun;
 
-    protected Channel(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
+    protected Channel(Actor owner, AbilityData abilityData, string[] availableBonuses, float duration)
+        : base(owner, abilityData, availableBonuses)
     {
+        Duration = duration;
     }
     
     public virtual void Start(Vector3 target) { }

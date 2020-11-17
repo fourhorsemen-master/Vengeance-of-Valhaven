@@ -15,13 +15,12 @@ public class Bandage : Channel
 
     private Guid slowEffectId;
     
-    public override float Duration => 5f;
-    
     public override ChannelEffectOnMovement EffectOnMovement => HasBonus("Perseverance")
         ? ChannelEffectOnMovement.None
         : ChannelEffectOnMovement.Stun;
 
-    public Bandage(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
+    public Bandage(Actor owner, AbilityData abilityData, string[] availableBonuses, float duration)
+        : base(owner, abilityData, availableBonuses, duration)
     {
     }
 
@@ -66,7 +65,7 @@ public class Bandage : Channel
 
         if (HasBonus("Perseverance"))
         {
-            Owner.EffectManager.RemovePassiveEffect(slowEffectId);
+            Owner.EffectManager.RemoveEffect(slowEffectId);
         }
     }
 }
