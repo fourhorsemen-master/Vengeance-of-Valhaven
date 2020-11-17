@@ -13,7 +13,7 @@ public class SwordThrow : Cast
     {
     }
 
-    public override void End(Vector3 _, Vector3 offsetTargetPosition)
+    public override void End(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
         CustomCamera.Instance.AddShake(ShakeIntensity.Low);
 

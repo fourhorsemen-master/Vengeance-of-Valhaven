@@ -14,7 +14,7 @@ public class Pounce : InstantCast
     {
     }
 
-    public override void Cast(Vector3 floorTargetPosition, Vector3 _)
+    public override void Cast(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
         Vector3 position = Owner.transform.position;
         Vector3 direction = floorTargetPosition - position;

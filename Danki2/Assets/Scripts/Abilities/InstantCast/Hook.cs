@@ -15,7 +15,7 @@ public class Hook : InstantCast
     {
     }
 
-    public override void Cast(Vector3 _, Vector3 offsetTargetPosition)
+    public override void Cast(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
         Quaternion rotation = Quaternion.LookRotation(offsetTargetPosition - Owner.Centre);
 

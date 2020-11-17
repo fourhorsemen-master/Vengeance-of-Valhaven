@@ -34,7 +34,7 @@ public class PiercingRush : Cast
 
     protected override void Cancel() => onCastCancelled.Next();
 
-    public override void End(Vector3 floorTargetPosition, Vector3 _)
+    public override void End(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
         // Dash.
         Vector3 position = Owner.transform.position;

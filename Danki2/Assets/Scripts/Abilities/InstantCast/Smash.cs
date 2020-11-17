@@ -12,7 +12,7 @@ public class Smash : InstantCast
     {
     }
 
-    public override void Cast(Vector3 floorTargetPosition, Vector3 _)
+    public override void Cast(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
         Owner.MovementManager.LookAt(floorTargetPosition);
         Owner.MovementManager.Pause(PauseDuration);

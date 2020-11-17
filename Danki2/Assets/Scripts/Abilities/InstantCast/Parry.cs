@@ -15,7 +15,7 @@ public class Parry : InstantCast
     {
     }
 
-    public override void Cast(Vector3 _, Vector3 __)
+    public override void Cast(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
         ParryObject.Create(Owner.transform, onParry);
         

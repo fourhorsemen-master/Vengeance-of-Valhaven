@@ -10,7 +10,7 @@ public class PoisonDagger : InstantCast
     {
     }
 
-    public override void Cast(Vector3 _, Vector3 offsetTargetPosition)
+    public override void Cast(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
         CustomCamera.Instance.AddShake(ShakeIntensity.Low);
 
