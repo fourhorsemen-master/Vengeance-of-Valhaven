@@ -61,13 +61,6 @@ public class Player : Actor
         gameObject.tag = Tags.Player;
     }
 
-    protected override void Update()
-    {
-        base.Update();
-
-        TickRollCooldown();
-    }
-
     public void Roll(Vector3 direction)
     {
         if (!readyToRoll || ChannelService.Active) return;
@@ -82,11 +75,12 @@ public class Player : Actor
 
         if (rolled)
         {
-            readyToRoll = false;
-            this.WaitAndAct(totalRollCooldown, () => readyToRoll = true);
             rollAudio.Play();
             RollSubject.Next();
             StartTrail(rollDuration * 2);
+
+            readyToRoll = false;
+            this.WaitAndAct(totalRollCooldown, () => readyToRoll = true);
         }
     }
 
