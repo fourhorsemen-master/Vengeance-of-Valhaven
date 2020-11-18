@@ -1,6 +1,7 @@
 ﻿internal class ListenForCasts : IStateMachineComponent
 {
     private Player player;
+    private ActionControlState actionControlState;
 
     public ListenForCasts(Player player)
     {
@@ -9,16 +10,23 @@
 
     public void Enter()
     {
-        throw new System.NotImplementedException();
+        actionControlState = PlayerControls.Instance.ActionControlState;
     }
 
-    public void Exit()
-    {
-        throw new System.NotImplementedException();
-    }
+    public void Exit() { }
 
     public void Update()
     {
-        throw new System.NotImplementedException();
+        var newActionControlState = PlayerControls.Instance.ActionControlState;
+        var castingCommand = ControlMatrix.GetCastingCommand(CastingStatus.Ready, actionControlState, newActionControlState);
+        
+        if (castingCommand == CastingCommand.CastLeft)
+        {
+            player.Cast(Direction.Left);
+        }
+        else if (castingCommand == CastingCommand.CastRight)
+        {
+            player.Cast(Direction.Right);
+        }
     }
 }

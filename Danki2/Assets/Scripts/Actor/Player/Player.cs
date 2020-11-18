@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Player : Actor
 {
@@ -21,6 +22,9 @@ public class Player : Actor
     [SerializeField] private AudioSource rollAudio = null;
 
     private float remainingRollCooldown = 0f;
+    private Subscription<bool> abilityFeedbackSubscription;
+
+    public Direction LastCastDirection { get; private set; }
 
     // Services
     public AbilityTree AbilityTree { get; private set; }    
@@ -33,6 +37,7 @@ public class Player : Actor
     public Subject ComboCompleteSubject { get; } = new Subject();
     public Subject ComboFailedSubject { get; } = new Subject();
     public Subject ComboContinueSubject { get; } = new Subject();
+    public Subject WhiffSubject { get; private set; }
 
     protected override void Awake()
     {
@@ -72,6 +77,34 @@ public class Player : Actor
         TickRollCooldown();
     }
 
+    public void Cast(Direction direction)
+    {
+        if (!AbilityTree.CanWalkDirection(direction)) return;
+        LastCastDirection = direction;
+
+        AbilityReference abilityReference = AbilityTree.GetAbility(direction);
+
+        AbilityType abilityType = AbilityLookup.Instance.GetAbilityType(abilityReference);
+
+        if (abilityType == AbilityType.InstantCast)
+        {
+            InstantCastService.Cast(
+                abilityReference,
+                TargetFinder.TargetPosition,
+                subject => SubscribeToFeedback(subject),
+                TargetFinder.Target
+            );
+        }
+        else if (abilityType == AbilityType.Channel)
+        {
+            ChannelStartSubject.Next(direction);
+            ChannelService.StartChannel(
+                abilityReference,
+                subject => SubscribeToFeedback(subject)
+            );
+        }
+    }
+
     public void Roll(Vector3 direction)
     {
         if (remainingRollCooldown > 0 || ChannelService.Active) return;
@@ -93,7 +126,14 @@ public class Player : Actor
         }
     }
 
-    public void PlayWhiffSound()
+    public void Whiff()
+    {
+        AbilityTree.Reset();
+        PlayWhiffSound();
+        WhiffSubject.Next();
+    }
+
+    private void PlayWhiffSound()
     {
         whiffAudio.Play();
     }
@@ -101,5 +141,36 @@ public class Player : Actor
     private void TickRollCooldown()
     {
         remainingRollCooldown = Mathf.Max(0f, remainingRollCooldown - Time.deltaTime);
+    }
+
+    private void SubscribeToFeedback(Subject<bool> subject)
+    {
+        abilityFeedbackSubscription = subject.Subscribe(feedback =>
+        {
+            abilityFeedbackSubscription.Unsubscribe();
+            AbilityTree.Walk(LastCastDirection);
+
+            if (feedback == false) FailCombo();
+            else if (AbilityTree.CanWalk()) ContinueCombo();
+            else CompleteCombo();
+        });
+    }
+
+    private void CompleteCombo()
+    {
+        AbilityTree.Reset();
+        ComboCompleteSubject.Next();
+    }
+
+    private void ContinueCombo()
+    {
+        ComboContinueSubject.Next();
+    }
+
+    private void FailCombo()
+    {
+        AbilityTree.Reset();
+        PlayWhiffSound();
+        ComboFailedSubject.Next();
     }
 }

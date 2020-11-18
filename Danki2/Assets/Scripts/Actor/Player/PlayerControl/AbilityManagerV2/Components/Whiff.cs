@@ -9,7 +9,7 @@
 
     public void Enter()
     {
-        throw new System.NotImplementedException();
+        player.Whiff();
     }
 
     public void Exit()

@@ -1,24 +1,30 @@
 ﻿internal class ListenForChannelEnd : IStateMachineComponent
 {
     private Player player;
+    private CastingStatus castingStatus;
+    private ActionControlState actionControlState;
 
-    public ListenForChannelEnd(Player player)
+    public ListenForChannelEnd(Player player, Direction direction)
     {
         this.player = player;
+        castingStatus = direction == Direction.Left ? CastingStatus.ChannelingLeft : CastingStatus.ChannelingRight;
     }
 
     public void Enter()
     {
-        throw new System.NotImplementedException();
+        actionControlState = PlayerControls.Instance.ActionControlState;
     }
 
-    public void Exit()
-    {
-        throw new System.NotImplementedException();
-    }
+    public void Exit() { }
 
     public void Update()
     {
-        throw new System.NotImplementedException();
+        var newActionControlState = PlayerControls.Instance.ActionControlState;
+        var newCastingCommand = ControlMatrix.GetCastingCommand(castingStatus, actionControlState, newActionControlState);
+
+        if (newCastingCommand == CastingCommand.CancelChannel)
+        {
+            player.ChannelService.CancelChannel();
+        }
     }
 }
