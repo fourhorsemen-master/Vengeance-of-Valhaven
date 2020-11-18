@@ -20,7 +20,7 @@ public class Player : Actor
     [SerializeField] private AudioSource whiffAudio = null;
     [SerializeField] private AudioSource rollAudio = null;
 
-    private float remainingRollCooldown = 0f;
+    private bool readyToRoll = true;
 
     // Services
     public AbilityTree AbilityTree { get; private set; }    
@@ -61,16 +61,9 @@ public class Player : Actor
         gameObject.tag = Tags.Player;
     }
 
-    protected override void Update()
-    {
-        base.Update();
-
-        TickRollCooldown();
-    }
-
     public void Roll(Vector3 direction)
     {
-        if (remainingRollCooldown > 0 || ChannelService.Active) return;
+        if (!readyToRoll || ChannelService.Active) return;
 
         bool rolled = MovementManager.TryLockMovement(
             MovementLockType.Dash,
@@ -82,20 +75,17 @@ public class Player : Actor
 
         if (rolled)
         {
-            remainingRollCooldown = totalRollCooldown;
             rollAudio.Play();
             RollSubject.Next();
             StartTrail(rollDuration * 2);
+
+            readyToRoll = false;
+            this.WaitAndAct(totalRollCooldown, () => readyToRoll = true);
         }
     }
 
     public void PlayWhiffSound()
     {
         whiffAudio.Play();
-    }
-
-    private void TickRollCooldown()
-    {
-        remainingRollCooldown = Mathf.Max(0f, remainingRollCooldown - Time.deltaTime);
     }
 }
