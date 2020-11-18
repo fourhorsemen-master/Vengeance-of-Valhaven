@@ -9,7 +9,7 @@
         this.target = target;
     }
 
-    public void Enter() => wolf.Pounce(target.transform.position);
+    public void Enter() => wolf.Pounce(target);
     public void Exit() {}
     public void Update() {}
 }

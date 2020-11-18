@@ -6,7 +6,7 @@ public abstract class InstantCast : Ability
     {
     }
 
-    public abstract void Cast(Vector3 target);
+    public abstract void Cast(Vector3 floorTargetPosition, Vector3 offsetTargetPosition);
 
-    public virtual void Cast(Actor target) => Cast(target.Centre);
+    public virtual void Cast(Actor target) => Cast(target.transform.position, target.Centre);
 }

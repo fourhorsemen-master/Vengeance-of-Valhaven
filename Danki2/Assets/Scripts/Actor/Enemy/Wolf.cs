@@ -12,13 +12,21 @@ public class Wolf : Enemy
 
     public void Bite()
     {
-        InstantCastService.Cast(AbilityReference.Bite, transform.position + transform.forward);
+        InstantCastService.Cast(
+            AbilityReference.Bite,
+            GetBiteTargetPosition(transform.position),
+            GetBiteTargetPosition(Centre)
+        );
         OnAttack.Next();
     }
 
-    public void Pounce(Vector3 target)
+    public void Pounce(Actor target)
     {
-        InstantCastService.Cast(AbilityReference.Pounce, target + (transform.position - target).normalized);
+        InstantCastService.Cast(
+            AbilityReference.Pounce,
+            GetPounceTargetPosition(transform.position, target.transform.position),
+            GetPounceTargetPosition(Centre, target.Centre)
+        );
         OnAttack.Next();
     }
 
@@ -27,4 +35,8 @@ public class Wolf : Enemy
         howl.Play();
         OnHowl.Next();
     }
+
+    private Vector3 GetBiteTargetPosition(Vector3 origin) => origin + transform.forward;
+
+    private Vector3 GetPounceTargetPosition(Vector3 origin, Vector3 target) => target + (origin - target).normalized;
 }

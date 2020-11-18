@@ -11,11 +11,11 @@ public abstract class Charge : Channel
     {
     }
 
-    public sealed override void Start(Vector3 target) => Start();
+    public sealed override void Start(Vector3 floorTargetPosition, Vector3 offsetTargetPosition) => Start();
 
     public sealed override void Start(Actor actor) => Start();
 
-    public sealed override void Continue(Vector3 target)
+    public sealed override void Continue(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
         TickTimeCharged();
         Continue();

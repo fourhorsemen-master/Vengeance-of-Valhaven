@@ -14,19 +14,19 @@ public abstract class Channel : Ability
         Duration = duration;
     }
     
-    public virtual void Start(Vector3 target) { }
+    public virtual void Start(Vector3 floorTargetPosition, Vector3 offsetTargetPosition) { }
 
-    public virtual void Start(Actor target) => Start(target.Centre);
+    public virtual void Start(Actor target) => Start(target.transform.position, target.Centre);
 
-    public virtual void Continue(Vector3 target) { }
+    public virtual void Continue(Vector3 floorTargetPosition, Vector3 offsetTargetPosition) { }
 
-    public virtual void Continue(Actor target) => Continue(target.Centre);
+    public virtual void Continue(Actor target) => Continue(target.transform.position, target.Centre);
 
-    public virtual void Cancel(Vector3 target) { }
+    public virtual void Cancel(Vector3 floorTargetPosition, Vector3 offsetTargetPosition) { }
 
-    public virtual void Cancel(Actor target) => Cancel(target.Centre);
+    public virtual void Cancel(Actor target) => Cancel(target.transform.position, target.Centre);
 
-    public virtual void End(Vector3 target) { }
+    public virtual void End(Vector3 floorTargetPosition, Vector3 offsetTargetPosition) { }
 
-    public virtual void End(Actor target) => End(target.Centre);
+    public virtual void End(Actor target) => End(target.transform.position, target.Centre);
 }

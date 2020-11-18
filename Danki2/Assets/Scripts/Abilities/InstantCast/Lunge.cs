@@ -16,12 +16,12 @@ public class Lunge : InstantCast
     {
     }
 
-    public override void Cast(Vector3 target)
+    public override void Cast(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
         Vector3 position = Owner.transform.position;
-        Vector3 castDirection = target - Owner.Centre;
+        Vector3 castDirection = floorTargetPosition - position;
 
-        float distance = Vector3.Distance(target, position);
+        float distance = Vector3.Distance(floorTargetPosition, position);
         float lungeSpeed = Owner.GetStat(Stat.Speed) * LungeSpeedMultiplier;
         float duration = Mathf.Clamp(distance/lungeSpeed, MinMovementDuration, MaxMovementDuration);
 
