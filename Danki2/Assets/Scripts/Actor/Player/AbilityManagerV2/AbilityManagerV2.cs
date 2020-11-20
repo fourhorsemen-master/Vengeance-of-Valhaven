@@ -14,7 +14,7 @@ public class AbilityManagerV2 : StateMachineMonoBehaviour
 
     protected override IStateMachineComponent BuildStateMachineComponent()
     {
-        return new StateMachine<State>(State.ReadyAtRoot)
+        StateMachine<State> stateMachine = new StateMachine<State>(State.ReadyAtRoot)
             .WithComponent(State.ReadyAtRoot, new ListenForCasts(player))
             .WithComponent(State.ReadyInCombo, new ListenForCasts(player))
             .WithComponent(State.ChannelingLeft, new ListenForChannelEnd(player, Direction.Left))
@@ -40,6 +40,14 @@ public class AbilityManagerV2 : StateMachineMonoBehaviour
             .WithTransition(State.ShortCooldown, State.ReadyInCombo, new TimeElapsed(shortCooldown))
             .WithTransition(State.LongCooldown, State.ReadyAtRoot, new TimeElapsed(longCooldown))
             .WithGlobalTransition(State.Whiff, !new AtRootTrigger(player) & new DamageTrigger(player));
+
+        if (rollResetsCombo)
+        {
+            stateMachine = stateMachine
+                .WithGlobalTransition(State.Whiff, !new AtRootTrigger(player) & new RollTrigger(player));
+        }
+
+        return stateMachine;
     }
 
     private enum State
