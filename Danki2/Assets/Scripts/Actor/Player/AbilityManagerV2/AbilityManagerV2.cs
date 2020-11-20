@@ -37,7 +37,7 @@ public class AbilityManagerV2 : StateMachineMonoBehaviour
             .WithTransition(State.Whiff, State.LongCooldown, new AlwaysTrigger())
             .WithTransition(State.ShortCooldown, State.ReadyInCombo, new TimeElapsed(player.ShortCooldown))
             .WithTransition(State.LongCooldown, State.ReadyAtRoot, new TimeElapsed(player.LongCooldown))
-            .WithGlobalTransition(State.Whiff, !whiffTrigger);
+            .WithGlobalTransition(State.Whiff, whiffTrigger);
     }
 
     private enum State
