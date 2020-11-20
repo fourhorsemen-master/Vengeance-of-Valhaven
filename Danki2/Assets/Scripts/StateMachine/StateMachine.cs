@@ -60,18 +60,7 @@ public class StateMachine<TState> : IStateMachineComponent where TState : Enum
 
     private void TryTransition()
     {
-        foreach (KeyValuePair<TState, StateMachineTrigger> potentialTransition in localTriggers[currentState])
-        {
-            TState toState = potentialTransition.Key;
-            StateMachineTrigger stateMachineTrigger = potentialTransition.Value;
-            
-            if (stateMachineTrigger.Triggers())
-            {
-                Transition(toState);
-                return;
-            }
-        }
-        
+        // Global triggers first - if a local and a global trigger fire on the same frame, we want to honour the global one.
         foreach (KeyValuePair<TState, StateMachineTrigger> potentialTransition in globalTriggers)
         {
             TState toState = potentialTransition.Key;
@@ -82,6 +71,18 @@ public class StateMachine<TState> : IStateMachineComponent where TState : Enum
                 continue;
             }
 
+            if (stateMachineTrigger.Triggers())
+            {
+                Transition(toState);
+                return;
+            }
+        }
+
+        foreach (KeyValuePair<TState, StateMachineTrigger> potentialTransition in localTriggers[currentState])
+        {
+            TState toState = potentialTransition.Key;
+            StateMachineTrigger stateMachineTrigger = potentialTransition.Value;
+            
             if (stateMachineTrigger.Triggers())
             {
                 Transition(toState);

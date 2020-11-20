@@ -10,6 +10,7 @@
 
     public void Enter()
     {
+        player.Ready();
         actionControlState = PlayerControls.Instance.ActionControlState;
     }
 
@@ -19,6 +20,7 @@
     {
         var newActionControlState = PlayerControls.Instance.ActionControlState;
         var castingCommand = ControlMatrix.GetCastingCommand(CastingStatus.Ready, actionControlState, newActionControlState);
+        actionControlState = newActionControlState;
         
         if (castingCommand == CastingCommand.CastLeft)
         {

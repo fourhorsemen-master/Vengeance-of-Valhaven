@@ -23,7 +23,7 @@ public class WhirlwindObject : MonoBehaviour
 
     public void DissipateAndDestroy()
     {
-        pfx.Stop();
+        if (pfx != null) pfx.Stop();
         whirlwindSound.Stop();
         isDissipating = true;
         Destroy(gameObject, particleDissapationPeriod);

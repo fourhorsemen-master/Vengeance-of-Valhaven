@@ -24,6 +24,11 @@ public abstract class SubjectTrigger : StateMachineTrigger
 
     public override bool Triggers()
     {
+        if (canTrigger)
+        {
+            return true;
+        }
+
         return canTrigger;
     }
 }

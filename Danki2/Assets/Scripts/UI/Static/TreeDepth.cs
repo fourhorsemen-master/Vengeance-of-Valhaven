@@ -15,30 +15,30 @@ public class TreeDepth : MonoBehaviour
 
     private void Awake()
     {
-        this.spriteWidth = this.repeatingImage.rectTransform.sizeDelta.x;
-        this.spriteHeight = this.repeatingImage.rectTransform.sizeDelta.y;
+        spriteWidth = repeatingImage.rectTransform.sizeDelta.x;
+        spriteHeight = repeatingImage.rectTransform.sizeDelta.y;
     }
 
     private void Start()
     {
-        this.player = RoomManager.Instance.Player;
-        this.abilityTimeOutLimit = this.player.AbilityManager.ComboTimeout;
+        player = RoomManager.Instance.Player;
+        abilityTimeOutLimit = player.ComboTimeout;
 
-        this.player.AbilityTree.CurrentDepthSubject.Subscribe(newDepth =>
+        player.AbilityTree.CurrentDepthSubject.Subscribe(newDepth =>
         {
-            this.repeatingImage.rectTransform.sizeDelta = new Vector2((newDepth) * this.spriteWidth, this.spriteHeight);
-            this.repeatingImage.SetOpacity(1f);
-            this.currentTreeDepth = newDepth;
+            repeatingImage.rectTransform.sizeDelta = new Vector2((newDepth) * spriteWidth, spriteHeight);
+            repeatingImage.SetOpacity(1f);
+            currentTreeDepth = newDepth;
         });
     }
 
     private void Update()
     {
-        float opacity = this.repeatingImage.color.a;
+        float opacity = repeatingImage.color.a;
         
-        if(this.currentTreeDepth > 0)
+        if(currentTreeDepth > 0)
         {
-            this.repeatingImage.SetOpacity(opacity - (Time.deltaTime / abilityTimeOutLimit));
+            repeatingImage.SetOpacity(opacity - (Time.deltaTime / abilityTimeOutLimit));
         }
     }
 }

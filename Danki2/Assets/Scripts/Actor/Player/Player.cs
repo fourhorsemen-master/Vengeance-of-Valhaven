@@ -3,7 +3,14 @@
 public class Player : Actor
 {
     public override ActorType Type => ActorType.Player;
-    
+
+    [Header("Ability tree")]
+    [SerializeField] private float shortCooldown = 0.75f;
+    [SerializeField] private float longCooldown = 1.5f;
+    [SerializeField] private float comboTimeout = 2f;
+    [SerializeField] private float feedbackTimeout = 1f;
+    [SerializeField] private bool rollResetsCombo = false;
+
     [Header("Roll")]
     [SerializeField] private float totalRollCooldown = 1f;
     [SerializeField] private float rollDuration = 0.3f;
@@ -13,10 +20,17 @@ public class Player : Actor
     [SerializeField] private AudioSource whiffAudio = null;
     [SerializeField] private AudioSource rollAudio = null;
 
+    public float ShortCooldown => shortCooldown;
+    public float LongCooldown => longCooldown;
+    public float ComboTimeout => comboTimeout;
+    public float FeedbackTimeout => feedbackTimeout;
+    public bool RollResetsCombo => rollResetsCombo;
+
     private float remainingRollCooldown = 0f;
     private Subscription<bool> abilityFeedbackSubscription;
 
     public Direction LastCastDirection { get; private set; }
+    public bool? FeedbackSinceLastCast { get; private set; } = null;
 
     // Services
     public AbilityTree AbilityTree { get; private set; }
@@ -25,10 +39,12 @@ public class Player : Actor
     // Subjects
     public Subject RollSubject { get; } = new Subject();
     public Subject<Direction> ChannelStartSubject { get; } = new Subject<Direction>();
+    public Subject<bool> AbilityFeedbackSubject { get; } = new Subject<bool>();
     public Subject ComboCompleteSubject { get; } = new Subject();
     public Subject ComboFailedSubject { get; } = new Subject();
     public Subject ComboContinueSubject { get; } = new Subject();
-    public Subject WhiffSubject { get; private set; }
+    public Subject WhiffSubject { get; } = new Subject();
+    public Subject ReadyToCastSubject { get; } = new Subject();
 
     protected override void Awake()
     {
@@ -61,6 +77,11 @@ public class Player : Actor
 
         TickRollCooldown();
     }
+    public void Ready()
+    {
+        FeedbackSinceLastCast = null;
+        ReadyToCastSubject.Next();
+    }
 
     public void Cast(Direction direction)
     {
@@ -71,9 +92,11 @@ public class Player : Actor
 
         AbilityType abilityType = AbilityLookup.Instance.GetAbilityType(abilityReference);
 
+        bool hasCast = false;
+
         if (abilityType == AbilityType.InstantCast)
         {
-            InstantCastService.Cast(
+            hasCast = InstantCastService.Cast(
                 abilityReference,
                 TargetFinder.TargetPosition,
                 subject => SubscribeToFeedback(subject),
@@ -82,12 +105,45 @@ public class Player : Actor
         }
         else if (abilityType == AbilityType.Channel)
         {
-            ChannelStartSubject.Next(direction);
-            ChannelService.StartChannel(
+            hasCast = ChannelService.StartChannel(
                 abilityReference,
                 subject => SubscribeToFeedback(subject)
             );
+            if (hasCast)
+            {
+                ChannelStartSubject.Next(direction);
+            }
         }
+
+        if (hasCast)
+        {
+            AbilityTree.Walk(LastCastDirection);
+        }
+    }
+
+    public void CompleteCombo()
+    {
+        AbilityTree.Reset();
+        ComboCompleteSubject.Next();
+    }
+
+    public void ContinueCombo()
+    {
+        ComboContinueSubject.Next();
+    }
+
+    public void FailCombo()
+    {
+        AbilityTree.Reset();
+        PlayWhiffSound();
+        ComboFailedSubject.Next();
+    }
+
+    public void Whiff()
+    {
+        AbilityTree.Reset();
+        PlayWhiffSound();
+        WhiffSubject.Next();
     }
 
     public void Roll(Vector3 direction)
@@ -111,13 +167,6 @@ public class Player : Actor
         }
     }
 
-    public void Whiff()
-    {
-        AbilityTree.Reset();
-        PlayWhiffSound();
-        WhiffSubject.Next();
-    }
-
     private void PlayWhiffSound()
     {
         whiffAudio.Play();
@@ -133,29 +182,8 @@ public class Player : Actor
         abilityFeedbackSubscription = subject.Subscribe(feedback =>
         {
             abilityFeedbackSubscription.Unsubscribe();
-            AbilityTree.Walk(LastCastDirection);
-
-            if (feedback == false) FailCombo();
-            else if (AbilityTree.CanWalk()) ContinueCombo();
-            else CompleteCombo();
+            FeedbackSinceLastCast = feedback;
+            AbilityFeedbackSubject.Next(feedback);
         });
-    }
-
-    private void CompleteCombo()
-    {
-        AbilityTree.Reset();
-        ComboCompleteSubject.Next();
-    }
-
-    private void ContinueCombo()
-    {
-        ComboContinueSubject.Next();
-    }
-
-    private void FailCombo()
-    {
-        AbilityTree.Reset();
-        PlayWhiffSound();
-        ComboFailedSubject.Next();
     }
 }
