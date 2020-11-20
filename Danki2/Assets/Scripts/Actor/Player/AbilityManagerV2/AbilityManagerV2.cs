@@ -5,10 +5,12 @@ public class AbilityManagerV2 : StateMachineMonoBehaviour
     [SerializeField]
     private Player player = null;
 
-    private float comboTimeout;
-    private float feedbackTimeout;
-    private float shortCooldown;
-    private float longCooldown;
+    [Header("Ability tree")]
+    [SerializeField] private float shortCooldown = 0.75f;
+    [SerializeField] private float longCooldown = 1.5f;
+    [SerializeField] private float comboTimeout = 2f;
+    [SerializeField] private float feedbackTimeout = 1f;
+    [SerializeField] private bool rollResetsCombo = false;
 
     protected override IStateMachineComponent BuildStateMachineComponent()
     {

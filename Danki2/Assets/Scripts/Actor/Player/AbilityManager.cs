@@ -109,7 +109,7 @@ public class AbilityManager
 
     private void Whiff()
     {
-        player.PlayWhiffSound();
+        // player.PlayWhiffSound();
 
         if (abilityFeedbackSubscription != null)
         {
@@ -224,7 +224,7 @@ public class AbilityManager
 
         whiffed = !successful;
 
-        if (whiffed) player.PlayWhiffSound();
+        // if (whiffed) player.PlayWhiffSound();
 
         if (CastingStatus == CastingStatus.AwaitingFeedback)
         {
