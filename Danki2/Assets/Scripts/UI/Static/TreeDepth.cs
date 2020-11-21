@@ -24,7 +24,8 @@ public class TreeDepth : MonoBehaviour
         abilityTimeOutLimit = player.ComboTimeout;
 
         UpdateDepth();
-        player.ReadyToCastSubject.Subscribe(UpdateDepth);
+        player.InstantCastService.CastSubject.Subscribe(UpdateDepth);
+        player.ChannelService.ChannelEndSubject.Subscribe(UpdateDepth);
     }
 
     private void Update()
