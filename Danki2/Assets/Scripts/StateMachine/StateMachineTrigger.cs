@@ -13,7 +13,8 @@
     {
         public AndTrigger(StateMachineTrigger t1, StateMachineTrigger t2) : base(t1, t2) {}
 
-        public override bool Triggers() => t1.Triggers() && t2.Triggers();
+        // We use a bitwise & because the second trigger method should still be called when the first one returns false
+        public override bool Triggers() => t1.Triggers() & t2.Triggers();
     }
     
     private class OrTrigger : CompositeTrigger

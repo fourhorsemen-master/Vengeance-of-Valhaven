@@ -24,12 +24,11 @@ public abstract class SubjectTrigger : StateMachineTrigger
 
     public override bool Triggers()
     {
-        if (canTrigger)
-        {
-            return true;
-        }
+        bool result = canTrigger;
 
-        return canTrigger;
+        canTrigger = false;
+
+        return result;
     }
 }
 public abstract class SubjectTrigger<T> : StateMachineTrigger
@@ -58,6 +57,10 @@ public abstract class SubjectTrigger<T> : StateMachineTrigger
 
     public override bool Triggers()
     {
-        return canTrigger;
+        bool result = canTrigger;
+
+        canTrigger = false;
+
+        return result;
     }
 }
