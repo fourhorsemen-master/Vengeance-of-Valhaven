@@ -62,16 +62,18 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
         List<TooltipSegment> tooltipSegments = playerTreeTooltipBuilder.Build(node);
 
         OrbCollection providedOrbs = node.GetInputOrbs();
+        
+        
 
         Activate(
             node.Ability,
             tooltipSegments,
             bonus => playerTreeTooltipBuilder.BuildBonus(node, bonus),
-            providedOrbs
+            node.GetTreeDepth()
         );
     }
 
-    private void Activate(AbilityReference ability, List<TooltipSegment> tooltipSegments, Func<string, List<TooltipSegment>> bonusSegmenter, OrbCollection providedOrbs = null)
+    private void Activate(AbilityReference ability, List<TooltipSegment> tooltipSegments, Func<string, List<TooltipSegment>> bonusSegmenter, int? treeDepth = null)
     {
         ActivateTooltip();
 
@@ -79,11 +81,9 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
         bool isFinisher = AbilityLookup.Instance.IsFinisher(ability);
         string descriptionText = GenerateDescription(tooltipSegments);
 
-        OrbCollection generatedOrbs = AbilityLookup.Instance.GetGeneratedOrbs(ability);
-
         Dictionary<string, AbilityBonusData> bonuses = AbilityLookup.Instance.GetAbilityBonusDataLookup(ability);
 
-        SetContents(titleText, isFinisher, descriptionText, bonuses, bonusSegmenter, generatedOrbs, providedOrbs);
+        SetContents(titleText, isFinisher, descriptionText, bonuses, bonusSegmenter, treeDepth);
     }
 
     private string GenerateTitle(AbilityReference ability)
@@ -133,8 +133,7 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
         string description,
         Dictionary<string, AbilityBonusData> bonuses,
         Func<string, List<TooltipSegment>> segmenter,
-        OrbCollection generatedOrbs,
-        OrbCollection providedOrbs
+        int? treeDepth = null
     )
     {
         titleText.text = title;
@@ -152,11 +151,10 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
         {
             AbilityBonusData bonusData = bonuses[bonus];
             AbilityBonusTooltipSection section = Instantiate(bonusSectionPrefab, Vector3.zero, Quaternion.identity, transform);
-            section.Initialise(bonusData.DisplayName, GenerateDescription(segmenter(bonus)), bonusData.RequiredOrbs, providedOrbs);
+            bool hasBonus = !treeDepth.HasValue || bonusData.RequiredTreeDepth <= treeDepth.Value;
+            section.Initialise(bonusData.DisplayName, GenerateDescription(segmenter(bonus)), hasBonus, bonusData.RequiredTreeDepth);
 
             bonusSections.Add(section);
         }
-
-        bool hasOrbs = !generatedOrbs.IsEmpty;
     }
 }
