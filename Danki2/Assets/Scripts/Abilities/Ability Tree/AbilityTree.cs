@@ -13,9 +13,9 @@ public abstract class AbilityTree
     /// </summary>
     public int MaxDepth => RootNode.MaxDepth();
 
-    public BehaviourSubject<Node> TreeWalkSubject { get; }
+    public int CurrentDepth => _currentDepth;
 
-    public BehaviourSubject<int> CurrentDepthSubject { get; }
+    public BehaviourSubject<Node> TreeWalkSubject { get; }
 
     public Subject ChangeSubject { get; } = new Subject();
 
@@ -34,7 +34,6 @@ public abstract class AbilityTree
         _currentDepth = 0;
 
         TreeWalkSubject = new BehaviourSubject<Node>(_currentNode);
-        CurrentDepthSubject = new BehaviourSubject<int>(_currentDepth);
 
         UpdateInventory();
 
@@ -66,7 +65,6 @@ public abstract class AbilityTree
         TreeWalkSubject.Next(_currentNode);
 
         _currentDepth++;
-        CurrentDepthSubject.Next(_currentDepth);
 
         return _currentNode.Ability;
     }
@@ -82,7 +80,6 @@ public abstract class AbilityTree
         TreeWalkSubject.Next(_currentNode);
 
         _currentDepth = 0;
-        CurrentDepthSubject.Next(_currentDepth);
     }
 
     private void UpdateInventory()

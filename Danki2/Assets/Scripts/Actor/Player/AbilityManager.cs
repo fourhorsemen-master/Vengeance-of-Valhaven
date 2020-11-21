@@ -93,7 +93,7 @@ public class AbilityManager
 
     private void AbilityTimeoutSubscription()
     {
-        player.AbilityTree.CurrentDepthSubject.Subscribe((int treeDepth) =>
+        /*player.AbilityTree.CurrentDepthSubject.Subscribe((int treeDepth) =>
         {
             if (abilityTimeout != null)
             {
@@ -104,7 +104,7 @@ public class AbilityManager
             {
                 abilityTimeout = player.WaitAndAct(ComboTimeout, Whiff);
             }
-        });
+        });*/
     }
 
     private void Whiff()
