@@ -80,11 +80,11 @@ public abstract class ProjectileObject : MonoBehaviour
         }
     }
 
-    private void StickTo(Transform transform)
+    private void StickTo(Transform newParent)
     {
         Destroy(rigidBody);
         Destroy(collider);
-        transform.SetParent(transform);
+        transform.SetParent(newParent);
         speed = 0f;
 
         this.WaitAndAct(stickTime, () => Destroy(gameObject));
