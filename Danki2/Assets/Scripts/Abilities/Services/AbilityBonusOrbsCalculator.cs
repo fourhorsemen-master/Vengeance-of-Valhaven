@@ -3,11 +3,11 @@ using System.Linq;
 
 public class AbilityBonusOrbsCalculator : IAbilityBonusCalculator
 {
-    private Node currentNode;
+    private int currentDepth;
 
     public AbilityBonusOrbsCalculator(AbilityTree abilityTree)
     {
-        abilityTree.TreeWalkSubject.Subscribe(n => currentNode = n);
+        abilityTree.CurrentDepthSubject.Subscribe(d => currentDepth = d);
     }
     
     /// <summary>
@@ -17,12 +17,10 @@ public class AbilityBonusOrbsCalculator : IAbilityBonusCalculator
     /// <returns> An array of the active bonuses. </returns>
     public string[] GetActiveBonuses(AbilityReference abilityReference)
     {
-        OrbCollection activeOrbs = currentNode.GetOutputOrbs();
-
         Dictionary<string, AbilityBonusData> abilityBonusDataLookup = AbilityLookup.Instance.GetAbilityBonusDataLookup(abilityReference);
 
         return abilityBonusDataLookup.Keys
-            .Where(abilityBonus => activeOrbs.IsSuperset(abilityBonusDataLookup[abilityBonus].RequiredOrbs))
+            .Where(abilityBonus => abilityBonusDataLookup[abilityBonus].RequiredTreeDepth <= currentDepth + 1)
             .ToArray();
     }
 }

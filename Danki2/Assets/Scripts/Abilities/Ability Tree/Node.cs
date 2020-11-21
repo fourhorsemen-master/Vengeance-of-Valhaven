@@ -103,6 +103,13 @@ public abstract class Node
         return Parent.GetOutputOrbs();
     }
 
+    public int GetTreeDepth()
+    {
+        if (IsRootNode) return 0;
+
+        return Parent.GetTreeDepth() + 1;
+    }
+
     public void Insert(AbilityReference ability, InsertArea area)
     {
         Node newNode = AbilityTreeFactory.CreateNode(ability);

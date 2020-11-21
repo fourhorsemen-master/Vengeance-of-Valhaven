@@ -199,6 +199,11 @@ public class AbilityLookupEditor : Editor
                 3
             );
 
+            serializableAbilityBonusLookup[abilityBonus].RequiredTreeDepth = EditorGUILayout.IntField(
+                "Required Tree Depth",
+                serializableAbilityBonusLookup[abilityBonus].RequiredTreeDepth
+            );
+
             EditOrbList(serializableAbilityBonusLookup[abilityBonus].RequiredOrbs, "Add Required Orb");
                 
             EditorGUI.indentLevel--;

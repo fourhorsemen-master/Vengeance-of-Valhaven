@@ -108,6 +108,7 @@ MonoBehaviour:
         - displayName: Cross Step
           tooltip: No longer slowed whilst channeling.
           requiredOrbs: 02000000
+          requiredTreeDepth: 0
       finisher: 0
       channelDuration: 2
     - displayName: Fireball
@@ -226,6 +227,7 @@ MonoBehaviour:
         - displayName: Perfect Smash
           tooltip: Stun all affected enemies for 3 seconds.
           requiredOrbs: 0100000001000000
+          requiredTreeDepth: 2
       finisher: 1
       channelDuration: 0
     - displayName: Sprint
@@ -262,6 +264,7 @@ MonoBehaviour:
         - displayName: Momentum
           tooltip: On impact, stun surrounding enemies for 3 seconds.
           requiredOrbs: 0000000000000000
+          requiredTreeDepth: 0
       finisher: 0
       channelDuration: 0
     - displayName: Leeching Strike
@@ -300,9 +303,11 @@ MonoBehaviour:
         - displayName: Clarity
           tooltip: Slow all enemies by 50% while charging.
           requiredOrbs: 020000000200000001000000
+          requiredTreeDepth: 0
         - displayName: Growing Rage
           tooltip: Increase power by 2 for every second charged instead.
           requiredOrbs: 000000000000000000000000
+          requiredTreeDepth: 0
       finisher: 1
       channelDuration: 5
     - displayName: Bash
@@ -373,8 +378,8 @@ MonoBehaviour:
       finisher: 0
       channelDuration: 0
     - displayName: Piercing Rush
-      tooltip: Dash for up to 10m dealing {PRIMARY_DAMAGE} damage to all enemies you
-        pass.
+      tooltip: Dash for up to 10m dealing {PRIMARY_DAMAGE} damage to all enemies
+        you pass.
       baseAbilityData:
         primaryDamage: 8
         secondaryDamage: 0
@@ -392,15 +397,17 @@ MonoBehaviour:
         - displayName: Daze
           tooltip: Slow all enemies hit.
           requiredOrbs: 00000000
+          requiredTreeDepth: 0
         - displayName: Jetstream
           tooltip: After the dash the sharp winds of the jetstream causes {PRIMARY_DAMAGE}
             damage to enemies in a cone behind you.
           requiredOrbs: 020000000100000001000000
+          requiredTreeDepth: 0
       finisher: 1
       channelDuration: 2
     - displayName: Parry
-      tooltip: Absorb each attack for 1 second and return 50% of the damage back to
-        attackers.
+      tooltip: Absorb each attack for 1 second and return 50% of the damage back
+        to attackers.
       baseAbilityData:
         primaryDamage: 0
         secondaryDamage: 0
@@ -432,8 +439,8 @@ MonoBehaviour:
       finisher: 0
       channelDuration: 0
     - displayName: Rend
-      tooltip: Applies a 5 second DOT for {PRIMARY_DAMAGE} damage, multiplied by the
-        time charged, to all surrounding enemies.
+      tooltip: Applies a 5 second DOT for {PRIMARY_DAMAGE} damage, multiplied by
+        the time charged, to all surrounding enemies.
       baseAbilityData:
         primaryDamage: 5
         secondaryDamage: 0
@@ -466,6 +473,7 @@ MonoBehaviour:
         - displayName: Perseverance
           tooltip: Slowed by 50% rather than rooted while channeling.
           requiredOrbs: 0000000001000000
+          requiredTreeDepth: 0
       finisher: 1
       channelDuration: 5
     - displayName: Disengage
@@ -486,6 +494,7 @@ MonoBehaviour:
         - displayName: Parting Shot
           tooltip: Deal {PRIMARY_DAMAGE} damage to enemies nearby before leaping.
           requiredOrbs: 0100000001000000
+          requiredTreeDepth: 0
       finisher: 0
       channelDuration: 0
     - displayName: Sword Throw
@@ -507,6 +516,7 @@ MonoBehaviour:
           tooltip: Coat the blade in deadly poison, dealing {SECONDARY_DAMAGE} damage
             over 5 seconds.
           requiredOrbs: 0200000002000000
+          requiredTreeDepth: 0
       finisher: 1
       channelDuration: 2
     - displayName: Fan of Knives
@@ -528,6 +538,7 @@ MonoBehaviour:
         - displayName: Spray
           tooltip: Throw an additional 2 knives.
           requiredOrbs: 020000000000000001000000
+          requiredTreeDepth: 0
       finisher: 0
       channelDuration: 0
     - displayName: Hamstring
@@ -549,5 +560,6 @@ MonoBehaviour:
         - displayName: Hack
           tooltip: Increase damage dealt by 4.
           requiredOrbs: 00000000
+          requiredTreeDepth: 0
       finisher: 0
       channelDuration: 0
