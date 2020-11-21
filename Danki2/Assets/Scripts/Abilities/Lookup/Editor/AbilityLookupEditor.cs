@@ -204,7 +204,7 @@ public class AbilityLookupEditor : Editor
                 serializableAbilityBonusLookup[abilityBonus].RequiredTreeDepth
             );
 
-            EditOrbList(serializableAbilityBonusLookup[abilityBonus].RequiredOrbs, "Add Required Orb");
+            // EditOrbList(serializableAbilityBonusLookup[abilityBonus].RequiredOrbs, "Add Required Orb");
                 
             EditorGUI.indentLevel--;
         }
