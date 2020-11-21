@@ -34,14 +34,13 @@ public class PiercingRush : Cast
 
     protected override void Cancel() => onCastCancelled.Next();
 
-    public override void End(Vector3 target)
+    public override void End(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
         // Dash.
         Vector3 position = Owner.transform.position;
-        Vector3 direction = target - position;
-        direction.y = position.y;
+        Vector3 direction = floorTargetPosition - position;
 
-        float distance = Vector3.Distance(target, position);
+        float distance = Vector3.Distance(floorTargetPosition, position);
         distance = Mathf.Clamp(distance, minimumCastRange, maximumCastRange);
 
         float dashSpeed = Owner.GetStat(Stat.Speed) * dashSpeedMultiplier;

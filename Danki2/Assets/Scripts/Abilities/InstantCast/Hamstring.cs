@@ -11,9 +11,9 @@ public class Hamstring : InstantCast
     
     public Hamstring(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses) { }
 
-    public override void Cast(Vector3 target)
+    public override void Cast(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
-        Swing(target);        
+        Swing(offsetTargetPosition);        
         SuccessFeedbackSubject.Next(false);
     }
 

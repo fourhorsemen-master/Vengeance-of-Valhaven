@@ -12,29 +12,28 @@ public class Smash : InstantCast
     {
     }
 
-    public override void Cast(Vector3 target)
+    public override void Cast(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
-        Owner.MovementManager.LookAt(target);
+        Owner.MovementManager.LookAt(floorTargetPosition);
         Owner.MovementManager.Pause(PauseDuration);
 
         Vector3 position = Owner.transform.position;
-        target.y = position.y;
 
-        Vector3 directionToTarget = target == position ? Vector3.right : (target - position).normalized;
+        Vector3 directionToTarget = floorTargetPosition == position
+            ? Vector3.right
+            : (floorTargetPosition - position).normalized;
         Vector3 center = position + (directionToTarget * DistanceFromCaster);
 
         bool hasDealtDamage = false;
 
         CollisionTemplateManager.Instance.GetCollidingActors(CollisionTemplate.Cylinder, Radius, center)
+            .Where(actor => Owner.Opposes(actor))
             .ForEach(actor =>
             {
-                if (Owner.Opposes(actor))
-                {
-                    DealPrimaryDamage(actor);
-                    hasDealtDamage = true;
+                DealPrimaryDamage(actor);
+                hasDealtDamage = true;
 
-                    if (HasBonus("PerfectSmash")) actor.EffectManager.AddActiveEffect(new Stun(), PerfectSmashStunDuration);
-                }
+                if (HasBonus("PerfectSmash")) actor.EffectManager.AddActiveEffect(new Stun(), PerfectSmashStunDuration);
             });
 
         CustomCamera.Instance.AddShake(ShakeIntensity.High);

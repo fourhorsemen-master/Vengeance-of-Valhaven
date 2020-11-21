@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 
 [Ability(AbilityReference.Slash)]
 public class Slash : InstantCast
@@ -11,10 +10,10 @@ public class Slash : InstantCast
     {
     }
 
-    public override void Cast(Vector3 target)
+    public override void Cast(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
         Vector3 position = Owner.transform.position;
-        Vector3 castDirection = target - Owner.Centre;
+        Vector3 castDirection = floorTargetPosition - position;
         Quaternion castRotation = GetMeleeCastRotation(castDirection);
 
         bool hasDealtDamage = false;
@@ -31,7 +30,7 @@ public class Slash : InstantCast
 
         SlashObject slashObject = SlashObject.Create(position, castRotation);
 
-        Owner.MovementManager.LookAt(target);
+        Owner.MovementManager.LookAt(floorTargetPosition);
         Owner.MovementManager.Pause(PauseDuration);
 
         if (hasDealtDamage)

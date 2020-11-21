@@ -15,11 +15,11 @@ public class Hook : InstantCast
     {
     }
 
-    public override void Cast(Vector3 target)
+    public override void Cast(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
-        Quaternion rotation = Quaternion.LookRotation(target - Owner.Centre);
+        Quaternion rotation = Quaternion.LookRotation(offsetTargetPosition - Owner.Centre);
 
-        Owner.MovementManager.LookAt(target);
+        Owner.MovementManager.LookAt(offsetTargetPosition);
         Owner.MovementManager.Pause(range / hookSpeed);
 
         hookObject = HookObject.Fire(Owner, OnCollision, MissCallback, hookSpeed, Owner.Centre, rotation, range);

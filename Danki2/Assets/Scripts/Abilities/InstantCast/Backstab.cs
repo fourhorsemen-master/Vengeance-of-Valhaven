@@ -10,9 +10,9 @@ public class Backstab : InstantCast
     {
     }
 
-    public override void Cast(Vector3 target)
+    public override void Cast(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
-        Swing(target);
+        Swing(offsetTargetPosition);
         SuccessFeedbackSubject.Next(false);
     }
 

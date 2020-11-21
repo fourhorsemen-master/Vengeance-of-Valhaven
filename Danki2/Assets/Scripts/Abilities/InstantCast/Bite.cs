@@ -10,15 +10,15 @@ public class Bite : InstantCast
     {
     }
 
-    public override void Cast(Vector3 target)
+    public override void Cast(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
         Vector3 position = Owner.transform.position;
-        Vector3 castDirection = target - Owner.Centre;
+        Vector3 castDirection = floorTargetPosition - position;
         Quaternion castRotation = GetMeleeCastRotation(castDirection);
 
         BiteObject.Create(Owner.transform);
 
-        Owner.MovementManager.LookAt(target);
+        Owner.MovementManager.LookAt(floorTargetPosition);
         Owner.MovementManager.Pause(PauseDuration);
 
         bool hasDealtDamage = false;

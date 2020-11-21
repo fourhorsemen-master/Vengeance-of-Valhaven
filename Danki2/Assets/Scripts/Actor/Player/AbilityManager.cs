@@ -190,9 +190,10 @@ public class AbilityManager
         {
             case AbilityType.InstantCast:
                 CastingStatus = CastingStatus.AwaitingFeedback;
-                player.InstantCastService.Cast(
+                player.InstantCastService.TryCast(
                     abilityReference,
-                    player.TargetFinder.TargetPosition,
+                    player.TargetFinder.FloorTargetPosition,
+                    player.TargetFinder.OffsetTargetPosition,
                     subject => abilityFeedbackSubscription = subject.Subscribe(AbilityFeedbackSubscription),
                     player.TargetFinder.Target
                 );
@@ -201,7 +202,7 @@ public class AbilityManager
                 CastingStatus = direction == Direction.Left
                     ? CastingStatus.ChannelingLeft
                     : CastingStatus.ChannelingRight;
-                player.ChannelService.StartChannel(
+                player.ChannelService.TryStartChannel(
                     abilityReference,
                     subject => abilityFeedbackSubscription = subject.Subscribe(AbilityFeedbackSubscription)
                 );

@@ -19,17 +19,15 @@ public class Leap : InstantCast
     {
     }
 
-    public override void Cast(Vector3 target)
+    public override void Cast(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
         Vector3 position = Owner.transform.position;
-        Vector3 direction = target - position;
-        direction.y = position.y;
+        Vector3 direction = floorTargetPosition - position;
 
-        float distance = Vector3.Distance(target, position);
+        float distance = Vector3.Distance(floorTargetPosition, position);
         float leapSpeed = Owner.GetStat(Stat.Speed) * LeapSpeedMultiplier;
         float duration = Mathf.Clamp(distance / leapSpeed, MinMovementDuration, MaxMovementDuration);
-
-
+        
         Owner.MovementManager.TryLockMovement(MovementLockType.Dash, duration, leapSpeed, direction, direction);
 
         LeapObject leapObject = LeapObject.Create(Owner.transform, leapEndSubject, HasMomentum);

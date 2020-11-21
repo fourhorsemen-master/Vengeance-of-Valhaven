@@ -9,15 +9,15 @@ public abstract class Cast : Channel
     {
     }
 
-    public sealed override void Start(Vector3 target) => Start();
+    public sealed override void Start(Vector3 floorTargetPosition, Vector3 offsetTargetPosition) => Start();
 
     public sealed override void Start(Actor actor) => Start();
 
-    public sealed override void Continue(Vector3 target) => Continue();
+    public sealed override void Continue(Vector3 floorTargetPosition, Vector3 offsetTargetPosition) => Continue();
 
     public sealed override void Continue(Actor actor) => Continue();
 
-    public sealed override void Cancel(Vector3 target)
+    public sealed override void Cancel(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
         SuccessFeedbackSubject.Next(false);
         Cancel();

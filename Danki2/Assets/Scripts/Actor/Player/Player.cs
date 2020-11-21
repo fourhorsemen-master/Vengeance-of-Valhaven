@@ -26,7 +26,8 @@ public class Player : Actor
     public float FeedbackTimeout => feedbackTimeout;
     public bool RollResetsCombo => rollResetsCombo;
 
-    private float remainingRollCooldown = 0f;
+    private bool readyToRoll = true;
+
     private Subscription<bool> abilityFeedbackSubscription;
 
     public Direction LastCastDirection { get; private set; }
@@ -71,12 +72,6 @@ public class Player : Actor
         gameObject.tag = Tags.Player;
     }
 
-    protected override void Update()
-    {
-        base.Update();
-
-        TickRollCooldown();
-    }
     public void Ready()
     {
         FeedbackSinceLastCast = null;
@@ -96,16 +91,17 @@ public class Player : Actor
 
         if (abilityType == AbilityType.InstantCast)
         {
-            hasCast = InstantCastService.Cast(
+            hasCast = InstantCastService.TryCast(
                 abilityReference,
-                TargetFinder.TargetPosition,
+                TargetFinder.FloorTargetPosition,
+                TargetFinder.OffsetTargetPosition,
                 subject => SubscribeToFeedback(subject),
                 TargetFinder.Target
             );
         }
         else if (abilityType == AbilityType.Channel)
         {
-            hasCast = ChannelService.StartChannel(
+            hasCast = ChannelService.TryStartChannel(
                 abilityReference,
                 subject => SubscribeToFeedback(subject)
             );
@@ -148,7 +144,7 @@ public class Player : Actor
 
     public void Roll(Vector3 direction)
     {
-        if (remainingRollCooldown > 0 || ChannelService.Active) return;
+        if (!readyToRoll || ChannelService.Active) return;
 
         bool rolled = MovementManager.TryLockMovement(
             MovementLockType.Dash,
@@ -160,21 +156,18 @@ public class Player : Actor
 
         if (rolled)
         {
-            remainingRollCooldown = totalRollCooldown;
             rollAudio.Play();
             RollSubject.Next();
             StartTrail(rollDuration * 2);
+
+            readyToRoll = false;
+            this.WaitAndAct(totalRollCooldown, () => readyToRoll = true);
         }
     }
 
     private void PlayWhiffSound()
     {
         whiffAudio.Play();
-    }
-
-    private void TickRollCooldown()
-    {
-        remainingRollCooldown = Mathf.Max(0f, remainingRollCooldown - Time.deltaTime);
     }
 
     private void SubscribeToFeedback(Subject<bool> subject)

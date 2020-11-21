@@ -3,15 +3,14 @@ using UnityEngine;
 
 public class InstantCastService : AbilityService
 {
+    public InstantCastService(Actor actor) : base(actor) {}
+
     public Subject CastSubject { get; } = new Subject();
 
-    public InstantCastService(Actor actor) : base(actor)
-    {
-    }
-
-    public bool Cast(
+    public bool TryCast(
         AbilityReference abilityReference,
-        Vector3 targetPosition,
+        Vector3 floorTargetPosition,
+        Vector3 offsetTargetPosition,
         Action<Subject<bool>> successFeedbackSubjectAction = null,
         Actor target = null
     )
@@ -34,10 +33,11 @@ public class InstantCastService : AbilityService
         }
         else
         {
-            instantCast.Cast(targetPosition);
+            instantCast.Cast(floorTargetPosition, offsetTargetPosition);
         }
 
         CastSubject.Next();
+
         return true;
     }
 }

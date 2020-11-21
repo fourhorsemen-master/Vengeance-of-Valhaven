@@ -8,9 +8,10 @@ public class PlayerTargetFinder
     private readonly Player player;
     private Subscription targetDeathSubscription;
 
-    public Vector3 TargetPosition { get; private set; }
+    public Vector3 FloorTargetPosition { get; private set; } = Vector3.zero;
+    public Vector3 OffsetTargetPosition { get; private set; } = Vector3.zero;
 
-    public Enemy Target { get; private set; }
+    public Enemy Target { get; private set; } = null;
 
     public PlayerTargetFinder(Player player, Subject updateSubject)
     {
@@ -20,52 +21,44 @@ public class PlayerTargetFinder
 
     private void UpdateTarget()
     {
-        // First, we raycast for an actor (ie. by ignoring other layers)
-        bool mouseHitCollider = MouseGamePositionFinder.Instance.TryGetMouseGamePosition(
-            out Vector3 mousePosition,
+        if (TryHitEnemy()) return;
+        RemoveTarget();
+        if (TryHitNavmesh()) return;
+        if (TryHitAnyCollider()) return;
+        HitPlane();
+    }
+
+    private bool TryHitEnemy()
+    {
+        bool mouseHitActor = MouseGamePositionFinder.Instance.TryGetCollider(
             out Collider collider,
+            out _,
             Layers.GetLayerMask(new[] { Layers.Actors })
         );
 
-        // Then, if we don't hit any actors, we raycast for any collider
-        if (!mouseHitCollider)
-        {
-            mouseHitCollider = MouseGamePositionFinder.Instance.TryGetMouseGamePosition(out mousePosition, out collider);
-        }
-
-        // Then, if no colliders are hit, we use the mouse position on a horizontal plane at the players height.
-        if (!mouseHitCollider)
-        {
-            mousePosition = MouseGamePositionFinder.Instance.GetMousePlanePosition(player.transform.position.y, true);
-        }
-
-        SetTargetPosition(mousePosition);
-
-        if (collider != null && collider.gameObject.CompareTag(Tags.Enemy))
+        if (mouseHitActor && collider.gameObject.CompareTag(Tags.Enemy))
         {
             Enemy enemy = collider.gameObject.GetComponent<Enemy>();
-            if (!enemy.Dead) SetTarget(enemy);
-        }
-        else
-        {
-            RemoveTarget();
-        }
-    }
 
-    private void SetTargetPosition(Vector3 mousePosition)
-    {
-        TargetPosition = mousePosition;
-        player.ChannelService.TargetPosition = TargetPosition;
+            if (enemy.Dead) return false;
+
+            SetTarget(enemy);
+            return true;
+        }
+
+        return false;
     }
 
     private void SetTarget(Enemy enemy)
     {
+        SetTargetPositions(enemy.transform.position, enemy.Centre);
+        
         if (enemy == Target) return;
 
         RemoveTarget();
 
         enemy.PlayerTargeted.Next(true);
-        targetDeathSubscription = enemy.DeathSubject.Subscribe(() => RemoveTarget());
+        targetDeathSubscription = enemy.DeathSubject.Subscribe(RemoveTarget);
         Target = enemy;
         player.ChannelService.Target = enemy;
     }
@@ -78,5 +71,45 @@ public class PlayerTargetFinder
         targetDeathSubscription.Unsubscribe();
         Target = null;
         player.ChannelService.Target = null;
+    }
+
+    private bool TryHitNavmesh()
+    {
+        bool mouseHitNavmesh = MouseGamePositionFinder.Instance.TryGetNavMeshPositions(
+            out Vector3 floorPosition,
+            out Vector3 offsetPosition
+        );
+
+        if (!mouseHitNavmesh) return false;
+
+        SetTargetPositions(floorPosition, offsetPosition);
+        return true;
+    }
+
+    private bool TryHitAnyCollider()
+    {
+        if (!MouseGamePositionFinder.Instance.TryGetCollider(out _, out Vector3 position)) return false;
+
+        SetTargetPositions(position, position);
+        return true;
+    }
+
+    private void HitPlane()
+    {
+        MouseGamePositionFinder.Instance.GetPlanePositions(
+            player.transform.position.y,
+            out Vector3 floorPosition,
+            out Vector3 offsetPosition
+        );
+
+        SetTargetPositions(floorPosition, offsetPosition);
+    }
+
+    private void SetTargetPositions(Vector3 floorPosition, Vector3 offsetPosition)
+    {
+        FloorTargetPosition = floorPosition;
+        OffsetTargetPosition = offsetPosition;
+        player.ChannelService.FloorTargetPosition = floorPosition;
+        player.ChannelService.OffsetTargetPosition = offsetPosition;
     }
 }
