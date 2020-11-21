@@ -15,9 +15,6 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
     private Text descriptionText = null;
 
     [SerializeField]
-    private OrbGenerationPanel abilityOrbPanel = null;
-
-    [SerializeField]
     private AbilityBonusTooltipSection bonusSectionPrefab = null;
 
     [SerializeField]
@@ -143,7 +140,6 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
         titleText.text = title;
         finisherText.enabled = isFinisher;
         descriptionText.text = description;
-        abilityOrbPanel.DisplayOrbs(generatedOrbs);
 
         foreach (AbilityBonusTooltipSection section in bonusSections)
         {
@@ -162,7 +158,5 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
         }
 
         bool hasOrbs = !generatedOrbs.IsEmpty;
-
-        abilityOrbPanel.transform.parent.gameObject.SetActive(hasOrbs);
     }
 }
