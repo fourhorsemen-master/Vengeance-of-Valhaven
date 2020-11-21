@@ -50,6 +50,7 @@ public class NextAbilityIcons : MonoBehaviour
             IndicateWhiff();
         });
 
+        player.AbilityTree.ChangeSubject.Subscribe(UpdateAbilityIcons);
         player.ReadyToCastSubject.Subscribe(UpdateAbilityIcons);
         player.AbilityFeedbackSubject.Subscribe(IndicateAbilityCompletion);
     }

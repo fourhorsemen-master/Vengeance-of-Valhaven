@@ -10,8 +10,8 @@ public class AbilityManagerV2 : StateMachineMonoBehaviour
         StateMachineTrigger rollTrigger = new NeverTrigger();
         if (player.RollResetsCombo) rollTrigger = new RollTrigger(player);
 
-        StateMachineTrigger whiffTrigger = (!new AtRootTrigger(player) & (new DamageTrigger(player) | rollTrigger))
-            | new AbilityTreeUpdatedTrigger(player);
+        StateMachineTrigger whiffTrigger = !new AtRootTrigger(player)
+            & (new DamageTrigger(player) | rollTrigger | new AbilityTreeUpdatedTrigger(player));
 
         return new StateMachine<State>(State.ReadyAtRoot)
             .WithComponent(State.ReadyAtRoot, new ListenForCasts(player))
