@@ -11,6 +11,7 @@ public class TreeDepth : MonoBehaviour
     private float spriteWidth;
     private float spriteHeight;
     private float abilityTimeOutLimit;
+    private bool fading;
 
     private void Awake()
     {
@@ -24,12 +25,17 @@ public class TreeDepth : MonoBehaviour
         abilityTimeOutLimit = player.ComboTimeout;
 
         UpdateDepth();
-        player.InstantCastService.CastSubject.Subscribe(UpdateDepth);
-        player.ChannelService.ChannelEndSubject.Subscribe(UpdateDepth);
+        player.ChannelService.ChannelStartSubject.Subscribe(_ => CancelFade());
+        player.ComboContinueSubject.Subscribe(UpdateDepth);
+        player.ComboCompleteSubject.Subscribe(UpdateDepth);
+        player.ComboFailedSubject.Subscribe(UpdateDepth);
+        player.WhiffSubject.Subscribe(UpdateDepth);
     }
 
     private void Update()
     {
+        if (!fading) return;
+
         float opacity = repeatingImage.color.a;
         
         repeatingImage.SetOpacity(opacity - (Time.deltaTime / abilityTimeOutLimit));
@@ -39,6 +45,14 @@ public class TreeDepth : MonoBehaviour
     {
         int depth = player.AbilityTree.CurrentDepth;
         repeatingImage.rectTransform.sizeDelta = new Vector2(depth * spriteWidth, spriteHeight);
+        repeatingImage.SetOpacity(1f);
+
+        fading = true;
+    }
+
+    private void CancelFade()
+    {
+        fading = false;
         repeatingImage.SetOpacity(1f);
     }
 }
