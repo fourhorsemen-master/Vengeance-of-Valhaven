@@ -24,11 +24,7 @@ public abstract class SubjectTrigger : StateMachineTrigger
 
     public override bool Triggers()
     {
-        bool result = canTrigger;
-
-        canTrigger = false;
-
-        return result;
+        return canTrigger;
     }
 }
 public abstract class SubjectTrigger<T> : StateMachineTrigger
@@ -47,7 +43,7 @@ public abstract class SubjectTrigger<T> : StateMachineTrigger
     public override void Activate()
     {
         canTrigger = false;
-        subscription = subject.Subscribe(x => canTrigger = triggerPredicate(x));
+        subscription = subject.Subscribe(x => canTrigger = canTrigger || triggerPredicate(x));
     }
 
     public override void Deactivate()
@@ -57,10 +53,6 @@ public abstract class SubjectTrigger<T> : StateMachineTrigger
 
     public override bool Triggers()
     {
-        bool result = canTrigger;
-
-        canTrigger = false;
-
-        return result;
+        return canTrigger;
     }
 }

@@ -18,6 +18,7 @@ public abstract class AbilityTree
     public BehaviourSubject<Node> TreeWalkSubject { get; }
 
     public Subject ChangeSubject { get; } = new Subject();
+    public Subject ResettingChangeSubject { get; } = new Subject();
 
     private EnumDictionary<AbilityReference, int> ownedAbilities;
 
@@ -38,7 +39,11 @@ public abstract class AbilityTree
         UpdateInventory();
 
         RootNode.ChangeSubject.Subscribe(() => {
-            Reset();
+            if (!AtRoot)
+            {
+                ResettingChangeSubject.Next();
+                Reset();
+            }
             UpdateInventory();
             ChangeSubject.Next();
         });
