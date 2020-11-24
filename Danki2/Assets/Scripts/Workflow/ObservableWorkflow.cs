@@ -2,7 +2,7 @@
 
 public class ObservableWorkflow<TState> where TState : Enum
 {
-	private TState currentState;
+	public TState CurrentState { get; private set; }
 
     private EnumDictionary<TState, Processor<TState>> processors;
 
@@ -11,28 +11,35 @@ public class ObservableWorkflow<TState> where TState : Enum
 
     public ObservableWorkflow(TState initialState)
 	{
-		currentState = initialState;
+		CurrentState = initialState;
         processors = new EnumDictionary<TState, Processor<TState>>(() => new NoOpProcessor<TState>());
     }
 
-    public void Enter() => processors[currentState].Enter();
+    public void Enter() => processors[CurrentState].Enter();
 
-    public void Exit() => processors[currentState].Exit();
+    public void Exit() => processors[CurrentState].Exit();
 
     public void Update() {
-        bool processComplete = processors[currentState].TryCompleteProcess(out TState nextState);
+        bool processComplete = processors[CurrentState].TryCompleteProcess(out TState nextState);
 
-        if (!processComplete) return;
-        
-        if (nextState.Equals(currentState)) return;
+        if (processComplete) Transition(nextState);
+    }
 
-        processors[currentState].Exit();
-        OnExitStateSubject.Next(currentState);
+    public void ForceTransition(TState toState) => Transition(toState);
 
-        processors[nextState].Enter();
-        OnEnterStateSubject.Next(nextState);
+    private void Transition(TState toState)
+    {
+        if (toState.Equals(CurrentState)) return;
 
-        currentState = nextState;
+        processors[CurrentState].Exit();
+        OnExitStateSubject.Next(CurrentState);
+
+        processors[toState].Enter();
+        OnEnterStateSubject.Next(toState);
+
+        CurrentState = toState;
+
+        Update();
     }
 
     public ObservableWorkflow<TState> WithProcessor(TState state, Processor<TState> processor)

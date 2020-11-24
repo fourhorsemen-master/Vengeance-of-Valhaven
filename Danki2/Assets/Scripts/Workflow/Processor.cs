@@ -6,5 +6,5 @@ public abstract class Processor<TState> where TState : Enum
 
     public abstract void Exit();
 
-    public abstract bool TryCompleteProcess(out TState nextState);
+    public abstract bool TryCompleteProcess(out TState newState);
 }
