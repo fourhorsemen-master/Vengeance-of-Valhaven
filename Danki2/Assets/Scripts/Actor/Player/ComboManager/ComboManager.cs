@@ -9,13 +9,15 @@ public class ComboManager
 	private float feedbackTimeout = 0f;
 	private float comboTimeout = 0f;
 
+	public bool? FeedbackSinceLastCast { get; private set; } = null;
+
 	public ComboManager(Player player, Subject updateSubject)
 	{
 		workflow = new ObservableWorkflow<ComboState>(ComboState.ReadyAtRoot)
 			.WithProcessor(ComboState.ReadyAtRoot, new ReadyAtRootProcessor(player))
 			.WithProcessor(ComboState.ReadyInCombo, new ReadyInComboProcessor(player, comboTimeout))
-			.WithProcessor(ComboState.CastLeft, new CastProcessor(player, Direction.Left))
-			.WithProcessor(ComboState.CastRight, new CastProcessor(player, Direction.Right))
+			.WithProcessor(ComboState.CastLeft, new CastProcessor(player, f => FeedbackSinceLastCast = f Direction.Left))
+			.WithProcessor(ComboState.CastRight, new CastProcessor(player, f => FeedbackSinceLastCast = f, Direction.Right))
 			.WithProcessor(ComboState.ChannelingRight, new ChannelProcessor(player, Direction.Left))
 			.WithProcessor(ComboState.ChannelingLeft, new ChannelProcessor(player, Direction.Right))
 			.WithProcessor(ComboState.AwaitingFeedback, new AwaitFeedbackProcessor(player, feedbackTimeout))

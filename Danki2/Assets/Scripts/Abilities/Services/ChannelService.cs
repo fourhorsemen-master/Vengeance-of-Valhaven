@@ -35,7 +35,7 @@ public class ChannelService : AbilityService, IMovementStatusProvider
         );
     }
 
-    public bool StartChannel(
+    public bool TryStartChannel(
         AbilityReference abilityReference,
         Action<Subject<bool>> successFeedbackSubjectAction = null
     )
