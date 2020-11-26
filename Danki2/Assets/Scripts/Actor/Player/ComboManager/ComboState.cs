@@ -2,8 +2,6 @@
 {
     ReadyAtRoot,
     ReadyInCombo,
-    CastLeft,
-    CastRight,
     ChannelingRight,
     ChannelingLeft,
     AwaitingFeedback,

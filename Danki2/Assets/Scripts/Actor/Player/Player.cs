@@ -23,12 +23,15 @@ public class Player : Actor
     private bool readyToRoll = true;
 
     // Services
-    public AbilityTree AbilityTree { get; private set; }    
+    public AbilityTree AbilityTree { get; private set; }
     public AbilityManager AbilityManager { get; private set; }
+    public ComboManager ComboManager { get; private set; }
     public PlayerTargetFinder TargetFinder { get; private set; }
     
     // Subjects
     public Subject RollSubject { get; } = new Subject();
+    public Subject<bool> AbilityFeedbackSubject { get; } = new Subject<bool>();
+    public bool? FeedbackSinceLastCast { get; private set; } = null;
 
     protected override void Awake()
     {
@@ -51,7 +54,17 @@ public class Player : Actor
             lateUpdateSubject,
             new AbilityManagerSettings(comboTimeout, feedbackTimeout, cooldownDuringCombo, cooldownAfterCombo, rollResetsCombo)   
         );
+
+        ComboManager = new ComboManager(this, updateSubject);
+
         TargetFinder = new PlayerTargetFinder(this, updateSubject);
+
+        InstantCastService.FeedbackSubject.Subscribe(feedback => AbilityFeedbackSubject.Next(feedback));
+        ChannelService.FeedbackSubject.Subscribe(feedback => AbilityFeedbackSubject.Next(feedback));
+
+        AbilityFeedbackSubject.Subscribe(f => FeedbackSinceLastCast = f);
+        ComboManager.SubscribeToStateExit(ComboState.ReadyAtRoot, () => FeedbackSinceLastCast = null);
+        ComboManager.SubscribeToStateExit(ComboState.ReadyInCombo, () => FeedbackSinceLastCast = null);
     }
 
     protected override void Start()

@@ -1,26 +1,36 @@
 ﻿public class AwaitFeedbackProcessor : Processor<ComboState>
 {
     private Player player;
-    private readonly float feedbackTimeout;
 
-    public AwaitFeedbackProcessor(Player player, float feedbackTimeout)
+    public AwaitFeedbackProcessor(Player player)
     {
         this.player = player;
-        this.feedbackTimeout = feedbackTimeout;
     }
 
     public override void Enter()
     {
-        throw new System.NotImplementedException();
     }
 
     public override void Exit()
     {
-        throw new System.NotImplementedException();
     }
 
     public override bool TryCompleteProcess(out ComboState nextState)
     {
-        throw new System.NotImplementedException();
+        if (player.FeedbackSinceLastCast == true)
+        {
+            nextState = player.AbilityTree.CanWalk()
+                ? ComboState.ContinueCombo
+                : ComboState.CompleteCombo;
+            return true;
+        }
+        else if (player.FeedbackSinceLastCast == false)
+        {
+            nextState = ComboState.FailCombo;
+            return true;
+        }
+
+        nextState = default;
+        return false;
     }
 }

@@ -27,17 +27,56 @@
             currentActionControlState
         );
 
+        previousActionControlState = currentActionControlState;
+
+        Direction castDirection;
+
         switch (castingCommand)
         {
             case CastingCommand.CastLeft:
-                nextState = ComboState.CastRight;
-                return true;
+                castDirection = Direction.Left;
+                break;
             case CastingCommand.CastRight:
-                nextState = ComboState.CastRight;
-                return true;
+                castDirection = Direction.Right;
+                break;
             default:
                 nextState = default;
                 return false;
         }
+
+        AbilityReference abilityReference = player.AbilityTree.GetAbility(castDirection);
+        AbilityType abilityType = AbilityLookup.Instance.GetAbilityType(abilityReference);
+
+        switch (abilityType)
+        {
+            case AbilityType.InstantCast:
+                bool hasCast = player.InstantCastService.TryCast(
+                    abilityReference,
+                    player.TargetFinder.FloorTargetPosition,
+                    player.TargetFinder.OffsetTargetPosition,
+                    player.TargetFinder.Target
+                );
+                if (hasCast)
+                {
+                    player.AbilityTree.Walk(castDirection);
+                    nextState = ComboState.AwaitingFeedback;
+                    return true;
+                }
+                break;
+            case AbilityType.Channel:
+                bool hasStartedChannel = player.ChannelService.TryStartChannel(abilityReference);
+                if (hasStartedChannel)
+                {
+                    player.AbilityTree.Walk(castDirection);
+                    nextState = castDirection == Direction.Left
+                        ? ComboState.ChannelingLeft
+                        : ComboState.ChannelingRight;
+                    return true;
+                }
+                break;
+        }
+
+        nextState = player.AbilityTree.AtRoot ? ComboState.ReadyAtRoot : ComboState.ReadyInCombo;
+        return false;
     }
 }

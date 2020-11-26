@@ -3,17 +3,21 @@
 public abstract class AbilityService
 {
     protected readonly Actor actor;
-
+    protected readonly float feedbackTimeout;
     private readonly List<IAbilityDataDiffer> differs = new List<IAbilityDataDiffer>();
+    private bool subscribedToFeedback;
+    private Subscription<bool> feedbackSubscription;
     private IAbilityBonusCalculator abilityBonusCalculator = new AbilityBonusNoOpCalculator();
+    public Subject<bool> FeedbackSubject  = new Subject<bool>();
 
     public bool CanCast => !actor.Dead
         && !actor.MovementManager.Stunned
         && !actor.MovementManager.MovementLocked;
 
-    protected AbilityService(Actor actor)
+    protected AbilityService(Actor actor, float feedbackTimeout)
     {
         this.actor = actor;
+        this.feedbackTimeout = feedbackTimeout;
     }
 
     public void RegisterAbilityDataDiffer(IAbilityDataDiffer differ)
@@ -34,5 +38,32 @@ public abstract class AbilityService
     protected string[] GetActiveBonuses(AbilityReference abilityReference)
     {
         return abilityBonusCalculator.GetActiveBonuses(abilityReference);
+    }
+
+    protected void SubscribeToFeedback(Ability ability)
+    {
+        subscribedToFeedback = true;
+
+        feedbackSubscription = ability.SuccessFeedbackSubject.Subscribe(feedback =>
+        {
+            feedbackSubscription.Unsubscribe();
+            FeedbackSubject.Next(feedback);
+            subscribedToFeedback = false;
+        });
+    }
+
+    protected void StartFeedbackTimer()
+    {
+        if (!subscribedToFeedback) return;
+
+        actor.WaitAndAct(feedbackTimeout, () =>
+        {
+            if (subscribedToFeedback)
+            {
+                feedbackSubscription.Unsubscribe();
+                FeedbackSubject.Next(false);
+                subscribedToFeedback = false;
+            }
+        });
     }
 }

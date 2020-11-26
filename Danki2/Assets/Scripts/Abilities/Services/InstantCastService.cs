@@ -3,13 +3,12 @@ using UnityEngine;
 
 public class InstantCastService : AbilityService
 {
-    public InstantCastService(Actor actor) : base(actor) {}
+    public InstantCastService(Actor actor, float feedbackTimeout) : base(actor, feedbackTimeout) {}
 
     public bool TryCast(
         AbilityReference abilityReference,
         Vector3 floorTargetPosition,
         Vector3 offsetTargetPosition,
-        Action<Subject<bool>> successFeedbackSubjectAction = null,
         Actor target = null
     )
     {
@@ -23,7 +22,8 @@ public class InstantCastService : AbilityService
             out InstantCast instantCast
         )) return false;
 
-        successFeedbackSubjectAction?.Invoke(instantCast.SuccessFeedbackSubject);
+        SubscribeToFeedback(instantCast);
+        StartFeedbackTimer();
 
         if (target != null)
         {
