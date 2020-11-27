@@ -51,7 +51,7 @@ public class Player : Actor
 
         TargetFinder = new PlayerTargetFinder(this, updateSubject);
 
-        ComboManager = new ComboManager(this, updateSubject, longCooldown, shortCooldown, comboTimeout, rollResetsCombo);
+        ComboManager = new ComboManager(this, updateSubject, rollResetsCombo);
 
         InstantCastService.SetFeedbackTimeout(feedbackTimeout);
         ChannelService.SetFeedbackTimeout(feedbackTimeout);
