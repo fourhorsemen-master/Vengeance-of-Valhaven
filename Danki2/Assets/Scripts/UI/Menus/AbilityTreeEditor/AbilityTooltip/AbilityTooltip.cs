@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -130,7 +131,10 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
 
         bonusSections.Clear();
 
-        foreach (string bonus in bonuses.Keys)
+        List<string> bonusKeys = bonuses.Keys.ToList();
+        bonusKeys.Sort((bonus1, bonus2) => bonuses[bonus1].RequiredTreeDepth.CompareTo(bonuses[bonus2].RequiredTreeDepth));
+        
+        bonusKeys.ForEach(bonus =>
         {
             AbilityBonusData bonusData = bonuses[bonus];
             AbilityBonusTooltipSection section = Instantiate(bonusSectionPrefab, Vector3.zero, Quaternion.identity, transform);
@@ -142,6 +146,6 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
             );
 
             bonusSections.Add(section);
-        }
+        });
     }
 }
