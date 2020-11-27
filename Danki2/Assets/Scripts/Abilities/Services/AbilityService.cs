@@ -65,13 +65,10 @@ public abstract class AbilityService
 
         feedbackTimer = actor.WaitAndAct(feedbackTimeout, () =>
         {
-            if (subscribedToFeedback)
-            {
-                feedbackSubscription.Unsubscribe();
-                StopFeedbackTimer();
-                FeedbackSubject.Next(false);
-                subscribedToFeedback = false;
-            }
+            feedbackSubscription.Unsubscribe();
+            StopFeedbackTimer();
+            FeedbackSubject.Next(false);
+            subscribedToFeedback = false;
         });
     }
 
