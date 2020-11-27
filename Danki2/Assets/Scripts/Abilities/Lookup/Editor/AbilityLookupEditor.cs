@@ -75,7 +75,6 @@ public class AbilityLookupEditor : Editor
         serializableAbilityMetadata.Finisher = EditorGUILayout.Toggle("Finisher", serializableAbilityMetadata.Finisher);
         EditChannelDuration(abilityReference, serializableAbilityMetadata);
         EditBaseAbilityData(abilityReference, serializableAbilityMetadata);
-        EditGeneratedOrbs(abilityReference, serializableAbilityMetadata);
         EditAbilityBonusData(abilityReference, serializableAbilityMetadata);
             
         EditorGUI.indentLevel--;
@@ -113,20 +112,6 @@ public class AbilityLookupEditor : Editor
         int heal = EditorGUILayout.IntField("Heal", currentAbilityData.Heal);
         int shield = EditorGUILayout.IntField("Shield", currentAbilityData.Shield);
         serializableAbilityMetadata.BaseAbilityData = new AbilityData(primaryDamage, secondaryDamage, heal, shield);
-
-        EditorGUI.indentLevel--;
-    }
-
-    private void EditGeneratedOrbs(AbilityReference abilityReference, SerializableAbilityMetadata serializableAbilityMetadata)
-    {
-        foldoutStatus[abilityReference][AbilityDataDropdownGroup.GeneratedOrbs] = EditorGUILayout.Foldout(
-            foldoutStatus[abilityReference][AbilityDataDropdownGroup.GeneratedOrbs],
-            "Generated Orbs"
-        );
-
-        if (!foldoutStatus[abilityReference][AbilityDataDropdownGroup.GeneratedOrbs]) return;
-
-        EditorGUI.indentLevel++;
 
         EditorGUI.indentLevel--;
     }

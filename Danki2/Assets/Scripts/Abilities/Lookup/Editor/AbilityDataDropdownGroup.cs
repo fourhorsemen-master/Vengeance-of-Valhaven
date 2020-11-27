@@ -2,6 +2,5 @@
 {
     EntireAbility,
     BaseAbilityData,
-    GeneratedOrbs,
     BonusData
 }
