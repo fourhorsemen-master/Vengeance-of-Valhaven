@@ -42,6 +42,8 @@ public class Player : Actor
             AbilityTreeFactory.CreateNode(AbilityReference.Lunge)
         );
 
+        SetAbilityBonusCalculator(new AbilityBonusTreeDepthCalculator(AbilityTree));
+
         AbilityManager = new AbilityManager(
             this,
             updateSubject,
