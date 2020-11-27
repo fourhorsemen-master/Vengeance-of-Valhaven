@@ -42,8 +42,7 @@ public class Player : Actor
             AbilityTreeFactory.CreateNode(AbilityReference.Lunge)
         );
 
-        RegisterAbilityDataDiffer(new AbilityDataOrbsDiffer(AbilityTree));
-        SetAbilityBonusCalculator(new AbilityBonusOrbsCalculator(AbilityTree));
+        SetAbilityBonusCalculator(new AbilityBonusTreeDepthCalculator(AbilityTree));
 
         AbilityManager = new AbilityManager(
             this,

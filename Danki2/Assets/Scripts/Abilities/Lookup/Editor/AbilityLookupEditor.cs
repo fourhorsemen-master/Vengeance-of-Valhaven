@@ -74,9 +74,7 @@ public class AbilityLookupEditor : Editor
         serializableAbilityMetadata.Tooltip = EditorUtils.MultilineTextField("Tooltip", serializableAbilityMetadata.Tooltip, 3);
         serializableAbilityMetadata.Finisher = EditorGUILayout.Toggle("Finisher", serializableAbilityMetadata.Finisher);
         EditChannelDuration(abilityReference, serializableAbilityMetadata);
-        EditAbilityOrbType(serializableAbilityMetadata);
         EditBaseAbilityData(abilityReference, serializableAbilityMetadata);
-        EditGeneratedOrbs(abilityReference, serializableAbilityMetadata);
         EditAbilityBonusData(abilityReference, serializableAbilityMetadata);
             
         EditorGUI.indentLevel--;
@@ -97,32 +95,6 @@ public class AbilityLookupEditor : Editor
         return abilityType.IsSubclassOf(typeof(Channel));
     }
 
-    private void EditAbilityOrbType(SerializableAbilityMetadata serializableAbilityMetadata)
-    {
-        if (serializableAbilityMetadata.AbilityOrbType.HasValue)
-        {
-            GUILayout.BeginHorizontal();
-
-            serializableAbilityMetadata.AbilityOrbType.Value = (OrbType) EditorGUILayout
-                .EnumPopup("Ability Orb Type", serializableAbilityMetadata.AbilityOrbType.Value);
-
-            if (GUILayout.Button("Remove Ability Orb Type"))
-            {
-                serializableAbilityMetadata.AbilityOrbType.HasValue = false;
-            }
-
-            GUILayout.EndHorizontal();
-        }
-        else
-        {
-            EditorUtils.IndentedButton("Add Ability Orb Type", () =>
-            {
-                serializableAbilityMetadata.AbilityOrbType.HasValue = true;
-                serializableAbilityMetadata.AbilityOrbType.Value = default;
-            });
-        }
-    }
-
     private void EditBaseAbilityData(AbilityReference abilityReference, SerializableAbilityMetadata serializableAbilityMetadata)
     {
         foldoutStatus[abilityReference][AbilityDataDropdownGroup.BaseAbilityData] = EditorGUILayout.Foldout(
@@ -140,22 +112,6 @@ public class AbilityLookupEditor : Editor
         int heal = EditorGUILayout.IntField("Heal", currentAbilityData.Heal);
         int shield = EditorGUILayout.IntField("Shield", currentAbilityData.Shield);
         serializableAbilityMetadata.BaseAbilityData = new AbilityData(primaryDamage, secondaryDamage, heal, shield);
-
-        EditorGUI.indentLevel--;
-    }
-
-    private void EditGeneratedOrbs(AbilityReference abilityReference, SerializableAbilityMetadata serializableAbilityMetadata)
-    {
-        foldoutStatus[abilityReference][AbilityDataDropdownGroup.GeneratedOrbs] = EditorGUILayout.Foldout(
-            foldoutStatus[abilityReference][AbilityDataDropdownGroup.GeneratedOrbs],
-            "Generated Orbs"
-        );
-
-        if (!foldoutStatus[abilityReference][AbilityDataDropdownGroup.GeneratedOrbs]) return;
-
-        EditorGUI.indentLevel++;
-
-        EditOrbList(serializableAbilityMetadata.GeneratedOrbs, "Add Generated Orb");
 
         EditorGUI.indentLevel--;
     }
@@ -199,29 +155,14 @@ public class AbilityLookupEditor : Editor
                 3
             );
 
-            EditOrbList(serializableAbilityBonusLookup[abilityBonus].RequiredOrbs, "Add Required Orb");
+            serializableAbilityBonusLookup[abilityBonus].RequiredTreeDepth = EditorGUILayout.IntField(
+                "Required Tree Depth",
+                serializableAbilityBonusLookup[abilityBonus].RequiredTreeDepth
+            );
                 
             EditorGUI.indentLevel--;
         }
 
         EditorGUI.indentLevel--;
-    }
-
-    private void EditOrbList(List<OrbType> orbTypes, string buttonLabel)
-    {
-        for (int i = orbTypes.Count - 1; i >= 0; i--)
-        {
-            GUILayout.BeginHorizontal();
-
-            orbTypes[i] = (OrbType)EditorGUILayout.EnumPopup($"Orb {orbTypes.Count - i}", orbTypes[i]);
-            if (GUILayout.Button("Remove Orb"))
-            {
-                orbTypes.RemoveAt(i);
-            }
-
-            GUILayout.EndHorizontal();
-        }
-
-        EditorUtils.IndentedButton(buttonLabel, () => orbTypes.Insert(0, default));
     }
 }

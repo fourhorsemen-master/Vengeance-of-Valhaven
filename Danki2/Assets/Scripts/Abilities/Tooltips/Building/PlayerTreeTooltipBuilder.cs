@@ -9,7 +9,6 @@ public class PlayerTreeTooltipBuilder
     public PlayerTreeTooltipBuilder(Player player)
     {
         differs.Add(new AbilityDataStatsDiffer(player));
-        differs.Add(new AbilityDataOrbsDiffer(player.AbilityTree));
     }
 
     /// <summary>
