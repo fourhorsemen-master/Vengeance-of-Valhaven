@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class AbilityBonusTooltipSection : MonoBehaviour
@@ -15,12 +16,26 @@ public class AbilityBonusTooltipSection : MonoBehaviour
     [SerializeField]
     private Text descriptionText = null;
 
-    public void Initialise(string title, string tooltip)
+    private static readonly Dictionary<int, string> romanNumeralLookup = new Dictionary<int, string>
     {
-        bool bonusEnabled = true;
+        {0, "0"},
+        {1, "I"},
+        {2, "II"},
+        {3, "III"},
+        {4, "IV"},
+        {5, "V"},
+        {6, "VI"},
+        {7, "VII"},
+        {8, "VIII"},
+        {9, "IX"},
+        {10, "X"}
+    };
+
+    public void Initialise(string title, string tooltip, int requiredTreeDepth, bool bonusEnabled)
+    {
         Color textColor = bonusEnabled ? enabledTextColour : disabledTextColour;
 
-        titleText.text = $"Bonus: {title}";
+        titleText.text = $"{romanNumeralLookup[requiredTreeDepth]} - {title}";
         titleText.color = textColor;
 
         descriptionText.text = tooltip;

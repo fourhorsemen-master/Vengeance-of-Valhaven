@@ -14,6 +14,8 @@ public abstract class Node
 
     public AbilityReference Ability { get; private set; }
 
+    public int Depth => IsRootNode ? 0 : Parent.Depth + 1;
+
     private EnumDictionary<Direction, Subscription> childChangeSubscriptions = new EnumDictionary<Direction, Subscription>(defaultValue: null);
     public Subject ChangeSubject { get; } = new Subject();
 

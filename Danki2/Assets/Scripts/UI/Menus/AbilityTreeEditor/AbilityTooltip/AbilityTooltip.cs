@@ -61,11 +61,17 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
         Activate(
             node.Ability,
             tooltipSegments,
-            bonus => playerTreeTooltipBuilder.BuildBonus(node, bonus)
+            bonus => playerTreeTooltipBuilder.BuildBonus(node, bonus),
+            node.Depth
         );
     }
 
-    private void Activate(AbilityReference ability, List<TooltipSegment> tooltipSegments, Func<string, List<TooltipSegment>> bonusSegmenter)
+    private void Activate(
+        AbilityReference ability,
+        List<TooltipSegment> tooltipSegments,
+        Func<string, List<TooltipSegment>> bonusSegmenter,
+        int? treeDepth = null
+    )
     {
         ActivateTooltip();
 
@@ -75,7 +81,7 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
 
         Dictionary<string, AbilityBonusData> bonuses = AbilityLookup.Instance.GetAbilityBonusDataLookup(ability);
 
-        SetContents(titleText, isFinisher, descriptionText, bonuses, bonusSegmenter);
+        SetContents(titleText, isFinisher, descriptionText, bonuses, bonusSegmenter, treeDepth);
     }
 
     private string GenerateDescription(List<TooltipSegment> segments)
@@ -109,7 +115,8 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
         bool isFinisher,
         string description,
         Dictionary<string, AbilityBonusData> bonuses,
-        Func<string, List<TooltipSegment>> segmenter
+        Func<string, List<TooltipSegment>> segmenter,
+        int? treeDepth = null
     )
     {
         titleText.text = title;
@@ -127,7 +134,12 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
         {
             AbilityBonusData bonusData = bonuses[bonus];
             AbilityBonusTooltipSection section = Instantiate(bonusSectionPrefab, Vector3.zero, Quaternion.identity, transform);
-            section.Initialise(bonusData.DisplayName, GenerateDescription(segmenter(bonus)));
+            section.Initialise(
+                bonusData.DisplayName,
+                GenerateDescription(segmenter(bonus)),
+                bonusData.RequiredTreeDepth,
+                !treeDepth.HasValue || bonusData.RequiredTreeDepth <= treeDepth.Value
+            );
 
             bonusSections.Add(section);
         }
