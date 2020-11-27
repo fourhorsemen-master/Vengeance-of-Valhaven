@@ -4,15 +4,15 @@
     private Direction direction;
     private ActionControlState previousActionControlState;
 
-    public ChannelProcessor(Player player, Direction direction)
+    public ChannelProcessor(Player player)
     {
         this.player = player;
-        this.direction = direction;
     }
 
     public override void Enter()
     {
         previousActionControlState = PlayerControls.Instance.ActionControlState;
+        direction = player.AbilityTree.DirectionLastWalked;
     }
 
     public override void Exit()

@@ -51,7 +51,6 @@
         {
             case AbilityType.InstantCast:
                 if (!player.InstantCastService.CanCast) break;
-
                 player.AbilityTree.Walk(castDirection);
                 player.InstantCastService.TryCast(
                     abilityReference,
@@ -59,18 +58,13 @@
                     player.TargetFinder.OffsetTargetPosition,
                     player.TargetFinder.Target
                 );
-
                 nextState = ComboState.AwaitingFeedback;
                 return true;
             case AbilityType.Channel:
                 if (!player.ChannelService.CanCast) break;
-
-                player.ChannelService.TryStartChannel(abilityReference);
                 player.AbilityTree.Walk(castDirection);
-
-                nextState = castDirection == Direction.Left
-                    ? ComboState.ChannelingLeft
-                    : ComboState.ChannelingRight;
+                player.ChannelService.TryStartChannel(abilityReference);
+                nextState =  ComboState.Channeling;
                 return true;
         }
 

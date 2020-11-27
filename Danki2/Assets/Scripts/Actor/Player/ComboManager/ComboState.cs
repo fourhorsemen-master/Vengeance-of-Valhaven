@@ -2,8 +2,7 @@
 {
     ReadyAtRoot,
     ReadyInCombo,
-    ChannelingRight,
-    ChannelingLeft,
+    Channeling,
     AwaitingFeedback,
     Whiff,
     CompleteCombo,
