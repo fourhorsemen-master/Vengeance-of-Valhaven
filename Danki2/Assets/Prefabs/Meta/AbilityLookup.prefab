@@ -79,10 +79,6 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      abilityOrbType:
-        hasValue: 0
-        value: 0
-      generatedOrbs: 
       abilityBonusLookup:
         _keys: []
         _values: []
@@ -97,17 +93,12 @@ MonoBehaviour:
         secondaryDamage: 3
         heal: 0
         shield: 0
-      abilityOrbType:
-        hasValue: 1
-        value: 1
-      generatedOrbs: 01000000
       abilityBonusLookup:
         _keys:
         - Cross-Step
         _values:
         - displayName: Cross Step
           tooltip: No longer slowed whilst channeling.
-          requiredOrbs: 02000000
       finisher: 0
       channelDuration: 2
     - displayName: Fireball
@@ -117,10 +108,6 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      abilityOrbType:
-        hasValue: 0
-        value: 0
-      generatedOrbs: 
       abilityBonusLookup:
         _keys: []
         _values: []
@@ -134,10 +121,6 @@ MonoBehaviour:
         secondaryDamage: 7
         heal: 0
         shield: 0
-      abilityOrbType:
-        hasValue: 1
-        value: 2
-      generatedOrbs: 
       abilityBonusLookup:
         _keys: []
         _values: []
@@ -150,10 +133,6 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      abilityOrbType:
-        hasValue: 0
-        value: 0
-      generatedOrbs: 
       abilityBonusLookup:
         _keys: []
         _values: []
@@ -166,10 +145,6 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      abilityOrbType:
-        hasValue: 0
-        value: 0
-      generatedOrbs: 
       abilityBonusLookup:
         _keys: []
         _values: []
@@ -182,10 +157,6 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      abilityOrbType:
-        hasValue: 0
-        value: 0
-      generatedOrbs: 
       abilityBonusLookup:
         _keys: []
         _values: []
@@ -199,10 +170,6 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      abilityOrbType:
-        hasValue: 1
-        value: 0
-      generatedOrbs: 00000000
       abilityBonusLookup:
         _keys: []
         _values: []
@@ -215,17 +182,12 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      abilityOrbType:
-        hasValue: 1
-        value: 0
-      generatedOrbs: 
       abilityBonusLookup:
         _keys:
         - PerfectSmash
         _values:
         - displayName: Perfect Smash
           tooltip: Stun all affected enemies for 3 seconds.
-          requiredOrbs: 0100000001000000
       finisher: 1
       channelDuration: 0
     - displayName: Sprint
@@ -235,10 +197,6 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      abilityOrbType:
-        hasValue: 1
-        value: 1
-      generatedOrbs: 01000000
       abilityBonusLookup:
         _keys: []
         _values: []
@@ -251,17 +209,12 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      abilityOrbType:
-        hasValue: 1
-        value: 1
-      generatedOrbs: 01000000
       abilityBonusLookup:
         _keys:
         - Momentum
         _values:
         - displayName: Momentum
           tooltip: On impact, stun surrounding enemies for 3 seconds.
-          requiredOrbs: 0000000000000000
       finisher: 0
       channelDuration: 0
     - displayName: Leeching Strike
@@ -272,10 +225,6 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 1
         shield: 0
-      abilityOrbType:
-        hasValue: 1
-        value: 1
-      generatedOrbs: 
       abilityBonusLookup:
         _keys: []
         _values: []
@@ -288,10 +237,6 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      abilityOrbType:
-        hasValue: 1
-        value: 1
-      generatedOrbs: 
       abilityBonusLookup:
         _keys:
         - Clarity
@@ -299,10 +244,8 @@ MonoBehaviour:
         _values:
         - displayName: Clarity
           tooltip: Slow all enemies by 50% while charging.
-          requiredOrbs: 020000000200000001000000
         - displayName: Growing Rage
           tooltip: Increase power by 2 for every second charged instead.
-          requiredOrbs: 000000000000000000000000
       finisher: 1
       channelDuration: 5
     - displayName: Bash
@@ -312,10 +255,6 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      abilityOrbType:
-        hasValue: 1
-        value: 0
-      generatedOrbs: 00000000
       abilityBonusLookup:
         _keys: []
         _values: []
@@ -329,10 +268,6 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      abilityOrbType:
-        hasValue: 1
-        value: 1
-      generatedOrbs: 
       abilityBonusLookup:
         _keys: []
         _values: []
@@ -346,10 +281,6 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      abilityOrbType:
-        hasValue: 1
-        value: 0
-      generatedOrbs: 00000000
       abilityBonusLookup:
         _keys: []
         _values: []
@@ -363,27 +294,19 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      abilityOrbType:
-        hasValue: 1
-        value: 2
-      generatedOrbs: 02000000
       abilityBonusLookup:
         _keys: []
         _values: []
       finisher: 0
       channelDuration: 0
     - displayName: Piercing Rush
-      tooltip: Dash for up to 10m dealing {PRIMARY_DAMAGE} damage to all enemies you
-        pass.
+      tooltip: Dash for up to 10m dealing {PRIMARY_DAMAGE} damage to all enemies
+        you pass.
       baseAbilityData:
         primaryDamage: 8
         secondaryDamage: 0
         heal: 0
         shield: 0
-      abilityOrbType:
-        hasValue: 1
-        value: 2
-      generatedOrbs: 
       abilityBonusLookup:
         _keys:
         - Daze
@@ -391,25 +314,19 @@ MonoBehaviour:
         _values:
         - displayName: Daze
           tooltip: Slow all enemies hit.
-          requiredOrbs: 00000000
         - displayName: Jetstream
           tooltip: After the dash the sharp winds of the jetstream causes {PRIMARY_DAMAGE}
             damage to enemies in a cone behind you.
-          requiredOrbs: 020000000100000001000000
       finisher: 1
       channelDuration: 2
     - displayName: Parry
-      tooltip: Absorb each attack for 1 second and return 50% of the damage back to
-        attackers.
+      tooltip: Absorb each attack for 1 second and return 50% of the damage back
+        to attackers.
       baseAbilityData:
         primaryDamage: 0
         secondaryDamage: 0
         heal: 0
         shield: 0
-      abilityOrbType:
-        hasValue: 1
-        value: 1
-      generatedOrbs: 01000000
       abilityBonusLookup:
         _keys: []
         _values: []
@@ -422,27 +339,19 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      abilityOrbType:
-        hasValue: 1
-        value: 0
-      generatedOrbs: 
       abilityBonusLookup:
         _keys: []
         _values: []
       finisher: 0
       channelDuration: 0
     - displayName: Rend
-      tooltip: Applies a 5 second DOT for {PRIMARY_DAMAGE} damage, multiplied by the
-        time charged, to all surrounding enemies.
+      tooltip: Applies a 5 second DOT for {PRIMARY_DAMAGE} damage, multiplied by
+        the time charged, to all surrounding enemies.
       baseAbilityData:
         primaryDamage: 5
         secondaryDamage: 0
         heal: 0
         shield: 0
-      abilityOrbType:
-        hasValue: 1
-        value: 0
-      generatedOrbs: 00000000
       abilityBonusLookup:
         _keys: []
         _values: []
@@ -455,17 +364,12 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 3
         shield: 0
-      abilityOrbType:
-        hasValue: 1
-        value: 1
-      generatedOrbs: 
       abilityBonusLookup:
         _keys:
         - Perseverance
         _values:
         - displayName: Perseverance
           tooltip: Slowed by 50% rather than rooted while channeling.
-          requiredOrbs: 0000000001000000
       finisher: 1
       channelDuration: 5
     - displayName: Disengage
@@ -475,17 +379,12 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      abilityOrbType:
-        hasValue: 1
-        value: 2
-      generatedOrbs: 02000000
       abilityBonusLookup:
         _keys:
         - Parting Shot
         _values:
         - displayName: Parting Shot
           tooltip: Deal {PRIMARY_DAMAGE} damage to enemies nearby before leaping.
-          requiredOrbs: 0100000001000000
       finisher: 0
       channelDuration: 0
     - displayName: Sword Throw
@@ -495,10 +394,6 @@ MonoBehaviour:
         secondaryDamage: 6
         heal: 0
         shield: 0
-      abilityOrbType:
-        hasValue: 1
-        value: 1
-      generatedOrbs: 
       abilityBonusLookup:
         _keys:
         - Poison Sword
@@ -506,7 +401,6 @@ MonoBehaviour:
         - displayName: Poison Sword
           tooltip: Coat the blade in deadly poison, dealing {SECONDARY_DAMAGE} damage
             over 5 seconds.
-          requiredOrbs: 0200000002000000
       finisher: 1
       channelDuration: 2
     - displayName: Fan of Knives
@@ -517,17 +411,12 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      abilityOrbType:
-        hasValue: 1
-        value: 2
-      generatedOrbs: 02000000
       abilityBonusLookup:
         _keys:
         - Spray
         _values:
         - displayName: Spray
           tooltip: Throw an additional 2 knives.
-          requiredOrbs: 020000000000000001000000
       finisher: 0
       channelDuration: 0
     - displayName: Hamstring
@@ -538,16 +427,11 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      abilityOrbType:
-        hasValue: 1
-        value: 2
-      generatedOrbs: 
       abilityBonusLookup:
         _keys:
         - Hack
         _values:
         - displayName: Hack
           tooltip: Increase damage dealt by 4.
-          requiredOrbs: 00000000
       finisher: 0
       channelDuration: 0
