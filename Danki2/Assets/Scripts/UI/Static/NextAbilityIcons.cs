@@ -21,53 +21,79 @@ public class NextAbilityIcons : MonoBehaviour
     [SerializeField]
     private Image rightAbilityCooldown = null;
 
-
     // Frame sprites
     [SerializeField]
     private Sprite emptyAbilityFrameSprite = null;
     [SerializeField]
     private Sprite activeAbilityFrameSprite = null;
 
+    private float remainingCooldown = 0f;
+    private float currentCooldownPeriod = 1f;
+
     private void Start()
     {
         player = RoomManager.Instance.Player;
-        player.AbilityTree.TreeWalkSubject.Subscribe(TreeWalkCallback);
-        player.AbilityManager.AbilityCompletionSubject.Subscribe(IndicateAbilityCompletion);
 
-        UpdateCooldown(0f);
+        RefreshAbilityIcons();
+        UpdateCooldown();
+
+        player.ComboManager.SubscribeToStateEntry(ComboState.ReadyAtRoot, RefreshAbilityIcons);
+        player.ComboManager.SubscribeToStateEntry(ComboState.ReadyInCombo, RefreshAbilityIcons);
+        player.ComboManager.SubscribeToStateEntry(ComboState.LongCooldown, () => ResetCooldown(player.LongCooldown));
+        player.ComboManager.SubscribeToStateEntry(ComboState.ShortCooldown, () => ResetCooldown(player.ShortCooldown));
+        player.ComboManager.SubscribeToStateEntry(ComboState.Whiff, ShowWhiff);
+        player.AbilityFeedbackSubject.Subscribe(ShowFeedback);
+    }
+
+    private void ShowFeedback(bool result)
+    {
+        IndicateAbilityCompletion(player.AbilityTree.DirectionLastWalked, result);
+    }
+
+    private void ShowWhiff()
+    {
+        if (leftAbilityIcon.enabled) IndicateAbilityCompletion(Direction.Left, false);
+        if (rightAbilityIcon.enabled) IndicateAbilityCompletion(Direction.Right, false);
     }
 
     private void Update()
     {
-        UpdateCooldown(player.AbilityManager.RemainingCooldownProportion);
-
+        UpdateCooldown();
     }
 
-    private void UpdateCooldown(float remainingCooldownProportion)
+    private void UpdateCooldown()
     {
-        leftAbilityCooldown.transform.localScale = new Vector3(1f, 2 * remainingCooldownProportion, 1f);
-        rightAbilityCooldown.transform.localScale = new Vector3(1f, 2 * remainingCooldownProportion, 1f);
+        remainingCooldown = Mathf.Max(remainingCooldown - Time.deltaTime, 0f);
+
+        Vector3 newScale = new Vector3(1f, 2 * remainingCooldown / currentCooldownPeriod, 1f);
+
+        leftAbilityCooldown.transform.localScale = newScale;
+        rightAbilityCooldown.transform.localScale = newScale;
     }
 
-    private void IndicateAbilityCompletion(Tuple<bool, Direction> successDirectionTuple)
+    private void ResetCooldown(float duration)
     {
-        (bool success, Direction direction) = successDirectionTuple;
+        currentCooldownPeriod = duration;
+        remainingCooldown = duration;
+    }
 
+    private void IndicateAbilityCompletion(Direction direction, bool succeeded)
+    {
         Image frame = direction == Direction.Left ? leftAbilityFrame : rightAbilityFrame;
-        frame.color = success ? Color.green : Color.red;
+        frame.color = succeeded? Color.green : Color.red;
     }
 
-    private void TreeWalkCallback(Node node)
+    private void RefreshAbilityIcons()
     {
-        SetSpritesForDirection(node, Direction.Left, leftAbilityIcon, leftAbilityCooldown, leftAbilityFrame);
-        SetSpritesForDirection(node, Direction.Right, rightAbilityIcon, rightAbilityCooldown, rightAbilityFrame);
+        SetSpritesForDirection(Direction.Left, leftAbilityIcon, leftAbilityCooldown, leftAbilityFrame);
+        SetSpritesForDirection(Direction.Right, rightAbilityIcon, rightAbilityCooldown, rightAbilityFrame);
     }
 
-    private void SetSpritesForDirection(Node node, Direction direction, Image icon, Image cooldown, Image frame)
+    private void SetSpritesForDirection(Direction direction, Image icon, Image cooldown, Image frame)
     {
         frame.color = Color.white;
 
-        if (!node.HasChild(direction))
+        if (!player.AbilityTree.CanWalkDirection(direction))
         {
             icon.enabled = false;
             cooldown.enabled = false;
@@ -75,7 +101,7 @@ public class NextAbilityIcons : MonoBehaviour
             return;
         }
 
-        AbilityReference ability = node.GetChild(direction).Ability;
+        AbilityReference ability = player.AbilityTree.GetAbility(direction);
         Sprite iconSprite = AbilityIconManager.Instance.GetIcon(ability);
         icon.sprite = iconSprite;
         icon.enabled = true;

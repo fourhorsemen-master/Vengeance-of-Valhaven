@@ -50,33 +50,31 @@
         switch (abilityType)
         {
             case AbilityType.InstantCast:
-                bool hasCast = player.InstantCastService.TryCast(
+                if (!player.InstantCastService.CanCast) break;
+
+                player.AbilityTree.Walk(castDirection);
+                player.InstantCastService.TryCast(
                     abilityReference,
                     player.TargetFinder.FloorTargetPosition,
                     player.TargetFinder.OffsetTargetPosition,
                     player.TargetFinder.Target
                 );
-                if (hasCast)
-                {
-                    player.AbilityTree.Walk(castDirection);
-                    nextState = ComboState.AwaitingFeedback;
-                    return true;
-                }
-                break;
+
+                nextState = ComboState.AwaitingFeedback;
+                return true;
             case AbilityType.Channel:
-                bool hasStartedChannel = player.ChannelService.TryStartChannel(abilityReference);
-                if (hasStartedChannel)
-                {
-                    player.AbilityTree.Walk(castDirection);
-                    nextState = castDirection == Direction.Left
-                        ? ComboState.ChannelingLeft
-                        : ComboState.ChannelingRight;
-                    return true;
-                }
-                break;
+                if (!player.ChannelService.CanCast) break;
+
+                player.ChannelService.TryStartChannel(abilityReference);
+                player.AbilityTree.Walk(castDirection);
+
+                nextState = castDirection == Direction.Left
+                    ? ComboState.ChannelingLeft
+                    : ComboState.ChannelingRight;
+                return true;
         }
 
-        nextState = player.AbilityTree.AtRoot ? ComboState.ReadyAtRoot : ComboState.ReadyInCombo;
+        nextState = default;
         return false;
     }
 }

@@ -4,15 +4,13 @@ public class ComboManager
 {
 	private ObservableWorkflow<ComboState> workflow;
 
-	public bool? FeedbackSinceLastCast { get; private set; } = null;
-
 	public ComboManager(Player player, Subject updateSubject, float longCooldown, float shortCooldown, float comboTimeout, bool rollResetsCombo)
 	{
 		workflow = new ObservableWorkflow<ComboState>(ComboState.ReadyAtRoot)
 			.WithProcessor(ComboState.ReadyAtRoot, new ReadyAtRootProcessor(player))
 			.WithProcessor(ComboState.ReadyInCombo, new ReadyInComboProcessor(player, comboTimeout))
-			.WithProcessor(ComboState.ChannelingRight, new ChannelProcessor(player, Direction.Left))
-			.WithProcessor(ComboState.ChannelingLeft, new ChannelProcessor(player, Direction.Right))
+			.WithProcessor(ComboState.ChannelingLeft, new ChannelProcessor(player, Direction.Left))
+			.WithProcessor(ComboState.ChannelingRight, new ChannelProcessor(player, Direction.Right))
 			.WithProcessor(ComboState.AwaitingFeedback, new AwaitFeedbackProcessor(player))
 			.WithProcessor(ComboState.CompleteCombo, new CompleteComboProcessor(player))
 			.WithProcessor(ComboState.FailCombo, new FailComboProcessor(player))
