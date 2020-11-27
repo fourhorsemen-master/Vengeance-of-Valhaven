@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public abstract class AbilityService
 {
@@ -7,6 +8,7 @@ public abstract class AbilityService
     private readonly List<IAbilityDataDiffer> differs = new List<IAbilityDataDiffer>();
     private bool subscribedToFeedback;
     private Subscription<bool> feedbackSubscription;
+    private Coroutine feedbackTimer;
     private IAbilityBonusCalculator abilityBonusCalculator = new AbilityBonusNoOpCalculator();
     public Subject<bool> FeedbackSubject  = new Subject<bool>();
 
@@ -51,6 +53,7 @@ public abstract class AbilityService
         feedbackSubscription = ability.SuccessFeedbackSubject.Subscribe(feedback =>
         {
             feedbackSubscription.Unsubscribe();
+            StopFeedbackTimer();
             FeedbackSubject.Next(feedback);
             subscribedToFeedback = false;
         });
@@ -60,14 +63,23 @@ public abstract class AbilityService
     {
         if (!subscribedToFeedback) return;
 
-        actor.WaitAndAct(feedbackTimeout, () =>
+        feedbackTimer = actor.WaitAndAct(feedbackTimeout, () =>
         {
             if (subscribedToFeedback)
             {
                 feedbackSubscription.Unsubscribe();
+                StopFeedbackTimer();
                 FeedbackSubject.Next(false);
                 subscribedToFeedback = false;
             }
         });
+    }
+
+    private void StopFeedbackTimer()
+    {
+        if (feedbackTimer == null) return;
+
+        actor.StopCoroutine(feedbackTimer);
+        feedbackTimer = null;
     }
 }
