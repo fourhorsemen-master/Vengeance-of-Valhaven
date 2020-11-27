@@ -59,7 +59,7 @@ public class Player : Actor
         InstantCastService.FeedbackSubject.Subscribe(feedback => AbilityFeedbackSubject.Next(feedback));
         ChannelService.FeedbackSubject.Subscribe(feedback => AbilityFeedbackSubject.Next(feedback));
 
-        AbilityFeedbackSubject.Subscribe(f => FeedbackSinceLastCast = f);
+        AbilityFeedbackSubject.Subscribe(feedback => FeedbackSinceLastCast = feedback);
         ComboManager.SubscribeToStateEntry(ComboState.ReadyAtRoot, () => FeedbackSinceLastCast = null);
         ComboManager.SubscribeToStateEntry(ComboState.ReadyInCombo, () => FeedbackSinceLastCast = null);
 
