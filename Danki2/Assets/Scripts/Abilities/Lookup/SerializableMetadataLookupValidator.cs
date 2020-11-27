@@ -179,6 +179,11 @@ public class SerializableMetadataLookupValidator
         {
             LogError($"Null or white space tooltip found for ability bonus \"{abilityBonus}\" for {abilityReference.ToString()}.");
         }
+
+        if (serializableAbilityBonusMetadata.RequiredTreeDepth < 1)
+        {
+            LogError($"Required tree depth less than 1 for ability bonus \"{abilityBonus}\" for {abilityReference.ToString()}.");
+        }
     }
     
     private void LogError(string message)

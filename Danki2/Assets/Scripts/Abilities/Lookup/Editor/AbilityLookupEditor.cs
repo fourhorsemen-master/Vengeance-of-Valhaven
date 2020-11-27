@@ -154,6 +154,11 @@ public class AbilityLookupEditor : Editor
                 serializableAbilityBonusLookup[abilityBonus].Tooltip,
                 3
             );
+
+            serializableAbilityBonusLookup[abilityBonus].RequiredTreeDepth = EditorGUILayout.IntField(
+                "Required Tree Depth",
+                serializableAbilityBonusLookup[abilityBonus].RequiredTreeDepth
+            );
                 
             EditorGUI.indentLevel--;
         }

@@ -99,6 +99,7 @@ MonoBehaviour:
         _values:
         - displayName: Cross Step
           tooltip: No longer slowed whilst channeling.
+          requiredTreeDepth: 3
       finisher: 0
       channelDuration: 2
     - displayName: Fireball
@@ -188,6 +189,7 @@ MonoBehaviour:
         _values:
         - displayName: Perfect Smash
           tooltip: Stun all affected enemies for 3 seconds.
+          requiredTreeDepth: 3
       finisher: 1
       channelDuration: 0
     - displayName: Sprint
@@ -215,6 +217,7 @@ MonoBehaviour:
         _values:
         - displayName: Momentum
           tooltip: On impact, stun surrounding enemies for 3 seconds.
+          requiredTreeDepth: 2
       finisher: 0
       channelDuration: 0
     - displayName: Leeching Strike
@@ -244,8 +247,10 @@ MonoBehaviour:
         _values:
         - displayName: Clarity
           tooltip: Slow all enemies by 50% while charging.
+          requiredTreeDepth: 4
         - displayName: Growing Rage
           tooltip: Increase power by 2 for every second charged instead.
+          requiredTreeDepth: 3
       finisher: 1
       channelDuration: 5
     - displayName: Bash
@@ -314,9 +319,11 @@ MonoBehaviour:
         _values:
         - displayName: Daze
           tooltip: Slow all enemies hit.
+          requiredTreeDepth: 3
         - displayName: Jetstream
           tooltip: After the dash the sharp winds of the jetstream causes {PRIMARY_DAMAGE}
             damage to enemies in a cone behind you.
+          requiredTreeDepth: 5
       finisher: 1
       channelDuration: 2
     - displayName: Parry
@@ -370,6 +377,7 @@ MonoBehaviour:
         _values:
         - displayName: Perseverance
           tooltip: Slowed by 50% rather than rooted while channeling.
+          requiredTreeDepth: 3
       finisher: 1
       channelDuration: 5
     - displayName: Disengage
@@ -385,6 +393,7 @@ MonoBehaviour:
         _values:
         - displayName: Parting Shot
           tooltip: Deal {PRIMARY_DAMAGE} damage to enemies nearby before leaping.
+          requiredTreeDepth: 4
       finisher: 0
       channelDuration: 0
     - displayName: Sword Throw
@@ -401,6 +410,7 @@ MonoBehaviour:
         - displayName: Poison Sword
           tooltip: Coat the blade in deadly poison, dealing {SECONDARY_DAMAGE} damage
             over 5 seconds.
+          requiredTreeDepth: 3
       finisher: 1
       channelDuration: 2
     - displayName: Fan of Knives
@@ -417,6 +427,7 @@ MonoBehaviour:
         _values:
         - displayName: Spray
           tooltip: Throw an additional 2 knives.
+          requiredTreeDepth: 4
       finisher: 0
       channelDuration: 0
     - displayName: Hamstring
@@ -433,5 +444,6 @@ MonoBehaviour:
         _values:
         - displayName: Hack
           tooltip: Increase damage dealt by 4.
+          requiredTreeDepth: 2
       finisher: 0
       channelDuration: 0

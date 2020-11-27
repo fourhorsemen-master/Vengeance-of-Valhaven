@@ -141,7 +141,8 @@ public class AbilityLookup : Singleton<AbilityLookup>
 
                 return new AbilityBonusData(
                     serializableAbilityBonusMetadata.DisplayName,
-                    BuildTooltip(serializableAbilityBonusMetadata.Tooltip)
+                    BuildTooltip(serializableAbilityBonusMetadata.Tooltip),
+                    serializableAbilityBonusMetadata.RequiredTreeDepth
                 );
             }
         );
