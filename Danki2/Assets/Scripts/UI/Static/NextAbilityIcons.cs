@@ -29,22 +29,55 @@ public class NextAbilityIcons : MonoBehaviour
 
     private float remainingCooldown = 0f;
     private float currentCooldownPeriod = 1f;
+    private bool abilityInProgress = false;
 
     private void Start()
     {
         player = RoomManager.Instance.Player;
 
         RefreshAbilityIcons();
-        UpdateCooldown();
+        DisplayCooldown(0);
 
         player.ComboManager.SubscribeToStateEntry(ComboState.ReadyAtRoot, RefreshAbilityIcons);
         player.ComboManager.SubscribeToStateEntry(ComboState.ReadyInCombo, RefreshAbilityIcons);
+        player.ComboManager.SubscribeToStateExit(ComboState.ReadyAtRoot, ShowAbilityInProgres);
+        player.ComboManager.SubscribeToStateExit(ComboState.ReadyInCombo, ShowAbilityInProgres);
         player.ComboManager.SubscribeToStateEntry(ComboState.LongCooldown, () => ResetCooldown(player.LongCooldown));
         player.ComboManager.SubscribeToStateEntry(ComboState.ShortCooldown, () => ResetCooldown(player.ShortCooldown));
         player.ComboManager.SubscribeToStateEntry(ComboState.Whiff, ShowWhiff);
 
-        player.AbilityTree.ChangeSubject.Subscribe(RefreshAbilityIcons);
         player.AbilityFeedbackSubject.Subscribe(ShowFeedback);
+        player.AbilityTree.ChangeSubject.Subscribe(RefreshAbilityIcons);
+    }
+
+    private void Update()
+    {
+        if (abilityInProgress) return;
+
+        remainingCooldown = Mathf.Max(remainingCooldown - Time.deltaTime, 0f);
+
+        DisplayCooldown(remainingCooldown / currentCooldownPeriod);
+    }
+
+    private void ShowAbilityInProgres()
+    {
+        abilityInProgress = true;
+        DisplayCooldown(1);
+    }
+
+    private void ResetCooldown(float duration)
+    {
+        abilityInProgress = false;
+        currentCooldownPeriod = duration;
+        remainingCooldown = duration;
+    }
+
+    public void DisplayCooldown(float proportion)
+    {
+        Vector3 newScale = new Vector3(1f, 2 * proportion, 1f);
+
+        leftAbilityCooldown.transform.localScale = newScale;
+        rightAbilityCooldown.transform.localScale = newScale;
     }
 
     private void ShowFeedback(bool result)
@@ -56,27 +89,6 @@ public class NextAbilityIcons : MonoBehaviour
     {
         if (leftAbilityIcon.enabled) IndicateAbilityCompletion(Direction.Left, false);
         if (rightAbilityIcon.enabled) IndicateAbilityCompletion(Direction.Right, false);
-    }
-
-    private void Update()
-    {
-        UpdateCooldown();
-    }
-
-    private void UpdateCooldown()
-    {
-        remainingCooldown = Mathf.Max(remainingCooldown - Time.deltaTime, 0f);
-
-        Vector3 newScale = new Vector3(1f, 2 * remainingCooldown / currentCooldownPeriod, 1f);
-
-        leftAbilityCooldown.transform.localScale = newScale;
-        rightAbilityCooldown.transform.localScale = newScale;
-    }
-
-    private void ResetCooldown(float duration)
-    {
-        currentCooldownPeriod = duration;
-        remainingCooldown = duration;
     }
 
     private void IndicateAbilityCompletion(Direction direction, bool succeeded)
