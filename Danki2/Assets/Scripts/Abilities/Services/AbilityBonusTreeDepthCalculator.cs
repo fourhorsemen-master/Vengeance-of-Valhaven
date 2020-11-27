@@ -3,11 +3,11 @@ using System.Linq;
 
 public class AbilityBonusTreeDepthCalculator : IAbilityBonusCalculator
 {
-    private int currentDepth;
+    private readonly AbilityTree abilityTree;
 
     public AbilityBonusTreeDepthCalculator(AbilityTree abilityTree)
     {
-        abilityTree.CurrentDepthSubject.Subscribe(d => currentDepth = d);
+        this.abilityTree = abilityTree;
     }
 
     /// <summary>
@@ -20,7 +20,7 @@ public class AbilityBonusTreeDepthCalculator : IAbilityBonusCalculator
             AbilityLookup.Instance.GetAbilityBonusDataLookup(abilityReference);
 
         return abilityBonusDataLookup.Keys
-            .Where(abilityBonus => abilityBonusDataLookup[abilityBonus].RequiredTreeDepth <= currentDepth + 1)
+            .Where(abilityBonus => abilityBonusDataLookup[abilityBonus].RequiredTreeDepth <= abilityTree.CurrentDepth)
             .ToArray();
     }
 }
