@@ -15,12 +15,9 @@ public class AbilityBonusTooltipSection : MonoBehaviour
     [SerializeField]
     private Text descriptionText = null;
 
-    [SerializeField]
-    private OrbGenerationPanel requiredOrbsPanel = null;
-
-    public void Initialise(string title, string tooltip, OrbCollection requiredOrbs, OrbCollection providedOrbs = null)
+    public void Initialise(string title, string tooltip)
     {
-        bool bonusEnabled = providedOrbs == null || providedOrbs.IsSuperset(requiredOrbs);
+        bool bonusEnabled = true;
         Color textColor = bonusEnabled ? enabledTextColour : disabledTextColour;
 
         titleText.text = $"Bonus: {title}";
@@ -28,7 +25,5 @@ public class AbilityBonusTooltipSection : MonoBehaviour
 
         descriptionText.text = tooltip;
         descriptionText.color = textColor;
-
-        requiredOrbsPanel.DisplayOrbs(requiredOrbs, providedOrbs);
     }
 }

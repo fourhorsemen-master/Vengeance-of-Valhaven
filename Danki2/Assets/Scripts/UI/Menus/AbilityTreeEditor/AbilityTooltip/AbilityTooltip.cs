@@ -15,9 +15,6 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
     private Text descriptionText = null;
 
     [SerializeField]
-    private OrbGenerationPanel abilityOrbPanel = null;
-
-    [SerializeField]
     private AbilityBonusTooltipSection bonusSectionPrefab = null;
 
     [SerializeField]
@@ -29,9 +26,6 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
     private PlayerTreeTooltipBuilder playerTreeTooltipBuilder;
 
     private readonly List<AbilityBonusTooltipSection> bonusSections = new List<AbilityBonusTooltipSection>();
-
-    public float TooltipHeightNoOrbs => descriptionText.preferredHeight + 36f;
-    public float TooltipHeightWithOrbs => descriptionText.preferredHeight + 60f;
 
     private void Start()
     {
@@ -64,44 +58,24 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
     {
         List<TooltipSegment> tooltipSegments = playerTreeTooltipBuilder.Build(node);
 
-        OrbCollection providedOrbs = node.GetInputOrbs();
-
         Activate(
             node.Ability,
             tooltipSegments,
-            bonus => playerTreeTooltipBuilder.BuildBonus(node, bonus),
-            providedOrbs
+            bonus => playerTreeTooltipBuilder.BuildBonus(node, bonus)
         );
     }
 
-    private void Activate(AbilityReference ability, List<TooltipSegment> tooltipSegments, Func<string, List<TooltipSegment>> bonusSegmenter, OrbCollection providedOrbs = null)
+    private void Activate(AbilityReference ability, List<TooltipSegment> tooltipSegments, Func<string, List<TooltipSegment>> bonusSegmenter)
     {
         ActivateTooltip();
 
-        string titleText = GenerateTitle(ability);
+        string titleText = AbilityLookup.Instance.GetAbilityDisplayName(ability);
         bool isFinisher = AbilityLookup.Instance.IsFinisher(ability);
         string descriptionText = GenerateDescription(tooltipSegments);
 
-        OrbCollection generatedOrbs = AbilityLookup.Instance.GetGeneratedOrbs(ability);
-
         Dictionary<string, AbilityBonusData> bonuses = AbilityLookup.Instance.GetAbilityBonusDataLookup(ability);
 
-        SetContents(titleText, isFinisher, descriptionText, bonuses, bonusSegmenter, generatedOrbs, providedOrbs);
-    }
-
-    private string GenerateTitle(AbilityReference ability)
-    {
-        bool hasOrbType = AbilityLookup.Instance.TryGetAbilityOrbType(ability, out OrbType abilityOrbType);
-
-        string title = AbilityLookup.Instance.GetAbilityDisplayName(ability);
-
-        if (hasOrbType)
-        {
-            Color colour = OrbLookup.Instance.GetColour(abilityOrbType);
-            title = TextUtils.ColouredText(colour, title);
-        }
-
-        return title;
+        SetContents(titleText, isFinisher, descriptionText, bonuses, bonusSegmenter);
     }
 
     private string GenerateDescription(List<TooltipSegment> segments)
@@ -135,15 +109,12 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
         bool isFinisher,
         string description,
         Dictionary<string, AbilityBonusData> bonuses,
-        Func<string, List<TooltipSegment>> segmenter,
-        OrbCollection generatedOrbs,
-        OrbCollection providedOrbs
+        Func<string, List<TooltipSegment>> segmenter
     )
     {
         titleText.text = title;
         finisherText.enabled = isFinisher;
         descriptionText.text = description;
-        abilityOrbPanel.DisplayOrbs(generatedOrbs);
 
         foreach (AbilityBonusTooltipSection section in bonusSections)
         {
@@ -156,13 +127,9 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
         {
             AbilityBonusData bonusData = bonuses[bonus];
             AbilityBonusTooltipSection section = Instantiate(bonusSectionPrefab, Vector3.zero, Quaternion.identity, transform);
-            section.Initialise(bonusData.DisplayName, GenerateDescription(segmenter(bonus)), bonusData.RequiredOrbs, providedOrbs);
+            section.Initialise(bonusData.DisplayName, GenerateDescription(segmenter(bonus)));
 
             bonusSections.Add(section);
         }
-
-        bool hasOrbs = !generatedOrbs.IsEmpty;
-
-        abilityOrbPanel.transform.parent.gameObject.SetActive(hasOrbs);
     }
 }

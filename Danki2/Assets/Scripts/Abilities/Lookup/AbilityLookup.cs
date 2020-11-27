@@ -11,9 +11,7 @@ public class AbilityLookup : Singleton<AbilityLookup>
     );
 
     private readonly AbilityMap<string> displayNameMap = new AbilityMap<string>();
-    private readonly AbilityMap<OrbType> abilityOrbTypeMap = new AbilityMap<OrbType>();
     private readonly AbilityMap<AbilityData> baseAbilityDataMap = new AbilityMap<AbilityData>();
-    private readonly AbilityMap<OrbCollection> generatedOrbsMap = new AbilityMap<OrbCollection>();
     private readonly AbilityMap<List<TemplatedTooltipSegment>> templatedTooltipSegmentsMap = new AbilityMap<List<TemplatedTooltipSegment>>();
     private readonly AbilityMap<Dictionary<string, AbilityBonusData>> abilityBonusDataMap = new AbilityMap<Dictionary<string, AbilityBonusData>>();
     private readonly AbilityMap<bool> finisherLookup = new AbilityMap<bool>();
@@ -90,26 +88,12 @@ public class AbilityLookup : Singleton<AbilityLookup>
         return false;
     }
 
-    public bool TryGetAbilityOrbType(AbilityReference abilityReference, out OrbType orbType)
-    {
-        if (abilityOrbTypeMap.ContainsKey(abilityReference))
-        {
-            orbType = abilityOrbTypeMap[abilityReference];
-            return true;
-        }
-
-        orbType = default;
-        return false;
-    }
-
     public AbilityType GetAbilityType(AbilityReference abilityReference) => abilityTypeMap[abilityReference];
 
     public bool TryGetChannelType(AbilityReference abilityReference, out ChannelType channelType) =>
         channelTypeMap.TryGetValue(abilityReference, out channelType);
 
     public AbilityData GetBaseAbilityData(AbilityReference abilityReference) => baseAbilityDataMap[abilityReference];
-
-    public OrbCollection GetGeneratedOrbs(AbilityReference abilityReference) => generatedOrbsMap[abilityReference];
 
     public List<TemplatedTooltipSegment> GetTemplatedTooltipSegments(AbilityReference abilityReference) => templatedTooltipSegmentsMap[abilityReference];
 
@@ -132,17 +116,11 @@ public class AbilityLookup : Singleton<AbilityLookup>
             baseAbilityDataMap[ability] = serializableAbilityMetadata.BaseAbilityData;
             finisherLookup[ability] = serializableAbilityMetadata.Finisher;
 
-            if (serializableAbilityMetadata.AbilityOrbType.HasValue)
-            {
-                abilityOrbTypeMap[ability] = serializableAbilityMetadata.AbilityOrbType.Value;
-            }
-
             if (abilityAttributeDataLookup[ability].Type.IsSubclassOf(typeof(Channel)))
             {
                 channelDurationMap[ability] = serializableAbilityMetadata.ChannelDuration;
             }
 
-            generatedOrbsMap[ability] = new OrbCollection(serializableAbilityMetadata.GeneratedOrbs);
             templatedTooltipSegmentsMap[ability] = BuildTooltip(serializableAbilityMetadata.Tooltip);
             BuildAbilityBonusLookup(ability, serializableAbilityMetadata.AbilityBonusLookup);
         });
@@ -163,8 +141,7 @@ public class AbilityLookup : Singleton<AbilityLookup>
 
                 return new AbilityBonusData(
                     serializableAbilityBonusMetadata.DisplayName,
-                    BuildTooltip(serializableAbilityBonusMetadata.Tooltip),
-                    new OrbCollection(serializableAbilityBonusMetadata.RequiredOrbs)
+                    BuildTooltip(serializableAbilityBonusMetadata.Tooltip)
                 );
             }
         );
