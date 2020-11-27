@@ -41,7 +41,6 @@ public abstract class AbilityTree
         UpdateInventory();
 
         RootNode.ChangeSubject.Subscribe(() => {
-            Reset();
             UpdateInventory();
             ChangeSubject.Next();
         });

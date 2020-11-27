@@ -42,6 +42,8 @@ public class NextAbilityIcons : MonoBehaviour
         player.ComboManager.SubscribeToStateEntry(ComboState.LongCooldown, () => ResetCooldown(player.LongCooldown));
         player.ComboManager.SubscribeToStateEntry(ComboState.ShortCooldown, () => ResetCooldown(player.ShortCooldown));
         player.ComboManager.SubscribeToStateEntry(ComboState.Whiff, ShowWhiff);
+
+        player.AbilityTree.ChangeSubject.Subscribe(RefreshAbilityIcons);
         player.AbilityFeedbackSubject.Subscribe(ShowFeedback);
     }
 
