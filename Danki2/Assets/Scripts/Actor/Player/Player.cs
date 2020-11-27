@@ -5,8 +5,8 @@ public class Player : Actor
     public override ActorType Type => ActorType.Player;
 
     [Header("Ability tree")]
-    [SerializeField] private float cooldownDuringCombo = 0.75f;
-    [SerializeField] private float cooldownAfterCombo = 1.5f;
+    [SerializeField] private float shortCooldown = 0.75f;
+    [SerializeField] private float longCooldown = 1.5f;
     [SerializeField] private float comboTimeout = 2f;
     [SerializeField] private float feedbackTimeout = 1f;
     [SerializeField] private bool rollResetsCombo = false;
@@ -24,7 +24,6 @@ public class Player : Actor
 
     // Services
     public AbilityTree AbilityTree { get; private set; }
-    public AbilityManager AbilityManager { get; private set; }
     public ComboManager ComboManager { get; private set; }
     public PlayerTargetFinder TargetFinder { get; private set; }
     
@@ -37,6 +36,20 @@ public class Player : Actor
     {
         base.Awake();
 
+        TargetFinder = new PlayerTargetFinder(this, updateSubject);
+
+        ComboManager = new ComboManager(this, updateSubject, shortCooldown, longCooldown, comboTimeout, rollResetsCombo);
+
+        InstantCastService.SetFeedbackTimeout(feedbackTimeout);
+        ChannelService.SetFeedbackTimeout(feedbackTimeout);
+
+        InstantCastService.FeedbackSubject.Subscribe(feedback => AbilityFeedbackSubject.Next(feedback));
+        ChannelService.FeedbackSubject.Subscribe(feedback => AbilityFeedbackSubject.Next(feedback));
+
+        AbilityFeedbackSubject.Subscribe(f => FeedbackSinceLastCast = f);
+        ComboManager.SubscribeToStateExit(ComboState.ReadyAtRoot, () => FeedbackSinceLastCast = null);
+        ComboManager.SubscribeToStateExit(ComboState.ReadyInCombo, () => FeedbackSinceLastCast = null);
+
         EnumDictionary<AbilityReference, int> ownedAbilities = new EnumDictionary<AbilityReference, int>(3);
 
         AbilityTree = AbilityTreeFactory.CreateTree(
@@ -47,24 +60,6 @@ public class Player : Actor
 
         RegisterAbilityDataDiffer(new AbilityDataOrbsDiffer(AbilityTree));
         SetAbilityBonusCalculator(new AbilityBonusOrbsCalculator(AbilityTree));
-
-        AbilityManager = new AbilityManager(
-            this,
-            updateSubject,
-            lateUpdateSubject,
-            new AbilityManagerSettings(comboTimeout, feedbackTimeout, cooldownDuringCombo, cooldownAfterCombo, rollResetsCombo)   
-        );
-
-        ComboManager = new ComboManager(this, updateSubject);
-
-        TargetFinder = new PlayerTargetFinder(this, updateSubject);
-
-        InstantCastService.FeedbackSubject.Subscribe(feedback => AbilityFeedbackSubject.Next(feedback));
-        ChannelService.FeedbackSubject.Subscribe(feedback => AbilityFeedbackSubject.Next(feedback));
-
-        AbilityFeedbackSubject.Subscribe(f => FeedbackSinceLastCast = f);
-        ComboManager.SubscribeToStateExit(ComboState.ReadyAtRoot, () => FeedbackSinceLastCast = null);
-        ComboManager.SubscribeToStateExit(ComboState.ReadyInCombo, () => FeedbackSinceLastCast = null);
     }
 
     protected override void Start()

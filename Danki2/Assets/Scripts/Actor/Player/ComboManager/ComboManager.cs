@@ -4,14 +4,9 @@ public class ComboManager
 {
 	private ObservableWorkflow<ComboState> workflow;
 
-	private float longCooldown = 0f;
-	private float shortCooldown = 0f;
-	private float comboTimeout = 0f;
-	private bool rollResetsCombo = false;
-
 	public bool? FeedbackSinceLastCast { get; private set; } = null;
 
-	public ComboManager(Player player, Subject updateSubject)
+	public ComboManager(Player player, Subject updateSubject, float longCooldown, float shortCooldown, float comboTimeout, bool rollResetsCombo)
 	{
 		workflow = new ObservableWorkflow<ComboState>(ComboState.ReadyAtRoot)
 			.WithProcessor(ComboState.ReadyAtRoot, new ReadyAtRootProcessor(player))
@@ -19,10 +14,10 @@ public class ComboManager
 			.WithProcessor(ComboState.ChannelingRight, new ChannelProcessor(player, Direction.Left))
 			.WithProcessor(ComboState.ChannelingLeft, new ChannelProcessor(player, Direction.Right))
 			.WithProcessor(ComboState.AwaitingFeedback, new AwaitFeedbackProcessor(player))
-			.WithProcessor(ComboState.CompleteCombo, new PassthroughProcessor<ComboState>(ComboState.LongCooldown))
-			.WithProcessor(ComboState.FailCombo, new PassthroughProcessor<ComboState>(ComboState.LongCooldown))
+			.WithProcessor(ComboState.CompleteCombo, new CompleteComboProcessor(player))
+			.WithProcessor(ComboState.FailCombo, new FailComboProcessor(player))
 			.WithProcessor(ComboState.ContinueCombo, new PassthroughProcessor<ComboState>(ComboState.ShortCooldown))
-			.WithProcessor(ComboState.Whiff, new PassthroughProcessor<ComboState>(ComboState.LongCooldown))
+			.WithProcessor(ComboState.Whiff, new FailComboProcessor(player))
 			.WithProcessor(ComboState.LongCooldown, new TimeElapsedProcessor<ComboState>(ComboState.ReadyAtRoot, longCooldown))
 			.WithProcessor(ComboState.ShortCooldown, new TimeElapsedProcessor<ComboState>(ComboState.ReadyInCombo, shortCooldown));
 

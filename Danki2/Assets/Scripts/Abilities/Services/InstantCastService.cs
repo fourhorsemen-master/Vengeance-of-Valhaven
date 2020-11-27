@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class InstantCastService : AbilityService
 {
-    public InstantCastService(Actor actor, float feedbackTimeout) : base(actor, feedbackTimeout) {}
+    public InstantCastService(Actor actor) : base(actor) {}
 
     public bool TryCast(
         AbilityReference abilityReference,

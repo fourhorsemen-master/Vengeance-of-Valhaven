@@ -3,7 +3,7 @@
 public abstract class AbilityService
 {
     protected readonly Actor actor;
-    protected readonly float feedbackTimeout;
+    protected float feedbackTimeout = 1f;
     private readonly List<IAbilityDataDiffer> differs = new List<IAbilityDataDiffer>();
     private bool subscribedToFeedback;
     private Subscription<bool> feedbackSubscription;
@@ -14,9 +14,13 @@ public abstract class AbilityService
         && !actor.MovementManager.Stunned
         && !actor.MovementManager.MovementLocked;
 
-    protected AbilityService(Actor actor, float feedbackTimeout)
+    protected AbilityService(Actor actor)
     {
-        this.actor = actor;
+        this.actor = actor;        
+    }
+
+    public void SetFeedbackTimeout(float feedbackTimeout)
+    {
         this.feedbackTimeout = feedbackTimeout;
     }
 

@@ -186,28 +186,28 @@ public class AbilityManager
             player.StopCoroutine(abilityTimeout);
         }
 
-        switch (AbilityLookup.Instance.GetAbilityType(abilityReference))
-        {
-            case AbilityType.InstantCast:
-                CastingStatus = CastingStatus.AwaitingFeedback;
-                player.InstantCastService.TryCast(
-                    abilityReference,
-                    player.TargetFinder.FloorTargetPosition,
-                    player.TargetFinder.OffsetTargetPosition,
-                    subject => abilityFeedbackSubscription = subject.Subscribe(AbilityFeedbackSubscription),
-                    player.TargetFinder.Target
-                );
-                break;
-            case AbilityType.Channel:
-                CastingStatus = direction == Direction.Left
-                    ? CastingStatus.ChannelingLeft
-                    : CastingStatus.ChannelingRight;
-                player.ChannelService.TryStartChannel(
-                    abilityReference,
-                    subject => abilityFeedbackSubscription = subject.Subscribe(AbilityFeedbackSubscription)
-                );
-                break;
-        }
+        //switch (AbilityLookup.Instance.GetAbilityType(abilityReference))
+        //{
+        //    case AbilityType.InstantCast:
+        //        CastingStatus = CastingStatus.AwaitingFeedback;
+        //        player.InstantCastService.TryCast(
+        //            abilityReference,
+        //            player.TargetFinder.FloorTargetPosition,
+        //            player.TargetFinder.OffsetTargetPosition,
+        //            subject => abilityFeedbackSubscription = subject.Subscribe(AbilityFeedbackSubscription),
+        //            player.TargetFinder.Target
+        //        );
+        //        break;
+        //    case AbilityType.Channel:
+        //        CastingStatus = direction == Direction.Left
+        //            ? CastingStatus.ChannelingLeft
+        //            : CastingStatus.ChannelingRight;
+        //        player.ChannelService.TryStartChannel(
+        //            abilityReference,
+        //            subject => abilityFeedbackSubscription = subject.Subscribe(AbilityFeedbackSubscription)
+        //        );
+        //        break;
+        //}
 
         if (CastingStatus == CastingStatus.AwaitingFeedback)
         {

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-internal class ReadyInComboProcessor : ReadyProcessor
+public class ReadyInComboProcessor : ReadyProcessor
 {
     private readonly float feedbackTimeout;
     private float timeoutRemaining;
