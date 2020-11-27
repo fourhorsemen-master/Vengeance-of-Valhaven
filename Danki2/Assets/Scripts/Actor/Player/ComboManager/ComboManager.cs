@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 public class ComboManager
 {
@@ -19,33 +20,31 @@ public class ComboManager
 			.WithProcessor(ComboState.LongCooldown, new TimeElapsedProcessor<ComboState>(ComboState.ReadyAtRoot, longCooldown))
 			.WithProcessor(ComboState.ShortCooldown, new TimeElapsedProcessor<ComboState>(ComboState.ReadyInCombo, shortCooldown));
 
-		player.HealthManager.DamageSubject.Subscribe(() =>
-		{
-			workflow.ForceTransition(ComboState.Whiff);
-		});
-		
-		player.AbilityTree.ChangeSubject.Subscribe(() =>
-		{
-			if (workflow.CurrentState != ComboState.ReadyAtRoot && workflow.CurrentState != ComboState.LongCooldown)
-			{
-				workflow.ForceTransition(ComboState.Whiff);
-			}
-		});
+		ForceTransitionOnEvent(player.HealthManager.DamageSubject, ComboState.Whiff);
 
-		player.RollSubject.Subscribe(() =>
+		ForceTransitionOnEvent(player.AbilityTree.ChangeSubject, ComboState.Whiff, ComboState.ReadyAtRoot, ComboState.LongCooldown);
+
+		if (rollResetsCombo)
 		{
-			if (rollResetsCombo)
-			{
-				workflow.ForceTransition(ComboState.Whiff);
-			}
-		});
+			ForceTransitionOnEvent(player.RollSubject, ComboState.Whiff);
+		}
 
 		workflow.Enter();
 
 		updateSubject.Subscribe(workflow.Update);
-    }
+	}
 
 	public void SubscribeToStateEntry(ComboState state, Action action) => workflow.SubscribeToStateEntry(state, action);
 
     public void SubscribeToStateExit(ComboState state, Action action) => workflow.SubscribeToStateExit(state, action);
+
+	private void ForceTransitionOnEvent(Subject subject, ComboState toState, params ComboState[] exceptions)
+	{
+		subject.Subscribe(() =>
+		{
+			if (exceptions.ToList().Contains(workflow.CurrentState)) return;
+
+			workflow.ForceTransition(toState);
+		});
+	}
 }
