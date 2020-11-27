@@ -14,6 +14,8 @@ public abstract class Node
 
     public AbilityReference Ability { get; private set; }
 
+    public int Depth => IsRootNode ? 0 : Parent.Depth + 1;
+
     private EnumDictionary<Direction, Subscription> childChangeSubscriptions = new EnumDictionary<Direction, Subscription>(defaultValue: null);
     public Subject ChangeSubject { get; } = new Subject();
 
@@ -82,25 +84,6 @@ public abstract class Node
         }
 
         return Mathf.Max(maxLeftDepth, maxRightDepth) + 1;
-    }
-
-    public OrbCollection GetOutputOrbs()
-    {
-        OrbCollection activeOrbs = new OrbCollection();
-
-        IterateUp(
-            n => activeOrbs.Add(AbilityLookup.Instance.GetGeneratedOrbs(n.Ability)),
-            n => !n.IsRootNode
-        );
-
-        return activeOrbs;
-    }
-
-    public OrbCollection GetInputOrbs()
-    {
-        if (IsRootNode) return new OrbCollection();
-
-        return Parent.GetOutputOrbs();
     }
 
     public void Insert(AbilityReference ability, InsertArea area)

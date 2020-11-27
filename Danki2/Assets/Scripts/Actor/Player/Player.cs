@@ -63,8 +63,7 @@ public class Player : Actor
         ComboManager.SubscribeToStateEntry(ComboState.ReadyAtRoot, () => FeedbackSinceLastCast = null);
         ComboManager.SubscribeToStateEntry(ComboState.ReadyInCombo, () => FeedbackSinceLastCast = null);
 
-        RegisterAbilityDataDiffer(new AbilityDataOrbsDiffer(AbilityTree));
-        SetAbilityBonusCalculator(new AbilityBonusOrbsCalculator(AbilityTree));
+        SetAbilityBonusCalculator(new AbilityBonusTreeDepthCalculator(AbilityTree));
     }
 
     protected override void Start()
