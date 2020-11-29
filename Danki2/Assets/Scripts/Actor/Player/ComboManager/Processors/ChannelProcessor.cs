@@ -1,8 +1,8 @@
 ﻿public class ChannelProcessor : Processor<ComboState>
 {
-    private Player player;
-    private Direction direction;
+    private readonly Player player;
     private ActionControlState previousActionControlState;
+    private CastingStatus currentCastingStatus;
 
     public ChannelProcessor(Player player)
     {
@@ -12,7 +12,10 @@
     public void Enter()
     {
         previousActionControlState = PlayerControls.Instance.ActionControlState;
-        direction = player.AbilityTree.DirectionLastWalked;
+
+        currentCastingStatus = player.AbilityTree.DirectionLastWalked == Direction.Left
+            ? CastingStatus.ChannelingLeft
+            : CastingStatus.ChannelingRight;
     }
 
     public void Exit()
@@ -22,10 +25,6 @@
     public bool TryCompleteProcess(out ComboState nextState)
     {
         ActionControlState currentActionControlState = PlayerControls.Instance.ActionControlState;
-
-        CastingStatus currentCastingStatus = direction == Direction.Left
-            ? CastingStatus.ChannelingLeft
-            : CastingStatus.ChannelingRight;
 
         CastingCommand castingCommand = ControlMatrix.GetCastingCommand(
             currentCastingStatus,
