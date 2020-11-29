@@ -32,7 +32,7 @@ public class Bash : InstantCast
             .ForEach(actor =>
             {
                 DealPrimaryDamage(actor);
-                actor.EffectManager.AddActiveEffect(new Stun(), StunDuration);
+                actor.EffectManager.AddActiveEffect(ActiveEffect.Stun, StunDuration);
                 hasDealtDamage = true;
             });
 

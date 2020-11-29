@@ -58,7 +58,7 @@ public class Hook : InstantCast
                 pullFaceDirection
             );
 
-            actor.WaitAndAct(pullDuration, () => actor.EffectManager.AddActiveEffect(new Stun(), stunDuration));
+            actor.WaitAndAct(pullDuration, () => actor.EffectManager.AddActiveEffect(ActiveEffect.Stun, stunDuration));
 
             SuccessFeedbackSubject.Next(true);
 
