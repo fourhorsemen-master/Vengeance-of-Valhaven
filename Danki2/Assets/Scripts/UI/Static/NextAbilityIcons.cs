@@ -40,8 +40,8 @@ public class NextAbilityIcons : MonoBehaviour
 
         player.ComboManager.SubscribeToStateEntry(ComboState.ReadyAtRoot, RefreshAbilityIcons);
         player.ComboManager.SubscribeToStateEntry(ComboState.ReadyInCombo, RefreshAbilityIcons);
-        player.ComboManager.SubscribeToStateExit(ComboState.ReadyAtRoot, ShowAbilityInProgres);
-        player.ComboManager.SubscribeToStateExit(ComboState.ReadyInCombo, ShowAbilityInProgres);
+        player.ComboManager.SubscribeToStateExit(ComboState.ReadyAtRoot, ShowAbilityInProgress);
+        player.ComboManager.SubscribeToStateExit(ComboState.ReadyInCombo, ShowAbilityInProgress);
         player.ComboManager.SubscribeToStateEntry(ComboState.LongCooldown, () => ResetCooldown(player.LongCooldown));
         player.ComboManager.SubscribeToStateEntry(ComboState.ShortCooldown, () => ResetCooldown(player.ShortCooldown));
         player.ComboManager.SubscribeToStateEntry(ComboState.Whiff, ShowWhiff);
@@ -59,7 +59,7 @@ public class NextAbilityIcons : MonoBehaviour
         DisplayCooldown(remainingCooldown / currentCooldownPeriod);
     }
 
-    private void ShowAbilityInProgres()
+    private void ShowAbilityInProgress()
     {
         abilityInProgress = true;
         DisplayCooldown(1);
@@ -72,7 +72,7 @@ public class NextAbilityIcons : MonoBehaviour
         remainingCooldown = duration;
     }
 
-    public void DisplayCooldown(float proportion)
+    private void DisplayCooldown(float proportion)
     {
         Vector3 newScale = new Vector3(1f, 2 * proportion, 1f);
 
