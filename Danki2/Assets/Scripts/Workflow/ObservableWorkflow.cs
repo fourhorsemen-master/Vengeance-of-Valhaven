@@ -4,10 +4,10 @@ public class ObservableWorkflow<TState> where TState : Enum
 {
 	public TState CurrentState { get; private set; }
 
-    private EnumDictionary<TState, Processor<TState>> processors = new EnumDictionary<TState, Processor<TState>>(() => new NoOpProcessor<TState>());
+    private readonly EnumDictionary<TState, Processor<TState>> processors = new EnumDictionary<TState, Processor<TState>>(() => new NoOpProcessor<TState>());
 
-    private IObservable<TState> OnEnterStateSubject = new Subject<TState>();
-    private IObservable<TState> OnExitStateSubject = new Subject<TState>();
+    private readonly IObservable<TState> onEnterStateSubject = new Subject<TState>();
+    private readonly IObservable<TState> onExitStateSubject = new Subject<TState>();
 
     public ObservableWorkflow(TState initialState)
 	{
@@ -31,10 +31,10 @@ public class ObservableWorkflow<TState> where TState : Enum
         if (toState.Equals(CurrentState)) return;
 
         processors[CurrentState].Exit();
-        OnExitStateSubject.Next(CurrentState);
+        onExitStateSubject.Next(CurrentState);
 
         processors[toState].Enter();
-        OnEnterStateSubject.Next(toState);
+        onEnterStateSubject.Next(toState);
 
         CurrentState = toState;
 
@@ -50,7 +50,7 @@ public class ObservableWorkflow<TState> where TState : Enum
 
     public void SubscribeToStateEntry(TState state, Action action)
     {
-        OnEnterStateSubject.Subscribe(newState =>
+        onEnterStateSubject.Subscribe(newState =>
         {
             if (newState.Equals(state)) action();
         });
@@ -58,7 +58,7 @@ public class ObservableWorkflow<TState> where TState : Enum
 
     public void SubscribeToStateExit(TState state, Action action)
     {
-        OnExitStateSubject.Subscribe(newState =>
+        onExitStateSubject.Subscribe(newState =>
         {
             if (newState.Equals(state)) action();
         });
