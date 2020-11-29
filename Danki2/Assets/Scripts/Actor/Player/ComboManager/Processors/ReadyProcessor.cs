@@ -8,16 +8,16 @@
         this.player = player;
     }
 
-    public void Enter()
+    public virtual void Enter()
     {
         previousActionControlState = PlayerControls.Instance.ActionControlState;
     }
 
-    public void Exit()
+    public virtual void Exit()
     {
     }
 
-    public bool TryCompleteProcess(out ComboState nextState)
+    public virtual bool TryCompleteProcess(out ComboState nextState)
     {
         ActionControlState currentActionControlState = PlayerControls.Instance.ActionControlState;
 

@@ -5,7 +5,7 @@ public class TimeElapsedProcessor<TState> : Processor<TState> where TState : Enu
 {
     private readonly TState nextState;
     private readonly float duration;
-    private float remainingDuration;
+    private float requiredTime;
 
     public TimeElapsedProcessor(TState nextState, float duration)
     {
@@ -15,13 +15,14 @@ public class TimeElapsedProcessor<TState> : Processor<TState> where TState : Enu
 
     public void Enter()
     {
-        remainingDuration = duration;
+        requiredTime = Time.time + duration;
     }
+
+    public void Exit() { }
 
     public bool TryCompleteProcess(out TState newState)
     {
-        remainingDuration -= Time.deltaTime;
-        if (remainingDuration <= 0)
+        if (Time.time >= requiredTime)
         {
             newState = nextState;
             return true;
@@ -30,6 +31,4 @@ public class TimeElapsedProcessor<TState> : Processor<TState> where TState : Enu
         newState = default;
         return false;
     }
-
-    public void Exit() { }
 }

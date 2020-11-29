@@ -3,26 +3,24 @@
 public class ReadyInComboProcessor : ReadyProcessor
 {
     private readonly float feedbackTimeout;
-    private float timeoutRemaining;
+    private float feedbackExpiry;
 
     public ReadyInComboProcessor(Player player, float feedbackTimeout) : base(player)
     {
         this.feedbackTimeout = feedbackTimeout;
     }
 
-    public void Enter()
+    public override void Enter()
     {
         base.Enter();
-        timeoutRemaining = feedbackTimeout;
+        feedbackExpiry = Time.time + feedbackTimeout;
     }
 
-    public bool TryCompleteProcess(out ComboState newState)
+    public override bool TryCompleteProcess(out ComboState newState)
     {
         if (base.TryCompleteProcess(out newState)) return true;
 
-        timeoutRemaining -= Time.deltaTime;
-
-        if (timeoutRemaining <= 0)
+        if (Time.time >= feedbackExpiry)
         {
             newState = ComboState.Whiff;
             return true;
