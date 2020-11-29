@@ -17,17 +17,17 @@
 
     public bool TryCompleteProcess(out ComboState nextState)
     {
-        if (player.FeedbackSinceLastCast == true)
+        switch (player.FeedbackSinceLastCast)
         {
-            nextState = player.AbilityTree.CanWalk()
-                ? ComboState.ContinueCombo
-                : ComboState.CompleteCombo;
-            return true;
-        }
-        else if (player.FeedbackSinceLastCast == false)
-        {
-            nextState = ComboState.FailCombo;
-            return true;
+            case true:
+                nextState = player.AbilityTree.CanWalk()
+                    ? ComboState.ContinueCombo
+                    : ComboState.CompleteCombo;
+                return true;
+
+            case false:
+                nextState = ComboState.FailCombo;
+                return true;
         }
 
         nextState = default;
