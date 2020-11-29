@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class EffectManager2
 {
-    private readonly EnumDictionary<Effect2, bool> activeEffectStatusLookup = new EnumDictionary<Effect2, bool>(false);
-    private readonly Dictionary<Effect2, float> totalActiveEffectDurations = new Dictionary<Effect2, float>();
-    private readonly Dictionary<Effect2, float> remainingActiveEffectDurations = new Dictionary<Effect2, float>();
+    private readonly EnumDictionary<ActiveEffect, bool> activeEffectStatusLookup = new EnumDictionary<ActiveEffect, bool>(false);
+    private readonly Dictionary<ActiveEffect, float> totalActiveEffectDurations = new Dictionary<ActiveEffect, float>();
+    private readonly Dictionary<ActiveEffect, float> remainingActiveEffectDurations = new Dictionary<ActiveEffect, float>();
 
-    private readonly Dictionary<Guid, Effect2> passiveEffects = new Dictionary<Guid, Effect2>();
+    private readonly Dictionary<Guid, PassiveEffect> passiveEffects = new Dictionary<Guid, PassiveEffect>();
 
     private readonly EnumDictionary<StackingEffect, int> stacks = new EnumDictionary<StackingEffect, int>(0);
     private readonly Dictionary<StackingEffect, float> remainingStackingEffectDurations = new Dictionary<StackingEffect, float>();
@@ -22,7 +22,7 @@ public class EffectManager2
         });
     }
 
-    public void AddActiveEffect(Effect2 effect, float duration)
+    public void AddActiveEffect(ActiveEffect effect, float duration)
     {
         if (activeEffectStatusLookup[effect])
         {
@@ -36,22 +36,22 @@ public class EffectManager2
         remainingActiveEffectDurations[effect] = duration;
     }
 
-    public void RemoveActiveEffect(Effect2 effect)
+    public void RemoveActiveEffect(ActiveEffect effect)
     {
         activeEffectStatusLookup[effect] = false;
         totalActiveEffectDurations.Remove(effect);
         remainingActiveEffectDurations.Remove(effect);
     }
 
-    public bool HasActiveEffect(Effect2 effect) => activeEffectStatusLookup[effect];
+    public bool HasActiveEffect(ActiveEffect effect) => activeEffectStatusLookup[effect];
 
-    public bool TryGetTotalActiveEffectDuration(Effect2 effect, out float totalDuration) =>
+    public bool TryGetTotalActiveEffectDuration(ActiveEffect effect, out float totalDuration) =>
         totalActiveEffectDurations.TryGetValue(effect, out totalDuration);
 
-    public bool TryGetRemainingActiveEffectDuration(Effect2 effect, out float remainingDuration) =>
+    public bool TryGetRemainingActiveEffectDuration(ActiveEffect effect, out float remainingDuration) =>
         remainingActiveEffectDurations.TryGetValue(effect, out remainingDuration);
 
-    public Guid AddPassiveEffect(Effect2 effect)
+    public Guid AddPassiveEffect(PassiveEffect effect)
     {
         Guid id = Guid.NewGuid();
         passiveEffects[id] = effect;
@@ -63,11 +63,11 @@ public class EffectManager2
         passiveEffects.Remove(id);
     }
 
-    public bool HasPassiveEffect(Effect2 effect)
+    public bool HasPassiveEffect(PassiveEffect effect)
     {
-        foreach (Effect2 passiveEffect in passiveEffects.Values)
+        foreach (PassiveEffect existingEffect in passiveEffects.Values)
         {
-            if (passiveEffect == effect) return true;
+            if (existingEffect == effect) return true;
         }
 
         return false;
@@ -92,7 +92,7 @@ public class EffectManager2
 
     private void TickActiveEffects()
     {
-        EnumUtils.ForEach((Effect2 effect) =>
+        EnumUtils.ForEach((ActiveEffect effect) =>
         {
             if (!activeEffectStatusLookup[effect]) return;
 
