@@ -1,28 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(EffectLookup))]
 public class EffectLookupEditor : Editor
 {
-    private EffectLookup effectLookup;
-    private List<Type> effectTypes;
+    private readonly EffectLookupSanitizer sanitizer = new EffectLookupSanitizer();
+
+    private readonly EnumDictionary<ActiveEffect, bool> activeEffectFoldoutStatus =
+        new EnumDictionary<ActiveEffect, bool>(false);
+    private readonly EnumDictionary<PassiveEffect, bool> passiveEffectFoldoutStatus =
+        new EnumDictionary<PassiveEffect, bool>(false);
+    private readonly EnumDictionary<StackingEffect, bool> stackingEffectFoldoutStatus =
+        new EnumDictionary<StackingEffect, bool>(false);
     
     public override void OnInspectorGUI()
     {
-        effectLookup = (EffectLookup) target;
-
-        if (effectTypes == null)
-        {
-            effectTypes = ReflectionUtils.GetSubclasses(typeof(Effect), ClassModifier.Abstract);
-        }
-
-        Sanitize(effectLookup.displayNameDictionary, "");
-        Sanitize(effectLookup.spriteDictionary, null);
+        EffectLookup effectLookup = (EffectLookup) target;
         
-        effectTypes.ForEach(Edit);
+        SerializableActiveEffectDictionary serializableActiveEffectDictionary = effectLookup.serializableActiveEffectDictionary;
+        SerializablePassiveEffectDictionary serializablePassiveEffectDictionary = effectLookup.serializablePassiveEffectDictionary;
+        SerializableStackingEffectDictionary serializableStackingEffectDictionary = effectLookup.serializableStackingEffectDictionary;
+        
+        sanitizer.SanitizeActiveEffects(serializableActiveEffectDictionary);
+        sanitizer.SanitizePassiveEffects(serializablePassiveEffectDictionary);
+        sanitizer.SanitizeStackingEffects(serializableStackingEffectDictionary);
+        
+        EditActiveEffects(serializableActiveEffectDictionary);
+        EditPassiveEffects(serializablePassiveEffectDictionary);
+        EditStackingEffects(serializableStackingEffectDictionary);
 
         if (GUI.changed)
         {
@@ -30,43 +36,73 @@ public class EffectLookupEditor : Editor
         }
     }
 
-    private void Sanitize<T>(SerializableTypeDictionary<T> dictionary, T defaultValue)
+    private void EditActiveEffects(SerializableActiveEffectDictionary serializableActiveEffectDictionary)
     {
-        effectTypes.ForEach(effectType =>
-        {
-            if (!dictionary.ContainsKey(effectType))
-            {
-                dictionary[effectType] = defaultValue;
-            }
-        });
+        EditorUtils.Header("Active Effects");
 
-        dictionary.Keys.ToList().ForEach(type =>
+        EnumUtils.ForEach((ActiveEffect effect) =>
         {
-            if (!effectTypes.Contains(type))
-            {
-                dictionary.Remove(type);
-            }
+            EditorGUI.indentLevel += 2;
+            activeEffectFoldoutStatus[effect] = EditorGUILayout.Foldout(activeEffectFoldoutStatus[effect], effect.ToString());
+            EditorGUI.indentLevel -= 2;
+            
+            if (!activeEffectFoldoutStatus[effect]) return;
+            
+            EditBaseEffectData(serializableActiveEffectDictionary[effect]);
         });
     }
 
-    private void Edit(Type effectType)
+    private void EditPassiveEffects(SerializablePassiveEffectDictionary serializablePassiveEffectDictionary)
     {
-        EditorGUILayout.LabelField(effectType.Name, EditorStyles.boldLabel);
-        EditorGUI.indentLevel++;
+        EditorUtils.Header("Passive Effects");
 
-        effectLookup.displayNameDictionary[effectType] = EditorGUILayout.TextField(
-            "Display name",
-            effectLookup.displayNameDictionary[effectType]
-        );
+        EnumUtils.ForEach((PassiveEffect effect) =>
+        {
+            EditorGUI.indentLevel += 2;
+            passiveEffectFoldoutStatus[effect] = EditorGUILayout.Foldout(passiveEffectFoldoutStatus[effect], effect.ToString());
+            EditorGUI.indentLevel -= 2;
             
-        effectLookup.spriteDictionary[effectType] = (Sprite) EditorGUILayout.ObjectField(
-            "Sprite",
-            effectLookup.spriteDictionary[effectType],
-            typeof(Sprite),
-            false,
-            null
-        );
+            if (!passiveEffectFoldoutStatus[effect]) return;
             
-        EditorGUI.indentLevel--;
+            EditBaseEffectData(serializablePassiveEffectDictionary[effect]);
+        });
+    }
+
+    private void EditBaseEffectData(SerializableEffectData effectData)
+    {
+        EditorGUI.indentLevel += 3;
+        
+        effectData.DisplayName = EditorGUILayout.TextField("Display Name", effectData.DisplayName);
+        effectData.Sprite = (Sprite) EditorGUILayout.ObjectField("Sprite", effectData.Sprite, typeof(Sprite));
+        
+        EditorGUI.indentLevel -= 3;
+    }
+
+    private void EditStackingEffects(SerializableStackingEffectDictionary serializableStackingEffectDictionary)
+    {
+        EditorUtils.Header("Stacking Effects");
+        
+        EnumUtils.ForEach((StackingEffect effect) =>
+        {
+            EditorGUI.indentLevel += 2;
+            stackingEffectFoldoutStatus[effect] = EditorGUILayout.Foldout(stackingEffectFoldoutStatus[effect], effect.ToString());
+            EditorGUI.indentLevel -= 2;
+            
+            if (!stackingEffectFoldoutStatus[effect]) return;
+            
+            EditStackingEffectData(serializableStackingEffectDictionary[effect]);
+        });
+    }
+
+    private void EditStackingEffectData(SerializableStackingEffectData effectData)
+    {
+        EditorGUI.indentLevel += 3;
+        
+        effectData.DisplayName = EditorGUILayout.TextField("Display Name", effectData.DisplayName);
+        effectData.MaxStackSize = EditorGUILayout.IntField("Max Stack Size", effectData.MaxStackSize);
+        effectData.Duration = EditorGUILayout.FloatField("Duration", effectData.Duration);
+        effectData.Sprite = (Sprite) EditorGUILayout.ObjectField("Sprite", effectData.Sprite, typeof(Sprite));
+        
+        EditorGUI.indentLevel -= 3;
     }
 }

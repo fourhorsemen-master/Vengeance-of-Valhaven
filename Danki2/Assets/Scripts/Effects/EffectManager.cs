@@ -24,10 +24,10 @@ public class EffectManager
 
     public void AddActiveEffect(ActiveEffect effect, float duration)
     {
-        if (activeEffectStatusLookup[effect])
+        if (activeEffectStatusLookup[effect] && remainingActiveEffectDurations[effect] < duration)
         {
-            totalActiveEffectDurations[effect] = Mathf.Max(totalActiveEffectDurations[effect], duration);
-            remainingActiveEffectDurations[effect] = Mathf.Max(remainingActiveEffectDurations[effect], duration);
+            totalActiveEffectDurations[effect] = duration;
+            remainingActiveEffectDurations[effect] = duration;
             return;
         }
 

@@ -1,54 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EffectLookup : Singleton<EffectLookup>
 {
-    public EffectDisplayNameDictionary displayNameDictionary = new EffectDisplayNameDictionary();
-    public EffectSpriteNameDictionary spriteDictionary = new EffectSpriteNameDictionary();
+    public SerializableActiveEffectDictionary serializableActiveEffectDictionary =
+        new SerializableActiveEffectDictionary(() => new SerializableActiveEffectData());
+    public SerializablePassiveEffectDictionary serializablePassiveEffectDictionary =
+        new SerializablePassiveEffectDictionary(() => new SerializablePassiveEffectData());
+    public SerializableStackingEffectDictionary serializableStackingEffectDictionary =
+        new SerializableStackingEffectDictionary(() => new SerializableStackingEffectData());
 
     protected override void Awake()
     {
         base.Awake();
         
-        List<Type> effectTypes = ReflectionUtils
-            .GetSubclasses(typeof(Effect), Assembly.GetExecutingAssembly(), ClassModifier.Abstract);
-        
-        Validate(displayNameDictionary, effectTypes, (s, t) =>
-        {
-            if (string.IsNullOrWhiteSpace(s)) Debug.LogError($"Null or empty display name for effect: {t.Name}");
-        });
-        
-        Validate(spriteDictionary, effectTypes, (s, t) =>
-        {
-            if (s == null) Debug.LogError($"No sprite for effect: {t.Name}");
-        });
+        Validate();
     }
 
-    public string GetDisplayName(Type effectType) => displayNameDictionary[effectType];
+    public string GetDisplayName(ActiveEffect effect) => serializableActiveEffectDictionary[effect].DisplayName;
+    public string GetDisplayName(PassiveEffect effect) => serializablePassiveEffectDictionary[effect].DisplayName;
+    public string GetDisplayName(StackingEffect effect) => serializableStackingEffectDictionary[effect].DisplayName;
 
-    public Sprite GetSprite(Type effectType) => spriteDictionary[effectType];
+    public Sprite GetSprite(ActiveEffect effect) => serializableActiveEffectDictionary[effect].Sprite;
+    public Sprite GetSprite(PassiveEffect effect) => serializablePassiveEffectDictionary[effect].Sprite;
+    public Sprite GetSprite(StackingEffect effect) => serializableStackingEffectDictionary[effect].Sprite;
+    
+    public int GetMaxStackSize(StackingEffect effect) => serializableStackingEffectDictionary[effect].MaxStackSize;
+    public float GetStackingEffectDuration(StackingEffect effect) => serializableStackingEffectDictionary[effect].Duration;
 
-    private void Validate<T>(SerializableTypeDictionary<T> dictionary, List<Type> effectTypes, Action<T, Type> validate)
+    private void Validate()
     {
-        effectTypes.ForEach(effectType =>
-        {
-            if (!dictionary.ContainsKey(effectType))
-            {
-                Debug.LogError($"No entry for effect: {effectType.Name}");
-                return;
-            }
+        EffectLookupValidator effectLookupValidator = new EffectLookupValidator();
 
-            validate(dictionary[effectType], effectType);
-        });
-        
-        foreach (Type type in dictionary.Keys)
+        effectLookupValidator.ValidateActiveEffects(serializableActiveEffectDictionary);
+        effectLookupValidator.ValidatePassiveEffects(serializablePassiveEffectDictionary);
+        effectLookupValidator.ValidateStackingEffects(serializableStackingEffectDictionary);
+
+        if (effectLookupValidator.HasErrors)
         {
-            if (!effectTypes.Contains(type))
-            {
-                Debug.LogError($"Invalid effect type found in dictionary: {type.Name}");
-            }
+            Debug.LogError("Effect lookup errors found, see above for errors.");
         }
     }
 }
