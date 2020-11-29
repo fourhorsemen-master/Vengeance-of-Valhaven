@@ -29,14 +29,8 @@ public class HealthManager
             Health = Math.Min(Health, MaxHealth);
         });
 
-        ModifiedTickDamageSubject.Subscribe(damage =>
-        {
-            if (damage > 0) DamageSubject.Next();
-        });
-        ModifiedDamageSubject.Subscribe(damageData =>
-        {
-            if (damageData.Damage > 0) DamageSubject.Next();
-        });
+        ModifiedTickDamageSubject.Subscribe(_ => DamageSubject.Next());
+        ModifiedDamageSubject.Subscribe(_ => DamageSubject.Next());
     }
 
     public void TickDamage(int damage)
@@ -53,8 +47,11 @@ public class HealthManager
             return;
         }
 
-        ModifyHealth(-damage);
-        ModifiedTickDamageSubject.Next(damage);
+        if (damage > 0)
+        {
+            ModifyHealth(-damage);
+            ModifiedTickDamageSubject.Next(damage);
+        }
     }
 
     public void ReceiveDamage(int damage, Actor source)
@@ -73,10 +70,13 @@ public class HealthManager
             return;
         }
 
-        ModifyHealth(-damage);
-        ModifiedDamageSubject.Next(new DamageData(damage, source));
+        if (damage > 0)
+        {
+            ModifyHealth(-damage);
+            ModifiedDamageSubject.Next(new DamageData(damage, source));
 
-        actor.InterruptionManager.Interrupt(InterruptionType.Soft);
+            actor.InterruptionManager.Interrupt(InterruptionType.Soft);
+        }            
     }
 
     public void ReceiveHeal(int healing)
@@ -91,8 +91,11 @@ public class HealthManager
             return;
         }
 
-        HealSubject.Next(healing);
-        ModifyHealth(healing);
+        if (healing > 0)
+        {
+            HealSubject.Next(healing);
+            ModifyHealth(healing);
+        }
     }
 
     private void ModifyHealth(int healthChange)
