@@ -16,8 +16,8 @@ public class EffectManager
     public Subject<ActiveEffect> ActiveEffectAddedSubject { get; } = new Subject<ActiveEffect>();
     public Subject<ActiveEffect> ActiveEffectRemovedSubject { get; } = new Subject<ActiveEffect>();
 
-    public Subject<Guid> PassiveEffectAddedSubject { get; } = new Subject<Guid>();
-    public Subject<PassiveEffect> PassiveEffectRemovedSubject { get; } = new Subject<PassiveEffect>();
+    public Subject<PassiveEffectData> PassiveEffectAddedSubject { get; } = new Subject<PassiveEffectData>();
+    public Subject<PassiveEffectData> PassiveEffectRemovedSubject { get; } = new Subject<PassiveEffectData>();
 
     public Subject<StackingEffect> StackingEffectAddedSubject { get; } = new Subject<StackingEffect>();
     public Subject<StackingEffect> StackingEffectRemovedSubject { get; } = new Subject<StackingEffect>();
@@ -71,7 +71,7 @@ public class EffectManager
     {
         Guid id = Guid.NewGuid();
         passiveEffects[id] = effect;
-        PassiveEffectAddedSubject.Next(id);
+        PassiveEffectAddedSubject.Next(new PassiveEffectData(id, effect));
         return id;
     }
 
@@ -79,7 +79,7 @@ public class EffectManager
     {
         PassiveEffect effect = passiveEffects[id];
         passiveEffects.Remove(id);
-        PassiveEffectRemovedSubject.Next(effect);
+        PassiveEffectRemovedSubject.Next(new PassiveEffectData(id, effect));
     }
 
     public bool HasPassiveEffect(PassiveEffect effect)

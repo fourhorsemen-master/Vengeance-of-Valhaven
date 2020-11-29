@@ -7,18 +7,18 @@ public class Whirlwind : Channel
     private const float spinRange = 2;
     private const float spinDamageInterval = 0.35f;
     private const float spinDamageStartDelay = 0.1f;
-    private const float selfSlowMultiplier = 0.5f;
     private const float finishRange = 3;
 
     private bool hasHitActor = false;
     private WhirlwindObject whirlwindObject;
 
     private Guid slowEffectId;
-    private bool slowEffect = false;
 
     private Repeater repeater;
 
     public override ChannelEffectOnMovement EffectOnMovement => ChannelEffectOnMovement.None;
+
+    private bool HasCrossStep => HasBonus("Cross-Step");
 
     public Whirlwind(Actor owner, AbilityData abilityData, string[] availableBonuses, float duration)
         : base(owner, abilityData, availableBonuses, duration)
@@ -27,13 +27,11 @@ public class Whirlwind : Channel
 
     public override void Start(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
-        MultiplicativeStatModification slow = new Slow(selfSlowMultiplier);
         repeater = new Repeater(spinDamageInterval, () => AOE(spinRange, a => DealPrimaryDamage(a)), spinDamageStartDelay);
 
-        if (!HasBonus("Cross-Step"))
+        if (!HasCrossStep)
         {
-            slowEffect = true;
-            Owner.EffectManager.TryAddPassiveEffect(slow, out slowEffectId);
+            slowEffectId = Owner.EffectManager.AddPassiveEffect(PassiveEffect.Careful);
         }
 
         whirlwindObject = WhirlwindObject.Create(Owner.transform);
@@ -48,7 +46,7 @@ public class Whirlwind : Channel
     {
         if (!hasHitActor) SuccessFeedbackSubject.Next(false);
 
-        if(slowEffect) Owner.EffectManager.RemoveEffect(slowEffectId);
+        if(!HasCrossStep) Owner.EffectManager.RemovePassiveEffect(slowEffectId);
 
         whirlwindObject.DissipateAndDestroy();
     }
@@ -59,7 +57,7 @@ public class Whirlwind : Channel
 
         if (!hasHitActor) SuccessFeedbackSubject.Next(false);
 
-        if(slowEffect) Owner.EffectManager.RemoveEffect(slowEffectId);
+        if(!HasCrossStep) Owner.EffectManager.RemovePassiveEffect(slowEffectId);
 
         whirlwindObject.DissipateAndDestroy();
     }

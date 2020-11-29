@@ -50,6 +50,7 @@ public abstract class Actor : MonoBehaviour
         HightlightManager = new HighlightManager(updateSubject, meshRenderers);
 
         statsManager.RegisterPipe(new SlowHandler(this, statsManager));
+        statsManager.RegisterPipe(new CarefulHandler(this, statsManager));
 
         AbilityDataStatsDiffer abilityDataStatsDiffer = new AbilityDataStatsDiffer(this);
         RegisterAbilityDataDiffer(abilityDataStatsDiffer);
