@@ -13,10 +13,23 @@ public class EffectManager
     private readonly EnumDictionary<StackingEffect, int> stacks = new EnumDictionary<StackingEffect, int>(0);
     private readonly Dictionary<StackingEffect, float> remainingStackingEffectDurations = new Dictionary<StackingEffect, float>();
 
-    public EffectManager(Subject updateSubject)
+    public Subject<ActiveEffect> ActiveEffectAddedSubject { get; } = new Subject<ActiveEffect>();
+    public Subject<ActiveEffect> ActiveEffectRemovedSubject { get; } = new Subject<ActiveEffect>();
+
+    public Subject<Guid> PassiveEffectAddedSubject { get; } = new Subject<Guid>();
+    public Subject<PassiveEffect> PassiveEffectRemovedSubject { get; } = new Subject<PassiveEffect>();
+
+    public Subject<StackingEffect> StackingEffectAddedSubject { get; } = new Subject<StackingEffect>();
+    public Subject<StackingEffect> StackingEffectRemovedSubject { get; } = new Subject<StackingEffect>();
+
+    public EffectManager(Actor actor, Subject updateSubject)
     {
+        BleedHandler bleedHandler = new BleedHandler(actor, this);
+        
         updateSubject.Subscribe(() =>
         {
+            bleedHandler.Update();
+            
             TickActiveEffects();
             TickStackingEffects();
         });
@@ -28,12 +41,14 @@ public class EffectManager
         {
             totalActiveEffectDurations[effect] = duration;
             remainingActiveEffectDurations[effect] = duration;
+            ActiveEffectAddedSubject.Next(effect);
             return;
         }
 
         activeEffectStatusLookup[effect] = true;
         totalActiveEffectDurations[effect] = duration;
         remainingActiveEffectDurations[effect] = duration;
+        ActiveEffectAddedSubject.Next(effect);
     }
 
     public void RemoveActiveEffect(ActiveEffect effect)
@@ -41,6 +56,7 @@ public class EffectManager
         activeEffectStatusLookup[effect] = false;
         totalActiveEffectDurations.Remove(effect);
         remainingActiveEffectDurations.Remove(effect);
+        ActiveEffectRemovedSubject.Next(effect);
     }
 
     public bool HasActiveEffect(ActiveEffect effect) => activeEffectStatusLookup[effect];
@@ -55,12 +71,15 @@ public class EffectManager
     {
         Guid id = Guid.NewGuid();
         passiveEffects[id] = effect;
+        PassiveEffectAddedSubject.Next(id);
         return id;
     }
 
     public void RemovePassiveEffect(Guid id)
     {
+        PassiveEffect effect = passiveEffects[id];
         passiveEffects.Remove(id);
+        PassiveEffectRemovedSubject.Next(effect);
     }
 
     public bool HasPassiveEffect(PassiveEffect effect)
@@ -73,19 +92,23 @@ public class EffectManager
         return false;
     }
 
-    public void AddStack(StackingEffect effect)
+    public bool TryGetPassiveEffect(Guid id, out PassiveEffect effect) => passiveEffects.TryGetValue(id, out effect);
+
+    public void AddStacks(StackingEffect effect, int stackCount)
     {
         bool hasMaxStackSize = EffectLookup.Instance.HasMaxStackSize(effect);
         int maxStackSize = EffectLookup.Instance.GetMaxStackSize(effect);
-        if (hasMaxStackSize && stacks[effect] < maxStackSize) stacks[effect]++;
+        if (hasMaxStackSize && stacks[effect] < maxStackSize) stacks[effect] = Math.Min(stacks[effect] + stackCount, maxStackSize);
 
         remainingStackingEffectDurations[effect] = EffectLookup.Instance.GetStackingEffectDuration(effect);
+        StackingEffectAddedSubject.Next(effect);
     }
 
     public void RemoveStackingEffect(StackingEffect effect)
     {
         stacks[effect] = 0;
         remainingStackingEffectDurations.Remove(effect);
+        StackingEffectRemovedSubject.Next(effect);
     }
 
     public int GetStacks(StackingEffect effect) => stacks[effect];

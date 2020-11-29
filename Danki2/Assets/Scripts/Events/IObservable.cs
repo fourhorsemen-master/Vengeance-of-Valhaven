@@ -19,7 +19,12 @@ public interface IObservable
     /// Returns an observable that emits the same events as this observable, but with the given mapping function
     /// applied to each event.
     /// </summary>
-    IObservable<T> Map<T>(Func<T> mappingFunction);
+    IObservable<TMapped> Map<TMapped>(Func<TMapped> mappingFunction);
+
+    /// <summary>
+    /// Returns an observable that emits the events that this observable emits that pass the given filter.
+    /// </summary>
+    IObservable Where(Func<bool> filter);
 }
 
 /// <inheritdoc cref="IObservable"/>
@@ -34,4 +39,7 @@ public interface IObservable<T>
 
     /// <inheritdoc cref="IObservable.Map{T}"/>
     IObservable<TMapped> Map<TMapped>(Func<T, TMapped> mappingFunction);
+
+    /// <inheritdoc cref="IObservable.Map{T}"/>
+    IObservable<T> Where(Func<T, bool> filter);
 }

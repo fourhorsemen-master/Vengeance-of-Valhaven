@@ -47,4 +47,15 @@ public class BehaviourSubject<T> : IObservable<T>
         Subscribe(value => mappedBehaviourSubject.Next(mappingFunction(value)));
         return mappedBehaviourSubject;
     }
+
+    /// <inheritdoc/>
+    public IObservable<T> Where(Func<T, bool> filter)
+    {
+        BehaviourSubject<T> filteredBehaviourSubject = new BehaviourSubject<T>(currentValue);
+        Subscribe(value =>
+        {
+            if (filter(value)) filteredBehaviourSubject.Next(value);
+        });
+        return filteredBehaviourSubject;
+    }
 }
