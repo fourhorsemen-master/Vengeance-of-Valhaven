@@ -4,7 +4,7 @@ public class ObservableWorkflow<TState> where TState : Enum
 {
 	public TState CurrentState { get; private set; }
 
-    private EnumDictionary<TState, Processor<TState>> processors;
+    private EnumDictionary<TState, Processor<TState>> processors = new EnumDictionary<TState, Processor<TState>>(() => new NoOpProcessor<TState>());
 
     private IObservable<TState> OnEnterStateSubject = new Subject<TState>();
     private IObservable<TState> OnExitStateSubject = new Subject<TState>();
@@ -12,7 +12,6 @@ public class ObservableWorkflow<TState> where TState : Enum
     public ObservableWorkflow(TState initialState)
 	{
 		CurrentState = initialState;
-        processors = new EnumDictionary<TState, Processor<TState>>(() => new NoOpProcessor<TState>());
     }
 
     public void Enter() => processors[CurrentState].Enter();
