@@ -2,5 +2,6 @@
 {
     Slow,
     Bleed,
+    Poison,
     Defend
 }

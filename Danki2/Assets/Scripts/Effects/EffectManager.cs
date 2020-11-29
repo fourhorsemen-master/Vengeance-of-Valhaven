@@ -25,10 +25,12 @@ public class EffectManager
     public EffectManager(Actor actor, Subject updateSubject)
     {
         BleedHandler bleedHandler = new BleedHandler(actor, this);
+        PoisonHandler poisonHandler = new PoisonHandler(actor, this);
         
         updateSubject.Subscribe(() =>
         {
             bleedHandler.Update();
+            poisonHandler.Update();
             
             TickActiveEffects();
             TickStackingEffects();
@@ -94,11 +96,16 @@ public class EffectManager
 
     public bool TryGetPassiveEffect(Guid id, out PassiveEffect effect) => passiveEffects.TryGetValue(id, out effect);
 
+    public void AddStack(StackingEffect effect) => AddStacks(effect, 1);
+
     public void AddStacks(StackingEffect effect, int stackCount)
     {
         bool hasMaxStackSize = EffectLookup.Instance.HasMaxStackSize(effect);
         int maxStackSize = EffectLookup.Instance.GetMaxStackSize(effect);
-        if (hasMaxStackSize && stacks[effect] < maxStackSize) stacks[effect] = Math.Min(stacks[effect] + stackCount, maxStackSize);
+
+        stacks[effect] = hasMaxStackSize
+            ? Math.Min(maxStackSize, stacks[effect] + stackCount)
+            : stacks[effect] + stackCount;
 
         remainingStackingEffectDurations[effect] = EffectLookup.Instance.GetStackingEffectDuration(effect);
         StackingEffectAddedSubject.Next(effect);

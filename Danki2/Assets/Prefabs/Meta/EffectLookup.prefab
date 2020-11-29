@@ -51,7 +51,7 @@ MonoBehaviour:
       sprite: {fileID: 0}
   serializablePassiveEffectDictionary:
     _keys:
-    - Slow
+    - Careful
     _values:
     - displayName: 
       sprite: {fileID: 0}
@@ -59,6 +59,7 @@ MonoBehaviour:
     _keys:
     - Slow
     - Bleed
+    - Poison
     - Defend
     _values:
     - displayName: 
@@ -70,7 +71,12 @@ MonoBehaviour:
       sprite: {fileID: 0}
       hasMaxStackSize: 0
       maxStackSize: 0
-      duration: 0
+      duration: 5
+    - displayName: 
+      sprite: {fileID: 0}
+      hasMaxStackSize: 0
+      maxStackSize: 0
+      duration: 5
     - displayName: 
       sprite: {fileID: 0}
       hasMaxStackSize: 0
