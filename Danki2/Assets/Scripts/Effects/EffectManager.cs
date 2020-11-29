@@ -1,122 +1,126 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class EffectManager : IStatPipe, IMovementStatusProvider
+public class EffectManager
 {
-    private readonly Actor actor;
-    private readonly StatsManager statsManager;
+    private readonly EnumDictionary<ActiveEffect, bool> activeEffectStatusLookup = new EnumDictionary<ActiveEffect, bool>(false);
+    private readonly Dictionary<ActiveEffect, float> totalActiveEffectDurations = new Dictionary<ActiveEffect, float>();
+    private readonly Dictionary<ActiveEffect, float> remainingActiveEffectDurations = new Dictionary<ActiveEffect, float>();
 
-    private readonly Registry<Effect> effects;
+    private readonly Dictionary<Guid, PassiveEffect> passiveEffects = new Dictionary<Guid, PassiveEffect>();
 
-    public Subject<Guid> EffectAddedSubject { get; } = new Subject<Guid>();
-    public Subject<Guid> EffectRemovedSubject { get; }  = new Subject<Guid>();
+    private readonly EnumDictionary<StackingEffect, int> stacks = new EnumDictionary<StackingEffect, int>(0);
+    private readonly Dictionary<StackingEffect, float> remainingStackingEffectDurations = new Dictionary<StackingEffect, float>();
 
-    public EffectManager(Actor actor, Subject updateSubject, StatsManager statsManager)
+    public EffectManager(Subject updateSubject)
     {
-        this.actor = actor;
-        this.statsManager = statsManager;
-        this.statsManager.RegisterPipe(this);
-
-        effects = new Registry<Effect>(
-            updateSubject,
-            (id, e) => {
-                e.Start(actor);
-                EffectAddedSubject.Next(id);
-                statsManager.ClearCache();
-            },
-            (id, e) => {
-                e.Finish(actor);
-                EffectRemovedSubject.Next(id);
-                statsManager.ClearCache();
-            }
-        );
-
         updateSubject.Subscribe(() =>
         {
-            effects.ForEach(e => e.Update(this.actor));
+            TickActiveEffects();
+            TickStackingEffects();
         });
-
-        actor.DeathSubject.Subscribe(effects.Clear);
     }
 
-    public bool TryGetEffect(Guid id, out Effect effect) => effects.TryGet(id, out effect);
-
-    public bool TryGetTotalDuration(Guid id, out float totalDuration) => effects.TryGetTotalDuration(id, out totalDuration);
-
-    public bool TryGetRemainingDuration(Guid id, out float remainingDuration) => effects.TryGetRemainingDuration(id, out remainingDuration);
-
-    public void AddActiveEffect(Effect effect, float duration)
+    public void AddActiveEffect(ActiveEffect effect, float duration)
     {
-        if (actor.Dead) return;
-
-        effects.AddTemporary(effect, duration);
-    }
-
-    public bool TryAddPassiveEffect(Effect effect, out Guid id)
-    {
-        if (actor.Dead)
+        if (activeEffectStatusLookup[effect])
         {
-            id = default;
-            return false;
+            totalActiveEffectDurations[effect] = Mathf.Max(totalActiveEffectDurations[effect], duration);
+            remainingActiveEffectDurations[effect] = Mathf.Max(remainingActiveEffectDurations[effect], duration);
+            return;
         }
 
-        id = effects.AddIndefinite(effect);
-
-        return true;
+        activeEffectStatusLookup[effect] = true;
+        totalActiveEffectDurations[effect] = duration;
+        remainingActiveEffectDurations[effect] = duration;
     }
 
-    public void RemoveEffect(Guid id) => effects.Remove(id);
-
-    public float ProcessStat(Stat stat, float value)
+    public void RemoveActiveEffect(ActiveEffect effect)
     {
-        effects.ForEach(e => value += e.GetLinearStatModifier(stat));
-        effects.ForEach(e => value *= e.GetMultiplicativeStatModifier(stat));
-        return value;
+        activeEffectStatusLookup[effect] = false;
+        totalActiveEffectDurations.Remove(effect);
+        remainingActiveEffectDurations.Remove(effect);
     }
 
-    public int ProcessOutgoingDamage(int damage)
+    public bool HasActiveEffect(ActiveEffect effect) => activeEffectStatusLookup[effect];
+
+    public bool TryGetTotalActiveEffectDuration(ActiveEffect effect, out float totalDuration) =>
+        totalActiveEffectDurations.TryGetValue(effect, out totalDuration);
+
+    public bool TryGetRemainingActiveEffectDuration(ActiveEffect effect, out float remainingDuration) =>
+        remainingActiveEffectDurations.TryGetValue(effect, out remainingDuration);
+
+    public Guid AddPassiveEffect(PassiveEffect effect)
     {
-        float floatDamage = damage;
-        effects.ForEach(e => floatDamage += e.GetLinearOutgoingDamageModifier());
-        effects.ForEach(e => floatDamage *= e.GetMultiplicativeOutgoingDamageModifier());
-        return Mathf.RoundToInt(floatDamage);
+        Guid id = Guid.NewGuid();
+        passiveEffects[id] = effect;
+        return id;
     }
 
-    public int ProcessIncomingDamage(int damage)
+    public void RemovePassiveEffect(Guid id)
     {
-        float floatDamage = damage;
-        effects.ForEach(e => floatDamage += e.GetLinearIncomingDamageModifier());
-        effects.ForEach(e => floatDamage *= e.GetMultiplicativeIncomingDamageModifier());
-        return Mathf.RoundToInt(floatDamage);
+        passiveEffects.Remove(id);
     }
 
-    public int ProcessIncomingHeal(int healing)
+    public bool HasPassiveEffect(PassiveEffect effect)
     {
-        float floatHealing = healing;
-        effects.ForEach(e => floatHealing += e.GetLinearIncomingHealModifier());
-        effects.ForEach(e => floatHealing *= e.GetMultiplicativeIncomingHealModifier());
-        return Mathf.RoundToInt(floatHealing);
+        foreach (PassiveEffect existingEffect in passiveEffects.Values)
+        {
+            if (existingEffect == effect) return true;
+        }
+
+        return false;
     }
 
-    public bool Stuns()
+    public void AddStack(StackingEffect effect)
     {
-        bool setStunned = false;
+        if (stacks[effect] < GetMaximumStackSize(effect)) stacks[effect]++;
+        remainingStackingEffectDurations[effect] = GetTotalStackingDuration(effect);
+    }
 
-        effects.ForEach(e => {
-            if (e.Stuns) setStunned = true;
+    public void RemoveStackingEffect(StackingEffect effect)
+    {
+        stacks[effect] = 0;
+        remainingStackingEffectDurations.Remove(effect);
+    }
+
+    public int GetStacks(StackingEffect effect) => stacks[effect];
+
+    public bool TryGetRemainingStackingEffectDuration(StackingEffect effect, out float remainingDuration) =>
+        remainingStackingEffectDurations.TryGetValue(effect, out remainingDuration);
+
+    private void TickActiveEffects()
+    {
+        EnumUtils.ForEach((ActiveEffect effect) =>
+        {
+            if (!activeEffectStatusLookup[effect]) return;
+
+            remainingActiveEffectDurations[effect] -= Time.deltaTime;
+
+            if (remainingActiveEffectDurations[effect] <= 0) RemoveActiveEffect(effect);
         });
-
-        return setStunned;
     }
 
-    public bool Roots()
+    private void TickStackingEffects()
     {
-        bool setRooted = false;
+        EnumUtils.ForEach((StackingEffect effect) =>
+        {
+            if (stacks[effect] == 0) return;
 
-        effects.ForEach(e => {
-            if (e.Roots) setRooted = true;
+            remainingStackingEffectDurations[effect] -= Time.deltaTime;
+
+            if (remainingStackingEffectDurations[effect] <= 0) RemoveStackingEffect(effect);
         });
+    }
 
-        return setRooted;
+    private float GetTotalStackingDuration(StackingEffect effect)
+    {
+        return 5;
+    }
+
+    private int GetMaximumStackSize(StackingEffect effect)
+    {
+        return 3;
     }
 }
