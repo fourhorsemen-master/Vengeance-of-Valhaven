@@ -29,14 +29,8 @@ public class HealthManager
             Health = Math.Min(Health, MaxHealth);
         });
 
-        ModifiedTickDamageSubject.Subscribe(damage =>
-        {
-            if (damage > 0) DamageSubject.Next();
-        });
-        ModifiedDamageSubject.Subscribe(damageData =>
-        {
-            if (damageData.Damage > 0) DamageSubject.Next();
-        });
+        ModifiedTickDamageSubject.Subscribe(_ => DamageSubject.Next());
+        ModifiedDamageSubject.Subscribe(_ => DamageSubject.Next());
     }
 
     public void TickDamage(int damage)
@@ -45,16 +39,17 @@ public class HealthManager
 
         UnmodifiedTickDamageSubject.Next(damage);
 
-        damage = actor.EffectManager.ProcessIncomingDamage(damage);
-
         if (damage < 0)
         {
             Debug.LogWarning($"Tried to tick negative damage, value: {damage}");
             return;
         }
 
-        ModifyHealth(-damage);
-        ModifiedTickDamageSubject.Next(damage);
+        if (damage > 0)
+        {
+            ModifyHealth(-damage);
+            ModifiedTickDamageSubject.Next(damage);
+        }
     }
 
     public void ReceiveDamage(int damage, Actor source)
@@ -65,7 +60,6 @@ public class HealthManager
 
         // If already 0, damage should be left as 0, else reduce according to defence, but not below the minimum threshold.
         damage = damage == 0 ? 0 : Mathf.Max(MinimumDamageAfterStats, damage - actor.GetStat(Stat.Defence));
-        damage = actor.EffectManager.ProcessIncomingDamage(damage);
 
         if (damage < 0)
         {
@@ -73,17 +67,18 @@ public class HealthManager
             return;
         }
 
-        ModifyHealth(-damage);
-        ModifiedDamageSubject.Next(new DamageData(damage, source));
+        if (damage > 0)
+        {
+            ModifyHealth(-damage);
+            ModifiedDamageSubject.Next(new DamageData(damage, source));
 
-        actor.InterruptionManager.Interrupt(InterruptionType.Soft);
+            actor.InterruptionManager.Interrupt(InterruptionType.Soft);
+        }            
     }
 
     public void ReceiveHeal(int healing)
     {
         if (actor.Dead) return;
-
-        healing = actor.EffectManager.ProcessIncomingHeal(healing);
 
         if (healing < 0)
         {
@@ -91,8 +86,11 @@ public class HealthManager
             return;
         }
 
-        HealSubject.Next(healing);
-        ModifyHealth(healing);
+        if (healing > 0)
+        {
+            HealSubject.Next(healing);
+            ModifyHealth(healing);
+        }
     }
 
     private void ModifyHealth(int healthChange)
