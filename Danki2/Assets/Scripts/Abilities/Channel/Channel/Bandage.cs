@@ -32,7 +32,8 @@ public class Bandage : Channel
 
         if (HasBonus("Perseverance"))
         {
-            Owner.EffectManager.TryAddPassiveEffect(new Slow(SlowMultiplier), out slowEffectId);
+            // Just commenting out as this ability will be removed later anyway
+            // Owner.EffectManager.TryAddPassiveEffect(new Slow(SlowMultiplier), out slowEffectId);
         }
     }
 
@@ -65,7 +66,8 @@ public class Bandage : Channel
 
         if (HasBonus("Perseverance"))
         {
-            Owner.EffectManager.RemoveEffect(slowEffectId);
+            // Just commenting out as this ability will be removed later anyway
+            // Owner.EffectManager.RemoveEffect(slowEffectId);
         }
     }
 }

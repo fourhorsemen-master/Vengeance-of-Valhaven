@@ -52,8 +52,9 @@ public class Meditate : Charge
             return;
         }
         
-        LinearStatModification powerModification = new PowerBuff(powerIncrease);
-        Owner.EffectManager.AddActiveEffect(powerModification, PowerDuration);
+        // Just commenting out as this ability will be removed later anyway
+        // LinearStatModification powerModification = new PowerBuff(powerIncrease);
+        // Owner.EffectManager.AddActiveEffect(powerModification, PowerDuration);
     }
 
     private void AddSlowEffects()
@@ -64,12 +65,13 @@ public class Meditate : Charge
 
             if (actor.Opposes(Owner))
             {
-                MultiplicativeStatModification slow = new Slow(SlowMultiplier);
+                // Just commenting out as this ability will be removed later anyway
+                // MultiplicativeStatModification slow = new Slow(SlowMultiplier);
 
-                if (actor.EffectManager.TryAddPassiveEffect(slow, out Guid slowEffectId))
-                {
-                    slowedActors[actor] = slowEffectId;
-                }
+                // if (actor.EffectManager.TryAddPassiveEffect(slow, out Guid slowEffectId))
+                // {
+                //     slowedActors[actor] = slowEffectId;
+                // }
             }
         });
     }
@@ -81,7 +83,8 @@ public class Meditate : Charge
             Actor actor = keyValuePair.Key;
             Guid effectId = keyValuePair.Value;
             
-            actor.EffectManager.RemoveEffect(effectId);
+            // Just commenting out as this ability will be removed later anyway
+            // actor.EffectManager.RemoveEffect(effectId);
         }
     }
 

@@ -31,6 +31,7 @@ public class IntimidatingShout : InstantCast
 
     private void ReduceDefence(Actor actor)
     {
-        actor.EffectManager.AddActiveEffect(new DefenceDebuff(DefenceModification), Duration);
+        // Just commenting out as this ability will be removed later anyway
+        // actor.EffectManager.AddActiveEffect(new DefenceDebuff(DefenceModification), Duration);
     }
 }

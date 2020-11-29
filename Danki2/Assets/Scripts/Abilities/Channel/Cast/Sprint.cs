@@ -24,7 +24,8 @@ public class Sprint : Cast
 
     private void End()
     {
-        Owner.EffectManager.AddActiveEffect(new SpeedBuff(SpeedModification), SprintDuration);
+        // Just commenting out as this ability will be removed later anyway
+        // Owner.EffectManager.AddActiveEffect(new SpeedBuff(SpeedModification), SprintDuration);
         SuccessFeedbackSubject.Next(true);
 
         onCastEnd.Next();

@@ -34,7 +34,8 @@ public class SwordThrow : Cast
             }
 
             DealPrimaryDamage(actor);
-            if (HasBonus("Poison Sword")) ApplySecondaryDamageAsDOT(actor, poisonSwordDOTLength);
+            // Just commenting out as this ability will be removed later anyway
+            // if (HasBonus("Poison Sword")) ApplySecondaryDamageAsDOT(actor, poisonSwordDOTLength);
 
             SuccessFeedbackSubject.Next(true);
         }
