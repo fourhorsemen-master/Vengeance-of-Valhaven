@@ -5,8 +5,7 @@ public class Hamstring : InstantCast
 {
     private const float Range = 3;
     private const float PauseDuration = 0.3f;
-    private const int DefenceDebuff = 2;
-    private const float DefenceDebuffDuration = 10;
+    private const int VulnerableStacks = 2;
     private const int HackDamageBonus = 4;
     
     public Hamstring(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses) { }
@@ -59,6 +58,6 @@ public class Hamstring : InstantCast
 
     private void ApplyDebuff(Actor target)
     {
-        target.EffectManager.AddActiveEffect(new DefenceDebuff(DefenceDebuff), DefenceDebuffDuration);
+        target.EffectManager.AddStacks(StackingEffect.Vulnerable, VulnerableStacks);
     }
 }

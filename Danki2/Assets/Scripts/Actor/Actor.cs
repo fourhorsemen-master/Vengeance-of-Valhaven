@@ -51,6 +51,7 @@ public abstract class Actor : MonoBehaviour
 
         statsManager.RegisterPipe(new SlowHandler(this, statsManager));
         statsManager.RegisterPipe(new CarefulHandler(this, statsManager));
+        statsManager.RegisterPipe(new VulnerableHandler(this, statsManager));
 
         AbilityDataStatsDiffer abilityDataStatsDiffer = new AbilityDataStatsDiffer(this);
         RegisterAbilityDataDiffer(abilityDataStatsDiffer);

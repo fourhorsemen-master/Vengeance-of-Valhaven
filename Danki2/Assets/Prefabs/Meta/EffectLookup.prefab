@@ -46,7 +46,10 @@ MonoBehaviour:
   serializableActiveEffectDictionary:
     _keys:
     - Stun
+    - Block
     _values:
+    - displayName: 
+      sprite: {fileID: 0}
     - displayName: 
       sprite: {fileID: 0}
   serializablePassiveEffectDictionary:
@@ -60,7 +63,7 @@ MonoBehaviour:
     - Slow
     - Bleed
     - Poison
-    - Defend
+    - Vulnerable
     _values:
     - displayName: 
       sprite: {fileID: 0}
@@ -81,4 +84,4 @@ MonoBehaviour:
       sprite: {fileID: 0}
       hasMaxStackSize: 0
       maxStackSize: 0
-      duration: 0
+      duration: 5

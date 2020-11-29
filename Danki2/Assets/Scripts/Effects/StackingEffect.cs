@@ -3,5 +3,5 @@
     Slow,
     Bleed,
     Poison,
-    Defend
+    Vulnerable
 }
