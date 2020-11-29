@@ -22,8 +22,6 @@ public abstract class AbilityTree
     private EnumDictionary<AbilityReference, int> ownedAbilities;
 
     public EnumDictionary<AbilityReference, int> Inventory { get; private set; }
-    
-    public bool AtRoot => CurrentDepth == 0;
 
     public Direction DirectionLastWalked { get; private set; }
 
