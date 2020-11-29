@@ -24,6 +24,13 @@
 
     public bool TryCompleteProcess(out ComboState nextState)
     {
+        // Check if the channel has ended naturally
+        if (!player.ChannelService.Active)
+        {
+            nextState = ComboState.AwaitingFeedback;
+            return true;
+        }
+
         ActionControlState currentActionControlState = PlayerControls.Instance.ActionControlState;
 
         CastingCommand castingCommand = ControlMatrix.GetCastingCommand(
@@ -37,10 +44,6 @@
         if (castingCommand == CastingCommand.CancelChannel)
         {
             player.ChannelService.CancelChannel();
-        }
-
-        if (!player.ChannelService.Active)
-        {
             nextState = ComboState.AwaitingFeedback;
             return true;
         }
