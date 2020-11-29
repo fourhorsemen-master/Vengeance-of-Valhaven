@@ -1,9 +1,9 @@
 ﻿public abstract class ReadyProcessor : Processor<ComboState>
 {
-    protected readonly Player player;
+    private readonly Player player;
     private ActionControlState previousActionControlState;
 
-    public ReadyProcessor(Player player)
+    protected ReadyProcessor(Player player)
     {
         this.player = player;
     }
