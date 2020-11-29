@@ -5,7 +5,6 @@ using UnityEngine;
 public class Rend : Charge
 {
     private const float Range = 3f;
-    private const float DotDuration = 5f;
 
     private int cameraShakeCount = 0;
 
@@ -53,7 +52,7 @@ public class Rend : Charge
 
         opposingActors.ForEach(actor =>
         {
-            ApplyPrimaryDamageAsDOT(actor, DotDuration, multiplicativeDamageModifier: charges);
+            actor.EffectManager.AddStacks(StackingEffect.Bleed, charges);
         });
 
         CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
