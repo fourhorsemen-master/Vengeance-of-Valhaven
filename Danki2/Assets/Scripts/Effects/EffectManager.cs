@@ -75,8 +75,11 @@ public class EffectManager
 
     public void AddStack(StackingEffect effect)
     {
-        if (stacks[effect] < GetMaximumStackSize(effect)) stacks[effect]++;
-        remainingStackingEffectDurations[effect] = GetTotalStackingDuration(effect);
+        bool hasMaxStackSize = EffectLookup.Instance.HasMaxStackSize(effect);
+        int maxStackSize = EffectLookup.Instance.GetMaxStackSize(effect);
+        if (hasMaxStackSize && stacks[effect] < maxStackSize) stacks[effect]++;
+
+        remainingStackingEffectDurations[effect] = EffectLookup.Instance.GetStackingEffectDuration(effect);
     }
 
     public void RemoveStackingEffect(StackingEffect effect)
@@ -112,15 +115,5 @@ public class EffectManager
 
             if (remainingStackingEffectDurations[effect] <= 0) RemoveStackingEffect(effect);
         });
-    }
-
-    private float GetTotalStackingDuration(StackingEffect effect)
-    {
-        return 5;
-    }
-
-    private int GetMaximumStackSize(StackingEffect effect)
-    {
-        return 3;
     }
 }

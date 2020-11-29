@@ -23,7 +23,8 @@ public class EffectLookup : Singleton<EffectLookup>
     public Sprite GetSprite(ActiveEffect effect) => serializableActiveEffectDictionary[effect].Sprite;
     public Sprite GetSprite(PassiveEffect effect) => serializablePassiveEffectDictionary[effect].Sprite;
     public Sprite GetSprite(StackingEffect effect) => serializableStackingEffectDictionary[effect].Sprite;
-    
+
+    public bool HasMaxStackSize(StackingEffect effect) => serializableStackingEffectDictionary[effect].HasMaxStackSize;
     public int GetMaxStackSize(StackingEffect effect) => serializableStackingEffectDictionary[effect].MaxStackSize;
     public float GetStackingEffectDuration(StackingEffect effect) => serializableStackingEffectDictionary[effect].Duration;
 

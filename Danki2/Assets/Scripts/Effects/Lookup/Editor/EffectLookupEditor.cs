@@ -99,7 +99,11 @@ public class EffectLookupEditor : Editor
         EditorGUI.indentLevel += 3;
         
         effectData.DisplayName = EditorGUILayout.TextField("Display Name", effectData.DisplayName);
-        effectData.MaxStackSize = EditorGUILayout.IntField("Max Stack Size", effectData.MaxStackSize);
+        effectData.HasMaxStackSize = EditorGUILayout.Toggle("Has Max Stack Size", effectData.HasMaxStackSize);
+        if (effectData.HasMaxStackSize)
+        {
+            effectData.MaxStackSize = EditorGUILayout.IntField("Max Stack Size", effectData.MaxStackSize);
+        }
         effectData.Duration = EditorGUILayout.FloatField("Duration", effectData.Duration);
         effectData.Sprite = (Sprite) EditorGUILayout.ObjectField("Sprite", effectData.Sprite, typeof(Sprite));
         

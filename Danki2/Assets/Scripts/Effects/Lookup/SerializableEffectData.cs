@@ -20,9 +20,11 @@ public class SerializablePassiveEffectData : SerializableEffectData {}
 [Serializable]
 public class SerializableStackingEffectData : SerializableEffectData
 {
+    [SerializeField] private bool hasMaxStackSize = false;
     [SerializeField] private int maxStackSize = 0;
     [SerializeField] private float duration = 0;
 
+    public bool HasMaxStackSize { get => hasMaxStackSize; set => hasMaxStackSize = value; }
     public int MaxStackSize { get => maxStackSize; set => maxStackSize = value; }
     public float Duration { get => duration; set => duration = value; }
 }
