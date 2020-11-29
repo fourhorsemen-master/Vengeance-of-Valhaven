@@ -10,7 +10,7 @@ public class ActorEditor : Editor
 
         Actor actor = (Actor)target;
 
-        EditorGUILayout.LabelField("Stats", EditorStyles.boldLabel);
+        EditorUtils.Header("Stats");
         EditorGUI.indentLevel++;
         foreach (Stat stat in Enum.GetValues(typeof(Stat)))
         {
