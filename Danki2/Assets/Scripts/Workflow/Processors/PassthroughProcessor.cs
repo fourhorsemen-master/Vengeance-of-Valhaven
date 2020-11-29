@@ -9,13 +9,13 @@ public class PassthroughProcessor<TState> : Processor<TState> where TState : Enu
         this.nextState = nextState;
     }
 
-    public override void Enter() { }
+    public void Enter() { }
 
-    public override bool TryCompleteProcess(out TState newState)
+    public bool TryCompleteProcess(out TState newState)
     {
         newState = nextState;
         return true;
     }
 
-    public override void Exit() { }
+    public void Exit() { }
 }

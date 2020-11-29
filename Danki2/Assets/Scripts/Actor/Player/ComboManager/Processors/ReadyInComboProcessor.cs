@@ -10,13 +10,13 @@ public class ReadyInComboProcessor : ReadyProcessor
         this.feedbackTimeout = feedbackTimeout;
     }
 
-    public override void Enter()
+    public void Enter()
     {
         base.Enter();
         timeoutRemaining = feedbackTimeout;
     }
 
-    public override bool TryCompleteProcess(out ComboState newState)
+    public bool TryCompleteProcess(out ComboState newState)
     {
         if (base.TryCompleteProcess(out newState)) return true;
 

@@ -13,12 +13,12 @@ public class TimeElapsedProcessor<TState> : Processor<TState> where TState : Enu
         this.duration = duration;
     }
 
-    public override void Enter()
+    public void Enter()
     {
         remainingDuration = duration;
     }
 
-    public override bool TryCompleteProcess(out TState newState)
+    public bool TryCompleteProcess(out TState newState)
     {
         remainingDuration -= Time.deltaTime;
         if (remainingDuration <= 0)
@@ -31,5 +31,5 @@ public class TimeElapsedProcessor<TState> : Processor<TState> where TState : Enu
         return false;
     }
 
-    public override void Exit() { }
+    public void Exit() { }
 }

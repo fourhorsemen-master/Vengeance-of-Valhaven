@@ -1,10 +1,10 @@
 ﻿using System;
 
-public abstract class Processor<TState> where TState : Enum
+public interface Processor<TState> where TState : Enum
 {
-    public abstract void Enter();
+    void Enter();
 
-    public abstract void Exit();
+    void Exit();
 
-    public abstract bool TryCompleteProcess(out TState newState);
+    bool TryCompleteProcess(out TState newState);
 }

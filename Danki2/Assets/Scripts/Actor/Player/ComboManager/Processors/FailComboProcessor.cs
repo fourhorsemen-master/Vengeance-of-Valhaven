@@ -7,17 +7,17 @@
         this.player = player;
     }
 
-    public override void Enter()
+    public void Enter()
     {
         player.AbilityTree.Reset();
         player.PlayWhiffSound();
     }
 
-    public override void Exit()
+    public void Exit()
     {
     }
 
-    public override bool TryCompleteProcess(out ComboState newState)
+    public bool TryCompleteProcess(out ComboState newState)
     {
         newState = ComboState.LongCooldown;
         return true;

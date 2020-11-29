@@ -8,16 +8,16 @@
         this.player = player;
     }
 
-    public override void Enter()
+    public void Enter()
     {
         previousActionControlState = PlayerControls.Instance.ActionControlState;
     }
 
-    public override void Exit()
+    public void Exit()
     {
     }
 
-    public override bool TryCompleteProcess(out ComboState nextState)
+    public bool TryCompleteProcess(out ComboState nextState)
     {
         ActionControlState currentActionControlState = PlayerControls.Instance.ActionControlState;
 

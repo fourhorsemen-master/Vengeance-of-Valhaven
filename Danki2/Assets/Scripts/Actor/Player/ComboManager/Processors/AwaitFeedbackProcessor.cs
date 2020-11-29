@@ -7,15 +7,15 @@
         this.player = player;
     }
 
-    public override void Enter()
+    public void Enter()
     {
     }
 
-    public override void Exit()
+    public void Exit()
     {
     }
 
-    public override bool TryCompleteProcess(out ComboState nextState)
+    public bool TryCompleteProcess(out ComboState nextState)
     {
         if (player.FeedbackSinceLastCast == true)
         {
