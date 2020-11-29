@@ -11,7 +11,7 @@ public class AbilityBonusTreeDepthCalculator : IAbilityBonusCalculator
     }
 
     /// <summary>
-    /// Calculates the active bonuses for the given ability if it were cast from the current ability tree position.
+    /// Calculates the active bonuses for the given ability as if it was on the active node.
     /// </summary>
     /// <param name="abilityReference"> The ability to get the bonuses for. </param>
     public string[] GetActiveBonuses(AbilityReference abilityReference)
