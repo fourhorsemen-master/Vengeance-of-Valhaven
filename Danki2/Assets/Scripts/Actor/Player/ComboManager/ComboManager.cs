@@ -3,7 +3,7 @@ using System.Linq;
 
 public class ComboManager
 {
-	private ObservableWorkflow<ComboState> workflow;
+	private readonly ObservableWorkflow<ComboState> workflow;
 
 	public ComboManager(Player player, Subject updateSubject, bool rollResetsCombo)
 	{
@@ -19,7 +19,7 @@ public class ComboManager
 			.WithProcessor(ComboState.LongCooldown, new TimeElapsedProcessor<ComboState>(ComboState.ReadyAtRoot, player.LongCooldown))
 			.WithProcessor(ComboState.ShortCooldown, new TimeElapsedProcessor<ComboState>(ComboState.ReadyInCombo, player.ShortCooldown));
 
-		ForceTransitionOnEvent(player.HealthManager.DamageSubject, ComboState.Whiff);
+		ForceTransitionOnEvent(player.HealthManager.ModifiedDamageSubject, ComboState.Whiff);
 
 		ForceTransitionOnEvent(player.AbilityTree.ChangeSubject, ComboState.Whiff, ComboState.ReadyAtRoot, ComboState.LongCooldown);
 
@@ -36,6 +36,16 @@ public class ComboManager
 	private void ForceTransitionOnEvent(Subject subject, ComboState toState, params ComboState[] exceptions)
 	{
 		subject.Subscribe(() =>
+		{
+			if (exceptions.ToList().Contains(workflow.CurrentState)) return;
+
+			workflow.ForceTransition(toState);
+		});
+	}
+
+	private void ForceTransitionOnEvent<T>(Subject<T> subject, ComboState toState, params ComboState[] exceptions)
+	{
+		subject.Subscribe(_ =>
 		{
 			if (exceptions.ToList().Contains(workflow.CurrentState)) return;
 
