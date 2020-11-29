@@ -67,7 +67,7 @@ public class HealthManager
             return;
         }
 
-        if (damage > 0)
+        if (damage > 0 && !actor.EffectManager.HasActiveEffect(ActiveEffect.Block))
         {
             ModifyHealth(-damage);
             ModifiedDamageSubject.Next(new DamageData(damage, source));

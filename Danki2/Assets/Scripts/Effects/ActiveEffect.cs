@@ -1,4 +1,5 @@
 ﻿public enum ActiveEffect
 {
-    Stun
+    Stun,
+    Block
 }
