@@ -4,13 +4,13 @@ using UnityEngine;
 public abstract class AbilityService
 {
     protected readonly Actor actor;
-    protected float feedbackTimeout = 1f;
+    private float feedbackTimeout = 1f;
     private readonly List<IAbilityDataDiffer> differs = new List<IAbilityDataDiffer>();
     private bool subscribedToFeedback;
     private Subscription<bool> feedbackSubscription;
     private Coroutine feedbackTimer;
     private IAbilityBonusCalculator abilityBonusCalculator = new AbilityBonusNoOpCalculator();
-    public Subject<bool> FeedbackSubject  = new Subject<bool>();
+    public Subject<bool> FeedbackSubject { get; } = new Subject<bool>();
 
     public bool CanCast => !actor.Dead
         && !actor.MovementManager.Stunned

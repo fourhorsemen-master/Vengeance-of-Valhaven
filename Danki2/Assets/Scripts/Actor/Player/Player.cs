@@ -35,7 +35,7 @@ public class Player : Actor
     public Subject RollSubject { get; } = new Subject();
     public Subject<bool> AbilityFeedbackSubject { get; } = new Subject<bool>();
 
-    public bool? FeedbackSinceLastCast { get; private set; } = null;
+    public FeedbackStatus FeedbackSinceLastCast { get; private set; } = FeedbackStatus.Waiting;
 
     protected override void Awake()
     {
@@ -59,9 +59,9 @@ public class Player : Actor
         InstantCastService.FeedbackSubject.Subscribe(feedback => AbilityFeedbackSubject.Next(feedback));
         ChannelService.FeedbackSubject.Subscribe(feedback => AbilityFeedbackSubject.Next(feedback));
 
-        AbilityFeedbackSubject.Subscribe(feedback => FeedbackSinceLastCast = feedback);
-        ComboManager.SubscribeToStateEntry(ComboState.ReadyAtRoot, () => FeedbackSinceLastCast = null);
-        ComboManager.SubscribeToStateEntry(ComboState.ReadyInCombo, () => FeedbackSinceLastCast = null);
+        AbilityFeedbackSubject.Subscribe(feedback => FeedbackSinceLastCast = feedback ? FeedbackStatus.Succeeded : FeedbackStatus.Failed);
+        ComboManager.SubscribeToStateEntry(ComboState.ReadyAtRoot, () => FeedbackSinceLastCast = FeedbackStatus.Waiting);
+        ComboManager.SubscribeToStateEntry(ComboState.ReadyInCombo, () => FeedbackSinceLastCast = FeedbackStatus.Waiting);
 
         SetAbilityBonusCalculator(new AbilityBonusTreeDepthCalculator(AbilityTree));
     }

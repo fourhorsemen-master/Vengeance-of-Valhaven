@@ -19,13 +19,13 @@
     {
         switch (player.FeedbackSinceLastCast)
         {
-            case true:
+            case FeedbackStatus.Succeeded:
                 nextState = player.AbilityTree.CanWalk()
                     ? ComboState.ContinueCombo
                     : ComboState.CompleteCombo;
                 return true;
 
-            case false:
+            case FeedbackStatus.Failed:
                 nextState = ComboState.FailCombo;
                 return true;
         }
