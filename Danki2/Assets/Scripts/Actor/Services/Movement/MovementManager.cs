@@ -49,7 +49,7 @@ public class MovementManager : IMovementStatusProvider
 
         updateSubject.Subscribe(UpdateMovement);
         movementStatusManager = new MovementStatusManager(updateSubject);
-        movementStatusManager.RegisterProviders(this, actor.EffectManager, actor.ChannelService);
+        movementStatusManager.RegisterProviders(this, actor.ChannelService);
     }
 
     public bool Stuns() => movementPaused;
