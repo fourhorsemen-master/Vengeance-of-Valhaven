@@ -33,7 +33,7 @@ public class Smash : InstantCast
                 DealPrimaryDamage(actor);
                 hasDealtDamage = true;
 
-                if (HasBonus("PerfectSmash")) actor.EffectManager.AddActiveEffect(new Stun(), PerfectSmashStunDuration);
+                if (HasBonus("PerfectSmash")) actor.EffectManager.AddActiveEffect(ActiveEffect.Stun, PerfectSmashStunDuration);
             });
 
         CustomCamera.Instance.AddShake(ShakeIntensity.High);
