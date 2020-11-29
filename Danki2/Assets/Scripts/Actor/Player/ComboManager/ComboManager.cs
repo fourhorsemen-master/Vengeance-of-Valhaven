@@ -7,7 +7,7 @@ public class ComboManager
 
 	public ComboManager(Player player, Subject updateSubject, bool rollResetsCombo)
 	{
-		workflow = new ObservableWorkflow<ComboState>(ComboState.ReadyAtRoot)
+		workflow = new ObservableWorkflow<ComboState>(ComboState.ReadyAtRoot, updateSubject)
 			.WithProcessor(ComboState.ReadyAtRoot, new ReadyAtRootProcessor(player))
 			.WithProcessor(ComboState.ReadyInCombo, new ReadyInComboProcessor(player, player.ComboTimeout))
 			.WithProcessor(ComboState.Channeling, new ChannelProcessor(player))
@@ -27,10 +27,6 @@ public class ComboManager
 		{
 			ForceTransitionOnEvent(player.RollSubject, ComboState.Whiff);
 		}
-
-		workflow.Enter();
-
-		updateSubject.Subscribe(workflow.Update);
 	}
 
 	public void SubscribeToStateEntry(ComboState state, Action action) => workflow.SubscribeToStateEntry(state, action);

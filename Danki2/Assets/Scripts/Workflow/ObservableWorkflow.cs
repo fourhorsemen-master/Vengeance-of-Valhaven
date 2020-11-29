@@ -9,44 +9,19 @@ public class ObservableWorkflow<TState> where TState : Enum
     private readonly IObservable<TState> onEnterStateSubject = new Subject<TState>();
     private readonly IObservable<TState> onExitStateSubject = new Subject<TState>();
 
-    public ObservableWorkflow(TState initialState)
+    public ObservableWorkflow(TState initialState, Subject updateSubject)
 	{
 		CurrentState = initialState;
-    }
-
-    public void Enter() => processors[CurrentState].Enter();
-
-    public void Exit() => processors[CurrentState].Exit();
-
-    public void Update() {
-        bool processComplete = processors[CurrentState].TryCompleteProcess(out TState nextState);
-
-        if (processComplete) Transition(nextState);
-    }
-
-    public void ForceTransition(TState toState) => Transition(toState);
-
-    private void Transition(TState toState)
-    {
-        if (toState.Equals(CurrentState)) return;
-
-        processors[CurrentState].Exit();
-        onExitStateSubject.Next(CurrentState);
-
-        processors[toState].Enter();
-        onEnterStateSubject.Next(toState);
-
-        CurrentState = toState;
-
-        Update();
+        processors[CurrentState].Enter();
+        updateSubject.Subscribe(Update);
     }
 
     public ObservableWorkflow<TState> WithProcessor(TState state, Processor<TState> processor)
-	{
-		processors[state] = processor;
+    {
+        processors[state] = processor;
 
-		return this;
-	}
+        return this;
+    }
 
     public void SubscribeToStateEntry(TState state, Action action)
     {
@@ -62,5 +37,28 @@ public class ObservableWorkflow<TState> where TState : Enum
         {
             if (newState.Equals(state)) action();
         });
+    }
+
+    public void ForceTransition(TState toState) => Transition(toState);
+
+    private void Update() {
+        bool processComplete = processors[CurrentState].TryCompleteProcess(out TState nextState);
+
+        if (processComplete) Transition(nextState);
+    }
+
+    private void Transition(TState toState)
+    {
+        if (toState.Equals(CurrentState)) return;
+
+        processors[CurrentState].Exit();
+        onExitStateSubject.Next(CurrentState);
+
+        processors[toState].Enter();
+        onEnterStateSubject.Next(toState);
+
+        CurrentState = toState;
+
+        Update();
     }
 }
