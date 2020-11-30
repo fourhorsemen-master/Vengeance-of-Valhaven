@@ -49,8 +49,8 @@ public abstract class Actor : MonoBehaviour
         MovementManager = new MovementManager(this, updateSubject, navmeshAgent);
         HightlightManager = new HighlightManager(updateSubject, meshRenderers);
 
-        statsManager.RegisterPipe(new SlowHandler(this, statsManager));
-        statsManager.RegisterPipe(new CarefulHandler(this, statsManager));
+        statsManager.RegisterPipe(new StackingSlowHandler(this, statsManager));
+        statsManager.RegisterPipe(new PassiveSlowHandler(this, statsManager));
         statsManager.RegisterPipe(new VulnerableHandler(this, statsManager));
 
         AbilityDataStatsDiffer abilityDataStatsDiffer = new AbilityDataStatsDiffer(this);

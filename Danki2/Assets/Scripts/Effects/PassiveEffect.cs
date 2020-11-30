@@ -1,4 +1,4 @@
 ﻿public enum PassiveEffect
 {
-    Careful
+    Slow
 }

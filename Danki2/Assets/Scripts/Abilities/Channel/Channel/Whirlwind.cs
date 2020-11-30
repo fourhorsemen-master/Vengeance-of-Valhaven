@@ -30,7 +30,7 @@ public class Whirlwind : Channel
 
         if (!HasBonus("Cross-Step"))
         {
-            slowEffectAdded = Owner.EffectManager.TryAddPassiveEffect(PassiveEffect.Careful, out slowEffectId);
+            slowEffectAdded = Owner.EffectManager.TryAddPassiveEffect(PassiveEffect.Slow, out slowEffectId);
         }
 
         whirlwindObject = WhirlwindObject.Create(Owner.transform);

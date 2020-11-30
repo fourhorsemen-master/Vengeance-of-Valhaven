@@ -1,10 +1,10 @@
-﻿public class SlowHandler : IStatPipe
+﻿public class StackingSlowHandler : IStatPipe
 {
     private const float SpeedReductionPerStack = 0.1f;
     
     private readonly Actor actor;
 
-    public SlowHandler(Actor actor, StatsManager statsManager)
+    public StackingSlowHandler(Actor actor, StatsManager statsManager)
     {
         this.actor = actor;
 
