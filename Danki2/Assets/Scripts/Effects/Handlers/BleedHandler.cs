@@ -2,7 +2,7 @@
 {
     private const float TickInterval = 1f;
     private const float TickStartDelay = 1f;
-    private const int DamagePerStack = 2;
+    private const int DamagePerStack = 1;
     
     public BleedHandler(Actor actor, EffectManager effectManager)
         : base(actor, effectManager, StackingEffect.Bleed, TickInterval, TickStartDelay) {}
