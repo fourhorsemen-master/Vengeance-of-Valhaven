@@ -51,11 +51,21 @@ public class BehaviourSubject<T> : IObservable<T>
     /// <inheritdoc/>
     public IObservable<T> Where(Func<T, bool> filter)
     {
-        BehaviourSubject<T> filteredBehaviourSubject = new BehaviourSubject<T>(currentValue);
+        if (filter(currentValue))
+        {
+            BehaviourSubject<T> filteredBehaviourSubject = new BehaviourSubject<T>(currentValue);
+            Subscribe(value =>
+            {
+                if (filter(value)) filteredBehaviourSubject.Next(value);
+            });
+            return filteredBehaviourSubject;
+        }
+
+        Subject<T> filteredSubject = new Subject<T>();
         Subscribe(value =>
         {
-            if (filter(value)) filteredBehaviourSubject.Next(value);
+            if (filter(value)) filteredSubject.Next(value);
         });
-        return filteredBehaviourSubject;
+        return filteredSubject;
     }
 }
