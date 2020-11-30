@@ -87,7 +87,7 @@ MonoBehaviour:
     - displayName: Whirlwind
       tooltip: Deal {PRIMARY_DAMAGE} damage up to 6 times while channeling and an
         additional {SECONDARY_DAMAGE} damage if the channel completes to all nearby
-        enemies. Slowed by 50% during channel.
+        enemies. Slowed during channel.
       baseAbilityData:
         primaryDamage: 1
         secondaryDamage: 3
@@ -115,8 +115,8 @@ MonoBehaviour:
       finisher: 0
       channelDuration: 0
     - displayName: Poison Dagger
-      tooltip: Throw a dagger which deals {PRIMARY_DAMAGE} damage on impact and poisons
-        the enemy for {SECONDARY_DAMAGE} damage over 5 seconds.
+      tooltip: Throw a dagger which deals {PRIMARY_DAMAGE} damage on impact and applies
+        1 stack of poison.
       baseAbilityData:
         primaryDamage: 2
         secondaryDamage: 7
@@ -165,7 +165,7 @@ MonoBehaviour:
       channelDuration: 0
     - displayName: Lunge
       tooltip: Lunge up to 5m and deal {PRIMARY_DAMAGE} damage to enemies in a small
-        cone.
+        cone. Applies a 0.5s stun on impact.
       baseAbilityData:
         primaryDamage: 3
         secondaryDamage: 0
@@ -318,7 +318,7 @@ MonoBehaviour:
         - Jetstream
         _values:
         - displayName: Daze
-          tooltip: Slow all enemies hit.
+          tooltip: Add 5 stacks of slow to all enemies hit.
           requiredTreeDepth: 3
         - displayName: Jetstream
           tooltip: After the dash the sharp winds of the jetstream causes {PRIMARY_DAMAGE}
@@ -352,8 +352,7 @@ MonoBehaviour:
       finisher: 0
       channelDuration: 0
     - displayName: Rend
-      tooltip: Applies a 5 second DOT for {PRIMARY_DAMAGE} damage, multiplied by
-        the time charged, to all surrounding enemies.
+      tooltip: Adds 1 stack of bleed to all surrounding enemies for each second charged.
       baseAbilityData:
         primaryDamage: 5
         secondaryDamage: 0
@@ -431,8 +430,7 @@ MonoBehaviour:
       finisher: 0
       channelDuration: 0
     - displayName: Hamstring
-      tooltip: Deal {PRIMARY_DAMAGE} damage to the target and decrease their defence
-        by 2 for 10 seconds.
+      tooltip: Deal {PRIMARY_DAMAGE} damage to the target and apply 2 stacks of vulnerable.
       baseAbilityData:
         primaryDamage: 3
         secondaryDamage: 0
