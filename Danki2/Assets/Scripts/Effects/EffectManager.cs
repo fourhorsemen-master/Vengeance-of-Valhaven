@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class EffectManager
 {
+    private readonly Actor actor;
+    
     private readonly EnumDictionary<ActiveEffect, bool> activeEffectStatusLookup = new EnumDictionary<ActiveEffect, bool>(false);
     private readonly Dictionary<ActiveEffect, float> totalActiveEffectDurations = new Dictionary<ActiveEffect, float>();
     private readonly Dictionary<ActiveEffect, float> remainingActiveEffectDurations = new Dictionary<ActiveEffect, float>();
@@ -25,6 +27,8 @@ public class EffectManager
 
     public EffectManager(Actor actor, Subject updateSubject)
     {
+        this.actor = actor;
+
         BleedHandler bleedHandler = new BleedHandler(actor, this);
         PoisonHandler poisonHandler = new PoisonHandler(actor, this);
         
@@ -47,6 +51,8 @@ public class EffectManager
 
     public void AddActiveEffect(ActiveEffect effect, float duration)
     {
+        if (actor.Dead) return;
+
         if (!activeEffectStatusLookup[effect])
         {
             activeEffectStatusLookup[effect] = true;
@@ -85,12 +91,18 @@ public class EffectManager
 
     public float GetRemainingActiveEffectDuration(ActiveEffect effect) => remainingActiveEffectDurations[effect];
 
-    public Guid AddPassiveEffect(PassiveEffect effect)
+    public bool TryAddPassiveEffect(PassiveEffect effect, out Guid id)
     {
-        Guid id = Guid.NewGuid();
+        if (actor.Dead)
+        {
+            id = Guid.Empty;
+            return false;
+        }
+
+        id = Guid.NewGuid();
         passiveEffects[id] = effect;
         PassiveEffectAddedSubject.Next(new PassiveEffectData(id, effect));
-        return id;
+        return true;
     }
 
     public void RemovePassiveEffect(Guid id)
@@ -118,11 +130,10 @@ public class EffectManager
 
     public void AddStacks(StackingEffect effect, int stackCount)
     {
-        bool hasMaxStackSize = EffectLookup.Instance.HasMaxStackSize(effect);
-        int maxStackSize = EffectLookup.Instance.GetMaxStackSize(effect);
+        if (actor.Dead) return;
 
-        stacks[effect] = hasMaxStackSize
-            ? Math.Min(maxStackSize, stacks[effect] + stackCount)
+        stacks[effect] = EffectLookup.Instance.HasMaxStackSize(effect)
+            ? Math.Min(EffectLookup.Instance.GetMaxStackSize(effect), stacks[effect] + stackCount)
             : stacks[effect] + stackCount;
 
         remainingStackingEffectDurations[effect] = EffectLookup.Instance.GetStackingEffectDuration(effect);

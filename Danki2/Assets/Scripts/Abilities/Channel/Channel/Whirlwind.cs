@@ -12,13 +12,12 @@ public class Whirlwind : Channel
     private bool hasHitActor = false;
     private WhirlwindObject whirlwindObject;
 
+    private bool slowEffectAdded = false;
     private Guid slowEffectId;
 
     private Repeater repeater;
 
     public override ChannelEffectOnMovement EffectOnMovement => ChannelEffectOnMovement.None;
-
-    private bool HasCrossStep => HasBonus("Cross-Step");
 
     public Whirlwind(Actor owner, AbilityData abilityData, string[] availableBonuses, float duration)
         : base(owner, abilityData, availableBonuses, duration)
@@ -29,9 +28,9 @@ public class Whirlwind : Channel
     {
         repeater = new Repeater(spinDamageInterval, () => AOE(spinRange, a => DealPrimaryDamage(a)), spinDamageStartDelay);
 
-        if (!HasCrossStep)
+        if (!HasBonus("Cross-Step"))
         {
-            slowEffectId = Owner.EffectManager.AddPassiveEffect(PassiveEffect.Careful);
+            slowEffectAdded = Owner.EffectManager.TryAddPassiveEffect(PassiveEffect.Careful, out slowEffectId);
         }
 
         whirlwindObject = WhirlwindObject.Create(Owner.transform);
@@ -46,7 +45,7 @@ public class Whirlwind : Channel
     {
         if (!hasHitActor) SuccessFeedbackSubject.Next(false);
 
-        if(!HasCrossStep) Owner.EffectManager.RemovePassiveEffect(slowEffectId);
+        if(slowEffectAdded) Owner.EffectManager.RemovePassiveEffect(slowEffectId);
 
         whirlwindObject.DissipateAndDestroy();
     }
@@ -57,7 +56,7 @@ public class Whirlwind : Channel
 
         if (!hasHitActor) SuccessFeedbackSubject.Next(false);
 
-        if(!HasCrossStep) Owner.EffectManager.RemovePassiveEffect(slowEffectId);
+        if(slowEffectAdded) Owner.EffectManager.RemovePassiveEffect(slowEffectId);
 
         whirlwindObject.DissipateAndDestroy();
     }
