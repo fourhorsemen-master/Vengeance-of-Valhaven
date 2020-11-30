@@ -11,20 +11,43 @@ public class EffectListItem : MonoBehaviour
 
     private float totalDuration;
 
-    public void Initialise(Effect effect)
-    {
-        image.sprite = effect.GetSprite();
-        SetCooldownProportion(1);
-    }
+    private int stacks;
 
-    public void Initialise(Effect effect, float totalDuration)
+    public EffectListItem InitialiseActiveEffect(ActiveEffect effect, float totalDuration)
     {
-        image.sprite = effect.GetSprite();
+        image.sprite = EffectLookup.Instance.GetSprite(effect);
         this.totalDuration = totalDuration;
         SetCooldownProportion(1);
+        return this;
     }
 
-    public void SetRemainingDuration(float remainingDuration)
+    public EffectListItem InitialisePassiveEffect(PassiveEffect effect)
+    {
+        image.sprite = EffectLookup.Instance.GetSprite(effect);
+        SetCooldownProportion(1);
+        return this;
+    }
+
+    public EffectListItem InitialiseStackingEffect(StackingEffect effect, int stacks)
+    {
+        image.sprite = EffectLookup.Instance.GetSprite(effect);
+        totalDuration = EffectLookup.Instance.GetStackingEffectDuration(effect);
+        this.stacks = stacks;
+        SetCooldownProportion(1);
+        return this;
+    }
+
+    public void ResetTotalDuration(float totalDuration)
+    {
+        this.totalDuration = totalDuration;
+    }
+
+    public void UpdateStacks(int stacks)
+    {
+        this.stacks = stacks;
+    }
+
+    public void UpdateRemainingDuration(float remainingDuration)
     {
         SetCooldownProportion(remainingDuration / totalDuration);
     }

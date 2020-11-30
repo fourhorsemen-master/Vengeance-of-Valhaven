@@ -39,7 +39,16 @@ public class EffectManager
 
     public void AddActiveEffect(ActiveEffect effect, float duration)
     {
-        if (activeEffectStatusLookup[effect] && remainingActiveEffectDurations[effect] < duration)
+        if (!activeEffectStatusLookup[effect])
+        {
+            activeEffectStatusLookup[effect] = true;
+            totalActiveEffectDurations[effect] = duration;
+            remainingActiveEffectDurations[effect] = duration;
+            ActiveEffectAddedSubject.Next(effect);
+            return;
+        }
+
+        if (duration > remainingActiveEffectDurations[effect])
         {
             totalActiveEffectDurations[effect] = duration;
             remainingActiveEffectDurations[effect] = duration;
@@ -47,9 +56,6 @@ public class EffectManager
             return;
         }
 
-        activeEffectStatusLookup[effect] = true;
-        totalActiveEffectDurations[effect] = duration;
-        remainingActiveEffectDurations[effect] = duration;
         ActiveEffectAddedSubject.Next(effect);
     }
 
@@ -63,11 +69,9 @@ public class EffectManager
 
     public bool HasActiveEffect(ActiveEffect effect) => activeEffectStatusLookup[effect];
 
-    public bool TryGetTotalActiveEffectDuration(ActiveEffect effect, out float totalDuration) =>
-        totalActiveEffectDurations.TryGetValue(effect, out totalDuration);
+    public float GetTotalActiveEffectDuration(ActiveEffect effect) => totalActiveEffectDurations[effect];
 
-    public bool TryGetRemainingActiveEffectDuration(ActiveEffect effect, out float remainingDuration) =>
-        remainingActiveEffectDurations.TryGetValue(effect, out remainingDuration);
+    public float GetRemainingActiveEffectDuration(ActiveEffect effect) => remainingActiveEffectDurations[effect];
 
     public Guid AddPassiveEffect(PassiveEffect effect)
     {
@@ -94,7 +98,7 @@ public class EffectManager
         return false;
     }
 
-    public bool TryGetPassiveEffect(Guid id, out PassiveEffect effect) => passiveEffects.TryGetValue(id, out effect);
+    public PassiveEffect GetPassiveEffect(Guid id) => passiveEffects[id];
 
     public void AddStack(StackingEffect effect) => AddStacks(effect, 1);
 
@@ -120,8 +124,7 @@ public class EffectManager
 
     public int GetStacks(StackingEffect effect) => stacks[effect];
 
-    public bool TryGetRemainingStackingEffectDuration(StackingEffect effect, out float remainingDuration) =>
-        remainingStackingEffectDurations.TryGetValue(effect, out remainingDuration);
+    public float GetRemainingStackingEffectDuration(StackingEffect effect) => remainingStackingEffectDurations[effect];
 
     private void TickActiveEffects()
     {
