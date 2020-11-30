@@ -44,7 +44,7 @@ public class EffectLookupValidator
     {
         ValidateBaseEffectData(effect, effectData);
 
-        if (effectData.MaxStackSize <= 0)
+        if (effectData.HasMaxStackSize && effectData.MaxStackSize <= 0)
         {
             LogError($"Maximum stack size is less than or equal to 0 for stacking effect: {effect.ToString()}.");
         }

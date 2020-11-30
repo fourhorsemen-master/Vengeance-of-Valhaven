@@ -49,15 +49,15 @@ MonoBehaviour:
     - Block
     _values:
     - displayName: Stun
-      sprite: {fileID: 0}
+      sprite: {fileID: 21300000, guid: 363da66706f97d243b921f21841a4ddb, type: 3}
     - displayName: Block
-      sprite: {fileID: 0}
+      sprite: {fileID: 21300000, guid: 536280deae60bc34a975d59364474ffd, type: 3}
   serializablePassiveEffectDictionary:
     _keys:
     - Slow
     _values:
     - displayName: Slow
-      sprite: {fileID: 0}
+      sprite: {fileID: 21300000, guid: 4e36df84fd94d4343acf27b6f8c893d1, type: 3}
   serializableStackingEffectDictionary:
     _keys:
     - Slow
@@ -66,22 +66,22 @@ MonoBehaviour:
     - Vulnerable
     _values:
     - displayName: Slow
-      sprite: {fileID: 0}
+      sprite: {fileID: 21300000, guid: 4e36df84fd94d4343acf27b6f8c893d1, type: 3}
       hasMaxStackSize: 1
       maxStackSize: 8
       duration: 5
     - displayName: Bleed
-      sprite: {fileID: 0}
+      sprite: {fileID: 21300000, guid: a7348dfe0e6d2a14eb38f1f086e91862, type: 3}
       hasMaxStackSize: 0
       maxStackSize: 0
       duration: 5
     - displayName: Poison
-      sprite: {fileID: 0}
+      sprite: {fileID: 21300000, guid: 0bbdf7df4dd7b764ab4f9080db95f452, type: 3}
       hasMaxStackSize: 0
       maxStackSize: 0
       duration: 3
     - displayName: Vulnerable
-      sprite: {fileID: 0}
+      sprite: {fileID: 21300000, guid: b23e607f2e206ad419bb582cacc3c45f, type: 3}
       hasMaxStackSize: 0
       maxStackSize: 0
       duration: 5
