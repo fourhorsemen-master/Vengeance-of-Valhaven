@@ -73,7 +73,7 @@ public class EffectLookupEditor : Editor
         EditorGUI.indentLevel += 3;
         
         effectData.DisplayName = EditorGUILayout.TextField("Display Name", effectData.DisplayName);
-        effectData.Sprite = (Sprite) EditorGUILayout.ObjectField("Sprite", effectData.Sprite, typeof(Sprite));
+        effectData.Sprite = (Sprite) EditorGUILayout.ObjectField("Sprite", effectData.Sprite, typeof(Sprite), false);
         
         EditorGUI.indentLevel -= 3;
     }
@@ -105,7 +105,7 @@ public class EffectLookupEditor : Editor
             effectData.MaxStackSize = EditorGUILayout.IntField("Max Stack Size", effectData.MaxStackSize);
         }
         effectData.Duration = EditorGUILayout.FloatField("Duration", effectData.Duration);
-        effectData.Sprite = (Sprite) EditorGUILayout.ObjectField("Sprite", effectData.Sprite, typeof(Sprite));
+        effectData.Sprite = (Sprite) EditorGUILayout.ObjectField("Sprite", effectData.Sprite, typeof(Sprite), false);
         
         EditorGUI.indentLevel -= 3;
     }

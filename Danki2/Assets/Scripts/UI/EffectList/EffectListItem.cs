@@ -9,6 +9,9 @@ public class EffectListItem : MonoBehaviour
     [SerializeField]
     private Image cooldown = null;
 
+    [SerializeField]
+    private Text stacksText = null;
+
     private float totalDuration;
 
     private int stacks;
@@ -32,7 +35,7 @@ public class EffectListItem : MonoBehaviour
     {
         image.sprite = EffectLookup.Instance.GetSprite(effect);
         totalDuration = EffectLookup.Instance.GetStackingEffectDuration(effect);
-        this.stacks = stacks;
+        UpdateStacks(stacks);
         SetCooldownProportion(1);
         return this;
     }
@@ -44,7 +47,10 @@ public class EffectListItem : MonoBehaviour
 
     public void UpdateStacks(int stacks)
     {
+        if (stacksText == null) return;
+
         this.stacks = stacks;
+        stacksText.text = stacks.ToString();
     }
 
     public void UpdateRemainingDuration(float remainingDuration)
