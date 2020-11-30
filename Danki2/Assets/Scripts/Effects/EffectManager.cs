@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class EffectManager
@@ -35,6 +36,13 @@ public class EffectManager
             TickActiveEffects();
             TickStackingEffects();
         });
+
+        actor.DeathSubject.Subscribe(() =>
+        {
+            RemoveAllActiveEffects();
+            RemoveAllPassiveEffects();
+            RemoveAllStackingEffects();
+        });
     }
 
     public void AddActiveEffect(ActiveEffect effect, float duration)
@@ -61,11 +69,15 @@ public class EffectManager
 
     public void RemoveActiveEffect(ActiveEffect effect)
     {
+        if (!activeEffectStatusLookup[effect]) return;
+        
         activeEffectStatusLookup[effect] = false;
         totalActiveEffectDurations.Remove(effect);
         remainingActiveEffectDurations.Remove(effect);
         ActiveEffectRemovedSubject.Next(effect);
     }
+
+    public void RemoveAllActiveEffects() => EnumUtils.ForEach<ActiveEffect>(RemoveActiveEffect);
 
     public bool HasActiveEffect(ActiveEffect effect) => activeEffectStatusLookup[effect];
 
@@ -87,6 +99,8 @@ public class EffectManager
         passiveEffects.Remove(id);
         PassiveEffectRemovedSubject.Next(new PassiveEffectData(id, effect));
     }
+
+    public void RemoveAllPassiveEffects() => passiveEffects.Keys.ToList().ForEach(RemovePassiveEffect);
 
     public bool HasPassiveEffect(PassiveEffect effect)
     {
@@ -117,10 +131,14 @@ public class EffectManager
 
     public void RemoveStackingEffect(StackingEffect effect)
     {
+        if (stacks[effect] == 0) return;
+        
         stacks[effect] = 0;
         remainingStackingEffectDurations.Remove(effect);
         StackingEffectRemovedSubject.Next(effect);
     }
+
+    public void RemoveAllStackingEffects() => EnumUtils.ForEach<StackingEffect>(RemoveStackingEffect);
 
     public int GetStacks(StackingEffect effect) => stacks[effect];
 
