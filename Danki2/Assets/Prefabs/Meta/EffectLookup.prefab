@@ -48,15 +48,15 @@ MonoBehaviour:
     - Stun
     - Block
     _values:
-    - displayName: 
+    - displayName: Stun
       sprite: {fileID: 0}
-    - displayName: 
+    - displayName: Block
       sprite: {fileID: 0}
   serializablePassiveEffectDictionary:
     _keys:
     - Slow
     _values:
-    - displayName: 
+    - displayName: Slow
       sprite: {fileID: 0}
   serializableStackingEffectDictionary:
     _keys:
@@ -65,22 +65,22 @@ MonoBehaviour:
     - Poison
     - Vulnerable
     _values:
-    - displayName: 
+    - displayName: Slow
       sprite: {fileID: 0}
       hasMaxStackSize: 1
       maxStackSize: 8
       duration: 5
-    - displayName: 
+    - displayName: Bleed
       sprite: {fileID: 0}
       hasMaxStackSize: 0
       maxStackSize: 0
       duration: 5
-    - displayName: 
+    - displayName: Poison
       sprite: {fileID: 0}
       hasMaxStackSize: 0
       maxStackSize: 0
-      duration: 5
-    - displayName: 
+      duration: 3
+    - displayName: Vulnerable
       sprite: {fileID: 0}
       hasMaxStackSize: 0
       maxStackSize: 0
