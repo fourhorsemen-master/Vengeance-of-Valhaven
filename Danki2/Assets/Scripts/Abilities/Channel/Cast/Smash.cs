@@ -1,18 +1,19 @@
 ﻿using UnityEngine;
 
 [Ability(AbilityReference.Smash, new []{"PerfectSmash"})]
-public class Smash : InstantCast
+public class Smash : Cast
 {
     private const float DistanceFromCaster = 1.8f;
     private const float Radius = 1f;
     private const float PerfectSmashStunDuration = 3f;
     private const float PauseDuration = 0.3f;
 
-    public Smash(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
+    public Smash(Actor owner, AbilityData abilityData, string[] availableBonuses, float duration)
+        : base(owner, abilityData, availableBonuses, duration)
     {
     }
 
-    public override void Cast(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
+    public override void End(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
         Owner.MovementManager.LookAt(floorTargetPosition);
         Owner.MovementManager.Pause(PauseDuration);
