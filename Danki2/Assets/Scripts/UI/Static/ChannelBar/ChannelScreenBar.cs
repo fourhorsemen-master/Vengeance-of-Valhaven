@@ -23,10 +23,7 @@ public class ChannelScreenBar : MonoBehaviour
     {
         float width = 0f;
 
-        if (
-            player.AbilityManager.CastingStatus == CastingStatus.ChannelingLeft
-            || player.AbilityManager.CastingStatus == CastingStatus.ChannelingRight
-        )
+        if (channelService.Active)
         {
             width = channelService.RemainingDuration / channelService.TotalDuration;
         }
