@@ -47,28 +47,19 @@ MonoBehaviour:
     _keys:
     - Slash
     - Whirlwind
-    - Fireball
     - PoisonDagger
     - Bite
     - Pounce
-    - Dash
     - Lunge
     - Smash
-    - Sprint
-    - Leap
-    - LeechingStrike
-    - Meditate
     - Bash
     - SweepingStrike
     - Hook
     - Backstab
     - PiercingRush
     - Parry
-    - IntimidatingShout
     - Rend
-    - Bandage
     - Disengage
-    - SwordThrow
     - FanOfKnives
     - Hamstring
     _values:
@@ -102,18 +93,6 @@ MonoBehaviour:
           requiredTreeDepth: 3
       finisher: 0
       channelDuration: 2
-    - displayName: Fireball
-      tooltip: Deal {PRIMARY_DAMAGE} damage on impact.
-      baseAbilityData:
-        primaryDamage: 5
-        secondaryDamage: 0
-        heal: 0
-        shield: 0
-      abilityBonusLookup:
-        _keys: []
-        _values: []
-      finisher: 0
-      channelDuration: 0
     - displayName: Poison Dagger
       tooltip: Throw a dagger which deals {PRIMARY_DAMAGE} damage on impact and applies
         1 stack of poison.
@@ -151,18 +130,6 @@ MonoBehaviour:
         _values: []
       finisher: 0
       channelDuration: 0
-    - displayName: Dash
-      tooltip: Dash a short distance in the direction of casting.
-      baseAbilityData:
-        primaryDamage: 0
-        secondaryDamage: 0
-        heal: 0
-        shield: 0
-      abilityBonusLookup:
-        _keys: []
-        _values: []
-      finisher: 0
-      channelDuration: 0
     - displayName: Lunge
       tooltip: Lunge up to 5m and deal {PRIMARY_DAMAGE} damage to enemies in a small
         cone. Applies a 0.5s stun on impact.
@@ -192,67 +159,6 @@ MonoBehaviour:
           requiredTreeDepth: 3
       finisher: 1
       channelDuration: 0
-    - displayName: Sprint
-      tooltip: Increase speed by 3 for 5 seconds.
-      baseAbilityData:
-        primaryDamage: 0
-        secondaryDamage: 0
-        heal: 0
-        shield: 0
-      abilityBonusLookup:
-        _keys: []
-        _values: []
-      finisher: 0
-      channelDuration: 1
-    - displayName: Leap
-      tooltip: Leap to a target location.
-      baseAbilityData:
-        primaryDamage: 0
-        secondaryDamage: 0
-        heal: 0
-        shield: 0
-      abilityBonusLookup:
-        _keys:
-        - Momentum
-        _values:
-        - displayName: Momentum
-          tooltip: On impact, stun surrounding enemies for 3 seconds.
-          requiredTreeDepth: 2
-      finisher: 0
-      channelDuration: 0
-    - displayName: Leeching Strike
-      tooltip: Deal {PRIMARY_DAMAGE} damage in a cone and heal for {HEAL} + 1 per
-        enemy hit.
-      baseAbilityData:
-        primaryDamage: 2
-        secondaryDamage: 0
-        heal: 1
-        shield: 0
-      abilityBonusLookup:
-        _keys: []
-        _values: []
-      finisher: 0
-      channelDuration: 0
-    - displayName: Meditate
-      tooltip: Increase power by 1 for every second charged. Lasts 10 seconds.
-      baseAbilityData:
-        primaryDamage: 0
-        secondaryDamage: 0
-        heal: 0
-        shield: 0
-      abilityBonusLookup:
-        _keys:
-        - Clarity
-        - GrowingRage
-        _values:
-        - displayName: Clarity
-          tooltip: Slow all enemies by 50% while charging.
-          requiredTreeDepth: 4
-        - displayName: Growing Rage
-          tooltip: Increase power by 2 for every second charged instead.
-          requiredTreeDepth: 3
-      finisher: 1
-      channelDuration: 5
     - displayName: Bash
       tooltip: Deal {PRIMARY_DAMAGE} to enemies in a cone, stuns for 1 second.
       baseAbilityData:
@@ -339,18 +245,6 @@ MonoBehaviour:
         _values: []
       finisher: 0
       channelDuration: 0
-    - displayName: Intimidating Shout
-      tooltip: Reduce defence of surrounding enemies by 2 for 6 seconds.
-      baseAbilityData:
-        primaryDamage: 0
-        secondaryDamage: 0
-        heal: 0
-        shield: 0
-      abilityBonusLookup:
-        _keys: []
-        _values: []
-      finisher: 0
-      channelDuration: 0
     - displayName: Rend
       tooltip: Adds 1 stack of bleed to all surrounding enemies for each second charged.
       baseAbilityData:
@@ -363,22 +257,6 @@ MonoBehaviour:
         _values: []
       finisher: 0
       channelDuration: 3
-    - displayName: Bandage
-      tooltip: Gain {HEAL} health per second. Rooted while channeling.
-      baseAbilityData:
-        primaryDamage: 0
-        secondaryDamage: 0
-        heal: 3
-        shield: 0
-      abilityBonusLookup:
-        _keys:
-        - Perseverance
-        _values:
-        - displayName: Perseverance
-          tooltip: Slowed by 50% rather than rooted while channeling.
-          requiredTreeDepth: 3
-      finisher: 1
-      channelDuration: 5
     - displayName: Disengage
       tooltip: Leap backwards.
       baseAbilityData:
@@ -395,23 +273,6 @@ MonoBehaviour:
           requiredTreeDepth: 4
       finisher: 0
       channelDuration: 0
-    - displayName: Sword Throw
-      tooltip: Throw a sword which deals {PRIMARY_DAMAGE} damage on impact.
-      baseAbilityData:
-        primaryDamage: 12
-        secondaryDamage: 6
-        heal: 0
-        shield: 0
-      abilityBonusLookup:
-        _keys:
-        - Poison Sword
-        _values:
-        - displayName: Poison Sword
-          tooltip: Coat the blade in deadly poison, dealing {SECONDARY_DAMAGE} damage
-            over 5 seconds.
-          requiredTreeDepth: 3
-      finisher: 1
-      channelDuration: 2
     - displayName: Fan of Knives
       tooltip: Throw a fan of 3 knives in an arc, which deal {PRIMARY_DAMAGE} damage
         on impact.
