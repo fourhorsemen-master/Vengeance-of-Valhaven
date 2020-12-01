@@ -10,35 +10,52 @@ public class TreeDepth : MonoBehaviour
 
     private float spriteWidth;
     private float spriteHeight;
-    private float abilityTimeOutLimit;
-    private int currentTreeDepth;
+    private bool fading;
 
     private void Awake()
     {
-        this.spriteWidth = this.repeatingImage.rectTransform.sizeDelta.x;
-        this.spriteHeight = this.repeatingImage.rectTransform.sizeDelta.y;
+        spriteWidth = repeatingImage.rectTransform.sizeDelta.x;
+        spriteHeight = repeatingImage.rectTransform.sizeDelta.y;
     }
 
     private void Start()
     {
-        this.player = RoomManager.Instance.Player;
-        this.abilityTimeOutLimit = this.player.AbilityManager.ComboTimeout;
+        player = RoomManager.Instance.Player;
 
-        this.player.AbilityTree.CurrentDepthSubject.Subscribe(newDepth =>
-        {
-            this.repeatingImage.rectTransform.sizeDelta = new Vector2((newDepth) * this.spriteWidth, this.spriteHeight);
-            this.repeatingImage.SetOpacity(1f);
-            this.currentTreeDepth = newDepth;
-        });
+        UpdateDepth();
+
+        player.ComboManager.SubscribeToStateEntry(ComboState.ContinueCombo, UpdateDepth);
+        player.ComboManager.SubscribeToStateEntry(ComboState.LongCooldown, UpdateDepth);
+        player.ComboManager.SubscribeToStateEntry(ComboState.ReadyInCombo, StartFade);
+        player.ComboManager.SubscribeToStateExit(ComboState.ReadyInCombo, StopFade);
     }
 
     private void Update()
     {
-        float opacity = this.repeatingImage.color.a;
-        
-        if(this.currentTreeDepth > 0)
+        float opacity = repeatingImage.color.a;
+
+        if (fading)
         {
-            this.repeatingImage.SetOpacity(opacity - (Time.deltaTime / abilityTimeOutLimit));
+            repeatingImage.SetOpacity(opacity - (Time.deltaTime / player.ComboTimeout));
         }
+    }
+
+    private void UpdateDepth()
+    {
+        int depth = player.AbilityTree.CurrentDepth;
+
+        repeatingImage.rectTransform.sizeDelta = new Vector2(depth * spriteWidth, spriteHeight);
+        repeatingImage.SetOpacity(1f);
+    }
+
+    private void StartFade()
+    {
+        fading = true;
+    }
+
+    private void StopFade()
+    {
+        repeatingImage.SetOpacity(1f);
+        fading = false;
     }
 }

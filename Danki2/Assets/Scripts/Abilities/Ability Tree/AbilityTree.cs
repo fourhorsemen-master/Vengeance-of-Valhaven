@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public abstract class AbilityTree
 {
@@ -8,7 +6,7 @@ public abstract class AbilityTree
 
     private Node _currentNode;
 
-    private int _currentDepth;
+    public int CurrentDepth { get; private set; }
 
     /// <summary>
     /// Includes the root node - so the result is greater than 0
@@ -24,8 +22,8 @@ public abstract class AbilityTree
     private EnumDictionary<AbilityReference, int> ownedAbilities;
 
     public EnumDictionary<AbilityReference, int> Inventory { get; private set; }
-    
-    public bool AtRoot => _currentDepth == 0;
+
+    public Direction DirectionLastWalked { get; private set; }
 
     protected AbilityTree(EnumDictionary<AbilityReference, int> ownedAbilities, Node rootNode)
     {
@@ -33,15 +31,14 @@ public abstract class AbilityTree
 
         RootNode = rootNode;
         _currentNode = RootNode;
-        _currentDepth = 0;
+        CurrentDepth = 0;
 
         TreeWalkSubject = new BehaviourSubject<Node>(_currentNode);
-        CurrentDepthSubject = new BehaviourSubject<int>(_currentDepth);
+        CurrentDepthSubject = new BehaviourSubject<int>(CurrentDepth);
 
         UpdateInventory();
 
         RootNode.ChangeSubject.Subscribe(() => {
-            Reset();
             UpdateInventory();
             ChangeSubject.Next();
         });
@@ -67,8 +64,10 @@ public abstract class AbilityTree
         _currentNode = _currentNode.GetChild(direction);
         TreeWalkSubject.Next(_currentNode);
 
-        _currentDepth++;
-        CurrentDepthSubject.Next(_currentDepth);
+        CurrentDepth++;
+        CurrentDepthSubject.Next(CurrentDepth);
+
+        DirectionLastWalked = direction;
 
         return _currentNode.Ability;
     }
@@ -83,8 +82,8 @@ public abstract class AbilityTree
         _currentNode = RootNode;
         TreeWalkSubject.Next(_currentNode);
 
-        _currentDepth = 0;
-        CurrentDepthSubject.Next(_currentDepth);
+        CurrentDepth = 0;
+        CurrentDepthSubject.Next(CurrentDepth);
     }
 
     private void UpdateInventory()

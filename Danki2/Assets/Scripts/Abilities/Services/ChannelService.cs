@@ -35,10 +35,7 @@ public class ChannelService : AbilityService, IMovementStatusProvider
         );
     }
 
-    public bool StartChannel(
-        AbilityReference abilityReference,
-        Action<Subject<bool>> successFeedbackSubjectAction = null
-    )
+    public bool TryStartChannel(AbilityReference abilityReference)
     {
         if (!CanCast) return false;
 
@@ -53,8 +50,8 @@ public class ChannelService : AbilityService, IMovementStatusProvider
         _currentChannel = channel;
         RemainingDuration = _currentChannel.Duration;
         Active = true;
-            
-        successFeedbackSubjectAction?.Invoke(channel.SuccessFeedbackSubject);
+
+        SubscribeToFeedback(channel);
 
         if (HasTarget)
         {
@@ -86,6 +83,8 @@ public class ChannelService : AbilityService, IMovementStatusProvider
         {
             _currentChannel.Cancel(FloorTargetPosition, OffsetTargetPosition);
         }
+
+        StartFeedbackTimer();
     }
 
     private void TickChannel()
@@ -134,5 +133,7 @@ public class ChannelService : AbilityService, IMovementStatusProvider
         {
             _currentChannel.End(FloorTargetPosition, OffsetTargetPosition);
         }
+
+        StartFeedbackTimer();
     }
 }

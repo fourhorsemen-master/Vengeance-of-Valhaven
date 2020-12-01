@@ -12,7 +12,7 @@ public class Wolf : Enemy
 
     public void Bite()
     {
-        InstantCastService.Cast(
+        InstantCastService.TryCast(
             AbilityReference.Bite,
             GetBiteTargetPosition(transform.position),
             GetBiteTargetPosition(Centre)
@@ -22,7 +22,7 @@ public class Wolf : Enemy
 
     public void Pounce(Actor target)
     {
-        InstantCastService.Cast(
+        InstantCastService.TryCast(
             AbilityReference.Pounce,
             GetPounceTargetPosition(transform.position, target.transform.position),
             GetPounceTargetPosition(Centre, target.Centre)

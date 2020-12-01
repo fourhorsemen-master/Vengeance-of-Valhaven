@@ -3,15 +3,15 @@ using System.Linq;
 
 public class AbilityBonusTreeDepthCalculator : IAbilityBonusCalculator
 {
-    private int currentDepth;
+    private readonly AbilityTree abilityTree;
 
     public AbilityBonusTreeDepthCalculator(AbilityTree abilityTree)
     {
-        abilityTree.CurrentDepthSubject.Subscribe(d => currentDepth = d);
+        this.abilityTree = abilityTree;
     }
 
     /// <summary>
-    /// Calculates the active bonuses for the given ability if it were cast from the current ability tree position.
+    /// Calculates the active bonuses for the given ability as if it was on the active node.
     /// </summary>
     /// <param name="abilityReference"> The ability to get the bonuses for. </param>
     public string[] GetActiveBonuses(AbilityReference abilityReference)
@@ -20,7 +20,7 @@ public class AbilityBonusTreeDepthCalculator : IAbilityBonusCalculator
             AbilityLookup.Instance.GetAbilityBonusDataLookup(abilityReference);
 
         return abilityBonusDataLookup.Keys
-            .Where(abilityBonus => abilityBonusDataLookup[abilityBonus].RequiredTreeDepth <= currentDepth + 1)
+            .Where(abilityBonus => abilityBonusDataLookup[abilityBonus].RequiredTreeDepth <= abilityTree.CurrentDepth)
             .ToArray();
     }
 }
