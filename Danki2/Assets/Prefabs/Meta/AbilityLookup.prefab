@@ -259,19 +259,15 @@ MonoBehaviour:
       finisher: 0
       channelDuration: 3
     - displayName: Disengage
-      tooltip: Leap backwards.
+      tooltip: Deal {PRIMARY_DAMAGE} damage then leap backwards.
       baseAbilityData:
         primaryDamage: 4
         secondaryDamage: 0
         heal: 0
         shield: 0
       abilityBonusLookup:
-        _keys:
-        - Parting Shot
-        _values:
-        - displayName: Parting Shot
-          tooltip: Deal {PRIMARY_DAMAGE} damage to enemies nearby before leaping.
-          requiredTreeDepth: 4
+        _keys: []
+        _values: []
       finisher: 0
       channelDuration: 0
     - displayName: Fan of Knives
