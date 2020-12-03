@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[Ability(AbilityReference.Disengage, new[] { "Parting Shot" })]
+[Ability(AbilityReference.Disengage)]
 public class Disengage : InstantCast
 {
     private const float leapSpeed = 14f;
@@ -30,23 +30,23 @@ public class Disengage : InstantCast
             Owner.MovementManager.Pause(pauseDuration);
         });
 
-        SuccessFeedbackSubject.Next(true);
+        SmashObject.Create(position, false);
 
-        if (HasBonus("Parting Shot"))
+        bool dealtDamage = false;
+
+        CollisionTemplateManager.Instance.GetCollidingActors(
+            CollisionTemplate.Cylinder,
+            partingShotRange,
+            position
+        ).ForEach(actor =>
         {
-            SmashObject.Create(position, false);
-
-            CollisionTemplateManager.Instance.GetCollidingActors(
-                CollisionTemplate.Cylinder,
-                partingShotRange,
-                position
-            ).ForEach(actor =>
+            if (Owner.Opposes(actor))
             {
-                if (Owner.Opposes(actor))
-                {
-                    DealPrimaryDamage(actor);
-                }
-            });
-        }
+                DealPrimaryDamage(actor);
+                dealtDamage = true;
+            }
+        });
+
+        SuccessFeedbackSubject.Next(dealtDamage);
     }
 }
