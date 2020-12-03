@@ -54,7 +54,7 @@ MonoBehaviour:
     - Smash
     - Bash
     - SweepingStrike
-    - Hook
+    - GrapplingHook
     - Backstab
     - PiercingRush
     - Parry
@@ -158,7 +158,7 @@ MonoBehaviour:
           tooltip: Stun all affected enemies for 3 seconds.
           requiredTreeDepth: 3
       finisher: 1
-      channelDuration: 0
+      channelDuration: 0.5
     - displayName: Bash
       tooltip: Deal {PRIMARY_DAMAGE} to enemies in a cone, stuns for 1 second.
       baseAbilityData:
@@ -184,7 +184,7 @@ MonoBehaviour:
         _values: []
       finisher: 0
       channelDuration: 0
-    - displayName: Hook
+    - displayName: Grappling Hook
       tooltip: Throw a hook at an enemy and pull them towards the player. The hook
         is coated in a serum which causes the target to be stunned for 2 seconds.
       baseAbilityData:
@@ -231,7 +231,7 @@ MonoBehaviour:
             damage to enemies in a cone behind you.
           requiredTreeDepth: 5
       finisher: 1
-      channelDuration: 2
+      channelDuration: 1
     - displayName: Parry
       tooltip: Absorb each attack for 1 second and return 50% of the damage back
         to attackers.
@@ -258,19 +258,15 @@ MonoBehaviour:
       finisher: 0
       channelDuration: 3
     - displayName: Disengage
-      tooltip: Leap backwards.
+      tooltip: Deal {PRIMARY_DAMAGE} damage then leap backwards.
       baseAbilityData:
         primaryDamage: 4
         secondaryDamage: 0
         heal: 0
         shield: 0
       abilityBonusLookup:
-        _keys:
-        - Parting Shot
-        _values:
-        - displayName: Parting Shot
-          tooltip: Deal {PRIMARY_DAMAGE} damage to enemies nearby before leaping.
-          requiredTreeDepth: 4
+        _keys: []
+        _values: []
       finisher: 0
       channelDuration: 0
     - displayName: Fan of Knives

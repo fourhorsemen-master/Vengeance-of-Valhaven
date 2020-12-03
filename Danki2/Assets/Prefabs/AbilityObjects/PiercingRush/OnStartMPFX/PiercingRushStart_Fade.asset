@@ -12,24 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad86a3ec96d24644ea3b091ceb338242, type: 3}
   m_Name: PiercingRushStart_Fade
   m_EditorClassIdentifier: 
-  behaviourName: 
   curve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 0.6
-      inSlope: -0.15
-      outSlope: -0.15
+      inSlope: -0.3
+      outSlope: -0.3
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 2
+      time: 1
       value: 0.3
-      inSlope: -0.15
-      outSlope: -0.15
+      inSlope: -0.3
+      outSlope: -0.3
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
