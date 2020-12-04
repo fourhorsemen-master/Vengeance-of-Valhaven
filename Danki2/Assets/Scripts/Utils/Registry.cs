@@ -74,12 +74,7 @@ public class Registry<TEntity>
             .ForEach(Remove);
     }
 
-    public void Clear()
-    {
-        entities.Clear();
-        totalDurations.Clear();
-        durations.Clear();
-    }
+    public void Clear() => RemoveWhere(_ => true);
 
     private Guid Add(TEntity entity, float? duration = null)
     {
