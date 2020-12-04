@@ -76,9 +76,8 @@ MonoBehaviour:
       finisher: 0
       channelDuration: 0
     - displayName: Whirlwind
-      tooltip: Deal {PRIMARY_DAMAGE} damage up to 6 times while channeling and an
-        additional {SECONDARY_DAMAGE} damage if the channel completes to all nearby
-        enemies. Slowed by 50% during channel.
+      tooltip: Deal {PRIMARY_DAMAGE} damage 3 times per second all nearby enemies.
+        Slowed by 50% during channel.
       baseAbilityData:
         primaryDamage: 1
         secondaryDamage: 0
