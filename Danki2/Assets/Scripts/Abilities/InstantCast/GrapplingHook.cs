@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
-[Ability(AbilityReference.Hook)]
-public class Hook : InstantCast
+[Ability(AbilityReference.GrapplingHook)]
+public class GrapplingHook : InstantCast
 {
     private const float range = 10f;
     private const float hookSpeed = 16f;
@@ -9,9 +9,9 @@ public class Hook : InstantCast
     private const float pullOffset = 2f;
     private const float stunDuration = 2f;
 
-    private HookObject hookObject = null;
+    private GrapplingHookObject grapplingHookObject = null;
 
-    public Hook(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
+    public GrapplingHook(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
     }
 
@@ -22,7 +22,7 @@ public class Hook : InstantCast
         Owner.MovementManager.LookAt(offsetTargetPosition);
         Owner.MovementManager.Pause(range / hookSpeed);
 
-        hookObject = HookObject.Fire(Owner, OnCollision, MissCallback, hookSpeed, Owner.Centre, rotation, range);
+        grapplingHookObject = GrapplingHookObject.Fire(Owner, OnCollision, MissCallback, hookSpeed, Owner.Centre, rotation, range);
     }
 
     private void MissCallback()
@@ -32,7 +32,7 @@ public class Hook : InstantCast
 
     private void OnCollision(GameObject gameObject)
     {
-        hookObject.PlayHitAudio();
+        grapplingHookObject.PlayHitAudio();
 
         if (RoomManager.Instance.TryGetActor(gameObject, out Actor actor))
         {

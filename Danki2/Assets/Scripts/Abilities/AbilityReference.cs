@@ -9,7 +9,7 @@
     Smash,
     Bash,
     SweepingStrike,
-    Hook,
+    GrapplingHook,
     Backstab,
     PiercingRush,
     Parry,

@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class HookObject : ProjectileObject
+public class GrapplingHookObject : ProjectileObject
 {
     [SerializeField]
     private AudioSource hookHitAudio = null;
@@ -9,17 +9,17 @@ public class HookObject : ProjectileObject
     [SerializeField]
     private TrailRenderer trailRenderer = null;
 
-    public static HookObject Fire(Actor caster, Action<GameObject> collisionCallback, Action missCallback, float speed, Vector3 position, Quaternion rotation, float maxRange)
+    public static GrapplingHookObject Fire(Actor caster, Action<GameObject> collisionCallback, Action missCallback, float speed, Vector3 position, Quaternion rotation, float maxRange)
     {
         float stickTime = maxRange / speed;
 
-        HookObject hookObject = Instantiate(AbilityObjectPrefabLookup.Instance.HookObjectPrefab, position, rotation);
-        hookObject.InitialiseProjectile(caster, collisionCallback, speed)
+        GrapplingHookObject grapplingHookObject = Instantiate(AbilityObjectPrefabLookup.Instance.GrapplingHookObjectPrefab, position, rotation);
+        grapplingHookObject.InitialiseProjectile(caster, collisionCallback, speed)
             .DestroyAfterTime(stickTime, missCallback);
 
-        hookObject.SetSticky(hookObject.hookHitAudio.clip.length);
+        grapplingHookObject.SetSticky(grapplingHookObject.hookHitAudio.clip.length);
 
-        return hookObject;
+        return grapplingHookObject;
     }
 
     protected override void OnTriggerEnter(Collider collider)

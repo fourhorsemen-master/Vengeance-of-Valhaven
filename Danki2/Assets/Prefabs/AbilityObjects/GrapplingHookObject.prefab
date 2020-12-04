@@ -55,6 +55,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -148,6 +149,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -195,7 +197,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2164971799942513589}
-  - component: {fileID: -1055383423886415590}
+  - component: {fileID: 532503493712352648}
   - component: {fileID: 5662737433665097527}
   - component: {fileID: 5296748204352388618}
   - component: {fileID: -7786431253297403615}
@@ -223,7 +225,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-1055383423886415590
+--- !u!114 &532503493712352648
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -232,7 +234,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3286294057511749702}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f76e24c3f52fc1f4f8ddf1da534dc40b, type: 3}
+  m_Script: {fileID: 11500000, guid: 23e3934557095f84984db3117a091bae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   collider: {fileID: 5296748204352388618}
@@ -475,6 +477,7 @@ TrailRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -644,6 +647,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
