@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 5460335939368299065}
   - component: {fileID: 4460194356530006560}
   m_Layer: 0
-  m_Name: PoisonDaggerObject
+  m_Name: BarbedDaggerObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -289,6 +289,7 @@ TrailRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -433,10 +434,11 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d4e91ea38c3531840ac8690bcfd9969e, type: 2}
+  - {fileID: 2100000, guid: 9c31ddc3f7dab98448a582698ae7ef51, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
