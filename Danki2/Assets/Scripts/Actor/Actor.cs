@@ -41,17 +41,13 @@ public abstract class Actor : MonoBehaviour
     protected virtual void Awake()
     {
         statsManager = new StatsManager(baseStats);
-        EffectManager = new EffectManager(this, updateSubject);
+        EffectManager = new EffectManager(this, statsManager, updateSubject);
         HealthManager = new HealthManager(this, updateSubject);
         InterruptionManager = new InterruptionManager(this, startSubject, updateSubject);
         ChannelService = new ChannelService(this, startSubject, lateUpdateSubject);
         InstantCastService = new InstantCastService(this);
         MovementManager = new MovementManager(this, updateSubject, navmeshAgent);
         HightlightManager = new HighlightManager(updateSubject, meshRenderers);
-
-        statsManager.RegisterPipe(new StackingSlowHandler(this, statsManager));
-        statsManager.RegisterPipe(new PassiveSlowHandler(this, statsManager));
-        statsManager.RegisterPipe(new VulnerableHandler(this, statsManager));
 
         AbilityDataStatsDiffer abilityDataStatsDiffer = new AbilityDataStatsDiffer(this);
         RegisterAbilityDataDiffer(abilityDataStatsDiffer);

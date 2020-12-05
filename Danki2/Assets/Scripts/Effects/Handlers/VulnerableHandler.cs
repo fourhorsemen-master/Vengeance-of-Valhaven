@@ -4,17 +4,9 @@
 
     private readonly Actor actor;
 
-    public VulnerableHandler(Actor actor, StatsManager statsManager)
+    public VulnerableHandler(Actor actor)
     {
         this.actor = actor;
-
-        actor.EffectManager.StackingEffectAddedSubject
-            .Where(effect => effect == StackingEffect.Vulnerable)
-            .Subscribe(_ => statsManager.ClearCache());
-
-        actor.EffectManager.StackingEffectRemovedSubject
-            .Where(effect => effect == StackingEffect.Vulnerable)
-            .Subscribe(_ => statsManager.ClearCache());
     }
 
     public float ProcessStat(Stat stat, float value)

@@ -4,17 +4,9 @@
     
     private readonly Actor actor;
 
-    public PassiveSlowHandler(Actor actor, StatsManager statsManager)
+    public PassiveSlowHandler(Actor actor)
     {
         this.actor = actor;
-
-        actor.EffectManager.PassiveEffectAddedSubject
-            .Where(passiveEffectData => passiveEffectData.Effect == PassiveEffect.Slow)
-            .Subscribe(_ => statsManager.ClearCache());
-
-        actor.EffectManager.PassiveEffectRemovedSubject
-            .Where(passiveEffectData => passiveEffectData.Effect == PassiveEffect.Slow)
-            .Subscribe(_ => statsManager.ClearCache());
     }
 
     public float ProcessStat(Stat stat, float value)

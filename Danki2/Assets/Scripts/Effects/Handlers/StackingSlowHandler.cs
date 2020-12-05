@@ -4,17 +4,9 @@
     
     private readonly Actor actor;
 
-    public StackingSlowHandler(Actor actor, StatsManager statsManager)
+    public StackingSlowHandler(Actor actor)
     {
         this.actor = actor;
-
-        actor.EffectManager.StackingEffectAddedSubject
-            .Where(effect => effect == StackingEffect.Slow)
-            .Subscribe(_ => statsManager.ClearCache());
-
-        actor.EffectManager.StackingEffectRemovedSubject
-            .Where(effect => effect == StackingEffect.Slow)
-            .Subscribe(_ => statsManager.ClearCache());
     }
 
     public float ProcessStat(Stat stat, float value)
