@@ -7,7 +7,6 @@ public class Whirlwind : Channel
     private const float spinRange = 2;
     private const float spinDamageInterval = 0.35f;
     private const float spinDamageStartDelay = 0.1f;
-    private const float finishRange = 3;
 
     private bool hasHitActor = false;
     private WhirlwindObject whirlwindObject;
@@ -41,19 +40,12 @@ public class Whirlwind : Channel
         repeater.Update();
     }
 
-    public override void Cancel(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
+    public override void Cancel(Vector3 floorTargetPosition, Vector3 offsetTargetPosition) => End();
+
+    public override void End(Vector3 floorTargetPosition, Vector3 offsetTargetPosition) => End();
+
+    private void End()
     {
-        if (!hasHitActor) SuccessFeedbackSubject.Next(false);
-
-        if(slowEffectAdded) Owner.EffectManager.RemovePassiveEffect(slowEffectId);
-
-        whirlwindObject.DissipateAndDestroy();
-    }
-
-    public override void End(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
-    {
-        AOE(finishRange, a => DealSecondaryDamage(a));
-
         if (!hasHitActor) SuccessFeedbackSubject.Next(false);
 
         if(slowEffectAdded) Owner.EffectManager.RemovePassiveEffect(slowEffectId);
