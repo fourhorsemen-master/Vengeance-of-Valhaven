@@ -43,45 +43,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3494a726275fac408a58c28cad2b194, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayNameDictionary:
-    keys:
-    - DefenceDebuff, ScriptsAssembly, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    - BlockIncomingDamage, ScriptsAssembly, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    - DefenceBuff, ScriptsAssembly, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    - DOT, ScriptsAssembly, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    - PowerBuff, ScriptsAssembly, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    - Root, ScriptsAssembly, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    - Slow, ScriptsAssembly, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    - SpeedBuff, ScriptsAssembly, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    - Stun, ScriptsAssembly, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    values:
-    - Defence Debuff
-    - Block
-    - Defence Buff
-    - DOT
-    - Power Buff
-    - Root
-    - Slow
-    - Speed Buff
+  serializableActiveEffectDictionary:
+    _keys:
     - Stun
-  spriteDictionary:
-    keys:
-    - DefenceDebuff, ScriptsAssembly, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    - BlockIncomingDamage, ScriptsAssembly, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    - DefenceBuff, ScriptsAssembly, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    - DOT, ScriptsAssembly, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    - PowerBuff, ScriptsAssembly, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    - Root, ScriptsAssembly, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    - Slow, ScriptsAssembly, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    - SpeedBuff, ScriptsAssembly, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    - Stun, ScriptsAssembly, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    values:
-    - {fileID: 21300000, guid: b23e607f2e206ad419bb582cacc3c45f, type: 3}
-    - {fileID: 21300000, guid: 536280deae60bc34a975d59364474ffd, type: 3}
-    - {fileID: 21300000, guid: a68e0b870cf92a84a92dfdd29409feea, type: 3}
-    - {fileID: 21300000, guid: 0bbdf7df4dd7b764ab4f9080db95f452, type: 3}
-    - {fileID: 21300000, guid: 72b1505c0d7f7184a9d423e99fd1a7c8, type: 3}
-    - {fileID: 21300000, guid: 4e71d5e02c5845a4f8c431da77b316dd, type: 3}
-    - {fileID: 21300000, guid: 4e36df84fd94d4343acf27b6f8c893d1, type: 3}
-    - {fileID: 21300000, guid: a545cfe39bec3564a8733add56e3d971, type: 3}
-    - {fileID: 21300000, guid: 363da66706f97d243b921f21841a4ddb, type: 3}
+    - Block
+    _values:
+    - displayName: Stun
+      sprite: {fileID: 21300000, guid: 363da66706f97d243b921f21841a4ddb, type: 3}
+    - displayName: Block
+      sprite: {fileID: 21300000, guid: 536280deae60bc34a975d59364474ffd, type: 3}
+  serializablePassiveEffectDictionary:
+    _keys:
+    - Slow
+    _values:
+    - displayName: Slow
+      sprite: {fileID: 21300000, guid: 4e36df84fd94d4343acf27b6f8c893d1, type: 3}
+  serializableStackingEffectDictionary:
+    _keys:
+    - Slow
+    - Bleed
+    - Poison
+    - Vulnerable
+    _values:
+    - displayName: Slow
+      sprite: {fileID: 21300000, guid: 4e36df84fd94d4343acf27b6f8c893d1, type: 3}
+      hasMaxStackSize: 1
+      maxStackSize: 8
+      duration: 5
+    - displayName: Bleed
+      sprite: {fileID: 21300000, guid: a7348dfe0e6d2a14eb38f1f086e91862, type: 3}
+      hasMaxStackSize: 0
+      maxStackSize: 0
+      duration: 5
+    - displayName: Poison
+      sprite: {fileID: 21300000, guid: 0bbdf7df4dd7b764ab4f9080db95f452, type: 3}
+      hasMaxStackSize: 0
+      maxStackSize: 0
+      duration: 3
+    - displayName: Vulnerable
+      sprite: {fileID: 21300000, guid: b23e607f2e206ad419bb582cacc3c45f, type: 3}
+      hasMaxStackSize: 0
+      maxStackSize: 0
+      duration: 5

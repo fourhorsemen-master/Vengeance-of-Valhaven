@@ -9,22 +9,51 @@ public class EffectListItem : MonoBehaviour
     [SerializeField]
     private Image cooldown = null;
 
+    [SerializeField]
+    private Text stacksText = null;
+
     private float totalDuration;
 
-    public void Initialise(Effect effect)
-    {
-        image.sprite = effect.GetSprite();
-        SetCooldownProportion(1);
-    }
+    private int stacks;
 
-    public void Initialise(Effect effect, float totalDuration)
+    public EffectListItem InitialiseActiveEffect(ActiveEffect effect, float totalDuration)
     {
-        image.sprite = effect.GetSprite();
+        image.sprite = EffectLookup.Instance.GetSprite(effect);
         this.totalDuration = totalDuration;
         SetCooldownProportion(1);
+        return this;
     }
 
-    public void SetRemainingDuration(float remainingDuration)
+    public EffectListItem InitialisePassiveEffect(PassiveEffect effect)
+    {
+        image.sprite = EffectLookup.Instance.GetSprite(effect);
+        SetCooldownProportion(1);
+        return this;
+    }
+
+    public EffectListItem InitialiseStackingEffect(StackingEffect effect, int stacks)
+    {
+        image.sprite = EffectLookup.Instance.GetSprite(effect);
+        totalDuration = EffectLookup.Instance.GetStackingEffectDuration(effect);
+        UpdateStacks(stacks);
+        SetCooldownProportion(1);
+        return this;
+    }
+
+    public void ResetTotalDuration(float totalDuration)
+    {
+        this.totalDuration = totalDuration;
+    }
+
+    public void UpdateStacks(int stacks)
+    {
+        if (stacksText == null) return;
+
+        this.stacks = stacks;
+        stacksText.text = stacks.ToString();
+    }
+
+    public void UpdateRemainingDuration(float remainingDuration)
     {
         SetCooldownProportion(remainingDuration / totalDuration);
     }

@@ -34,7 +34,7 @@ public static class EditorUtils
     /// Adds button that is indented with the current indent level.
     /// </summary>
     /// <param name="label"> The button label. </param>
-    /// <param name="action"> The action to run if the button is pressed </param>
+    /// <param name="action"> The action to run if the button is pressed. </param>
     public static void IndentedButton(string label, Action action)
     {
         GUILayout.BeginHorizontal();
@@ -43,5 +43,14 @@ public static class EditorUtils
         if (GUILayout.Button(label)) action();
 
         GUILayout.EndHorizontal();
+    }
+
+    /// <summary>
+    /// Adds a header with the same styling as the Header attribute.
+    /// </summary>
+    /// <param name="label"> The header label. </param>
+    public static void Header(string label)
+    {
+        EditorGUILayout.LabelField(label, EditorStyles.boldLabel);
     }
 }

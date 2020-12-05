@@ -28,21 +28,9 @@ public abstract class Ability
         Owner.DamageTarget(target, GetModifiedValue(AbilityData.PrimaryDamage, linearDamageModifier, multiplicativeDamageModifier));
     }
 
-    protected void ApplyPrimaryDamageAsDOT(Actor target, float duration, float tickRate = 1, int linearDamageModifier = 0, int multiplicativeDamageModifier = 1)
-    {
-        int totalDamage = GetModifiedValue(AbilityData.PrimaryDamage, linearDamageModifier, multiplicativeDamageModifier);
-        target.EffectManager.AddActiveEffect(new DOT(totalDamage, duration, tickRate), duration);
-    }
-
     protected void DealSecondaryDamage(Actor target, int linearDamageModifier = 0, int multiplicativeDamageModifier = 1)
     {
         Owner.DamageTarget(target, GetModifiedValue(AbilityData.SecondaryDamage, linearDamageModifier, multiplicativeDamageModifier));
-    }
-
-    protected void ApplySecondaryDamageAsDOT(Actor target, float duration, float tickRate = 1, int linearDamageModifier = 0, int multiplicativeDamageModifier = 1)
-    {
-        int totalDamage = GetModifiedValue(AbilityData.SecondaryDamage, linearDamageModifier, multiplicativeDamageModifier);
-        target.EffectManager.AddActiveEffect(new DOT(totalDamage, duration, tickRate), duration);
     }
 
     protected void Heal(int linearHealModifier = 0, int multiplicativeHealModifier = 1)

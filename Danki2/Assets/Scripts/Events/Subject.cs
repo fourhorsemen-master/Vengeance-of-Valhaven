@@ -35,6 +35,17 @@ public class Subject : IObservable
         Subscribe(() => mappedSubject.Next(mappingFunction()));
         return mappedSubject;
     }
+
+    /// <inheritdoc/>
+    public IObservable Where(Func<bool> filter)
+    {
+        Subject filteredSubject = new Subject();
+        Subscribe(() =>
+        {
+            if (filter()) filteredSubject.Next();
+        });
+        return filteredSubject;
+    }
 }
 
 /// <inheritdoc cref="Subject"/>
@@ -69,5 +80,16 @@ public class Subject<T> : IObservable<T>
         Subject<TMapped> mappedSubject = new Subject<TMapped>();
         Subscribe(value => mappedSubject.Next(mappingFunction(value)));
         return mappedSubject;
+    }
+
+    /// <inheritdoc/>
+    public IObservable<T> Where(Func<T, bool> filter)
+    {
+        Subject<T> filteredSubject = new Subject<T>();
+        Subscribe(value =>
+        {
+            if (filter(value)) filteredSubject.Next(value);
+        });
+        return filteredSubject;
     }
 }

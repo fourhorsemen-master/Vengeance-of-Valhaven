@@ -19,7 +19,7 @@ public class Parry : InstantCast
     {
         ParryObject.Create(Owner.transform, onParry);
         
-        Owner.EffectManager.AddActiveEffect(new BlockIncomingDamage(), duration);
+        Owner.EffectManager.AddActiveEffect(ActiveEffect.Block, duration);
         
         damageSourceSubscription = Owner.HealthManager.UnmodifiedDamageSubject.Subscribe(HandleIncomingDamage);
 

@@ -39,8 +39,6 @@ public class HealthManager
 
         UnmodifiedTickDamageSubject.Next(damage);
 
-        damage = actor.EffectManager.ProcessIncomingDamage(damage);
-
         if (damage < 0)
         {
             Debug.LogWarning($"Tried to tick negative damage, value: {damage}");
@@ -62,7 +60,6 @@ public class HealthManager
 
         // If already 0, damage should be left as 0, else reduce according to defence, but not below the minimum threshold.
         damage = damage == 0 ? 0 : Mathf.Max(MinimumDamageAfterStats, damage - actor.GetStat(Stat.Defence));
-        damage = actor.EffectManager.ProcessIncomingDamage(damage);
 
         if (damage < 0)
         {
@@ -70,7 +67,7 @@ public class HealthManager
             return;
         }
 
-        if (damage > 0)
+        if (damage > 0 && !actor.EffectManager.HasActiveEffect(ActiveEffect.Block))
         {
             ModifyHealth(-damage);
             ModifiedDamageSubject.Next(new DamageData(damage, source));
@@ -82,8 +79,6 @@ public class HealthManager
     public void ReceiveHeal(int healing)
     {
         if (actor.Dead) return;
-
-        healing = actor.EffectManager.ProcessIncomingHeal(healing);
 
         if (healing < 0)
         {

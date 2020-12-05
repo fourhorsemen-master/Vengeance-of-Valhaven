@@ -4,7 +4,6 @@
 public class PoisonDagger : InstantCast
 {
     private const float DaggerSpeed = 20f;
-    private const float DotDuration = 5f;
 
     public PoisonDagger(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
@@ -29,7 +28,7 @@ public class PoisonDagger : InstantCast
             }
 
             DealPrimaryDamage(actor);
-            ApplySecondaryDamageAsDOT(actor, DotDuration);
+            actor.EffectManager.AddStack(StackingEffect.Poison);
             SuccessFeedbackSubject.Next(true);
         }
         else

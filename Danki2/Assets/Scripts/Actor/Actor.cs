@@ -41,7 +41,7 @@ public abstract class Actor : MonoBehaviour
     protected virtual void Awake()
     {
         statsManager = new StatsManager(baseStats);
-        EffectManager = new EffectManager(this, updateSubject, statsManager);
+        EffectManager = new EffectManager(this, statsManager, updateSubject);
         HealthManager = new HealthManager(this, updateSubject);
         InterruptionManager = new InterruptionManager(this, startSubject, updateSubject);
         ChannelService = new ChannelService(this, startSubject, lateUpdateSubject);
@@ -89,7 +89,7 @@ public abstract class Actor : MonoBehaviour
 
     public void DamageTarget(Actor target, int damage)
     {
-        target.HealthManager.ReceiveDamage(EffectManager.ProcessOutgoingDamage(damage), this);
+        target.HealthManager.ReceiveDamage(damage + GetStat(Stat.Power), this);
     }
 
     public void InterruptibleAction(float delay, InterruptionType interruptionType, Action action)

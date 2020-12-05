@@ -9,61 +9,80 @@ public abstract class EffectList : MonoBehaviour
 
     protected abstract EffectListItem EffectListItemPrefab { get; }
 
-    private readonly Dictionary<Guid, EffectListItem> effectListItems = new Dictionary<Guid, EffectListItem>();
+    private readonly Dictionary<ActiveEffect, EffectListItem> activeEffects = new Dictionary<ActiveEffect, EffectListItem>();
+    private readonly Dictionary<Guid, EffectListItem> passiveEffects = new Dictionary<Guid, EffectListItem>();
+    private readonly Dictionary<StackingEffect, EffectListItem> stackingEffects = new Dictionary<StackingEffect, EffectListItem>();
 
     private void Start()
     {
-        Actor.EffectManager.EffectAddedSubject.Subscribe(AddEffectListItem);
-        Actor.EffectManager.EffectRemovedSubject.Subscribe(RemoveEffectListItem);
+        Actor.EffectManager.ActiveEffectAddedSubject.Subscribe(ActiveEffectAdded);
+        Actor.EffectManager.ActiveEffectRemovedSubject.Subscribe(ActiveEffectRemoved);
+        
+        Actor.EffectManager.PassiveEffectAddedSubject.Subscribe(PassiveEffectAdded);
+        Actor.EffectManager.PassiveEffectRemovedSubject.Subscribe(PassiveEffectRemoved);
+        
+        Actor.EffectManager.StackingEffectAddedSubject.Subscribe(StackingEffectAdded);
+        Actor.EffectManager.StackingEffectRemovedSubject.Subscribe(StackingEffectRemoved);
     }
 
     private void Update()
     {
-        foreach (KeyValuePair<Guid,EffectListItem> keyValuePair in effectListItems)
+        foreach (ActiveEffect effect in activeEffects.Keys)
         {
-            Guid id = keyValuePair.Key;
-            EffectListItem effectListItem = keyValuePair.Value;
+            activeEffects[effect].UpdateRemainingDuration(Actor.EffectManager.GetRemainingActiveEffectDuration(effect));
+        }
 
-            if (!Actor.EffectManager.TryGetRemainingDuration(id, out float remainingDuration)) return;
-
-            effectListItem.SetRemainingDuration(remainingDuration);
+        foreach (StackingEffect effect in stackingEffects.Keys)
+        {
+            stackingEffects[effect].UpdateRemainingDuration(Actor.EffectManager.GetRemainingStackingEffectDuration(effect));
         }
     }
 
-    private void AddEffectListItem(Guid id)
+    private void ActiveEffectAdded(ActiveEffect effect)
     {
-        if (!Actor.EffectManager.TryGetEffect(id, out Effect effect))
+        if (activeEffects.TryGetValue(effect, out EffectListItem existingEffectListItem))
         {
-            Debug.LogError($"Tried to add effect list item with id: {id.ToString()}, when this does not exist in the effect manager.");
+            existingEffectListItem.ResetTotalDuration(Actor.EffectManager.GetTotalActiveEffectDuration(effect));
             return;
         }
 
-        EffectListItem effectListItem = Instantiate(EffectListItemPrefab, transform);
-        effectListItems.Add(id, effectListItem);
-
-        if (Actor.EffectManager.TryGetTotalDuration(id, out float totalDuration))
-        {
-            effectListItem.Initialise(effect, totalDuration);
-            return;
-        }
-
-        effectListItem.Initialise(effect);
+        activeEffects[effect] = Instantiate(EffectListItemPrefab, transform)
+            .InitialiseActiveEffect(effect, Actor.EffectManager.GetTotalActiveEffectDuration(effect));
     }
 
-    private void RemoveAllEffectListItems()
+    private void ActiveEffectRemoved(ActiveEffect effect)
     {
-        effectListItems.Keys.ToList().ForEach(RemoveEffectListItem);
+        activeEffects[effect].Destroy();
+        activeEffects.Remove(effect);
     }
 
-    private void RemoveEffectListItem(Guid id)
+    private void PassiveEffectAdded(PassiveEffectData effectData)
     {
-        if (!effectListItems.TryGetValue(id, out EffectListItem effectListItem))
+        passiveEffects[effectData.Id] = Instantiate(EffectListItemPrefab, transform)
+            .InitialisePassiveEffect(effectData.Effect);
+    }
+
+    private void PassiveEffectRemoved(PassiveEffectData effectData)
+    {
+        passiveEffects[effectData.Id].Destroy();
+        passiveEffects.Remove(effectData.Id);
+    }
+
+    private void StackingEffectAdded(StackingEffect effect)
+    {
+        if (stackingEffects.TryGetValue(effect, out EffectListItem existingEffectListItem))
         {
-            Debug.LogError($"Tried to remove effect list item with id: {id.ToString()}, when this does not exist in the effect manager.");
+            existingEffectListItem.UpdateStacks(Actor.EffectManager.GetStacks(effect));
             return;
         }
-        
-        effectListItem.Destroy();
-        effectListItems.Remove(id);
+
+        stackingEffects[effect] = Instantiate(EffectListItemPrefab, transform)
+            .InitialiseStackingEffect(effect, Actor.EffectManager.GetStacks(effect));
+    }
+
+    private void StackingEffectRemoved(StackingEffect effect)
+    {
+        stackingEffects[effect].Destroy();
+        stackingEffects.Remove(effect);
     }
 }
