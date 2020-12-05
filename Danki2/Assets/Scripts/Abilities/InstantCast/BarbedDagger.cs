@@ -28,7 +28,7 @@ public class BarbedDagger : InstantCast
             }
 
             DealPrimaryDamage(actor);
-            actor.EffectManager.AddStack(StackingEffect.Poison);
+            actor.EffectManager.AddStack(StackingEffect.Bleed);
             SuccessFeedbackSubject.Next(true);
         }
         else
