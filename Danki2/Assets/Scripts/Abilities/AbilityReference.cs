@@ -2,7 +2,7 @@
 {
     Slash,
     Whirlwind,
-    PoisonDagger,
+    BarbedDagger,
     Bite,
     Pounce,
     Lunge,
