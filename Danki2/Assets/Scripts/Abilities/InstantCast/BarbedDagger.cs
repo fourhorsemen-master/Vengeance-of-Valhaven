@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 
-[Ability(AbilityReference.PoisonDagger)]
-public class PoisonDagger : InstantCast
+[Ability(AbilityReference.BarbedDagger)]
+public class BarbedDagger : InstantCast
 {
     private const float DaggerSpeed = 20f;
 
-    public PoisonDagger(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
+    public BarbedDagger(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
     }
 
@@ -14,7 +14,7 @@ public class PoisonDagger : InstantCast
         CustomCamera.Instance.AddShake(ShakeIntensity.Low);
 
         Quaternion rotation = Quaternion.LookRotation(offsetTargetPosition - Owner.Centre);
-        PoisonDaggerObject.Fire(Owner, OnCollision, DaggerSpeed, Owner.Centre, rotation);
+        BarbedDaggerObject.Fire(Owner, OnCollision, DaggerSpeed, Owner.Centre, rotation);
     }
 
     private void OnCollision(GameObject gameObject)
@@ -28,7 +28,7 @@ public class PoisonDagger : InstantCast
             }
 
             DealPrimaryDamage(actor);
-            actor.EffectManager.AddStack(StackingEffect.Poison);
+            actor.EffectManager.AddStack(StackingEffect.Bleed);
             SuccessFeedbackSubject.Next(true);
         }
         else

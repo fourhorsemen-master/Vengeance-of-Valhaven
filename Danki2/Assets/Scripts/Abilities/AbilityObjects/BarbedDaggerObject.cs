@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class PoisonDaggerObject : ProjectileObject
+public class BarbedDaggerObject : ProjectileObject
 {
     [SerializeField]
     private AudioSource collisionSound = null;
@@ -11,7 +11,7 @@ public class PoisonDaggerObject : ProjectileObject
 
     public static void Fire(Actor caster, Action<GameObject> collisionCallback, float speed, Vector3 position, Quaternion rotation)
     {
-        Instantiate(AbilityObjectPrefabLookup.Instance.PoisonDaggerObjectPrefab, position, rotation)
+        Instantiate(AbilityObjectPrefabLookup.Instance.BarbedDaggerObjectPrefab, position, rotation)
             .InitialiseProjectile(caster, collisionCallback, speed)
             .SetSticky(5f);
     }
