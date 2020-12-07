@@ -197,11 +197,12 @@ MonoBehaviour:
       finisher: 0
       channelDuration: 0
     - displayName: Backstab
-      tooltip: With an unexpected stab from behind, deal {PRIMARY_DAMAGE} to a target.
-        However if the opponent is facing you the stab will fail!
+      tooltip: With an unexpected stab from behind, deal {PRIMARY_DAMAGE} damage
+        to a target. However if the opponent is facing you the stab will only do
+        {SECONDARY_DAMAGE} damage!
       baseAbilityData:
         primaryDamage: 16
-        secondaryDamage: 0
+        secondaryDamage: 2
         heal: 0
         shield: 0
       abilityBonusLookup:
