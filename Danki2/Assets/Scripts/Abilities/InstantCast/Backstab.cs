@@ -31,7 +31,8 @@ public class Backstab : InstantCast
         if (Vector3.Dot(target.transform.forward, Owner.transform.position - target.transform.position) < 0)
         {
             DealPrimaryDamage(target);
-        } else
+        }
+        else
         {
             DealSecondaryDamage(target);
         }        
