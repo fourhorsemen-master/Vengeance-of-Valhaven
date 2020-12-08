@@ -5287,6 +5287,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: AbilityLookup
       objectReference: {fileID: 0}
+    - target: {fileID: 4259702728665597836, guid: 93874b111f3b37343b35bcc90265ec00,
+        type: 3}
+      propertyPath: serializableMetadataLookup._values.Array.data[13].channelDuration
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4259702728665597836, guid: 93874b111f3b37343b35bcc90265ec00,
+        type: 3}
+      propertyPath: serializableMetadataLookup._values.Array.data[13].tooltip
+      value: Adds 2 stack of bleed to all surrounding enemies.
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 93874b111f3b37343b35bcc90265ec00, type: 3}
 --- !u!4 &1484570243 stripped

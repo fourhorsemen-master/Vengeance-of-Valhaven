@@ -245,9 +245,9 @@ MonoBehaviour:
       finisher: 0
       channelDuration: 0
     - displayName: Rend
-      tooltip: Adds 1 stack of bleed to all surrounding enemies for each second charged.
+      tooltip: Adds 2 stack of bleed to all surrounding enemies.
       baseAbilityData:
-        primaryDamage: 5
+        primaryDamage: 0
         secondaryDamage: 0
         heal: 0
         shield: 0
@@ -255,7 +255,7 @@ MonoBehaviour:
         _keys: []
         _values: []
       finisher: 0
-      channelDuration: 3
+      channelDuration: 1
     - displayName: Disengage
       tooltip: Deal {PRIMARY_DAMAGE} damage then leap backwards.
       baseAbilityData:
