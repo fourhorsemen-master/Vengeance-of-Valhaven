@@ -46,18 +46,18 @@ MonoBehaviour:
   serializableActiveEffectDictionary:
     _keys:
     - Stun
-    - Block
     _values:
     - displayName: Stun
       sprite: {fileID: 21300000, guid: 363da66706f97d243b921f21841a4ddb, type: 3}
-    - displayName: Block
-      sprite: {fileID: 21300000, guid: 536280deae60bc34a975d59364474ffd, type: 3}
   serializablePassiveEffectDictionary:
     _keys:
     - Slow
+    - Block
     _values:
     - displayName: Slow
       sprite: {fileID: 21300000, guid: 4e36df84fd94d4343acf27b6f8c893d1, type: 3}
+    - displayName: Parry
+      sprite: {fileID: 21300000, guid: 536280deae60bc34a975d59364474ffd, type: 3}
   serializableStackingEffectDictionary:
     _keys:
     - Slow
