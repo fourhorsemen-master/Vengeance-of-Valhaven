@@ -28,7 +28,9 @@ public class Backstab : InstantCast
 
         SuccessFeedbackSubject.Next(true);
 
-        if (Vector3.Dot(target.transform.forward, Owner.transform.position - target.transform.position) < 0)
+        bool backTurned = Vector3.Dot(target.transform.forward, Owner.transform.position - target.transform.position) < 0;
+
+        if (backTurned)
         {
             DealPrimaryDamage(target);
         }
