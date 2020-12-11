@@ -112,7 +112,7 @@ public class MovementManager : IMovementStatusProvider
 
         if (Rooted) return;
 
-        navMeshAgent.Move(direction.normalized * (Time.deltaTime * actor.GetStat(Stat.Speed)));
+        navMeshAgent.Move(direction.normalized * (Time.deltaTime * actor.StatsManager.Get(Stat.Speed)));
         movedThisFrame = true;
     }
 
@@ -210,7 +210,7 @@ public class MovementManager : IMovementStatusProvider
         IsMoving = movedThisFrame || (navMeshAgent.hasPath && navMeshAgent.velocity.magnitude > 0f);
         movedThisFrame = false;
 
-        navMeshAgent.speed = actor.GetStat(Stat.Speed);
+        navMeshAgent.speed = actor.StatsManager.Get(Stat.Speed);
 
         if (
             watching 

@@ -14,22 +14,20 @@ public class StatsManager
         _pipes = new List<IStatPipe>();
     }
 
-    public int this[Stat stat]
+    public int Get(Stat stat)
     {
-        get {
-            if (_cache.TryGetValue(stat, out int value))
-            {
-                return value;
-            }
-            else
-            {
-                float pipelineValue = _baseStats[stat];
-                _pipes.ForEach(p => pipelineValue = p.ProcessStat(stat, pipelineValue));
+        if (_cache.TryGetValue(stat, out int value))
+        {
+            return value;
+        }
+        else
+        {
+            float pipelineValue = _baseStats[stat];
+            _pipes.ForEach(p => pipelineValue = p.ProcessStat(stat, pipelineValue));
 
-                int statValue = (int)Math.Ceiling(pipelineValue);
-                _cache.Add(stat, statValue);
-                return statValue;
-            }
+            int statValue = (int)Math.Ceiling(pipelineValue);
+            _cache.Add(stat, statValue);
+            return statValue;
         }
     }
 

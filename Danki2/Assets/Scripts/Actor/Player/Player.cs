@@ -80,7 +80,7 @@ public class Player : Actor
         bool rolled = MovementManager.TryLockMovement(
             MovementLockType.Dash,
             rollDuration,
-            GetStat(Stat.Speed) * rollSpeedMultiplier,
+            StatsManager.Get(Stat.Speed) * rollSpeedMultiplier,
             direction,
             direction
         );

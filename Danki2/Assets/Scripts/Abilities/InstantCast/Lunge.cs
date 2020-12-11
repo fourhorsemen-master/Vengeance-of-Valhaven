@@ -22,7 +22,7 @@ public class Lunge : InstantCast
         Vector3 castDirection = floorTargetPosition - position;
 
         float distance = Vector3.Distance(floorTargetPosition, position);
-        float lungeSpeed = Owner.GetStat(Stat.Speed) * LungeSpeedMultiplier;
+        float lungeSpeed = Owner.StatsManager.Get(Stat.Speed) * LungeSpeedMultiplier;
         float duration = Mathf.Clamp(distance/lungeSpeed, MinMovementDuration, MaxMovementDuration);
 
         Owner.MovementManager.TryLockMovement(MovementLockType.Dash, duration, lungeSpeed, castDirection, castDirection);
