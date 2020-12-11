@@ -27,6 +27,7 @@ public class WolfAi : Ai
     [Header("Attack")]
     [SerializeField] private float followDistance = 0;
     [SerializeField] private float biteRange = 0;
+    [SerializeField] private float biteMaxAngle = 0;
     [SerializeField] private float biteDelay = 0;
     [SerializeField] private float biteCooldown = 0;
     [SerializeField] private float pounceMinRange = 0;
@@ -62,7 +63,7 @@ public class WolfAi : Ai
             .WithTransition(
                 AttackState.InitialReposition,
                 AttackState.TelegraphBite,
-                new DistanceLessThan(wolf, player, biteRange) & new IsFacing(wolf, player)
+                new DistanceLessThan(wolf, player, biteRange) & new Facing(wolf, player, biteMaxAngle)
             )
             .WithTransition(
                 AttackState.InitialReposition,
@@ -72,7 +73,7 @@ public class WolfAi : Ai
             .WithTransition(
                 AttackState.Reposition,
                 AttackState.TelegraphBite,
-                new DistanceLessThan(wolf, player, biteRange) & new TimeElapsed(biteCooldown) & new IsFacing(wolf, player)
+                new DistanceLessThan(wolf, player, biteRange) & new TimeElapsed(biteCooldown) & new Facing(wolf, player, biteMaxAngle)
             )
             .WithTransition(AttackState.TelegraphBite, AttackState.Reposition, new Interrupted(wolf, InterruptionType.Hard))
             .WithTransition(AttackState.TelegraphBite, AttackState.Bite, new TimeElapsed(biteDelay))
