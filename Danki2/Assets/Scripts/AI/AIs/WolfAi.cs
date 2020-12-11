@@ -27,6 +27,7 @@ public class WolfAi : Ai
     [Header("Attack")]
     [SerializeField] private float followDistance = 0;
     [SerializeField] private float biteRange = 0;
+    [SerializeField] private float biteMaxAngle = 0;
     [SerializeField] private float biteDelay = 0;
     [SerializeField] private float biteCooldown = 0;
     [SerializeField] private float pounceMinRange = 0;
@@ -59,7 +60,11 @@ public class WolfAi : Ai
             .WithComponent(AttackState.Bite, new WolfBite(wolf))
             .WithComponent(AttackState.TelegraphPounce, new TelegraphAttack(wolf, pounceDelay))
             .WithComponent(AttackState.Pounce, new WolfPounce(wolf, player))
-            .WithTransition(AttackState.InitialReposition, AttackState.TelegraphBite, new DistanceLessThan(wolf, player, biteRange))
+            .WithTransition(
+                AttackState.InitialReposition,
+                AttackState.TelegraphBite,
+                new DistanceLessThan(wolf, player, biteRange) & new Facing(wolf, player, biteMaxAngle)
+            )
             .WithTransition(
                 AttackState.InitialReposition,
                 AttackState.TelegraphPounce,
@@ -68,7 +73,7 @@ public class WolfAi : Ai
             .WithTransition(
                 AttackState.Reposition,
                 AttackState.TelegraphBite,
-                new DistanceLessThan(wolf, player, biteRange) & new TimeElapsed(biteCooldown)
+                new DistanceLessThan(wolf, player, biteRange) & new TimeElapsed(biteCooldown) & new Facing(wolf, player, biteMaxAngle)
             )
             .WithTransition(AttackState.TelegraphBite, AttackState.Reposition, new Interrupted(wolf, InterruptionType.Hard))
             .WithTransition(AttackState.TelegraphBite, AttackState.Bite, new TimeElapsed(biteDelay))
