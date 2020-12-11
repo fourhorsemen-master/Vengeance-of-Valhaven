@@ -59,7 +59,11 @@ public class WolfAi : Ai
             .WithComponent(AttackState.Bite, new WolfBite(wolf))
             .WithComponent(AttackState.TelegraphPounce, new TelegraphAttack(wolf, pounceDelay))
             .WithComponent(AttackState.Pounce, new WolfPounce(wolf, player))
-            .WithTransition(AttackState.InitialReposition, AttackState.TelegraphBite, new DistanceLessThan(wolf, player, biteRange))
+            .WithTransition(
+                AttackState.InitialReposition,
+                AttackState.TelegraphBite,
+                new DistanceLessThan(wolf, player, biteRange) & new IsFacing(wolf, player)
+            )
             .WithTransition(
                 AttackState.InitialReposition,
                 AttackState.TelegraphPounce,
@@ -68,7 +72,7 @@ public class WolfAi : Ai
             .WithTransition(
                 AttackState.Reposition,
                 AttackState.TelegraphBite,
-                new DistanceLessThan(wolf, player, biteRange) & new TimeElapsed(biteCooldown)
+                new DistanceLessThan(wolf, player, biteRange) & new TimeElapsed(biteCooldown) & new IsFacing(wolf, player)
             )
             .WithTransition(AttackState.TelegraphBite, AttackState.Reposition, new Interrupted(wolf, InterruptionType.Hard))
             .WithTransition(AttackState.TelegraphBite, AttackState.Bite, new TimeElapsed(biteDelay))
