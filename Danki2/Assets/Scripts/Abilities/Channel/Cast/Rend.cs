@@ -2,39 +2,18 @@
 using UnityEngine;
 
 [Ability(AbilityReference.Rend)]
-public class Rend : Charge
+public class Rend : Cast
 {
     private const float Range = 3f;
-
-    private int cameraShakeCount = 0;
+    private int bleedStacks = 2;
 
     public Rend(Actor owner, AbilityData abilityData, string[] availableBonuses, float duration)
         : base(owner, abilityData, availableBonuses, duration)
     {
     }
 
-    protected override void Continue()
+    public override void End(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
-        int newCameraShakeCount = Mathf.FloorToInt(TimeCharged);
-        if (newCameraShakeCount == cameraShakeCount) return;
-        cameraShakeCount = newCameraShakeCount;
-        CustomCamera.Instance.AddShake(ShakeIntensity.Low);
-    }
-
-    public override void Cancel(Vector3 floorTargetPosition, Vector3 offsetTargetPosition) => End(TimeCharged);
-
-    public override void End(Vector3 floorTargetPosition, Vector3 offsetTargetPosition) => End(Duration);
-
-    private void End(float timeCharged)
-    {
-        int charges = Mathf.FloorToInt(timeCharged);
-
-        if (charges == 0)
-        {
-            SuccessFeedbackSubject.Next(false);
-            return;
-        }
-
         List<Actor> opposingActors = CollisionTemplateManager.Instance
             .GetCollidingActors(CollisionTemplate.Cylinder, Range, Owner.transform.position)
             .Where(Owner.Opposes);
@@ -52,7 +31,7 @@ public class Rend : Charge
 
         opposingActors.ForEach(actor =>
         {
-            actor.EffectManager.AddStacks(StackingEffect.Bleed, charges);
+            actor.EffectManager.AddStacks(StackingEffect.Bleed, bleedStacks);
         });
 
         CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
