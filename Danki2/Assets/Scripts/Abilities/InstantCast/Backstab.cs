@@ -28,7 +28,16 @@ public class Backstab : InstantCast
 
         SuccessFeedbackSubject.Next(true);
 
-        DealPrimaryDamage(target);
+        bool backTurned = Vector3.Dot(target.transform.forward, Owner.transform.position - target.transform.position) < 0;
+
+        if (backTurned)
+        {
+            DealPrimaryDamage(target);
+        }
+        else
+        {
+            DealSecondaryDamage(target);
+        }        
 
         CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
         backstabObject.PlayHitSound();
@@ -48,9 +57,8 @@ public class Backstab : InstantCast
     private bool InRange(Actor target)
     {
         bool opposesCaster = Owner.Opposes(target);
-        bool closeEnough = Vector3.Distance(target.transform.position, Owner.transform.position) < Range;
-        bool backTurned = Vector3.Dot(target.transform.forward, Owner.transform.position - target.transform.position) < 0;
+        bool closeEnough = Vector3.Distance(target.transform.position, Owner.transform.position) < Range;        
 
-        return opposesCaster && closeEnough && backTurned;
+        return opposesCaster && closeEnough;
     }
 }
