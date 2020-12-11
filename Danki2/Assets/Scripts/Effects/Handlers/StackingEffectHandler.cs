@@ -23,7 +23,7 @@
             .Where(EffectFilter)
             .Subscribe(_ =>
             {
-                repeater = new Repeater(tickInterval, HandleEffectTicked, tickStartDelay);
+                repeater = repeater ?? new Repeater(tickInterval, HandleEffectTicked, tickStartDelay);
                 HandleEffectAdded();
             });
 
