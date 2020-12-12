@@ -24,7 +24,11 @@ public class StatsManager
         return statValue;
     }
 
-    public void RegisterPipe(IStatPipe pipe) => pipes.Add(pipe);
+    public void RegisterPipe(IStatPipe pipe)
+    {
+        pipes.Add(pipe);
+        ClearCache();
+    }
 
     public void ClearCache() => cache.Clear();
 }

@@ -30,6 +30,9 @@ public class RuneManager
 			case Rune.FleetOfFoot:
 				player.StatsManager.RegisterPipe(new FleetOfFootHandler());
 				break;
+			case Rune.IronSkin:
+				player.StatsManager.RegisterPipe(new ThickSkinHandler());
+				break;
 		}
 	}
 }

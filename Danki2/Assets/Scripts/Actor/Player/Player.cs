@@ -10,6 +10,7 @@ public class Player : Actor
     [SerializeField] private float comboTimeout = 2f;
     [SerializeField] private float feedbackTimeout = 1f;
     [SerializeField] private bool rollResetsCombo = false;
+
     [Header("Roll")]
     [SerializeField] private float totalRollCooldown = 1f;
     [SerializeField] private float rollDuration = 0.3f;
@@ -29,6 +30,7 @@ public class Player : Actor
     // Services
     public AbilityTree AbilityTree { get; private set; }
     public ComboManager ComboManager { get; private set; }
+    public RuneManager RuneManager { get; private set; }
     public PlayerTargetFinder TargetFinder { get; private set; }
     
     // Subjects
@@ -52,6 +54,8 @@ public class Player : Actor
         TargetFinder = new PlayerTargetFinder(this, updateSubject);
 
         ComboManager = new ComboManager(this, updateSubject, rollResetsCombo);
+
+        RuneManager = new RuneManager(this);
 
         InstantCastService.SetFeedbackTimeout(feedbackTimeout);
         ChannelService.SetFeedbackTimeout(feedbackTimeout);
@@ -92,7 +96,12 @@ public class Player : Actor
             StartTrail(rollDuration * 2);
 
             readyToRoll = false;
-            this.WaitAndAct(totalRollCooldown, () => readyToRoll = true);
+
+            var cooldown = RuneManager.HasRune(Rune.EnhancedRoll)
+                ? totalRollCooldown / 2
+                : totalRollCooldown;
+
+            this.WaitAndAct(cooldown, () => readyToRoll = true);
         }
     }
 
