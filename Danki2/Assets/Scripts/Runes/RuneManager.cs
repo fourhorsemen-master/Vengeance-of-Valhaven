@@ -32,6 +32,7 @@ public class RuneManager
 				break;
 			case Rune.IronSkin:
 				player.StatsManager.RegisterPipe(new IronSkinHandler());
+				player.HealthManager.ReceiveHeal(player.StatsManager.Get(Stat.MaxHealth));
 				break;
 		}
 	}
