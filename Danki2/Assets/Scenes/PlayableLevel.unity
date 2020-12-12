@@ -5341,26 +5341,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2134598420}
     m_Modifications:
-    - target: {fileID: 4680388, guid: 79ac0796178cdea4bb5cbf3704b54d4a, type: 3}
-      propertyPath: m_Version
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4680388, guid: 79ac0796178cdea4bb5cbf3704b54d4a, type: 3}
-      propertyPath: m_ObsoleteCustomShadowResolution
-      value: 1024
-      objectReference: {fileID: 0}
-    - target: {fileID: 4680388, guid: 79ac0796178cdea4bb5cbf3704b54d4a, type: 3}
-      propertyPath: m_MinFilterSize
-      value: 0.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 4680388, guid: 79ac0796178cdea4bb5cbf3704b54d4a, type: 3}
-      propertyPath: m_ShadowResolution.m_Override
-      value: 1024
-      objectReference: {fileID: 0}
-    - target: {fileID: 4680388, guid: 79ac0796178cdea4bb5cbf3704b54d4a, type: 3}
-      propertyPath: m_ShadowResolution.m_Level
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4777388720977389772, guid: 79ac0796178cdea4bb5cbf3704b54d4a,
         type: 3}
       propertyPath: m_Name
@@ -5421,8 +5401,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 4680387, guid: 79ac0796178cdea4bb5cbf3704b54d4a, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79ac0796178cdea4bb5cbf3704b54d4a, type: 3}
 --- !u!1 &1514508021 stripped
 GameObject:
