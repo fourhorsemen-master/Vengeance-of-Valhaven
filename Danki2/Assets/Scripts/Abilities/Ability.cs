@@ -25,12 +25,14 @@ public abstract class Ability
 
     protected void DealPrimaryDamage(Actor target, int linearDamageModifier = 0, int multiplicativeDamageModifier = 1)
     {
-        Owner.DamageTarget(target, GetModifiedValue(AbilityData.PrimaryDamage, linearDamageModifier, multiplicativeDamageModifier));
+        int damage = GetModifiedValue(AbilityData.PrimaryDamage, linearDamageModifier, multiplicativeDamageModifier);
+        target.HealthManager.ReceiveDamage(damage, Owner);
     }
 
     protected void DealSecondaryDamage(Actor target, int linearDamageModifier = 0, int multiplicativeDamageModifier = 1)
     {
-        Owner.DamageTarget(target, GetModifiedValue(AbilityData.SecondaryDamage, linearDamageModifier, multiplicativeDamageModifier));
+        int damage = GetModifiedValue(AbilityData.SecondaryDamage, linearDamageModifier, multiplicativeDamageModifier);
+        target.HealthManager.ReceiveDamage(damage, Owner);
     }
 
     protected void Heal(int linearHealModifier = 0, int multiplicativeHealModifier = 1)
