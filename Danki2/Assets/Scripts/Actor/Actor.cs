@@ -82,11 +82,6 @@ public abstract class Actor : MonoBehaviour
         return !CompareTag(target.tag);
     }
 
-    public void DamageTarget(Actor target, int damage)
-    {
-        target.HealthManager.ReceiveDamage(damage + StatsManager.Get(Stat.Power), this);
-    }
-
     public void InterruptibleAction(float delay, InterruptionType interruptionType, Action action)
     {
         Coroutine coroutine = this.WaitAndAct(delay, action);
