@@ -42,7 +42,7 @@ public class PiercingRush : Cast
         float distance = Vector3.Distance(floorTargetPosition, position);
         distance = Mathf.Clamp(distance, minimumCastRange, maximumCastRange);
 
-        float dashSpeed = Owner.GetStat(Stat.Speed) * dashSpeedMultiplier;
+        float dashSpeed = Owner.StatsManager.Get(Stat.Speed) * dashSpeedMultiplier;
         float dashDuration = distance / dashSpeed;
 
         Owner.MovementManager.TryLockMovement(MovementLockType.Dash, dashDuration, dashSpeed, direction, direction);
