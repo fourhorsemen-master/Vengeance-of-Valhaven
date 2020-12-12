@@ -1,4 +1,4 @@
-﻿public class ThickSkinHandler : IStatPipe
+﻿public class IronSkinHandler : IStatPipe
 {
     public float ProcessStat(Stat stat, float value)
     {
