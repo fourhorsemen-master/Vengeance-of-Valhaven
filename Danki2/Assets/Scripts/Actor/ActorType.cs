@@ -2,4 +2,5 @@
 {
     Player,
     Wolf,
+    Bear,
 }
