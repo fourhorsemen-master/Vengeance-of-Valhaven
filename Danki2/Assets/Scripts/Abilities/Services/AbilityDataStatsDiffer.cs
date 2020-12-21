@@ -20,10 +20,10 @@
     private AbilityData GetAbilityDataDiff()
     {
         return new AbilityData(
-            actor.GetStat(Stat.Power),
-            actor.GetStat(Stat.Power),
-            actor.GetStat(Stat.Recovery),
-            actor.GetStat(Stat.Defence)
+            actor.StatsManager.Get(Stat.Power),
+            actor.StatsManager.Get(Stat.Power),
+            actor.StatsManager.Get(Stat.Recovery),
+            actor.StatsManager.Get(Stat.Defence)
         );
     }
 }

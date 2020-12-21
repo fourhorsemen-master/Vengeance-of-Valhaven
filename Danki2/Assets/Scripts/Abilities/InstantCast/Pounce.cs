@@ -20,7 +20,7 @@ public class Pounce : InstantCast
         Vector3 direction = floorTargetPosition - position;
 
         float distance = Vector3.Distance(floorTargetPosition, position);
-        float pounceSpeed = Owner.GetStat(Stat.Speed) * PounceSpeedMultiplier;
+        float pounceSpeed = Owner.StatsManager.Get(Stat.Speed) * PounceSpeedMultiplier;
         float duration = Mathf.Clamp(distance / pounceSpeed, MinMovementDuration, MaxMovementDuration);
 
         Owner.MovementManager.TryLockMovement(MovementLockType.Dash, duration, pounceSpeed, direction, direction);

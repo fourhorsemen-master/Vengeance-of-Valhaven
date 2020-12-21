@@ -25,20 +25,20 @@ public class EffectManager
     public Subject<StackingEffect> StackingEffectAddedSubject { get; } = new Subject<StackingEffect>();
     public Subject<StackingEffect> StackingEffectRemovedSubject { get; } = new Subject<StackingEffect>();
 
-    public EffectManager(Actor actor, StatsManager statsManager, Subject updateSubject)
+    public EffectManager(Actor actor, Subject updateSubject)
     {
         this.actor = actor;
 
-        ActiveEffectAddedSubject.Subscribe(_ => statsManager.ClearCache());
-        ActiveEffectRemovedSubject.Subscribe(_ => statsManager.ClearCache());
-        PassiveEffectAddedSubject.Subscribe(_ => statsManager.ClearCache());
-        PassiveEffectRemovedSubject.Subscribe(_ => statsManager.ClearCache());
-        StackingEffectAddedSubject.Subscribe(_ => statsManager.ClearCache());
-        StackingEffectRemovedSubject.Subscribe(_ => statsManager.ClearCache());
+        ActiveEffectAddedSubject.Subscribe(_ => actor.StatsManager.ClearCache());
+        ActiveEffectRemovedSubject.Subscribe(_ => actor.StatsManager.ClearCache());
+        PassiveEffectAddedSubject.Subscribe(_ => actor.StatsManager.ClearCache());
+        PassiveEffectRemovedSubject.Subscribe(_ => actor.StatsManager.ClearCache());
+        StackingEffectAddedSubject.Subscribe(_ => actor.StatsManager.ClearCache());
+        StackingEffectRemovedSubject.Subscribe(_ => actor.StatsManager.ClearCache());
         
-        statsManager.RegisterPipe(new StackingSlowHandler(actor));
-        statsManager.RegisterPipe(new PassiveSlowHandler(actor));
-        statsManager.RegisterPipe(new VulnerableHandler(actor));
+        actor.StatsManager.RegisterPipe(new StackingSlowHandler(actor));
+        actor.StatsManager.RegisterPipe(new PassiveSlowHandler(actor));
+        actor.StatsManager.RegisterPipe(new VulnerableHandler(actor));
 
         BleedHandler bleedHandler = new BleedHandler(actor, this);
         PoisonHandler poisonHandler = new PoisonHandler(actor, this);

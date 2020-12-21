@@ -7,7 +7,7 @@ public class HealthManager
 
     public int Health { get; private set; }
 
-    public int MaxHealth => actor.GetStat(Stat.MaxHealth);
+    public int MaxHealth => actor.StatsManager.Get(Stat.MaxHealth);
 
     public Subject<DamageData> UnmodifiedDamageSubject { get; } = new Subject<DamageData>();
     public Subject<DamageData> ModifiedDamageSubject { get; } = new Subject<DamageData>();
@@ -59,7 +59,7 @@ public class HealthManager
         UnmodifiedDamageSubject.Next(new DamageData(damage, source));
 
         // If already 0, damage should be left as 0, else reduce according to defence, but not below the minimum threshold.
-        damage = damage == 0 ? 0 : Mathf.Max(MinimumDamageAfterStats, damage - actor.GetStat(Stat.Defence));
+        damage = damage == 0 ? 0 : Mathf.Max(MinimumDamageAfterStats, damage - actor.StatsManager.Get(Stat.Defence));
 
         if (damage < 0)
         {

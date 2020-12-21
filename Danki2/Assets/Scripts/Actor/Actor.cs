@@ -17,12 +17,12 @@ public abstract class Actor : MonoBehaviour
     private MeshRenderer[] meshRenderers = null;
 
     private Coroutine stopTrailCoroutine;
-    private StatsManager statsManager;
 
     protected readonly Subject startSubject = new Subject();
     protected readonly Subject updateSubject = new Subject();
     protected readonly Subject lateUpdateSubject = new Subject();
 
+    public StatsManager StatsManager { get; private set; }
     public HealthManager HealthManager { get; private set; }
     public ChannelService ChannelService { get; private set; }
     public InstantCastService InstantCastService { get; private set; }
@@ -40,8 +40,8 @@ public abstract class Actor : MonoBehaviour
 
     protected virtual void Awake()
     {
-        statsManager = new StatsManager(baseStats);
-        EffectManager = new EffectManager(this, statsManager, updateSubject);
+        StatsManager = new StatsManager(baseStats);
+        EffectManager = new EffectManager(this, updateSubject);
         HealthManager = new HealthManager(this, updateSubject);
         InterruptionManager = new InterruptionManager(this, startSubject, updateSubject);
         ChannelService = new ChannelService(this, startSubject, lateUpdateSubject);
@@ -76,20 +76,10 @@ public abstract class Actor : MonoBehaviour
             OnDeath();
         }
     }
-
-    public int GetStat(Stat stat)
-    {
-        return statsManager[stat];
-    }
         
     public bool Opposes(Actor target)
     {
         return !CompareTag(target.tag);
-    }
-
-    public void DamageTarget(Actor target, int damage)
-    {
-        target.HealthManager.ReceiveDamage(damage + GetStat(Stat.Power), this);
     }
 
     public void InterruptibleAction(float delay, InterruptionType interruptionType, Action action)
