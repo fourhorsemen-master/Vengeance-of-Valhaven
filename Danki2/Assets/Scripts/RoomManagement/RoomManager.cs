@@ -6,6 +6,9 @@ public class RoomManager : Singleton<RoomManager>
 {
     public List<ActorCacheItem> ActorCache { get; private set; }
     public Player Player { get; private set; }
+    public bool CanAdvance { get; private set; } = false;
+
+    public Subject CanAdvanceSubject = new Subject();
 
     public bool TryGetActor(GameObject gameObject, out Actor actor)
     {
@@ -45,7 +48,19 @@ public class RoomManager : Singleton<RoomManager>
             .ToList();
 
         ActorCache.ForEach(a =>
-            a.Actor.DeathSubject.Subscribe(() => ActorCache.Remove(a))
+            a.Actor.DeathSubject.Subscribe(() =>
+            {
+                ActorCache.Remove(a);
+
+                if (!ActorCache.Any(b => b.Actor.CompareTag(Tags.Enemy)))
+                {
+                    if (!CanAdvance)
+                    {
+                        CanAdvanceSubject.Next();
+                        CanAdvance = true;
+                    }
+                }
+            })
         );
     }
 }
