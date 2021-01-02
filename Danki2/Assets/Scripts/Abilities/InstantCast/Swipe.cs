@@ -39,7 +39,7 @@ public class Swipe : InstantCast
             }
         });
 
-        SweepingStrikeObject.Create(Owner.Centre, GetMeleeCastRotation(Owner.transform.forward));
+        SwipeObject.Create(Owner.Centre, GetMeleeCastRotation(Owner.transform.forward));
 
         Owner.MovementManager.Pause(PauseDuration);
         SuccessFeedbackSubject.Next(hasDealtDamage);
