@@ -3,8 +3,8 @@
 [Ability(AbilityReference.Swipe)]
 public class Swipe : InstantCast
 {
-    private const float DashDuration = 0.1f;
-    private const float DashSpeedMultiplier = 2f;
+    private const float DashDuration = 0.2f;
+    private const float DashSpeedMultiplier = 3f;
     private const float PauseDuration = 0.3f;
     private const float DamageRadius = 3f;
 
@@ -39,13 +39,14 @@ public class Swipe : InstantCast
             }
         });
 
-        SwipeObject.Create(Owner.Centre, GetMeleeCastRotation(Owner.transform.forward));
+        var swipeObject = SwipeObject.Create(Owner.Centre, GetMeleeCastRotation(Owner.transform.forward));
 
         Owner.MovementManager.Pause(PauseDuration);
         SuccessFeedbackSubject.Next(hasDealtDamage);
 
         if (hasDealtDamage)
         {
+            swipeObject.PlayHitSound();
             CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
         }
     }
