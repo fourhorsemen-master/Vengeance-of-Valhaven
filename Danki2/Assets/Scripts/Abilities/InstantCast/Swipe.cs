@@ -4,7 +4,7 @@
 public class Swipe : InstantCast
 {
     private const float DashDuration = 0.2f;
-    private const float DashSpeedMultiplier = 3f;
+    private const float DashSpeedMultiplier = 1.5f;
     private const float PauseDuration = 0.3f;
     private const float DamageRadius = 3f;
 
@@ -39,6 +39,7 @@ public class Swipe : InstantCast
             }
         });
 
+        // TODO: use actor.AbilitySource when that exists - rather than translating from centre
         var swipeObject = SwipeObject.Create(Owner.Centre + 3 * Owner.transform.forward, GetMeleeCastRotation(Owner.transform.forward));
 
         Owner.MovementManager.Pause(PauseDuration);
