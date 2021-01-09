@@ -96,7 +96,8 @@ public class MovementManager : IMovementStatusProvider
     /// Move along the navmesh in the given direction unless rooted, stunned or movement locked.
     /// </summary>
     /// <param name="direction"></param>
-    public void Move(Vector3 direction)
+    /// <param name="speed"></param>
+    public void Move(Vector3 direction, float? speed = null)
     {
         if (actor.Dead) return;
 
@@ -112,7 +113,9 @@ public class MovementManager : IMovementStatusProvider
 
         if (Rooted) return;
 
-        navMeshAgent.Move(direction.normalized * (Time.deltaTime * actor.StatsManager.Get(Stat.Speed)));
+        if (speed == null) speed = actor.StatsManager.Get(Stat.Speed);
+
+        navMeshAgent.Move(direction.normalized * (Time.deltaTime * speed.Value));
         movedThisFrame = true;
     }
 
