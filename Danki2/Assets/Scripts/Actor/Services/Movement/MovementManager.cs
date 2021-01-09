@@ -4,14 +4,20 @@ using UnityEngine.AI;
 
 public class MovementManager : IMovementStatusProvider
 {
-    private readonly Actor actor;
-    private readonly NavMeshAgent navMeshAgent;
-
-    private readonly ISet<MovementLockType> MoveLockOverrideTypes = new HashSet<MovementLockType>
+    private static readonly ISet<MovementLockType> MoveLockOverrideTypes = new HashSet<MovementLockType>
     {
         MovementLockType.Knockback,
         MovementLockType.Pull
     };
+
+    private static readonly ISet<MovementLockType> MovementLockTypesAffectedByWeight = new HashSet<MovementLockType>
+    {
+        MovementLockType.Knockback,
+        MovementLockType.Pull
+    };
+
+    private readonly Actor actor;
+    private readonly NavMeshAgent navMeshAgent;
 
     private const float DestinationTolerance = 0.5f;
     private const float RotationSmoothing = 0.15f;
@@ -165,6 +171,8 @@ public class MovementManager : IMovementStatusProvider
     public bool TryLockMovement(MovementLockType type, float duration, float speed, Vector3 direction, Vector3 rotation)
     {
         bool overrideLock = MoveLockOverrideTypes.Contains(type);
+
+        if (MovementLockTypesAffectedByWeight.Contains(type)) speed /= actor.Weight;
 
         return TryLockMovement(overrideLock, duration, speed, direction, rotation);
     }
