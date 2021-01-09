@@ -16,7 +16,13 @@ public class Swipe : InstantCast
     {
         Owner.MovementManager.LookAt(floorTargetPosition);
 
-        Owner.MovementManager.TryLockMovement(MovementLockType.Dash, DashDuration, Owner.StatsManager.Get(Stat.Speed) * DashSpeedMultiplier, Owner.transform.forward, Owner.transform.forward);
+        Owner.MovementManager.TryLockMovement(
+            MovementLockType.Dash,
+            DashDuration,
+            Owner.StatsManager.Get(Stat.Speed) * DashSpeedMultiplier,
+            Owner.transform.forward,
+            Owner.transform.forward
+        );
 
         Owner.InterruptibleAction(DashDuration, InterruptionType.Hard, DamageOnLand);
     }
