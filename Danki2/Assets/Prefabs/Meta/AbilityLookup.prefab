@@ -62,6 +62,7 @@ MonoBehaviour:
     - Disengage
     - FanOfKnives
     - Hamstring
+    - Swipe
     _values:
     - displayName: Slash
       tooltip: Deal {PRIMARY_DAMAGE} damage to enemies in a cone.
@@ -299,5 +300,17 @@ MonoBehaviour:
         - displayName: Hack
           tooltip: Increase damage dealt by 4.
           requiredTreeDepth: 2
+      finisher: 0
+      channelDuration: 0
+    - displayName: Swipe
+      tooltip: Deals {PRIMARY_DAMAGE}.
+      baseAbilityData:
+        primaryDamage: 6
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      abilityBonusLookup:
+        _keys: []
+        _values: []
       finisher: 0
       channelDuration: 0

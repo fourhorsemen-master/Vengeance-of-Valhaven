@@ -16,5 +16,6 @@
     Rend,
     Disengage,
     FanOfKnives,
-    Hamstring
+    Hamstring,
+    Swipe
 }
