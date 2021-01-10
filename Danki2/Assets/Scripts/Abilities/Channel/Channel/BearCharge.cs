@@ -16,6 +16,8 @@ public class BearCharge : Channel
     private Vector3 direction;
 
     private bool dealtAnyDamage = false;
+
+    private BearChargeObject chargeObject;
     
     public override ChannelEffectOnMovement EffectOnMovement => ChannelEffectOnMovement.None;
 
@@ -27,6 +29,7 @@ public class BearCharge : Channel
     public override void Start(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
         direction = floorTargetPosition - Owner.transform.position;
+        chargeObject = BearChargeObject.Create(Owner.transform);
     }
 
     public override void Continue(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
@@ -51,6 +54,7 @@ public class BearCharge : Channel
     {
         SuccessFeedbackSubject.Next(dealtAnyDamage);
         Owner.MovementManager.Pause(PauseDuration);
+        chargeObject.Destroy();
     }
 
     private void ChargeEffect()
@@ -73,13 +77,16 @@ public class BearCharge : Channel
         });
 
         // TODO: use actor.AbilitySource when that exists - rather than translating from centre
-        var swipeObject = SwipeObject.Create(Owner.Centre + 3 * Owner.transform.forward, GetMeleeCastRotation(Owner.transform.forward));
+        chargeObject.CreateSwipe(
+            Owner.Centre + 3 * Owner.transform.forward,
+            GetMeleeCastRotation(Owner.transform.forward),
+            hasDealtDamage
+        );
 
         SuccessFeedbackSubject.Next(hasDealtDamage);
 
         if (hasDealtDamage)
         {
-            swipeObject.PlayHitSound();
             CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
         }
     }
