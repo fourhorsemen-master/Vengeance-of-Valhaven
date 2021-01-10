@@ -5,9 +5,11 @@ public class BearCharge : Channel
 {
     private const float ChargeSpeed = 4f;
     private const float ChargeEffectInterval = 0.5f;
-    private const float ChargeRotationRate = 0.8f;
+    private const float ChargeRotationRate = 0.6f;
     private const float DamageRadius = 2.5f;
     private const float PauseDuration = 0.5f;
+    private const float KnockBackDuration = 0.25f;
+    private const float KnockBackSpeed = 8f;
 
     private readonly Repeater repeater;
 
@@ -64,6 +66,7 @@ public class BearCharge : Channel
         {
             if (Owner.Opposes(actor))
             {
+                // KnockBack(actor);
                 DealPrimaryDamage(actor);
                 hasDealtDamage = true;
             }
@@ -79,5 +82,19 @@ public class BearCharge : Channel
             swipeObject.PlayHitSound();
             CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
         }
+    }
+
+    private void KnockBack(Actor actor)
+    {
+        Vector3 knockBackDirection = actor.transform.position - Owner.transform.position;
+        Vector3 knockBackFaceDirection = actor.transform.forward;
+
+        actor.MovementManager.TryLockMovement(
+            MovementLockType.Knockback,
+            KnockBackDuration,
+            KnockBackSpeed,
+            knockBackDirection,
+            knockBackFaceDirection
+        );
     }
 }
