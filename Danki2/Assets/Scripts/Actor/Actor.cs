@@ -36,6 +36,10 @@ public abstract class Actor : MonoBehaviour
 
     public virtual Vector3 Centre => transform.position + Vector3.up * MouseGamePositionFinder.Instance.HeightOffset;
 
+    [SerializeField]
+    private float weight = 0;
+    public float Weight => weight;
+
     public abstract ActorType Type { get; }
 
     protected virtual void Awake()
