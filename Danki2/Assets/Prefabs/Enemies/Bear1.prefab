@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &244325425120833063
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2501541229603721505}
+  m_Layer: 0
+  m_Name: AbilitySource
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2501541229603721505
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 244325425120833063}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.84, z: 1.68}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8956868242878874833}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1253380871065989815
 GameObject:
   m_ObjectHideFlags: 0
@@ -257,6 +287,7 @@ Transform:
   - {fileID: 5161751899672229976}
   - {fileID: 2162642479513573397}
   - {fileID: 6923883885574202792}
+  - {fileID: 2501541229603721505}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -297,6 +328,7 @@ MonoBehaviour:
   trailRenderer: {fileID: 4564750321355086747}
   meshRenderers:
   - {fileID: 878473333365630948}
+  abilitySource: {fileID: 2501541229603721505}
   weight: 2
 --- !u!114 &3495619026043065561
 MonoBehaviour:
