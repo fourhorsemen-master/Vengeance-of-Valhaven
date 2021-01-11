@@ -39,7 +39,7 @@ public abstract class Actor : MonoBehaviour
 
     public Vector3 Centre => transform.position + Vector3.up * MouseGamePositionFinder.Instance.HeightOffset;
 
-    public Transform AbilitySource => abilitySource;
+    public Vector3 AbilitySource => abilitySource.position;
 
     [SerializeField]
     private float weight = 0;

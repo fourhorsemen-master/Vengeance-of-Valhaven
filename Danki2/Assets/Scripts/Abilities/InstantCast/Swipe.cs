@@ -45,8 +45,10 @@ public class Swipe : InstantCast
             }
         });
 
-        // TODO: use actor.AbilitySource when that exists - rather than translating from centre
-        var swipeObject = SwipeObject.Create(Owner.Centre + 3 * Owner.transform.forward, GetMeleeCastRotation(Owner.transform.forward));
+        var swipeObject = SwipeObject.Create(
+            Owner.AbilitySource + 1.5f * Owner.transform.forward,
+            GetMeleeCastRotation(Owner.transform.forward)
+        );
 
         Owner.MovementManager.Pause(PauseDuration);
         SuccessFeedbackSubject.Next(hasDealtDamage);

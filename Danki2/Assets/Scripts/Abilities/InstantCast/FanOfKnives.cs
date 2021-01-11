@@ -30,7 +30,7 @@ public class FanOfKnives : InstantCast
 
             Owner.WaitAndAct(
                 knifeCastInterval * i,
-                () => FanOfKnivesObject.Fire(Owner, OnCollision, knifeSpeed, Owner.Centre, castRotation)
+                () => FanOfKnivesObject.Fire(Owner, OnCollision, knifeSpeed, Owner.AbilitySource, castRotation)
                 );    
         }
     }
