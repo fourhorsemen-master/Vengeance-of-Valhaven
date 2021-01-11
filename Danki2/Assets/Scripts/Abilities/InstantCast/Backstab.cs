@@ -51,7 +51,7 @@ public class Backstab : InstantCast
         Vector3 castDirection = target - Owner.Centre;
         Quaternion castRotation = GetMeleeCastRotation(castDirection);
 
-        return BackstabObject.Create(Owner.AbilitySource, castRotation);
+        return BackstabObject.Create(Owner.AbilitySource.position, castRotation);
     }
 
     private bool InRange(Actor target)

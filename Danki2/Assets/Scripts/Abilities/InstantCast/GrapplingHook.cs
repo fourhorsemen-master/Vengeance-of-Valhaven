@@ -22,7 +22,7 @@ public class GrapplingHook : InstantCast
         Owner.MovementManager.LookAt(offsetTargetPosition);
         Owner.MovementManager.Pause(range / hookSpeed);
 
-        grapplingHookObject = GrapplingHookObject.Fire(Owner, OnCollision, MissCallback, hookSpeed, Owner.AbilitySource, rotation, range);
+        grapplingHookObject = GrapplingHookObject.Fire(Owner, OnCollision, MissCallback, hookSpeed, Owner.AbilitySource.position, rotation, range);
     }
 
     private void MissCallback()

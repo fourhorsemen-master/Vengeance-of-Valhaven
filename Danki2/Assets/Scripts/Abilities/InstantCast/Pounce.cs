@@ -49,7 +49,7 @@ public class Pounce : InstantCast
             }
         });
 
-        BiteObject.Create(Owner.transform);
+        BiteObject.Create(Owner.AbilitySource);
 
         Owner.MovementManager.Pause(PauseDuration);
         SuccessFeedbackSubject.Next(hasDealtDamage);

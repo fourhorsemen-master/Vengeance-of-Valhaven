@@ -43,7 +43,7 @@ public class Hamstring : InstantCast
         Vector3 castDirection = target - Owner.Centre;
         Quaternion castRotation = GetMeleeCastRotation(castDirection);
 
-        return HamstringObject.Create(Owner.AbilitySource, castRotation);
+        return HamstringObject.Create(Owner.AbilitySource.position, castRotation);
     }
 
     private bool InRange(Actor target)

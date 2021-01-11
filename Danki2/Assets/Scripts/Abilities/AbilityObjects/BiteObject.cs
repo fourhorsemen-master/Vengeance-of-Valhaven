@@ -12,9 +12,9 @@ public class BiteObject : StaticAbilityObject
         biteSound.Play();
     }
 
-    public static void Create(Transform casterTransform)
+    public static void Create(Transform abilitySource)
     {
         BiteObject prefab = AbilityObjectPrefabLookup.Instance.BiteObjectPrefab;
-        Instantiate(prefab, casterTransform);
+        Instantiate(prefab, abilitySource);
     }
 }
