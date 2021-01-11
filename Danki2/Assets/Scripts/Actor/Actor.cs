@@ -16,6 +16,9 @@ public abstract class Actor : MonoBehaviour
     [SerializeField]
     private MeshRenderer[] meshRenderers = null;
 
+    [SerializeField]
+    private Transform abilitySource = null;
+
     private Coroutine stopTrailCoroutine;
 
     protected readonly Subject startSubject = new Subject();
@@ -34,7 +37,9 @@ public abstract class Actor : MonoBehaviour
     public bool Dead { get; private set; }
     public Subject DeathSubject { get; } = new Subject();
 
-    public virtual Vector3 Centre => transform.position + Vector3.up * MouseGamePositionFinder.Instance.HeightOffset;
+    public Vector3 Centre => transform.position + Vector3.up * MouseGamePositionFinder.Instance.HeightOffset;
+
+    public Transform AbilitySource => abilitySource;
 
     [SerializeField]
     private float weight = 0;
