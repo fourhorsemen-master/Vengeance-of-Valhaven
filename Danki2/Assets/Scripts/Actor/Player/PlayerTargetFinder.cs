@@ -51,7 +51,7 @@ public class PlayerTargetFinder
 
     private void SetTarget(Enemy enemy)
     {
-        SetTargetPositions(enemy.transform.position, enemy.Centre.position);
+        SetTargetPositions(enemy.transform.position, enemy.Centre);
         
         if (enemy == Target) return;
 

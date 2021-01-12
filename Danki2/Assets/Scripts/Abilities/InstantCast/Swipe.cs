@@ -46,7 +46,7 @@ public class Swipe : InstantCast
         });
 
         var swipeObject = SwipeObject.Create(
-            Owner.AbilitySource.position,
+            Owner.AbilitySource,
             GetMeleeCastRotation(Owner.transform.forward)
         );
 

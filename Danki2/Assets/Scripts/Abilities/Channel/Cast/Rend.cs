@@ -19,7 +19,7 @@ public class Rend : Cast
             .Where(Owner.Opposes);
 
         bool enemiesHit = opposingActors.Count > 0;
-        RendObject.Create(Owner.transform, Owner.AbilitySource.position, enemiesHit);
+        RendObject.Create(Owner.transform, Owner.AbilitySource, enemiesHit);
 
         if (!enemiesHit)
         {

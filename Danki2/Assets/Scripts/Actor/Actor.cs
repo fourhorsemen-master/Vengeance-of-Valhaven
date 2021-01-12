@@ -22,10 +22,10 @@ public abstract class Actor : MonoBehaviour
     public float Weight => weight;
 
     [SerializeField] private Transform centre = null;
-    public Transform Centre => centre;
+    public Vector3 Centre => centre.position;
 
     [SerializeField] private Transform abilitySource = null;
-    public Transform AbilitySource => abilitySource;
+    public Vector3 AbilitySource => AbilitySource;
 
     protected readonly Subject startSubject = new Subject();
     protected readonly Subject updateSubject = new Subject();

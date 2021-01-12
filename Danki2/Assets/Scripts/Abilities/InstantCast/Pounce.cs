@@ -38,7 +38,7 @@ public class Pounce : InstantCast
         CollisionTemplateManager.Instance.GetCollidingActors(
             CollisionTemplate.Wedge90,
             DamageRadius,
-            Owner.transform.position,
+            Owner.AbilitySource,
             Quaternion.LookRotation(Owner.transform.forward)
         ).ForEach(actor =>
         {
@@ -49,7 +49,7 @@ public class Pounce : InstantCast
             }
         });
 
-        BiteObject.Create(Owner.AbilitySource);
+        BiteObject.Create(Owner.AbilitySource, Quaternion.LookRotation(Owner.transform.forward));
 
         Owner.MovementManager.Pause(PauseDuration);
         SuccessFeedbackSubject.Next(hasDealtDamage);

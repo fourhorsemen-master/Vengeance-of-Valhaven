@@ -16,7 +16,7 @@ public class Bite : InstantCast
         Vector3 castDirection = floorTargetPosition - position;
         Quaternion castRotation = GetMeleeCastRotation(castDirection);
 
-        BiteObject.Create(Owner.AbilitySource);
+        BiteObject.Create(Owner.AbilitySource, castRotation);
 
         Owner.MovementManager.LookAt(floorTargetPosition);
         Owner.MovementManager.Pause(PauseDuration);

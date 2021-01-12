@@ -17,12 +17,12 @@ public class GrapplingHook : InstantCast
 
     public override void Cast(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
-        Quaternion rotation = Quaternion.LookRotation(offsetTargetPosition - Owner.Centre.position);
+        Quaternion rotation = Quaternion.LookRotation(offsetTargetPosition - Owner.Centre);
 
         Owner.MovementManager.LookAt(offsetTargetPosition);
         Owner.MovementManager.Pause(range / hookSpeed);
 
-        grapplingHookObject = GrapplingHookObject.Fire(Owner, OnCollision, MissCallback, hookSpeed, Owner.AbilitySource.position, rotation, range);
+        grapplingHookObject = GrapplingHookObject.Fire(Owner, OnCollision, MissCallback, hookSpeed, Owner.AbilitySource, rotation, range);
     }
 
     private void MissCallback()

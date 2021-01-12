@@ -15,7 +15,7 @@ public class Wolf : Enemy
         InstantCastService.TryCast(
             AbilityReference.Bite,
             GetBiteTargetPosition(transform.position),
-            GetBiteTargetPosition(Centre.position)
+            GetBiteTargetPosition(Centre)
         );
         OnAttack.Next();
     }
@@ -25,7 +25,7 @@ public class Wolf : Enemy
         InstantCastService.TryCast(
             AbilityReference.Pounce,
             GetPounceTargetPosition(transform.position, target.transform.position),
-            GetPounceTargetPosition(Centre.position, target.Centre.position)
+            GetPounceTargetPosition(Centre, target.Centre)
         );
         OnAttack.Next();
     }
