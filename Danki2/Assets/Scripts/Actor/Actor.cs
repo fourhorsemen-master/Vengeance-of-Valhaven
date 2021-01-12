@@ -25,7 +25,7 @@ public abstract class Actor : MonoBehaviour
     public Vector3 Centre => centre.position;
 
     [SerializeField] private Transform abilitySource = null;
-    public Vector3 AbilitySource => AbilitySource;
+    public Vector3 AbilitySource => abilitySource.position;
 
     protected readonly Subject startSubject = new Subject();
     protected readonly Subject updateSubject = new Subject();
