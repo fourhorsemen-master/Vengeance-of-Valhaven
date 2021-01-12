@@ -18,7 +18,7 @@ public class Backstab : InstantCast
 
     public override void Cast(Actor target)
     {
-        BackstabObject backstabObject = Swing(target.Centre);
+        BackstabObject backstabObject = Swing(target.Centre.position);
 
         if (!InRange(target))
         {
@@ -48,7 +48,7 @@ public class Backstab : InstantCast
         Owner.MovementManager.LookAt(target);
         Owner.MovementManager.Pause(PauseDuration);
 
-        Vector3 castDirection = target - Owner.Centre;
+        Vector3 castDirection = target - Owner.Centre.position;
         Quaternion castRotation = GetMeleeCastRotation(castDirection);
 
         return BackstabObject.Create(Owner.AbilitySource.position, castRotation);

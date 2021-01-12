@@ -19,7 +19,7 @@ public class FanOfKnives : InstantCast
 
     public override void Cast(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
-        Quaternion rotation = Quaternion.LookRotation(offsetTargetPosition - Owner.Centre);
+        Quaternion rotation = Quaternion.LookRotation(offsetTargetPosition - Owner.Centre.position);
 
         Owner.MovementManager.Pause(knifeCastInterval * NumberOfKnives);
 

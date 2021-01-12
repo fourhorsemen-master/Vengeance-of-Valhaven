@@ -13,7 +13,7 @@ public class BarbedDagger : InstantCast
     {
         CustomCamera.Instance.AddShake(ShakeIntensity.Low);
 
-        Quaternion rotation = Quaternion.LookRotation(offsetTargetPosition - Owner.Centre);
+        Quaternion rotation = Quaternion.LookRotation(offsetTargetPosition - Owner.Centre.position);
         BarbedDaggerObject.Fire(Owner, OnCollision, DaggerSpeed, Owner.AbilitySource.position, rotation);
     }
 

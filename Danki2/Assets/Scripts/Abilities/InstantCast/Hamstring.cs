@@ -18,7 +18,7 @@ public class Hamstring : InstantCast
 
     public override void Cast(Actor target)
     {
-        HamstringObject hamstringObject = Swing(target.Centre);
+        HamstringObject hamstringObject = Swing(target.Centre.position);
 
         if (!InRange(target))
         {
@@ -40,7 +40,7 @@ public class Hamstring : InstantCast
         Owner.MovementManager.LookAt(target);
         Owner.MovementManager.Pause(PauseDuration);
 
-        Vector3 castDirection = target - Owner.Centre;
+        Vector3 castDirection = target - Owner.Centre.position;
         Quaternion castRotation = GetMeleeCastRotation(castDirection);
 
         return HamstringObject.Create(Owner.AbilitySource.position, castRotation);

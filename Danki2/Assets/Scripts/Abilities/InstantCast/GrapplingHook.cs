@@ -17,7 +17,7 @@ public class GrapplingHook : InstantCast
 
     public override void Cast(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
-        Quaternion rotation = Quaternion.LookRotation(offsetTargetPosition - Owner.Centre);
+        Quaternion rotation = Quaternion.LookRotation(offsetTargetPosition - Owner.Centre.position);
 
         Owner.MovementManager.LookAt(offsetTargetPosition);
         Owner.MovementManager.Pause(range / hookSpeed);
