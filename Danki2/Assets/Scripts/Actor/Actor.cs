@@ -16,7 +16,6 @@ public abstract class Actor : MonoBehaviour
     [SerializeField]
     private MeshRenderer[] meshRenderers = null;
 
-
     // Serialized properties
     [SerializeField] private float weight = 0;
     public float Weight => weight;
