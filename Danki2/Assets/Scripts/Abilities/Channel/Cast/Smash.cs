@@ -4,7 +4,7 @@
 public class Smash : Cast
 {
     private const float DistanceFromCaster = 1.8f;
-    private const float Radius = 2.05f;
+    private const float Radius = 1.6f;
     private const float PerfectSmashStunDuration = 3f;
     private const float PauseDuration = 0.3f;
 
