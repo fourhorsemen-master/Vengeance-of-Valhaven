@@ -25,7 +25,7 @@ public class BearAi : Ai
             .WithTransition(AdvanceState.Walk, AdvanceState.Run, new RandomTimeElapsed(advanceMinTransitionTime, advanceMaxTransitionTime) | new TakesDamage(bear))
             .WithTransition(AdvanceState.Run, AdvanceState.Walk, new RandomTimeElapsed(advanceMinTransitionTime, advanceMaxTransitionTime));
 
-        IStateMachineComponent attackStateMachine = new NoOpComponent();
+        IStateMachineComponent attackStateMachine = new WatchTarget(bear, player);
 
         return new StateMachine<State>(State.Idle)
             .WithComponent(State.Advance, advanceStateMachine)
