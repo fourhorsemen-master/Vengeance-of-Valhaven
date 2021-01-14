@@ -1,5 +1,5 @@
 ﻿public enum MotionType
 {
-    Walk,
-    Run
+    Run,
+    Walk
 }

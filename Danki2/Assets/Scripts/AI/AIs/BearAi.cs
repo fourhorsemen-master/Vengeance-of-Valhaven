@@ -20,7 +20,7 @@ public class BearAi : Ai
         Player player = RoomManager.Instance.Player;
 
         IStateMachineComponent advanceStateMachine = new StateMachine<AdvanceState>(AdvanceState.Walk)
-            .WithComponent(AdvanceState.Walk, new MoveTowards(bear, player)) // note - make this a walk
+            .WithComponent(AdvanceState.Walk, new WalkTowards(bear, player))
             .WithComponent(AdvanceState.Run, new MoveTowards(bear, player))
             .WithTransition(AdvanceState.Walk, AdvanceState.Run, new RandomTimeElapsed(advanceMinTransitionTime, advanceMaxTransitionTime) | new TakesDamage(bear))
             .WithTransition(AdvanceState.Run, AdvanceState.Walk, new RandomTimeElapsed(advanceMinTransitionTime, advanceMaxTransitionTime));
