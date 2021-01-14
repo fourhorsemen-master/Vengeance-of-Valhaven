@@ -8,7 +8,7 @@ public class BearCharge : Channel
     private const float ChargeRotationRate = 0.6f;
     private const float DamageRadius = 2.5f;
     private const float PauseDuration = 0.5f;
-    private const float KnockBackDuration = 0.25f;
+    private const float KnockBackDuration = 0.1f;
     private const float KnockBackSpeed = 8f;
 
     private readonly Repeater repeater;
@@ -70,7 +70,7 @@ public class BearCharge : Channel
         {
             if (Owner.Opposes(actor))
             {
-                // KnockBack(actor);
+                KnockBack(actor);
                 DealPrimaryDamage(actor);
                 hasDealtDamage = true;
             }
