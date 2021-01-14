@@ -19,6 +19,7 @@ public class MovementManager : IMovementStatusProvider
     private readonly Actor actor;
     private readonly NavMeshAgent navMeshAgent;
 
+    private const float WalkSpeedMultiplier = 0.3f;
     private const float DestinationTolerance = 0.5f;
     private const float RotationSmoothing = 0.15f;
 
@@ -40,6 +41,8 @@ public class MovementManager : IMovementStatusProvider
         && !movementStatusManager.Stunned
         && !movementStatusManager.Rooted
         && !movementStatusManager.MovementLocked;
+
+    public MotionType MotionType { get; set; } = MotionType.Run;
 
     public bool IsMoving { get; private set; } = false;
     private bool movedThisFrame = false;
@@ -218,7 +221,10 @@ public class MovementManager : IMovementStatusProvider
         IsMoving = movedThisFrame || (navMeshAgent.hasPath && navMeshAgent.velocity.magnitude > 0f);
         movedThisFrame = false;
 
-        navMeshAgent.speed = actor.StatsManager.Get(Stat.Speed);
+        float moveSpeed = actor.StatsManager.Get(Stat.Speed);
+        navMeshAgent.speed = MotionType == MotionType.Run
+            ? moveSpeed
+            : moveSpeed * WalkSpeedMultiplier;
 
         if (
             watching 
