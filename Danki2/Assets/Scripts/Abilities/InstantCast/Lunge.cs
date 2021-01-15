@@ -45,7 +45,7 @@ public class Lunge : InstantCast
 
         bool hasDealtDamage = false;
 
-        CollisionTemplateManager.Instance.GetCollidingActors(CollisionTemplate.Wedge90, StunRange, Owner.transform.position, castRotation)
+        CollisionTemplateManager.Instance.GetCollidingActors(CollisionTemplate.Wedge90, StunRange, Owner.CollisionTemplateSource, castRotation)
             .Where(actor => actor.Opposes(Owner))
             .ForEach(actor =>
             {

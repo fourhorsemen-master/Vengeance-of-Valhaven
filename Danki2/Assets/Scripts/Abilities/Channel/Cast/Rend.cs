@@ -15,7 +15,7 @@ public class Rend : Cast
     public override void End(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
         List<Actor> opposingActors = CollisionTemplateManager.Instance
-            .GetCollidingActors(CollisionTemplate.Cylinder, Range, Owner.transform.position)
+            .GetCollidingActors(CollisionTemplate.Cylinder, Range, Owner.CollisionTemplateSource)
             .Where(Owner.Opposes);
 
         bool enemiesHit = opposingActors.Count > 0;

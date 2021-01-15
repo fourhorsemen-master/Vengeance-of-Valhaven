@@ -34,7 +34,7 @@ public class Swipe : InstantCast
         CollisionTemplateManager.Instance.GetCollidingActors(
             CollisionTemplate.Wedge90,
             DamageRadius,
-            Owner.transform.position,
+            Owner.CollisionTemplateSource,
             Quaternion.LookRotation(Owner.transform.forward)
         ).ForEach(actor =>
         {
