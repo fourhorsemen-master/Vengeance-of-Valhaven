@@ -20,11 +20,16 @@ public abstract class Actor : MonoBehaviour
     [SerializeField] private float weight = 0;
     public float Weight => weight;
 
+    [Header("Sockets")]
+
     [SerializeField] private Transform centre = null;
     public Vector3 Centre => centre.position;
 
     [SerializeField] private Transform abilitySource = null;
     public Vector3 AbilitySource => abilitySource.position;
+
+    [SerializeField] private Transform collisionTemplateSource = null;
+    public Vector3 CollisionTemplateSource => collisionTemplateSource.position;
 
     protected readonly Subject startSubject = new Subject();
     protected readonly Subject updateSubject = new Subject();
