@@ -14,6 +14,8 @@ public class Rend : Cast
 
     public override void End(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
+        Owner.MovementManager.LookAt(floorTargetPosition);
+
         List<Actor> opposingActors = CollisionTemplateManager.Instance
             .GetCollidingActors(CollisionTemplate.Cylinder, Range, Owner.transform.position)
             .Where(Owner.Opposes);
