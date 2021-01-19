@@ -102,7 +102,7 @@ public class MovementManager : IMovementStatusProvider
     /// Move along the navmesh in the given direction unless rooted, stunned or movement locked.
     /// </summary>
     /// <param name="direction"></param>
-    /// <param name="speed"></param>
+    /// <param name="speed"> Defaults to the actors speed stat. </param>
     public void Move(Vector3 direction, float? speed = null)
     {
         if (actor.Dead) return;
