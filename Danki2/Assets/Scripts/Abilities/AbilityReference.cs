@@ -17,5 +17,6 @@
     Disengage,
     FanOfKnives,
     Hamstring,
-    Swipe
+    Swipe,
+    Maul
 }
