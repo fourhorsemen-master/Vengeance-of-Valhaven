@@ -64,7 +64,7 @@ public class BearCharge : Channel
         CollisionTemplateManager.Instance.GetCollidingActors(
             CollisionTemplate.Wedge90,
             DamageRadius,
-            Owner.transform.position,
+            Owner.CollisionTemplateSource,
             Quaternion.LookRotation(Owner.transform.forward)
         ).ForEach(actor =>
         {
@@ -76,9 +76,8 @@ public class BearCharge : Channel
             }
         });
 
-        // TODO: use actor.AbilitySource when that exists - rather than translating from centre
         chargeObject.CreateSwipe(
-            Owner.Centre + 3 * Owner.transform.forward,
+            Owner.AbilitySource,
             GetMeleeCastRotation(Owner.transform.forward),
             hasDealtDamage
         );
