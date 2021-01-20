@@ -16,12 +16,28 @@ public abstract class Actor : MonoBehaviour
     [SerializeField]
     private MeshRenderer[] meshRenderers = null;
 
-    private Coroutine stopTrailCoroutine;
+    // Serialized properties
+    [SerializeField] private float weight = 0;
+    public float Weight => weight;
+
+    [Header("Sockets")]
+
+    [SerializeField] private Transform centre = null;
+    public Vector3 Centre => centre.position;
+
+    [SerializeField] private Transform abilitySource = null;
+    public Vector3 AbilitySource => abilitySource.position;
+
+    [SerializeField] private Transform collisionTemplateSource = null;
+    public Vector3 CollisionTemplateSource => collisionTemplateSource.position;
 
     protected readonly Subject startSubject = new Subject();
     protected readonly Subject updateSubject = new Subject();
     protected readonly Subject lateUpdateSubject = new Subject();
 
+    private Coroutine stopTrailCoroutine;
+
+    // Services
     public StatsManager StatsManager { get; private set; }
     public HealthManager HealthManager { get; private set; }
     public ChannelService ChannelService { get; private set; }
@@ -33,13 +49,6 @@ public abstract class Actor : MonoBehaviour
 
     public bool Dead { get; private set; }
     public Subject DeathSubject { get; } = new Subject();
-
-    public virtual Vector3 Centre => transform.position + Vector3.up * MouseGamePositionFinder.Instance.HeightOffset;
-
-    [SerializeField]
-    private float weight = 0;
-    public float Weight => weight;
-
     public abstract ActorType Type { get; }
 
     protected virtual void Awake()
