@@ -17,11 +17,11 @@ public class Rend : Cast
         Owner.MovementManager.LookAt(floorTargetPosition);
 
         List<Actor> opposingActors = CollisionTemplateManager.Instance
-            .GetCollidingActors(CollisionTemplate.Cylinder, Range, Owner.transform.position)
+            .GetCollidingActors(CollisionTemplate.Cylinder, Range, Owner.CollisionTemplateSource)
             .Where(Owner.Opposes);
 
         bool enemiesHit = opposingActors.Count > 0;
-        RendObject.Create(Owner.transform, Owner.Centre, enemiesHit);
+        RendObject.Create(Owner.transform, Owner.AbilitySource, enemiesHit);
 
         if (!enemiesHit)
         {

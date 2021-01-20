@@ -7,9 +7,9 @@ public class RendObject : StaticAbilityObject
     
     public override float StickTime => 2f;
 
-    public static RendObject Create(Transform transform, Vector3 position, bool enemiesHit)
+    public static RendObject Create(Transform parentTransform, Vector3 position, bool enemiesHit)
     {
-        RendObject rendObject = Instantiate(AbilityObjectPrefabLookup.Instance.RendObjectPrefab, position, Quaternion.LookRotation(Vector3.right), transform);
+        RendObject rendObject = Instantiate(AbilityObjectPrefabLookup.Instance.RendObjectPrefab, position, Quaternion.LookRotation(Vector3.right), parentTransform);
 
         if (enemiesHit) rendObject.PlayHitSound();
 
