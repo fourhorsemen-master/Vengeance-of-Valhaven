@@ -5,7 +5,7 @@ public class PiercingRush : Cast
 {
     private const float minimumCastRange = 2f;
     private const float maximumCastRange = 10f;
-    private const float dashDamageWidth = 6f;
+    private const float dashDamageWidth = 4.6f;
     private const float dashDamageHeight = 5f;
     private const float dashSpeedMultiplier = 6f;
 
