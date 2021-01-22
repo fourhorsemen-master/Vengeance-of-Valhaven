@@ -19,16 +19,32 @@ public class TokenValidator
 
             if (token.Type.Equals(TokenType.OpenBrace))
             {
-                if (i + 2 >= tokens.Count ) return false;
+                if (i + 1 >= tokens.Count) return false;
 
                 Token nextToken = tokens[i + 1];
+
                 if (!IsValidBindableProperty(nextToken)) return false;
 
-                Token nextNextToken = tokens[i + 2];
-                if (!nextNextToken.Type.Equals(TokenType.CloseBrace)) return false;
+                BindableProperty bindableProperty = BindablePropertyLookup.FromString(nextToken.Value);
 
-                i += 2;
-                continue;
+                if (BindablePropertyLookup.RequiresArgument(bindableProperty))
+                {
+                    if (i + 4 >= tokens.Count) return false;
+                    if (!tokens[i + 2].Type.Equals(TokenType.Pipe)) return false;
+                    if (!IsValidArgument(tokens[i + 3])) return false;
+                    if (!tokens[i + 4].Type.Equals(TokenType.CloseBrace)) return false;
+
+                    i += 4;
+                    continue;
+                }
+                else
+                {
+                    if (i + 2 >= tokens.Count ) return false;
+                    if (!tokens[i + 2].Type.Equals(TokenType.CloseBrace)) return false;
+
+                    i += 2;
+                    continue;
+                }
             }
 
             return false;
@@ -40,5 +56,10 @@ public class TokenValidator
     private bool IsValidBindableProperty(Token token)
     {
         return token.Type.Equals(TokenType.String) && BindablePropertyLookup.IsValidBindableProperty(token.Value);
+    }
+
+    private bool IsValidArgument(Token token)
+    {
+        return token.Type.Equals(TokenType.String) && int.TryParse(token.Value, out _);
     }
 }
