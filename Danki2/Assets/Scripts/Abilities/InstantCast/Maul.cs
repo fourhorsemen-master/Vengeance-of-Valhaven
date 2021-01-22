@@ -14,6 +14,7 @@ public class Maul : InstantCast
 
     public override void Cast(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
+        // TODO: make caster immune to CC for the duration of the ability
         Vector3 castDirection = floorTargetPosition - Owner.transform.position;
 
         Owner.MovementManager.LookAt(floorTargetPosition);
@@ -21,13 +22,19 @@ public class Maul : InstantCast
 
         MaulObject maulObject = MaulObject.Create(Owner.AbilitySource);
 
-        Owner.ActOnInterval(BiteInterval, () => Bite(castDirection, maulObject), 0f, BiteCount);
+        Direction direction = Direction.Left;
+
+        Owner.ActOnInterval(BiteInterval, () => Bite(castDirection, ref direction, maulObject), 0f, BiteCount);
+
+        Owner.WaitAndAct(BiteInterval * BiteCount * 2, maulObject.Destroy);
     }
 
-    private void Bite(Vector3 castDirection, MaulObject maulObject)
+    private void Bite(Vector3 castDirection, ref Direction direction, MaulObject maulObject)
     {
         Vector3 horizontalDirection = Vector3.Cross(castDirection, Vector3.up).normalized;
-        Vector3 randomisedcastDirection = castDirection.normalized + horizontalDirection * Random.Range(-0.5f, 0.5f);
+        int directionMultiplier = direction == Direction.Right ? 1 : -1;
+        Vector3 randomisedcastDirection = castDirection.normalized + horizontalDirection * Random.Range(0.25f, 0.5f) * directionMultiplier;
+
         Quaternion castRotation = GetMeleeCastRotation(randomisedcastDirection);
 
         maulObject.Bite(castRotation);
@@ -39,6 +46,7 @@ public class Maul : InstantCast
             .ForEach(actor =>
             {
                 DealPrimaryDamage(actor);
+                actor.EffectManager.AddStack(StackingEffect.Slow);
                 hasDealtDamage = true;
             });
 
@@ -46,6 +54,8 @@ public class Maul : InstantCast
         {
             CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
         }
+
+        direction = direction == Direction.Left ? Direction.Right : Direction.Left;
 
         SuccessFeedbackSubject.Next(hasDealtDamage);
     }

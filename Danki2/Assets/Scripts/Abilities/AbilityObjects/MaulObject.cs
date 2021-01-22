@@ -15,4 +15,6 @@ public class MaulObject : MonoBehaviour
         BiteObject biteObject = Instantiate(prefab, transform);
         biteObject.transform.rotation = castRotation;
     }
+
+    public void Destroy() => Destroy(gameObject);
 }
