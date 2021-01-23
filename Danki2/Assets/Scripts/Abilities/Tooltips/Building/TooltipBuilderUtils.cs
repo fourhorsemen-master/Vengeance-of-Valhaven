@@ -31,7 +31,7 @@ public static class TooltipBuilderUtils
                 return new TooltipSegment(TooltipSegmentType.BoldText, "Stun");
             
             case TemplatedTooltipSegmentType.PassiveSlow:
-                return new TooltipSegment(TooltipSegmentType.BoldText, "Passive Slow");
+                return new TooltipSegment(TooltipSegmentType.BoldText, "Slow");
             
             case TemplatedTooltipSegmentType.Block:
                 return new TooltipSegment(TooltipSegmentType.BoldText, "Block");
