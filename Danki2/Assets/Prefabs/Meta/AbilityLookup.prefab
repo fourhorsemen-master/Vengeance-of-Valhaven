@@ -64,6 +64,7 @@ MonoBehaviour:
     - Hamstring
     - Swipe
     - Maul
+    - BearCharge
     _values:
     - displayName: Slash
       tooltip: Deal {PRIMARY_DAMAGE} damage to enemies in a cone.
@@ -327,3 +328,15 @@ MonoBehaviour:
         _values: []
       finisher: 0
       channelDuration: 0
+    - displayName: Bear Charge
+      tooltip: Charges through target, dealing {PRIMARY_DAMAGE} damage.
+      baseAbilityData:
+        primaryDamage: 3
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      abilityBonusLookup:
+        _keys: []
+        _values: []
+      finisher: 0
+      channelDuration: 2
