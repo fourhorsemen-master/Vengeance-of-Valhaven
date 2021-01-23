@@ -4,9 +4,8 @@
 public class Maul : InstantCast
 {
     private const int BiteCount = 4;
-    private const float BiteInterval = 0.4f;
+    private const float BiteInterval = 0.3f;
     private const float BiteRange = 3f;
-    private const float PauseDuration = 0.3f;
 
     private Direction direction = Direction.Left;
 
@@ -19,11 +18,12 @@ public class Maul : InstantCast
         Vector3 castDirection = floorTargetPosition - Owner.transform.position;
 
         Owner.MovementManager.LookAt(floorTargetPosition);
-        Owner.MovementManager.Pause(BiteCount * BiteInterval + PauseDuration);
 
         MaulObject maulObject = MaulObject.Create(Owner.AbilitySource);
 
-        Owner.ActOnInterval(BiteInterval, () => Bite(castDirection, maulObject), 0f, BiteCount);
+        Owner.MovementManager.Pause(BiteInterval);
+
+        Owner.InterruptibleIntervalAction(BiteInterval, InterruptionType.Hard, () => Bite(castDirection, maulObject), 0f, BiteCount);
 
         Owner.WaitAndAct(BiteInterval * BiteCount * 2, maulObject.Destroy);
     }
@@ -57,5 +57,6 @@ public class Maul : InstantCast
         direction = direction == Direction.Left ? Direction.Right : Direction.Left;
 
         SuccessFeedbackSubject.Next(hasDealtDamage);
+        Owner.MovementManager.Pause(BiteInterval);
     }
 }
