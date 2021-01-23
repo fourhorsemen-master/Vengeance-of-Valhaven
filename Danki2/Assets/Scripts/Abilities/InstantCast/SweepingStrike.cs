@@ -3,7 +3,7 @@
 [Ability(AbilityReference.SweepingStrike)]
 public class SweepingStrike : InstantCast
 {
-    private const float Range = 4f;
+    private const float Range = 2.8f;
     private const float PauseDuration = 0.3f;
 
     private const float knockBackDuration = 0.25f;

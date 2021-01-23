@@ -8,7 +8,8 @@ public class Disengage : InstantCast
     private const float duration = leapDistance / leapSpeed;
     private const float pauseDuration = 0.3f;
 
-    private const float partingShotRange = 3.2f;
+    private const float partingShotRange = 2.2f;
+    private const float smashObjectScaleFactor = 1.28f;
 
     public Disengage(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
@@ -30,7 +31,7 @@ public class Disengage : InstantCast
             Owner.MovementManager.Pause(pauseDuration);
         });
 
-        SmashObject.Create(position, false);
+        SmashObject.Create(position, false, smashObjectScaleFactor);
 
         bool dealtDamage = false;
 

@@ -15,10 +15,11 @@ public class SmashObject : StaticAbilityObject
         if (playSoundOnStart) smashSound.Play();
     }
 
-    public static void Create(Vector3 position, bool playSoundOnStart = true)
+    public static void Create(Vector3 position, bool playSoundOnStart = true, float scaleFactor = 1f)
     {
         SmashObject prefab = AbilityObjectPrefabLookup.Instance.SmashObjectPrefab;
         SmashObject smashObject = Instantiate(prefab, position, Quaternion.identity);
+        smashObject.gameObject.transform.localScale *= scaleFactor;
         smashObject.playSoundOnStart = playSoundOnStart;
     }
 }
