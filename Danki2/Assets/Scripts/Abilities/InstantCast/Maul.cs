@@ -38,7 +38,7 @@ public class Maul : InstantCast
 
         Quaternion castRotation = GetMeleeCastRotation(randomisedcastDirection);
 
-        maulObject.Bite(castRotation);
+        maulObject.Bite(Owner.AbilitySource, castRotation);
 
         bool hasDealtDamage = false;
 

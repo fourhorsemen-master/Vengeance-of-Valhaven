@@ -9,8 +9,10 @@ public class MaulObject : MonoBehaviour
         return Instantiate(maulObjectPrefab, position, Quaternion.identity);
     }
 
-    public void Bite(Quaternion castRotation)
+    public void Bite(Vector3 position, Quaternion castRotation)
     {
+        transform.position = position;
+
         BiteObject prefab = AbilityObjectPrefabLookup.Instance.BiteObjectPrefab;
         BiteObject biteObject = Instantiate(prefab, transform);
         biteObject.transform.rotation = castRotation;
