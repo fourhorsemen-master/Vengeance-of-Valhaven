@@ -5,7 +5,7 @@ public class Maul : InstantCast
 {
     private const int BiteCount = 4;
     private const float BiteInterval = 0.3f;
-    private const float BiteRange = 3f;
+    private const float BiteRange = 2.5f;
 
     private Direction direction = Direction.Left;
 
