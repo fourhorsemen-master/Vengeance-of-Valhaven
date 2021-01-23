@@ -16,7 +16,6 @@ public class Maul : InstantCast
 
     public override void Cast(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
-        // TODO: make caster immune to CC for the duration of the ability
         Vector3 castDirection = floorTargetPosition - Owner.transform.position;
 
         Owner.MovementManager.LookAt(floorTargetPosition);
@@ -29,7 +28,6 @@ public class Maul : InstantCast
         Owner.WaitAndAct(BiteInterval * BiteCount * 2, maulObject.Destroy);
     }
 
-    // direction is a ref parameter here so that when we change the calue on line 59 that effects subsequent bites
     private void Bite(Vector3 castDirection, MaulObject maulObject)
     {
         Vector3 horizontalDirection = Vector3.Cross(castDirection, Vector3.up).normalized;
@@ -38,7 +36,7 @@ public class Maul : InstantCast
 
         Quaternion castRotation = GetMeleeCastRotation(randomisedcastDirection);
 
-        maulObject.Bite(Owner.AbilitySource, castRotation);
+        maulObject.Bite(castRotation);
 
         bool hasDealtDamage = false;
 
