@@ -29,7 +29,7 @@ public class PlayerTreeTooltipBuilder
 
     /// <summary>
     /// Builds the tooltip for the specified bonus of a given node returning a list of tooltip segments.
-    /// </summary
+    /// </summary>
     /// <param name="node"> The node to build the tooltip for </param>
     /// <param name="bonus"> The bonus </param>
     /// <returns> The build tooltip segments </returns>

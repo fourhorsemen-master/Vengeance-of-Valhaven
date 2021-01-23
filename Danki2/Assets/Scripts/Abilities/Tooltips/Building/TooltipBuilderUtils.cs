@@ -15,11 +15,18 @@ public static class TooltipBuilderUtils
         TemplatedTooltipSegmentType.Vulnerable,
     };
     
+    /// <summary>
+    /// Returns true if the given templated tooltip segment can be turned into a tooltip segment by this class.
+    /// </summary>
     public static bool CanHandle(TemplatedTooltipSegment templatedTooltipSegment)
     {
         return HandleableTypes.Contains(templatedTooltipSegment.Type);
     }
 
+    /// <summary>
+    /// Builds the given templated tooltip segment into a tooltip segment. Only certain types of templated
+    /// tooltip segments will work, so the type must be checked first with the method above.
+    /// </summary>
     public static TooltipSegment GetTooltipSegment(TemplatedTooltipSegment templatedTooltipSegment)
     {
         switch (templatedTooltipSegment.Type)
