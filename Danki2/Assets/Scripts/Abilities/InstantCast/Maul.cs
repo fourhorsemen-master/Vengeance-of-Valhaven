@@ -8,6 +8,8 @@ public class Maul : InstantCast
     private const float BiteRange = 3f;
     private const float PauseDuration = 0.3f;
 
+    private Direction direction = Direction.Left;
+
     public Maul(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
     }
@@ -22,14 +24,13 @@ public class Maul : InstantCast
 
         MaulObject maulObject = MaulObject.Create(Owner.AbilitySource);
 
-        Direction direction = Direction.Left;
-
-        Owner.ActOnInterval(BiteInterval, () => Bite(castDirection, ref direction, maulObject), 0f, BiteCount);
+        Owner.ActOnInterval(BiteInterval, () => Bite(castDirection, maulObject), 0f, BiteCount);
 
         Owner.WaitAndAct(BiteInterval * BiteCount * 2, maulObject.Destroy);
     }
 
-    private void Bite(Vector3 castDirection, ref Direction direction, MaulObject maulObject)
+    // direction is a ref parameter here so that when we change the calue on line 59 that effects subsequent bites
+    private void Bite(Vector3 castDirection, MaulObject maulObject)
     {
         Vector3 horizontalDirection = Vector3.Cross(castDirection, Vector3.up).normalized;
         int directionMultiplier = direction == Direction.Right ? 1 : -1;
