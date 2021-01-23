@@ -14,4 +14,9 @@ public static class TextUtils
 
         return $"<color=#{colourHexCode}>{text}</color>";
     }
+
+    public static string BoldText(string text)
+    {
+        return $"<b>{text}</b>";
+    }
 }
