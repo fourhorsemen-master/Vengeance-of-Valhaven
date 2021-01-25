@@ -5,4 +5,5 @@
     Cylinder,
     Wedge45,
     Cuboid,
+    Wedge180,
 }
