@@ -79,8 +79,8 @@ MonoBehaviour:
       finisher: 0
       channelDuration: 0
     - displayName: Whirlwind
-      tooltip: Deal {PRIMARY_DAMAGE} damage 3 times per second to all nearby enemies.
-        Slowed during channel.
+      tooltip: Deals {PRIMARY_DAMAGE} damage 3 times per second to all nearby enemies.
+        Caster has {PASSIVE_SLOW} during channel.
       baseAbilityData:
         primaryDamage: 1
         secondaryDamage: 0
@@ -91,13 +91,13 @@ MonoBehaviour:
         - Cross-Step
         _values:
         - displayName: Cross Step
-          tooltip: No longer slowed whilst channeling.
+          tooltip: Caster no longer has {PASSIVE_SLOW} whilst channeling.
           requiredTreeDepth: 3
       finisher: 0
       channelDuration: 2
     - displayName: Barbed Dagger
       tooltip: Throw a dagger which deals {PRIMARY_DAMAGE} damage on impact and applies
-        1 stack of bleed.
+        {BLEED|1}.
       baseAbilityData:
         primaryDamage: 2
         secondaryDamage: 0
@@ -134,7 +134,7 @@ MonoBehaviour:
       channelDuration: 0
     - displayName: Lunge
       tooltip: Lunge up to 5m and deal {PRIMARY_DAMAGE} damage to enemies in a small
-        cone. Applies a 0.5s stun on impact.
+        cone. Applies a 0.5s {STUN} on impact.
       baseAbilityData:
         primaryDamage: 3
         secondaryDamage: 0
@@ -157,12 +157,12 @@ MonoBehaviour:
         - PerfectSmash
         _values:
         - displayName: Perfect Smash
-          tooltip: Stun all affected enemies for 3 seconds.
+          tooltip: Applies a 3s {STUN} to all affected enemies.
           requiredTreeDepth: 3
       finisher: 1
       channelDuration: 0.5
     - displayName: Bash
-      tooltip: Deal {PRIMARY_DAMAGE} to enemies in a cone, stuns for 1 second.
+      tooltip: Deal {PRIMARY_DAMAGE} to enemies in a cone, applies a 1s {STUN}.
       baseAbilityData:
         primaryDamage: 3
         secondaryDamage: 0
@@ -188,7 +188,7 @@ MonoBehaviour:
       channelDuration: 0
     - displayName: Grappling Hook
       tooltip: Throw a hook at an enemy and pull them towards the player. The hook
-        is coated in a serum which causes the target to be stunned for 2 seconds.
+        is coated in a serum which applies a 2s {STUN} to the target.
       baseAbilityData:
         primaryDamage: 0
         secondaryDamage: 0
@@ -227,7 +227,7 @@ MonoBehaviour:
         - Jetstream
         _values:
         - displayName: Daze
-          tooltip: Add 5 stacks of slow to all enemies hit.
+          tooltip: Applies {STACKING_SLOW|5} to all enemies hit.
           requiredTreeDepth: 3
         - displayName: Jetstream
           tooltip: After the dash the sharp winds of the jetstream causes {PRIMARY_DAMAGE}
@@ -236,7 +236,8 @@ MonoBehaviour:
       finisher: 1
       channelDuration: 1
     - displayName: Parry
-      tooltip: Block all damage, returning 50% of it back to attackers.
+      tooltip: Caster has {BLOCK} during channel, 50% of damage blocked is dealt
+        back to attackers.
       baseAbilityData:
         primaryDamage: 0
         secondaryDamage: 0
@@ -248,7 +249,7 @@ MonoBehaviour:
       finisher: 0
       channelDuration: 1
     - displayName: Rend
-      tooltip: Adds 2 stacks of bleed to all surrounding enemies.
+      tooltip: Applies {BLEED|2} to all surrounding enemies.
       baseAbilityData:
         primaryDamage: 0
         secondaryDamage: 0
@@ -289,7 +290,7 @@ MonoBehaviour:
       finisher: 0
       channelDuration: 0
     - displayName: Hamstring
-      tooltip: Deal {PRIMARY_DAMAGE} damage to the target and apply 2 stacks of vulnerable.
+      tooltip: Deals {PRIMARY_DAMAGE} damage to the target applies {VULNERABLE|2}.
       baseAbilityData:
         primaryDamage: 3
         secondaryDamage: 0

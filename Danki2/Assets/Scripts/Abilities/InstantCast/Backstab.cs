@@ -3,7 +3,7 @@
 [Ability(AbilityReference.Backstab)]
 public class Backstab : InstantCast
 {
-    private const float Range = 4f;
+    private const float Range = 3f;
     private const float PauseDuration = 0.3f;
 
     public Backstab(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
