@@ -46,7 +46,10 @@ DevScene.unity.meta
 .SourceCache
 
 # Fmod
-**/FMODStudioCache.asset
-**/FMODStudioCache.asset.meta
+Danki2/[Aa]ssets/Plugins/FMOD/Cache/*
 fmod.log
 fmod_editor.log
+
+# FMOD writes of the following lines "If the source bank files are kept outside of the StreamingAssets folder then these can be ignored."
+#/[Aa]ssets/StreamingAssets/**/*.bank
+#/[Aa]ssets/StreamingAssets/**/*.bank.meta
