@@ -21,8 +21,6 @@ public class Maul : InstantCast
 
         MaulObject maulObject = MaulObject.Create(Owner.AbilitySource);
 
-        Owner.MovementManager.Pause(BiteInterval);
-
         Owner.InterruptibleIntervalAction(BiteInterval, InterruptionType.Hard, () => Bite(castDirection, maulObject), 0f, BiteCount);
     }
 
@@ -30,7 +28,7 @@ public class Maul : InstantCast
     {
         Vector3 horizontalDirection = Vector3.Cross(castDirection, Vector3.up).normalized;
         int directionMultiplier = direction == Direction.Right ? 1 : -1;
-        Vector3 randomisedcastDirection = castDirection.normalized + horizontalDirection * Random.Range(0.25f, 0.5f) * directionMultiplier;
+        Vector3 randomisedcastDirection = castDirection.normalized + horizontalDirection * 0.25f * directionMultiplier;
 
         Quaternion castRotation = GetMeleeCastRotation(randomisedcastDirection);
 
