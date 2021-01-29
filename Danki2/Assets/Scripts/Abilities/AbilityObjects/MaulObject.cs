@@ -1,9 +1,10 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class MaulObject : MonoBehaviour
+public class MaulObject : StaticAbilityObject
 {
     private const float ForwardOffset = 1f;
+
+    public override float StickTime => 5f;
 
     public static MaulObject Create(Vector3 position)
     {
@@ -18,6 +19,4 @@ public class MaulObject : MonoBehaviour
         biteObject.transform.rotation = castRotation;
         biteObject.transform.position += biteObject.transform.forward * ForwardOffset;
     }
-
-    public void Destroy() => Destroy(gameObject);
 }

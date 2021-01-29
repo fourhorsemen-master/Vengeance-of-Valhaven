@@ -24,8 +24,6 @@ public class Maul : InstantCast
         Owner.MovementManager.Pause(BiteInterval);
 
         Owner.InterruptibleIntervalAction(BiteInterval, InterruptionType.Hard, () => Bite(castDirection, maulObject), 0f, BiteCount);
-
-        Owner.WaitAndAct(BiteInterval * BiteCount * 2, maulObject.Destroy);
     }
 
     private void Bite(Vector3 castDirection, MaulObject maulObject)
