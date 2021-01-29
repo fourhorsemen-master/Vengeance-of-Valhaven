@@ -6,6 +6,7 @@ public class Maul : InstantCast
     private const int TotalBiteCount = 3;
     private const float BiteInterval = 0.5f;
     private const float BiteRange = 2.5f;
+    private const float SlowDuration = 2f;
 
     private Direction direction = Direction.Left;
     private int biteCount = 0;
@@ -44,7 +45,7 @@ public class Maul : InstantCast
             .ForEach(actor =>
             {
                 DealPrimaryDamage(actor);
-                actor.EffectManager.AddStack(StackingEffect.Slow);
+                actor.EffectManager.AddActiveEffect(ActiveEffect.Slow, SlowDuration);
                 hasDealtDamage = true;
             });
 
