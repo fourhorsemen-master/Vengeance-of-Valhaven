@@ -1,10 +1,10 @@
-﻿public class SlowHandler : IStatPipe
+﻿public class ActiveSlowHandler : IStatPipe
 {
     private const float SlowMultiplier = 0.5f;
 
     private readonly Actor actor;
 
-    public SlowHandler(Actor actor)
+    public ActiveSlowHandler(Actor actor)
     {
         this.actor = actor;
     }
