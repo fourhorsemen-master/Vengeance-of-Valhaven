@@ -18,5 +18,6 @@
     FanOfKnives,
     Hamstring,
     Swipe,
+    Maul,
     BearCharge
 }

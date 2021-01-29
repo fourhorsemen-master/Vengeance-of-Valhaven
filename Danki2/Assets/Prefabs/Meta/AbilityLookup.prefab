@@ -63,6 +63,7 @@ MonoBehaviour:
     - FanOfKnives
     - Hamstring
     - Swipe
+    - Maul
     - BearCharge
     _values:
     - displayName: Slash
@@ -305,9 +306,21 @@ MonoBehaviour:
       finisher: 0
       channelDuration: 0
     - displayName: Swipe
-      tooltip: Deals {PRIMARY_DAMAGE}.
+      tooltip: Deals {PRIMARY_DAMAGE} damage.
       baseAbilityData:
         primaryDamage: 6
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      abilityBonusLookup:
+        _keys: []
+        _values: []
+      finisher: 0
+      channelDuration: 0
+    - displayName: Maul
+      tooltip: Bites the target several times for {PRIMARY_DAMAGE} damage.
+      baseAbilityData:
+        primaryDamage: 3
         secondaryDamage: 0
         heal: 0
         shield: 0

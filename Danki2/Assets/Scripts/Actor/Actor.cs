@@ -107,6 +107,18 @@ public abstract class Actor : MonoBehaviour
         );
     }
 
+    public void InterruptibleIntervalAction(float interval, InterruptionType interruptionType, Action action, float startDelay = 0, int? numRepetitions = null)
+    {
+        Coroutine coroutine = this.ActOnInterval(interval, action, startDelay, numRepetitions);
+
+        // We don't need to worry about deregistering the interruptible as Stopping a finished coroutine doesn't cause any problems.
+        InterruptionManager.Register(
+            interruptionType,
+            () => StopCoroutine(coroutine),
+            InterruptibleFeature.InterruptOnDeath
+        );
+    }
+
     public void StartTrail(float duration)
     {
         trailRenderer.emitting = true;
