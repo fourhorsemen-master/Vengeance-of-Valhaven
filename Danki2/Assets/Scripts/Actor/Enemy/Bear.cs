@@ -5,6 +5,14 @@ public class Bear : Enemy
 {
     public override ActorType Type => ActorType.Bear;
 
+    protected override void Update()
+    {
+        base.Update();
+
+        ChannelService.FloorTargetPosition = RoomManager.Instance.Player.transform.position;
+        ChannelService.OffsetTargetPosition = RoomManager.Instance.Player.Centre;
+    }
+
     public void Swipe()
     {
         InstantCastService.TryCast(
@@ -16,17 +24,25 @@ public class Bear : Enemy
 
     public void Charge()
     {
-        throw new NotImplementedException();
+        ChannelService.TryStartChannel(AbilityReference.BearCharge);
     }
 
     public void Maul()
     {
-        throw new NotImplementedException();
+        InstantCastService.TryCast(
+            AbilityReference.Maul,
+            GetSwipeTargetPosition(transform.position),
+            GetSwipeTargetPosition(Centre)
+        );
     }
 
     public void Cleave()
     {
-        throw new NotImplementedException();
+        InstantCastService.TryCast(
+            AbilityReference.Slash, // TODO: replace slash with cleave
+            GetSwipeTargetPosition(transform.position),
+            GetSwipeTargetPosition(Centre)
+        );
     }
 
     private Vector3 GetSwipeTargetPosition(Vector3 origin) => origin + transform.forward;
