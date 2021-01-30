@@ -438,6 +438,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bear: {fileID: 5616573760960498849}
+  aggroDistance: 8
+  minAdvanceRange: 1.5
+  maxAttackRange: 3
+  advanceMinTransitionTime: 1
+  advanceMaxTransitionTime: 2
+  swipeDelay: 0.5
+  chargeDelay: 0.5
+  maulDelay: 0.5
+  cleaveDelay: 0.5
+  abilityInterval: 2
+  maxAttackAngle: 10
 --- !u!195 &1307004630582523634
 NavMeshAgent:
   m_ObjectHideFlags: 0
