@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class StateMachine<TState> : IStateMachineComponent where TState : Enum
 {
@@ -9,6 +10,8 @@ public class StateMachine<TState> : IStateMachineComponent where TState : Enum
     private readonly EnumDictionary<TState, EnumDictionary<TState, StateMachineTrigger>> localTriggers =
         new EnumDictionary<TState, EnumDictionary<TState, StateMachineTrigger>>(() =>
             new EnumDictionary<TState, StateMachineTrigger>(new NeverTrigger()));
+
+    private readonly Dictionary<TState, TState[]> randomTriggers = new Dictionary<TState,TState[]>();
 
     private readonly EnumDictionary<TState, StateMachineTrigger> globalTriggers =
         new EnumDictionary<TState, StateMachineTrigger>(new NeverTrigger());
@@ -30,6 +33,12 @@ public class StateMachine<TState> : IStateMachineComponent where TState : Enum
     public StateMachine<TState> WithTransition(TState from, TState to, StateMachineTrigger stateMachineTrigger)
     {
         localTriggers[from][to] = stateMachineTrigger;
+        return this;
+    }
+
+    public IStateMachineComponent WithRandomTransition(TState fromState, params TState[] toStates)
+    {
+        randomTriggers[fromState] = toStates;
         return this;
     }
 
@@ -60,6 +69,18 @@ public class StateMachine<TState> : IStateMachineComponent where TState : Enum
 
     private void TryTransition()
     {
+        if (randomTriggers.ContainsKey(currentState))
+        {
+            TState[] possibleStates = randomTriggers[currentState];
+            if (possibleStates.Any())
+            {
+                TState toState = possibleStates[UnityEngine.Random.Range(0, possibleStates.Count())];
+
+                Transition(toState);
+                return;
+            }
+        }
+
         foreach (KeyValuePair<TState, StateMachineTrigger> potentialTransition in localTriggers[currentState])
         {
             TState toState = potentialTransition.Key;

@@ -55,7 +55,8 @@ public class BearAi : Ai
             .WithTransition(AttackState.Swipe, AttackState.WatchTarget, new AlwaysTrigger())
             .WithTransition(AttackState.Charge, AttackState.WatchTarget, new ChannelComplete(bear))
             .WithTransition(AttackState.Maul, AttackState.WatchTarget, new AlwaysTrigger())
-            .WithTransition(AttackState.Cleave, AttackState.WatchTarget, new AlwaysTrigger());
+            .WithTransition(AttackState.Cleave, AttackState.WatchTarget, new AlwaysTrigger())
+            .WithRandomTransition(AttackState.ChooseAbility, AttackState.Swipe, AttackState.Charge, AttackState.Maul, AttackState.Cleave);
 
         return new StateMachine<State>(State.Idle)
             .WithComponent(State.Advance, advanceStateMachine)
