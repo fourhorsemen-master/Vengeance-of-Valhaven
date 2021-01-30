@@ -40,7 +40,7 @@ public class BearAi : Ai
             .WithComponent(AttackState.TelegraphMaul, new TelegraphAttack(bear, maulDelay))
             .WithComponent(AttackState.TelegraphCleave, new TelegraphAttack(bear, cleaveDelay))
             .WithComponent(AttackState.Swipe, new BearSwipe(bear))
-            .WithComponent(AttackState.Charge, new BearChannelCharge(bear, player))
+            .WithComponent(AttackState.Charge, new BearChannelCharge(bear))
             .WithComponent(AttackState.Maul, new BearMaul(bear))
             .WithComponent(AttackState.Cleave, new BearCleave(bear))
             .WithTransition(AttackState.WatchTarget, AttackState.ChooseAbility, new TimeElapsed(abilityInterval) & new Facing(bear, player, maxAttackAngle))
