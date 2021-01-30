@@ -5,14 +5,6 @@ public class Bear : Enemy
 {
     public override ActorType Type => ActorType.Bear;
 
-    protected override void Update()
-    {
-        base.Update();
-
-        ChannelService.FloorTargetPosition = RoomManager.Instance.Player.transform.position;
-        ChannelService.OffsetTargetPosition = RoomManager.Instance.Player.Centre;
-    }
-
     public void Swipe()
     {
         InstantCastService.TryCast(

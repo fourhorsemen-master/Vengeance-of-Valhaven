@@ -13,6 +13,12 @@ public class BearAi : Ai
     [SerializeField] private float advanceMinTransitionTime = 0;
     [SerializeField] private float advanceMaxTransitionTime = 0;
 
+    [Header("Attack")]
+    [SerializeField] private float swipeDelay = 0;
+    [SerializeField] private float chargeDelay = 0;
+    [SerializeField] private float maulDelay = 0;
+    [SerializeField] private float cleaveDelay = 0;
+
     protected override Actor Actor => bear;
 
     protected override IStateMachineComponent BuildStateMachineComponent()
@@ -25,7 +31,24 @@ public class BearAi : Ai
             .WithTransition(AdvanceState.Walk, AdvanceState.Run, new RandomTimeElapsed(advanceMinTransitionTime, advanceMaxTransitionTime) | new TakesDamage(bear))
             .WithTransition(AdvanceState.Run, AdvanceState.Walk, new RandomTimeElapsed(advanceMinTransitionTime, advanceMaxTransitionTime));
 
-        IStateMachineComponent attackStateMachine = new WatchTarget(bear, player);
+        IStateMachineComponent attackStateMachine = new StateMachine<AttackState>(AttackState.WatchTarget)
+            .WithComponent(AttackState.WatchTarget, new WatchTarget(bear, player))
+            .WithComponent(AttackState.TelegraphSwipe, new TelegraphAttack(bear, swipeDelay))
+            .WithComponent(AttackState.TelegraphCharge, new TelegraphAttack(bear, chargeDelay))
+            .WithComponent(AttackState.TelegraphMaul, new TelegraphAttack(bear, maulDelay))
+            .WithComponent(AttackState.TelegraphCleave, new TelegraphAttack(bear, cleaveDelay))
+            .WithComponent(AttackState.Swipe, new BearSwipe(bear))
+            .WithComponent(AttackState.Charge, new BearChannelCharge(bear, player))
+            .WithComponent(AttackState.Maul, new BearMaul(bear))
+            .WithComponent(AttackState.Cleave, new BearCleave(bear))
+            .WithTransition(AttackState.TelegraphSwipe, AttackState.Swipe, new TimeElapsed(swipeDelay))
+            .WithTransition(AttackState.TelegraphCharge, AttackState.Charge, new TimeElapsed(chargeDelay))
+            .WithTransition(AttackState.TelegraphMaul, AttackState.Maul, new TimeElapsed(maulDelay))
+            .WithTransition(AttackState.TelegraphCleave, AttackState.Cleave, new TimeElapsed(cleaveDelay))
+            .WithTransition(AttackState.Swipe, AttackState.WatchTarget, new AlwaysTrigger())
+            .WithTransition(AttackState.Charge, AttackState.WatchTarget, new ChannelComplete(bear))
+            .WithTransition(AttackState.Maul, AttackState.WatchTarget, new AlwaysTrigger())
+            .WithTransition(AttackState.Cleave, AttackState.WatchTarget, new AlwaysTrigger());
 
         return new StateMachine<State>(State.Idle)
             .WithComponent(State.Advance, advanceStateMachine)
@@ -46,5 +69,18 @@ public class BearAi : Ai
     {
         Walk,
         Run
+    }
+
+    private enum AttackState
+    {
+        WatchTarget,
+        TelegraphSwipe,
+        Swipe,
+        TelegraphCharge,
+        Charge,
+        TelegraphMaul,
+        Maul,
+        TelegraphCleave,
+        Cleave
     }
 }

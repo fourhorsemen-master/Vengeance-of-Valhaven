@@ -1,0 +1,19 @@
+﻿public class BearChannelCharge : IStateMachineComponent
+{
+    private readonly Bear bear;
+    private readonly Actor target;
+
+    public BearChannelCharge(Bear bear, Actor target)
+    {
+        this.bear = bear;
+        this.target = target;
+    }
+
+    public void Enter() => bear.Charge();
+    public void Exit() { }
+    public void Update()
+    {
+        bear.ChannelService.FloorTargetPosition = target.transform.position;
+        bear.ChannelService.OffsetTargetPosition = target.Centre;
+    }
+}
