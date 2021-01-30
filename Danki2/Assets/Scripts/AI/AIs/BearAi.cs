@@ -32,14 +32,8 @@ public class BearAi : Ai
         IStateMachineComponent advanceStateMachine = new StateMachine<AdvanceState>(AdvanceState.Walk)
             .WithComponent(AdvanceState.Walk, new WalkTowards(bear, player))
             .WithComponent(AdvanceState.Run, new MoveTowards(bear, player))
-            .WithComponent(AdvanceState.TelegraphCharge, new TelegraphAttack(bear, chargeDelay))
-            .WithComponent(AdvanceState.Charge, new BearChannelCharge(bear))
             .WithTransition(AdvanceState.Walk, AdvanceState.Run, new RandomTimeElapsed(advanceMinTransitionTime, advanceMaxTransitionTime) | new TakesDamage(bear))
-            .WithTransition(AdvanceState.Run, AdvanceState.Walk, new RandomTimeElapsed(advanceMinTransitionTime, advanceMaxTransitionTime))
-            .WithTransition(AdvanceState.TelegraphCharge, AdvanceState.Charge, new TimeElapsed(chargeDelay))
-            .WithTransition(AdvanceState.TelegraphCharge, AdvanceState.Walk, new Interrupted(bear, InterruptionType.Hard))
-            .WithTransition(AdvanceState.Charge, AdvanceState.Walk, new ChannelComplete(bear))
-            .WithGlobalTransition(AdvanceState.TelegraphCharge, new DistanceLessThan(bear, player, advanceMaxChargeRange) & new TimeElapsed(advanceChargeInterval));
+            .WithTransition(AdvanceState.Run, AdvanceState.Walk, new RandomTimeElapsed(advanceMinTransitionTime, advanceMaxTransitionTime));
 
         IStateMachineComponent attackStateMachine = new StateMachine<AttackState>(AttackState.ChooseAbility)
             .WithComponent(AttackState.WatchTarget, new WatchTarget(bear, player))
@@ -64,24 +58,30 @@ public class BearAi : Ai
         return new StateMachine<State>(State.Idle)
             .WithComponent(State.Advance, advanceStateMachine)
             .WithComponent(State.Attack, attackStateMachine)
+            .WithComponent(State.TelegraphCharge, new TelegraphAttack(bear, chargeDelay))
+            .WithComponent(State.Charge, new BearChannelCharge(bear, player))
             .WithTransition(State.Idle, State.Advance, new DistanceLessThan(bear, player, aggroDistance) | new TakesDamage(bear))
             .WithTransition(State.Advance, State.Attack, new DistanceLessThan(bear, player, minAdvanceRange))
-            .WithTransition(State.Attack, State.Advance, new DistanceGreaterThan(bear, player, maxAttackRange));
+            .WithTransition(State.Attack, State.Advance, new DistanceGreaterThan(bear, player, maxAttackRange))
+            .WithTransition(State.Advance, State.TelegraphCharge, new DistanceLessThan(bear, player, advanceMaxChargeRange) & new TimeElapsed(advanceChargeInterval))
+            .WithTransition(State.TelegraphCharge, State.Charge, new TimeElapsed(chargeDelay))
+            .WithTransition(State.TelegraphCharge, State.Advance, new Interrupted(bear, InterruptionType.Hard))
+            .WithTransition(State.Charge, State.Advance, new ChannelComplete(bear));
     }
 
     private enum State
     {
         Idle,
         Advance,
+        TelegraphCharge,
+        Charge,
         Attack
     }
 
     private enum AdvanceState
     {
         Walk,
-        Run,
-        TelegraphCharge,
-        Charge
+        Run
     }
 
     private enum AttackState
