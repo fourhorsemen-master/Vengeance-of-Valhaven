@@ -12,6 +12,8 @@ public class BearAi : Ai
     [Header("Advance")]
     [SerializeField] private float advanceMinTransitionTime = 0;
     [SerializeField] private float advanceMaxTransitionTime = 0;
+    [SerializeField] private float advanceMaxChargeRange = 0;
+    [SerializeField] private float advanceChargeInterval = 0;
 
     [Header("Attack")]
     [SerializeField] private float swipeDelay = 0;
@@ -31,7 +33,9 @@ public class BearAi : Ai
             .WithComponent(AdvanceState.Walk, new WalkTowards(bear, player))
             .WithComponent(AdvanceState.Run, new MoveTowards(bear, player))
             .WithTransition(AdvanceState.Walk, AdvanceState.Run, new RandomTimeElapsed(advanceMinTransitionTime, advanceMaxTransitionTime) | new TakesDamage(bear))
-            .WithTransition(AdvanceState.Run, AdvanceState.Walk, new RandomTimeElapsed(advanceMinTransitionTime, advanceMaxTransitionTime));
+            .WithTransition(AdvanceState.Run, AdvanceState.Walk, new RandomTimeElapsed(advanceMinTransitionTime, advanceMaxTransitionTime))
+            .WithTransition(AdvanceState.Charge, AdvanceState.Walk, new ChannelComplete(bear))
+            .WithGlobalTransition(AdvanceState.Charge, new DistanceLessThan(bear, player, advanceMaxChargeRange) & new TimeElapsed(advanceChargeInterval));
 
         IStateMachineComponent attackStateMachine = new StateMachine<AttackState>(AttackState.ChooseAbility)
             .WithComponent(AttackState.WatchTarget, new WatchTarget(bear, player))
@@ -43,7 +47,7 @@ public class BearAi : Ai
             .WithComponent(AttackState.Charge, new BearChannelCharge(bear))
             .WithComponent(AttackState.Maul, new BearMaul(bear))
             .WithComponent(AttackState.Cleave, new BearCleave(bear))
-            .WithTransition(AttackState.WatchTarget, AttackState.ChooseAbility, new TimeElapsed(abilityInterval) & new Facing(bear, player, maxAttackAngle))
+            .WithTransition(AttackState.WatchTarget, AttackState.ChooseAbility, new TimeElapsed(abilityInterval) & new Facing(bear, player, maxAttackAngle) & new CanCast(bear))
             .WithTransition(AttackState.TelegraphSwipe, AttackState.Swipe, new TimeElapsed(swipeDelay))
             .WithTransition(AttackState.TelegraphSwipe, AttackState.WatchTarget, new Interrupted(bear, InterruptionType.Hard))
             .WithTransition(AttackState.TelegraphCharge, AttackState.Charge, new TimeElapsed(chargeDelay))
@@ -76,7 +80,8 @@ public class BearAi : Ai
     private enum AdvanceState
     {
         Walk,
-        Run
+        Run,
+        Charge
     }
 
     private enum AttackState
