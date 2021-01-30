@@ -32,35 +32,34 @@ public class BearAi : Ai
         IStateMachineComponent advanceStateMachine = new StateMachine<AdvanceState>(AdvanceState.Walk)
             .WithComponent(AdvanceState.Walk, new WalkTowards(bear, player))
             .WithComponent(AdvanceState.Run, new MoveTowards(bear, player))
+            .WithComponent(AdvanceState.TelegraphCharge, new TelegraphAttack(bear, chargeDelay))
+            .WithComponent(AdvanceState.Charge, new BearChannelCharge(bear))
             .WithTransition(AdvanceState.Walk, AdvanceState.Run, new RandomTimeElapsed(advanceMinTransitionTime, advanceMaxTransitionTime) | new TakesDamage(bear))
             .WithTransition(AdvanceState.Run, AdvanceState.Walk, new RandomTimeElapsed(advanceMinTransitionTime, advanceMaxTransitionTime))
+            .WithTransition(AdvanceState.TelegraphCharge, AdvanceState.Charge, new TimeElapsed(chargeDelay))
+            .WithTransition(AdvanceState.TelegraphCharge, AdvanceState.Walk, new Interrupted(bear, InterruptionType.Hard))
             .WithTransition(AdvanceState.Charge, AdvanceState.Walk, new ChannelComplete(bear))
-            .WithGlobalTransition(AdvanceState.Charge, new DistanceLessThan(bear, player, advanceMaxChargeRange) & new TimeElapsed(advanceChargeInterval));
+            .WithGlobalTransition(AdvanceState.TelegraphCharge, new DistanceLessThan(bear, player, advanceMaxChargeRange) & new TimeElapsed(advanceChargeInterval));
 
         IStateMachineComponent attackStateMachine = new StateMachine<AttackState>(AttackState.ChooseAbility)
             .WithComponent(AttackState.WatchTarget, new WatchTarget(bear, player))
             .WithComponent(AttackState.TelegraphSwipe, new TelegraphAttack(bear, swipeDelay))
-            .WithComponent(AttackState.TelegraphCharge, new TelegraphAttack(bear, chargeDelay))
             .WithComponent(AttackState.TelegraphMaul, new TelegraphAttack(bear, maulDelay))
             .WithComponent(AttackState.TelegraphCleave, new TelegraphAttack(bear, cleaveDelay))
             .WithComponent(AttackState.Swipe, new BearSwipe(bear))
-            .WithComponent(AttackState.Charge, new BearChannelCharge(bear))
             .WithComponent(AttackState.Maul, new BearMaul(bear))
             .WithComponent(AttackState.Cleave, new BearCleave(bear))
             .WithTransition(AttackState.WatchTarget, AttackState.ChooseAbility, new TimeElapsed(abilityInterval) & new Facing(bear, player, maxAttackAngle) & new CanCast(bear))
             .WithTransition(AttackState.TelegraphSwipe, AttackState.Swipe, new TimeElapsed(swipeDelay))
             .WithTransition(AttackState.TelegraphSwipe, AttackState.WatchTarget, new Interrupted(bear, InterruptionType.Hard))
-            .WithTransition(AttackState.TelegraphCharge, AttackState.Charge, new TimeElapsed(chargeDelay))
-            .WithTransition(AttackState.TelegraphCharge, AttackState.WatchTarget, new Interrupted(bear, InterruptionType.Hard))
             .WithTransition(AttackState.TelegraphMaul, AttackState.Maul, new TimeElapsed(maulDelay))
             .WithTransition(AttackState.TelegraphMaul, AttackState.WatchTarget, new Interrupted(bear, InterruptionType.Hard))
             .WithTransition(AttackState.TelegraphCleave, AttackState.Cleave, new TimeElapsed(cleaveDelay))
             .WithTransition(AttackState.TelegraphCleave, AttackState.WatchTarget, new Interrupted(bear, InterruptionType.Hard))
             .WithTransition(AttackState.Swipe, AttackState.WatchTarget, new AlwaysTrigger())
-            .WithTransition(AttackState.Charge, AttackState.WatchTarget, new ChannelComplete(bear))
             .WithTransition(AttackState.Maul, AttackState.WatchTarget, new AlwaysTrigger())
             .WithTransition(AttackState.Cleave, AttackState.WatchTarget, new AlwaysTrigger())
-            .WithRandomTransition(AttackState.ChooseAbility, AttackState.TelegraphSwipe, AttackState.TelegraphCharge, AttackState.TelegraphMaul, AttackState.TelegraphCleave);
+            .WithRandomTransition(AttackState.ChooseAbility, AttackState.TelegraphSwipe, AttackState.TelegraphMaul, AttackState.TelegraphCleave);
 
         return new StateMachine<State>(State.Idle)
             .WithComponent(State.Advance, advanceStateMachine)
@@ -81,6 +80,7 @@ public class BearAi : Ai
     {
         Walk,
         Run,
+        TelegraphCharge,
         Charge
     }
 
@@ -90,8 +90,6 @@ public class BearAi : Ai
         ChooseAbility,
         TelegraphSwipe,
         Swipe,
-        TelegraphCharge,
-        Charge,
         TelegraphMaul,
         Maul,
         TelegraphCleave,
