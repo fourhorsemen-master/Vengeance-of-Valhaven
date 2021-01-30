@@ -149,11 +149,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7228879865326118844}
     m_Modifications:
-    - target: {fileID: 7516001444630293784, guid: 0f2eab91c04053f4d8acb7084867fa6c,
-        type: 3}
-      propertyPath: m_Name
-      value: BiteVisual
-      objectReference: {fileID: 0}
     - target: {fileID: 4997352814630504869, guid: 0f2eab91c04053f4d8acb7084867fa6c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -162,12 +157,12 @@ PrefabInstance:
     - target: {fileID: 4997352814630504869, guid: 0f2eab91c04053f4d8acb7084867fa6c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4997352814630504869, guid: 0f2eab91c04053f4d8acb7084867fa6c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 4997352814630504869, guid: 0f2eab91c04053f4d8acb7084867fa6c,
         type: 3}
@@ -208,6 +203,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7516001444630293784, guid: 0f2eab91c04053f4d8acb7084867fa6c,
+        type: 3}
+      propertyPath: m_Name
+      value: BiteVisual
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0f2eab91c04053f4d8acb7084867fa6c, type: 3}

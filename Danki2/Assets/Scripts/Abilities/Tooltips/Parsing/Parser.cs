@@ -31,12 +31,25 @@ public class Parser
             {
                 BindableProperty bindableProperty = BindablePropertyLookup.FromString(tokens[i + 1].Value);
                 TemplatedTooltipSegmentType templatedTooltipSegmentType = TemplatedTooltipSegmentTypeLookup.FromBindableProperty(bindableProperty);
-                templatedTooltipSegments.Add(new TemplatedTooltipSegment(
-                    templatedTooltipSegmentType,
-                    null
-                ));
-                i += 2;
-                continue;
+
+                if (BindablePropertyLookup.RequiresArgument(bindableProperty))
+                {
+                    templatedTooltipSegments.Add(new TemplatedTooltipSegment(
+                        templatedTooltipSegmentType,
+                        tokens[i + 3].Value
+                    ));
+                    i += 4;
+                    continue;
+                }
+                else
+                {
+                    templatedTooltipSegments.Add(new TemplatedTooltipSegment(
+                        templatedTooltipSegmentType,
+                        null
+                    ));
+                    i += 2;
+                    continue;
+                }
             }
         }
 

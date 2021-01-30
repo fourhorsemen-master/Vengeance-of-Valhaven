@@ -27,7 +27,7 @@ public class Lunge : InstantCast
 
         Owner.MovementManager.TryLockMovement(MovementLockType.Dash, duration, lungeSpeed, castDirection, castDirection);
 
-        LungeObject lungeObject = LungeObject.Create(Owner.Centre, Quaternion.LookRotation(castDirection), onFinishMovement);
+        LungeObject lungeObject = LungeObject.Create(Owner.AbilitySource, Quaternion.LookRotation(castDirection), onFinishMovement);
         Owner.StartTrail(duration + PauseDuration);
 
         Owner.InterruptibleAction(
@@ -39,13 +39,13 @@ public class Lunge : InstantCast
 
     private void DamageOnLand(Vector3 castDirection, LungeObject lungeObject)
     {
-        onFinishMovement.Next(Owner.Centre);
+        onFinishMovement.Next(Owner.AbilitySource);
 
         Quaternion castRotation = GetMeleeCastRotation(castDirection);
 
         bool hasDealtDamage = false;
 
-        CollisionTemplateManager.Instance.GetCollidingActors(CollisionTemplate.Wedge90, StunRange, Owner.transform.position, castRotation)
+        CollisionTemplateManager.Instance.GetCollidingActors(CollisionTemplate.Wedge90, StunRange, Owner.CollisionTemplateSource, castRotation)
             .Where(actor => actor.Opposes(Owner))
             .ForEach(actor =>
             {

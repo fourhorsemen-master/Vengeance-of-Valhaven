@@ -34,7 +34,7 @@ public class Swipe : InstantCast
         CollisionTemplateManager.Instance.GetCollidingActors(
             CollisionTemplate.Wedge90,
             DamageRadius,
-            Owner.transform.position,
+            Owner.CollisionTemplateSource,
             Quaternion.LookRotation(Owner.transform.forward)
         ).ForEach(actor =>
         {
@@ -45,8 +45,10 @@ public class Swipe : InstantCast
             }
         });
 
-        // TODO: use actor.AbilitySource when that exists - rather than translating from centre
-        var swipeObject = SwipeObject.Create(Owner.Centre + 3 * Owner.transform.forward, GetMeleeCastRotation(Owner.transform.forward));
+        SwipeObject swipeObject = SwipeObject.Create(
+            Owner.AbilitySource,
+            GetMeleeCastRotation(Owner.transform.forward)
+        );
 
         Owner.MovementManager.Pause(PauseDuration);
         SuccessFeedbackSubject.Next(hasDealtDamage);

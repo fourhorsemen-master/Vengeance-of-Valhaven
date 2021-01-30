@@ -5,7 +5,7 @@ using UnityEngine.AI;
 public class Bash : InstantCast
 {
     private const float StunDuration = 1f;
-    private const float Range = 2f;
+    private const float Range = 1.8f;
     private const float Radius = 0.8f;
     private const float PauseDuration = 0.3f;
 

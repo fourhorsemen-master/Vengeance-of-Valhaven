@@ -10,6 +10,9 @@ The unity verion that should be used is: `2019.4.14f1`.
 
 Blender must be installed for the project to load.
 
+### Fmod
+Danki2 uses FMOD as audio middleware - this is the official user guide https://fmod.com/resources/documentation-unity?version=2.0&page=user-guide.html#using-source-control
+
 ### Smart Merge
 
 To use [Unity Smart Merge](https://docs.unity3d.com/Manual/SmartMerge.html), for resolving merge conflicts in non-code files, you must first check that the file path to your verion of UnityYamlMerge is the same as that in the .gitconfig file (if not then change the file path in the .gitconfig file). Then run the following command:
