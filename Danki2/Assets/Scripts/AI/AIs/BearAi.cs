@@ -62,7 +62,7 @@ public class BearAi : Ai
             .WithComponent(State.Charge, new BearChannelCharge(bear, player))
             .WithTransition(State.Idle, State.Advance, new DistanceLessThan(bear, player, aggroDistance) | new TakesDamage(bear))
             .WithTransition(State.Advance, State.Attack, new DistanceLessThan(bear, player, minAdvanceRange))
-            .WithTransition(State.Attack, State.Advance, new DistanceGreaterThan(bear, player, maxAttackRange))
+            .WithTransition(State.Attack, State.Advance, new DistanceGreaterThan(bear, player, maxAttackRange) & !new IsTelegraphing(bear))
             .WithTransition(State.Advance, State.TelegraphCharge, new DistanceLessThan(bear, player, advanceMaxChargeRange) & new TimeElapsed(advanceChargeInterval))
             .WithTransition(State.TelegraphCharge, State.Charge, new TimeElapsed(chargeDelay))
             .WithTransition(State.TelegraphCharge, State.Advance, new Interrupted(bear, InterruptionType.Hard))

@@ -5,6 +5,17 @@ public class Bear : Enemy
 {
     public override ActorType Type => ActorType.Bear;
 
+    public bool IsTelegraphing { get; private set; }
+
+    public Bear()
+    {
+        OnTelegraph.Subscribe(duration =>
+        {
+            IsTelegraphing = true;
+            this.WaitAndAct(duration, () => IsTelegraphing = false);
+        });
+    }
+
     public void Swipe()
     {
         InstantCastService.TryCast(
