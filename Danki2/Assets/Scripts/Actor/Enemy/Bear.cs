@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Bear : Enemy
 {
@@ -20,8 +19,8 @@ public class Bear : Enemy
     {
         InstantCastService.TryCast(
             AbilityReference.Swipe,
-            GetSwipeTargetPosition(transform.position),
-            GetSwipeTargetPosition(Centre)
+            GetTargetPosition(transform.position),
+            GetTargetPosition(Centre)
         );
     }
 
@@ -34,8 +33,8 @@ public class Bear : Enemy
     {
         InstantCastService.TryCast(
             AbilityReference.Maul,
-            GetSwipeTargetPosition(transform.position),
-            GetSwipeTargetPosition(Centre)
+            GetTargetPosition(transform.position),
+            GetTargetPosition(Centre)
         );
     }
 
@@ -43,10 +42,10 @@ public class Bear : Enemy
     {
         InstantCastService.TryCast(
             AbilityReference.Slash, // TODO: replace slash with cleave
-            GetSwipeTargetPosition(transform.position),
-            GetSwipeTargetPosition(Centre)
+            GetTargetPosition(transform.position),
+            GetTargetPosition(Centre)
         );
     }
 
-    private Vector3 GetSwipeTargetPosition(Vector3 origin) => origin + transform.forward;
+    private Vector3 GetTargetPosition(Vector3 origin) => origin + transform.forward;
 }
