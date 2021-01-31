@@ -25,10 +25,10 @@ public class WarningSign : MonoBehaviour
 
         _exclaimationMark.enabled = false;
 
-        _enemy.OnTelegraph.Subscribe(ShowWarning);
+        _enemy.OnTelegraph.Subscribe(tuple => ShowWarning(tuple.Item1, tuple.Item2));
     }
 
-    private void ShowWarning(float duration)
+    private void ShowWarning(float duration, Color colour)
     {
         if (disableWarningCoroutine != null)
         {
@@ -36,6 +36,8 @@ public class WarningSign : MonoBehaviour
         }
 
         _exclaimationMark.enabled = true;
+        _exclaimationMark.color = colour;
+
         disableWarningCoroutine = this.WaitAndAct(duration, () =>
         {
             _exclaimationMark.enabled = false;

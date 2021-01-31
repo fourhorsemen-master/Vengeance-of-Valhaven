@@ -8,10 +8,10 @@ public class Bear : Enemy
 
     public Bear()
     {
-        OnTelegraph.Subscribe(duration =>
+        OnTelegraph.Subscribe(tuple =>
         {
             IsTelegraphing = true;
-            this.WaitAndAct(duration, () => IsTelegraphing = false);
+            this.WaitAndAct(tuple.Item1, () => IsTelegraphing = false);
         });
     }
 
