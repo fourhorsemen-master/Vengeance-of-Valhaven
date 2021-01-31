@@ -12,6 +12,7 @@
     public void Enter()
     {
         enemy.MovementManager.StopPathfinding();
+        enemy.MovementManager.ClearWatch();
         enemy.Telegraph(telegraphTime);
     }
 
