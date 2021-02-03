@@ -8,12 +8,13 @@ public class BearAi : Ai
     [SerializeField] private float aggroDistance = 0;
     [SerializeField] [Tooltip("Value must be less than maxAttackRange.")] private float minAdvanceRange = 0;
     [SerializeField] [Tooltip("Value must be greater than minAdvanceRange.")] private float maxAttackRange = 0;
+    [SerializeField] private float maxChargeRange = 0;
+    [SerializeField] private float chargeInterval = 0;
 
     [Header("Advance")]
-    [SerializeField] private float advanceMinTransitionTime = 0;
-    [SerializeField] private float advanceMaxTransitionTime = 0;
-    [SerializeField] private float advanceMaxChargeRange = 0;
-    [SerializeField] private float advanceChargeInterval = 0;
+    [SerializeField] private float minRunDistance = 0;
+    [SerializeField] private float maxRunDistance = 0;
+    [SerializeField] private float minRunTime = 0;
 
     [Header("Attack")]
     [SerializeField] private float swipeDelay = 0;
@@ -32,8 +33,8 @@ public class BearAi : Ai
         IStateMachineComponent advanceStateMachine = new StateMachine<AdvanceState>(AdvanceState.Walk)
             .WithComponent(AdvanceState.Walk, new WalkTowards(bear, player))
             .WithComponent(AdvanceState.Run, new MoveTowards(bear, player))
-            .WithTransition(AdvanceState.Walk, AdvanceState.Run, new RandomTimeElapsed(advanceMinTransitionTime, advanceMaxTransitionTime) | new TakesDamage(bear))
-            .WithTransition(AdvanceState.Run, AdvanceState.Walk, new RandomTimeElapsed(advanceMinTransitionTime, advanceMaxTransitionTime));
+            .WithTransition(AdvanceState.Walk, AdvanceState.Run, new DistanceWithin(bear, player, minRunDistance, maxRunDistance) | new TakesDamage(bear))
+            .WithTransition(AdvanceState.Run, AdvanceState.Walk, !new DistanceWithin(bear, player, minRunDistance, maxRunDistance) & new TimeElapsed(minRunTime));
 
         IStateMachineComponent attackStateMachine = new StateMachine<AttackState>(AttackState.ChooseAbility)
             .WithComponent(AttackState.WatchTarget, new WatchTarget(bear, player))
@@ -63,7 +64,7 @@ public class BearAi : Ai
             .WithTransition(State.Idle, State.Advance, new DistanceLessThan(bear, player, aggroDistance) | new TakesDamage(bear))
             .WithTransition(State.Advance, State.Attack, new DistanceLessThan(bear, player, minAdvanceRange))
             .WithTransition(State.Attack, State.Advance, new DistanceGreaterThan(bear, player, maxAttackRange) & !new IsTelegraphing(bear))
-            .WithTransition(State.Advance, State.TelegraphCharge, new DistanceLessThan(bear, player, advanceMaxChargeRange) & new TimeElapsed(advanceChargeInterval))
+            .WithTransition(State.Advance, State.TelegraphCharge, new DistanceLessThan(bear, player, maxChargeRange) & new TimeElapsed(chargeInterval))
             .WithTransition(State.TelegraphCharge, State.Charge, new TimeElapsed(chargeDelay))
             .WithTransition(State.TelegraphCharge, State.Advance, new Interrupted(bear, InterruptionType.Hard))
             .WithTransition(State.Charge, State.Advance, new ChannelComplete(bear));

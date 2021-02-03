@@ -438,13 +438,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bear: {fileID: 5616573760960498849}
-  aggroDistance: 8
+  aggroDistance: 9
   minAdvanceRange: 3
   maxAttackRange: 5
-  advanceMinTransitionTime: 1
-  advanceMaxTransitionTime: 2
-  advanceMaxChargeRange: 6
-  advanceChargeInterval: 5
+  maxChargeRange: 7
+  chargeInterval: 5
+  minRunDistance: 4
+  maxRunDistance: 8
+  minRunTime: 2
   swipeDelay: 0.5
   chargeDelay: 0.5
   maulDelay: 0.5
