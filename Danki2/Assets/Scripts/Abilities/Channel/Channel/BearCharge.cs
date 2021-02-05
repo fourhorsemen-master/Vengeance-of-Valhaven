@@ -3,7 +3,7 @@
 [Ability(AbilityReference.BearCharge)]
 public class BearCharge : Channel
 {
-    private const float ChargeSpeed = 4f;
+    private const float ChargeSpeed = 5f;
     private const float ChargeEffectInterval = 0.5f;
     private const float ChargeRotationRate = 0.6f;
     private const float DamageRadius = 2.5f;
