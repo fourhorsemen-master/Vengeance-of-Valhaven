@@ -13,8 +13,6 @@ public class BearAi : Ai
 
     [Header("Advance")]
     [SerializeField] private float minRunDistance = 0;
-    [SerializeField] private float maxRunDistance = 0;
-    [SerializeField] private float minRunTime = 0;
 
     [Header("Attack")]
     [SerializeField] private float swipeDelay = 0;
@@ -33,8 +31,7 @@ public class BearAi : Ai
         IStateMachineComponent advanceStateMachine = new StateMachine<AdvanceState>(AdvanceState.Walk)
             .WithComponent(AdvanceState.Walk, new WalkTowards(bear, player))
             .WithComponent(AdvanceState.Run, new MoveTowards(bear, player))
-            .WithTransition(AdvanceState.Walk, AdvanceState.Run, new DistanceWithin(bear, player, minRunDistance, maxRunDistance) | new TakesDamage(bear))
-            .WithTransition(AdvanceState.Run, AdvanceState.Walk, !new DistanceWithin(bear, player, minRunDistance, maxRunDistance) & new TimeElapsed(minRunTime));
+            .WithTransition(AdvanceState.Walk, AdvanceState.Run, new DistanceGreaterThan(bear, player, minRunDistance) | new TakesDamage(bear));
 
         IStateMachineComponent attackStateMachine = new StateMachine<AttackState>(AttackState.ChooseAbility)
             .WithComponent(AttackState.WatchTarget, new WatchTarget(bear, player))

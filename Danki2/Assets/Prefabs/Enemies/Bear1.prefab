@@ -416,7 +416,7 @@ MonoBehaviour:
     - Power
     - Defence
     - Recovery
-    _values: 3200000003000000000000000000000000000000
+    _values: 3200000004000000000000000000000000000000
   navmeshAgent: {fileID: 1307004630582523634}
   trailRenderer: {fileID: 4564750321355086747}
   meshRenderers:
@@ -440,12 +440,10 @@ MonoBehaviour:
   bear: {fileID: 5616573760960498849}
   aggroDistance: 9
   minAdvanceRange: 3
-  maxAttackRange: 5
-  maxChargeRange: 7
+  maxAttackRange: 4.5
+  maxChargeRange: 10
   chargeInterval: 5
-  minRunDistance: 4
-  maxRunDistance: 8
-  minRunTime: 2
+  minRunDistance: 6
   swipeDelay: 0.5
   chargeDelay: 0.5
   maulDelay: 0.5
