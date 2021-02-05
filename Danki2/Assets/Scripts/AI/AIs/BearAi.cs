@@ -21,6 +21,7 @@ public class BearAi : Ai
     [SerializeField] private float cleaveDelay = 0;
     [SerializeField] private float abilityInterval = 0;
     [SerializeField] private float maxAttackAngle = 0;
+    [SerializeField] private float cleaveMaxHealthProportion = 0;
 
     protected override Actor Actor => bear;
 
@@ -51,7 +52,7 @@ public class BearAi : Ai
             .WithTransition(AttackState.Swipe, AttackState.WatchTarget, new AlwaysTrigger())
             .WithTransition(AttackState.Maul, AttackState.WatchTarget, new AlwaysTrigger())
             .WithTransition(AttackState.Cleave, AttackState.WatchTarget, new AlwaysTrigger())
-            .WithRandomTransition(AttackState.ChooseAbility, AttackState.TelegraphSwipe, AttackState.TelegraphMaul, AttackState.TelegraphCleave);
+            .WithDecisionState(AttackState.ChooseAbility, ChooseAbility);
 
         return new StateMachine<State>(State.Idle)
             .WithComponent(State.Advance, advanceStateMachine)
@@ -65,6 +66,14 @@ public class BearAi : Ai
             .WithTransition(State.TelegraphCharge, State.Charge, new TimeElapsed(chargeDelay))
             .WithTransition(State.TelegraphCharge, State.Advance, new Interrupted(bear, InterruptionType.Hard))
             .WithTransition(State.Charge, State.Advance, new ChannelComplete(bear));
+    }
+
+    private AttackState ChooseAbility()
+    {
+        if (bear.HealthManager.HealthProportion > cleaveMaxHealthProportion)
+            return RandomUtils.Choice(AttackState.TelegraphSwipe, AttackState.TelegraphMaul);
+        else
+            return RandomUtils.Choice(AttackState.TelegraphMaul, AttackState.TelegraphCleave);
     }
 
     private enum State

@@ -9,6 +9,8 @@ public class HealthManager
 
     public int MaxHealth => actor.StatsManager.Get(Stat.MaxHealth);
 
+    public float HealthProportion => (float)Health / MaxHealth;
+
     public Subject<DamageData> UnmodifiedDamageSubject { get; } = new Subject<DamageData>();
     public Subject<DamageData> ModifiedDamageSubject { get; } = new Subject<DamageData>();
     public Subject<int> UnmodifiedTickDamageSubject { get; } = new Subject<int>();
