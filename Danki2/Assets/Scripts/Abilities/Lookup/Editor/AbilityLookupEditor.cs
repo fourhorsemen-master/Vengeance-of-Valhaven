@@ -73,11 +73,19 @@ public class AbilityLookupEditor : Editor
         serializableAbilityMetadata.DisplayName = EditorGUILayout.TextField("Display Name", serializableAbilityMetadata.DisplayName);
         serializableAbilityMetadata.Tooltip = EditorUtils.MultilineTextField("Tooltip", serializableAbilityMetadata.Tooltip, 3);
         serializableAbilityMetadata.Finisher = EditorGUILayout.Toggle("Finisher", serializableAbilityMetadata.Finisher);
+        EditFmodEvents(abilityReference);
         EditChannelDuration(abilityReference, serializableAbilityMetadata);
         EditBaseAbilityData(abilityReference, serializableAbilityMetadata);
         EditAbilityBonusData(abilityReference, serializableAbilityMetadata);
             
         EditorGUI.indentLevel--;
+    }
+
+    private void EditFmodEvents(AbilityReference abilityReference)
+    {
+        SerializedProperty serializableAbilityMetadata = serializedObject.FindProperty($"serializableMetadataLookup._values").GetArrayElementAtIndex((int)abilityReference);
+        EditorGUILayout.PropertyField(serializableAbilityMetadata.FindPropertyRelative("fmodStartEvent"));
+        EditorGUILayout.PropertyField(serializableAbilityMetadata.FindPropertyRelative("fmodEndEvent"));
     }
 
     private void EditChannelDuration(AbilityReference abilityReference, SerializableAbilityMetadata serializableAbilityMetadata)

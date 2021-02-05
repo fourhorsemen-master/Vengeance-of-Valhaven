@@ -17,7 +17,7 @@ public class SerializableEnumDictionary<TEnumKey, TValue> : ISerializationCallba
     private List<string> _keys = new List<string>();
 
     [SerializeField]
-    private List<TValue> _values = new List<TValue>();
+    public List<TValue> _values = new List<TValue>();
 
     private Dictionary<TEnumKey, TValue> _dictionary = new Dictionary<TEnumKey, TValue>();
 
