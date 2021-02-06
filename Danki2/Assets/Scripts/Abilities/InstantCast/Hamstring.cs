@@ -32,7 +32,6 @@ public class Hamstring : InstantCast
         ApplyDebuff(target);
 
         CustomCamera.Instance.AddShake(ShakeIntensity.High);
-        hamstringObject.PlayHitSound();
     }
 
     private HamstringObject Swing(Vector3 target)

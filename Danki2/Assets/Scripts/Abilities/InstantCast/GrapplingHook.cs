@@ -9,8 +9,6 @@ public class GrapplingHook : InstantCast
     private const float pullOffset = 2f;
     private const float stunDuration = 2f;
 
-    private GrapplingHookObject grapplingHookObject = null;
-
     public GrapplingHook(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
     {
     }
@@ -22,7 +20,7 @@ public class GrapplingHook : InstantCast
         Owner.MovementManager.LookAt(offsetTargetPosition);
         Owner.MovementManager.Pause(range / hookSpeed);
 
-        grapplingHookObject = GrapplingHookObject.Fire(Owner, OnCollision, MissCallback, hookSpeed, Owner.AbilitySource, rotation, range);
+        GrapplingHookObject.Fire(Owner, OnCollision, MissCallback, hookSpeed, Owner.AbilitySource, rotation, range);
     }
 
     private void MissCallback()
@@ -32,8 +30,6 @@ public class GrapplingHook : InstantCast
 
     private void OnCollision(GameObject gameObject)
     {
-        grapplingHookObject.PlayHitAudio();
-
         if (RoomManager.Instance.TryGetActor(gameObject, out Actor actor))
         {
             if (!actor.Opposes(Owner))

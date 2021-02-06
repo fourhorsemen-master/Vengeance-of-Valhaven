@@ -39,7 +39,6 @@ public class SweepingStrike : InstantCast
         if (hasDealtDamage)
         {
             CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
-            sweepingStrikeObject.PlayHitSound();
         }
     }
 

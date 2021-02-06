@@ -3,9 +3,6 @@
 public class DisengageObject : StaticAbilityObject
 {
     [SerializeField]
-    private AudioSource landingSound = null;
-
-    [SerializeField]
     private GameObject landingVisual = null;
 
     public override float StickTime => 2f;
@@ -24,6 +21,5 @@ public class DisengageObject : StaticAbilityObject
     {
         transform.position = casterTransform.position;
         landingVisual.gameObject.SetActive(true);
-        landingSound.Play();
     }
 }

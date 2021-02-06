@@ -4,9 +4,6 @@ using UnityEngine;
 public class GrapplingHookObject : ProjectileObject
 {
     [SerializeField]
-    private AudioSource hookHitAudio = null;
-
-    [SerializeField]
     private TrailRenderer trailRenderer = null;
 
     public static GrapplingHookObject Fire(Actor caster, Action<GameObject> collisionCallback, Action missCallback, float speed, Vector3 position, Quaternion rotation, float maxRange)
@@ -17,7 +14,7 @@ public class GrapplingHookObject : ProjectileObject
         grapplingHookObject.InitialiseProjectile(caster, collisionCallback, speed)
             .DestroyAfterTime(stickTime, missCallback);
 
-        grapplingHookObject.SetSticky(grapplingHookObject.hookHitAudio.clip.length);
+        grapplingHookObject.SetSticky(1f);
 
         return grapplingHookObject;
     }
@@ -30,10 +27,5 @@ public class GrapplingHookObject : ProjectileObject
         {
             trailRenderer.enabled = false;
         }
-    }
-
-    public void PlayHitAudio()
-    {
-        hookHitAudio.Play();
     }
 }

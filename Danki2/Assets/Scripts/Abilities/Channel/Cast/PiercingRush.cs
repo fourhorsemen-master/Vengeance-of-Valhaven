@@ -28,7 +28,7 @@ public class PiercingRush : Cast
 
     protected override void Start()
     {
-        PiercingRushObject.Create(Owner.transform, onCastCancelled, onCastComplete, HasBonus("Jetstream"));
+        PiercingRushObject.Create(Owner.transform, onCastCancelled, onCastComplete);
     }
 
     protected override void Cancel() => onCastCancelled.Next();

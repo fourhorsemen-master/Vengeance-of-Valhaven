@@ -57,12 +57,9 @@ public class Lunge : InstantCast
         SuccessFeedbackSubject.Next(hasDealtDamage);
         Owner.MovementManager.Pause(PauseDuration);
 
-        lungeObject.PlaySwingSound();
-
         if (hasDealtDamage)
         {
             CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
-            lungeObject.PlayHitSound();
         }
     }
 }

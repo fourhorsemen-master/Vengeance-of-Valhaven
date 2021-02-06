@@ -55,7 +55,6 @@ public class Swipe : InstantCast
 
         if (hasDealtDamage)
         {
-            swipeObject.PlayHitSound();
             CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
         }
     }
