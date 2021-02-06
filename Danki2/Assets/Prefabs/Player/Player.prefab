@@ -638,7 +638,6 @@ GameObject:
   - component: {fileID: -5201030127241623248}
   - component: {fileID: -7333941826244338973}
   - component: {fileID: 6918691881617835041}
-  - component: {fileID: 153998285407005459}
   - component: {fileID: 8010275905982216902}
   m_Layer: 0
   m_Name: Player
@@ -721,8 +720,6 @@ MonoBehaviour:
   totalRollCooldown: 1
   rollDuration: 0.2
   rollSpeedMultiplier: 4
-  whiffAudio: {fileID: 0}
-  rollAudio: {fileID: 0}
 --- !u!114 &-7333941826244338973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -758,20 +755,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &153998285407005459
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4777388720977389772}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b13c466b8ed112418c041da684533dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movementAudioSource: {fileID: 0}
-  actor: {fileID: -5201030127241623248}
 --- !u!114 &8010275905982216902
 MonoBehaviour:
   m_ObjectHideFlags: 0
