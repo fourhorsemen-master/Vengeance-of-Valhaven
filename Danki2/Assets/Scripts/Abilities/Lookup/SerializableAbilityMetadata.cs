@@ -12,9 +12,9 @@ public class SerializableAbilityMetadata
     [SerializeField]
     private AbilityData baseAbilityData = AbilityData.Zero;
     [EventRef]
-    public string fmodStartEvent = "";
+    public string fmodStartEventRef = "";
     [EventRef]
-    public string fmodEndEvent = "";
+    public string fmodEndEventRef = "";
     [SerializeField]
     private SerializableAbilityBonusLookup abilityBonusLookup = new SerializableAbilityBonusLookup();
     [SerializeField]
@@ -25,8 +25,8 @@ public class SerializableAbilityMetadata
     public string DisplayName { get => displayName; set => displayName = value; }
     public string Tooltip { get => tooltip; set => tooltip = value; }
     public AbilityData BaseAbilityData { get => baseAbilityData; set => baseAbilityData = value; }
-    public string FmodStartEvent { get => fmodStartEvent; set => fmodStartEvent = value; }
-    public string FmodEndEvent { get => fmodEndEvent; set => fmodEndEvent = value; }
+    public string FmodStartEventRef { get => fmodStartEventRef; set => fmodStartEventRef = value; }
+    public string FmodEndEventRef { get => fmodEndEventRef; set => fmodEndEventRef = value; }
     public SerializableAbilityBonusLookup AbilityBonusLookup { get => abilityBonusLookup; set => abilityBonusLookup = value; }
     public bool Finisher { get => finisher; set => finisher = value; }
     public float ChannelDuration { get => channelDuration; set => channelDuration = value; }

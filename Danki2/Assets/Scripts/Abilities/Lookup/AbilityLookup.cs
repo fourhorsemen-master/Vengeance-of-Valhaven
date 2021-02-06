@@ -17,6 +17,8 @@ public class AbilityLookup : Singleton<AbilityLookup>
     private readonly AbilityMap<Dictionary<string, AbilityBonusData>> abilityBonusDataMap = new AbilityMap<Dictionary<string, AbilityBonusData>>();
     private readonly AbilityMap<bool> finisherLookup = new AbilityMap<bool>();
     private readonly AbilityMap<float> channelDurationMap = new AbilityMap<float>();
+    private readonly AbilityMap<string> fmodStartEventRefs = new AbilityMap<string>();
+    private readonly AbilityMap<string> fmodEndEventRefs = new AbilityMap<string>();
 
     private readonly AbilityMap<Func<Actor, AbilityData, string[], InstantCast>> instantCastBuilderMap = new AbilityMap<Func<Actor, AbilityData, string[], InstantCast>>();
     private readonly AbilityMap<Func<Actor, AbilityData, string[], float, Channel>> channelBuilderMap = new AbilityMap<Func<Actor, AbilityData, string[], float, Channel>>();
@@ -100,6 +102,10 @@ public class AbilityLookup : Singleton<AbilityLookup>
 
     public string GetAbilityDisplayName(AbilityReference abilityReference) => displayNameMap[abilityReference];
 
+    public string GetFmodStartEventRef(AbilityReference abilityReference) => fmodStartEventRefs[abilityReference];
+
+    public string GetFmodEndEventRef(AbilityReference abilityReference) => fmodEndEventRefs[abilityReference];
+
     public Dictionary<string, AbilityBonusData> GetAbilityBonusDataLookup(AbilityReference abilityReference) => abilityBonusDataMap[abilityReference];
 
     public bool IsFinisher(AbilityReference abilityReference) => finisherLookup[abilityReference];
@@ -114,6 +120,8 @@ public class AbilityLookup : Singleton<AbilityLookup>
             SerializableAbilityMetadata serializableAbilityMetadata = serializableMetadataLookup[ability];
 
             displayNameMap[ability] = serializableAbilityMetadata.DisplayName;
+            fmodStartEventRefs[ability] = serializableAbilityMetadata.FmodStartEventRef;
+            fmodEndEventRefs[ability] = serializableAbilityMetadata.FmodEndEventRef;
             baseAbilityDataMap[ability] = serializableAbilityMetadata.BaseAbilityData;
             finisherLookup[ability] = serializableAbilityMetadata.Finisher;
 
