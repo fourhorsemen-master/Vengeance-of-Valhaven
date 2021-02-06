@@ -21,8 +21,8 @@ public class PiercingRush : Cast
 
     public override ChannelEffectOnMovement EffectOnMovement => ChannelEffectOnMovement.Root;
 
-    public PiercingRush(Actor owner, AbilityData abilityData, string[] availableBonuses, float duration)
-        : base(owner, abilityData, availableBonuses, duration)
+    public PiercingRush(Actor owner, AbilityData abilityData, string fmodStartEvent, string fmodEndEvent, string[] availableBonuses, float duration)
+        : base(owner, abilityData, fmodStartEvent, fmodEndEvent, availableBonuses, duration)
     {
     }
 
