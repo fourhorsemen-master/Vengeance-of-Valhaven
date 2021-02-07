@@ -80,7 +80,7 @@ MonoBehaviour:
       channelDuration: 0
     - displayName: Whirlwind
       tooltip: Deals {PRIMARY_DAMAGE} damage 3 times per second to all nearby enemies.
-        Caster has {PASSIVE_SLOW} during channel.
+        Caster has {SLOW} during channel.
       baseAbilityData:
         primaryDamage: 1
         secondaryDamage: 0
@@ -91,7 +91,7 @@ MonoBehaviour:
         - Cross-Step
         _values:
         - displayName: Cross Step
-          tooltip: Caster no longer has {PASSIVE_SLOW} whilst channeling.
+          tooltip: Caster no longer has {SLOW} whilst channeling.
           requiredTreeDepth: 3
       finisher: 0
       channelDuration: 2
@@ -227,7 +227,7 @@ MonoBehaviour:
         - Jetstream
         _values:
         - displayName: Daze
-          tooltip: Applies {ACTIVE_SLOW} to all enemies hit.
+          tooltip: Applies {SLOW} to all enemies hit.
           requiredTreeDepth: 3
         - displayName: Jetstream
           tooltip: After the dash the sharp winds of the jetstream causes {PRIMARY_DAMAGE}
@@ -318,7 +318,8 @@ MonoBehaviour:
       finisher: 0
       channelDuration: 0
     - displayName: Maul
-      tooltip: Bites the target several times for {PRIMARY_DAMAGE} damage.
+      tooltip: Bites the target several times for {PRIMARY_DAMAGE} damage. Applies
+        {SLOW}.
       baseAbilityData:
         primaryDamage: 3
         secondaryDamage: 0
