@@ -3,13 +3,11 @@
 public class TelegraphAttack : IStateMachineComponent
 {
     private readonly Enemy enemy;
-    private readonly float telegraphTime;
     private readonly Color telegraphColour;
 
-    public TelegraphAttack(Enemy enemy, float telegraphTime, Color telegraphColour)
+    public TelegraphAttack(Enemy enemy, Color telegraphColour)
     {
         this.enemy = enemy;
-        this.telegraphTime = telegraphTime;
         this.telegraphColour = telegraphColour;
     }
 
@@ -17,10 +15,13 @@ public class TelegraphAttack : IStateMachineComponent
     {
         enemy.MovementManager.StopPathfinding();
         enemy.MovementManager.ClearWatch();
-        enemy.Telegraph(telegraphTime, telegraphColour);
+        enemy.StartTelegraph(telegraphColour);
     }
 
-    public void Exit() {}
+    public void Exit()
+    {
+        enemy.StopTelegraph();
+    }
 
     public void Update() {}
 }

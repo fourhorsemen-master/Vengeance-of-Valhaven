@@ -56,9 +56,9 @@ public class WolfAi : Ai
         IStateMachineComponent attackStateMachine = new StateMachine<AttackState>(AttackState.InitialReposition)
             .WithComponent(AttackState.InitialReposition, new MoveTowardsAtDistance(wolf, player, followDistance))
             .WithComponent(AttackState.Reposition, new MoveTowardsAtDistance(wolf, player, followDistance))
-            .WithComponent(AttackState.TelegraphBite, new TelegraphAttack(wolf, biteDelay, Color.red))
+            .WithComponent(AttackState.TelegraphBite, new TelegraphAttack(wolf, Color.red))
             .WithComponent(AttackState.Bite, new WolfBite(wolf))
-            .WithComponent(AttackState.TelegraphPounce, new TelegraphAttack(wolf, pounceDelay, Color.green))
+            .WithComponent(AttackState.TelegraphPounce, new TelegraphAttack(wolf, Color.green))
             .WithComponent(AttackState.Pounce, new WolfPounce(wolf, player))
             .WithTransition(
                 AttackState.InitialReposition,

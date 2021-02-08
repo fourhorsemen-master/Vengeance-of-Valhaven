@@ -11,5 +11,5 @@
 
     public override void Deactivate() { }
 
-    public override bool Triggers() => bear.IsTelegraphing;
+    public override bool Triggers() => bear.CurrentTelegraph != null;
 }

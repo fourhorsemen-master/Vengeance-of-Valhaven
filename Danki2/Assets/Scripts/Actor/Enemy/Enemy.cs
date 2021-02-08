@@ -1,11 +1,10 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public abstract class Enemy : Actor
 {
-    public Subject<Tuple<float, Color>> OnTelegraph { get; } = new Subject<Tuple<float, Color>>();
-
     public BehaviourSubject<bool> PlayerTargeted { get; } = new BehaviourSubject<bool>(false);
+
+    public Color? CurrentTelegraph { get; private set; } = null;
 
     protected override void Start()
     {
@@ -14,8 +13,7 @@ public abstract class Enemy : Actor
         gameObject.tag = Tags.Enemy;
     }
 
-    public void Telegraph(float telegraphTime, Color colour)
-    {
-        OnTelegraph.Next(new Tuple<float, Color> (telegraphTime, colour));
-    }
+    public void StartTelegraph(Color colour) => CurrentTelegraph = colour;
+
+    public void StopTelegraph() => CurrentTelegraph = null;
 }
