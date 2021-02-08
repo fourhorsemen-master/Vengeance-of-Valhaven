@@ -7,9 +7,8 @@ public static class TooltipBuilderUtils
     {
         TemplatedTooltipSegmentType.Text,
         TemplatedTooltipSegmentType.Stun,
-        TemplatedTooltipSegmentType.PassiveSlow,
+        TemplatedTooltipSegmentType.Slow,
         TemplatedTooltipSegmentType.Block,
-        TemplatedTooltipSegmentType.StackingSlow,
         TemplatedTooltipSegmentType.Bleed,
         TemplatedTooltipSegmentType.Poison,
         TemplatedTooltipSegmentType.Vulnerable,
@@ -36,15 +35,12 @@ public static class TooltipBuilderUtils
             
             case TemplatedTooltipSegmentType.Stun:
                 return new TooltipSegment(TooltipSegmentType.BoldText, "Stun");
-            
-            case TemplatedTooltipSegmentType.PassiveSlow:
+
+            case TemplatedTooltipSegmentType.Slow:
                 return new TooltipSegment(TooltipSegmentType.BoldText, "Slow");
             
             case TemplatedTooltipSegmentType.Block:
                 return new TooltipSegment(TooltipSegmentType.BoldText, "Block");
-            
-            case TemplatedTooltipSegmentType.StackingSlow:
-                return new TooltipSegment(TooltipSegmentType.BoldText, $"Slow x{templatedTooltipSegment.Value}");
             
             case TemplatedTooltipSegmentType.Bleed:
                 return new TooltipSegment(TooltipSegmentType.BoldText, $"Bleed x{templatedTooltipSegment.Value}");
