@@ -9,7 +9,8 @@ public class SweepingStrike : InstantCast
     private const float knockBackDuration = 0.25f;
     private const float knockBackSpeed = 5f;
 
-    public SweepingStrike(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
+    public SweepingStrike(Actor owner, AbilityData abilityData, string fmodStartEvent, string fmodEndEvent, string[] availableBonuses)
+        : base(owner, abilityData, fmodStartEvent, fmodEndEvent, availableBonuses)
     {
     }
 

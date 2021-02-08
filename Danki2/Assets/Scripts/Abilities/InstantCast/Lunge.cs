@@ -12,7 +12,8 @@ public class Lunge : InstantCast
 
     private readonly Subject<Vector3> onFinishMovement = new Subject<Vector3>();
 
-    public Lunge(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
+    public Lunge(Actor owner, AbilityData abilityData, string fmodStartEvent, string fmodEndEvent, string[] availableBonuses)
+        : base(owner, abilityData, fmodStartEvent, fmodEndEvent, availableBonuses)
     {
     }
 

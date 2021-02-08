@@ -7,8 +7,8 @@ public class Rend : Cast
     private const float Range = 3f;
     private int bleedStacks = 2;
 
-    public Rend(Actor owner, AbilityData abilityData, string[] availableBonuses, float duration)
-        : base(owner, abilityData, availableBonuses, duration)
+    public Rend(Actor owner, AbilityData abilityData, string fmodStartEvent, string fmodEndEvent, string[] availableBonuses, float duration)
+        : base(owner, abilityData, fmodStartEvent, fmodEndEvent, availableBonuses, duration)
     {
     }
 

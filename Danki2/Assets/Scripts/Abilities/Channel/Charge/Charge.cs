@@ -6,8 +6,8 @@ public abstract class Charge : Channel
 
     protected float TimeCharged { get; private set; } = 0;
 
-    protected Charge(Actor owner, AbilityData abilityData, string[] availableBonuses, float duration)
-        : base(owner, abilityData, availableBonuses, duration)
+    protected Charge(Actor owner, AbilityData abilityData, string fmodStartEvent, string fmodEndEvent, string[] availableBonuses, float duration)
+        : base(owner, abilityData, fmodStartEvent, fmodEndEvent, availableBonuses, duration)
     {
     }
 

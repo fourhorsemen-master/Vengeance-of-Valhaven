@@ -74,6 +74,7 @@ public class AbilityLookupEditor : Editor
         serializableAbilityMetadata.Tooltip = EditorUtils.MultilineTextField("Tooltip", serializableAbilityMetadata.Tooltip, 3);
         serializableAbilityMetadata.Finisher = EditorGUILayout.Toggle("Finisher", serializableAbilityMetadata.Finisher);
         EditChannelDuration(abilityReference, serializableAbilityMetadata);
+        EditFmodEvents(abilityReference);
         EditBaseAbilityData(abilityReference, serializableAbilityMetadata);
         EditAbilityBonusData(abilityReference, serializableAbilityMetadata);
             
@@ -87,6 +88,20 @@ public class AbilityLookupEditor : Editor
         serializableAbilityMetadata.ChannelDuration = EditorGUILayout.FloatField(
             "Channel Duration",
             serializableAbilityMetadata.ChannelDuration);
+    }
+
+    private void EditFmodEvents(AbilityReference abilityReference)
+    {
+        foldoutStatus[abilityReference][AbilityDataDropdownGroup.FmodEvents] = EditorGUILayout.Foldout(
+            foldoutStatus[abilityReference][AbilityDataDropdownGroup.FmodEvents],
+            "Fmod Events"
+        );
+
+        if (!foldoutStatus[abilityReference][AbilityDataDropdownGroup.FmodEvents]) return;
+
+        SerializedProperty serializableAbilityMetadata = serializedObject.FindProperty($"serializableMetadataLookup._values").GetArrayElementAtIndex((int)abilityReference);
+        EditorGUILayout.PropertyField(serializableAbilityMetadata.FindPropertyRelative("fmodStartEventRef"), new GUIContent("Start"));
+        EditorGUILayout.PropertyField(serializableAbilityMetadata.FindPropertyRelative("fmodEndEventRef"), new GUIContent("End"));
     }
 
     private bool IsChannel(AbilityReference abilityReference)
