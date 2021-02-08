@@ -24,6 +24,7 @@ public class BearCharge : Channel
     public BearCharge(Actor owner, AbilityData abilityData, string fmodStartEvent, string fmodEndEvent, string[] availableBonuses, float duration)
         : base(owner, abilityData, fmodStartEvent, fmodEndEvent, availableBonuses, duration)
     {
+        repeater = new Repeater(ChargeEffectInterval, ChargeEffect, ChargeEffectInterval);
     }
 
     public override void Start(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
