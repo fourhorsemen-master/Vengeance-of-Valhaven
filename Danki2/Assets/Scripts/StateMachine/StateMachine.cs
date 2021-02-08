@@ -10,10 +10,10 @@ public class StateMachine<TState> : IStateMachineComponent where TState : Enum
         new EnumDictionary<TState, EnumDictionary<TState, StateMachineTrigger>>(() =>
             new EnumDictionary<TState, StateMachineTrigger>(new NeverTrigger()));
 
-    private readonly Dictionary<TState, Func<TState>> deciders = new Dictionary<TState, Func<TState>>();
-
     private readonly EnumDictionary<TState, StateMachineTrigger> globalTriggers =
         new EnumDictionary<TState, StateMachineTrigger>(new NeverTrigger());
+
+    private readonly Dictionary<TState, Func<TState>> deciders = new Dictionary<TState, Func<TState>>();
 
     private readonly TState initialState;
     private TState currentState;
@@ -35,18 +35,18 @@ public class StateMachine<TState> : IStateMachineComponent where TState : Enum
         return this;
     }
 
+    public StateMachine<TState> WithGlobalTransition(TState to, StateMachineTrigger stateMachineTrigger)
+    {
+        globalTriggers[to] = stateMachineTrigger;
+        return this;
+    }
+
     public IStateMachineComponent WithDecisionState(TState fromState, Func<TState> decider)
     {
         deciders[fromState] = decider;
         return this;
     }
 
-    public StateMachine<TState> WithGlobalTransition(TState to, StateMachineTrigger stateMachineTrigger)
-    {
-        globalTriggers[to] = stateMachineTrigger;
-        return this;
-    }
-    
     public void Enter()
     {
         currentState = initialState;
