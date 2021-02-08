@@ -38,7 +38,7 @@ public class ChannelService : AbilityService, IMovementStatusProvider
 
     public bool TryStartChannel(AbilityReference abilityReference)
     {
-        if (!CanCast) return false;
+        if (!actor.CanCast) return false;
 
         if (!AbilityLookup.Instance.TryGetChannel(
             abilityReference,

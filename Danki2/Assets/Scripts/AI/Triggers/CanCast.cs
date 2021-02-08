@@ -11,5 +11,5 @@
 
     public override void Deactivate() { }
 
-    public override bool Triggers() => actor.InstantCastService.CanCast;
+    public override bool Triggers() => actor.CanCast;
 }
