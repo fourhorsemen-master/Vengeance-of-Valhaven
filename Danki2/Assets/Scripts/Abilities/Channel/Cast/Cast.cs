@@ -4,8 +4,8 @@ public abstract class Cast : Channel
 {
     public sealed override ChannelType ChannelType => ChannelType.Cast;
 
-    protected Cast(Actor owner, AbilityData abilityData, string[] availableBonuses, float duration)
-        : base(owner, abilityData, availableBonuses, duration)
+    protected Cast(Actor owner, AbilityData abilityData, string fmodStartEvent, string fmodEndEvent, string[] availableBonuses, float duration)
+        : base(owner, abilityData, fmodStartEvent, fmodEndEvent, availableBonuses, duration)
     {
     }
 

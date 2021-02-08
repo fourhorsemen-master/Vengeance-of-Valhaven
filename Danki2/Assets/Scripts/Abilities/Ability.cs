@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using FMODUnity;
+using System.Linq;
 using UnityEngine;
 
 public abstract class Ability
@@ -6,6 +7,9 @@ public abstract class Ability
     // Max angle and min vertical angles you can target with melee attacks
     public const float MaxMeleeVerticalAngle = 30f;
     public const float MinMeleeVerticalAngle = -30f;
+
+    private readonly string fmodStartEvent;
+    private readonly string fmodEndEvent;
 
     public Subject<bool> SuccessFeedbackSubject { get; }
 
@@ -15,10 +19,12 @@ public abstract class Ability
 
     private string[] ActiveBonuses { get; }
 
-    protected Ability(Actor owner, AbilityData abilityData, string[] activeBonuses)
+    protected Ability(Actor owner, AbilityData abilityData, string fmodStartEvent, string fmodEndEvent, string[] activeBonuses)
     {
         Owner = owner;
         AbilityData = abilityData;
+        this.fmodStartEvent = fmodStartEvent;
+        this.fmodEndEvent = fmodEndEvent;
         ActiveBonuses = activeBonuses;
         SuccessFeedbackSubject = new Subject<bool>();
     }
@@ -55,6 +61,20 @@ public abstract class Ability
         float newAngleX = Mathf.Clamp(castAngleX, MinMeleeVerticalAngle, MaxMeleeVerticalAngle);
 
         return Quaternion.Euler(newAngleX, castRotation.eulerAngles.y, castRotation.eulerAngles.z);
+    }
+
+    protected void PlayStartEvent()
+    {
+        if (string.IsNullOrEmpty(fmodStartEvent)) return;
+
+        RuntimeManager.PlayOneShot(fmodStartEvent, Owner.transform.position);
+    }
+
+    protected void PlayEndEvent()
+    {
+        if (string.IsNullOrEmpty(fmodEndEvent)) return;
+
+        RuntimeManager.PlayOneShot(fmodEndEvent, Owner.transform.position);
     }
 
     private int GetModifiedValue(int baseValue, int linearModifier, int multiplicativeModifier) =>

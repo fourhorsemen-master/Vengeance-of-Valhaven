@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FMODUnity;
+using System;
 using UnityEngine;
 
 [Serializable]
@@ -10,6 +11,12 @@ public class SerializableAbilityMetadata
     private string tooltip = "";
     [SerializeField]
     private AbilityData baseAbilityData = AbilityData.Zero;
+
+    [SerializeField, EventRef]
+    private string fmodStartEventRef = "";
+    [SerializeField, EventRef]
+    private string fmodEndEventRef = "";
+
     [SerializeField]
     private SerializableAbilityBonusLookup abilityBonusLookup = new SerializableAbilityBonusLookup();
     [SerializeField]
@@ -20,6 +27,8 @@ public class SerializableAbilityMetadata
     public string DisplayName { get => displayName; set => displayName = value; }
     public string Tooltip { get => tooltip; set => tooltip = value; }
     public AbilityData BaseAbilityData { get => baseAbilityData; set => baseAbilityData = value; }
+    public string FmodStartEventRef { get => fmodStartEventRef; set => fmodStartEventRef = value; }
+    public string FmodEndEventRef { get => fmodEndEventRef; set => fmodEndEventRef = value; }
     public SerializableAbilityBonusLookup AbilityBonusLookup { get => abilityBonusLookup; set => abilityBonusLookup = value; }
     public bool Finisher { get => finisher; set => finisher = value; }
     public float ChannelDuration { get => channelDuration; set => channelDuration = value; }

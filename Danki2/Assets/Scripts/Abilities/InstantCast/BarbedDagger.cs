@@ -5,7 +5,8 @@ public class BarbedDagger : InstantCast
 {
     private const float DaggerSpeed = 20f;
 
-    public BarbedDagger(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
+    public BarbedDagger(Actor owner, AbilityData abilityData, string fmodStartEvent, string fmodEndEvent, string[] availableBonuses)
+        : base(owner, abilityData, fmodStartEvent, fmodEndEvent, availableBonuses)
     {
     }
 
