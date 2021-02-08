@@ -122,7 +122,7 @@ public class MovementManager : IMovementStatusProvider
 
         if (Rooted) return;
 
-        if (speed == null) speed = actor.StatsManager.Get(Stat.Speed);
+        if (speed == null) speed = GetMoveSpeed();
 
         navMeshAgent.Move(direction.normalized * (Time.deltaTime * speed.Value));
         movedThisFrame = true;
@@ -224,10 +224,7 @@ public class MovementManager : IMovementStatusProvider
         IsMoving = movedThisFrame || (navMeshAgent.hasPath && navMeshAgent.velocity.magnitude > 0f);
         movedThisFrame = false;
 
-        float moveSpeed = actor.StatsManager.Get(Stat.Speed);
-        navMeshAgent.speed = MotionType == MotionType.Run
-            ? moveSpeed
-            : moveSpeed * WalkSpeedMultiplier;
+        navMeshAgent.speed = GetMoveSpeed();
 
         if (
             watching 
@@ -251,5 +248,14 @@ public class MovementManager : IMovementStatusProvider
             Quaternion desiredRotation = Quaternion.LookRotation(direction);
             actor.transform.rotation = Quaternion.Lerp(actor.transform.rotation, desiredRotation, RotationSmoothing);
         }
+    }
+
+    private float GetMoveSpeed()
+    {
+        float moveSpeed = actor.StatsManager.Get(Stat.Speed);
+
+        return MotionType == MotionType.Run
+            ? moveSpeed
+            : moveSpeed * WalkSpeedMultiplier;
     }
 }
