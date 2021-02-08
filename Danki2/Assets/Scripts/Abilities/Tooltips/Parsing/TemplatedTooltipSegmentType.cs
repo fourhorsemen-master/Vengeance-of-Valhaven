@@ -9,7 +9,6 @@ public enum TemplatedTooltipSegmentType
     Heal,
     Shield,
     Stun,
-    ActiveSlow,
     Slow,
     Block,
     Bleed,

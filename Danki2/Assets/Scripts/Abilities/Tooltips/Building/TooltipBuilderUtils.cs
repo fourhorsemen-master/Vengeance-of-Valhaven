@@ -7,7 +7,6 @@ public static class TooltipBuilderUtils
     {
         TemplatedTooltipSegmentType.Text,
         TemplatedTooltipSegmentType.Stun,
-        TemplatedTooltipSegmentType.ActiveSlow,
         TemplatedTooltipSegmentType.Slow,
         TemplatedTooltipSegmentType.Block,
         TemplatedTooltipSegmentType.Bleed,
