@@ -6,8 +6,8 @@ public class BearAi : Ai
 
     [Header("General")]
     [SerializeField] private float aggroDistance = 0;
-    [SerializeField] [Tooltip("Value must be less than maxAttackRange.")] private float minAdvanceRange = 0;
-    [SerializeField] [Tooltip("Value must be greater than minAdvanceRange.")] private float maxAttackRange = 0;
+    [SerializeField, Tooltip("Value must be less than maxAttackRange.")] private float minAdvanceRange = 0;
+    [SerializeField, Tooltip("Value must be greater than minAdvanceRange.")] private float maxAttackRange = 0;
     [SerializeField] private float maxChargeRange = 0;
     [SerializeField] private float chargeInterval = 0;
 
