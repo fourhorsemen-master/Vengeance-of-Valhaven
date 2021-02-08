@@ -5,6 +5,7 @@ public class HealthManager
 {
     private readonly Actor actor;
 
+    // Note health is clamped below at 0
     public int Health { get; private set; }
 
     public int MaxHealth => actor.StatsManager.Get(Stat.MaxHealth);

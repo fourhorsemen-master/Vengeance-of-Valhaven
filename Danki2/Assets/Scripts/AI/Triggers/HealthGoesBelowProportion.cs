@@ -5,8 +5,6 @@
     
     private bool canTrigger;
 
-    private float HealthProportion => (float) actor.HealthManager.Health / actor.HealthManager.MaxHealth;
-
     public HealthGoesBelowProportion(Actor actor, float proportion)
     {
         this.actor = actor;
@@ -15,18 +13,18 @@
 
     public override void Activate()
     {
-        canTrigger = HealthProportion >= proportion;
+        canTrigger = actor.HealthManager.HealthProportion >= proportion;
     }
 
     public override void Deactivate() {}
 
     public override bool Triggers()
     {
-        if (HealthProportion >= proportion)
+        if (actor.HealthManager.HealthProportion >= proportion)
         {
             canTrigger = true;
         }
 
-        return canTrigger && HealthProportion < proportion;
+        return canTrigger && actor.HealthManager.HealthProportion < proportion;
     }
 }
