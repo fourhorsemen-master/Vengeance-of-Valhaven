@@ -13,7 +13,7 @@ public class StateMachine<TState> : IStateMachineComponent where TState : Enum
     private readonly EnumDictionary<TState, StateMachineTrigger> globalTriggers =
         new EnumDictionary<TState, StateMachineTrigger>(new NeverTrigger());
 
-    private readonly Dictionary<TState, Func<TState>> deciders = new Dictionary<TState, Func<TState>>();
+    private readonly Dictionary<TState, IStateMachineDecider<TState>> deciders = new Dictionary<TState, IStateMachineDecider<TState>>();
 
     private readonly TState initialState;
     private TState currentState;
@@ -41,7 +41,7 @@ public class StateMachine<TState> : IStateMachineComponent where TState : Enum
         return this;
     }
 
-    public IStateMachineComponent WithDecisionState(TState fromState, Func<TState> decider)
+    public IStateMachineComponent WithDecisionState(TState fromState, IStateMachineDecider<TState> decider)
     {
         deciders[fromState] = decider;
         return this;
@@ -70,7 +70,7 @@ public class StateMachine<TState> : IStateMachineComponent where TState : Enum
     {
         if (deciders.ContainsKey(currentState))
         {
-            TState nextState = deciders[currentState]();
+            TState nextState = deciders[currentState].Decide();
 
             Transition(nextState);
             return;
