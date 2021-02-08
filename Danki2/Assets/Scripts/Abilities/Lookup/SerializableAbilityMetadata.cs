@@ -11,10 +11,12 @@ public class SerializableAbilityMetadata
     private string tooltip = "";
     [SerializeField]
     private AbilityData baseAbilityData = AbilityData.Zero;
-    [EventRef]
-    public string fmodStartEventRef = "";
-    [EventRef]
-    public string fmodEndEventRef = "";
+
+    [SerializeField, EventRef]
+    private string fmodStartEventRef = "";
+    [SerializeField, EventRef]
+    private string fmodEndEventRef = "";
+
     [SerializeField]
     private SerializableAbilityBonusLookup abilityBonusLookup = new SerializableAbilityBonusLookup();
     [SerializeField]
