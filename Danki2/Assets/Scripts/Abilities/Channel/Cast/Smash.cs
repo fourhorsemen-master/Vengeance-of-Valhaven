@@ -8,8 +8,8 @@ public class Smash : Cast
     private const float PerfectSmashStunDuration = 3f;
     private const float PauseDuration = 0.3f;
 
-    public Smash(Actor owner, AbilityData abilityData, string[] availableBonuses, float duration)
-        : base(owner, abilityData, availableBonuses, duration)
+    public Smash(Actor owner, AbilityData abilityData, string fmodStartEvent, string fmodEndEvent, string[] availableBonuses, float duration)
+        : base(owner, abilityData, fmodStartEvent, fmodEndEvent, availableBonuses, duration)
     {
     }
 

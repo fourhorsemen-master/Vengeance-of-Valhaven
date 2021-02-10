@@ -14,9 +14,16 @@ public static class MonoBehaviourExtensions
         return monoBehaviour.StartCoroutine(DelayedAction(waitTime, action));
     }
 
-    public static void ActOnInterval(this MonoBehaviour monoBehaviour, float interval, Action action, float startDelay = 0f)
+    public static Coroutine ActOnInterval(this MonoBehaviour monoBehaviour, float interval, Action action, float startDelay = 0f, int? numRepetitions = null)
     {
-        monoBehaviour.StartCoroutine(IntervalAction(interval, action, startDelay));
+        if (numRepetitions == null)
+        {
+            return monoBehaviour.StartCoroutine(IntervalAction(interval, action, startDelay));
+        }
+        else
+        {
+            return monoBehaviour.StartCoroutine(IntervalAction(interval, action, startDelay, numRepetitions.Value));
+        }
     }
 
     private static IEnumerator DelayedAction(float delay, Action action)
@@ -31,6 +38,17 @@ public static class MonoBehaviourExtensions
         yield return new WaitForSeconds(startDelay);
 
         while(true)
+        {
+            action();
+            yield return new WaitForSeconds(interval);
+        }
+    }
+
+    private static IEnumerator IntervalAction(float interval, Action action, float startDelay, int numRepetitions)
+    {
+        yield return new WaitForSeconds(startDelay);
+
+        for (int i = 0; i < numRepetitions; i++)
         {
             action();
             yield return new WaitForSeconds(interval);

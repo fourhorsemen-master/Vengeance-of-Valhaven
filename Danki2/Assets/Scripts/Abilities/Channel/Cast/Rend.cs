@@ -7,19 +7,21 @@ public class Rend : Cast
     private const float Range = 3f;
     private int bleedStacks = 2;
 
-    public Rend(Actor owner, AbilityData abilityData, string[] availableBonuses, float duration)
-        : base(owner, abilityData, availableBonuses, duration)
+    public Rend(Actor owner, AbilityData abilityData, string fmodStartEvent, string fmodEndEvent, string[] availableBonuses, float duration)
+        : base(owner, abilityData, fmodStartEvent, fmodEndEvent, availableBonuses, duration)
     {
     }
 
     public override void End(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
+        Owner.MovementManager.LookAt(floorTargetPosition);
+
         List<Actor> opposingActors = CollisionTemplateManager.Instance
-            .GetCollidingActors(CollisionTemplate.Cylinder, Range, Owner.transform.position)
+            .GetCollidingActors(CollisionTemplate.Cylinder, Range, Owner.CollisionTemplateSource)
             .Where(Owner.Opposes);
 
         bool enemiesHit = opposingActors.Count > 0;
-        RendObject.Create(Owner.transform, Owner.Centre, enemiesHit);
+        RendObject.Create(Owner.transform, Owner.AbilitySource, enemiesHit);
 
         if (!enemiesHit)
         {

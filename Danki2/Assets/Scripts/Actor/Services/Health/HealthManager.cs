@@ -5,9 +5,12 @@ public class HealthManager
 {
     private readonly Actor actor;
 
+    // Note health is clamped below at 0
     public int Health { get; private set; }
 
     public int MaxHealth => actor.StatsManager.Get(Stat.MaxHealth);
+
+    public float HealthProportion => (float)Health / MaxHealth;
 
     public Subject<DamageData> UnmodifiedDamageSubject { get; } = new Subject<DamageData>();
     public Subject<DamageData> ModifiedDamageSubject { get; } = new Subject<DamageData>();

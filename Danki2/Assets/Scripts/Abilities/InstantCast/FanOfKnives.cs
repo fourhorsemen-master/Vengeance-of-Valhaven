@@ -13,7 +13,8 @@ public class FanOfKnives : InstantCast
 
     private int collisionCounter = 0;
 
-    public FanOfKnives(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
+    public FanOfKnives(Actor owner, AbilityData abilityData, string fmodStartEvent, string fmodEndEvent, string[] availableBonuses)
+        : base(owner, abilityData, fmodStartEvent, fmodEndEvent, availableBonuses)
     {
     }
 
@@ -30,8 +31,8 @@ public class FanOfKnives : InstantCast
 
             Owner.WaitAndAct(
                 knifeCastInterval * i,
-                () => FanOfKnivesObject.Fire(Owner, OnCollision, knifeSpeed, Owner.Centre, castRotation)
-                );    
+                () => FanOfKnivesObject.Fire(Owner, OnCollision, knifeSpeed, Owner.AbilitySource, castRotation)
+            );    
         }
     }
 

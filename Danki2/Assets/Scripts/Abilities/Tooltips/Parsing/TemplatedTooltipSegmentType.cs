@@ -7,6 +7,12 @@ public enum TemplatedTooltipSegmentType
     PrimaryDamage,
     SecondaryDamage,
     Heal,
-    Shield
+    Shield,
+    Stun,
+    Slow,
+    Block,
+    Bleed,
+    Poison,
+    Vulnerable,
     // New templated tooltip segment types need a new entry adding in the templated tooltip segment type lookup
 }
