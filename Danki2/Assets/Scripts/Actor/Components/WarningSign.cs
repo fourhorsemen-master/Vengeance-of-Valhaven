@@ -4,41 +4,24 @@ using UnityEngine.UI;
 public class WarningSign : MonoBehaviour
 {
     [SerializeField]
-    private Enemy _enemy = null;
+    private Enemy enemy = null;
     [SerializeField]
-    private Text _exclaimationMark = null;
-
-    private Coroutine disableWarningCoroutine = null;
+    private Text exclaimationMark = null;
 
     public void Start()
     {
-        if (_exclaimationMark == null)
-        {
-            Debug.LogError("No image found for exclaimation mark");
-            return;
-        }
-
-        if (_exclaimationMark.canvas == null)
-        {
-            return;
-        }
-
-        _exclaimationMark.enabled = false;
-
-        _enemy.OnTelegraph.Subscribe(ShowWarning);
+        exclaimationMark.enabled = false;
     }
 
-    private void ShowWarning(float duration)
+    private void Update()
     {
-        if (disableWarningCoroutine != null)
+        if (enemy.CurrentTelegraph == null)
         {
-            StopCoroutine(disableWarningCoroutine);
+            exclaimationMark.enabled = false;
+            return;
         }
 
-        _exclaimationMark.enabled = true;
-        disableWarningCoroutine = this.WaitAndAct(duration, () =>
-        {
-            _exclaimationMark.enabled = false;
-        });
+        exclaimationMark.enabled = true;
+        exclaimationMark.color = enemy.CurrentTelegraph.Value;
     }
 }

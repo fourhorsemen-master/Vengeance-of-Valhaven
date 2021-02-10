@@ -6,6 +6,7 @@ public class ChannelService : AbilityService, IMovementStatusProvider
     private Channel _currentChannel;
 
     public Subject<ChannelType> ChannelStartSubject { get; } = new Subject<ChannelType>();
+    public Subject ChannelEndSubject { get; } = new Subject();
     public bool Active { get; private set; } = false;
     public float RemainingDuration { get; private set; }
     public float TotalDuration => _currentChannel.Duration;
@@ -37,7 +38,7 @@ public class ChannelService : AbilityService, IMovementStatusProvider
 
     public bool TryStartChannel(AbilityReference abilityReference)
     {
-        if (!CanCast) return false;
+        if (!actor.CanCast) return false;
 
         if (!AbilityLookup.Instance.TryGetChannel(
             abilityReference,
@@ -83,6 +84,8 @@ public class ChannelService : AbilityService, IMovementStatusProvider
         {
             _currentChannel.Cancel(FloorTargetPosition, OffsetTargetPosition);
         }
+
+        ChannelEndSubject.Next();
 
         StartFeedbackTimer();
     }
@@ -133,6 +136,8 @@ public class ChannelService : AbilityService, IMovementStatusProvider
         {
             _currentChannel.End(FloorTargetPosition, OffsetTargetPosition);
         }
+
+        ChannelEndSubject.Next();
 
         StartFeedbackTimer();
     }
