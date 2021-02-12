@@ -40,12 +40,11 @@ Things to be sure to do when making prop prefabs:
   - "Scale Factor" should be so that meshes appear at the correct size when their transforms have scale (1, 1, 1).
 - On the prefab:
   - The name should be the same as the mesh's name, but without the "_mesh" suffix.
-  - There should be an empty parent game object with default transform (can click "Reset" on the menu in the transform).
-    - The easiest way to achieve this is:
-      - Create an empty game object in scene
-      - Drag the desired model in as a child (and rename the child gameobject to Mesh)
-      - Right click on the child game object and click "Unpack Prefab" to convert it into standard gameobject with no prefab links
-      - Drag the parent game object into the desired prefab location
+  - There should be an empty parent game object with default transform (can click "Reset" on the menu in the transform). The easiest way to achieve this is:
+    - Create an empty game object in scene
+    - Drag the desired model in as a child (and rename the child gameobject to Mesh)
+    - Right click on the child game object and click "Unpack Prefab" to convert it into standard gameobject with no prefab links
+    - Drag the parent game object into the desired prefab location
   - Child game object should also have default transform, but scale can be tweaked if we want to uniformly adjust the proportions.
   - The game object with the mesh should have a "Mesh Filter", a "Mesh Renderer" and a "Mesh Collider" (if collidable).
   - If the prop should be part of the navmesh, it should have "Navigation Static" selected and an appropriate "Navigation Area".
