@@ -52,6 +52,7 @@ public abstract class Actor : MonoBehaviour
     public abstract ActorType Type { get; }
 
     public bool CanCast => !Dead && !MovementManager.Stunned && !MovementManager.MovementLocked;
+    public float CastableTimeElapsed { get; private set; } = 0f;
 
     protected virtual void Awake()
     {
@@ -80,6 +81,9 @@ public abstract class Actor : MonoBehaviour
     protected virtual void Update()
     {
         updateSubject.Next();
+
+        if (CanCast) CastableTimeElapsed += Time.deltaTime;
+        else CastableTimeElapsed = 0f;
     }
 
     protected virtual void LateUpdate()
