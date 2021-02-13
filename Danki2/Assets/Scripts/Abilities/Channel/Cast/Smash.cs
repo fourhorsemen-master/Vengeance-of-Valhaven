@@ -13,6 +13,10 @@ public class Smash : Cast
     {
     }
 
+    protected override void Start() => PlayStartEvent();
+
+    protected override void Cancel() => StopStartEvents();
+
     public override void End(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
         Owner.MovementManager.LookAt(floorTargetPosition);

@@ -28,7 +28,8 @@ public class Slash : InstantCast
 
         SuccessFeedbackSubject.Next(hasDealtDamage);
 
-        SlashObject slashObject = SlashObject.Create(Owner.AbilitySource, castRotation);
+        PlayStartEvent();
+        SlashObject.Create(Owner.AbilitySource, castRotation);
 
         Owner.MovementManager.LookAt(floorTargetPosition);
         Owner.MovementManager.Pause(PauseDuration);
