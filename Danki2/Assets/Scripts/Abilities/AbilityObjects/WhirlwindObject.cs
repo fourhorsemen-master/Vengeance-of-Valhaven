@@ -3,17 +3,9 @@ using UnityEngine.VFX;
 
 public class WhirlwindObject : MonoBehaviour
 {
-    private const float soundInterval = 0.35f;
-    private const float minVolume = 0.4f;
-    private const float maxVolume = 1f;
     private const float particleDissapationPeriod = 0.4f;
 
-    private bool isDissipating = false;
-
     private VisualEffect pfx;
-
-    [SerializeField]
-    private AudioSource whirlwindSound = null;
 
     public static WhirlwindObject Create(Transform casterTransform)
     {
@@ -24,23 +16,11 @@ public class WhirlwindObject : MonoBehaviour
     public void DissipateAndDestroy()
     {
         pfx.Stop();
-        whirlwindSound.Stop();
-        isDissipating = true;
         Destroy(gameObject, particleDissapationPeriod);
     }
 
     public void Start()
     {
-
         pfx = gameObject.GetComponent<VisualEffect>();
-
-        this.ActOnInterval(soundInterval, () =>
-        {
-            if (!isDissipating)
-            { 
-                whirlwindSound.volume = Random.Range(minVolume, maxVolume);
-                whirlwindSound.Play();
-            }
-        });
     }
 }

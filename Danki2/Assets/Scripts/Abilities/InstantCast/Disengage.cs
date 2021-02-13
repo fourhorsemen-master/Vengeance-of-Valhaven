@@ -32,7 +32,7 @@ public class Disengage : InstantCast
             Owner.MovementManager.Pause(pauseDuration);
         });
 
-        SmashObject.Create(position, false, smashObjectScaleFactor);
+        SmashObject.Create(position, smashObjectScaleFactor);
 
         bool dealtDamage = false;
 

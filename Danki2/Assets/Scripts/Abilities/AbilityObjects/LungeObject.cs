@@ -5,12 +5,6 @@ public class LungeObject : StaticAbilityObject
     [SerializeField]
     private ModularPFXComponent modularPFX = null;
 
-    [SerializeField]
-    private AudioSource hitAudioSource = null;
-
-    [SerializeField]
-    private AudioSource swingAudioSource = null;
-
     public override float StickTime => 2f;
 
     public static LungeObject Create(Vector3 position, Quaternion rotation, Subject<Vector3> onFinishMovement)
@@ -20,16 +14,6 @@ public class LungeObject : StaticAbilityObject
         lungeObject.Setup(onFinishMovement);
 
         return lungeObject;
-    }
-
-    public void PlaySwingSound()
-    {
-        swingAudioSource.Play();
-    }
-
-    public void PlayHitSound()
-    {
-        hitAudioSource.Play();
     }
 
     private void Setup(Subject<Vector3> onFinishMovement)

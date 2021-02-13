@@ -41,7 +41,6 @@ public class Backstab : InstantCast
         }        
 
         CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
-        backstabObject.PlayHitSound();
     }
 
     private BackstabObject Swing(Vector3 target)

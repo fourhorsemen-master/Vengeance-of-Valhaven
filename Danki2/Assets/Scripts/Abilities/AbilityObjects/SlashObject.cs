@@ -12,9 +12,6 @@ public class SlashObject : MonoBehaviour
     private MeshRenderer meshRenderer = null;
 
     [SerializeField]
-    private AudioSource hitAudioSource = null;
-
-    [SerializeField]
     private Color desiredColor = new Color();
 
     public static SlashObject Create(Vector3 position, Quaternion rotation, Color color = default)
@@ -36,10 +33,5 @@ public class SlashObject : MonoBehaviour
     private void Update()
     {
         transform.Rotate(0f, -rotationSpeed * Time.deltaTime, 0f);
-    }
-
-    public void PlayHitSound()
-    {
-        hitAudioSource.Play();
     }
 }
