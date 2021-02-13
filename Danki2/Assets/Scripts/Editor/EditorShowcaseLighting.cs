@@ -1,16 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEditor;
 
 [CustomEditor(typeof(ShowcaseLighting))]
 public class EditorShowcaseLighting : Editor
 {
-	SerializedProperty LightsProp;
+	SerializedProperty MainLightsProp;
+	SerializedProperty FillLightsProp;
 
 	private void OnEnable()
 	{
-		LightsProp = serializedObject.FindProperty("Lights");
+		MainLightsProp = serializedObject.FindProperty("MainLights");
+		FillLightsProp = serializedObject.FindProperty("FillLights");
 	}
 
 	public override void OnInspectorGUI()
@@ -32,7 +32,8 @@ public class EditorShowcaseLighting : Editor
 		}
 		EditorGUILayout.EndHorizontal();
 
-		EditorGUILayout.PropertyField(LightsProp, new GUIContent("Lights"));
+		EditorGUILayout.PropertyField(MainLightsProp, new GUIContent("Main Lights"));
+		EditorGUILayout.PropertyField(FillLightsProp, new GUIContent("Fill Lights"));
 
 		serializedObject.ApplyModifiedProperties();
 	}

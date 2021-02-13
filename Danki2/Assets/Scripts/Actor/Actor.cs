@@ -51,6 +51,8 @@ public abstract class Actor : MonoBehaviour
     public Subject DeathSubject { get; } = new Subject();
     public abstract ActorType Type { get; }
 
+    public bool CanCast => !Dead && !MovementManager.Stunned && !MovementManager.MovementLocked;
+
     protected virtual void Awake()
     {
         StatsManager = new StatsManager(baseStats);

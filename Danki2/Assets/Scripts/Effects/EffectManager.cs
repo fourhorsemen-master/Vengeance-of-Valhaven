@@ -37,7 +37,6 @@ public class EffectManager
         StackingEffectRemovedSubject.Subscribe(_ => actor.StatsManager.ClearCache());
 
         actor.StatsManager.RegisterPipe(new ActiveSlowHandler(actor));
-        actor.StatsManager.RegisterPipe(new StackingSlowHandler(actor));
         actor.StatsManager.RegisterPipe(new PassiveSlowHandler(actor));
         actor.StatsManager.RegisterPipe(new VulnerableHandler(actor));
 

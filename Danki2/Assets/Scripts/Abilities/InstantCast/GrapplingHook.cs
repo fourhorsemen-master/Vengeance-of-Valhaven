@@ -9,7 +9,10 @@ public class GrapplingHook : InstantCast
     private const float pullOffset = 2f;
     private const float stunDuration = 2f;
 
-    public GrapplingHook(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
+    private GrapplingHookObject grapplingHookObject = null;
+
+    public GrapplingHook(Actor owner, AbilityData abilityData, string fmodStartEvent, string fmodEndEvent, string[] availableBonuses)
+        : base(owner, abilityData, fmodStartEvent, fmodEndEvent, availableBonuses)
     {
     }
 

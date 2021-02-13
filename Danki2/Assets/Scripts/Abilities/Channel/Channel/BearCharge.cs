@@ -3,7 +3,7 @@
 [Ability(AbilityReference.BearCharge)]
 public class BearCharge : Channel
 {
-    private const float ChargeSpeed = 4f;
+    private const float ChargeSpeed = 5f;
     private const float ChargeEffectInterval = 0.5f;
     private const float ChargeRotationRate = 0.6f;
     private const float DamageRadius = 2.5f;
@@ -21,7 +21,8 @@ public class BearCharge : Channel
     
     public override ChannelEffectOnMovement EffectOnMovement => ChannelEffectOnMovement.None;
 
-    public BearCharge(Actor owner, AbilityData abilityData, string[] availableBonuses, float duration) : base(owner, abilityData, availableBonuses, duration)
+    public BearCharge(Actor owner, AbilityData abilityData, string fmodStartEvent, string fmodEndEvent, string[] availableBonuses, float duration)
+        : base(owner, abilityData, fmodStartEvent, fmodEndEvent, availableBonuses, duration)
     {
         repeater = new Repeater(ChargeEffectInterval, ChargeEffect, ChargeEffectInterval);
     }

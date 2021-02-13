@@ -9,7 +9,7 @@ public class PiercingRush : Cast
     private const float dashDamageHeight = 5f;
     private const float dashSpeedMultiplier = 6f;
 
-    private const int dazeSlowStacks = 5;
+    private const float DazeSlowDuration = 2f;
 
     private const float jetstreamCastDelay = 0.2f;
     private const float jetstreamRange = 3f;
@@ -21,8 +21,8 @@ public class PiercingRush : Cast
 
     public override ChannelEffectOnMovement EffectOnMovement => ChannelEffectOnMovement.Root;
 
-    public PiercingRush(Actor owner, AbilityData abilityData, string[] availableBonuses, float duration)
-        : base(owner, abilityData, availableBonuses, duration)
+    public PiercingRush(Actor owner, AbilityData abilityData, string fmodStartEvent, string fmodEndEvent, string[] availableBonuses, float duration)
+        : base(owner, abilityData, fmodStartEvent, fmodEndEvent, availableBonuses, duration)
     {
     }
 
@@ -94,7 +94,7 @@ public class PiercingRush : Cast
 
             if (HasBonus("Daze"))
             {
-                enemy.EffectManager.AddStacks(StackingEffect.Slow, dazeSlowStacks);
+                enemy.EffectManager.AddActiveEffect(ActiveEffect.Slow, DazeSlowDuration);
             }
         });
     }

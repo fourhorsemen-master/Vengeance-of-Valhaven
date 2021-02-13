@@ -12,10 +12,6 @@ public abstract class AbilityService
     private IAbilityBonusCalculator abilityBonusCalculator = new AbilityBonusNoOpCalculator();
     public Subject<bool> FeedbackSubject { get; } = new Subject<bool>();
 
-    public bool CanCast => !actor.Dead
-        && !actor.MovementManager.Stunned
-        && !actor.MovementManager.MovementLocked;
-
     protected AbilityService(Actor actor)
     {
         this.actor = actor;        

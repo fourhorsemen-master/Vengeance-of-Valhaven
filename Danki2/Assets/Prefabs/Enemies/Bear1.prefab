@@ -414,7 +414,7 @@ MonoBehaviour:
     - Power
     - Defence
     - Recovery
-    _values: 3200000002000000000000000000000000000000
+    _values: 3200000004000000000000000000000000000000
   navmeshAgent: {fileID: 1307004630582523634}
   trailRenderer: {fileID: 4564750321355086747}
   meshRenderers:
@@ -436,6 +436,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bear: {fileID: 5616573760960498849}
+  aggroDistance: 9
+  minAdvanceRange: 3
+  maxAttackRange: 4.5
+  maxChargeRange: 10
+  chargeInterval: 5
+  minRunDistance: 6
+  swipeDelay: 0.5
+  chargeDelay: 0.5
+  maulDelay: 0.5
+  cleaveDelay: 1
+  abilityInterval: 2
+  maxAttackAngle: 10
 --- !u!195 &1307004630582523634
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -899,6 +911,11 @@ PrefabInstance:
     - target: {fileID: 6207019259679190454, guid: 6dbad747eebf9a548b7db47011b6855f,
         type: 3}
       propertyPath: _enemy
+      value: 
+      objectReference: {fileID: 5616573760960498849}
+    - target: {fileID: 6207019259679190454, guid: 6dbad747eebf9a548b7db47011b6855f,
+        type: 3}
+      propertyPath: enemy
       value: 
       objectReference: {fileID: 5616573760960498849}
     - target: {fileID: 7362298287338699384, guid: 6dbad747eebf9a548b7db47011b6855f,

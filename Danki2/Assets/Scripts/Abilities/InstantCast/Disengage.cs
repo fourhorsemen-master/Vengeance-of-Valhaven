@@ -11,7 +11,8 @@ public class Disengage : InstantCast
     private const float partingShotRange = 2.2f;
     private const float smashObjectScaleFactor = 1.28f;
 
-    public Disengage(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
+    public Disengage(Actor owner, AbilityData abilityData, string fmodStartEvent, string fmodEndEvent, string[] availableBonuses)
+        : base(owner, abilityData, fmodStartEvent, fmodEndEvent, availableBonuses)
     {
     }
 
