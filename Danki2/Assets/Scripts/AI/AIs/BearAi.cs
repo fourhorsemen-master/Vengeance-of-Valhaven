@@ -10,6 +10,7 @@ public class BearAi : Ai
     [SerializeField, Tooltip("Value must be greater than minAdvanceRange.")] private float maxAttackRange = 0;
     [SerializeField] private float maxChargeRange = 0;
     [SerializeField] private float chargeInterval = 0;
+    [SerializeField] private float chargeRecoveryTime = 0;
 
     [Header("Advance")]
     [SerializeField] private float minRunDistance = 0;
@@ -45,6 +46,9 @@ public class BearAi : Ai
             .WithTransition(AttackState.TelegraphSwipe, AttackState.Swipe, new TimeElapsed(swipeDelay) & new CanCast(bear))
             .WithTransition(AttackState.TelegraphMaul, AttackState.Maul, new TimeElapsed(maulDelay) & new CanCast(bear))
             .WithTransition(AttackState.TelegraphCleave, AttackState.Cleave, new TimeElapsed(cleaveDelay) & new CanCast(bear))
+            .WithTransition(AttackState.TelegraphSwipe, AttackState.TelegraphSwipe, !new CanCast(bear))
+            .WithTransition(AttackState.TelegraphMaul, AttackState.TelegraphMaul, !new CanCast(bear))
+            .WithTransition(AttackState.TelegraphCleave, AttackState.TelegraphCleave, !new CanCast(bear))
             .WithTransition(AttackState.Swipe, AttackState.WatchTarget, new AlwaysTrigger())
             .WithTransition(AttackState.Maul, AttackState.WatchTarget, new AlwaysTrigger())
             .WithTransition(AttackState.Cleave, AttackState.WatchTarget, new AlwaysTrigger())
@@ -59,12 +63,14 @@ public class BearAi : Ai
             .WithComponent(State.Attack, attackStateMachine)
             .WithComponent(State.TelegraphCharge, new TelegraphAttack(bear, Color.blue))
             .WithComponent(State.Charge, new BearChannelCharge(bear, player))
+            .WithComponent(State.Watch, new WatchTarget(bear, player))
             .WithTransition(State.Idle, State.Advance, new DistanceLessThan(bear, player, aggroDistance) | new TakesDamage(bear))
             .WithTransition(State.Advance, State.Attack, new DistanceLessThan(bear, player, minAdvanceRange) & new Facing(bear, player, maxAttackAngle))
             .WithTransition(State.Attack, State.Advance, new DistanceGreaterThan(bear, player, maxAttackRange) & !new IsTelegraphing(bear))
             .WithTransition(State.Advance, State.TelegraphCharge, new DistanceLessThan(bear, player, maxChargeRange) & new TimeElapsed(chargeInterval))
             .WithTransition(State.TelegraphCharge, State.Charge, new TimeElapsed(chargeDelay) & new CanCast(bear))
-            .WithTransition(State.Charge, State.Advance, new ChannelComplete(bear));
+            .WithTransition(State.Charge, State.Watch, new ChannelComplete(bear))
+            .WithTransition(State.Watch, State.Advance, new TimeElapsed(chargeRecoveryTime));
     }
 
     private enum State
@@ -73,7 +79,8 @@ public class BearAi : Ai
         Advance,
         TelegraphCharge,
         Charge,
-        Attack
+        Attack,
+        Watch
     }
 
     private enum AdvanceState
