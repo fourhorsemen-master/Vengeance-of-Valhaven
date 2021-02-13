@@ -9,8 +9,7 @@ public class BearChargeObject : MonoBehaviour
 
     public void CreateSwipe(Vector3 position, Quaternion rotation, bool playHitSound)
     {
-        SwipeObject swipeObject = SwipeObject.Create(position, rotation);
-        if (playHitSound) swipeObject.PlayHitSound();
+        SwipeObject.Create(position, rotation);
     }
 
     public void Destroy()

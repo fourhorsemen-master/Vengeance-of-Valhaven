@@ -36,7 +36,6 @@ public class Slash : InstantCast
         if (hasDealtDamage)
         {
             CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
-            slashObject.PlayHitSound();
         }
     }
 }

@@ -3,12 +3,9 @@
 public class SweepingStrikeObject : StaticAbilityObject
 {
     [SerializeField]
-    private AudioSource hitAudioSource = null;
-
-    [SerializeField]
     private Color slashColor = new Color();
 
-    public override float StickTime => hitAudioSource.clip.length;
+    public override float StickTime => 5f;
 
     public static SweepingStrikeObject Create(Vector3 position, Quaternion rotation)
     {
@@ -17,10 +14,5 @@ public class SweepingStrikeObject : StaticAbilityObject
         SlashObject.Create(position, rotation, sweepingStrikeObject.slashColor);
 
         return sweepingStrikeObject;
-    }
-
-    public void PlayHitSound()
-    {
-        hitAudioSource.Play();
     }
 }
