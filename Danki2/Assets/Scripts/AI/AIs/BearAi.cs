@@ -60,7 +60,7 @@ public class BearAi : Ai
             .WithComponent(State.TelegraphCharge, new TelegraphAttack(bear, Color.blue))
             .WithComponent(State.Charge, new BearChannelCharge(bear, player))
             .WithTransition(State.Idle, State.Advance, new DistanceLessThan(bear, player, aggroDistance) | new TakesDamage(bear))
-            .WithTransition(State.Advance, State.Attack, new DistanceLessThan(bear, player, minAdvanceRange))
+            .WithTransition(State.Advance, State.Attack, new DistanceLessThan(bear, player, minAdvanceRange) & new Facing(bear, player, maxAttackAngle))
             .WithTransition(State.Attack, State.Advance, new DistanceGreaterThan(bear, player, maxAttackRange) & !new IsTelegraphing(bear))
             .WithTransition(State.Advance, State.TelegraphCharge, new DistanceLessThan(bear, player, maxChargeRange) & new TimeElapsed(chargeInterval))
             .WithTransition(State.TelegraphCharge, State.Charge, new TimeElapsed(chargeDelay) & new CanCast(bear))
