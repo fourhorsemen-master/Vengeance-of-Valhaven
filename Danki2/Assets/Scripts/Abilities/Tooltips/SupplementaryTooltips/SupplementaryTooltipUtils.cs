@@ -23,29 +23,44 @@ public static class SupplementaryTooltipUtils
             {TemplatedTooltipSegmentType.Vulnerable, SupplementaryTooltip.Vulnerable}
         };
 
-    public static ISet<SupplementaryTooltip> GetSupplementaryTooltips(AbilityReference abilityReference)
+    public static List<SupplementaryTooltip> GetSupplementaryTooltips(AbilityReference abilityReference)
     {
-        ISet<SupplementaryTooltip> supplementaryTooltips = new HashSet<SupplementaryTooltip>();
+        List<SupplementaryTooltip> supplementaryTooltips = new List<SupplementaryTooltip>();
 
-        // Finisher
         if (AbilityLookup.Instance.IsFinisher(abilityReference)) supplementaryTooltips.Add(SupplementaryTooltip.Finisher);
 
-        // Ability type
-        supplementaryTooltips.Add(
-            AbilityLookup.Instance.TryGetChannelType(abilityReference, out ChannelType channelType)
-                ? channelTypeLookup[channelType]
-                : SupplementaryTooltip.InstantCast);
+        supplementaryTooltips.Add(GetAbilityType(abilityReference));
 
-        // Effects
-        AbilityLookup.Instance
-            .GetTemplatedTooltipSegments(abilityReference)
-            .ForEach(templatedTooltipSegment =>
+        supplementaryTooltips.AddRange(
+            GetFromTemplatedTooltipSegments(AbilityLookup.Instance.GetTemplatedTooltipSegments(abilityReference))
+        );
+
+        foreach (AbilityBonusData abilityBonusData in AbilityLookup.Instance.GetAbilityBonusDataLookup(abilityReference).Values)
+        {
+            supplementaryTooltips.AddRange(GetFromTemplatedTooltipSegments(abilityBonusData.TemplatedTooltipSegments));
+        }
+
+        return supplementaryTooltips;
+    }
+
+    private static SupplementaryTooltip GetAbilityType(AbilityReference abilityReference)
+    {
+        return AbilityLookup.Instance.TryGetChannelType(abilityReference, out ChannelType channelType)
+            ? channelTypeLookup[channelType]
+            : SupplementaryTooltip.InstantCast;
+    }
+    
+    private static List<SupplementaryTooltip> GetFromTemplatedTooltipSegments(List<TemplatedTooltipSegment> templatedTooltipSegments)
+    {
+        List<SupplementaryTooltip> supplementaryTooltips = new List<SupplementaryTooltip>();
+
+        templatedTooltipSegments.ForEach(templatedTooltipSegment =>
+        {
+            if (effectLookup.TryGetValue(templatedTooltipSegment.Type, out SupplementaryTooltip supplementaryTooltip))
             {
-                if (effectLookup.TryGetValue(templatedTooltipSegment.Type, out SupplementaryTooltip supplementaryTooltip))
-                {
-                    supplementaryTooltips.Add(supplementaryTooltip);
-                }
-            });
+                supplementaryTooltips.Add(supplementaryTooltip);
+            }
+        });
 
         return supplementaryTooltips;
     }
