@@ -41,13 +41,10 @@ public class BearAi : Ai
             .WithComponent(AttackState.Swipe, new BearSwipe(bear))
             .WithComponent(AttackState.Maul, new BearMaul(bear))
             .WithComponent(AttackState.Cleave, new BearCleave(bear))
-            .WithTransition(AttackState.WatchTarget, AttackState.ChooseAbility, new TimeElapsed(abilityInterval) & new Facing(bear, player, maxAttackAngle) & new CanCast(bear))
-            .WithTransition(AttackState.TelegraphSwipe, AttackState.Swipe, new TimeElapsed(swipeDelay))
-            .WithTransition(AttackState.TelegraphSwipe, AttackState.WatchTarget, new Interrupted(bear, InterruptionType.Hard))
-            .WithTransition(AttackState.TelegraphMaul, AttackState.Maul, new TimeElapsed(maulDelay))
-            .WithTransition(AttackState.TelegraphMaul, AttackState.WatchTarget, new Interrupted(bear, InterruptionType.Hard))
-            .WithTransition(AttackState.TelegraphCleave, AttackState.Cleave, new TimeElapsed(cleaveDelay))
-            .WithTransition(AttackState.TelegraphCleave, AttackState.WatchTarget, new Interrupted(bear, InterruptionType.Hard))
+            .WithTransition(AttackState.WatchTarget, AttackState.ChooseAbility, new TimeElapsed(abilityInterval) & new Facing(bear, player, maxAttackAngle))
+            .WithTransition(AttackState.TelegraphSwipe, AttackState.Swipe, new TimeElapsed(swipeDelay) & new CanCast(bear))
+            .WithTransition(AttackState.TelegraphMaul, AttackState.Maul, new TimeElapsed(maulDelay) & new CanCast(bear))
+            .WithTransition(AttackState.TelegraphCleave, AttackState.Cleave, new TimeElapsed(cleaveDelay) & new CanCast(bear))
             .WithTransition(AttackState.Swipe, AttackState.WatchTarget, new AlwaysTrigger())
             .WithTransition(AttackState.Maul, AttackState.WatchTarget, new AlwaysTrigger())
             .WithTransition(AttackState.Cleave, AttackState.WatchTarget, new AlwaysTrigger())
@@ -66,8 +63,7 @@ public class BearAi : Ai
             .WithTransition(State.Advance, State.Attack, new DistanceLessThan(bear, player, minAdvanceRange))
             .WithTransition(State.Attack, State.Advance, new DistanceGreaterThan(bear, player, maxAttackRange) & !new IsTelegraphing(bear))
             .WithTransition(State.Advance, State.TelegraphCharge, new DistanceLessThan(bear, player, maxChargeRange) & new TimeElapsed(chargeInterval))
-            .WithTransition(State.TelegraphCharge, State.Charge, new TimeElapsed(chargeDelay))
-            .WithTransition(State.TelegraphCharge, State.Advance, new Interrupted(bear, InterruptionType.Hard))
+            .WithTransition(State.TelegraphCharge, State.Charge, new TimeElapsed(chargeDelay) & new CanCast(bear))
             .WithTransition(State.Charge, State.Advance, new ChannelComplete(bear));
     }
 
