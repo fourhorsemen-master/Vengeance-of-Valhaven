@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 public static class SupplementaryTooltipUtils
 {
@@ -40,7 +41,7 @@ public static class SupplementaryTooltipUtils
             supplementaryTooltips.AddRange(GetFromTemplatedTooltipSegments(abilityBonusData.TemplatedTooltipSegments));
         }
 
-        return supplementaryTooltips;
+        return supplementaryTooltips.Distinct().ToList();
     }
 
     private static SupplementaryTooltip GetAbilityType(AbilityReference abilityReference)
