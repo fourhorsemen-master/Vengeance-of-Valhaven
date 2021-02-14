@@ -1,4 +1,4 @@
-﻿internal class CanCast : StateMachineTrigger
+﻿public class CanCast : StateMachineTrigger
 {
     private Actor actor;
 

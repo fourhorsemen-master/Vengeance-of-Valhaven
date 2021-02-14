@@ -10,6 +10,7 @@ public class BearAi : Ai
     [SerializeField, Tooltip("Value must be greater than minAdvanceRange.")] private float maxAttackRange = 0;
     [SerializeField] private float maxChargeRange = 0;
     [SerializeField] private float chargeInterval = 0;
+    [SerializeField] private float chargeRecoveryTime = 0;
 
     [Header("Advance")]
     [SerializeField] private float minRunDistance = 0;
@@ -41,13 +42,10 @@ public class BearAi : Ai
             .WithComponent(AttackState.Swipe, new BearSwipe(bear))
             .WithComponent(AttackState.Maul, new BearMaul(bear))
             .WithComponent(AttackState.Cleave, new BearCleave(bear))
-            .WithTransition(AttackState.WatchTarget, AttackState.ChooseAbility, new TimeElapsed(abilityInterval) & new Facing(bear, player, maxAttackAngle) & new CanCast(bear))
-            .WithTransition(AttackState.TelegraphSwipe, AttackState.Swipe, new TimeElapsed(swipeDelay))
-            .WithTransition(AttackState.TelegraphSwipe, AttackState.WatchTarget, new Interrupted(bear, InterruptionType.Hard))
-            .WithTransition(AttackState.TelegraphMaul, AttackState.Maul, new TimeElapsed(maulDelay))
-            .WithTransition(AttackState.TelegraphMaul, AttackState.WatchTarget, new Interrupted(bear, InterruptionType.Hard))
-            .WithTransition(AttackState.TelegraphCleave, AttackState.Cleave, new TimeElapsed(cleaveDelay))
-            .WithTransition(AttackState.TelegraphCleave, AttackState.WatchTarget, new Interrupted(bear, InterruptionType.Hard))
+            .WithTransition(AttackState.WatchTarget, AttackState.ChooseAbility, new TimeElapsed(abilityInterval) & new Facing(bear, player, maxAttackAngle))
+            .WithTransition(AttackState.TelegraphSwipe, AttackState.Swipe, new CastableTimeElapsed(bear, swipeDelay))
+            .WithTransition(AttackState.TelegraphMaul, AttackState.Maul, new CastableTimeElapsed(bear, maulDelay))
+            .WithTransition(AttackState.TelegraphCleave, AttackState.Cleave, new CastableTimeElapsed(bear, cleaveDelay))
             .WithTransition(AttackState.Swipe, AttackState.WatchTarget, new AlwaysTrigger())
             .WithTransition(AttackState.Maul, AttackState.WatchTarget, new AlwaysTrigger())
             .WithTransition(AttackState.Cleave, AttackState.WatchTarget, new AlwaysTrigger())
@@ -62,13 +60,14 @@ public class BearAi : Ai
             .WithComponent(State.Attack, attackStateMachine)
             .WithComponent(State.TelegraphCharge, new TelegraphAttack(bear, Color.blue))
             .WithComponent(State.Charge, new BearChannelCharge(bear, player))
+            .WithComponent(State.Watch, new WatchTarget(bear, player))
             .WithTransition(State.Idle, State.Advance, new DistanceLessThan(bear, player, aggroDistance) | new TakesDamage(bear))
-            .WithTransition(State.Advance, State.Attack, new DistanceLessThan(bear, player, minAdvanceRange))
+            .WithTransition(State.Advance, State.Attack, new DistanceLessThan(bear, player, minAdvanceRange) & new Facing(bear, player, maxAttackAngle))
             .WithTransition(State.Attack, State.Advance, new DistanceGreaterThan(bear, player, maxAttackRange) & !new IsTelegraphing(bear))
             .WithTransition(State.Advance, State.TelegraphCharge, new DistanceLessThan(bear, player, maxChargeRange) & new TimeElapsed(chargeInterval))
-            .WithTransition(State.TelegraphCharge, State.Charge, new TimeElapsed(chargeDelay))
-            .WithTransition(State.TelegraphCharge, State.Advance, new Interrupted(bear, InterruptionType.Hard))
-            .WithTransition(State.Charge, State.Advance, new ChannelComplete(bear));
+            .WithTransition(State.TelegraphCharge, State.Charge, new CastableTimeElapsed(bear, chargeDelay))
+            .WithTransition(State.Charge, State.Watch, new ChannelComplete(bear))
+            .WithTransition(State.Watch, State.Advance, new TimeElapsed(chargeRecoveryTime));
     }
 
     private enum State
@@ -77,7 +76,8 @@ public class BearAi : Ai
         Advance,
         TelegraphCharge,
         Charge,
-        Attack
+        Attack,
+        Watch
     }
 
     private enum AdvanceState
