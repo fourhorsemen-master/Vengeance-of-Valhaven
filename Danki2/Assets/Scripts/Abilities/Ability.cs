@@ -1,6 +1,9 @@
-﻿using FMODUnity;
+﻿using System.Collections.Generic;
+using FMODUnity;
 using System.Linq;
+using FMOD.Studio;
 using UnityEngine;
+using STOP_MODE = FMOD.Studio.STOP_MODE;
 
 public abstract class Ability
 {
@@ -11,6 +14,9 @@ public abstract class Ability
     private readonly string fmodStartEvent;
     private readonly string fmodEndEvent;
 
+    private readonly List<EventInstance> startEventInstances = new List<EventInstance>();
+    private readonly List<EventInstance> endEventInstances = new List<EventInstance>();
+    
     public Subject<bool> SuccessFeedbackSubject { get; }
 
     protected Actor Owner { get; }
@@ -67,15 +73,25 @@ public abstract class Ability
     {
         if (string.IsNullOrEmpty(fmodStartEvent)) return;
 
-        RuntimeManager.PlayOneShot(fmodStartEvent, Owner.transform.position);
+        EventInstance eventInstance = RuntimeManager.CreateInstance(fmodStartEvent);
+        startEventInstances.Add(eventInstance);
+        eventInstance.start();
+        eventInstance.release();
     }
+
+    protected void StopStartEvents() => startEventInstances.ForEach(e => e.stop(STOP_MODE.IMMEDIATE));
 
     protected void PlayEndEvent()
     {
         if (string.IsNullOrEmpty(fmodEndEvent)) return;
 
-        RuntimeManager.PlayOneShot(fmodEndEvent, Owner.transform.position);
+        EventInstance eventInstance = RuntimeManager.CreateInstance(fmodEndEvent);
+        endEventInstances.Add(eventInstance);
+        eventInstance.start();
+        eventInstance.release();
     }
+
+    protected void StopEndEvents() => endEventInstances.ForEach(e => e.stop(STOP_MODE.IMMEDIATE));
 
     private int GetModifiedValue(int baseValue, int linearModifier, int multiplicativeModifier) =>
         (baseValue + linearModifier) * multiplicativeModifier;
