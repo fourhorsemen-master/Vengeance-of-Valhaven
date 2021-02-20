@@ -65,6 +65,7 @@ MonoBehaviour:
     - Swipe
     - Maul
     - BearCharge
+    - RingOfDeath
     _values:
     - displayName: Slash
       tooltip: Deal {PRIMARY_DAMAGE} damage to enemies in a cone.
@@ -382,3 +383,25 @@ MonoBehaviour:
         _values: []
       finisher: 0
       channelDuration: 2
+    - displayName: Ring of Death
+      tooltip: Throw a ring of knives dealing {PRIMARY_DAMAGE} damage.
+      baseAbilityData:
+        primaryDamage: 5
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      fmodStartEventRef: 
+      fmodEndEventRef: 
+      abilityBonusLookup:
+        _keys:
+        - Double Down
+        - Barbed Daggers
+        _values:
+        - displayName: Double Down
+          tooltip: Throw the ring of knives twice!
+          requiredTreeDepth: 4
+        - displayName: Barbed Daggers
+          tooltip: The knives are barbed, causing bleed!
+          requiredTreeDepth: 3
+      finisher: 1
+      channelDuration: 0
