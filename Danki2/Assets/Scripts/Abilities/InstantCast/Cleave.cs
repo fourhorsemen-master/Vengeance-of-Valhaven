@@ -4,7 +4,9 @@
 public class Cleave : InstantCast
 {
     private const float Range = 4f;
-    private const float PauseDuration = 0.3f;
+    private const float PauseDuration = 0.75f;
+    private const float KnockBackDuration = 0.3f;
+    private const float KnockBackSpeed = 8f;
 
     public Cleave(Actor owner, AbilityData abilityData, string fmodStartEvent, string fmodEndEvent, string[] availableBonuses)
         : base(owner, abilityData, fmodStartEvent, fmodEndEvent, availableBonuses)
@@ -25,6 +27,7 @@ public class Cleave : InstantCast
             .ForEach(actor =>
             {
                 DealPrimaryDamage(actor);
+                KnockBack(actor);
                 hasDealtDamage = true;
             });
 
@@ -33,7 +36,21 @@ public class Cleave : InstantCast
         Owner.MovementManager.LookAt(floorTargetPosition);
         Owner.MovementManager.Pause(PauseDuration);
 
-        var shakeIntensity = hasDealtDamage ? ShakeIntensity.High : ShakeIntensity.Low;
+        var shakeIntensity = hasDealtDamage ? ShakeIntensity.High : ShakeIntensity.Medium;
         CustomCamera.Instance.AddShake(shakeIntensity);
+    }
+
+    private void KnockBack(Actor actor)
+    {
+        Vector3 knockBackDirection = actor.transform.position - Owner.transform.position;
+        Vector3 knockBackFaceDirection = actor.transform.forward;
+
+        actor.MovementManager.TryLockMovement(
+            MovementLockType.Knockback,
+            KnockBackDuration,
+            KnockBackSpeed,
+            knockBackDirection,
+            knockBackFaceDirection
+        );
     }
 }
