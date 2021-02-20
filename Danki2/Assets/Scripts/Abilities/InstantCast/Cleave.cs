@@ -30,9 +30,6 @@ public class Cleave : InstantCast
 
         SuccessFeedbackSubject.Next(hasDealtDamage);
 
-        PlayStartEvent();
-        SlashObject.Create(Owner.AbilitySource, castRotation);
-
         Owner.MovementManager.LookAt(floorTargetPosition);
         Owner.MovementManager.Pause(PauseDuration);
 
