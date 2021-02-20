@@ -65,6 +65,7 @@ MonoBehaviour:
     - Swipe
     - Maul
     - BearCharge
+    - Cleave
     _values:
     - displayName: Slash
       tooltip: Deal {PRIMARY_DAMAGE} damage to enemies in a cone.
@@ -382,3 +383,17 @@ MonoBehaviour:
         _values: []
       finisher: 0
       channelDuration: 2
+    - displayName: Cleave
+      tooltip: Deals {PRIMARY_DAMAGE} damage in a wide arc.
+      baseAbilityData:
+        primaryDamage: 10
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      fmodStartEventRef: 
+      fmodEndEventRef: 
+      abilityBonusLookup:
+        _keys: []
+        _values: []
+      finisher: 0
+      channelDuration: 0
