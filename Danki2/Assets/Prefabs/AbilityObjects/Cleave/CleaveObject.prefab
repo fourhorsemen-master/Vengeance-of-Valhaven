@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7161521280746059079}
   - component: {fileID: 5525614779161752969}
+  - component: {fileID: 3360694398713758035}
   m_Layer: 0
   m_Name: CleaveObject
   m_TagString: Untagged
@@ -43,3 +44,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8eac8cff954d444db7970553e582e91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3360694398713758035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3644807651717400697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4d8ecee363ab984eab323217dbf5a71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mpfxMaterial: {fileID: 2100000, guid: 3583ac946a9670b45b71435315e9f2c9, type: 2}
+  settings:
+    effectObject: {fileID: 7516510025786791067, guid: ffb6b6de607087544b3b5e404704c42c,
+      type: 3}
+    effectColor: {r: 0, g: 0, b: 0, a: 0}
+    effectEmissive: {r: 0, g: 0, b: 0, a: 0}
+    effectAlbedo: {fileID: 2800000, guid: fa3f1c5a134845e4d891e5d254c89450, type: 3}
+  behaviours: []
