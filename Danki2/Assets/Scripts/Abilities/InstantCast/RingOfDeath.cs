@@ -42,13 +42,13 @@ public class RingOfDeath : InstantCast
 
     private void Throw(Quaternion castRotation)
     {
-        if(HasBonus("Barbed Daggers"))
+        if(HasBonus("Barbed Daggers")) 
         {
-            FanOfKnivesObject.Fire(Owner, OnCollision, knifeSpeed, Owner.AbilitySource, castRotation);
+            BarbedDaggerObject.Fire(Owner, OnCollision, knifeSpeed, Owner.AbilitySource, castRotation);
         }
         else
         {
-            BarbedDaggerObject.Fire(Owner, OnCollision, knifeSpeed, Owner.AbilitySource, castRotation);
+            FanOfKnivesObject.Fire(Owner, OnCollision, knifeSpeed, Owner.AbilitySource, castRotation);
         }
     }
 
