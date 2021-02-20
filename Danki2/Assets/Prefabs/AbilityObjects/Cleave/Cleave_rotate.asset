@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d48ae53a2dc8e394d953d8eb79494748, type: 3}
-  m_Name: New Mpfx Rotate
+  m_Name: Cleave_rotate
   m_EditorClassIdentifier: 
   curves:
   - serializedVersion: 2
@@ -19,7 +19,25 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   - serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: -360
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.65
+      value: -360
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
