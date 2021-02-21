@@ -3,15 +3,13 @@
 [Ability(AbilityReference.RingOfDeath, new [] { "Double Down", "Barbed Daggers" })]
 public class RingOfDeath : InstantCast
 {
-    private const int baseNumberOfKnives = 8;
-    private const int doubleDownNumberOfKnives = 16;
-    private const float baseKnifeArcAngle = 315f;
-    private const float doubleDownKnifeArcAngle = 675f;
-    private const float knifeSpeed = 10f;
-    private const float knifeCastInterval = 0.07f;
+    private const int BaseNumberOfKnives = 8;
+    private const int DoubleDownNumberOfKnives = 24;
+    private const float KnifeArcAngle = 360f;
+    private const float KnifeSpeed = 10f;
+    private const float KnifeCastInterval = 0.07f;
 
-    private int NumberOfKnives => HasBonus("Double Down") ? doubleDownNumberOfKnives : baseNumberOfKnives;
-    private float KnifeArcAngle => HasBonus("Double Down") ? doubleDownKnifeArcAngle : baseKnifeArcAngle;
+    private int NumberOfKnives => HasBonus("Double Down") ? DoubleDownNumberOfKnives : BaseNumberOfKnives;
 
     private int collisionCounter = 0;
 
@@ -26,15 +24,16 @@ public class RingOfDeath : InstantCast
 
         Quaternion rotation = Quaternion.LookRotation(offsetTargetPosition - Owner.Centre);
 
-        Owner.MovementManager.Pause(knifeCastInterval * NumberOfKnives);
+        Owner.MovementManager.Pause(KnifeCastInterval * NumberOfKnives);
 
         for (float i = 0; i < NumberOfKnives; i++)
         {
-            float angleOffset = (i / (NumberOfKnives - 1)) * KnifeArcAngle;
+            float angleOffset = KnifeArcAngle * i / NumberOfKnives;
             Quaternion castRotation = rotation * Quaternion.Euler(Vector3.up * angleOffset);
 
-            Owner.WaitAndAct(
-                knifeCastInterval * i,
+            Owner.InterruptibleAction(
+                KnifeCastInterval * i,
+                InterruptionType.Hard,
                 () => Throw(castRotation)
             );    
         }
@@ -44,11 +43,11 @@ public class RingOfDeath : InstantCast
     {
         if(HasBonus("Barbed Daggers")) 
         {
-            BarbedDaggerObject.Fire(Owner, OnCollision, knifeSpeed, Owner.AbilitySource, castRotation);
+            BarbedDaggerObject.Fire(Owner, OnCollision, KnifeSpeed, Owner.AbilitySource, castRotation);
         }
         else
         {
-            FanOfKnivesObject.Fire(Owner, OnCollision, knifeSpeed, Owner.AbilitySource, castRotation);
+            FanOfKnivesObject.Fire(Owner, OnCollision, KnifeSpeed, Owner.AbilitySource, castRotation);
         }
     }
 
