@@ -3,13 +3,14 @@
 [Ability(AbilityReference.RingOfDeath, new [] { "Double Down", "Barbed Daggers" })]
 public class RingOfDeath : InstantCast
 {
-    private const int BaseNumberOfKnives = 8;
+    private const int BaseNumberOfKnives = 12;
     private const int DoubleDownNumberOfKnives = 24;
     private const float KnifeArcAngle = 360f;
     private const float KnifeSpeed = 10f;
-    private const float KnifeCastInterval = 0.07f;
+    private const float BaseKnifeCastInterval = 0.04f;
 
     private int NumberOfKnives => HasBonus("Double Down") ? DoubleDownNumberOfKnives : BaseNumberOfKnives;
+    private float KnifeCastInterval => HasBonus("Double Down") ? BaseKnifeCastInterval / 2 : BaseKnifeCastInterval;
 
     private int collisionCounter = 0;
 
