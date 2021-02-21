@@ -398,10 +398,10 @@ MonoBehaviour:
         - Barbed Daggers
         _values:
         - displayName: Double Down
-          tooltip: Throw the ring of knives twice!
-          requiredTreeDepth: 4
+          tooltip: Throw twice as many knives.
+          requiredTreeDepth: 5
         - displayName: Barbed Daggers
-          tooltip: The knives are barbed, causing bleed!
+          tooltip: The knives are barbed, causing {BLEED|1}.
           requiredTreeDepth: 3
       finisher: 1
       channelDuration: 0
