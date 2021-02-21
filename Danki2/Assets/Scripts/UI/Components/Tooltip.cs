@@ -6,7 +6,7 @@ public class Tooltip<T> : Singleton<T> where T : MonoBehaviour
     [SerializeField]
     protected RectTransform tooltipPanel = null;
 
-    private void Update()
+    protected virtual void Update()
     {
         if (gameObject.activeInHierarchy)
         {

@@ -24,6 +24,9 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
     [SerializeField]
     private Color deBuffedNumericColour = default;
 
+    [SerializeField]
+    private AbilitySupplementaryTooltipPanel abilitySupplementaryTooltipPanel = null;
+
     private PlayerTreeTooltipBuilder playerTreeTooltipBuilder;
 
     private readonly List<AbilityBonusTooltipSection> bonusSections = new List<AbilityBonusTooltipSection>();
@@ -32,6 +35,12 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
     {
         Player player = RoomManager.Instance.Player;
         playerTreeTooltipBuilder = new PlayerTreeTooltipBuilder(player);
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+        abilitySupplementaryTooltipPanel.transform.position = transform.position;
     }
 
     public void Deactivate() => DeactivateTooltip();
@@ -75,6 +84,8 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
     )
     {
         ActivateTooltip();
+
+        abilitySupplementaryTooltipPanel.ShowSupplementaryTooltips(ability);
 
         string titleText = AbilityLookup.Instance.GetAbilityDisplayName(ability);
         bool isFinisher = AbilityLookup.Instance.IsFinisher(ability);
