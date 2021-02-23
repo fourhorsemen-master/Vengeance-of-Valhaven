@@ -20,5 +20,6 @@
     Swipe,
     Maul,
     BearCharge,
-    RingOfDeath
+    RingOfDeath,
+    Execute
 }
