@@ -407,7 +407,8 @@ MonoBehaviour:
       finisher: 1
       channelDuration: 0
     - displayName: Execute
-      tooltip: Deal {PRIMARY_DAMAGE} to target enemy.
+      tooltip: Deal {PRIMARY_DAMAGE} to target enemy plus an additional 3 damage
+        for every 10% of health the enemy is missing.
       baseAbilityData:
         primaryDamage: 15
         secondaryDamage: 0
