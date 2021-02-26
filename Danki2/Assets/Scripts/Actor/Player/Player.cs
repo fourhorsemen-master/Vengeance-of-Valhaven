@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using FMODUnity;
+using UnityEngine;
 
 public class Player : Actor
 {
@@ -15,6 +16,9 @@ public class Player : Actor
     [SerializeField] private float totalRollCooldown = 1f;
     [SerializeField] private float rollDuration = 0.3f;
     [SerializeField] private float rollSpeedMultiplier = 2f;
+
+    [Header("Fmod events")]
+    [EventRef] [SerializeField] private string whiffEvent = null;
 
     private bool readyToRoll = true;
 
@@ -93,8 +97,5 @@ public class Player : Actor
         }
     }
 
-    public void PlayWhiffSound()
-    {
-        // FMOD_TODO: play whiff event here
-    }
+    public void PlayWhiffSound() => RuntimeManager.PlayOneShot(whiffEvent);
 }
