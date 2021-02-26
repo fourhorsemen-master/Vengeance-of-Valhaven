@@ -1,13 +1,43 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class AbilitySupplementaryTooltipPanel : MonoBehaviour
 {
     [SerializeField]
+    private RectTransform rectTransform = null;
+
+    [SerializeField]
+    private AbilityTooltip abilityTooltip = null;
+
+    [SerializeField]
     private AbilitySupplementaryTooltip abilitySupplementaryTooltipPrefab = null;
 
-    public void ShowSupplementaryTooltips(AbilityReference ability)
+    private Dictionary<ScreenQuadrant, Vector2> pivotPoints = new Dictionary<ScreenQuadrant, Vector2>
     {
-        Clear();
+        { ScreenQuadrant.TopLeft, new Vector2(0, 0) },
+        { ScreenQuadrant.TopRight, new Vector2(1, 0) },
+        { ScreenQuadrant.BottomLeft, new Vector2(0, 1) },
+        { ScreenQuadrant.BottomRight, new Vector2(1, 1) }
+    };
+
+    private void Start()
+    {
+        abilityTooltip.OnActivate.Subscribe(Activate);
+        abilityTooltip.OnDeactivate.Subscribe(Deactivate);
+        gameObject.SetActive(false);
+    }
+
+    private void Update()
+    {
+        transform.position = abilityTooltip.transform.position;
+    }
+
+    private void Activate(AbilityReference ability)
+    {
+        gameObject.SetActive(true);
+
+        ScreenQuadrant currentScreenQuadrant = InputHelpers.GetMouseScreenQuadrant();
+        rectTransform.pivot = pivotPoints[currentScreenQuadrant];
 
         var tooltipTypes = SupplementaryTooltipUtils.GetSupplementaryTooltips(ability);
 
@@ -18,11 +48,13 @@ public class AbilitySupplementaryTooltipPanel : MonoBehaviour
         });
     }
 
-    private void Clear()
+    private void Deactivate()
     {
         foreach (Transform child in transform)
         {
             Destroy(child.gameObject);
         }
+
+        gameObject.SetActive(false);
     }
 }

@@ -1,10 +1,20 @@
-﻿using UnityEngine;
-using UnityEngine.UI.Extensions;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class Tooltip<T> : Singleton<T> where T : MonoBehaviour
 {
     [SerializeField]
     protected RectTransform tooltipPanel = null;
+
+    protected ScreenQuadrant currentScreenQuadrant;
+
+    private Dictionary<ScreenQuadrant, Vector2> pivotPoints = new Dictionary<ScreenQuadrant, Vector2>
+    {
+        { ScreenQuadrant.TopLeft, new Vector2(0, 0) },
+        { ScreenQuadrant.TopRight, new Vector2(1, 0) },
+        { ScreenQuadrant.BottomLeft, new Vector2(0, 1) },
+        { ScreenQuadrant.BottomRight, new Vector2(1, 1) }
+    };
 
     protected virtual void Update()
     {
@@ -23,6 +33,10 @@ public class Tooltip<T> : Singleton<T> where T : MonoBehaviour
     protected void ActivateTooltip()
     {
         gameObject.SetActive(true);
+
+        currentScreenQuadrant = InputHelpers.GetMouseScreenQuadrant();
+        tooltipPanel.pivot = pivotPoints[currentScreenQuadrant];
+
         MoveToMouse();
     }
 
@@ -33,16 +47,6 @@ public class Tooltip<T> : Singleton<T> where T : MonoBehaviour
 
     private void MoveToMouse()
     {
-        Vector3 newPosition = Input.mousePosition;
-
-        Vector2 tooltipPanelSize = tooltipPanel.sizeDelta * tooltipPanel.GetParentCanvas().scaleFactor;
-
-        float xOverlap = Mathf.Max(0f, newPosition.x + tooltipPanelSize.x - Screen.width);
-        float yOverlap = Mathf.Max(0f, newPosition.y + tooltipPanelSize.y - Screen.height);
-
-        newPosition.x -= xOverlap;
-        newPosition.y -= yOverlap;
-
-        tooltipPanel.position = newPosition;
+        tooltipPanel.position = Input.mousePosition;
     }
 }
