@@ -1,4 +1,4 @@
-﻿public enum SupplementaryTooltip
+﻿public enum Keyword
 {
     Finisher,
     Channel,

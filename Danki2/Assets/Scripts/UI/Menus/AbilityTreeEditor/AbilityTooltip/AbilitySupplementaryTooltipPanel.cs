@@ -62,9 +62,9 @@ public class AbilitySupplementaryTooltipPanel : MonoBehaviour
 
     private void Display(AbilityReference ability)
     {
-        var tooltipTypes = SupplementaryTooltipUtils.GetSupplementaryTooltips(ability);
+        var keywords = KeywordUtils.GetKeywords(ability);
 
-        tooltipTypes.ForEach(t =>
+        keywords.ForEach(t =>
         {
             Instantiate(abilitySupplementaryTooltipPrefab, transform)
                 .Setup(t);

@@ -9,7 +9,7 @@ public class AbilitySupplementaryTooltip : MonoBehaviour
     [SerializeField]
     private Text description = null;
 
-    public void Setup(SupplementaryTooltip type)
+    public void Setup(Keyword keyword)
     {
         // Todo: use enum value to get text values from a lookup.
         title.text = "title";
