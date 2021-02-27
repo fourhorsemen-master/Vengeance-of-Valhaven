@@ -11,8 +11,7 @@ public class AbilitySupplementaryTooltip : MonoBehaviour
 
     public void Setup(Keyword keyword)
     {
-        // Todo: use enum value to get text values from a lookup.
-        title.text = "title";
-        description.text = "description";
+        title.text = KeywordLookup.Instance.GetDisplayName(keyword);
+        description.text = KeywordLookup.Instance.GetDescription(keyword);
     }
 }
