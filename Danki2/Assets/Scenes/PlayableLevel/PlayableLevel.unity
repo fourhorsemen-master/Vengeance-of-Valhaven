@@ -3702,91 +3702,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 644d0a0c88c93ac409a7b7e13de2fb06, type: 3}
---- !u!1 &1304363151
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1304363153}
-  - component: {fileID: 1304363152}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1304363152
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1304363151}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba0e31cd93842a54caa65368b021f06a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  keywordLookup:
-    _keys:
-    - Finisher
-    - Channel
-    - Cast
-    - Charge
-    - InstantCast
-    - Heal
-    - Shield
-    - Stun
-    - Slow
-    - Block
-    - Bleed
-    - Poison
-    - Vulnerable
-    _values:
-    - displayName: Finisher
-      description: Can only be placed at the end of a combo.
-    - displayName: Channel
-      description: Has continuous effect while held.
-    - displayName: Cast
-      description: Hold for a set period to cast.
-    - displayName: Charge
-      description: Hold to charge, release to cast.
-    - displayName: Instant Cast
-      description: Casts instantly on click.
-    - displayName: Heal
-      description: Restores health.
-    - displayName: Shield
-      description: Temporarily blocks damage up to specified limit.
-    - displayName: Stun
-      description: Stops all movement and actions.
-    - displayName: Slow
-      description: Reduces movement speed.
-    - displayName: Block
-      description: Negates incoming damage.
-    - displayName: Bleed
-      description: Deals damage over time.
-    - displayName: Poison
-      description: Deals damage over time.
-    - displayName: Vulnerable
-      description: Increases damage taken.
---- !u!4 &1304363153
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1304363151}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 589.00006, y: 317.00003, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1316150192
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5259,11 +5174,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1285520992}
     m_Modifications:
-    - target: {fileID: 1154723390050357704, guid: ac1ac9b557115bf429008e45ec6529de,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1291833037492194686, guid: ac1ac9b557115bf429008e45ec6529de,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -5282,16 +5192,6 @@ PrefabInstance:
     - target: {fileID: 3565448376248781361, guid: ac1ac9b557115bf429008e45ec6529de,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4084485204937683989, guid: ac1ac9b557115bf429008e45ec6529de,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4263156534071541918, guid: ac1ac9b557115bf429008e45ec6529de,
-        type: 3}
-      propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5109824757636326502, guid: ac1ac9b557115bf429008e45ec6529de,
@@ -5447,11 +5347,6 @@ PrefabInstance:
     - target: {fileID: 5833431683789478280, guid: ac1ac9b557115bf429008e45ec6529de,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5833431683789478280, guid: ac1ac9b557115bf429008e45ec6529de,
-        type: 3}
-      propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5867681778884957614, guid: ac1ac9b557115bf429008e45ec6529de,
