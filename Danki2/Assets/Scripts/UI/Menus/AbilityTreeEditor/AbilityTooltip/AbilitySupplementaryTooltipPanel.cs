@@ -1,13 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI.Extensions;
 
 public class AbilitySupplementaryTooltipPanel : MonoBehaviour
 {
+    [SerializeField]
+    private float displayDelay;
+
     [SerializeField]
     private RectTransform rectTransform = null;
 
     [SerializeField]
     private AbilityTooltip abilityTooltip = null;
+
+    [SerializeField]
+    private RectTransform abilityTooltipRectTransform = null;
 
     [SerializeField]
     private AbilitySupplementaryTooltip abilitySupplementaryTooltipPrefab = null;
@@ -20,6 +28,14 @@ public class AbilitySupplementaryTooltipPanel : MonoBehaviour
         { ScreenQuadrant.BottomRight, new Vector2(1, 1) }
     };
 
+    private List<ScreenQuadrant> leftQuadrants = new List<ScreenQuadrant> {
+        ScreenQuadrant.TopLeft,
+        ScreenQuadrant.BottomLeft
+    };
+
+    private ScreenQuadrant currentScreenQuadrant;
+    private Coroutine displayCoroutine;
+
     private void Start()
     {
         abilityTooltip.OnActivate.Subscribe(Activate);
@@ -29,27 +45,36 @@ public class AbilitySupplementaryTooltipPanel : MonoBehaviour
 
     private void Update()
     {
-        transform.position = abilityTooltip.transform.position;
+        bool isLeftQuadrant = leftQuadrants.Contains(currentScreenQuadrant);
+        float horizontalOffset = abilityTooltipRectTransform.sizeDelta.x * abilityTooltipRectTransform.GetParentCanvas().scaleFactor * (isLeftQuadrant ? 1 : -1);
+        transform.position = abilityTooltip.transform.position + new Vector3(horizontalOffset, 0);
     }
 
     private void Activate(AbilityReference ability)
     {
         gameObject.SetActive(true);
 
-        ScreenQuadrant currentScreenQuadrant = InputHelpers.GetMouseScreenQuadrant();
+        currentScreenQuadrant = InputHelpers.GetMouseScreenQuadrant();
         rectTransform.pivot = pivotPoints[currentScreenQuadrant];
 
+        displayCoroutine = this.WaitAndAct(displayDelay, () => Display(ability));
+    }
+
+    private void Display(AbilityReference ability)
+    {
         var tooltipTypes = SupplementaryTooltipUtils.GetSupplementaryTooltips(ability);
 
         tooltipTypes.ForEach(t =>
         {
             Instantiate(abilitySupplementaryTooltipPrefab, transform)
-            .Setup(t);
+                .Setup(t);
         });
     }
 
     private void Deactivate()
     {
+        StopCoroutine(displayCoroutine);
+
         foreach (Transform child in transform)
         {
             Destroy(child.gameObject);
