@@ -311,8 +311,8 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      fmodStartEventRef: 
-      fmodEndEventRef: 
+      fmodStartEventRef: event:/AS_FanOfKnives/AS_FanOfKnives_Draw
+      fmodEndEventRef: event:/AS_FanOfKnives/AS_FanOfKnives_Woosh
       abilityBonusLookup:
         _keys:
         - Spray
