@@ -36,7 +36,7 @@ public class Cleave : InstantCast
         Owner.MovementManager.LookAt(floorTargetPosition);
         Owner.MovementManager.Pause(PauseDuration);
 
-        var shakeIntensity = hasDealtDamage ? ShakeIntensity.High : ShakeIntensity.Medium;
+        ShakeIntensity shakeIntensity = hasDealtDamage ? ShakeIntensity.High : ShakeIntensity.Medium;
         CustomCamera.Instance.AddShake(shakeIntensity);
     }
 
