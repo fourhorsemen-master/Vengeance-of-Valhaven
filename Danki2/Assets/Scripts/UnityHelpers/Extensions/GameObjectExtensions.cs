@@ -2,6 +2,14 @@
 
 public static class GameObjectExtensions
 {
+    public static void SetLayerRecursively(this GameObject @object, Layer layer)
+    {
+        foreach (Transform trans in @object.GetComponentsInChildren<Transform>(true))
+        {
+            trans.gameObject.layer = (int)layer;
+        }
+    }
+
     public static bool MatchesId(this GameObject @object, GameObject other)
     {
         return @object.GetInstanceID() == other.GetInstanceID();
