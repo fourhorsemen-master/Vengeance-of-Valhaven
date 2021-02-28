@@ -11,6 +11,8 @@ public static class Layers
     public static int Ethereal => 8;
     public static int Floor => 9;
     public static int Actors => 10;
+    public static int Props => 10;
+    public static int Abilities => 10;
 
     /// <summary>
     /// Returns a layer mask, which includes the given layers. This is an integer that, when in binary format,

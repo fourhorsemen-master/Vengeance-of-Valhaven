@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class ParryVisual : MonoBehaviour
+public class ParryVisual : AbilityObject
 {
     public static void Create(ParryVisual prefab, Transform transform)
     {
