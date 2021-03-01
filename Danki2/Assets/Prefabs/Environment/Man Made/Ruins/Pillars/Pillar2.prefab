@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2693387975158281010}
   - component: {fileID: 6648004499162226626}
   - component: {fileID: 8571331540424614380}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55,6 +55,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -89,9 +90,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 0
-  m_CookingOptions: 14
+  m_CookingOptions: 30
   m_Mesh: {fileID: -2432090755550338912, guid: 68f46e7957322fe43ba044515dc75c2d, type: 3}
 --- !u!1 &8148578024368785098
 GameObject:
@@ -102,7 +103,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5138265581729395929}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Pillar2
   m_TagString: Untagged
   m_Icon: {fileID: 0}

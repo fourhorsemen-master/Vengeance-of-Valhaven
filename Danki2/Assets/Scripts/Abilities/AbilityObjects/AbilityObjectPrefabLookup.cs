@@ -63,6 +63,9 @@ public class AbilityObjectPrefabLookup : Singleton<AbilityObjectPrefabLookup>
     private BearChargeObject _bearChargeObjectPrefab = null;
 
     [SerializeField]
+    private CleaveObject _cleaveObjectPrefab = null;
+
+    [SerializeField]
     private ExecuteObject _executeObjectPrefab = null;
 
     public BarbedDaggerObject BarbedDaggerObjectPrefab => _barbedDaggerObjectPrefab;
@@ -85,5 +88,6 @@ public class AbilityObjectPrefabLookup : Singleton<AbilityObjectPrefabLookup>
     public SwipeObject SwipeObjectPrefab => _swipeObjectPrefab;
     public MaulObject MaulObjectPrefab => _maulObjectPrefab;
     public BearChargeObject BearChargeObjectPrefab => _bearChargeObjectPrefab;
+    public CleaveObject CleaveObjectPrefab => _cleaveObjectPrefab;
     public ExecuteObject ExecuteObjectPrefab => _executeObjectPrefab;
 }
