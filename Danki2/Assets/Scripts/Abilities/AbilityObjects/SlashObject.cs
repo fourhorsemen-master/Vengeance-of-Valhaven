@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class SlashObject : MonoBehaviour
+public class SlashObject : AbilityObject
 {
     [SerializeField]
     private float rotationSpeed = 0f;

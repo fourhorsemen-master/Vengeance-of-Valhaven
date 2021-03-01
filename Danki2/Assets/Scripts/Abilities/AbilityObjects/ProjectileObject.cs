@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public abstract class ProjectileObject : MonoBehaviour
+public abstract class ProjectileObject : AbilityObject
 {
     // Need the new keyword here to show we are overriding the deprecated base collider property.
     [SerializeField]
