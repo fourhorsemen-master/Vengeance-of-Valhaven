@@ -20,5 +20,9 @@
     Swipe,
     Maul,
     BearCharge,
+<<<<<<< HEAD
     RingOfDeath
+=======
+    Cleave
+>>>>>>> master
 }

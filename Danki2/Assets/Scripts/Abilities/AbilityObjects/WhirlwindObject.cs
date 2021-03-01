@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.VFX;
 
-public class WhirlwindObject : MonoBehaviour
+public class WhirlwindObject : AbilityObject
 {
     private const float particleDissapationPeriod = 0.4f;
 

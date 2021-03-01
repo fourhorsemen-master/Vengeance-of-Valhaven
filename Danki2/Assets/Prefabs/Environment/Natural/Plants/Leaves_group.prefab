@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2655328903116067251}
   - component: {fileID: 3357819563655513440}
   - component: {fileID: 6321925585024461200}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54,6 +54,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -87,7 +88,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5527957845234795147}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Leaves_group
   m_TagString: Untagged
   m_Icon: {fileID: 0}

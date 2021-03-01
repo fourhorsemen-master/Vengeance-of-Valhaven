@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class BearChargeObject : MonoBehaviour
+public class BearChargeObject : AbilityObject
 {
     public static BearChargeObject Create(Transform transform)
     {
