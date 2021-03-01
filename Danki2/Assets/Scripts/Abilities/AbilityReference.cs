@@ -19,5 +19,6 @@
     Hamstring,
     Swipe,
     Maul,
-    BearCharge
+    BearCharge,
+    Cleave
 }

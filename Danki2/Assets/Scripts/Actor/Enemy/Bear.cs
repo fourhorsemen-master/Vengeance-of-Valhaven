@@ -30,7 +30,7 @@ public class Bear : Enemy
     public void Cleave()
     {
         InstantCastService.TryCast(
-            AbilityReference.Slash, // TODO: replace slash with cleave
+            AbilityReference.Cleave,
             GetTargetPosition(transform.position),
             GetTargetPosition(Centre)
         );
