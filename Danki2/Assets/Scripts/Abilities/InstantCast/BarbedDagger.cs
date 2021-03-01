@@ -5,7 +5,8 @@ public class BarbedDagger : InstantCast
 {
     private const float DaggerSpeed = 20f;
 
-    public BarbedDagger(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
+    public BarbedDagger(Actor owner, AbilityData abilityData, string fmodStartEvent, string fmodEndEvent, string[] availableBonuses)
+        : base(owner, abilityData, fmodStartEvent, fmodEndEvent, availableBonuses)
     {
     }
 
@@ -14,7 +15,7 @@ public class BarbedDagger : InstantCast
         CustomCamera.Instance.AddShake(ShakeIntensity.Low);
 
         Quaternion rotation = Quaternion.LookRotation(offsetTargetPosition - Owner.Centre);
-        BarbedDaggerObject.Fire(Owner, OnCollision, DaggerSpeed, Owner.Centre, rotation);
+        BarbedDaggerObject.Fire(Owner, OnCollision, DaggerSpeed, Owner.AbilitySource, rotation);
     }
 
     private void OnCollision(GameObject gameObject)

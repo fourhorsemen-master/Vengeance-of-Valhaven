@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using FMODUnity;
+using UnityEngine;
 
 public class Player : Actor
 {
@@ -10,14 +11,14 @@ public class Player : Actor
     [SerializeField] private float comboTimeout = 2f;
     [SerializeField] private float feedbackTimeout = 1f;
     [SerializeField] private bool rollResetsCombo = false;
+
     [Header("Roll")]
     [SerializeField] private float totalRollCooldown = 1f;
     [SerializeField] private float rollDuration = 0.3f;
     [SerializeField] private float rollSpeedMultiplier = 2f;
 
-    [Header("Audio")]
-    [SerializeField] private AudioSource whiffAudio = null;
-    [SerializeField] private AudioSource rollAudio = null;
+    [Header("Fmod events")]
+    [EventRef] [SerializeField] private string whiffEvent = null;
 
     private bool readyToRoll = true;
 
@@ -87,7 +88,7 @@ public class Player : Actor
 
         if (rolled)
         {
-            rollAudio.Play();
+            // FMOD_TODO: play roll event here
             RollSubject.Next();
             StartTrail(rollDuration * 2);
 
@@ -96,8 +97,5 @@ public class Player : Actor
         }
     }
 
-    public void PlayWhiffSound()
-    {
-        whiffAudio.Play();
-    }
+    public void PlayWhiffSound() => RuntimeManager.PlayOneShot(whiffEvent);
 }

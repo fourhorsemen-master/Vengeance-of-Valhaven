@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class SlashObject : MonoBehaviour
+public class SlashObject : AbilityObject
 {
     [SerializeField]
     private float rotationSpeed = 0f;
@@ -10,9 +10,6 @@ public class SlashObject : MonoBehaviour
 
     [SerializeField]
     private MeshRenderer meshRenderer = null;
-
-    [SerializeField]
-    private AudioSource hitAudioSource = null;
 
     [SerializeField]
     private Color desiredColor = new Color();
@@ -36,10 +33,5 @@ public class SlashObject : MonoBehaviour
     private void Update()
     {
         transform.Rotate(0f, -rotationSpeed * Time.deltaTime, 0f);
-    }
-
-    public void PlayHitSound()
-    {
-        hitAudioSource.Play();
     }
 }

@@ -1,0 +1,87 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &9114505974089885901
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2911581754810389444}
+  - component: {fileID: 1316990105569241792}
+  m_Layer: 0
+  m_Name: AbilityObjectLookup
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2911581754810389444
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9114505974089885901}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1316990105569241792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9114505974089885901}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cf39cce3aa269444b345b242448c128, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _barbedDaggerObjectPrefab: {fileID: 4850296388370220318, guid: b6b46723fc9645146ab8d9e523ea3aa2,
+    type: 3}
+  _biteObjectPrefab: {fileID: 2699202647508229152, guid: 7a48bfd4483b41c4d8190364172e8074,
+    type: 3}
+  _pounceObjectPrefab: {fileID: 4242918077250897191, guid: eba89409d8f54a94e97cc58726b93cf7,
+    type: 3}
+  _lungeObjectPrefab: {fileID: 3706279185877774097, guid: fd199e12c3cb535409548e544d540c43,
+    type: 3}
+  _smashObjectPrefab: {fileID: 5658047363533800899, guid: d42b30d22ccc2f64e9be39b68ca868de,
+    type: 3}
+  _slashObjectPrefab: {fileID: 4021131369699095028, guid: dc9ea3706a8f6034090eae056b99e5f1,
+    type: 3}
+  _whirlwindObjectPrefab: {fileID: 4806741054451070350, guid: cc821d1aa34d9ea4fb05b863006535f6,
+    type: 3}
+  _bashObjectPrefab: {fileID: 2253821222171806179, guid: a58922cfd66e8144aa92a8bbdb9a9a1a,
+    type: 3}
+  _sweepingStrikeObjectPrefab: {fileID: 1843208591180044885, guid: 3a1555a4a2b02344c9d7089945d53767,
+    type: 3}
+  _grapplingHookObjectPrefab: {fileID: 532503493712352648, guid: 6b3f2ed7382141445a7208700ea3ffe3,
+    type: 3}
+  _backstabObjectPrefab: {fileID: 4980085405136503933, guid: 12ee3670bcc289042b3df9bf37bcc898,
+    type: 3}
+  _piercingRushObjectPrefab: {fileID: -3955741197307270839, guid: e081a52ade8220647a0d1fb110387097,
+    type: 3}
+  _parryObjectPrefab: {fileID: 3295668597694088016, guid: 0fc492549605e474aba675f865e77a41,
+    type: 3}
+  _rendObjectPrefab: {fileID: 645850438924811687, guid: e5e953b6f05d21d479f2fe1826f82550,
+    type: 3}
+  _disengageObjectPrefab: {fileID: -5660890667653927573, guid: b1a85cd9437e1ab4a948bfdd4afd670d,
+    type: 3}
+  _fanOfKnivesObjectPrefab: {fileID: -7183519664642184903, guid: e644c74e084f72f49bc34190a21775f6,
+    type: 3}
+  _hamstringObjectPrefab: {fileID: 1734790288547627692, guid: 6d3208ed502e4d44b804b7151ff10127,
+    type: 3}
+  _swipeObjectPrefab: {fileID: -8766885985023550432, guid: 6d9a83c1ab993844c933c2d2830fad4a,
+    type: 3}
+  _maulObjectPrefab: {fileID: 5491284868879516774, guid: 1fb5d67671762554c9c2fedf191987b9,
+    type: 3}
+  _bearChargeObjectPrefab: {fileID: 4125759199393377278, guid: dde31832930dc8d4ba598b43f3285283,
+    type: 3}
+  _cleaveObjectPrefab: {fileID: 5525614779161752969, guid: a25b9789eb6fee04cb9b66a3c2d8c6ac,
+    type: 3}

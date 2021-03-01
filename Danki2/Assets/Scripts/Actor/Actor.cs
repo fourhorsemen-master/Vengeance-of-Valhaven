@@ -16,12 +16,28 @@ public abstract class Actor : MonoBehaviour
     [SerializeField]
     private MeshRenderer[] meshRenderers = null;
 
-    private Coroutine stopTrailCoroutine;
+    // Serialized properties
+    [SerializeField] private float weight = 0;
+    public float Weight => weight;
+
+    [Header("Sockets")]
+
+    [SerializeField] private Transform centre = null;
+    public Vector3 Centre => centre.position;
+
+    [SerializeField] private Transform abilitySource = null;
+    public Vector3 AbilitySource => abilitySource.position;
+
+    [SerializeField] private Transform collisionTemplateSource = null;
+    public Vector3 CollisionTemplateSource => collisionTemplateSource.position;
 
     protected readonly Subject startSubject = new Subject();
     protected readonly Subject updateSubject = new Subject();
     protected readonly Subject lateUpdateSubject = new Subject();
 
+    private Coroutine stopTrailCoroutine;
+
+    // Services
     public StatsManager StatsManager { get; private set; }
     public HealthManager HealthManager { get; private set; }
     public ChannelService ChannelService { get; private set; }
@@ -33,17 +49,15 @@ public abstract class Actor : MonoBehaviour
 
     public bool Dead { get; private set; }
     public Subject DeathSubject { get; } = new Subject();
-
-    public virtual Vector3 Centre => transform.position + Vector3.up * MouseGamePositionFinder.Instance.HeightOffset;
-
-    [SerializeField]
-    private float weight = 0;
-    public float Weight => weight;
-
     public abstract ActorType Type { get; }
+
+    public bool CanCast => !Dead && !MovementManager.Stunned && !MovementManager.MovementLocked;
+    public float CastableTimeElapsed { get; private set; } = 0f;
 
     protected virtual void Awake()
     {
+        gameObject.SetLayerRecursively(Layer.Actors);
+
         StatsManager = new StatsManager(baseStats);
         EffectManager = new EffectManager(this, updateSubject);
         HealthManager = new HealthManager(this, updateSubject);
@@ -62,13 +76,14 @@ public abstract class Actor : MonoBehaviour
     protected virtual void Start()
     {
         startSubject.Next();
-
-        gameObject.layer = Layers.Actors;
     }
 
     protected virtual void Update()
     {
         updateSubject.Next();
+
+        if (CanCast) CastableTimeElapsed += Time.deltaTime;
+        else CastableTimeElapsed = 0f;
     }
 
     protected virtual void LateUpdate()
@@ -90,6 +105,18 @@ public abstract class Actor : MonoBehaviour
     {
         Coroutine coroutine = this.WaitAndAct(delay, action);
         
+        // We don't need to worry about deregistering the interruptible as Stopping a finished coroutine doesn't cause any problems.
+        InterruptionManager.Register(
+            interruptionType,
+            () => StopCoroutine(coroutine),
+            InterruptibleFeature.InterruptOnDeath
+        );
+    }
+
+    public void InterruptibleIntervalAction(float interval, InterruptionType interruptionType, Action action, float startDelay = 0, int? numRepetitions = null)
+    {
+        Coroutine coroutine = this.ActOnInterval(interval, action, startDelay, numRepetitions);
+
         // We don't need to worry about deregistering the interruptible as Stopping a finished coroutine doesn't cause any problems.
         InterruptionManager.Register(
             interruptionType,

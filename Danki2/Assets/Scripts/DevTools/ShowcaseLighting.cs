@@ -1,58 +1,70 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class ShowcaseLighting : MonoBehaviour
 {
+    public List<GameObject> MainLights;
+    public List<GameObject> FillLights;
 
-    public List<GameObject> Lights;
-
-    private GameObject CurrentActiveLight = null;
-    private bool IsVolumetricsEnabled = false;
+    private GameObject CurrentActiveMainLight = null;
+    private GameObject CurrentActiveFillLight = null;
 
     // Start is called before the first frame update
     void OnValidate()
     {
-        if(Lights.Count > 0)
-		{
-            CurrentActiveLight = Lights[0];
-            CurrentActiveLight.SetActive(true);
-		}
+        if (MainLights.Count != FillLights.Count)
+        {
+            Debug.LogError("The number of main lights is not equal to the number of fill lights.");
+            return;
+        }
 
-        foreach (GameObject Light in Lights)
-		{
-            if( !Object.ReferenceEquals(Light, CurrentActiveLight))
-			{
-                Light.SetActive(false);
-			}
-		}
+        if (MainLights.Count == 0) return;
+
+        foreach (GameObject Light in MainLights) Light.SetActive(false);
+        foreach (GameObject Light in FillLights) Light.SetActive(false);
+
+        SetActiveLight(0);
     }
 
     public void NextLight()
-	{
-        int index = Lights.IndexOf(CurrentActiveLight);
-        index = ++index % Lights.Count;
+    {
+        if (MainLights.Count == 0) return;
+
+        int index = MainLights.IndexOf(CurrentActiveMainLight);
+        index = ++index % MainLights.Count;
         SetActiveLight(index);
 	}
 
     public void PrevLight()
-	{
-        int index = Lights.IndexOf(CurrentActiveLight);
-        index = TrueMod(--index, Lights.Count);
+    {
+        if (MainLights.Count == 0) return;
+
+        int index = MainLights.IndexOf(CurrentActiveMainLight);
+        index = TrueMod(--index, MainLights.Count);
         SetActiveLight(index);
 	}
 
     public void HomeLight()
-	{
+    {
+        if (MainLights.Count == 0) return;
+
         SetActiveLight(0);
 	}
 
     private void SetActiveLight(int NewActiveLightIndex)
 	{
-        CurrentActiveLight.SetActive(false);
-        CurrentActiveLight = Lights[NewActiveLightIndex];
-        CurrentActiveLight.SetActive(true);
-	}
+        if (CurrentActiveMainLight != null)
+        {
+            CurrentActiveMainLight.SetActive(false);
+            CurrentActiveFillLight.SetActive(false);
+        }
+
+        CurrentActiveMainLight = MainLights[NewActiveLightIndex];
+        CurrentActiveMainLight.SetActive(true);
+
+        CurrentActiveFillLight = FillLights[NewActiveLightIndex];
+        CurrentActiveFillLight.SetActive(true);
+    }
 
     //A proper modulo, handling negatives as it should.
     private int TrueMod(int x, int m)

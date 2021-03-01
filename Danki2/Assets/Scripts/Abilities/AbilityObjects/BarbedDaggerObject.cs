@@ -4,9 +4,6 @@ using UnityEngine;
 public class BarbedDaggerObject : ProjectileObject
 {
     [SerializeField]
-    private AudioSource collisionSound = null;
-
-    [SerializeField]
     private TrailRenderer trailRenderer = null;
 
     public static void Fire(Actor caster, Action<GameObject> collisionCallback, float speed, Vector3 position, Quaternion rotation)
@@ -20,7 +17,6 @@ public class BarbedDaggerObject : ProjectileObject
     {
         if (other.gameObject != caster.gameObject)
         {
-            collisionSound.Play();
             trailRenderer.emitting = false;
         }
 

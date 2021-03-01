@@ -18,8 +18,8 @@ public class Whirlwind : Channel
 
     public override ChannelEffectOnMovement EffectOnMovement => ChannelEffectOnMovement.None;
 
-    public Whirlwind(Actor owner, AbilityData abilityData, string[] availableBonuses, float duration)
-        : base(owner, abilityData, availableBonuses, duration)
+    public Whirlwind(Actor owner, AbilityData abilityData, string fmodStartEvent, string fmodEndEvent, string[] availableBonuses, float duration)
+        : base(owner, abilityData, fmodStartEvent, fmodEndEvent, availableBonuses, duration)
     {
     }
 

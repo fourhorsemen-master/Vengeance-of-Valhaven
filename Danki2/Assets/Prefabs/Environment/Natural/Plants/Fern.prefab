@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6597280551412660007}
   - component: {fileID: 5894929607266640884}
   - component: {fileID: 2948835173897260804}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54,6 +54,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -87,7 +88,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3226464871675855603}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Fern
   m_TagString: Untagged
   m_Icon: {fileID: 0}

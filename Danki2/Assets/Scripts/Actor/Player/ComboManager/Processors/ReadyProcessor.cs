@@ -50,7 +50,7 @@
         switch (abilityType)
         {
             case AbilityType.InstantCast:
-                if (!player.InstantCastService.CanCast) break;
+                if (!player.CanCast) break;
                 player.AbilityTree.Walk(castDirection);
                 player.InstantCastService.TryCast(
                     abilityReference,
@@ -61,7 +61,7 @@
                 nextState = ComboState.AwaitingFeedback;
                 return true;
             case AbilityType.Channel:
-                if (!player.ChannelService.CanCast) break;
+                if (!player.CanCast) break;
                 player.AbilityTree.Walk(castDirection);
                 player.ChannelService.TryStartChannel(abilityReference);
                 nextState =  ComboState.Channeling;

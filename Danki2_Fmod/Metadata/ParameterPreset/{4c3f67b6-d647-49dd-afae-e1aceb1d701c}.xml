@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.01.00">
+	<object class="ParameterPreset" id="{4c3f67b6-d647-49dd-afae-e1aceb1d701c}">
+		<property name="name">
+			<value>firstDagger</value>
+		</property>
+		<relationship name="folder">
+			<destination>{cd219845-d837-416f-8105-b5e4bb30ffef}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{3b391e24-c47e-471a-b464-dd3e92d0f11b}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{3b391e24-c47e-471a-b464-dd3e92d0f11b}">
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+	</object>
+</objects>

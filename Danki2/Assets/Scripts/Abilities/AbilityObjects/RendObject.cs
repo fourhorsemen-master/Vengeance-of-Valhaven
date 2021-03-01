@@ -1,23 +1,13 @@
 ﻿using UnityEngine;
 
 public class RendObject : StaticAbilityObject
-{
-    [SerializeField]
-    private AudioSource hitSound = null;
-    
+{    
     public override float StickTime => 2f;
 
-    public static RendObject Create(Transform transform, Vector3 position, bool enemiesHit)
+    public static RendObject Create(Transform parentTransform, Vector3 position)
     {
-        RendObject rendObject = Instantiate(AbilityObjectPrefabLookup.Instance.RendObjectPrefab, position, Quaternion.LookRotation(Vector3.right), transform);
-
-        if (enemiesHit) rendObject.PlayHitSound();
+        RendObject rendObject = Instantiate(AbilityObjectPrefabLookup.Instance.RendObjectPrefab, position, Quaternion.LookRotation(Vector3.right), parentTransform);
 
         return rendObject;
-    }
-
-    private void PlayHitSound()
-    {
-        hitSound.Play();
     }
 }

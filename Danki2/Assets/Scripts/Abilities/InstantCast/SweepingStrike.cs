@@ -3,25 +3,25 @@
 [Ability(AbilityReference.SweepingStrike)]
 public class SweepingStrike : InstantCast
 {
-    private const float Range = 4f;
+    private const float Range = 2.8f;
     private const float PauseDuration = 0.3f;
 
     private const float knockBackDuration = 0.25f;
     private const float knockBackSpeed = 5f;
 
-    public SweepingStrike(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
+    public SweepingStrike(Actor owner, AbilityData abilityData, string fmodStartEvent, string fmodEndEvent, string[] availableBonuses)
+        : base(owner, abilityData, fmodStartEvent, fmodEndEvent, availableBonuses)
     {
     }
 
     public override void Cast(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
-        Vector3 position = Owner.transform.position;
-        Vector3 castDirection = floorTargetPosition - position;
+        Vector3 castDirection = floorTargetPosition - Owner.transform.position;
         Quaternion castRotation = GetMeleeCastRotation(castDirection);
 
         bool hasDealtDamage = false;
 
-        CollisionTemplateManager.Instance.GetCollidingActors(CollisionTemplate.Wedge90, Range, position, castRotation)
+        CollisionTemplateManager.Instance.GetCollidingActors(CollisionTemplate.Wedge90, Range, Owner.CollisionTemplateSource, castRotation)
             .Where(actor => Owner.Opposes(actor))
             .ForEach(actor =>
             {
@@ -32,7 +32,7 @@ public class SweepingStrike : InstantCast
 
         SuccessFeedbackSubject.Next(hasDealtDamage);
 
-        SweepingStrikeObject sweepingStrikeObject = SweepingStrikeObject.Create(position, castRotation);
+        SweepingStrikeObject sweepingStrikeObject = SweepingStrikeObject.Create(Owner.AbilitySource, castRotation);
 
         Owner.MovementManager.LookAt(floorTargetPosition);
         Owner.MovementManager.Pause(PauseDuration);
@@ -40,7 +40,6 @@ public class SweepingStrike : InstantCast
         if (hasDealtDamage)
         {
             CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
-            sweepingStrikeObject.PlayHitSound();
         }
     }
 

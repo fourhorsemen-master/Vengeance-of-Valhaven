@@ -38,34 +38,31 @@ public static class PlayerListTooltipBuilder
         AbilityData baseAbilityData
     )
     {
+        if (TooltipBuilderUtils.CanHandle(templatedTooltipSegment))
+        {
+            return TooltipBuilderUtils.GetTooltipSegment(templatedTooltipSegment);
+        }
+
         switch (templatedTooltipSegment.Type)
         {
-            case TemplatedTooltipSegmentType.Text:
-                return GetTextSegment(templatedTooltipSegment);
-
             case TemplatedTooltipSegmentType.PrimaryDamage:
-                return GetNumericTooltipSegment(baseAbilityData.PrimaryDamage);
+                return GetNumericSegment(baseAbilityData.PrimaryDamage);
 
             case TemplatedTooltipSegmentType.SecondaryDamage:
-                return GetNumericTooltipSegment(baseAbilityData.SecondaryDamage);
+                return GetNumericSegment(baseAbilityData.SecondaryDamage);
 
             case TemplatedTooltipSegmentType.Heal:
-                return GetNumericTooltipSegment(baseAbilityData.Heal);
+                return GetNumericSegment(baseAbilityData.Heal);
 
             case TemplatedTooltipSegmentType.Shield:
-                return GetNumericTooltipSegment(baseAbilityData.Shield);
+                return GetNumericSegment(baseAbilityData.Shield);
 
             default:
                 throw new ArgumentOutOfRangeException();
         }
     }
 
-    private static TooltipSegment GetTextSegment(TemplatedTooltipSegment templatedTooltipSegment)
-    {
-        return new TooltipSegment(TooltipSegmentType.Text, templatedTooltipSegment.Value);
-    }
-
-    private static TooltipSegment GetNumericTooltipSegment(int baseNumericValue)
+    private static TooltipSegment GetNumericSegment(int baseNumericValue)
     {
         return new TooltipSegment(TooltipSegmentType.UnaffectedNumericValue, baseNumericValue.ToString());
     }

@@ -98,6 +98,10 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
                     description += segment.Value;
                     break;
 
+                case TooltipSegmentType.BoldText:
+                    description += TextUtils.BoldText(segment.Value);
+                    break;
+                
                 case TooltipSegmentType.BuffedNumericValue:
                     description += $"{TextUtils.ColouredText(buffedNumericColour, segment.Value)}";
                     break;
