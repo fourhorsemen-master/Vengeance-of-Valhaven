@@ -18,7 +18,6 @@ public class InterruptionManager
     private void Setup()
     {
         actor.DeathSubject.Subscribe(OnDeath);
-        actor.MovementManager.MoveLockSubject.Subscribe(HardInterrupt);
     }
 
     public Guid Register(InterruptionType type, Action onInterrupt, params InterruptibleFeature[] features)
