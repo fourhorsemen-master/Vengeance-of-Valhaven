@@ -19,10 +19,7 @@
     Hamstring,
     Swipe,
     Maul,
-    BearCharge,
-<<<<<<< HEAD
+    BearCharge,    
+    Cleave,
     RingOfDeath
-=======
-    Cleave
->>>>>>> master
 }
