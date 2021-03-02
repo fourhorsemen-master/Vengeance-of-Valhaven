@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(KeywordLookup))]
@@ -13,9 +12,9 @@ public class KeywordLookupEditor : Editor
 
         EnumUtils.ForEach<Keyword>(keyword =>
         {
-            var keywordData = keywordLookup.keywordLookup[keyword];
+            SerializableKeywordData keywordData = keywordLookup.keywordLookup[keyword];
 
-            var missingData = string.IsNullOrEmpty(keywordData.DisplayName) || string.IsNullOrEmpty(keywordData.Description);
+            bool missingData = string.IsNullOrEmpty(keywordData.DisplayName) || string.IsNullOrEmpty(keywordData.Description);
 
             foldoutStatus[keyword] = EditorGUILayout.Foldout(
                 foldoutStatus[keyword],
