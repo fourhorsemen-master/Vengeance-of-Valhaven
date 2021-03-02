@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class SmashVisual : MonoBehaviour
+public class SmashVisual : AbilityObject
 {
     [SerializeField, Range(0f, -5f), Tooltip("How fast the effect sinks into the ground. In units per second.")]
     private float sinkSpeed = 0f;

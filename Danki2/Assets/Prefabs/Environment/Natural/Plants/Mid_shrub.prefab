@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2140057868167431278}
   - component: {fileID: 1725938315932373181}
   - component: {fileID: 7985270302655380557}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54,6 +54,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -87,7 +88,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8493186933737133910}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mid_shrub
   m_TagString: Untagged
   m_Icon: {fileID: 0}

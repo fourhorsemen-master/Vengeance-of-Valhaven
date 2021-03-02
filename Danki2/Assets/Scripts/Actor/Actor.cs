@@ -56,6 +56,8 @@ public abstract class Actor : MonoBehaviour
 
     protected virtual void Awake()
     {
+        gameObject.SetLayerRecursively(Layer.Actors);
+
         StatsManager = new StatsManager(baseStats);
         EffectManager = new EffectManager(this, updateSubject);
         HealthManager = new HealthManager(this, updateSubject);
@@ -74,8 +76,6 @@ public abstract class Actor : MonoBehaviour
     protected virtual void Start()
     {
         startSubject.Next();
-
-        gameObject.layer = Layers.Actors;
     }
 
     protected virtual void Update()

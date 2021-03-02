@@ -47,4 +47,5 @@ Things to be sure to do when making prop prefabs:
     - Drag the parent game object into the desired prefab location
   - Child game object should also have default transform, but scale can be tweaked if we want to uniformly adjust the proportions.
   - The game object with the mesh should have a "Mesh Filter", a "Mesh Renderer" and a "Mesh Collider" (if collidable).
+  - The game object layer should be set to "Props" (including all children)
   - If the prop should be part of the navmesh, it should have "Navigation Static" selected and an appropriate "Navigation Area".
