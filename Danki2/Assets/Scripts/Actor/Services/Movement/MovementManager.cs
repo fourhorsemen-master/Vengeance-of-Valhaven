@@ -124,6 +124,7 @@ public class MovementManager : IMovementStatusProvider
 
         if (speed == null) speed = GetMoveSpeed();
 
+        // navMeshAgent.SetDestination(actor.transform.position + direction.normalized);
         navMeshAgent.Move(direction.normalized * (Time.deltaTime * speed.Value));
         movedThisFrame = true;
     }

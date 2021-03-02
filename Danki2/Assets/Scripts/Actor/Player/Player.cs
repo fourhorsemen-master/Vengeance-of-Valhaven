@@ -97,5 +97,8 @@ public class Player : Actor
         }
     }
 
-    public void PlayWhiffSound() => RuntimeManager.PlayOneShot(whiffEvent);
+    public void PlayWhiffSound()
+    {
+        RuntimeManager.PlayOneShot(whiffEvent);
+    }
 }
