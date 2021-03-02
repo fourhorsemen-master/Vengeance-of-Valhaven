@@ -11,7 +11,7 @@ public class KeywordLookupEditor : Editor
     {
         KeywordLookup keywordLookup = (KeywordLookup)target;
 
-        foreach (Keyword keyword in Enum.GetValues(typeof(Keyword)))
+        EnumUtils.ForEach<Keyword>(keyword =>
         {
             var keywordData = keywordLookup.keywordLookup[keyword];
 
@@ -22,13 +22,13 @@ public class KeywordLookupEditor : Editor
                 missingData ? $"{keyword.ToString()}*" : keyword.ToString()
             );
 
-            if (!foldoutStatus[keyword]) continue;
+            if (!foldoutStatus[keyword]) return;
 
             EditorGUI.indentLevel++;
             keywordData.DisplayName = EditorGUILayout.TextField("Display Name", keywordData.DisplayName);
             keywordData.Description = EditorGUILayout.TextField("Description", keywordData.Description);
             EditorGUI.indentLevel--;
-        }
+        });
 
         if (GUI.changed)
         {

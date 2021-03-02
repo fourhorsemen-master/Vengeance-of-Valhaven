@@ -5,7 +5,7 @@ using UnityEngine.UI.Extensions;
 public class AbilitySupplementaryTooltipPanel : MonoBehaviour
 {
     [SerializeField]
-    private float displayDelay;
+    private float displayDelay = 0f;
 
     [SerializeField]
     private RectTransform rectTransform = null;
