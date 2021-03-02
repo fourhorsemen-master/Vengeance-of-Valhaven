@@ -23,7 +23,7 @@ public class RingOfDeath : InstantCast
     {
         Owner.MovementManager.LookAt(floorTargetPosition);
 
-        Quaternion rotation = Quaternion.LookRotation(offsetTargetPosition - Owner.Centre);
+        Quaternion rotation = Owner.transform.rotation;
 
         Owner.MovementManager.Pause(KnifeCastInterval * NumberOfKnives);
 

@@ -120,7 +120,7 @@ NavMeshSettings:
     accuratePlacement: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 23800000, guid: 96d1048c3fe76ff4da8f9cfebe11e49d, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: f97cb2dfeb030c7449676783390f6e33, type: 2}
 --- !u!1001 &469555
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -363,6 +363,16 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3565448376248781361, guid: ac1ac9b557115bf429008e45ec6529de,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3565448376248781361, guid: ac1ac9b557115bf429008e45ec6529de,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4084485204937683989, guid: ac1ac9b557115bf429008e45ec6529de,
         type: 3}
       propertyPath: m_LocalPosition.z
@@ -498,6 +508,26 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5448713778518725455, guid: ac1ac9b557115bf429008e45ec6529de,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5448713778518725455, guid: ac1ac9b557115bf429008e45ec6529de,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5448713778518725455, guid: ac1ac9b557115bf429008e45ec6529de,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5448713778518725455, guid: ac1ac9b557115bf429008e45ec6529de,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5833431683789478280, guid: ac1ac9b557115bf429008e45ec6529de,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -506,6 +536,16 @@ PrefabInstance:
     - target: {fileID: 5833431683789478280, guid: ac1ac9b557115bf429008e45ec6529de,
         type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5867681778884957614, guid: ac1ac9b557115bf429008e45ec6529de,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5867681778884957614, guid: ac1ac9b557115bf429008e45ec6529de,
+        type: 3}
+      propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7696502965261539362, guid: ac1ac9b557115bf429008e45ec6529de,
