@@ -63,10 +63,10 @@ public class AbilitySupplementaryTooltipPanel : MonoBehaviour
     {
         var keywords = KeywordUtils.GetKeywords(ability);
 
-        keywords.ForEach(t =>
+        keywords.ForEach(k =>
         {
             Instantiate(abilitySupplementaryTooltipPrefab, transform)
-                .Setup(t);
+                .Setup(k);
         });
     }
 
