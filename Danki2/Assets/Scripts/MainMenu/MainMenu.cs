@@ -1,14 +1,29 @@
 ﻿using UnityEngine;
 
+public enum GameType
+{
+    Continue,
+    NewGame
+}
+
 public class MainMenu : MonoBehaviour
 {
+    public static GameType GameType { get; private set; }
+    
     public void Continue()
     {
-        Debug.Log("Continuing previous game...");
+        GameType = GameType.Continue;
+        LoadEntryScene();
     }
     
     public void NewGame()
     {
-        Debug.Log("Starting new game...");
+        GameType = GameType.NewGame;
+        LoadEntryScene();
+    }
+
+    private void LoadEntryScene()
+    {
+        SceneUtils.LoadScene(Scene.EntryScene);
     }
 }
