@@ -8,7 +8,7 @@ public class MaulObject : StaticAbilityObject
 
     public static MaulObject Create(Vector3 position)
     {
-        var maulObjectPrefab = AbilityObjectPrefabLookup.Instance.MaulObjectPrefab;
+        MaulObject maulObjectPrefab = AbilityObjectPrefabLookup.Instance.MaulObjectPrefab;
         return Instantiate(maulObjectPrefab, position, Quaternion.identity);
     }
 
