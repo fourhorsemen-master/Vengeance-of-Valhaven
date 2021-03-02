@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2111284633798116883}
   - component: {fileID: 4226695843733304025}
   - component: {fileID: 5477011289009242888}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2425400647596135180}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.126, z: 0}
+  m_LocalPosition: {x: 0, y: 1.37, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4672505840919710350}
@@ -40,7 +40,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2425400647596135180}
-  m_Mesh: {fileID: 8678532716314487922, guid: b0b4196e33c7cfb4fb730b49fe9496ef, type: 3}
+  m_Mesh: {fileID: -6081014232023502702, guid: b0b4196e33c7cfb4fb730b49fe9496ef, type: 3}
 --- !u!23 &4226695843733304025
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -93,7 +93,7 @@ MeshCollider:
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 8678532716314487922, guid: b0b4196e33c7cfb4fb730b49fe9496ef, type: 3}
+  m_Mesh: {fileID: -6081014232023502702, guid: b0b4196e33c7cfb4fb730b49fe9496ef, type: 3}
 --- !u!1 &6951578708563415292
 GameObject:
   m_ObjectHideFlags: 0
@@ -103,7 +103,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4672505840919710350}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PallisadeWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
