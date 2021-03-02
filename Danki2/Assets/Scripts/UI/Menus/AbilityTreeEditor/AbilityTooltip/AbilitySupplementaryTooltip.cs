@@ -8,6 +8,6 @@ public class AbilitySupplementaryTooltip : MonoBehaviour
 
     public void Setup(Keyword keyword)
     {
-        description.text = $"<b>{KeywordLookup.Instance.GetDisplayName(keyword)}:</b> {KeywordLookup.Instance.GetDescription(keyword)}";
+        description.text = $"{TextUtils.BoldText(KeywordLookup.Instance.GetDisplayName(keyword) + ":")} {KeywordLookup.Instance.GetDescription(keyword)}";
     }
 }
