@@ -19,6 +19,7 @@
     Hamstring,
     Swipe,
     Maul,
-    BearCharge,
-    Cleave
+    BearCharge,    
+    Cleave,
+    RingOfDeath
 }
