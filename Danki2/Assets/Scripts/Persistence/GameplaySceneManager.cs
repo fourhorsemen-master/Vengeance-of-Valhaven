@@ -6,6 +6,7 @@ using UnityScene = UnityEngine.SceneManagement.Scene;
 public class GameplaySceneManager : NotDestroyedOnLoadSingleton<GameplaySceneManager>
 {
     public Subject<Scene> GameplaySceneLoadedSubject { get; } = new Subject<Scene>(); 
+    public Subject<Scene> GameplaySceneExitedSubject { get; } = new Subject<Scene>();
 
     private static readonly ISet<Scene> gameplayScenes = new HashSet<Scene>
     {
@@ -44,7 +45,11 @@ public class GameplaySceneManager : NotDestroyedOnLoadSingleton<GameplaySceneMan
 
     private void LoadNextScene()
     {
-        Scene nextScene = nextSceneLookup[PersistenceManager.Instance.SaveData.CurrentScene];
+        Scene currentScene = PersistenceManager.Instance.SaveData.CurrentScene;
+
+        if (gameplayScenes.Contains(currentScene)) GameplaySceneExitedSubject.Next(currentScene);
+
+        Scene nextScene = nextSceneLookup[currentScene];
 
         if (nextScene == Scene.GameplayExitScene)
         {

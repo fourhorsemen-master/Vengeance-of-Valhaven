@@ -25,7 +25,7 @@ public class HealthManager
     {
         this.actor = actor;
 
-        Health = MaxHealth;
+        Health = PersistenceManager.Instance.SaveData.PlayerHealth;
 
         updateSubject.Subscribe(() =>
         {

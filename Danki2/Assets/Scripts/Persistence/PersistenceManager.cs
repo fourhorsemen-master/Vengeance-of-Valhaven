@@ -9,11 +9,27 @@ public class PersistenceManager : NotDestroyedOnLoadSingleton<PersistenceManager
 
     private void Start()
     {
-        SaveData = SaveDataManager.Instance.TryLoad(out SaveData saveData) ? saveData : GetDefault();
-
-        GameplaySceneManager.Instance.GameplaySceneLoadedSubject.Subscribe(scene =>
+        if (SaveDataManager.Instance.TryLoad(out SaveData saveData))
         {
-            persistentObjects.ForEach(o => o.Load(SaveData));
+            SaveData = saveData;
+        }
+        else
+        {
+            SaveData = GenerateNewSaveData();
+        }
+
+        GameplaySceneManager.Instance.GameplaySceneLoadedSubject.Subscribe(gameplayScene =>
+        {
+            SceneLoadedManager.Instance.SceneLoadedSubject.Subscribe(() =>
+            {
+                persistentObjects.ForEach(o => o.Load(SaveData));
+            });
+        });
+
+        GameplaySceneManager.Instance.GameplaySceneExitedSubject.Subscribe(gameplayScene =>
+        {
+            persistentObjects.ForEach(o => o.Save(SaveData));
+            Save();
         });
     }
 
@@ -34,11 +50,12 @@ public class PersistenceManager : NotDestroyedOnLoadSingleton<PersistenceManager
 
     public void Save()
     {
+        SaveData.PlayerHealth = RoomManager.Instance.Player.HealthManager.Health;
         SaveDataManager.Instance.Save(SaveData);
     }
     
-    private SaveData GetDefault()
+    private SaveData GenerateNewSaveData()
     {
-        return new SaveData { CurrentScene = Scene.GameplayScene1 };
+        return new SaveData(Scene.GameplayScene1, 100);
     }
 }
