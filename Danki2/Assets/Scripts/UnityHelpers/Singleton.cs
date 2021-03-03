@@ -16,4 +16,10 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    public void Destroy()
+    {
+        Instance = null;
+        Destroy(gameObject);
+    }
 }
