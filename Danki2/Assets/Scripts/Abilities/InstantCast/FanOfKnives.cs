@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 [Ability(AbilityReference.FanOfKnives, new [] {"Spray"})]
 public class FanOfKnives : InstantCast
