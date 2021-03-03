@@ -1,66 +1,37 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class GameplaySceneManager : PersistentSingleton<GameplaySceneManager>
 {
-    private static Scene NextScene = Scene.GameplayScene1;
+    private static readonly Dictionary<Scene, Scene> nextSceneLookup = new Dictionary<Scene, Scene>
+    {
+        {Scene.GameplayEntryScene, Scene.GameplayScene1},
+        {Scene.GameplayScene1, Scene.GameplayScene2},
+        {Scene.GameplayScene2, Scene.GameplayScene3},
+        {Scene.GameplayScene3, Scene.GameplayExitScene}
+    };
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.N)) LoadNextScene();
-        if (Input.GetKeyDown(KeyCode.Escape)) SaveAndQuit();
+        if (Input.GetKeyDown(KeyCode.Escape)) Quit();
     }
 
-    public void Continue() => LoadNextScene();
-
-    public void NewGame()
+    public void LoadStartingScene()
     {
-        NextScene = Scene.GameplayScene1;
-        LoadNextScene();
+        SceneUtils.LoadScene(PersistenceManager.Instance.SaveData.CurrentScene);
     }
 
     private void LoadNextScene()
     {
-        switch (NextScene)
-        {
-            case Scene.GameplayScene1:
-                NextScene = Scene.GameplayScene2;
-                SceneUtils.LoadScene(Scene.GameplayScene1);
-                break;
-            case Scene.GameplayScene2:
-                NextScene = Scene.GameplayScene3;
-                SceneUtils.LoadScene(Scene.GameplayScene2);
-                break;
-            case Scene.GameplayScene3:
-                NextScene = Scene.ExitScene;
-                SceneUtils.LoadScene(Scene.GameplayScene3);
-                break;
-            case Scene.ExitScene:
-                NextScene = Scene.GameplayScene1;
-                SceneUtils.LoadScene(Scene.ExitScene);
-                break;
-        }
+        Scene nextScene = nextSceneLookup[PersistenceManager.Instance.SaveData.CurrentScene];
+        PersistenceManager.Instance.SaveData.CurrentScene = nextScene;
+        PersistenceManager.Instance.Save();
+        SceneUtils.LoadScene(nextScene);
     }
 
-    private void SaveAndQuit()
+    private void Quit()
     {
-        switch (NextScene)
-        {
-            case Scene.GameplayScene1:
-                NextScene = Scene.GameplayScene1;
-                SceneUtils.LoadScene(Scene.ExitScene);
-                break;
-            case Scene.GameplayScene2:
-                NextScene = Scene.GameplayScene1;
-                SceneUtils.LoadScene(Scene.ExitScene);
-                break;
-            case Scene.GameplayScene3:
-                NextScene = Scene.GameplayScene2;
-                SceneUtils.LoadScene(Scene.ExitScene);
-                break;
-            case Scene.ExitScene:
-                NextScene = Scene.GameplayScene3;
-                SceneUtils.LoadScene(Scene.ExitScene);
-                break;
-        }
+        SceneUtils.LoadScene(Scene.GameplayExitScene);
     }
 }

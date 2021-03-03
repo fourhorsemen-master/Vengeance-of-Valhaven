@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class ExitSceneManager : MonoBehaviour
+public class GameplayExitSceneManager : MonoBehaviour
 {
     private void Start()
     {

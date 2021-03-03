@@ -6,8 +6,8 @@ public static class SceneUtils
     private static readonly Dictionary<Scene, string> sceneLookup = new Dictionary<Scene, string>
     {
         { Scene.MainMenu, "MainMenu" },
-        { Scene.EntryScene, "EntryScene" },
-        { Scene.ExitScene, "ExitScene" },
+        { Scene.GameplayEntryScene, "GameplayEntryScene" },
+        { Scene.GameplayExitScene, "GameplayExitScene" },
         { Scene.GameplayScene1, "GameplayScene1" },
         { Scene.GameplayScene2, "GameplayScene2" },
         { Scene.GameplayScene3, "GameplayScene3" }

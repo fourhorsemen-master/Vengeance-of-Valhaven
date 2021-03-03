@@ -1,29 +1,24 @@
 ﻿using UnityEngine;
-
-public enum GameType
-{
-    Continue,
-    NewGame
-}
+using UnityEngine.UI;
 
 public class MainMenuManager : MonoBehaviour
 {
-    public static GameType GameType { get; private set; }
-    
+    [SerializeField]
+    private Button continueButton = null;
+
+    private void Start()
+    {
+        continueButton.interactable = SaveDataManager.Instance.HasSaveData;
+    }
+
     public void Continue()
     {
-        GameType = GameType.Continue;
-        LoadEntryScene();
+        SceneUtils.LoadScene(Scene.GameplayEntryScene);
     }
     
     public void NewGame()
     {
-        GameType = GameType.NewGame;
-        LoadEntryScene();
-    }
-
-    private void LoadEntryScene()
-    {
-        SceneUtils.LoadScene(Scene.EntryScene);
+        SaveDataManager.Instance.Clear();
+        SceneUtils.LoadScene(Scene.GameplayEntryScene);
     }
 }
