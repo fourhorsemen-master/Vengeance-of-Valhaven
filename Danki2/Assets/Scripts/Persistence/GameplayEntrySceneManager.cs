@@ -4,6 +4,6 @@ public class GameplayEntrySceneManager : MonoBehaviour
 {
     private void Start()
     {
-        GameplaySceneManager.Instance.LoadStartingScene();
+        SceneUtils.LoadScene(PersistenceManager.Instance.SaveData.CurrentScene);
     }
 }

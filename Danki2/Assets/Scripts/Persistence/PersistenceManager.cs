@@ -1,61 +1,36 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PersistenceManager : NotDestroyedOnLoadSingleton<PersistenceManager>
 {
     public SaveData SaveData { get; private set; }
 
-    private readonly List<IPersistentObject> persistentObjects = new List<IPersistentObject>();
-
     private void Start()
     {
-        if (SaveDataManager.Instance.TryLoad(out SaveData saveData))
-        {
-            SaveData = saveData;
-        }
-        else
-        {
-            SaveData = GenerateNewSaveData();
-        }
-
-        GameplaySceneManager.Instance.GameplaySceneLoadedSubject.Subscribe(gameplayScene =>
-        {
-            SceneLoadedManager.Instance.SceneLoadedSubject.Subscribe(() =>
-            {
-                persistentObjects.ForEach(o => o.Load(SaveData));
-            });
-        });
-
-        GameplaySceneManager.Instance.GameplaySceneExitedSubject.Subscribe(gameplayScene =>
-        {
-            persistentObjects.ForEach(o => o.Save(SaveData));
-            Save();
-        });
+        SaveData = SaveDataManager.Instance.TryLoad(out SaveData saveData) ? saveData : GenerateNewSaveData();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape)) SceneUtils.LoadScene(Scene.GameplayExitScene);
-    }
-
-    public void Register(IPersistentObject persistentObject)
-    {
-        persistentObjects.Add(persistentObject);
-    }
-
-    public void Deregister(IPersistentObject persistentObject)
-    {
-        persistentObjects.Remove(persistentObject);
+        if (Input.GetKeyDown(KeyCode.Escape)) SaveAndQuit();
     }
 
     public void Save()
     {
-        SaveData.PlayerHealth = RoomManager.Instance.Player.HealthManager.Health;
+        SaveData = new SaveData(
+            GameplaySceneManager.Instance.CurrentScene,
+            RoomManager.Instance.Player.HealthManager.Health
+        );
         SaveDataManager.Instance.Save(SaveData);
     }
-    
+
     private SaveData GenerateNewSaveData()
     {
         return new SaveData(Scene.GameplayScene1, 100);
+    }
+
+    private void SaveAndQuit()
+    {
+        Save();
+        SceneUtils.LoadScene(Scene.GameplayExitScene);
     }
 }
