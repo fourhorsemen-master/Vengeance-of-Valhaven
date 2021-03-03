@@ -4,7 +4,7 @@ public class EntrySceneManager : MonoBehaviour
 {
     private void Start()
     {
-        switch (MainMenu.GameType)
+        switch (MainMenuManager.GameType)
         {
             case GameType.Continue:
                 GameplaySceneManager.Instance.Continue();

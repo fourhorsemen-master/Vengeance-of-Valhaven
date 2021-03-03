@@ -1,14 +1,8 @@
 ﻿using UnityEngine;
 
-public class GameplaySceneManager : Singleton<GameplaySceneManager>
+public class GameplaySceneManager : PersistentSingleton<GameplaySceneManager>
 {
     private static Scene NextScene = Scene.GameplayScene1;
-
-    protected override void Awake()
-    {
-        base.Awake();
-        DontDestroyOnLoad(gameObject);
-    }
 
     private void Update()
     {

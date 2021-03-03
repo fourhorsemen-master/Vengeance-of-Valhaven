@@ -6,7 +6,7 @@ public enum GameType
     NewGame
 }
 
-public class MainMenu : MonoBehaviour
+public class MainMenuManager : MonoBehaviour
 {
     public static GameType GameType { get; private set; }
     
