@@ -70,7 +70,7 @@ public class SerializableEnumDictionary<TEnumKey, TValue> : ISerializationCallba
         for (int i = 0; i < _keys.Count; i++)
         {
             if (!Enum.IsDefined(typeof(TEnumKey), _keys[i])) continue;
-            TEnumKey enumKey = (TEnumKey) Enum.Parse(typeof(TEnumKey), _keys[i]);
+            TEnumKey enumKey = EnumUtils.FromString<TEnumKey>(_keys[i]);
             _dictionary[enumKey] = _values[i];
         }
     }

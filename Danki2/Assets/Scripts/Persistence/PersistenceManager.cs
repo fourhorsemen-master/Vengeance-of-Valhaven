@@ -1,12 +1,7 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
-public interface IPersistentObject
-{
-    void Save(SaveData saveData);
-    void Load(SaveData saveData);
-}
-
-public class PersistenceManager : PersistentSingleton<PersistenceManager>
+public class PersistenceManager : NotDestroyedOnLoadSingleton<PersistenceManager>
 {
     public SaveData SaveData { get; private set; }
 
@@ -15,6 +10,16 @@ public class PersistenceManager : PersistentSingleton<PersistenceManager>
     private void Start()
     {
         SaveData = SaveDataManager.Instance.TryLoad(out SaveData saveData) ? saveData : GetDefault();
+
+        GameplaySceneManager.Instance.GameplaySceneLoadedSubject.Subscribe(scene =>
+        {
+            persistentObjects.ForEach(o => o.Load(SaveData));
+        });
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape)) SceneUtils.LoadScene(Scene.GameplayExitScene);
     }
 
     public void Register(IPersistentObject persistentObject)
@@ -22,7 +27,7 @@ public class PersistenceManager : PersistentSingleton<PersistenceManager>
         persistentObjects.Add(persistentObject);
     }
 
-    public void DeRegister(IPersistentObject persistentObject)
+    public void Deregister(IPersistentObject persistentObject)
     {
         persistentObjects.Remove(persistentObject);
     }

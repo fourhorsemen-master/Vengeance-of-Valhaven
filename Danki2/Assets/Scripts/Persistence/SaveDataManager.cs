@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class SaveDataManager : PersistentSingleton<SaveDataManager>
+public class SaveDataManager : NotDestroyedOnLoadSingleton<SaveDataManager>
 {
     private string serializedSaveData = null;
 

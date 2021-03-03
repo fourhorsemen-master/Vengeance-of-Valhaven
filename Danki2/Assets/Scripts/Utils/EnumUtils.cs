@@ -25,4 +25,9 @@ public static class EnumUtils
             action(value);
         }
     }
+
+    public static TEnum FromString<TEnum>(string raw) where TEnum : Enum
+    {
+        return (TEnum) Enum.Parse(typeof(TEnum), raw);
+    }
 }

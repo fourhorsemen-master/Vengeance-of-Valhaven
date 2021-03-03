@@ -1,5 +1,6 @@
 ﻿public enum Scene
 {
+    EntryScene,
     MainMenu,
     GameplayEntryScene,
     GameplayExitScene,

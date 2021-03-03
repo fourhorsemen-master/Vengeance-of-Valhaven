@@ -1,8 +1,19 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityScene = UnityEngine.SceneManagement.Scene;
 
-public class GameplaySceneManager : PersistentSingleton<GameplaySceneManager>
+public class GameplaySceneManager : NotDestroyedOnLoadSingleton<GameplaySceneManager>
 {
+    public Subject<Scene> GameplaySceneLoadedSubject { get; } = new Subject<Scene>(); 
+
+    private static readonly ISet<Scene> gameplayScenes = new HashSet<Scene>
+    {
+        Scene.GameplayScene1,
+        Scene.GameplayScene2,
+        Scene.GameplayScene3
+    };
+
     private static readonly Dictionary<Scene, Scene> nextSceneLookup = new Dictionary<Scene, Scene>
     {
         {Scene.GameplayEntryScene, Scene.GameplayScene1},
@@ -11,10 +22,19 @@ public class GameplaySceneManager : PersistentSingleton<GameplaySceneManager>
         {Scene.GameplayScene3, Scene.GameplayExitScene}
     };
 
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.N)) LoadNextScene();
-        if (Input.GetKeyDown(KeyCode.Escape)) Quit();
     }
 
     public void LoadStartingScene()
@@ -25,13 +45,23 @@ public class GameplaySceneManager : PersistentSingleton<GameplaySceneManager>
     private void LoadNextScene()
     {
         Scene nextScene = nextSceneLookup[PersistenceManager.Instance.SaveData.CurrentScene];
-        PersistenceManager.Instance.SaveData.CurrentScene = nextScene;
-        PersistenceManager.Instance.Save();
+
+        if (nextScene == Scene.GameplayExitScene)
+        {
+            SaveDataManager.Instance.Clear();
+        }
+        else
+        {
+            PersistenceManager.Instance.SaveData.CurrentScene = nextScene;
+            PersistenceManager.Instance.Save();
+        }
+
         SceneUtils.LoadScene(nextScene);
     }
 
-    private void Quit()
+    private void OnSceneLoaded(UnityScene unityScene, LoadSceneMode mode)
     {
-        SceneUtils.LoadScene(Scene.GameplayExitScene);
+        Scene scene = SceneUtils.FromUnityScene(unityScene);
+        if (gameplayScenes.Contains(scene)) GameplaySceneLoadedSubject.Next(scene);
     }
 }

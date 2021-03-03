@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using UnityScene = UnityEngine.SceneManagement.Scene;
 
 public static class SceneUtils
 {
     private static readonly Dictionary<Scene, string> sceneLookup = new Dictionary<Scene, string>
     {
+        { Scene.EntryScene, "EntryScene" },
         { Scene.MainMenu, "MainMenu" },
         { Scene.GameplayEntryScene, "GameplayEntryScene" },
         { Scene.GameplayExitScene, "GameplayExitScene" },
@@ -14,4 +16,6 @@ public static class SceneUtils
     };
 
     public static void LoadScene(Scene scene) => SceneManager.LoadScene(sceneLookup[scene]);
+
+    public static Scene FromUnityScene(UnityScene unityScene) => EnumUtils.FromString<Scene>(unityScene.name);
 }
