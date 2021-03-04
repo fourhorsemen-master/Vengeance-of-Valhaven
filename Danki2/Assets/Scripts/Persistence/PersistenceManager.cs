@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class PersistenceManager : NotDestroyedOnLoadSingleton<PersistenceManager>
+﻿public class PersistenceManager : NotDestroyedOnLoadSingleton<PersistenceManager>
 {
     private const int SaveDataVersion = 1;
     
@@ -9,11 +7,6 @@ public class PersistenceManager : NotDestroyedOnLoadSingleton<PersistenceManager
     private void Start()
     {
         SaveData = SaveDataManager.Instance.TryLoad(out SaveData saveData) ? saveData : GenerateNewSaveData();
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape)) SceneUtils.LoadScene(Scene.GameplayExitScene);
     }
 
     public void Save()

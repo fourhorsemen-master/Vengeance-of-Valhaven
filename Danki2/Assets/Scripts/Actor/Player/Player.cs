@@ -66,6 +66,14 @@ public class Player : Actor
         gameObject.tag = Tags.Player;
     }
 
+    // TODO: remove this.
+    protected override void Update()
+    {
+        base.Update();
+
+        if (Input.GetKeyDown(KeyCode.K)) HealthManager.ReceiveDamage(3, this);
+    }
+
     public void Roll(Vector3 direction)
     {
         if (!readyToRoll || ChannelService.Active) return;
