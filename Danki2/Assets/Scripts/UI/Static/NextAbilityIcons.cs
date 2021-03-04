@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class NextAbilityIcons : MonoBehaviour
@@ -82,7 +81,10 @@ public class NextAbilityIcons : MonoBehaviour
 
     private void ShowFeedback(bool result)
     {
-        IndicateAbilityCompletion(player.AbilityTree.DirectionLastWalked, result);
+        if (abilityInProgress)
+        {
+            IndicateAbilityCompletion(player.AbilityTree.DirectionLastWalked, result);
+        }
     }
 
     private void ShowWhiff()
