@@ -19,7 +19,7 @@ public abstract class AbilityTree
 
     public Subject ChangeSubject { get; } = new Subject();
 
-    private EnumDictionary<AbilityReference, int> ownedAbilities;
+    public EnumDictionary<AbilityReference, int> OwnedAbilities { get; }
 
     public EnumDictionary<AbilityReference, int> Inventory { get; private set; }
 
@@ -27,7 +27,7 @@ public abstract class AbilityTree
 
     protected AbilityTree(EnumDictionary<AbilityReference, int> ownedAbilities, Node rootNode)
     {
-        this.ownedAbilities = ownedAbilities;
+        OwnedAbilities = ownedAbilities;
 
         RootNode = rootNode;
         _currentNode = RootNode;
@@ -88,7 +88,7 @@ public abstract class AbilityTree
 
     private void UpdateInventory()
     {
-        Inventory = new EnumDictionary<AbilityReference, int>(ownedAbilities);
+        Inventory = new EnumDictionary<AbilityReference, int>(OwnedAbilities);
 
         RootNode.IterateDown(
             n =>

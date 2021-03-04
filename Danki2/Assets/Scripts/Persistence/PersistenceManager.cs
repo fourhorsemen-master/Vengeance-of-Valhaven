@@ -13,7 +13,7 @@ public class PersistenceManager : NotDestroyedOnLoadSingleton<PersistenceManager
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape)) SaveAndQuit();
+        if (Input.GetKeyDown(KeyCode.Escape)) SceneUtils.LoadScene(Scene.GameplayExitScene);
     }
 
     public void Save()
@@ -21,19 +21,20 @@ public class PersistenceManager : NotDestroyedOnLoadSingleton<PersistenceManager
         SaveData = new SaveData(
             SaveDataVersion,
             GameplaySceneManager.Instance.CurrentScene,
-            RoomManager.Instance.Player.HealthManager.Health
+            RoomManager.Instance.Player.HealthManager.Health,
+            new SerializableAbilityTree(RoomManager.Instance.Player.AbilityTree)
         );
         SaveDataManager.Instance.Save(SaveData);
     }
 
     private SaveData GenerateNewSaveData()
     {
-        return new SaveData(SaveDataVersion, Scene.GameplayScene1, 100);
-    }
-
-    private void SaveAndQuit()
-    {
-        Save();
-        SceneUtils.LoadScene(Scene.GameplayExitScene);
+        AbilityTree abilityTree = AbilityTreeFactory.CreateTree(
+            new EnumDictionary<AbilityReference, int>(3),
+            AbilityTreeFactory.CreateNode(AbilityReference.SweepingStrike),
+            AbilityTreeFactory.CreateNode(AbilityReference.Lunge)
+        );
+        
+        return new SaveData(SaveDataVersion, Scene.GameplayScene1, 100, new SerializableAbilityTree(abilityTree));
     }
 }

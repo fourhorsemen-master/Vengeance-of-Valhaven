@@ -42,17 +42,9 @@ public class Player : Actor
     {
         base.Awake();
 
-        EnumDictionary<AbilityReference, int> ownedAbilities = new EnumDictionary<AbilityReference, int>(3);
-
-        AbilityTree = AbilityTreeFactory.CreateTree(
-            ownedAbilities,
-            AbilityTreeFactory.CreateNode(AbilityReference.SweepingStrike),
-            AbilityTreeFactory.CreateNode(AbilityReference.Lunge)
-        );
-
-        TargetFinder = new PlayerTargetFinder(this, updateSubject);
-
+        AbilityTree = PersistenceManager.Instance.SaveData.SerializableAbilityTree.Deserialize();
         ComboManager = new ComboManager(this, updateSubject, rollResetsCombo);
+        TargetFinder = new PlayerTargetFinder(this, updateSubject);
 
         InstantCastService.SetFeedbackTimeout(feedbackTimeout);
         ChannelService.SetFeedbackTimeout(feedbackTimeout);
