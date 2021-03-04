@@ -2,6 +2,8 @@
 
 public class PersistenceManager : NotDestroyedOnLoadSingleton<PersistenceManager>
 {
+    private const int SaveDataVersion = 1;
+    
     public SaveData SaveData { get; private set; }
 
     private void Start()
@@ -17,6 +19,7 @@ public class PersistenceManager : NotDestroyedOnLoadSingleton<PersistenceManager
     public void Save()
     {
         SaveData = new SaveData(
+            SaveDataVersion,
             GameplaySceneManager.Instance.CurrentScene,
             RoomManager.Instance.Player.HealthManager.Health
         );
@@ -25,7 +28,7 @@ public class PersistenceManager : NotDestroyedOnLoadSingleton<PersistenceManager
 
     private SaveData GenerateNewSaveData()
     {
-        return new SaveData(Scene.GameplayScene1, 100);
+        return new SaveData(SaveDataVersion, Scene.GameplayScene1, 100);
     }
 
     private void SaveAndQuit()
