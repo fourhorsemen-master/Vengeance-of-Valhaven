@@ -6,7 +6,14 @@
 
     protected virtual void Start()
     {
-        SaveData = SaveDataManager.Instance.TryLoad(out SaveData saveData) ? saveData : GenerateNewSaveData();
+        if (SaveDataManager.Instance.HasSaveData)
+        {
+            SaveData = SaveDataManager.Instance.Load();
+            return;
+        }
+
+        SaveData = GenerateNewSaveData();
+        SaveDataManager.Instance.Save(SaveData);
     }
 
     public virtual void Save()

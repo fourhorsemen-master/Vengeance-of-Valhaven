@@ -6,25 +6,9 @@ public class SaveDataManager : NotDestroyedOnLoadSingleton<SaveDataManager>
 
     public bool HasSaveData => serializedSaveData != null;
 
-    public void Save(SaveData saveData)
-    {
-        serializedSaveData = JsonUtility.ToJson(saveData);
-    }
+    public void Save(SaveData saveData) => serializedSaveData = JsonUtility.ToJson(saveData);
     
-    public bool TryLoad(out SaveData saveData)
-    {
-        if (HasSaveData)
-        {
-            saveData = JsonUtility.FromJson<SaveData>(serializedSaveData);
-            return true;
-        }
+    public SaveData Load() => JsonUtility.FromJson<SaveData>(serializedSaveData);
 
-        saveData = null;
-        return false;
-    }
-
-    public void Clear()
-    {
-        serializedSaveData = null;
-    }
+    public void Clear() => serializedSaveData = null;
 }
