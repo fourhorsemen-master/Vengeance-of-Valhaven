@@ -24,6 +24,10 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
     [SerializeField]
     private Color deBuffedNumericColour = default;
 
+    public Subject<AbilityReference> OnActivate { get; } = new Subject<AbilityReference>();
+
+    public Subject OnDeactivate { get; } = new Subject();
+
     private PlayerTreeTooltipBuilder playerTreeTooltipBuilder;
 
     private readonly List<AbilityBonusTooltipSection> bonusSections = new List<AbilityBonusTooltipSection>();
@@ -34,7 +38,11 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
         playerTreeTooltipBuilder = new PlayerTreeTooltipBuilder(player);
     }
 
-    public void Deactivate() => DeactivateTooltip();
+    public void Deactivate()
+    {
+        DeactivateTooltip();
+        OnDeactivate.Next();
+    }
 
     /// <summary>
     /// Used to update the tooltip for abilities not in an ability tree.
@@ -83,6 +91,8 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
         Dictionary<string, AbilityBonusData> bonuses = AbilityLookup.Instance.GetAbilityBonusDataLookup(ability);
 
         SetContents(titleText, isFinisher, descriptionText, bonuses, bonusSegmenter, treeDepth);
+
+        OnActivate.Next(ability);
     }
 
     private string GenerateDescription(List<TooltipSegment> segments)

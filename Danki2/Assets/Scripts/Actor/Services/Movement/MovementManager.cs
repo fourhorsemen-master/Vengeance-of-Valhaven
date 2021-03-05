@@ -195,6 +195,8 @@ public class MovementManager : IMovementStatusProvider
     {
         if (!movementStatusManager.TryLockMovement(overrideLock, duration)) return false;
 
+        if (overrideLock) actor.InterruptionManager.Interrupt(InterruptionType.Hard);
+
         StopPathfinding();
         movementLockSpeed = speed;
         movementLockDirection = direction.normalized;

@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public abstract class StaticAbilityObject : AbilityObject
+﻿public abstract class StaticAbilityObject : AbilityObject
 {
     public abstract float StickTime { get; }
 
