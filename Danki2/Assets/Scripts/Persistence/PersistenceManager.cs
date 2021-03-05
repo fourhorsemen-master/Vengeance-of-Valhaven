@@ -2,14 +2,14 @@
 {
     private const int SaveDataVersion = 1;
     
-    public SaveData SaveData { get; private set; }
+    public virtual SaveData SaveData { get; private set; }
 
-    private void Start()
+    protected virtual void Start()
     {
         SaveData = SaveDataManager.Instance.TryLoad(out SaveData saveData) ? saveData : GenerateNewSaveData();
     }
 
-    public void Save()
+    public virtual void Save()
     {
         SaveData = new SaveData(
             SaveDataVersion,
