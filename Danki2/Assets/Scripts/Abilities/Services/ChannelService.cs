@@ -17,7 +17,7 @@ public class ChannelService : AbilityService, IMovementStatusProvider
 
     public ChannelService(Actor actor, Subject startSubject, Subject lateUpdateSubject) : base(actor)
     {
-        startSubject.Subscribe(Setup);
+        startSubject.Subscribe(() => Setup(actor.IsPlayer));
         lateUpdateSubject.Subscribe(TickChannel);
     }
 
@@ -25,10 +25,10 @@ public class ChannelService : AbilityService, IMovementStatusProvider
 
     public bool Roots() => Active && _currentChannel.EffectOnMovement == ChannelEffectOnMovement.Root;
 
-    private void Setup()
+    private void Setup(bool isPlayer)
     {
         actor.InterruptionManager.Register(
-            InterruptionType.Soft,
+            isPlayer ? InterruptionType.Soft : InterruptionType.Hard,
             CancelChannel,
             InterruptibleFeature.InterruptOnDeath,
             InterruptibleFeature.Repeat
