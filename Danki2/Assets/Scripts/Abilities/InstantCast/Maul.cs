@@ -8,9 +8,6 @@ public class Maul : InstantCast
     private const float BiteRange = 2.5f;
     private const float SlowDuration = 2f;
 
-    private Direction direction = Direction.Left;
-    private int biteCount = 0;
-
     public Maul(Actor owner, AbilityData abilityData, string fmodStartEvent, string fmodEndEvent, string[] availableBonuses)
         : base(owner, abilityData, fmodStartEvent, fmodEndEvent, availableBonuses)
     {
@@ -24,15 +21,13 @@ public class Maul : InstantCast
 
         MaulObject maulObject = MaulObject.Create(Owner.AbilitySource);
 
-        Owner.InterruptibleIntervalAction(BiteInterval, InterruptionType.Hard, () => Bite(castDirection, maulObject), 0f, TotalBiteCount);
+        Owner.InterruptibleIntervalAction(BiteInterval, InterruptionType.Hard, index => Bite(castDirection, index, maulObject), 0f, TotalBiteCount);
     }
 
-    private void Bite(Vector3 castDirection, MaulObject maulObject)
+    private void Bite(Vector3 castDirection, int index, MaulObject maulObject)
     {
-        biteCount++;
-
         Vector3 horizontalDirection = Vector3.Cross(castDirection, Vector3.up).normalized;
-        int directionMultiplier = direction == Direction.Right ? 1 : -1;
+        int directionMultiplier = index % 2 == 1 ? 1 : -1;
         Vector3 randomisedcastDirection = castDirection.normalized + horizontalDirection * 0.25f * directionMultiplier;
 
         Quaternion castRotation = GetMeleeCastRotation(randomisedcastDirection);
@@ -55,13 +50,11 @@ public class Maul : InstantCast
             CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
             SuccessFeedbackSubject.Next(true);
         }
-        else if (biteCount == TotalBiteCount)
+        else if (index == TotalBiteCount)
         {
             SuccessFeedbackSubject.Next(false);
         }
 
         Owner.MovementManager.Pause(BiteInterval);
-
-        direction = direction == Direction.Left ? Direction.Right : Direction.Left;
     }
 }

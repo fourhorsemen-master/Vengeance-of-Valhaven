@@ -30,22 +30,22 @@ public class RingOfDeath : InstantCast
 
         PlayStartEvent();
 
-        for (float i = 0; i < NumberOfKnives; i++)
-        {
-            float angleOffset = KnifeArcAngle * i / NumberOfKnives;
-            Quaternion castRotation = rotation * Quaternion.Euler(Vector3.up * angleOffset);
-
-            Owner.InterruptibleAction(
-                DrawTime + KnifeCastInterval * i,
-                InterruptionType.Hard,
-                () => Throw(castRotation)
-            );    
-        }
+        Owner.InterruptibleIntervalAction(
+            KnifeCastInterval,
+            InterruptionType.Hard,
+            index => Throw(rotation, index),
+            DrawTime,
+            NumberOfKnives
+        );
     }
 
-    private void Throw(Quaternion castRotation)
+    private void Throw(Quaternion rotation, int index)
     {
         PlayEndEvent();
+
+        float angleOffset = KnifeArcAngle * index / NumberOfKnives;
+
+        Quaternion castRotation = rotation * Quaternion.Euler(Vector3.up * angleOffset);
 
         if (HasBonus("Barbed Daggers")) 
         {
