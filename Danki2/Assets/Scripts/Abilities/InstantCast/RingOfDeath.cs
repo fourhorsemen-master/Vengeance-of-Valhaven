@@ -8,6 +8,7 @@ public class RingOfDeath : InstantCast
     private const float KnifeArcAngle = 360f;
     private const float KnifeSpeed = 10f;
     private const float BaseKnifeCastInterval = 0.04f;
+    private const float DrawTime = 0.2f;
 
     private int NumberOfKnives => HasBonus("Double Down") ? DoubleDownNumberOfKnives : BaseNumberOfKnives;
     private float KnifeCastInterval => HasBonus("Double Down") ? BaseKnifeCastInterval / 2 : BaseKnifeCastInterval;
@@ -25,7 +26,9 @@ public class RingOfDeath : InstantCast
 
         Quaternion rotation = Owner.transform.rotation;
 
-        Owner.MovementManager.Pause(KnifeCastInterval * NumberOfKnives);
+        Owner.MovementManager.Pause(DrawTime + KnifeCastInterval * NumberOfKnives);
+
+        PlayStartEvent();
 
         for (float i = 0; i < NumberOfKnives; i++)
         {
@@ -33,7 +36,7 @@ public class RingOfDeath : InstantCast
             Quaternion castRotation = rotation * Quaternion.Euler(Vector3.up * angleOffset);
 
             Owner.InterruptibleAction(
-                KnifeCastInterval * i,
+                DrawTime + KnifeCastInterval * i,
                 InterruptionType.Hard,
                 () => Throw(castRotation)
             );    
@@ -42,7 +45,9 @@ public class RingOfDeath : InstantCast
 
     private void Throw(Quaternion castRotation)
     {
-        if(HasBonus("Barbed Daggers")) 
+        PlayEndEvent();
+
+        if (HasBonus("Barbed Daggers")) 
         {
             BarbedDaggerObject.Fire(Owner, OnCollision, KnifeSpeed, Owner.AbilitySource, castRotation);
         }
