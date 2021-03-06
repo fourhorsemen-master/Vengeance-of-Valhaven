@@ -117,7 +117,7 @@ public abstract class Actor : MonoBehaviour
         );
     }
 
-    public void InterruptibleIntervalAction(float interval, InterruptionType interruptionType, Action action, float startDelay = 0, int? numRepetitions = null)
+    public void InterruptibleIntervalAction(float interval, InterruptionType interruptionType, Action<int> action, float startDelay = 0, int? numRepetitions = null)
     {
         Coroutine coroutine = this.ActOnInterval(interval, action, startDelay, numRepetitions);
 
