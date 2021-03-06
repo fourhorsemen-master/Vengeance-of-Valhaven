@@ -6,12 +6,7 @@ public abstract class Enemy : Actor
 
     public Color? CurrentTelegraph { get; private set; } = null;
 
-    protected override void Start()
-    {
-        base.Start();
-        
-        gameObject.tag = Tags.Enemy;
-    }
+    protected override Tag Tag => Tag.Enemy;
 
     public void StartTelegraph(Color colour) => CurrentTelegraph = colour;
 

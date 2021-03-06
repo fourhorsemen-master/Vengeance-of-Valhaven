@@ -50,13 +50,17 @@ public abstract class Actor : MonoBehaviour
     public bool Dead { get; private set; }
     public Subject DeathSubject { get; } = new Subject();
     public abstract ActorType Type { get; }
+    protected abstract Tag Tag { get; }
 
+    public bool IsPlayer => Tag == Tag.Player;
     public bool CanCast => !Dead && !MovementManager.Stunned && !MovementManager.MovementLocked;
     public float CastableTimeElapsed { get; private set; } = 0f;
 
     protected virtual void Awake()
     {
         gameObject.SetLayerRecursively(Layer.Actors);
+
+        gameObject.SetTag(Tag);
 
         StatsManager = new StatsManager(baseStats);
         EffectManager = new EffectManager(this, updateSubject);

@@ -36,7 +36,7 @@ public class PlayerTargetFinder
             LayerUtils.GetLayerMask(new[] { Layer.Actors })
         );
 
-        if (mouseHitActor && collider.gameObject.CompareTag(Tags.Enemy))
+        if (mouseHitActor && collider.CompareTag(Tag.Enemy))
         {
             Enemy enemy = collider.gameObject.GetComponent<Enemy>();
 
