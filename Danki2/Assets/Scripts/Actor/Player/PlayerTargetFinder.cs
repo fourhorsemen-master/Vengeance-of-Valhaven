@@ -24,7 +24,7 @@ public class PlayerTargetFinder
         if (TryHitEnemy()) return;
         RemoveTarget();
         if (TryHitNavmesh()) return;
-        if (TryHitAnyCollider()) return;
+        // if (TryHitAnyCollider()) return;
         HitPlane();
     }
 
@@ -36,7 +36,9 @@ public class PlayerTargetFinder
             LayerUtils.GetLayerMask(new[] { Layer.Actors })
         );
 
-        if (mouseHitActor && collider.CompareTag(Tag.Enemy))
+        if (!mouseHitActor) return false;
+
+        if (collider.CompareTag(Tag.Enemy))
         {
             Enemy enemy = collider.gameObject.GetComponent<Enemy>();
 
@@ -46,7 +48,9 @@ public class PlayerTargetFinder
             return true;
         }
 
-        return false;
+        // Mouse hit player, so assume ground is flat and hit plane.
+        HitPlane();
+        return true;
     }
 
     private void SetTarget(Enemy enemy)
