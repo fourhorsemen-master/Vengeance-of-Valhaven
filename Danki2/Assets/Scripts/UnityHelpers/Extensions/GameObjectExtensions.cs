@@ -21,4 +21,9 @@ public static class GameObjectExtensions
         component = @object.GetComponent<T>();
         return component != null;
     }
+
+    public static void SetTag(this GameObject @object, Tag tag)
+    {
+        @object.tag = tag.ToString();
+    }
 }

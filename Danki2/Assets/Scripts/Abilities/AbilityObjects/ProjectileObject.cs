@@ -31,7 +31,7 @@ public abstract class ProjectileObject : AbilityObject
         this.speed = speed;
 
         // Every second, destroy projectile if beyond certain distance from player
-        this.ActOnInterval(1, () => {
+        this.ActOnInterval(1, _ => {
             if (transform.DistanceFromPlayer() > MaxDistanceFromPlayer)
             {
                 Destroy(gameObject);
