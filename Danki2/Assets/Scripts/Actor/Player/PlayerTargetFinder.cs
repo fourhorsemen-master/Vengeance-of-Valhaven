@@ -24,7 +24,6 @@ public class PlayerTargetFinder
         if (TryHitEnemy()) return;
         RemoveTarget();
         if (TryHitNavmesh()) return;
-        // if (TryHitAnyCollider()) return;
         HitPlane();
     }
 
@@ -87,14 +86,6 @@ public class PlayerTargetFinder
         if (!mouseHitNavmesh) return false;
 
         SetTargetPositions(floorPosition, offsetPosition);
-        return true;
-    }
-
-    private bool TryHitAnyCollider()
-    {
-        if (!MouseGamePositionFinder.Instance.TryGetCollider(out _, out Vector3 position)) return false;
-
-        SetTargetPositions(position, position);
         return true;
     }
 
