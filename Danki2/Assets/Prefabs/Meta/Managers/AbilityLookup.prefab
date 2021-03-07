@@ -422,10 +422,10 @@ MonoBehaviour:
       finisher: 1
       channelDuration: 0
     - displayName: Execute
-      tooltip: Deal {PRIMARY_DAMAGE} to target enemy plus an additional 3 damage
-        for every 10% of health the enemy is missing.
+      tooltip: Deal {PRIMARY_DAMAGE} to target enemy. Do double damage when the enemy
+        is below 20% health.
       baseAbilityData:
-        primaryDamage: 15
+        primaryDamage: 7
         secondaryDamage: 0
         heal: 0
         shield: 0
@@ -434,9 +434,13 @@ MonoBehaviour:
       abilityBonusLookup:
         _keys:
         - Finishing Touch
+        - Sharpened Edge
         _values:
         - displayName: Finishing Touch
           tooltip: Cause {BLEED|1}.
           requiredTreeDepth: 3
+        - displayName: Sharpened Edge
+          tooltip: Do triple damage when the enemy is below 20% health instead.
+          requiredTreeDepth: 4
       finisher: 1
       channelDuration: 0.5

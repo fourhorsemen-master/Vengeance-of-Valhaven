@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 
-[Ability(AbilityReference.Execute, new[] { "Finishing Touch" })]
+[Ability(AbilityReference.Execute, new[] { "Finishing Touch", "Sharpened Edge" })]
 public class Execute : Cast
 {
     private const float CastRange = 5f;
     private const float PauseDuration = 0.3f;
-    private const float AdditionalDamagePerUnit = 10f; // A value of 10f here would increase the additional damage for every 10% health missing.
-    private const int AdditionalDamageMultiplier = 3; // The amount of additional damage to do per unit missing health.
+    private const float HealthPercentageForAdditionalDamage = 0.2f; // A damage boost will occur below this proportion health.
+    private const int AdditionalDamageMultiplier = 2; // Multiplier to boost damage by.
+    private const int SharpenedEdgeDamageMultiplier = 3;
 
     private readonly Subject onCastFail = new Subject();
     private readonly Subject<Vector3> onCastComplete = new Subject<Vector3>();
@@ -25,6 +26,7 @@ public class Execute : Cast
 
     public override void End(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
+        Owner.MovementManager.LookAt(floorTargetPosition);
         SuccessFeedbackSubject.Next(false);
         onCastFail.Next();
     }
@@ -44,10 +46,19 @@ public class Execute : Cast
 
         onCastComplete.Next(target.transform.position);
 
-        int additionalDamageUnits = Mathf.CeilToInt((1f - target.HealthManager.HealthProportion) * 100f / AdditionalDamagePerUnit);
-        int additionalDamage = additionalDamageUnits * AdditionalDamageMultiplier;
+        int damageMultiplier = 1;
 
-        DealPrimaryDamage(target, additionalDamage);
+        if (target.HealthManager.HealthProportion <= HealthPercentageForAdditionalDamage)
+        {
+            damageMultiplier = AdditionalDamageMultiplier;
+
+            if (HasBonus("Sharpened Edge"))
+            {
+                damageMultiplier = SharpenedEdgeDamageMultiplier;
+            }
+        }
+
+        DealPrimaryDamage(target, 0, damageMultiplier);
         if (HasBonus("Finishing Touch")) target.EffectManager.AddStack(StackingEffect.Bleed);
 
         CustomCamera.Instance.AddShake(ShakeIntensity.High);
