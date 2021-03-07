@@ -1,5 +1,9 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using FMODUnity;
+using System.Linq;
+using FMOD.Studio;
 using UnityEngine;
+using STOP_MODE = FMOD.Studio.STOP_MODE;
 
 public abstract class Ability
 {
@@ -7,6 +11,12 @@ public abstract class Ability
     public const float MaxMeleeVerticalAngle = 30f;
     public const float MinMeleeVerticalAngle = -30f;
 
+    private readonly string fmodStartEvent;
+    private readonly string fmodEndEvent;
+
+    private readonly List<EventInstance> startEventInstances = new List<EventInstance>();
+    private readonly List<EventInstance> endEventInstances = new List<EventInstance>();
+    
     public Subject<bool> SuccessFeedbackSubject { get; }
 
     protected Actor Owner { get; }
@@ -15,10 +25,12 @@ public abstract class Ability
 
     private string[] ActiveBonuses { get; }
 
-    protected Ability(Actor owner, AbilityData abilityData, string[] activeBonuses)
+    protected Ability(Actor owner, AbilityData abilityData, string fmodStartEvent, string fmodEndEvent, string[] activeBonuses)
     {
         Owner = owner;
         AbilityData = abilityData;
+        this.fmodStartEvent = fmodStartEvent;
+        this.fmodEndEvent = fmodEndEvent;
         ActiveBonuses = activeBonuses;
         SuccessFeedbackSubject = new Subject<bool>();
     }
@@ -56,6 +68,30 @@ public abstract class Ability
 
         return Quaternion.Euler(newAngleX, castRotation.eulerAngles.y, castRotation.eulerAngles.z);
     }
+
+    protected void PlayStartEvent()
+    {
+        if (string.IsNullOrEmpty(fmodStartEvent)) return;
+
+        EventInstance eventInstance = RuntimeManager.CreateInstance(fmodStartEvent);
+        startEventInstances.Add(eventInstance);
+        eventInstance.start();
+        eventInstance.release();
+    }
+
+    protected void StopStartEvents() => startEventInstances.ForEach(e => e.stop(STOP_MODE.IMMEDIATE));
+
+    protected void PlayEndEvent()
+    {
+        if (string.IsNullOrEmpty(fmodEndEvent)) return;
+
+        EventInstance eventInstance = RuntimeManager.CreateInstance(fmodEndEvent);
+        endEventInstances.Add(eventInstance);
+        eventInstance.start();
+        eventInstance.release();
+    }
+
+    protected void StopEndEvents() => endEventInstances.ForEach(e => e.stop(STOP_MODE.IMMEDIATE));
 
     private int GetModifiedValue(int baseValue, int linearModifier, int multiplicativeModifier) =>
         (baseValue + linearModifier) * multiplicativeModifier;

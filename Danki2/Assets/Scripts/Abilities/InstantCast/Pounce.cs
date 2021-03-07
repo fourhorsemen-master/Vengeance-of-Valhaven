@@ -10,7 +10,8 @@ public class Pounce : InstantCast
     private const float DamageRadius = 2f;
     private const float PauseDuration = 0.3f;
 
-    public Pounce(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
+    public Pounce(Actor owner, AbilityData abilityData, string fmodStartEvent, string fmodEndEvent, string[] availableBonuses)
+        : base(owner, abilityData, fmodStartEvent, fmodEndEvent, availableBonuses)
     {
     }
 
@@ -38,7 +39,7 @@ public class Pounce : InstantCast
         CollisionTemplateManager.Instance.GetCollidingActors(
             CollisionTemplate.Wedge90,
             DamageRadius,
-            Owner.transform.position,
+            Owner.CollisionTemplateSource,
             Quaternion.LookRotation(Owner.transform.forward)
         ).ForEach(actor =>
         {
@@ -49,7 +50,7 @@ public class Pounce : InstantCast
             }
         });
 
-        BiteObject.Create(Owner.transform);
+        BiteObject.Create(Owner.AbilitySource, Quaternion.LookRotation(Owner.transform.forward));
 
         Owner.MovementManager.Pause(PauseDuration);
         SuccessFeedbackSubject.Next(hasDealtDamage);

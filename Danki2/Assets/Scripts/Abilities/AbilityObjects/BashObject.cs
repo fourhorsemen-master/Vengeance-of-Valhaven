@@ -3,15 +3,12 @@
 public class BashObject : StaticAbilityObject
 {
     [SerializeField]
-    private AudioSource bashSound = null;
-
-    [SerializeField]
     private ModularPFXComponent objectMPFX = null;
 
     [SerializeField]
     private Color successfulHitColour = Color.white;
     
-    public override float StickTime => bashSound.clip.length;
+    public override float StickTime => 5f;
 
     public static void Create(Vector3 position, bool successfulHit)
     {

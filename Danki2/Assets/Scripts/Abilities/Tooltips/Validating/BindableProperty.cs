@@ -6,6 +6,12 @@ public enum BindableProperty
     PrimaryDamage,
     SecondaryDamage,
     Heal,
-    Shield
+    Shield,
+    Stun,
+    Slow,
+    Block,
+    Bleed,
+    Poison,
+    Vulnerable,
     // New bindable properties need a new entry adding in the bindable property lookup
 }

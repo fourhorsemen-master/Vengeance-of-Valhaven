@@ -3,17 +3,19 @@
 [Ability(AbilityReference.FanOfKnives, new [] {"Spray"})]
 public class FanOfKnives : InstantCast
 {
-    private const int baseNumberOfKnives = 3;
-    private const int sprayNumberOfKnives = 5;
-    private const float knifeArcAngle = 45f;
-    private const float knifeSpeed = 10f;
-    private const float knifeCastInterval = 0.07f;
+    private const int BaseNumberOfKnives = 3;
+    private const int SprayNumberOfKnives = 5;
+    private const float KnifeArcAngle = 45f;
+    private const float KnifeSpeed = 10f;
+    private const float DrawTime = 0.2f;
+    private const float KnifeCastInterval = 0.1f;
 
-    private int NumberOfKnives => HasBonus("Spray") ? sprayNumberOfKnives : baseNumberOfKnives;
+    private int NumberOfKnives => HasBonus("Spray") ? SprayNumberOfKnives : BaseNumberOfKnives;
 
     private int collisionCounter = 0;
 
-    public FanOfKnives(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
+    public FanOfKnives(Actor owner, AbilityData abilityData, string fmodStartEvent, string fmodEndEvent, string[] availableBonuses)
+        : base(owner, abilityData, fmodStartEvent, fmodEndEvent, availableBonuses)
     {
     }
 
@@ -21,18 +23,29 @@ public class FanOfKnives : InstantCast
     {
         Quaternion rotation = Quaternion.LookRotation(offsetTargetPosition - Owner.Centre);
 
-        Owner.MovementManager.Pause(knifeCastInterval * NumberOfKnives);
+        Owner.MovementManager.Pause(DrawTime + KnifeCastInterval * NumberOfKnives);
+
+        Owner.MovementManager.LookAt(offsetTargetPosition);
+
+        PlayStartEvent();
 
         for (float i = 0; i < NumberOfKnives; i++)
         {
-            float angleOffset = ((i / (NumberOfKnives - 1)) - 0.5f) * knifeArcAngle;
+            float angleOffset = ((i / (NumberOfKnives - 1)) - 0.5f) * KnifeArcAngle;
             Quaternion castRotation = rotation * Quaternion.Euler(Vector3.up * angleOffset);
 
-            Owner.WaitAndAct(
-                knifeCastInterval * i,
-                () => FanOfKnivesObject.Fire(Owner, OnCollision, knifeSpeed, Owner.Centre, castRotation)
-                );    
+            Owner.InterruptibleAction(
+                KnifeCastInterval * i + DrawTime,
+                InterruptionType.Hard,
+                () => Fire(castRotation)
+            );  
         }
+    }
+
+    private void Fire(Quaternion castRotation)
+    {
+        PlayEndEvent();
+        FanOfKnivesObject.Fire(Owner, OnCollision, KnifeSpeed, Owner.AbilitySource, castRotation);
     }
 
     private void OnCollision(GameObject gameObject)

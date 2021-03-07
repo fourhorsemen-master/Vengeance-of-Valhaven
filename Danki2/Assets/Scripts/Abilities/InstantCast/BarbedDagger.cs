@@ -4,17 +4,35 @@
 public class BarbedDagger : InstantCast
 {
     private const float DaggerSpeed = 20f;
+    private const float DrawTime = 0.2f;
+    private const float PauseTime = 0.2f;
 
-    public BarbedDagger(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
+    public BarbedDagger(Actor owner, AbilityData abilityData, string fmodStartEvent, string fmodEndEvent, string[] availableBonuses)
+        : base(owner, abilityData, fmodStartEvent, fmodEndEvent, availableBonuses)
     {
     }
 
     public override void Cast(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
-        CustomCamera.Instance.AddShake(ShakeIntensity.Low);
+        Owner.MovementManager.Pause(DrawTime + PauseTime);
+
+        Owner.MovementManager.LookAt(offsetTargetPosition);
+
+        PlayStartEvent();
 
         Quaternion rotation = Quaternion.LookRotation(offsetTargetPosition - Owner.Centre);
-        BarbedDaggerObject.Fire(Owner, OnCollision, DaggerSpeed, Owner.Centre, rotation);
+
+        Owner.InterruptibleAction(
+            DrawTime,
+            InterruptionType.Hard,
+            () =>
+            {
+                PlayEndEvent();
+                BarbedDaggerObject.Fire(Owner, OnCollision, DaggerSpeed, Owner.AbilitySource, rotation);
+            }
+        );
+
+        CustomCamera.Instance.AddShake(ShakeIntensity.Low);
     }
 
     private void OnCollision(GameObject gameObject)

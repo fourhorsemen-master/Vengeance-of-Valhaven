@@ -29,7 +29,7 @@ public class PlayerTreeTooltipBuilder
 
     /// <summary>
     /// Builds the tooltip for the specified bonus of a given node returning a list of tooltip segments.
-    /// </summary
+    /// </summary>
     /// <param name="node"> The node to build the tooltip for </param>
     /// <param name="bonus"> The bonus </param>
     /// <returns> The build tooltip segments </returns>
@@ -59,34 +59,31 @@ public class PlayerTreeTooltipBuilder
         AbilityData abilityDataDiff
     )
     {
+        if (TooltipBuilderUtils.CanHandle(templatedTooltipSegment))
+        {
+            return TooltipBuilderUtils.GetTooltipSegment(templatedTooltipSegment);
+        }
+        
         switch (templatedTooltipSegment.Type)
         {
-            case TemplatedTooltipSegmentType.Text:
-                return GetTextSegment(templatedTooltipSegment);
-
             case TemplatedTooltipSegmentType.PrimaryDamage:
-                return GetNumericTooltipSegment(baseAbilityData.PrimaryDamage, abilityDataDiff.PrimaryDamage);
+                return GetNumericSegment(baseAbilityData.PrimaryDamage, abilityDataDiff.PrimaryDamage);
 
             case TemplatedTooltipSegmentType.SecondaryDamage:
-                return GetNumericTooltipSegment(baseAbilityData.SecondaryDamage, abilityDataDiff.SecondaryDamage);
+                return GetNumericSegment(baseAbilityData.SecondaryDamage, abilityDataDiff.SecondaryDamage);
 
             case TemplatedTooltipSegmentType.Heal:
-                return GetNumericTooltipSegment(baseAbilityData.Heal, abilityDataDiff.Heal);
+                return GetNumericSegment(baseAbilityData.Heal, abilityDataDiff.Heal);
 
             case TemplatedTooltipSegmentType.Shield:
-                return GetNumericTooltipSegment(baseAbilityData.Shield, abilityDataDiff.Shield);
+                return GetNumericSegment(baseAbilityData.Shield, abilityDataDiff.Shield);
 
             default:
                 throw new ArgumentOutOfRangeException();
         }
     }
 
-    private TooltipSegment GetTextSegment(TemplatedTooltipSegment templatedTooltipSegment)
-    {
-        return new TooltipSegment(TooltipSegmentType.Text, templatedTooltipSegment.Value);
-    }
-
-    private TooltipSegment GetNumericTooltipSegment(
+    private TooltipSegment GetNumericSegment(
         int baseNumericValue,
         int bonusNumericValue
     )

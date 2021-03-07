@@ -2,9 +2,6 @@
 
 public class Wolf : Enemy
 {
-    [SerializeField]
-    private AudioSource howl = null;
-
     public override ActorType Type => ActorType.Wolf;
 
     public Subject OnHowl { get; } = new Subject();
@@ -32,7 +29,7 @@ public class Wolf : Enemy
 
     public void Howl()
     {
-        howl.Play();
+        // FMOD_TODO: play howl event here
         OnHowl.Next();
     }
 

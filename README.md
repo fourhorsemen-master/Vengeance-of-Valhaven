@@ -10,6 +10,9 @@ The unity verion that should be used is: `2019.4.14f1`.
 
 Blender must be installed for the project to load.
 
+### Fmod
+Danki2 uses FMOD as audio middleware - this is the official user guide https://fmod.com/resources/documentation-unity?version=2.0&page=user-guide.html#using-source-control
+
 ### Smart Merge
 
 To use [Unity Smart Merge](https://docs.unity3d.com/Manual/SmartMerge.html), for resolving merge conflicts in non-code files, you must first check that the file path to your verion of UnityYamlMerge is the same as that in the .gitconfig file (if not then change the file path in the .gitconfig file). Then run the following command:
@@ -37,7 +40,12 @@ Things to be sure to do when making prop prefabs:
   - "Scale Factor" should be so that meshes appear at the correct size when their transforms have scale (1, 1, 1).
 - On the prefab:
   - The name should be the same as the mesh's name, but without the "_mesh" suffix.
-  - There should be an empty parent game object with default transform (can click "Reset" on the menu in the transform).
+  - There should be an empty parent game object with default transform (can click "Reset" on the menu in the transform). The easiest way to achieve this is:
+    - Create an empty game object in scene
+    - Drag the desired model in as a child (and rename the child gameobject to Mesh)
+    - Right click on the child game object and click "Unpack Prefab" to convert it into standard gameobject with no prefab links
+    - Drag the parent game object into the desired prefab location
   - Child game object should also have default transform, but scale can be tweaked if we want to uniformly adjust the proportions.
   - The game object with the mesh should have a "Mesh Filter", a "Mesh Renderer" and a "Mesh Collider" (if collidable).
+  - The game object layer should be set to "Props" (including all children)
   - If the prop should be part of the navmesh, it should have "Navigation Static" selected and an appropriate "Navigation Area".

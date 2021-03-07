@@ -1,11 +1,11 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ChannelService : AbilityService, IMovementStatusProvider
 {
     private Channel _currentChannel;
 
     public Subject<ChannelType> ChannelStartSubject { get; } = new Subject<ChannelType>();
+    public Subject ChannelEndSubject { get; } = new Subject();
     public bool Active { get; private set; } = false;
     public float RemainingDuration { get; private set; }
     public float TotalDuration => _currentChannel.Duration;
@@ -17,7 +17,7 @@ public class ChannelService : AbilityService, IMovementStatusProvider
 
     public ChannelService(Actor actor, Subject startSubject, Subject lateUpdateSubject) : base(actor)
     {
-        startSubject.Subscribe(Setup);
+        startSubject.Subscribe(() => Setup(actor.IsPlayer));
         lateUpdateSubject.Subscribe(TickChannel);
     }
 
@@ -25,10 +25,10 @@ public class ChannelService : AbilityService, IMovementStatusProvider
 
     public bool Roots() => Active && _currentChannel.EffectOnMovement == ChannelEffectOnMovement.Root;
 
-    private void Setup()
+    private void Setup(bool isPlayer)
     {
         actor.InterruptionManager.Register(
-            InterruptionType.Soft,
+            isPlayer ? InterruptionType.Soft : InterruptionType.Hard,
             CancelChannel,
             InterruptibleFeature.InterruptOnDeath,
             InterruptibleFeature.Repeat
@@ -37,7 +37,7 @@ public class ChannelService : AbilityService, IMovementStatusProvider
 
     public bool TryStartChannel(AbilityReference abilityReference)
     {
-        if (!CanCast) return false;
+        if (!actor.CanCast) return false;
 
         if (!AbilityLookup.Instance.TryGetChannel(
             abilityReference,
@@ -83,6 +83,8 @@ public class ChannelService : AbilityService, IMovementStatusProvider
         {
             _currentChannel.Cancel(FloorTargetPosition, OffsetTargetPosition);
         }
+
+        ChannelEndSubject.Next();
 
         StartFeedbackTimer();
     }
@@ -133,6 +135,8 @@ public class ChannelService : AbilityService, IMovementStatusProvider
         {
             _currentChannel.End(FloorTargetPosition, OffsetTargetPosition);
         }
+
+        ChannelEndSubject.Next();
 
         StartFeedbackTimer();
     }

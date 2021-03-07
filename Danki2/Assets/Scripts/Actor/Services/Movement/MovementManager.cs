@@ -19,6 +19,7 @@ public class MovementManager : IMovementStatusProvider
     private readonly Actor actor;
     private readonly NavMeshAgent navMeshAgent;
 
+    private const float WalkSpeedMultiplier = 0.3f;
     private const float DestinationTolerance = 0.5f;
     private const float RotationSmoothing = 0.15f;
 
@@ -40,6 +41,8 @@ public class MovementManager : IMovementStatusProvider
         && !movementStatusManager.Stunned
         && !movementStatusManager.Rooted
         && !movementStatusManager.MovementLocked;
+
+    public MotionType MotionType { get; set; } = MotionType.Run;
 
     public bool IsMoving { get; private set; } = false;
     private bool movedThisFrame = false;
@@ -102,7 +105,8 @@ public class MovementManager : IMovementStatusProvider
     /// Move along the navmesh in the given direction unless rooted, stunned or movement locked.
     /// </summary>
     /// <param name="direction"></param>
-    public void Move(Vector3 direction)
+    /// <param name="speed"> Defaults to the actors speed stat. </param>
+    public void Move(Vector3 direction, float? speed = null)
     {
         if (actor.Dead) return;
 
@@ -118,7 +122,9 @@ public class MovementManager : IMovementStatusProvider
 
         if (Rooted) return;
 
-        navMeshAgent.Move(direction.normalized * (Time.deltaTime * actor.StatsManager.Get(Stat.Speed)));
+        if (speed == null) speed = GetMoveSpeed();
+
+        navMeshAgent.Move(direction.normalized * (Time.deltaTime * speed.Value));
         movedThisFrame = true;
     }
 
@@ -189,6 +195,8 @@ public class MovementManager : IMovementStatusProvider
     {
         if (!movementStatusManager.TryLockMovement(overrideLock, duration)) return false;
 
+        if (overrideLock) actor.InterruptionManager.Interrupt(InterruptionType.Hard);
+
         StopPathfinding();
         movementLockSpeed = speed;
         movementLockDirection = direction.normalized;
@@ -218,7 +226,7 @@ public class MovementManager : IMovementStatusProvider
         IsMoving = movedThisFrame || (navMeshAgent.hasPath && navMeshAgent.velocity.magnitude > 0f);
         movedThisFrame = false;
 
-        navMeshAgent.speed = actor.StatsManager.Get(Stat.Speed);
+        navMeshAgent.speed = GetMoveSpeed();
 
         if (
             watching 
@@ -242,5 +250,14 @@ public class MovementManager : IMovementStatusProvider
             Quaternion desiredRotation = Quaternion.LookRotation(direction);
             actor.transform.rotation = Quaternion.Lerp(actor.transform.rotation, desiredRotation, RotationSmoothing);
         }
+    }
+
+    private float GetMoveSpeed()
+    {
+        float moveSpeed = actor.StatsManager.Get(Stat.Speed);
+
+        return MotionType == MotionType.Run
+            ? moveSpeed
+            : moveSpeed * WalkSpeedMultiplier;
     }
 }

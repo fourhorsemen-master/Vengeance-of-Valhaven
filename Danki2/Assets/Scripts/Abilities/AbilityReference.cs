@@ -17,5 +17,9 @@
     Disengage,
     FanOfKnives,
     Hamstring,
-    Swipe
+    Swipe,
+    Maul,
+    BearCharge,    
+    Cleave,
+    RingOfDeath
 }

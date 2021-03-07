@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public abstract class ProjectileObject : MonoBehaviour
+public abstract class ProjectileObject : AbilityObject
 {
     // Need the new keyword here to show we are overriding the deprecated base collider property.
     [SerializeField]
@@ -31,7 +31,7 @@ public abstract class ProjectileObject : MonoBehaviour
         this.speed = speed;
 
         // Every second, destroy projectile if beyond certain distance from player
-        this.ActOnInterval(1, () => {
+        this.ActOnInterval(1, _ => {
             if (transform.DistanceFromPlayer() > MaxDistanceFromPlayer)
             {
                 Destroy(gameObject);

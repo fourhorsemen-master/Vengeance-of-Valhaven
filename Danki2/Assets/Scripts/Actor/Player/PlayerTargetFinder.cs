@@ -33,10 +33,10 @@ public class PlayerTargetFinder
         bool mouseHitActor = MouseGamePositionFinder.Instance.TryGetCollider(
             out Collider collider,
             out _,
-            Layers.GetLayerMask(new[] { Layers.Actors })
+            LayerUtils.GetLayerMask(new[] { Layer.Actors })
         );
 
-        if (mouseHitActor && collider.gameObject.CompareTag(Tags.Enemy))
+        if (mouseHitActor && collider.CompareTag(Tag.Enemy))
         {
             Enemy enemy = collider.gameObject.GetComponent<Enemy>();
 

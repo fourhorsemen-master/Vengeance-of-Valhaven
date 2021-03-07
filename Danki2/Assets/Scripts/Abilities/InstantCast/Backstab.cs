@@ -3,10 +3,11 @@
 [Ability(AbilityReference.Backstab)]
 public class Backstab : InstantCast
 {
-    private const float Range = 4f;
+    private const float Range = 3f;
     private const float PauseDuration = 0.3f;
 
-    public Backstab(Actor owner, AbilityData abilityData, string[] availableBonuses) : base(owner, abilityData, availableBonuses)
+    public Backstab(Actor owner, AbilityData abilityData, string fmodStartEvent, string fmodEndEvent, string[] availableBonuses)
+        : base(owner, abilityData, fmodStartEvent, fmodEndEvent, availableBonuses)
     {
     }
 
@@ -40,7 +41,6 @@ public class Backstab : InstantCast
         }        
 
         CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
-        backstabObject.PlayHitSound();
     }
 
     private BackstabObject Swing(Vector3 target)
@@ -51,7 +51,7 @@ public class Backstab : InstantCast
         Vector3 castDirection = target - Owner.Centre;
         Quaternion castRotation = GetMeleeCastRotation(castDirection);
 
-        return BackstabObject.Create(Owner.Centre, castRotation);
+        return BackstabObject.Create(Owner.AbilitySource, castRotation);
     }
 
     private bool InRange(Actor target)
