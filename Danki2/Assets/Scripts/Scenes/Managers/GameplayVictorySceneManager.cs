@@ -2,7 +2,7 @@
 
 public class GameplayVictorySceneManager : MonoBehaviour
 {
-    private void Start()
+    public void MainMenu()
     {
         SaveDataManager.Instance.Clear();
         SceneUtils.LoadScene(Scene.GameplayExitScene);
