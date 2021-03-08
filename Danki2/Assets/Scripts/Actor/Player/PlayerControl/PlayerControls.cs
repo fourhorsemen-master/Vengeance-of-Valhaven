@@ -9,11 +9,12 @@ public class PlayerControls : Singleton<PlayerControls>
 
     private void Update()
     {
+        HandleSceneControls();
+
         if (GameplayStateController.Instance.GameplayState == GameplayState.Playing)
         {
             HandleMovement();
             HandleAbilities();
-            HandleSceneControls();
         }
     }
 
