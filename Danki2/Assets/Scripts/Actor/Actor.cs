@@ -56,6 +56,8 @@ public abstract class Actor : MonoBehaviour
 
     protected virtual void Awake()
     {
+        RoomManager.Instance.Register(this);
+        
         gameObject.SetLayerRecursively(Layer.Actors);
 
         StatsManager = new StatsManager(baseStats);

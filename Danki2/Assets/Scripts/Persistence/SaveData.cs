@@ -1,24 +1,83 @@
-﻿using System;
-using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
 
-[Serializable]
 public class SaveData
 {
-    [SerializeField] private int version;
-    [SerializeField] private Scene currentScene;
-    [SerializeField] private int playerHealth;
-    [SerializeField] private SerializableAbilityTree serializableAbilityTree;
-    
-    public int Version { get => version; set => version = value; }
-    public Scene CurrentScene { get => currentScene; set => currentScene = value; }
-    public int PlayerHealth { get => playerHealth; set => playerHealth = value; }
-    public SerializableAbilityTree SerializableAbilityTree { get => serializableAbilityTree; set => serializableAbilityTree = value; }
+    public int Version { get; set; }
 
-    public SaveData(int version, Scene currentScene, int playerHealth, SerializableAbilityTree serializableAbilityTree)
+    public int PlayerHealth { get; set; }
+    public AbilityTree AbilityTree { get; set; }
+
+    public int CurrentSceneId { get; set; }
+    public Dictionary<int, SceneSaveData> SceneSaveDataLookup { get; set; }
+    public Dictionary<int, List<int>> SceneTransitions { get; set; }
+
+    public SerializableSaveData Serialize()
     {
-        this.version = version;
-        this.currentScene = currentScene;
-        this.playerHealth = playerHealth;
-        this.serializableAbilityTree = serializableAbilityTree;
+        return new SerializableSaveData
+        {
+            Version = Version,
+            PlayerHealth = PlayerHealth,
+            SerializableAbilityTree = new SerializableAbilityTree(AbilityTree),
+            CurrentSceneId = CurrentSceneId,
+            SerializableSceneSaveDataList = SceneSaveDataLookup.Values
+                .Select(sceneData => sceneData.Serialize())
+                .ToList(),
+            SerializableSceneTransitions = SceneTransitions.Keys
+                .Select(fromId => new SerializableSceneTransition
+                {
+                    FromId = fromId,
+                    ToIds = SceneTransitions[fromId]
+                })
+                .ToList()
+        };
     }
 }
+
+public class SceneSaveData
+{
+    public int Id { get; set; }
+    public Scene Scene { get; set; }
+    public SceneType SceneType { get; set; }
+    public CombatSceneSaveData CombatSceneSaveData { get; set; }
+
+    public SerializableSceneSaveData Serialize()
+    {
+        return new SerializableSceneSaveData
+        {
+            Id = Id,
+            Scene = Scene,
+            SceneType = SceneType,
+            SerializableCombatSceneSaveData = CombatSceneSaveData?.Serialize()
+        };
+    }
+}
+
+public class CombatSceneSaveData
+{
+    public bool EnemiesCleared { get; set; }
+    public Dictionary<int, ActorType> SpawnerIdToSpawnedActor { get; set; }
+
+    public SerializableCombatSceneSaveData Serialize()
+    {
+        return new SerializableCombatSceneSaveData
+        {
+            EnemiesCleared = EnemiesCleared,
+            SerializableSpawnerSaveDataList = SpawnerIdToSpawnedActor.Keys
+                .Select(spawnerId => new SerializableSpawnerSaveData
+                {
+                    Id = spawnerId,
+                    ActorType = SpawnerIdToSpawnedActor[spawnerId]
+                })
+                .ToList()
+        };
+    }
+}
+
+public enum SceneType
+{
+    Combat,
+    Shop,
+    Victory
+}
+

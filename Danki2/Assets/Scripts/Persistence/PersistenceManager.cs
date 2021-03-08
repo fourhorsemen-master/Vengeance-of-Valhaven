@@ -1,4 +1,6 @@
-﻿public class PersistenceManager : NotDestroyedOnLoadSingleton<PersistenceManager>
+﻿using System.Collections.Generic;
+
+public class PersistenceManager : NotDestroyedOnLoadSingleton<PersistenceManager>
 {
     private const int SaveDataVersion = 1;
     
@@ -18,23 +20,113 @@
 
     public virtual void Save()
     {
-        SaveData = new SaveData(
-            SaveDataVersion,
-            GameplaySceneManager.Instance.CurrentScene,
-            RoomManager.Instance.Player.HealthManager.Health,
-            new SerializableAbilityTree(RoomManager.Instance.Player.AbilityTree)
-        );
+        UpdateSaveData();
         SaveDataManager.Instance.Save(SaveData);
     }
 
+    public virtual void TransitionToNextScene()
+    {
+        if (!GameplaySceneManager.Instance.CanTransition) return;
+        UpdateSaveData();
+        SaveData.CurrentSceneId++;
+        SaveDataManager.Instance.Save(SaveData);
+        SceneUtils.LoadScene(SaveData.SceneSaveDataLookup[SaveData.CurrentSceneId].Scene);
+    }
+
+    private void UpdateSaveData()
+    {
+        SaveData.PlayerHealth = RoomManager.Instance.Player.HealthManager.Health;
+        SaveData.AbilityTree = RoomManager.Instance.Player.AbilityTree;
+
+        SceneSaveData currentSceneSaveData = SaveData.SceneSaveDataLookup[SaveData.CurrentSceneId];
+        if (currentSceneSaveData.SceneType == SceneType.Combat)
+        {
+            CombatSceneSaveData combatSceneSaveData = currentSceneSaveData.CombatSceneSaveData;
+            combatSceneSaveData.EnemiesCleared = CombatRoomManager.Instance.EnemiesCleared;
+        }
+    }
+    
     private SaveData GenerateNewSaveData()
     {
-        AbilityTree abilityTree = AbilityTreeFactory.CreateTree(
-            new EnumDictionary<AbilityReference, int>(3),
-            AbilityTreeFactory.CreateNode(AbilityReference.SweepingStrike),
-            AbilityTreeFactory.CreateNode(AbilityReference.Lunge)
-        );
-        
-        return new SaveData(SaveDataVersion, Scene.GameplayScene1, 100, new SerializableAbilityTree(abilityTree));
+        return new SaveData
+        {
+            Version = SaveDataVersion,
+            PlayerHealth = 100,
+            AbilityTree = AbilityTreeFactory.CreateTree(
+                new EnumDictionary<AbilityReference, int>(3),
+                AbilityTreeFactory.CreateNode(AbilityReference.SweepingStrike),
+                AbilityTreeFactory.CreateNode(AbilityReference.Lunge)
+            ),
+            CurrentSceneId = 0,
+            SceneSaveDataLookup = GenerateNewSceneSaveDataLookup(),
+            SceneTransitions = GenerateNewSceneTransitions()
+        };
+    }
+
+    private Dictionary<int, SceneSaveData> GenerateNewSceneSaveDataLookup()
+    {
+        return new Dictionary<int, SceneSaveData>
+        {
+            [0] =
+                new SceneSaveData
+                {
+                    Id = 0,
+                    Scene = Scene.GameplayScene1,
+                    SceneType = SceneType.Combat,
+                    CombatSceneSaveData = new CombatSceneSaveData
+                    {
+                        EnemiesCleared = false,
+                        SpawnerIdToSpawnedActor = new Dictionary<int, ActorType>
+                        {
+                            [0] = ActorType.Wolf
+                        }
+                    }
+                },
+            [1] = new SceneSaveData
+            {
+                Id = 1,
+                Scene = Scene.GameplayScene2,
+                SceneType = SceneType.Combat,
+                CombatSceneSaveData = new CombatSceneSaveData
+                {
+                    EnemiesCleared = false,
+                    SpawnerIdToSpawnedActor = new Dictionary<int, ActorType>
+                    {
+                        [0] = ActorType.Wolf,
+                        [1] = ActorType.Wolf
+                    }
+                }
+            },
+            [2] = new SceneSaveData
+            {
+                Id = 2,
+                Scene = Scene.GameplayScene3,
+                SceneType = SceneType.Combat,
+                CombatSceneSaveData = new CombatSceneSaveData
+                {
+                    EnemiesCleared = false,
+                    SpawnerIdToSpawnedActor = new Dictionary<int, ActorType>
+                    {
+                        [0] = ActorType.Bear
+                    }
+                }
+            },
+            [3] = new SceneSaveData
+            {
+                Id = 3,
+                Scene = Scene.GameplayVictoryScene,
+                SceneType = SceneType.Victory
+            }
+        };
+    }
+
+    Dictionary<int, List<int>> GenerateNewSceneTransitions()
+    {
+        return new Dictionary<int, List<int>>
+        {
+            [0] = ListUtils.Singleton(1),
+            [1] = ListUtils.Singleton(2),
+            [2] = ListUtils.Singleton(3)
+        };
     }
 }

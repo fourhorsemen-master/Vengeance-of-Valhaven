@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class DevPersistenceManager : PersistenceManager
 {
@@ -19,14 +20,34 @@ public class DevPersistenceManager : PersistenceManager
 
     public override void Save() {}
 
+    public override void TransitionToNextScene() {}
+
     private SaveData GenerateNewSaveData()
     {
-        AbilityTree abilityTree = AbilityTreeFactory.CreateTree(
+        return new SaveData
+        {
+            PlayerHealth = playerHealth,
+            AbilityTree = AbilityTreeFactory.CreateTree(
             new EnumDictionary<AbilityReference, int>(ownedAbilityCount),
             AbilityTreeFactory.CreateNode(leftAbility),
             AbilityTreeFactory.CreateNode(rightAbility)
-        );
-
-        return new SaveData(default, default, playerHealth, new SerializableAbilityTree(abilityTree));
+        ),
+            CurrentSceneId = 0,
+            SceneSaveDataLookup = new Dictionary<int, SceneSaveData>
+            {
+                [0] = new SceneSaveData
+                {
+                    SceneType = SceneType.Combat,
+                    CombatSceneSaveData = new CombatSceneSaveData
+                    {
+                        EnemiesCleared = false,
+                        SpawnerIdToSpawnedActor = new Dictionary<int, ActorType>
+                        {
+                            [0] = ActorType.Wolf
+                        }
+                    }
+                }
+            }
+        };
     }
 }

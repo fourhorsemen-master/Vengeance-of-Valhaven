@@ -42,7 +42,7 @@ public class Player : Actor
     {
         base.Awake();
 
-        AbilityTree = PersistenceManager.Instance.SaveData.SerializableAbilityTree.Deserialize();
+        AbilityTree = PersistenceManager.Instance.SaveData.AbilityTree;
         ComboManager = new ComboManager(this, updateSubject, rollResetsCombo);
         TargetFinder = new PlayerTargetFinder(this, updateSubject);
 
@@ -64,14 +64,6 @@ public class Player : Actor
         base.Start();
         
         gameObject.tag = Tags.Player;
-    }
-
-    // TODO: remove this.
-    protected override void Update()
-    {
-        base.Update();
-
-        if (Input.GetKeyDown(KeyCode.K)) HealthManager.ReceiveDamage(3, this);
     }
 
     public void Roll(Vector3 direction)
