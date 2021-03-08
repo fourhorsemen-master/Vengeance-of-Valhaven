@@ -10,16 +10,21 @@ public class SpawnerEditor : Editor
 
         spawner.id = EditorGUILayout.IntField("ID", spawner.id);
 
+        EditorUtils.Header("Actor prefabs");
+        EditorGUI.indentLevel++;
+
         EnumUtils.ForEach<ActorType>(actorType =>
         {
             spawner.prefabLookup[actorType] = (Actor) EditorGUILayout.ObjectField(
-                $"{actorType.ToString()} prefab",
+                actorType.ToString(),
                 spawner.prefabLookup[actorType],
                 typeof(Actor),
                 false,
                 null
             );
         });
+
+        EditorGUI.indentLevel++;
 
         if (GUI.changed)
         {
