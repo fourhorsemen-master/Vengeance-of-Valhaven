@@ -195,7 +195,7 @@ MonoBehaviour:
       tooltip: Deal {PRIMARY_DAMAGE} damage to enemies in a cone and knockback all
         enemies hit.
       baseAbilityData:
-        primaryDamage: 100
+        primaryDamage: 5
         secondaryDamage: 0
         heal: 0
         shield: 0
@@ -419,4 +419,3 @@ MonoBehaviour:
           tooltip: The knives are barbed, causing {BLEED|1}.
           requiredTreeDepth: 3
       finisher: 1
-      channelDuration: 0
