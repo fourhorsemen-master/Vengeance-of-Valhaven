@@ -1,0 +1,14 @@
+The easiest way to add a dev scene is to copy an existing one. To do this:
+ - Select the scene to copy
+ - Hit ctrl-d to duplicate it
+ - Rename it as DevScene
+ - Drag it into the Scenes/Dev folder
+
+Then in the new scene:
+ - Delete the terrain gameobject which sits in Room/Level
+ - Duplicate the file called {sceneName}_TerrainData from the scene you copied and put it into Scenes/Dev (similar to earlier step)
+ - Drag the new terrain data file into the new scene and place under Room/Level
+ - Reposition the terrain to match the props
+ - Bake the navmesh by going into the Navigation tab and clicking bake
+
+ You should have a duplicated scene (missing textures on the terrain) and you shouldn't have any red lines when you do a 'git status'.
