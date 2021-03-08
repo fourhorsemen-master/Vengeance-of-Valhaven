@@ -5,6 +5,8 @@ using UnityScene = UnityEngine.SceneManagement.Scene;
 public class GameplaySceneTransitionManager : Singleton<GameplaySceneTransitionManager>
 {
     public bool CanTransition { get; private set; } = false;
+    
+    public Subject CanTransitionSubject { get; } = new Subject();
 
     private readonly Dictionary<Subject, bool> canTransitionSubjects = new Dictionary<Subject, bool>();
 
@@ -14,7 +16,11 @@ public class GameplaySceneTransitionManager : Singleton<GameplaySceneTransitionM
         canTransitionSubject.Subscribe(() =>
         {
             canTransitionSubjects[canTransitionSubject] = true;
-            if (canTransitionSubjects.Values.All(c => c)) CanTransition = true;
+            if (canTransitionSubjects.Values.All(c => c))
+            {
+                CanTransition = true;
+                CanTransitionSubject.Next();
+            }
         });
     }
 }

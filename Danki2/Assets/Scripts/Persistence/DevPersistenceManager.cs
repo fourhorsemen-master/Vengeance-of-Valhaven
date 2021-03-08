@@ -20,7 +20,7 @@ public class DevPersistenceManager : PersistenceManager
 
     public override void Save() {}
 
-    public override void TransitionToNextScene() {}
+    public override void TransitionToNextScene(int nextSceneId) {}
 
     public override void TransitionToDefeatScene() {}
 
@@ -37,13 +37,16 @@ public class DevPersistenceManager : PersistenceManager
             CurrentSceneId = 0,
             SceneSaveDataLookup = new Dictionary<int, SceneSaveData>
             {
-                [0] = new SceneSaveData
                 {
-                    SceneType = SceneType.Combat,
-                    CombatSceneSaveData = new CombatSceneSaveData
+                    0,
+                    new SceneSaveData
                     {
-                        EnemiesCleared = false,
-                        SpawnerIdToSpawnedActor = new Dictionary<int, ActorType>()
+                        SceneType = SceneType.Combat,
+                        CombatSceneSaveData = new CombatSceneSaveData
+                        {
+                            EnemiesCleared = false,
+                            SpawnerIdToSpawnedActor = new Dictionary<int, ActorType>()
+                        }
                     }
                 }
             }

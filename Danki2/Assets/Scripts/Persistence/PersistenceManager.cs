@@ -1,4 +1,6 @@
-﻿public class PersistenceManager : NotDestroyedOnLoadSingleton<PersistenceManager>
+﻿using System.Linq;
+
+public class PersistenceManager : NotDestroyedOnLoadSingleton<PersistenceManager>
 {
     public virtual SaveData SaveData { get; private set; }
 
@@ -20,11 +22,13 @@
         SaveDataManager.Instance.Save(SaveData);
     }
 
-    public virtual void TransitionToNextScene()
+    public virtual void TransitionToNextScene(int nextSceneId)
     {
         if (!GameplaySceneTransitionManager.Instance.CanTransition) return;
+        if (!SaveData.SceneTransitions[SaveData.CurrentSceneId].Contains(nextSceneId)) return;
+
         UpdateSaveData();
-        SaveData.CurrentSceneId++;
+        SaveData.CurrentSceneId = nextSceneId;
         SaveDataManager.Instance.Save(SaveData);
         SceneUtils.LoadScene(SaveData.SceneSaveDataLookup[SaveData.CurrentSceneId].Scene);
     }

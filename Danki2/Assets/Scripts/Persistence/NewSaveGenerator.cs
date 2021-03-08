@@ -16,7 +16,7 @@ public static class NewSaveGenerator
                 AbilityTreeFactory.CreateNode(AbilityReference.Lunge)
             ),
             CurrentSceneId = 0,
-            DefeatSceneId = 4,
+            DefeatSceneId = 5,
             SceneSaveDataLookup = GenerateNewSceneSaveDataLookup(),
             SceneTransitions = GenerateNewSceneTransitions()
         };
@@ -40,6 +40,11 @@ public static class NewSaveGenerator
                         {
                             [0] = ActorType.Wolf
                         }
+                    },
+                    SceneTransitionerIdToNextSceneId = new Dictionary<int, int>
+                    {
+                        [0] = 1,
+                        [1] = 2
                     }
                 }
             },
@@ -55,9 +60,12 @@ public static class NewSaveGenerator
                         EnemiesCleared = false,
                         SpawnerIdToSpawnedActor = new Dictionary<int, ActorType>
                         {
-                            [0] = ActorType.Wolf,
-                            [1] = ActorType.Wolf
+                            [0] = ActorType.Wolf
                         }
+                    },
+                    SceneTransitionerIdToNextSceneId = new Dictionary<int, int>
+                    {
+                        [0] = 3
                     }
                 }
             },
@@ -66,6 +74,28 @@ public static class NewSaveGenerator
                 new SceneSaveData
                 {
                     Id = 2,
+                    Scene = Scene.GameplayScene2,
+                    SceneType = SceneType.Combat,
+                    CombatSceneSaveData = new CombatSceneSaveData
+                    {
+                        EnemiesCleared = false,
+                        SpawnerIdToSpawnedActor = new Dictionary<int, ActorType>
+                        {
+                            [0] = ActorType.Wolf,
+                            [1] = ActorType.Wolf
+                        }
+                    },
+                    SceneTransitionerIdToNextSceneId = new Dictionary<int, int>
+                    {
+                        [0] = 3
+                    }
+                }
+            },
+            {
+                3,
+                new SceneSaveData
+                {
+                    Id = 3,
                     Scene = Scene.GameplayScene3,
                     SceneType = SceneType.Combat,
                     CombatSceneSaveData = new CombatSceneSaveData
@@ -75,16 +105,11 @@ public static class NewSaveGenerator
                         {
                             [0] = ActorType.Bear
                         }
+                    },
+                    SceneTransitionerIdToNextSceneId = new Dictionary<int, int>
+                    {
+                        [0] = 4
                     }
-                }
-            },
-            {
-                3,
-                new SceneSaveData
-                {
-                    Id = 3,
-                    Scene = Scene.GameplayVictoryScene,
-                    SceneType = SceneType.Victory
                 }
             },
             {
@@ -92,6 +117,15 @@ public static class NewSaveGenerator
                 new SceneSaveData
                 {
                     Id = 4,
+                    Scene = Scene.GameplayVictoryScene,
+                    SceneType = SceneType.Victory
+                }
+            },
+            {
+                5,
+                new SceneSaveData
+                {
+                    Id = 5,
                     Scene = Scene.GameplayDefeatScene,
                     SceneType = SceneType.Defeat
                 }
@@ -103,9 +137,10 @@ public static class NewSaveGenerator
     {
         return new Dictionary<int, List<int>>
         {
-            {0, ListUtils.Singleton(1)},
-            {1, ListUtils.Singleton(2)},
-            {2, ListUtils.Singleton(3)}
+            {0, new List<int> {1, 2}},
+            {1, new List<int> {3}},
+            {2, new List<int> {3}},
+            {3, new List<int> {4}}
         };
     }
 }
