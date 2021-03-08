@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-public class CombatRoomManager : Singleton<CombatRoomManager>
+public class CombatSceneManager : Singleton<CombatSceneManager>
 {
     public bool EnemiesCleared { get; private set; } = false;
     

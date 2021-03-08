@@ -42,7 +42,7 @@ public class PersistenceManager : NotDestroyedOnLoadSingleton<PersistenceManager
         if (currentSceneSaveData.SceneType == SceneType.Combat)
         {
             CombatSceneSaveData combatSceneSaveData = currentSceneSaveData.CombatSceneSaveData;
-            combatSceneSaveData.EnemiesCleared = CombatRoomManager.Instance.EnemiesCleared;
+            combatSceneSaveData.EnemiesCleared = CombatSceneManager.Instance.EnemiesCleared;
         }
     }
     
