@@ -15,7 +15,7 @@ public class CombatRoomManager : Singleton<CombatRoomManager>
         CombatSceneSaveData combatSceneSaveData = sceneSaveData.CombatSceneSaveData;
 
         Subject roomClearedSubject = new Subject();
-        GameplaySceneManager.Instance.RegisterCanTransitionSubject(roomClearedSubject);
+        GameplaySceneTransitionManager.Instance.RegisterCanTransitionSubject(roomClearedSubject);
 
         if (combatSceneSaveData.EnemiesCleared)
         {

@@ -13,6 +13,7 @@ public class PlayerControls : Singleton<PlayerControls>
         {
             HandleMovement();
             HandleAbilities();
+            HandleSceneControls();
         }
     }
 
@@ -45,5 +46,15 @@ public class PlayerControls : Singleton<PlayerControls>
         ActionControlState = left
             ? (right ? ActionControlState.Both : ActionControlState.Left)
             : (right ? ActionControlState.Right : ActionControlState.None);
+    }
+
+    
+    // TODO: hook up to menu system.
+    private void HandleSceneControls()
+    {
+        // When the next scene is picked to transition to.
+        if (Input.GetKeyDown(KeyCode.Alpha1)) PersistenceManager.Instance.TransitionToNextScene();
+        // When the player quits.
+        if (Input.GetKeyDown(KeyCode.Escape)) SceneUtils.LoadScene(Scene.GameplayExitScene);
     }
 }

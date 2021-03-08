@@ -26,7 +26,7 @@ public class PersistenceManager : NotDestroyedOnLoadSingleton<PersistenceManager
 
     public virtual void TransitionToNextScene()
     {
-        if (!GameplaySceneManager.Instance.CanTransition) return;
+        if (!GameplaySceneTransitionManager.Instance.CanTransition) return;
         UpdateSaveData();
         SaveData.CurrentSceneId++;
         SaveDataManager.Instance.Save(SaveData);
