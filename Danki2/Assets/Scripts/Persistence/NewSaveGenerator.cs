@@ -12,7 +12,7 @@ public static class NewSaveGenerator
         return new SaveData
         {
             Version = SaveDataVersion,
-            PlayerHealth = 100,
+            PlayerHealth = 20,
             AbilityTree = AbilityTreeFactory.CreateTree(
                 new EnumDictionary<AbilityReference, int>(3),
                 AbilityTreeFactory.CreateNode(AbilityReference.SweepingStrike),
