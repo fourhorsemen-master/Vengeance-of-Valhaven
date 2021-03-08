@@ -26,7 +26,6 @@ public class Player : Actor
     public float LongCooldown => longCooldown;
     public float ComboTimeout => comboTimeout;
 
-
     // Services
     public AbilityTree AbilityTree { get; private set; }
     public ComboManager ComboManager { get; private set; }
@@ -37,6 +36,8 @@ public class Player : Actor
     public Subject<bool> AbilityFeedbackSubject { get; } = new Subject<bool>();
 
     public FeedbackStatus FeedbackSinceLastCast { get; private set; } = FeedbackStatus.Waiting;
+
+    protected override Tag Tag => Tag.Player;
 
     protected override void Awake()
     {
@@ -57,13 +58,6 @@ public class Player : Actor
         ComboManager.SubscribeToStateEntry(ComboState.ReadyInCombo, () => FeedbackSinceLastCast = FeedbackStatus.Waiting);
 
         SetAbilityBonusCalculator(new AbilityBonusTreeDepthCalculator(AbilityTree));
-    }
-
-    protected override void Start()
-    {
-        base.Start();
-        
-        gameObject.tag = Tags.Player;
     }
 
     public void Roll(Vector3 direction)

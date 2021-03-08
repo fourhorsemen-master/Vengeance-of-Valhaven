@@ -14,7 +14,7 @@ public static class MonoBehaviourExtensions
         return monoBehaviour.StartCoroutine(DelayedAction(waitTime, action));
     }
 
-    public static Coroutine ActOnInterval(this MonoBehaviour monoBehaviour, float interval, Action action, float startDelay = 0f, int? numRepetitions = null)
+    public static Coroutine ActOnInterval(this MonoBehaviour monoBehaviour, float interval, Action<int> action, float startDelay = 0f, int? numRepetitions = null)
     {
         if (numRepetitions == null)
         {
@@ -33,25 +33,28 @@ public static class MonoBehaviourExtensions
         action();
     }
 
-    private static IEnumerator IntervalAction(float interval, Action action, float startDelay)
+    /// <summary>
+    /// Invokes an action on an interval.
+    /// </summary>
+    /// <param name="interval">Time between each invocation.</param>
+    /// <param name="action">The action to perform. Takes it's 0-based index as a parameter.</param>
+    /// <param name="startDelay">Delay before first invocation.</param>
+    /// <param name="numRepetitions">Optional. Limits the number of repetitions.</param>
+    /// <returns></returns>
+    private static IEnumerator IntervalAction(float interval, Action<int> action, float startDelay, int? numRepetitions = null)
     {
         yield return new WaitForSeconds(startDelay);
+
+        int counter = 0;
 
         while(true)
         {
-            action();
+            action(counter);
             yield return new WaitForSeconds(interval);
-        }
-    }
 
-    private static IEnumerator IntervalAction(float interval, Action action, float startDelay, int numRepetitions)
-    {
-        yield return new WaitForSeconds(startDelay);
+            counter ++;
 
-        for (int i = 0; i < numRepetitions; i++)
-        {
-            action();
-            yield return new WaitForSeconds(interval);
+            if (numRepetitions.HasValue && counter == numRepetitions) break;
         }
     }
 }

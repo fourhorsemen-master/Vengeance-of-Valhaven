@@ -50,7 +50,9 @@ public abstract class Actor : MonoBehaviour
     public bool Dead { get; private set; }
     public Subject DeathSubject { get; } = new Subject();
     public abstract ActorType Type { get; }
+    protected abstract Tag Tag { get; }
 
+    public bool IsPlayer => Tag == Tag.Player;
     public bool CanCast => !Dead && !MovementManager.Stunned && !MovementManager.MovementLocked;
     public float CastableTimeElapsed { get; private set; } = 0f;
 
@@ -59,6 +61,8 @@ public abstract class Actor : MonoBehaviour
         ActorCache.Instance.Register(this);
         
         gameObject.SetLayerRecursively(Layer.Actors);
+
+        gameObject.SetTag(Tag);
 
         StatsManager = new StatsManager(baseStats);
         EffectManager = new EffectManager(this, updateSubject);
@@ -115,7 +119,7 @@ public abstract class Actor : MonoBehaviour
         );
     }
 
-    public void InterruptibleIntervalAction(float interval, InterruptionType interruptionType, Action action, float startDelay = 0, int? numRepetitions = null)
+    public void InterruptibleIntervalAction(float interval, InterruptionType interruptionType, Action<int> action, float startDelay = 0, int? numRepetitions = null)
     {
         Coroutine coroutine = this.ActOnInterval(interval, action, startDelay, numRepetitions);
 
