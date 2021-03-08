@@ -141,8 +141,6 @@ public abstract class Actor : MonoBehaviour
 
     protected virtual void OnDeath()
     {
-        Debug.Log($"{tag} died");
-
         DeathSubject.Next();
         Dead = true;
     }

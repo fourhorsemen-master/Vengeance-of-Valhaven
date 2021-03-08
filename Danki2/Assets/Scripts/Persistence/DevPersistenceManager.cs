@@ -41,10 +41,7 @@ public class DevPersistenceManager : PersistenceManager
                     CombatSceneSaveData = new CombatSceneSaveData
                     {
                         EnemiesCleared = false,
-                        SpawnerIdToSpawnedActor = new Dictionary<int, ActorType>
-                        {
-                            [0] = ActorType.Wolf
-                        }
+                        SpawnerIdToSpawnedActor = new Dictionary<int, ActorType>()
                     }
                 }
             }

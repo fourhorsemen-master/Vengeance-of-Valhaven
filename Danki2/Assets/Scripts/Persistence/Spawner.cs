@@ -2,9 +2,9 @@
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField] private int id;
-    [SerializeField] private Wolf wolfPrefab;
-    [SerializeField] private Bear bearPrefab;
+    [SerializeField] private int id = 0;
+    [SerializeField] private Wolf wolfPrefab = null;
+    [SerializeField] private Bear bearPrefab = null;
 
     public int Id => id;
     
