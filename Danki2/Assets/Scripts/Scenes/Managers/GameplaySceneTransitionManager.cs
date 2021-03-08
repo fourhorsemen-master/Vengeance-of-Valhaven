@@ -9,9 +9,8 @@ using UnityScene = UnityEngine.SceneManagement.Scene;
 /// </summary>
 public class GameplaySceneTransitionManager : Singleton<GameplaySceneTransitionManager>
 {
-    public bool CanTransition { get; private set; } = false;
-    
-    public Subject CanTransitionSubject { get; } = new Subject();
+    public BehaviourSubject<bool> CanTransitionSubject { get; } = new BehaviourSubject<bool>(false);
+    public bool CanTransition => CanTransitionSubject.Value;
 
     private readonly Dictionary<Subject, bool> canTransitionSubjects = new Dictionary<Subject, bool>();
 
@@ -21,11 +20,7 @@ public class GameplaySceneTransitionManager : Singleton<GameplaySceneTransitionM
         canTransitionSubject.Subscribe(() =>
         {
             canTransitionSubjects[canTransitionSubject] = true;
-            if (canTransitionSubjects.Values.All(c => c))
-            {
-                CanTransition = true;
-                CanTransitionSubject.Next();
-            }
+            if (canTransitionSubjects.Values.All(c => c)) CanTransitionSubject.Next(true);
         });
     }
 }

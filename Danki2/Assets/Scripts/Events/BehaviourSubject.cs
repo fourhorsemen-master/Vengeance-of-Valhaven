@@ -11,6 +11,8 @@ public class BehaviourSubject<T> : IObservable<T>
 
     private readonly List<Subscription<T>> subscriptions = new List<Subscription<T>>();
 
+    public T Value => currentValue;
+
     public BehaviourSubject(T initialValue)
     {
         currentValue = initialValue;

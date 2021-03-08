@@ -11,7 +11,7 @@ public class SceneTransitioner : MonoBehaviour
     private void Start()
     {
         pointLight.color = color;
-        GameplaySceneTransitionManager.Instance.CanTransitionSubject.Subscribe(() => pointLight.enabled = true);
+        GameplaySceneTransitionManager.Instance.CanTransitionSubject.Subscribe(HandleCanTransitionSubject);
     }
 
     private void Update()
@@ -23,5 +23,10 @@ public class SceneTransitioner : MonoBehaviour
         SceneSaveData sceneSaveData = PersistenceManager.Instance.SaveData.SceneSaveDataLookup[currentSceneId];
         int nextSceneId = sceneSaveData.SceneTransitionerIdToNextSceneId[id];
         PersistenceManager.Instance.TransitionToNextScene(nextSceneId);
+    }
+
+    private void HandleCanTransitionSubject(bool canTransition)
+    {
+        if (canTransition) pointLight.enabled = true;
     }
 }
