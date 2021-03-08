@@ -4,6 +4,9 @@ public static class NewSaveGenerator
 {
     private const int SaveDataVersion = 1;
 
+    /// <summary>
+    /// Generates a new save data object which can be used to start a new game.
+    /// </summary>
     public static SaveData Generate()
     {
         return new SaveData

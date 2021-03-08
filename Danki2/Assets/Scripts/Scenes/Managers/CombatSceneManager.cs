@@ -1,6 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
+/// <summary>
+/// Handles combat scenes. If we are not in a combat scene, then this class does nothing.
+///
+/// Spawns enemies at the correct spawners and marks the room as completed once all enemies are defeated.
+/// </summary>
 public class CombatSceneManager : Singleton<CombatSceneManager>
 {
     public bool EnemiesCleared { get; private set; } = false;

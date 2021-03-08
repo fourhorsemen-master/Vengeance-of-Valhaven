@@ -1,6 +1,13 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This class is only to be used for dev purposes and should not be active in a real build.
+///
+/// This manager can be enabled in scene so that scenes can be worked on individually without coming in through
+/// the gameplay entry scene. This class overrides the methods of the real persistence manager and just returns
+/// mock data that is enough for a scene to work when running in isolation.
+/// </summary>
 public class DevPersistenceManager : PersistenceManager
 {
     [SerializeField] private int ownedAbilityCount = 0;

@@ -17,13 +17,11 @@ public class SceneTransitioner : MonoBehaviour
     private void Update()
     {
         if (!GameplaySceneTransitionManager.Instance.CanTransition) return;
+        if (transform.DistanceFromPlayer() > TransitionDistance) return;
 
-        if (transform.DistanceFromPlayer() <= TransitionDistance)
-        {
-            int currentSceneId = PersistenceManager.Instance.SaveData.CurrentSceneId;
-            SceneSaveData sceneSaveData = PersistenceManager.Instance.SaveData.SceneSaveDataLookup[currentSceneId];
-            int nextSceneId = sceneSaveData.SceneTransitionerIdToNextSceneId[id];
-            PersistenceManager.Instance.TransitionToNextScene(nextSceneId);
-        }
+        int currentSceneId = PersistenceManager.Instance.SaveData.CurrentSceneId;
+        SceneSaveData sceneSaveData = PersistenceManager.Instance.SaveData.SceneSaveDataLookup[currentSceneId];
+        int nextSceneId = sceneSaveData.SceneTransitionerIdToNextSceneId[id];
+        PersistenceManager.Instance.TransitionToNextScene(nextSceneId);
     }
 }

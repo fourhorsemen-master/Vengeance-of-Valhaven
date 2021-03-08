@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Serializable version of the ability tree. This works by turning the nodes of the ability tree into a flat list
+/// of nodes that know about their child node ids, rather than storing a reference to the actual node itself.
+/// </summary>
 [Serializable]
 public class SerializableAbilityTree
 {
