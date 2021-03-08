@@ -9,7 +9,7 @@ public class PlayerControls : Singleton<PlayerControls>
 
     private void Update()
     {
-        if (GameStateController.Instance.GameState == GameState.Playing)
+        if (GameplayStateController.Instance.GameplayState == GameplayState.Playing)
         {
             HandleMovement();
             HandleAbilities();
