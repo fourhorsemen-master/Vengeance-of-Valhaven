@@ -23,8 +23,7 @@ public class CombatSceneManager : Singleton<CombatSceneManager>
             return;
         }
 
-        Dictionary<int, Spawner> spawnerLookup = FindObjectsOfType<Spawner>()
-            .ToDictionary(s => s.Id);
+        Dictionary<int, Spawner> spawnerLookup = FindObjectsOfType<Spawner>().ToDictionary(s => s.Id);
 
         List<Actor> enemies = new List<Actor>();
         foreach (int spawnerId in combatSceneSaveData.SpawnerIdToSpawnedActor.Keys)
