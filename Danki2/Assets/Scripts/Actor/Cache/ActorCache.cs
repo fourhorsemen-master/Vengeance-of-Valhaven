@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class RoomManager : Singleton<RoomManager>
+public class ActorCache : Singleton<ActorCache>
 {
-    public List<ActorCacheItem> ActorCache { get; } = new List<ActorCacheItem>();
+    public List<ActorCacheItem> Cache { get; } = new List<ActorCacheItem>();
     public Player Player { get; private set; }
 
     public bool TryGetActor(GameObject gameObject, out Actor actor)
     {
-        foreach(ActorCacheItem item in ActorCache)
+        foreach(ActorCacheItem item in Cache)
         {
             if (item.Actor.gameObject.MatchesId(gameObject))
             {
@@ -48,7 +48,7 @@ public class RoomManager : Singleton<RoomManager>
         }
 
         ActorCacheItem actorCacheItem = new ActorCacheItem(actor, collider);
-        ActorCache.Add(actorCacheItem);
-        actorCacheItem.Actor.DeathSubject.Subscribe(() => ActorCache.Remove(actorCacheItem));
+        Cache.Add(actorCacheItem);
+        actorCacheItem.Actor.DeathSubject.Subscribe(() => Cache.Remove(actorCacheItem));
     }
 }

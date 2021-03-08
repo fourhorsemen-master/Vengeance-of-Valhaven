@@ -17,7 +17,7 @@ public class AbilityListDisplay : MonoBehaviour
 
     public void Initialise()
     {
-        player = RoomManager.Instance.Player;
+        player = ActorCache.Instance.Player;
 
         AbilityTreeEditorMenu.Instance.ListAbilityDragStopSubject.Subscribe(_ => PopulateAbilityList());
         AbilityTreeEditorMenu.Instance.TreeAbilityDragStopSubject.Subscribe(PopulateAbilityList);

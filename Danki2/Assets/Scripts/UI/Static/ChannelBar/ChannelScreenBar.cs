@@ -12,7 +12,7 @@ public class ChannelScreenBar : MonoBehaviour
 
     private void Start()
     {
-        player = RoomManager.Instance.Player;
+        player = ActorCache.Instance.Player;
         channelService = player.ChannelService;
         channelService.ChannelStartSubject.Subscribe(channelType =>
             channelBar.color = barColourLookup[channelType]

@@ -35,8 +35,8 @@ public class PersistenceManager : NotDestroyedOnLoadSingleton<PersistenceManager
 
     private void UpdateSaveData()
     {
-        SaveData.PlayerHealth = RoomManager.Instance.Player.HealthManager.Health;
-        SaveData.AbilityTree = RoomManager.Instance.Player.AbilityTree;
+        SaveData.PlayerHealth = ActorCache.Instance.Player.HealthManager.Health;
+        SaveData.AbilityTree = ActorCache.Instance.Player.AbilityTree;
 
         SceneSaveData currentSceneSaveData = SaveData.SceneSaveDataLookup[SaveData.CurrentSceneId];
         if (currentSceneSaveData.SceneType == SceneType.Combat)

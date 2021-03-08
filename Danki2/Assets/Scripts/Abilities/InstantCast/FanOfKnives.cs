@@ -52,7 +52,7 @@ public class FanOfKnives : InstantCast
     {
         collisionCounter++; // counter to provide failure feedback early if all knives miss.
 
-        if (RoomManager.Instance.TryGetActor(gameObject, out Actor actor))
+        if (ActorCache.Instance.TryGetActor(gameObject, out Actor actor))
         {
             if (actor.Opposes(Owner))
             {

@@ -20,7 +20,7 @@ public class BarbedDagger : InstantCast
 
     private void OnCollision(GameObject gameObject)
     {
-        if (RoomManager.Instance.TryGetActor(gameObject, out Actor actor))
+        if (ActorCache.Instance.TryGetActor(gameObject, out Actor actor))
         {
             if (!actor.Opposes(Owner))
             {

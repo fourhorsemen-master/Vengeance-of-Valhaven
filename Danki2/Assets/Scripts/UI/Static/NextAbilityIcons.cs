@@ -32,7 +32,7 @@ public class NextAbilityIcons : MonoBehaviour
 
     private void Start()
     {
-        player = RoomManager.Instance.Player;
+        player = ActorCache.Instance.Player;
 
         RefreshAbilityIcons();
         DisplayCooldown(0);

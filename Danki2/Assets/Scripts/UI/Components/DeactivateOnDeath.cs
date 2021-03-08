@@ -14,7 +14,7 @@ public class DeactivateOnDeath : MonoBehaviour
         }
         
         Subject deathSubject = usePlayer
-            ? RoomManager.Instance.Player.DeathSubject
+            ? ActorCache.Instance.Player.DeathSubject
             : actor.DeathSubject;
 
         deathSubject.Subscribe(Deactivate);
