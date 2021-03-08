@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 940633970527979516}
-  - component: {fileID: 6736284647516398690}
+  - component: {fileID: 6236960375776668744}
   m_Layer: 0
   m_Name: Spawner
   m_TagString: Untagged
@@ -31,7 +31,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6736284647516398690
+--- !u!114 &6236960375776668744
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -40,10 +40,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 372357615792900388}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 951d0f1be4fd4bc4aa2ca202a9c5b2d5, type: 3}
+  m_Script: {fileID: 11500000, guid: cf566381728e03b4ba516d9301067fc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wolfPrefab: {fileID: -1347520900970919038, guid: 8260e327074f77341b478fa6713a9540,
-    type: 3}
-  bearPrefab: {fileID: 5616573760960498849, guid: 3cde52fe7ef31aa4fab0657f2ece06cc,
-    type: 3}
+  id: 0
+  prefabLookup:
+    _keys:
+    - Player
+    - Wolf
+    - Bear
+    _values:
+    - {fileID: -5201030127241623248, guid: 79ac0796178cdea4bb5cbf3704b54d4a, type: 3}
+    - {fileID: -1347520900970919038, guid: 8260e327074f77341b478fa6713a9540, type: 3}
+    - {fileID: 5616573760960498849, guid: 3cde52fe7ef31aa4fab0657f2ece06cc, type: 3}
