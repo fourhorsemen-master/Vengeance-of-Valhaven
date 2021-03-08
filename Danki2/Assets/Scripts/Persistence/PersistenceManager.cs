@@ -29,6 +29,14 @@
         SceneUtils.LoadScene(SaveData.SceneSaveDataLookup[SaveData.CurrentSceneId].Scene);
     }
 
+    public virtual void TransitionToDefeatScene()
+    {
+        UpdateSaveData();
+        SaveData.CurrentSceneId = SaveData.DefeatSceneId;
+        SaveDataManager.Instance.Save(SaveData);
+        SceneUtils.LoadScene(SaveData.SceneSaveDataLookup[SaveData.DefeatSceneId].Scene);
+    }
+
     private void UpdateSaveData()
     {
         SaveData.PlayerHealth = ActorCache.Instance.Player.HealthManager.Health;

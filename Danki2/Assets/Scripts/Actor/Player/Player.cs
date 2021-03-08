@@ -90,4 +90,10 @@ public class Player : Actor
     }
 
     public void PlayWhiffSound() => RuntimeManager.PlayOneShot(whiffEvent);
+
+    protected override void OnDeath()
+    {
+        base.OnDeath();
+        PersistenceManager.Instance.TransitionToDefeatScene();
+    }
 }

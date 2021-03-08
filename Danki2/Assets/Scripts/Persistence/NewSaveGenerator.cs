@@ -16,6 +16,7 @@ public static class NewSaveGenerator
                 AbilityTreeFactory.CreateNode(AbilityReference.Lunge)
             ),
             CurrentSceneId = 0,
+            DefeatSceneId = 4,
             SceneSaveDataLookup = GenerateNewSceneSaveDataLookup(),
             SceneTransitions = GenerateNewSceneTransitions()
         };
@@ -25,7 +26,8 @@ public static class NewSaveGenerator
     {
         return new Dictionary<int, SceneSaveData>
         {
-            [0] =
+            {
+                0,
                 new SceneSaveData
                 {
                     Id = 0,
@@ -39,41 +41,60 @@ public static class NewSaveGenerator
                             [0] = ActorType.Wolf
                         }
                     }
-                },
-            [1] = new SceneSaveData
+                }
+            },
             {
-                Id = 1,
-                Scene = Scene.GameplayScene2,
-                SceneType = SceneType.Combat,
-                CombatSceneSaveData = new CombatSceneSaveData
+                1,
+                new SceneSaveData
                 {
-                    EnemiesCleared = false,
-                    SpawnerIdToSpawnedActor = new Dictionary<int, ActorType>
+                    Id = 1,
+                    Scene = Scene.GameplayScene2,
+                    SceneType = SceneType.Combat,
+                    CombatSceneSaveData = new CombatSceneSaveData
                     {
-                        [0] = ActorType.Wolf,
-                        [1] = ActorType.Wolf
+                        EnemiesCleared = false,
+                        SpawnerIdToSpawnedActor = new Dictionary<int, ActorType>
+                        {
+                            [0] = ActorType.Wolf,
+                            [1] = ActorType.Wolf
+                        }
                     }
                 }
             },
-            [2] = new SceneSaveData
             {
-                Id = 2,
-                Scene = Scene.GameplayScene3,
-                SceneType = SceneType.Combat,
-                CombatSceneSaveData = new CombatSceneSaveData
+                2,
+                new SceneSaveData
                 {
-                    EnemiesCleared = false,
-                    SpawnerIdToSpawnedActor = new Dictionary<int, ActorType>
+                    Id = 2,
+                    Scene = Scene.GameplayScene3,
+                    SceneType = SceneType.Combat,
+                    CombatSceneSaveData = new CombatSceneSaveData
                     {
-                        [0] = ActorType.Bear
+                        EnemiesCleared = false,
+                        SpawnerIdToSpawnedActor = new Dictionary<int, ActorType>
+                        {
+                            [0] = ActorType.Bear
+                        }
                     }
                 }
             },
-            [3] = new SceneSaveData
             {
-                Id = 3,
-                Scene = Scene.GameplayVictoryScene,
-                SceneType = SceneType.Victory
+                3,
+                new SceneSaveData
+                {
+                    Id = 3,
+                    Scene = Scene.GameplayVictoryScene,
+                    SceneType = SceneType.Victory
+                }
+            },
+            {
+                4,
+                new SceneSaveData
+                {
+                    Id = 4,
+                    Scene = Scene.GameplayDefeatScene,
+                    SceneType = SceneType.Defeat
+                }
             }
         };
     }
@@ -82,9 +103,9 @@ public static class NewSaveGenerator
     {
         return new Dictionary<int, List<int>>
         {
-            [0] = ListUtils.Singleton(1),
-            [1] = ListUtils.Singleton(2),
-            [2] = ListUtils.Singleton(3)
+            {0, ListUtils.Singleton(1)},
+            {1, ListUtils.Singleton(2)},
+            {2, ListUtils.Singleton(3)}
         };
     }
 }

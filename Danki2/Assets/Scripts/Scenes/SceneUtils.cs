@@ -11,6 +11,7 @@ public static class SceneUtils
         { Scene.GameplayEntryScene, "GameplayEntryScene" },
         { Scene.GameplayExitScene, "GameplayExitScene" },
         { Scene.GameplayVictoryScene, "GameplayVictoryScene" },
+        { Scene.GameplayDefeatScene, "GameplayDefeatScene" },
         { Scene.GameplayScene1, "GameplayScene1" },
         { Scene.GameplayScene2, "GameplayScene2" },
         { Scene.GameplayScene3, "GameplayScene3" }

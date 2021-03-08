@@ -48,7 +48,6 @@ public class PlayerControls : Singleton<PlayerControls>
             : (right ? ActionControlState.Right : ActionControlState.None);
     }
 
-    
     // TODO: hook up to menu system.
     private void HandleSceneControls()
     {

@@ -2,5 +2,6 @@
 {
     Combat,
     Shop,
-    Victory
+    Victory,
+    Defeat
 }

@@ -9,6 +9,7 @@ public class SaveData
     public AbilityTree AbilityTree { get; set; }
 
     public int CurrentSceneId { get; set; }
+    public int DefeatSceneId { get; set; }
     public Dictionary<int, SceneSaveData> SceneSaveDataLookup { get; set; }
     public Dictionary<int, List<int>> SceneTransitions { get; set; }
 
@@ -20,6 +21,7 @@ public class SaveData
             PlayerHealth = PlayerHealth,
             SerializableAbilityTree = new SerializableAbilityTree(AbilityTree),
             CurrentSceneId = CurrentSceneId,
+            DefeatSceneId = DefeatSceneId,
             SerializableSceneSaveDataList = SceneSaveDataLookup.Values
                 .Select(sceneData => sceneData.Serialize())
                 .ToList(),

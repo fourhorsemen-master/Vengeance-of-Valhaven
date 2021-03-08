@@ -22,6 +22,8 @@ public class DevPersistenceManager : PersistenceManager
 
     public override void TransitionToNextScene() {}
 
+    public override void TransitionToDefeatScene() {}
+
     private SaveData GenerateNewSaveData()
     {
         return new SaveData
