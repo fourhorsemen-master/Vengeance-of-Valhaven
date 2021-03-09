@@ -68,6 +68,7 @@ MonoBehaviour:
     - Cleave
     - RingOfDeath
     - Execute
+    - Reflect
     _values:
     - displayName: Slash
       tooltip: Deal {PRIMARY_DAMAGE} damage to enemies in a cone.
@@ -444,3 +445,17 @@ MonoBehaviour:
           requiredTreeDepth: 4
       finisher: 1
       channelDuration: 0.5
+    - displayName: Reflect
+      tooltip: ...
+      baseAbilityData:
+        primaryDamage: 0
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      fmodStartEventRef: 
+      fmodEndEventRef: 
+      abilityBonusLookup:
+        _keys: []
+        _values: []
+      finisher: 0
+      channelDuration: 2

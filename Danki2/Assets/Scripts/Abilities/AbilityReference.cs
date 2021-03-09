@@ -22,5 +22,6 @@
     BearCharge,    
     Cleave,
     RingOfDeath,
-    Execute
+    Execute,
+    Reflect
 }
