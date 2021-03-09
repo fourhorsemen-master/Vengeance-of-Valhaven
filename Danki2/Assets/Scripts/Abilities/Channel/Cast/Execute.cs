@@ -46,17 +46,9 @@ public class Execute : Cast
 
         onCastComplete.Next(target.transform.position);
 
-        int damageMultiplier = 1;
-
-        if (target.HealthManager.HealthProportion <= HealthPercentageForAdditionalDamage)
-        {
-            damageMultiplier = AdditionalDamageMultiplier;
-
-            if (HasBonus("Sharpened Edge"))
-            {
-                damageMultiplier = SharpenedEdgeDamageMultiplier;
-            }
-        }
+        int damageMultiplier = target.HealthManager.HealthProportion <= HealthPercentageForAdditionalDamage
+            ? HasBonus("Sharpened Edge") ? SharpenedEdgeDamageMultiplier : AdditionalDamageMultiplier
+            : 1;
 
         DealPrimaryDamage(target, 0, damageMultiplier);
         if (HasBonus("Finishing Touch")) target.EffectManager.AddStack(StackingEffect.Bleed);
