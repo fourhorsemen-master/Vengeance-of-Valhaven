@@ -4,8 +4,8 @@ public class ReflectVisual : StaticAbilityObject
 {
     public override float StickTime => 5;
 
-    public static void Create(ReflectVisual prefab, Transform transform)
+    public static ReflectVisual Create(ReflectVisual prefab, Transform transform)
     {
-        Instantiate(prefab, transform.position, transform.rotation);
+        return Instantiate(prefab, transform.position, transform.rotation);
     }
 }

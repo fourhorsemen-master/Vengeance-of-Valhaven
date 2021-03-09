@@ -6,6 +6,7 @@ using UnityEngine;
 public class Reflect : Channel
 {
     private const float Range = 3;
+    private const float VisualPositionOffset = 0.7f;
 
     private ReflectObject reflectObject;
 
@@ -21,7 +22,7 @@ public class Reflect : Channel
 
     public override void Start(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
-        reflectObject = ReflectObject.Create(Owner.transform, Owner.Height, onReflect);
+        reflectObject = ReflectObject.Create(Owner.transform, Owner.Height, onReflect, VisualPositionOffset);
         Owner.EffectManager.TryAddPassiveEffect(PassiveEffect.Block, out effectId);
         damageSubscription = Owner.HealthManager.UnmodifiedDamageSubject.Subscribe(HandleIncomingDamage);
     }
