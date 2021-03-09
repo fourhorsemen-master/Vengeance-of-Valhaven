@@ -24,6 +24,7 @@ public abstract class Actor : MonoBehaviour
 
     [SerializeField] private Transform centre = null;
     public Vector3 Centre => centre.position;
+    public float Height => Centre.y - transform.position.y;
 
     [SerializeField] private Transform abilitySource = null;
     public Vector3 AbilitySource => abilitySource.position;

@@ -21,7 +21,7 @@ public class Reflect : Channel
 
     public override void Start(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
-        reflectObject = ReflectObject.Create(Owner.transform, Owner.Centre.y - Owner.transform.position.y, onReflect);
+        reflectObject = ReflectObject.Create(Owner.transform, Owner.Height, onReflect);
         Owner.EffectManager.TryAddPassiveEffect(PassiveEffect.Block, out effectId);
         damageSubscription = Owner.HealthManager.UnmodifiedDamageSubject.Subscribe(HandleIncomingDamage);
     }
