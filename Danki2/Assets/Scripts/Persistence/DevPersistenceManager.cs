@@ -27,9 +27,9 @@ public class DevPersistenceManager : PersistenceManager
 
     public override void Save() {}
 
-    public override void TransitionToNextScene(int nextSceneId) {}
+    public override void TransitionToNextRoom(int nextRoomId) {}
 
-    public override void TransitionToDefeatScene() {}
+    public override void TransitionToDefeatRoom() {}
 
     private SaveData GenerateNewSaveData()
     {
@@ -41,15 +41,15 @@ public class DevPersistenceManager : PersistenceManager
             AbilityTreeFactory.CreateNode(leftAbility),
             AbilityTreeFactory.CreateNode(rightAbility)
         ),
-            CurrentSceneId = 0,
-            SceneSaveDataLookup = new Dictionary<int, SceneSaveData>
+            CurrentRoomId = 0,
+            RoomSaveDataLookup = new Dictionary<int, RoomSaveData>
             {
                 {
                     0,
-                    new SceneSaveData
+                    new RoomSaveData
                     {
-                        SceneType = SceneType.Combat,
-                        CombatSceneSaveData = new CombatSceneSaveData
+                        RoomType = RoomType.Combat,
+                        CombatRoomSaveData = new CombatRoomSaveData
                         {
                             EnemiesCleared = false,
                             SpawnerIdToSpawnedActor = new Dictionary<int, ActorType>()

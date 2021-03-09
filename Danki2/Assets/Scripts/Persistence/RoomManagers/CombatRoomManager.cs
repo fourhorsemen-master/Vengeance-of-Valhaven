@@ -2,27 +2,27 @@
 using System.Linq;
 
 /// <summary>
-/// Handles combat scenes. If we are not in a combat scene, then this class does nothing.
+/// Handles combat rooms. If we are not in a combat room, then this class does nothing.
 ///
 /// Spawns enemies at the correct spawners and marks the room as completed once all enemies are defeated.
 /// </summary>
-public class CombatSceneManager : Singleton<CombatSceneManager>
+public class CombatRoomManager : Singleton<CombatRoomManager>
 {
     public bool EnemiesCleared { get; private set; } = false;
     
     private void Start()
     {
-        int sceneId = PersistenceManager.Instance.SaveData.CurrentSceneId;
-        SceneSaveData sceneSaveData = PersistenceManager.Instance.SaveData.SceneSaveDataLookup[sceneId];
+        int roomId = PersistenceManager.Instance.SaveData.CurrentRoomId;
+        RoomSaveData roomSaveData = PersistenceManager.Instance.SaveData.RoomSaveDataLookup[roomId];
 
-        if (sceneSaveData.SceneType != SceneType.Combat) return;
+        if (roomSaveData.RoomType != RoomType.Combat) return;
         
-        CombatSceneSaveData combatSceneSaveData = sceneSaveData.CombatSceneSaveData;
+        CombatRoomSaveData combatRoomSaveData = roomSaveData.CombatRoomSaveData;
 
         Subject roomClearedSubject = new Subject();
-        GameplaySceneTransitionManager.Instance.RegisterCanTransitionSubject(roomClearedSubject);
+        GameplayRoomTransitionManager.Instance.RegisterCanTransitionSubject(roomClearedSubject);
 
-        if (combatSceneSaveData.EnemiesCleared)
+        if (combatRoomSaveData.EnemiesCleared)
         {
             roomClearedSubject.Next();
             return;
@@ -31,10 +31,10 @@ public class CombatSceneManager : Singleton<CombatSceneManager>
         Dictionary<int, Spawner> spawnerLookup = FindObjectsOfType<Spawner>().ToDictionary(s => s.Id);
 
         List<Actor> enemies = new List<Actor>();
-        foreach (int spawnerId in combatSceneSaveData.SpawnerIdToSpawnedActor.Keys)
+        foreach (int spawnerId in combatRoomSaveData.SpawnerIdToSpawnedActor.Keys)
         {
             Spawner spawner = spawnerLookup[spawnerId];
-            ActorType actorType = combatSceneSaveData.SpawnerIdToSpawnedActor[spawnerId];
+            ActorType actorType = combatRoomSaveData.SpawnerIdToSpawnedActor[spawnerId];
             enemies.Add(spawner.Spawn(actorType));
         }
 

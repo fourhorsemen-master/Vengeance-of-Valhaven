@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 
 [Serializable]
-public class SerializableCombatSceneSaveData
+public class SerializableCombatRoomSaveData
 {
     [SerializeField] private bool enemiesCleared;
     [SerializeField] private List<SerializableSpawnerSaveData> serializableSpawnerSaveDataList;
@@ -12,9 +12,9 @@ public class SerializableCombatSceneSaveData
     public bool EnemiesCleared { get => enemiesCleared; set => enemiesCleared = value; }
     public List<SerializableSpawnerSaveData> SerializableSpawnerSaveDataList { get => serializableSpawnerSaveDataList; set => serializableSpawnerSaveDataList = value; }
 
-    public CombatSceneSaveData Deserialize()
+    public CombatRoomSaveData Deserialize()
     {
-        return new CombatSceneSaveData
+        return new CombatRoomSaveData
         {
             EnemiesCleared = EnemiesCleared,
             SpawnerIdToSpawnedActor = SerializableSpawnerSaveDataList.ToDictionary(

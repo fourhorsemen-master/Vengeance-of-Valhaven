@@ -88,6 +88,6 @@ public class Player : Actor
     protected override void OnDeath()
     {
         base.OnDeath();
-        PersistenceManager.Instance.TransitionToDefeatScene();
+        PersistenceManager.Instance.TransitionToDefeatRoom();
     }
 }

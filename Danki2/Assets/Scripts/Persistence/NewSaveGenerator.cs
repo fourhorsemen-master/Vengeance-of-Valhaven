@@ -18,25 +18,25 @@ public static class NewSaveGenerator
                 AbilityTreeFactory.CreateNode(AbilityReference.SweepingStrike),
                 AbilityTreeFactory.CreateNode(AbilityReference.Lunge)
             ),
-            CurrentSceneId = 0,
-            DefeatSceneId = 5,
-            SceneSaveDataLookup = GenerateNewSceneSaveDataLookup(),
-            SceneTransitions = GenerateNewSceneTransitions()
+            CurrentRoomId = 0,
+            DefeatRoomId = 5,
+            RoomSaveDataLookup = GenerateNewRoomSaveDataLookup(),
+            RoomTransitions = GenerateNewRoomTransitions()
         };
     }
 
-    private static Dictionary<int, SceneSaveData> GenerateNewSceneSaveDataLookup()
+    private static Dictionary<int, RoomSaveData> GenerateNewRoomSaveDataLookup()
     {
-        return new Dictionary<int, SceneSaveData>
+        return new Dictionary<int, RoomSaveData>
         {
             {
                 0,
-                new SceneSaveData
+                new RoomSaveData
                 {
                     Id = 0,
                     Scene = Scene.GameplayScene1,
-                    SceneType = SceneType.Combat,
-                    CombatSceneSaveData = new CombatSceneSaveData
+                    RoomType = RoomType.Combat,
+                    CombatRoomSaveData = new CombatRoomSaveData
                     {
                         EnemiesCleared = false,
                         SpawnerIdToSpawnedActor = new Dictionary<int, ActorType>
@@ -44,7 +44,7 @@ public static class NewSaveGenerator
                             [0] = ActorType.Wolf
                         }
                     },
-                    SceneTransitionerIdToNextSceneId = new Dictionary<int, int>
+                    RoomTransitionerIdToNextRoomId = new Dictionary<int, int>
                     {
                         [0] = 1,
                         [1] = 2
@@ -53,12 +53,12 @@ public static class NewSaveGenerator
             },
             {
                 1,
-                new SceneSaveData
+                new RoomSaveData
                 {
                     Id = 1,
                     Scene = Scene.GameplayScene2,
-                    SceneType = SceneType.Combat,
-                    CombatSceneSaveData = new CombatSceneSaveData
+                    RoomType = RoomType.Combat,
+                    CombatRoomSaveData = new CombatRoomSaveData
                     {
                         EnemiesCleared = false,
                         SpawnerIdToSpawnedActor = new Dictionary<int, ActorType>
@@ -66,7 +66,7 @@ public static class NewSaveGenerator
                             [0] = ActorType.Wolf
                         }
                     },
-                    SceneTransitionerIdToNextSceneId = new Dictionary<int, int>
+                    RoomTransitionerIdToNextRoomId = new Dictionary<int, int>
                     {
                         [0] = 3
                     }
@@ -74,12 +74,12 @@ public static class NewSaveGenerator
             },
             {
                 2,
-                new SceneSaveData
+                new RoomSaveData
                 {
                     Id = 2,
                     Scene = Scene.GameplayScene2,
-                    SceneType = SceneType.Combat,
-                    CombatSceneSaveData = new CombatSceneSaveData
+                    RoomType = RoomType.Combat,
+                    CombatRoomSaveData = new CombatRoomSaveData
                     {
                         EnemiesCleared = false,
                         SpawnerIdToSpawnedActor = new Dictionary<int, ActorType>
@@ -88,7 +88,7 @@ public static class NewSaveGenerator
                             [1] = ActorType.Wolf
                         }
                     },
-                    SceneTransitionerIdToNextSceneId = new Dictionary<int, int>
+                    RoomTransitionerIdToNextRoomId = new Dictionary<int, int>
                     {
                         [0] = 3
                     }
@@ -96,12 +96,12 @@ public static class NewSaveGenerator
             },
             {
                 3,
-                new SceneSaveData
+                new RoomSaveData
                 {
                     Id = 3,
                     Scene = Scene.GameplayScene3,
-                    SceneType = SceneType.Combat,
-                    CombatSceneSaveData = new CombatSceneSaveData
+                    RoomType = RoomType.Combat,
+                    CombatRoomSaveData = new CombatRoomSaveData
                     {
                         EnemiesCleared = false,
                         SpawnerIdToSpawnedActor = new Dictionary<int, ActorType>
@@ -109,7 +109,7 @@ public static class NewSaveGenerator
                             [0] = ActorType.Bear
                         }
                     },
-                    SceneTransitionerIdToNextSceneId = new Dictionary<int, int>
+                    RoomTransitionerIdToNextRoomId = new Dictionary<int, int>
                     {
                         [0] = 4
                     }
@@ -117,26 +117,26 @@ public static class NewSaveGenerator
             },
             {
                 4,
-                new SceneSaveData
+                new RoomSaveData
                 {
                     Id = 4,
                     Scene = Scene.GameplayVictoryScene,
-                    SceneType = SceneType.Victory
+                    RoomType = RoomType.Victory
                 }
             },
             {
                 5,
-                new SceneSaveData
+                new RoomSaveData
                 {
                     Id = 5,
                     Scene = Scene.GameplayDefeatScene,
-                    SceneType = SceneType.Defeat
+                    RoomType = RoomType.Defeat
                 }
             }
         };
     }
 
-    private static Dictionary<int, List<int>> GenerateNewSceneTransitions()
+    private static Dictionary<int, List<int>> GenerateNewRoomTransitions()
     {
         return new Dictionary<int, List<int>>
         {

@@ -8,10 +8,10 @@ public class SaveData
     public int PlayerHealth { get; set; }
     public AbilityTree AbilityTree { get; set; }
 
-    public int CurrentSceneId { get; set; }
-    public int DefeatSceneId { get; set; }
-    public Dictionary<int, SceneSaveData> SceneSaveDataLookup { get; set; }
-    public Dictionary<int, List<int>> SceneTransitions { get; set; }
+    public int CurrentRoomId { get; set; }
+    public int DefeatRoomId { get; set; }
+    public Dictionary<int, RoomSaveData> RoomSaveDataLookup { get; set; }
+    public Dictionary<int, List<int>> RoomTransitions { get; set; }
 
     public SerializableSaveData Serialize()
     {
@@ -20,16 +20,16 @@ public class SaveData
             Version = Version,
             PlayerHealth = PlayerHealth,
             SerializableAbilityTree = new SerializableAbilityTree(AbilityTree),
-            CurrentSceneId = CurrentSceneId,
-            DefeatSceneId = DefeatSceneId,
-            SerializableSceneSaveDataList = SceneSaveDataLookup.Values
-                .Select(sceneData => sceneData.Serialize())
+            CurrentRoomId = CurrentRoomId,
+            DefeatRoomId = DefeatRoomId,
+            SerializableRoomSaveDataList = RoomSaveDataLookup.Values
+                .Select(roomData => roomData.Serialize())
                 .ToList(),
-            SerializableSceneTransitions = SceneTransitions.Keys
-                .Select(fromId => new SerializableSceneTransition
+            SerializableRoomTransitions = RoomTransitions.Keys
+                .Select(fromId => new SerializableRoomTransition
                 {
                     FromId = fromId,
-                    ToIds = SceneTransitions[fromId]
+                    ToIds = RoomTransitions[fromId]
                 })
                 .ToList()
         };

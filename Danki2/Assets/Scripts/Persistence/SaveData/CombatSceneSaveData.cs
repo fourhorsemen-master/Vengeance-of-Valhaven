@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-public class CombatSceneSaveData
+public class CombatRoomSaveData
 {
     public bool EnemiesCleared { get; set; }
     public Dictionary<int, ActorType> SpawnerIdToSpawnedActor { get; set; }
 
-    public SerializableCombatSceneSaveData Serialize()
+    public SerializableCombatRoomSaveData Serialize()
     {
-        return new SerializableCombatSceneSaveData
+        return new SerializableCombatRoomSaveData
         {
             EnemiesCleared = EnemiesCleared,
             SerializableSpawnerSaveDataList = SpawnerIdToSpawnedActor.Keys

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class SerializableSceneTransition
+public class SerializableRoomTransition
 {
     [SerializeField] private int fromId;
     [SerializeField] private List<int> toIds;
