@@ -1,5 +1,58 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1520184416452521379
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3000299308960344642}
+  - component: {fileID: 1231980809411069489}
+  m_Layer: 0
+  m_Name: MPFX2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3000299308960344642
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1520184416452521379}
+  m_LocalRotation: {x: 0, y: -0.38268343, z: 0, w: 0.92387956}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3207969123515053576}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: -45, z: 0}
+--- !u!114 &1231980809411069489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1520184416452521379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4d8ecee363ab984eab323217dbf5a71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mpfxMaterial: {fileID: 2100000, guid: 3583ac946a9670b45b71435315e9f2c9, type: 2}
+  settings:
+    effectObject: {fileID: 7516510025786791067, guid: ffb6b6de607087544b3b5e404704c42c,
+      type: 3}
+    effectColor: {r: 1, g: 1, b: 1, a: 1}
+    effectEmissive: {r: 0, g: 0, b: 0, a: 0}
+    effectAlbedo: {fileID: 2800000, guid: e4a6ee4b87f70f14e8de346ae31bcb3c, type: 3}
+  behaviours:
+  - {fileID: 11400000, guid: ee25e8bff6732854996406ed9a69892b, type: 2}
+  - {fileID: 11400000, guid: 0e5e5129e0470784a8345c05af2221f1, type: 2}
 --- !u!1 &4579910257910042149
 GameObject:
   m_ObjectHideFlags: 0
@@ -27,7 +80,9 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 4724957870300557094}
+  - {fileID: 3000299308960344642}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -45,3 +100,56 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reflectVisualPrefab: {fileID: 5230094094084144326, guid: 9f5539962a3af50469069d65a16bce69,
     type: 3}
+--- !u!1 &5138893985853611932
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4724957870300557094}
+  - component: {fileID: 242582316423174557}
+  m_Layer: 0
+  m_Name: MPFX1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4724957870300557094
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5138893985853611932}
+  m_LocalRotation: {x: 0, y: -0.38268343, z: 0, w: 0.92387956}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3207969123515053576}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: -45, z: 0}
+--- !u!114 &242582316423174557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5138893985853611932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4d8ecee363ab984eab323217dbf5a71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mpfxMaterial: {fileID: 2100000, guid: 3583ac946a9670b45b71435315e9f2c9, type: 2}
+  settings:
+    effectObject: {fileID: 7516510025786791067, guid: ffb6b6de607087544b3b5e404704c42c,
+      type: 3}
+    effectColor: {r: 1, g: 1, b: 1, a: 1}
+    effectEmissive: {r: 0, g: 0, b: 0, a: 0}
+    effectAlbedo: {fileID: 2800000, guid: e4a6ee4b87f70f14e8de346ae31bcb3c, type: 3}
+  behaviours:
+  - {fileID: 11400000, guid: 2e96ed5bd4b4b5c4fb5ba0483ed29d91, type: 2}
+  - {fileID: 11400000, guid: 419a99fee8b53134a94dac1309efbb75, type: 2}
