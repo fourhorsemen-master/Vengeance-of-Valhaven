@@ -15,6 +15,8 @@ public class Reflect : Channel
     private bool receivedDamage = false;
     private Guid effectId;
 
+    public override ChannelEffectOnMovement EffectOnMovement => ChannelEffectOnMovement.Root;
+
     public Reflect(Actor owner, AbilityData abilityData, string fmodStartEvent, string fmodEndEvent, string[] availableBonuses, float duration)
         : base(owner, abilityData, fmodStartEvent, fmodEndEvent, availableBonuses, duration)
     {
@@ -29,7 +31,7 @@ public class Reflect : Channel
 
     public override void Continue(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
-        reflectObject.transform.rotation = Quaternion.LookRotation(floorTargetPosition - Owner.transform.position);
+        Owner.MovementManager.LookAt(floorTargetPosition);
     }
 
     public override void Cancel(Vector3 floorTargetPosition, Vector3 offsetTargetPosition) => Finish();
@@ -39,7 +41,7 @@ public class Reflect : Channel
     private void HandleIncomingDamage(DamageData damageData)
     {
         List<Actor> collidingActors = CollisionTemplateManager.Instance
-            .GetCollidingActors(CollisionTemplate.Wedge90, Range, Owner.transform.position, reflectObject.transform.rotation)
+            .GetCollidingActors(CollisionTemplate.Wedge90, Range, Owner.transform.position, Owner.transform.rotation)
             .Where(actor => Owner.Opposes(actor));
 
         if (!collidingActors.Contains(damageData.Source)) return;
@@ -53,6 +55,7 @@ public class Reflect : Channel
 
     private void Finish()
     {
+        reflectObject.Destroy();
         Owner.EffectManager.RemovePassiveEffect(effectId);
         damageSubscription.Unsubscribe();
         if (!receivedDamage) SuccessFeedbackSubject.Next(false);

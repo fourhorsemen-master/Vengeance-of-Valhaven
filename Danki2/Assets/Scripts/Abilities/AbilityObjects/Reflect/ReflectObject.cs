@@ -22,6 +22,11 @@ public class ReflectObject : StaticAbilityObject
         return reflectObject;
     }
 
+    public void Destroy()
+    {
+        Destroy(gameObject);
+    }
+
     private void HandleReflect()
     {
         ReflectVisual reflectVisual = ReflectVisual.Create(reflectVisualPrefab, transform);
