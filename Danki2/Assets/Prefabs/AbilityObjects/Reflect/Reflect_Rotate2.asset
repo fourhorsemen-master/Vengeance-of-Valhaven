@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d48ae53a2dc8e394d953d8eb79494748, type: 3}
-  m_Name: Reflect_Rotate1
+  m_Name: Reflect_Rotate2
   m_EditorClassIdentifier: 
   curves:
   - serializedVersion: 2
@@ -22,15 +22,15 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 45
-      inSlope: -90
-      outSlope: -90
-      tangentMode: 34
+      value: 0
+      inSlope: -168.2994
+      outSlope: -168.2994
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.33333334
+      outWeight: 0.13736063
     - serializedVersion: 3
-      time: 1
+      time: 0.5
       value: -45
       inSlope: 0
       outSlope: 0
@@ -39,14 +39,23 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 2
+      time: 1.5
       value: 45
-      inSlope: 90
-      outSlope: 90
+      inSlope: 11.391418
+      outSlope: 11.391418
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 2
+      value: 11.391417
+      inSlope: -115.164696
+      outSlope: -115.164696
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.17088366
+      outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
