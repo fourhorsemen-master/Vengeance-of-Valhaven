@@ -21,13 +21,12 @@ public class PlayerTargetFinder
 
     private void UpdateTarget()
     {
-        if (TryHitEnemy()) return;
-        RemoveTarget();
+        if (TryHitActor()) return;
         if (TryHitNavmesh()) return;
         HitPlane();
     }
 
-    private bool TryHitEnemy()
+    private bool TryHitActor()
     {
         bool mouseHitActor = MouseGamePositionFinder.Instance.TryGetCollider(
             out Collider collider,
@@ -35,21 +34,28 @@ public class PlayerTargetFinder
             LayerUtils.GetLayerMask(new[] { Layer.Actors })
         );
 
-        if (!mouseHitActor) return false;
+        if (!mouseHitActor || !RoomManager.Instance.TryGetActor(collider.gameObject, out _))
+        {
+            RemoveTarget();
+            return false;
+        }
 
         if (collider.CompareTag(Tag.Enemy))
         {
             Enemy enemy = collider.gameObject.GetComponent<Enemy>();
-
-            if (enemy.Dead) return false;
-
             SetTarget(enemy);
             return true;
         }
 
-        // Mouse hit player, so assume ground is flat and hit plane.
-        HitPlane();
-        return true;
+        RemoveTarget();
+
+        if (collider.CompareTag(Tag.Player))
+        {
+            HitPlane();
+            return true;
+        }
+
+        return false;
     }
 
     private void SetTarget(Enemy enemy)

@@ -19,11 +19,11 @@ public class PlayerTargetable : MonoBehaviour
     {
         if (highlighted)
         {
-            highlightId = enemy.HightlightManager.AddIndefiniteHighlight(HighlightIntensity);
+            highlightId = enemy.HighlightManager.AddIndefiniteHighlight(HighlightIntensity);
         }
         else if (highlightId != Guid.Empty)
         {
-            enemy.HightlightManager.RemoveHighlight(highlightId);
+            enemy.HighlightManager.RemoveHighlight(highlightId);
             highlightId = Guid.Empty;
         }
     }
