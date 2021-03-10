@@ -53,3 +53,7 @@ fmod_editor.log
 # FMOD writes of the following lines "If the source bank files are kept outside of the StreamingAssets folder then these can be ignored."
 #/[Aa]ssets/StreamingAssets/**/*.bank
 #/[Aa]ssets/StreamingAssets/**/*.bank.meta
+
+# Dev scene - exclude an info.txt file for help adding a new scene and ensure the folder makes it to source control
+[Aa]ssets/Scenes/Dev/*
+![Aa]ssets/Scenes/Dev/info.txt
