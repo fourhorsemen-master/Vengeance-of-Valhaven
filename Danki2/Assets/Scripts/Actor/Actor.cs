@@ -45,7 +45,7 @@ public abstract class Actor : MonoBehaviour
     public EffectManager EffectManager { get; private set; }
     public MovementManager MovementManager { get; private set; }
     public InterruptionManager InterruptionManager { get; private set; }
-    public HighlightManager HightlightManager { get; private set; }
+    public HighlightManager HighlightManager { get; private set; }
 
     public bool Dead { get; private set; }
     public Subject DeathSubject { get; } = new Subject();
@@ -69,7 +69,7 @@ public abstract class Actor : MonoBehaviour
         ChannelService = new ChannelService(this, startSubject, lateUpdateSubject);
         InstantCastService = new InstantCastService(this);
         MovementManager = new MovementManager(this, updateSubject, navmeshAgent);
-        HightlightManager = new HighlightManager(updateSubject, meshRenderers);
+        HighlightManager = new HighlightManager(updateSubject, meshRenderers);
 
         AbilityDataStatsDiffer abilityDataStatsDiffer = new AbilityDataStatsDiffer(this);
         RegisterAbilityDataDiffer(abilityDataStatsDiffer);
