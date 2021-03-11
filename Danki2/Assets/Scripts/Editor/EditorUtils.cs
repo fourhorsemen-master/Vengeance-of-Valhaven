@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public static class EditorUtils
 {
@@ -8,6 +10,8 @@ public static class EditorUtils
 
     private static readonly GUIStyle MultilineTextFieldStyle = new GUIStyle(EditorStyles.textField) {wordWrap = true};
     private static readonly GUIStyle MultilineLabelFieldStyle = new GUIStyle(EditorStyles.label) {wordWrap = true};
+
+    private static readonly float DefaultVerticalSpace = 8;
 
     /// <summary>
     /// Adds a text field that wraps text and has multiple lines.
@@ -62,5 +66,48 @@ public static class EditorUtils
         GUI.enabled = false;
         EditorGUILayout.ObjectField("Script", MonoScript.FromMonoBehaviour(target), typeof(T), false);
         GUI.enabled = true;
+    }
+    
+    /// <summary>
+    /// Adds a field to edit a prefab.
+    /// </summary>
+    public static T PrefabField<T>(string label, T @object) where T : Object
+    {
+        return (T) EditorGUILayout.ObjectField(label, @object, typeof(T), false, null);
+    }
+
+    /// <summary>
+    /// Adds buttons to add and remove elements from the given list.
+    /// </summary>
+    public static void EditListSize<T>(string addLabel, string removeLabel, List<T> list, T defaultValue)
+    {
+        EditListSize(addLabel, removeLabel, list, () => defaultValue);
+    }
+
+    /// <inheritdoc cref="EditListSize{T}(string,string,System.Collections.Generic.List{T},T)" />
+    public static void EditListSize<T>(string addLabel, string removeLabel, List<T> list, Func<T> defaultValueProvider)
+    {
+        IndentedButton(addLabel, () => list.Add(defaultValueProvider()));
+
+        GUI.enabled = list.Count > 0;
+        IndentedButton(removeLabel, () => list.RemoveAt(list.Count - 1));
+        GUI.enabled = true;
+    }
+
+    /// <summary>
+    /// Adds a small amount of vertical space.
+    /// </summary>
+    public static void VerticalSpace()
+    {
+        GUILayout.Space(DefaultVerticalSpace);
+    }
+
+    /// <summary>
+    /// Returns true if the target is being edited in the prefab editor, rather than editing an instance
+    /// of a prefab.
+    /// </summary>
+    public static bool InPrefabEditor(Object target)
+    {
+        return PrefabUtility.GetPrefabInstanceStatus(target) == PrefabInstanceStatus.NotAPrefab;
     }
 }

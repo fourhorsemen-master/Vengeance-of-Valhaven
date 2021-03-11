@@ -12,7 +12,7 @@ public class SpawnerEditor : Editor
 
         spawner.id = EditorGUILayout.IntField("ID", spawner.id);
 
-        if (PrefabUtility.GetPrefabInstanceStatus(target) == PrefabInstanceStatus.NotAPrefab) EditActorPrefabs(spawner);
+        if (EditorUtils.InPrefabEditor(target)) EditActorPrefabs(spawner);
 
         if (GUI.changed)
         {
