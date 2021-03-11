@@ -12,6 +12,16 @@ public class SpawnerEditor : Editor
 
         spawner.id = EditorGUILayout.IntField("ID", spawner.id);
 
+        if (PrefabUtility.GetPrefabInstanceStatus(target) == PrefabInstanceStatus.NotAPrefab) EditActorPrefabs(spawner);
+
+        if (GUI.changed)
+        {
+            EditorUtility.SetDirty(target);
+        }
+    }
+
+    private void EditActorPrefabs(Spawner spawner)
+    {
         EditorUtils.Header("Actor prefabs");
         EditorGUI.indentLevel++;
 
@@ -27,10 +37,5 @@ public class SpawnerEditor : Editor
         });
 
         EditorGUI.indentLevel++;
-
-        if (GUI.changed)
-        {
-            EditorUtility.SetDirty(target);
-        }
     }
 }
