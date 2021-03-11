@@ -27,7 +27,7 @@ public class BearAi : Ai
 
     protected override IStateMachineComponent BuildStateMachineComponent()
     {
-        Player player = RoomManager.Instance.Player;
+        Player player = ActorCache.Instance.Player;
 
         IStateMachineComponent advanceStateMachine = new StateMachine<AdvanceState>(AdvanceState.Walk)
             .WithComponent(AdvanceState.Walk, new WalkTowards(bear, player))

@@ -9,7 +9,9 @@ public class PlayerControls : Singleton<PlayerControls>
 
     private void Update()
     {
-        if (GameStateController.Instance.GameState == GameState.Playing)
+        HandleSceneControls();
+
+        if (GameplayStateController.Instance.GameplayState == GameplayState.Playing)
         {
             HandleMovement();
             HandleAbilities();
@@ -45,5 +47,12 @@ public class PlayerControls : Singleton<PlayerControls>
         ActionControlState = left
             ? (right ? ActionControlState.Both : ActionControlState.Left)
             : (right ? ActionControlState.Right : ActionControlState.None);
+    }
+
+    // TODO: hook up to menu system.
+    private void HandleSceneControls()
+    {
+        // When the player quits.
+        if (Input.GetKeyDown(KeyCode.Escape)) SceneUtils.LoadScene(Scene.GameplayExitScene);
     }
 }

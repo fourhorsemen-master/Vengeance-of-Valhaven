@@ -34,7 +34,7 @@ public class PlayerTargetFinder
             LayerUtils.GetLayerMask(new[] { Layer.Actors })
         );
 
-        if (!mouseHitActor || !RoomManager.Instance.TryGetActor(collider.gameObject, out _))
+        if (!mouseHitActor || !ActorCache.Instance.TryGetActor(collider.gameObject, out _))
         {
             RemoveTarget();
             return false;

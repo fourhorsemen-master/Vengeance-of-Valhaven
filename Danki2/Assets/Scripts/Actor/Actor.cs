@@ -58,6 +58,8 @@ public abstract class Actor : MonoBehaviour
 
     protected virtual void Awake()
     {
+        ActorCache.Instance.Register(this);
+        
         gameObject.SetLayerRecursively(Layer.Actors);
 
         gameObject.SetTag(Tag);
@@ -143,8 +145,6 @@ public abstract class Actor : MonoBehaviour
 
     protected virtual void OnDeath()
     {
-        Debug.Log($"{tag} died");
-
         DeathSubject.Next();
         Dead = true;
     }

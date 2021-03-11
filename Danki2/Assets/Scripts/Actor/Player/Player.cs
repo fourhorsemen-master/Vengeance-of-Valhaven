@@ -43,17 +43,9 @@ public class Player : Actor
     {
         base.Awake();
 
-        EnumDictionary<AbilityReference, int> ownedAbilities = new EnumDictionary<AbilityReference, int>(3);
-
-        AbilityTree = AbilityTreeFactory.CreateTree(
-            ownedAbilities,
-            AbilityTreeFactory.CreateNode(AbilityReference.SweepingStrike),
-            AbilityTreeFactory.CreateNode(AbilityReference.Lunge)
-        );
-
-        TargetFinder = new PlayerTargetFinder(this, updateSubject);
-
+        AbilityTree = PersistenceManager.Instance.SaveData.AbilityTree;
         ComboManager = new ComboManager(this, updateSubject, rollResetsCombo);
+        TargetFinder = new PlayerTargetFinder(this, updateSubject);
 
         InstantCastService.SetFeedbackTimeout(feedbackTimeout);
         ChannelService.SetFeedbackTimeout(feedbackTimeout);
@@ -92,4 +84,10 @@ public class Player : Actor
     }
 
     public void PlayWhiffSound() => RuntimeManager.PlayOneShot(whiffEvent);
+
+    protected override void OnDeath()
+    {
+        base.OnDeath();
+        PersistenceManager.Instance.TransitionToDefeatRoom();
+    }
 }
