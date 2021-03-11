@@ -5,6 +5,8 @@ using UnityEngine;
 [CustomEditor(typeof(ModuleLookup))]
 public class ModuleLookupEditor : Editor
 {
+    private readonly EnumDictionary<SocketType, bool> foldoutStatus = new EnumDictionary<SocketType, bool>(false);
+
     public override void OnInspectorGUI()
     {
         ModuleLookup moduleLookup = (ModuleLookup) target;
@@ -13,7 +15,10 @@ public class ModuleLookupEditor : Editor
 
         EnumUtils.ForEach<SocketType>(socketType =>
         {
-            EditorUtils.Header(socketType.ToString());
+            foldoutStatus[socketType] = EditorGUILayout.Foldout(foldoutStatus[socketType], socketType.ToString());
+
+            if (!foldoutStatus[socketType]) return;
+
             EditorGUI.indentLevel++;
 
             List<ModuleData> moduleDataList = moduleLookup.moduleDataLookup[socketType].List;
