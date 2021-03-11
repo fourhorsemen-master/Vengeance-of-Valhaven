@@ -8,6 +8,8 @@ public class SpawnerEditor : Editor
     {
         Spawner spawner = (Spawner) target;
 
+        EditorUtils.ShowScriptLink(spawner);
+
         spawner.id = EditorGUILayout.IntField("ID", spawner.id);
 
         EditorUtils.Header("Actor prefabs");
