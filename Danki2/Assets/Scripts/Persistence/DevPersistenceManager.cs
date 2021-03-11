@@ -53,7 +53,8 @@ public class DevPersistenceManager : PersistenceManager
                         {
                             EnemiesCleared = false,
                             SpawnerIdToSpawnedActor = new Dictionary<int, ActorType>()
-                        }
+                        },
+                        ModuleSeed = 0
                     }
                 }
             }

@@ -48,7 +48,8 @@ public static class NewSaveGenerator
                     {
                         [0] = 1,
                         [1] = 2
-                    }
+                    },
+                    ModuleSeed = 1000
                 }
             },
             {
@@ -69,7 +70,8 @@ public static class NewSaveGenerator
                     RoomTransitionerIdToNextRoomId = new Dictionary<int, int>
                     {
                         [0] = 3
-                    }
+                    },
+                    ModuleSeed = 2000
                 }
             },
             {
@@ -91,7 +93,8 @@ public static class NewSaveGenerator
                     RoomTransitionerIdToNextRoomId = new Dictionary<int, int>
                     {
                         [0] = 3
-                    }
+                    },
+                    ModuleSeed = 3000
                 }
             },
             {
@@ -112,7 +115,8 @@ public static class NewSaveGenerator
                     RoomTransitionerIdToNextRoomId = new Dictionary<int, int>
                     {
                         [0] = 4
-                    }
+                    },
+                    ModuleSeed = 4000
                 }
             },
             {

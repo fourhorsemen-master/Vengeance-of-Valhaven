@@ -8,6 +8,7 @@ public class RoomSaveData
     public RoomType RoomType { get; set; }
     public CombatRoomSaveData CombatRoomSaveData { get; set; }
     public Dictionary<int, int> RoomTransitionerIdToNextRoomId { get; set; }
+    public int ModuleSeed { get; set; }
 
     public SerializableRoomSaveData Serialize()
     {
@@ -23,7 +24,8 @@ public class RoomSaveData
                     RoomTransitionerId = transitionerId,
                     NextRoomId = RoomTransitionerIdToNextRoomId[transitionerId]
                 })
-                .ToList()
+                .ToList(),
+            ModuleSeed = ModuleSeed
         };
     }
 }
