@@ -23,10 +23,17 @@ public class CombatRoomManager : Singleton<CombatRoomManager>
 
         if (combatRoomSaveData.EnemiesCleared)
         {
+            EnemiesCleared = true;
             roomClearedSubject.Next();
             return;
         }
 
+        List<Actor> enemies = SpawnEnemies(combatRoomSaveData);
+        TrackEnemyDeaths(enemies, roomClearedSubject);
+    }
+
+    private List<Actor> SpawnEnemies(CombatRoomSaveData combatRoomSaveData)
+    {
         Dictionary<int, Spawner> spawnerLookup = FindObjectsOfType<Spawner>().ToDictionary(s => s.Id);
 
         List<Actor> enemies = new List<Actor>();
@@ -37,6 +44,11 @@ public class CombatRoomManager : Singleton<CombatRoomManager>
             enemies.Add(spawner.Spawn(actorType));
         }
 
+        return enemies;
+    }
+
+    private void TrackEnemyDeaths(List<Actor> enemies, Subject roomClearedSubject)
+    {
         int enemyCount = enemies.Count;
         int deadEnemyCount = 0;
         enemies.ForEach(e => e.DeathSubject.Subscribe(() =>
