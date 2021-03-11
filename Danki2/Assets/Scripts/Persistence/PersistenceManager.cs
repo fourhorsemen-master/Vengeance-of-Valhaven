@@ -45,7 +45,7 @@ public class PersistenceManager : NotDestroyedOnLoadSingleton<PersistenceManager
         UpdateSaveData();
         SaveData.CurrentRoomId = nextRoomId;
         SaveDataManager.Instance.Save(SaveData);
-        SceneUtils.LoadScene(SaveData.RoomSaveDataLookup[SaveData.CurrentRoomId].Scene);
+        SceneUtils.LoadScene(SaveData.CurrentRoomSaveData.Scene);
     }
 
     /// <summary>
@@ -56,7 +56,7 @@ public class PersistenceManager : NotDestroyedOnLoadSingleton<PersistenceManager
         UpdateSaveData();
         SaveData.CurrentRoomId = SaveData.DefeatRoomId;
         SaveDataManager.Instance.Save(SaveData);
-        SceneUtils.LoadScene(SaveData.RoomSaveDataLookup[SaveData.DefeatRoomId].Scene);
+        SceneUtils.LoadScene(SaveData.DefeatRoomSaveData.Scene);
     }
 
     private void UpdateSaveData()
@@ -64,7 +64,7 @@ public class PersistenceManager : NotDestroyedOnLoadSingleton<PersistenceManager
         SaveData.PlayerHealth = ActorCache.Instance.Player.HealthManager.Health;
         SaveData.AbilityTree = ActorCache.Instance.Player.AbilityTree;
 
-        RoomSaveData currentRoomSaveData = SaveData.RoomSaveDataLookup[SaveData.CurrentRoomId];
+        RoomSaveData currentRoomSaveData = SaveData.CurrentRoomSaveData;
         if (currentRoomSaveData.RoomType == RoomType.Combat)
         {
             CombatRoomSaveData combatRoomSaveData = currentRoomSaveData.CombatRoomSaveData;

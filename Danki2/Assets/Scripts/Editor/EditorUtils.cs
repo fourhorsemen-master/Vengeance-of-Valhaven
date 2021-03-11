@@ -53,4 +53,14 @@ public static class EditorUtils
     {
         EditorGUILayout.LabelField(label, EditorStyles.boldLabel);
     }
+
+    /// <summary>
+    /// Displays a link to the script in the same way as the Unity default editor.
+    /// </summary>
+    public static void ShowScriptLink<T>(T target) where T : MonoBehaviour
+    {
+        GUI.enabled = false;
+        EditorGUILayout.ObjectField("Script", MonoScript.FromMonoBehaviour(target), typeof(T), false);
+        GUI.enabled = true;
+    }
 }

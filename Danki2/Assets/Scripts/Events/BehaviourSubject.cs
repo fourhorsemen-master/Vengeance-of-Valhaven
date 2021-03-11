@@ -7,21 +7,19 @@ using System.Collections.Generic;
 /// <typeparam name="T"> The type of object that will be emitted by this subject. </typeparam>
 public class BehaviourSubject<T> : IObservable<T>
 {
-    private T currentValue;
-
     private readonly List<Subscription<T>> subscriptions = new List<Subscription<T>>();
 
-    public T Value => currentValue;
+    public T Value { get; private set; }
 
     public BehaviourSubject(T initialValue)
     {
-        currentValue = initialValue;
+        Value = initialValue;
     }
 
     /// <inheritdoc/>
     public Subscription<T> Subscribe(Action<T> action)
     {
-        action(currentValue);
+        action(Value);
 
         Subscription<T> subscription = new Subscription<T>(action);
         subscriptions.Add(subscription);
@@ -32,11 +30,11 @@ public class BehaviourSubject<T> : IObservable<T>
     /// <inheritdoc/>
     public void Next(T value)
     {
-        currentValue = value;
+        Value = value;
 
         subscriptions.RemoveAll(s =>
         {
-            if (!s.Unsubscribed) s.Action(currentValue);
+            if (!s.Unsubscribed) s.Action(Value);
 
             return s.Unsubscribed;
         });
@@ -45,7 +43,7 @@ public class BehaviourSubject<T> : IObservable<T>
     /// <inheritdoc/>
     public IObservable<TMapped> Map<TMapped>(Func<T, TMapped> mappingFunction)
     {
-        BehaviourSubject<TMapped> mappedBehaviourSubject = new BehaviourSubject<TMapped>(mappingFunction(currentValue));
+        BehaviourSubject<TMapped> mappedBehaviourSubject = new BehaviourSubject<TMapped>(mappingFunction(Value));
         Subscribe(value => mappedBehaviourSubject.Next(mappingFunction(value)));
         return mappedBehaviourSubject;
     }
@@ -53,9 +51,9 @@ public class BehaviourSubject<T> : IObservable<T>
     /// <inheritdoc/>
     public IObservable<T> Where(Func<T, bool> filter)
     {
-        if (filter(currentValue))
+        if (filter(Value))
         {
-            BehaviourSubject<T> filteredBehaviourSubject = new BehaviourSubject<T>(currentValue);
+            BehaviourSubject<T> filteredBehaviourSubject = new BehaviourSubject<T>(Value);
             Subscribe(value =>
             {
                 if (filter(value)) filteredBehaviourSubject.Next(value);

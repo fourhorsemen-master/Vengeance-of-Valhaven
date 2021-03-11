@@ -19,9 +19,7 @@ public class RoomTransitioner : MonoBehaviour
         if (!GameplayRoomTransitionManager.Instance.CanTransition) return;
         if (transform.DistanceFromPlayer() > TransitionDistance) return;
 
-        int currentRoomId = PersistenceManager.Instance.SaveData.CurrentRoomId;
-        RoomSaveData roomSaveData = PersistenceManager.Instance.SaveData.RoomSaveDataLookup[currentRoomId];
-        int nextRoomId = roomSaveData.RoomTransitionerIdToNextRoomId[id];
+        int nextRoomId = PersistenceManager.Instance.SaveData.CurrentRoomSaveData.RoomTransitionerIdToNextRoomId[id];
         PersistenceManager.Instance.TransitionToNextRoom(nextRoomId);
     }
 
