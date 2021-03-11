@@ -10,7 +10,7 @@ public class Execute : Cast
     private const int SharpenedEdgeDamageMultiplier = 3;
 
     private readonly Subject onCastFail = new Subject();
-    private readonly Subject<Vector3> onCastComplete = new Subject<Vector3>();
+    private readonly Subject<Actor> onCastComplete = new Subject<Actor>();
 
     public Execute(Actor owner, AbilityData abilityData, string fmodStartEvent, string fmodEndEvent, string[] availableBonuses, float duration)
         : base(owner, abilityData, fmodStartEvent, fmodEndEvent, availableBonuses, duration)
@@ -44,7 +44,7 @@ public class Execute : Cast
             return;
         }
 
-        onCastComplete.Next(target.transform.position);
+        onCastComplete.Next(target);
 
         int damageMultiplier = target.HealthManager.HealthProportion <= HealthPercentageForAdditionalDamage
             ? HasBonus("Sharpened Edge") ? SharpenedEdgeDamageMultiplier : AdditionalDamageMultiplier

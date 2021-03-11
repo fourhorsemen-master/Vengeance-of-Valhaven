@@ -9,9 +9,9 @@ public class ExecuteObject : StaticAbilityObject
     private VisualEffect castVisualEffect = null;
 
     [SerializeField]
-    private VisualEffect damageVisualEffect = null;
+    private ExecuteVisual executeVisualPrefab = null;
 
-    public static void Create(Vector3 position, Quaternion rotation, Subject onCastFail, Subject<Vector3> onCastComplete)
+    public static void Create(Vector3 position, Quaternion rotation, Subject onCastFail, Subject<Actor> onCastComplete)
     {
         ExecuteObject executeObject = Instantiate(AbilityObjectPrefabLookup.Instance.ExecuteObjectPrefab, position, rotation);
 
@@ -19,11 +19,10 @@ public class ExecuteObject : StaticAbilityObject
         onCastFail.Subscribe(executeObject.OnCastFail);
     }
 
-    private void OnCastComplete(Vector3 location)
+    private void OnCastComplete(Actor target)
     {
         castVisualEffect.Stop();
-        transform.position = location;
-        damageVisualEffect.enabled = true;
+        ExecuteVisual.Create(executeVisualPrefab, target.transform);
     }
 
     private void OnCastFail()
