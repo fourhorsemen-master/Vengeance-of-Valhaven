@@ -13,6 +13,9 @@ public class SaveData
     public Dictionary<int, RoomSaveData> RoomSaveDataLookup { get; set; }
     public Dictionary<int, List<int>> RoomTransitions { get; set; }
 
+    public RoomSaveData CurrentRoomSaveData => RoomSaveDataLookup[CurrentRoomId];
+    public RoomSaveData DefeatRoomSaveData => RoomSaveDataLookup[DefeatRoomId];
+
     public SerializableSaveData Serialize()
     {
         return new SerializableSaveData

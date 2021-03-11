@@ -12,8 +12,7 @@ public class CombatRoomManager : Singleton<CombatRoomManager>
     
     private void Start()
     {
-        int roomId = PersistenceManager.Instance.SaveData.CurrentRoomId;
-        RoomSaveData roomSaveData = PersistenceManager.Instance.SaveData.RoomSaveDataLookup[roomId];
+        RoomSaveData roomSaveData = PersistenceManager.Instance.SaveData.CurrentRoomSaveData;
 
         if (roomSaveData.RoomType != RoomType.Combat) return;
         
