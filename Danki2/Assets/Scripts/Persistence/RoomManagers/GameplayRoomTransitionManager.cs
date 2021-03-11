@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using UnityScene = UnityEngine.SceneManagement.Scene;
 
 /// <summary>
 /// Tracks whether the room can be transitioned through. By default, the room cannot be transitioned through.
