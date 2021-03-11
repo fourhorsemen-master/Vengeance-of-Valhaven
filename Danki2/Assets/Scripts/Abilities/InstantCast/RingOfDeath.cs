@@ -8,6 +8,7 @@ public class RingOfDeath : InstantCast
     private const float KnifeArcAngle = 360f;
     private const float KnifeSpeed = 10f;
     private const float BaseKnifeCastInterval = 0.04f;
+    private const float DrawTime = 0.2f;
 
     private int NumberOfKnives => HasBonus("Double Down") ? DoubleDownNumberOfKnives : BaseNumberOfKnives;
     private float KnifeCastInterval => HasBonus("Double Down") ? BaseKnifeCastInterval / 2 : BaseKnifeCastInterval;
@@ -25,24 +26,28 @@ public class RingOfDeath : InstantCast
 
         Quaternion rotation = Owner.transform.rotation;
 
-        Owner.MovementManager.Pause(KnifeCastInterval * NumberOfKnives);
+        Owner.MovementManager.Pause(DrawTime + KnifeCastInterval * NumberOfKnives);
 
-        for (float i = 0; i < NumberOfKnives; i++)
-        {
-            float angleOffset = KnifeArcAngle * i / NumberOfKnives;
-            Quaternion castRotation = rotation * Quaternion.Euler(Vector3.up * angleOffset);
+        PlayStartEvent();
 
-            Owner.InterruptibleAction(
-                KnifeCastInterval * i,
-                InterruptionType.Hard,
-                () => Throw(castRotation)
-            );    
-        }
+        Owner.InterruptibleIntervalAction(
+            KnifeCastInterval,
+            InterruptionType.Hard,
+            index => Throw(rotation, index),
+            DrawTime,
+            NumberOfKnives
+        );
     }
 
-    private void Throw(Quaternion castRotation)
+    private void Throw(Quaternion rotation, int index)
     {
-        if(HasBonus("Barbed Daggers")) 
+        PlayEndEvent();
+
+        float angleOffset = KnifeArcAngle * index / NumberOfKnives;
+
+        Quaternion castRotation = rotation * Quaternion.Euler(Vector3.up * angleOffset);
+
+        if (HasBonus("Barbed Daggers")) 
         {
             BarbedDaggerObject.Fire(Owner, OnCollision, KnifeSpeed, Owner.AbilitySource, castRotation);
         }
@@ -56,7 +61,7 @@ public class RingOfDeath : InstantCast
     {
         collisionCounter++; // counter to provide failure feedback early if all knives miss.
 
-        if (RoomManager.Instance.TryGetActor(gameObject, out Actor actor))
+        if (ActorCache.Instance.TryGetActor(gameObject, out Actor actor))
         {
             if (actor.Opposes(Owner))
             {

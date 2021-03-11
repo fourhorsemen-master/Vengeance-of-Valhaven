@@ -50,7 +50,7 @@ public class CollisionTemplateManager : Singleton<CollisionTemplateManager>
             ResetMesh(templateInstance);
         }
 
-        return RoomManager.Instance.ActorCache
+        return ActorCache.Instance.Cache
             .Where(actorCacheItem => Physics.ComputePenetration(
                 actorCacheItem.Collider,
                 actorCacheItem.Collider.transform.position,

@@ -4,14 +4,17 @@ using UnityEngine.AI;
 public class MouseGamePositionFinder : Singleton<MouseGamePositionFinder>
 {
     [SerializeField]
-    private float heightOffset = 0;
-
-    [SerializeField]
     private float navmeshClearance = 0;
+
+    private float heightOffset;
 
     private Plane plane = new Plane(Vector3.down, 0f);
 
-    public float HeightOffset => heightOffset;
+    private void Start()
+    {
+        Player player = ActorCache.Instance.Player;
+        heightOffset = player.Centre.y - player.transform.position.y;
+    }
 
     /// <summary>
     /// Casts a ray from the camera through the mouse to see if it hits a collider.

@@ -45,18 +45,24 @@ public abstract class Actor : MonoBehaviour
     public EffectManager EffectManager { get; private set; }
     public MovementManager MovementManager { get; private set; }
     public InterruptionManager InterruptionManager { get; private set; }
-    public HighlightManager HightlightManager { get; private set; }
+    public HighlightManager HighlightManager { get; private set; }
 
     public bool Dead { get; private set; }
     public Subject DeathSubject { get; } = new Subject();
     public abstract ActorType Type { get; }
+    protected abstract Tag Tag { get; }
 
+    public bool IsPlayer => Tag == Tag.Player;
     public bool CanCast => !Dead && !MovementManager.Stunned && !MovementManager.MovementLocked;
     public float CastableTimeElapsed { get; private set; } = 0f;
 
     protected virtual void Awake()
     {
+        ActorCache.Instance.Register(this);
+        
         gameObject.SetLayerRecursively(Layer.Actors);
+
+        gameObject.SetTag(Tag);
 
         StatsManager = new StatsManager(baseStats);
         EffectManager = new EffectManager(this, updateSubject);
@@ -65,7 +71,7 @@ public abstract class Actor : MonoBehaviour
         ChannelService = new ChannelService(this, startSubject, lateUpdateSubject);
         InstantCastService = new InstantCastService(this);
         MovementManager = new MovementManager(this, updateSubject, navmeshAgent);
-        HightlightManager = new HighlightManager(updateSubject, meshRenderers);
+        HighlightManager = new HighlightManager(updateSubject, meshRenderers);
 
         AbilityDataStatsDiffer abilityDataStatsDiffer = new AbilityDataStatsDiffer(this);
         RegisterAbilityDataDiffer(abilityDataStatsDiffer);
@@ -113,7 +119,7 @@ public abstract class Actor : MonoBehaviour
         );
     }
 
-    public void InterruptibleIntervalAction(float interval, InterruptionType interruptionType, Action action, float startDelay = 0, int? numRepetitions = null)
+    public void InterruptibleIntervalAction(float interval, InterruptionType interruptionType, Action<int> action, float startDelay = 0, int? numRepetitions = null)
     {
         Coroutine coroutine = this.ActOnInterval(interval, action, startDelay, numRepetitions);
 
@@ -139,8 +145,6 @@ public abstract class Actor : MonoBehaviour
 
     protected virtual void OnDeath()
     {
-        Debug.Log($"{tag} died");
-
         DeathSubject.Next();
         Dead = true;
     }

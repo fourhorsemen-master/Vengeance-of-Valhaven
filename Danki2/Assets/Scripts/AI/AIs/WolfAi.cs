@@ -43,7 +43,7 @@ public class WolfAi : Ai
 
     protected override IStateMachineComponent BuildStateMachineComponent()
     {
-        Player player = RoomManager.Instance.Player;
+        Player player = ActorCache.Instance.Player;
 
         IStateMachineComponent patrolStateMachine = new StateMachine<PatrolState>(PatrolState.StandStill)
             .WithComponent(PatrolState.StandStill, new StandStill(wolf))

@@ -21,14 +21,12 @@ public class PlayerTargetFinder
 
     private void UpdateTarget()
     {
-        if (TryHitEnemy()) return;
-        RemoveTarget();
+        if (TryHitActor()) return;
         if (TryHitNavmesh()) return;
-        if (TryHitAnyCollider()) return;
         HitPlane();
     }
 
-    private bool TryHitEnemy()
+    private bool TryHitActor()
     {
         bool mouseHitActor = MouseGamePositionFinder.Instance.TryGetCollider(
             out Collider collider,
@@ -36,13 +34,24 @@ public class PlayerTargetFinder
             LayerUtils.GetLayerMask(new[] { Layer.Actors })
         );
 
-        if (mouseHitActor && collider.gameObject.CompareTag(Tags.Enemy))
+        if (!mouseHitActor || !ActorCache.Instance.TryGetActor(collider.gameObject, out _))
+        {
+            RemoveTarget();
+            return false;
+        }
+
+        if (collider.CompareTag(Tag.Enemy))
         {
             Enemy enemy = collider.gameObject.GetComponent<Enemy>();
-
-            if (enemy.Dead) return false;
-
             SetTarget(enemy);
+            return true;
+        }
+
+        RemoveTarget();
+
+        if (collider.CompareTag(Tag.Player))
+        {
+            HitPlane();
             return true;
         }
 
@@ -83,14 +92,6 @@ public class PlayerTargetFinder
         if (!mouseHitNavmesh) return false;
 
         SetTargetPositions(floorPosition, offsetPosition);
-        return true;
-    }
-
-    private bool TryHitAnyCollider()
-    {
-        if (!MouseGamePositionFinder.Instance.TryGetCollider(out _, out Vector3 position)) return false;
-
-        SetTargetPositions(position, position);
         return true;
     }
 

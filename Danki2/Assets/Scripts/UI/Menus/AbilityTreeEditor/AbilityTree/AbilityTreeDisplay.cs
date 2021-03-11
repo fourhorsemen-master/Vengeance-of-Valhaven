@@ -21,7 +21,7 @@ public class AbilityTreeDisplay : MonoBehaviour
 
     public void Initialise()
     {
-        abilityTree = RoomManager.Instance.Player.AbilityTree;
+        abilityTree = ActorCache.Instance.Player.AbilityTree;
 
         abilityTree.ChangeSubject.Subscribe(RecalculateDisplay);
     }

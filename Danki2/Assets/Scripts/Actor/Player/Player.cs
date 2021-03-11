@@ -26,7 +26,6 @@ public class Player : Actor
     public float LongCooldown => longCooldown;
     public float ComboTimeout => comboTimeout;
 
-
     // Services
     public AbilityTree AbilityTree { get; private set; }
     public ComboManager ComboManager { get; private set; }
@@ -38,21 +37,15 @@ public class Player : Actor
 
     public FeedbackStatus FeedbackSinceLastCast { get; private set; } = FeedbackStatus.Waiting;
 
+    protected override Tag Tag => Tag.Player;
+
     protected override void Awake()
     {
         base.Awake();
 
-        EnumDictionary<AbilityReference, int> ownedAbilities = new EnumDictionary<AbilityReference, int>(3);
-
-        AbilityTree = AbilityTreeFactory.CreateTree(
-            ownedAbilities,
-            AbilityTreeFactory.CreateNode(AbilityReference.SweepingStrike),
-            AbilityTreeFactory.CreateNode(AbilityReference.Lunge)
-        );
-
-        TargetFinder = new PlayerTargetFinder(this, updateSubject);
-
+        AbilityTree = PersistenceManager.Instance.SaveData.AbilityTree;
         ComboManager = new ComboManager(this, updateSubject, rollResetsCombo);
+        TargetFinder = new PlayerTargetFinder(this, updateSubject);
 
         InstantCastService.SetFeedbackTimeout(feedbackTimeout);
         ChannelService.SetFeedbackTimeout(feedbackTimeout);
@@ -65,13 +58,6 @@ public class Player : Actor
         ComboManager.SubscribeToStateEntry(ComboState.ReadyInCombo, () => FeedbackSinceLastCast = FeedbackStatus.Waiting);
 
         SetAbilityBonusCalculator(new AbilityBonusTreeDepthCalculator(AbilityTree));
-    }
-
-    protected override void Start()
-    {
-        base.Start();
-        
-        gameObject.tag = Tags.Player;
     }
 
     public void Roll(Vector3 direction)
@@ -98,4 +84,10 @@ public class Player : Actor
     }
 
     public void PlayWhiffSound() => RuntimeManager.PlayOneShot(whiffEvent);
+
+    protected override void OnDeath()
+    {
+        base.OnDeath();
+        PersistenceManager.Instance.TransitionToDefeatRoom();
+    }
 }

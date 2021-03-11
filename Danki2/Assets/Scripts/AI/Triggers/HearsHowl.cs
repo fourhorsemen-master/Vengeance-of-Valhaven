@@ -20,7 +20,7 @@ public class HearsHowl : StateMachineTrigger
     {
         heardHowl = false;
         
-        RoomManager.Instance.ActorCache.ForEach(actorCacheItem =>
+        ActorCache.Instance.Cache.ForEach(actorCacheItem =>
         {
             if (actorCacheItem.Actor.Equals(actor)) return;
             if (actorCacheItem.Actor.Type != ActorType.Wolf) return;

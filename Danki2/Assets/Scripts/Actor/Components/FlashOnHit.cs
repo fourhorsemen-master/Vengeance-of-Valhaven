@@ -15,6 +15,6 @@ public class FlashOnHit : MonoBehaviour
 
     public void Flash()
     {
-        actor.HightlightManager.AddTemporaryHighlight(FlashIntensity, FlashDuration);
+        actor.HighlightManager.AddTemporaryHighlight(FlashIntensity, FlashDuration);
     }
 }
