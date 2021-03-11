@@ -87,11 +87,15 @@ public static class EditorUtils
     /// <inheritdoc cref="EditListSize{T}(string,string,System.Collections.Generic.List{T},T)" />
     public static void EditListSize<T>(string addLabel, string removeLabel, List<T> list, Func<T> defaultValueProvider)
     {
-        IndentedButton(addLabel, () => list.Add(defaultValueProvider()));
+        GUILayout.BeginHorizontal();
+        GUILayout.Space(EditorGUI.indentLevel * LineHeight);
+
+        if (GUILayout.Button(addLabel)) list.Add(defaultValueProvider());
 
         GUI.enabled = list.Count > 0;
-        IndentedButton(removeLabel, () => list.RemoveAt(list.Count - 1));
+        if (GUILayout.Button(removeLabel)) list.RemoveAt(list.Count - 1);
         GUI.enabled = true;
+        GUILayout.EndHorizontal();
     }
 
     /// <summary>

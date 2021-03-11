@@ -20,8 +20,6 @@ public class ModuleLookupEditor : Editor
             
             moduleDataList.ForEach(EditModuleData);
 
-            EditorUtils.VerticalSpace();
-
             EditorUtils.EditListSize("Add Module", "Remove Module", moduleDataList, () => new ModuleData());
 
             EditorGUI.indentLevel--;
@@ -54,9 +52,9 @@ public class ModuleLookupEditor : Editor
             tags[i] = (ModuleTag) EditorGUILayout.EnumPopup("Tag", tags[i]);
         }
 
-        EditorUtils.VerticalSpace();
-
         EditorUtils.EditListSize("Add Tag", "Remove Tag", tags, ModuleTag.Short);
+
+        EditorUtils.VerticalSpace();
 
         EditorGUI.indentLevel--;
     }
