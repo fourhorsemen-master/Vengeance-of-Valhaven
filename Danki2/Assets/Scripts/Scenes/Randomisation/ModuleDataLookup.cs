@@ -5,7 +5,7 @@ using UnityEngine;
 [Serializable]
 public class ModuleDataListWrapper
 {
-    [SerializeField] private List<ModuleData> list;
+    [SerializeField] private List<ModuleData> list = new List<ModuleData>();
 
     public List<ModuleData> List => list;
 }

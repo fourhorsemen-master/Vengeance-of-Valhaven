@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3607690556235679673}
-  - component: {fileID: 913807830953189975}
+  - component: {fileID: 8354847309233353129}
   m_Layer: 0
   m_Name: ModuleLookup
   m_TagString: Untagged
@@ -31,7 +31,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &913807830953189975
+--- !u!114 &8354847309233353129
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -45,20 +45,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moduleDataLookup:
     _keys:
-    - Circular
-    - Square
+    - SmallCircular
+    - LargeCircular
+    - SmallSquare
+    - LargeSquare
     _values:
     - list:
-      - prefab: {fileID: 1398656498104493259, guid: 2c8f55b6741670d4c9a1816d162f38e8,
+      - prefab: {fileID: 4110214435533136738, guid: 83572ff6d6209ef42a090bfdad1b1c1e,
           type: 3}
-        tags: 00000000
-      - prefab: {fileID: 1398656498104493259, guid: 52500efb29446ef44bd8371332bf571d,
+        tags: 0000000003000000
+      - prefab: {fileID: 4110214435533136738, guid: dbb1d693db05ab643a3f465c35681b10,
           type: 3}
-        tags: 01000000
+        tags: 0100000002000000
+      - prefab: {fileID: 4110214435533136738, guid: 2d43195569d40424f999c5ae8afd0b07,
+          type: 3}
+        tags: 0000000002000000
+      - prefab: {fileID: 4110214435533136738, guid: 0c60b7b04c03222408c745ff30fbd62a,
+          type: 3}
+        tags: 0100000003000000
     - list:
-      - prefab: {fileID: 1398656498104493259, guid: 9ff0e009a8b727c49bdca92fc62503a0,
+      - prefab: {fileID: 7152780536418578668, guid: 25585d8dd9c7b634b85f7d6d1859ebdb,
           type: 3}
-        tags: 00000000
-      - prefab: {fileID: 1398656498104493259, guid: 53dc74f6265ec4b418a65dda48f1b0b6,
+        tags: 
+    - list:
+      - prefab: {fileID: 7152780536418578668, guid: 1ff71a9b2262bf841903ffd031cace20,
           type: 3}
-        tags: 01000000
+        tags: 
+    - list:
+      - prefab: {fileID: 7152780536418578668, guid: dcd11cea5639a074ba154cd554ba1add,
+          type: 3}
+        tags: 

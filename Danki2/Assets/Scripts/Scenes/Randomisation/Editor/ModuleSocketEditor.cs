@@ -13,7 +13,11 @@ public class ModuleSocketEditor : Editor
 
         EditorUtils.ShowScriptLink(moduleSocket);
 
-        if (EditorUtils.InPrefabEditor(target)) EditSocketType();
+        if (EditorUtils.InPrefabEditor(target))
+        {
+            EditSocketType();
+            EditNavBlocker();
+        }
         else
         {
             EditId();
@@ -29,6 +33,17 @@ public class ModuleSocketEditor : Editor
     private void EditSocketType()
     {
         moduleSocket.SocketType = (SocketType) EditorGUILayout.EnumPopup("Socket Type", moduleSocket.SocketType);
+    }
+
+    private void EditNavBlocker()
+    {
+        moduleSocket.NavBlocker = (GameObject) EditorGUILayout.ObjectField(
+            "Nav Blocker",
+            moduleSocket.NavBlocker,
+            typeof(GameObject),
+            true,
+            null
+        );
     }
 
     private void EditId()

@@ -1,5 +1,7 @@
 ﻿public enum ModuleTag
 {
     Short,
-    Tall
+    Tall,
+    Leafy,
+    Rocky
 }

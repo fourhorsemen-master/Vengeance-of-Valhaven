@@ -1,5 +1,7 @@
 ﻿public enum SocketType
 {
-    Circular,
-    Square
+    SmallCircular,
+    LargeCircular,
+    SmallSquare,
+    LargeSquare
 }
