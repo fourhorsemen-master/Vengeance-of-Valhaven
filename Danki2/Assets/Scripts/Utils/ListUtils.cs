@@ -19,4 +19,12 @@ public static class ListUtils
     {
         return (list as IEnumerable<T>).Where(item => filter(item)).ToList();
     }
+
+    /// <summary>
+    /// Returns true iff the given list contains elements with distinct IDs.
+    /// </summary>
+    public static bool DistinctById<T>(this List<T> list) where T : IId
+    {
+        return list.GroupBy(s => s.Id).Count() == list.Count;
+    }
 }

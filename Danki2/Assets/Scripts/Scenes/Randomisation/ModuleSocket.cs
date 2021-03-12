@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ModuleSocket : MonoBehaviour, IComparable<ModuleSocket>
+public class ModuleSocket : MonoBehaviour, IComparable<ModuleSocket>, IId
 {
     [SerializeField] private int id = 0;
     [SerializeField] private GameObject navBlocker = null;
