@@ -9,7 +9,7 @@ public class ModuleManager : Singleton<ModuleManager>
         Random.InitState(PersistenceManager.Instance.SaveData.CurrentRoomSaveData.ModuleSeed);
 
         List<ModuleSocket> sockets = FindObjectsOfType<ModuleSocket>().ToList();
-        sockets.Sort();
+        sockets.SortById();
 
         if (!sockets.DistinctById())
         {

@@ -23,8 +23,16 @@ public static class ListUtils
     /// <summary>
     /// Returns true iff the given list contains elements with distinct IDs.
     /// </summary>
-    public static bool DistinctById<T>(this List<T> list) where T : IId
+    public static bool DistinctById<T>(this List<T> list) where T : IIdentifiable
     {
         return list.GroupBy(s => s.Id).Count() == list.Count;
+    }
+
+    /// <summary>
+    /// Sorts the list in ascending order based on the elements' IDs.
+    /// </summary>
+    public static void SortById<T>(this List<T> list) where T : IIdentifiable
+    {
+        list.Sort((a, b) => a.Id == b.Id ? 0 : a.Id < b.Id ? -1 : 1);
     }
 }

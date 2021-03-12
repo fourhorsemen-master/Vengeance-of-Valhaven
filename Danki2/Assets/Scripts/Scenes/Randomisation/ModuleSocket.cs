@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class ModuleSocket : MonoBehaviour, IComparable<ModuleSocket>, IId
+public class ModuleSocket : MonoBehaviour, IIdentifiable
 {
     [SerializeField] private int id = 0;
     [SerializeField] private GameObject navBlocker = null;
@@ -13,8 +12,6 @@ public class ModuleSocket : MonoBehaviour, IComparable<ModuleSocket>, IId
     public GameObject NavBlocker { get => navBlocker; set => navBlocker = value; }
     public SocketType SocketType { get => socketType; set => socketType = value; }
     public List<ModuleTag> Tags { get => tags; set => tags = value; }
-
-    public int CompareTo(ModuleSocket other) => id == other.id ? 0 : id < other.id ? -1 : 1;
 
     private void Start()
     {
