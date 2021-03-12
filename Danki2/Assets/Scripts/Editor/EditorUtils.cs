@@ -77,23 +77,49 @@ public static class EditorUtils
     }
 
     /// <summary>
-    /// Adds buttons to add and remove elements from the given list.
+    /// Adds buttons to add and remove elements from the given list. Items are always added to and removed
+    /// from the end of the list.
     /// </summary>
-    public static void EditListSize<T>(string addLabel, string removeLabel, List<T> list, T defaultValue)
+    public static void EditListSize<T>(
+        string addLabel,
+        string removeLabel,
+        List<T> list,
+        T defaultValue,
+        Action<T> itemAddedCallback = null,
+        Action<T> itemRemovedCallback = null
+    )
     {
-        EditListSize(addLabel, removeLabel, list, () => defaultValue);
+        EditListSize(addLabel, removeLabel, list, () => defaultValue, itemAddedCallback, itemRemovedCallback);
     }
 
-    /// <inheritdoc cref="EditListSize{T}(string,string,System.Collections.Generic.List{T},T)" />
-    public static void EditListSize<T>(string addLabel, string removeLabel, List<T> list, Func<T> defaultValueProvider)
+    /// <inheritdoc cref="EditListSize{T}(string,string,System.Collections.Generic.List{T},T,System.Action{T},System.Action{T})" />
+    public static void EditListSize<T>(
+        string addLabel,
+        string removeLabel,
+        List<T> list,
+        Func<T> defaultValueProvider,
+        Action<T> itemAddedCallback = null,
+        Action<T> itemRemovedCallback = null
+    )
     {
         GUILayout.BeginHorizontal();
         GUILayout.Space(EditorGUI.indentLevel * LineHeight);
 
-        if (GUILayout.Button(addLabel)) list.Add(defaultValueProvider());
+        if (GUILayout.Button(addLabel))
+        {
+            T newItem = defaultValueProvider();
+            list.Add(newItem);
+            itemAddedCallback?.Invoke(newItem);
+        }
 
         GUI.enabled = list.Count > 0;
-        if (GUILayout.Button(removeLabel)) list.RemoveAt(list.Count - 1);
+        if (GUILayout.Button(removeLabel))
+        {
+            int index = list.Count - 1;
+            T oldItem = list[index];
+            list.RemoveAt(index);
+            itemRemovedCallback?.Invoke(oldItem);
+        }
         GUI.enabled = true;
         GUILayout.EndHorizontal();
     }
