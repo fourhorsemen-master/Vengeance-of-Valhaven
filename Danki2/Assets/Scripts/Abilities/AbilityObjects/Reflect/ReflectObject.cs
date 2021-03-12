@@ -4,9 +4,10 @@ public class ReflectObject : StaticAbilityObject
 {
     public override float StickTime => 5f;
 
-    private float visualPositionOffset;
+    [SerializeField]
+    private ReflectVisual reflectVisualPrefab = null;
 
-    [SerializeField] private ReflectVisual reflectVisualPrefab;
+    private float visualPositionOffset;
 
     public static ReflectObject Create(Transform transform, float height, Subject onReflect, float visualPositionOffset)
     {
