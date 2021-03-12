@@ -6,14 +6,16 @@ public class SceneLookupEditor : Editor
 {
     public override void OnInspectorGUI()
     {
-        SceneDataLookup sceneDataLookup = ((SceneLookup) target).sceneDataLookup;
-        
+        SceneLookup sceneLookup = (SceneLookup) target;
+
+        EditorUtils.ShowScriptLink(sceneLookup);
+
         EnumUtils.ForEach<Scene>(scene =>
         {
             EditorUtils.Header(scene.ToString());
             EditorGUI.indentLevel++;
 
-            SceneData sceneData = sceneDataLookup[scene];
+            SceneData sceneData = sceneLookup.sceneDataLookup[scene];
             sceneData.FileName = EditorGUILayout.TextField("File name", sceneData.FileName);
             sceneData.SceneType = (SceneType) EditorGUILayout.EnumPopup("Scene type", sceneData.SceneType);
 
