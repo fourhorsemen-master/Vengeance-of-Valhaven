@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Nested lists aren't serialisable by default, adding this wrapper is a workaround.
+/// </summary>
 [Serializable]
 public class ModuleDataListWrapper
 {
