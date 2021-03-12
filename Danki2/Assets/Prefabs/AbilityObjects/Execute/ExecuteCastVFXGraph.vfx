@@ -818,9 +818,9 @@ VisualEffectResource:
         data[1]: 3
         data[2]: -1
         data[3]: 1
-      - op: 13
+      - op: 1
         valueIndex: 5
-        data[0]: 4
+        data[0]: -1
         data[1]: -1
         data[2]: -1
         data[3]: 1
@@ -842,9 +842,9 @@ VisualEffectResource:
         data[1]: -1
         data[2]: -1
         data[3]: 1
-      - op: 1
+      - op: 13
         valueIndex: 9
-        data[0]: -1
+        data[0]: 4
         data[1]: -1
         data[2]: -1
         data[3]: 1
@@ -936,7 +936,7 @@ VisualEffectResource:
           m_Value: 0.5
         - m_ExpressionIndex: 1
           m_Value: 6.2831855
-        - m_ExpressionIndex: 9
+        - m_ExpressionIndex: 5
           m_Value: 0
         - m_ExpressionIndex: 14
           m_Value: 1000
@@ -997,7 +997,7 @@ VisualEffectResource:
           m_Value:
             serializedVersion: 2
             key0: {r: 1, g: 1, b: 1, a: 1}
-            key1: {r: 1, g: 0.58540666, b: 0, a: 0.43137255}
+            key1: {r: 1, g: 0.58540666, b: 0, a: 0}
             key2: {r: 0, g: 0, b: 0, a: 0}
             key3: {r: 0, g: 0, b: 0, a: 0}
             key4: {r: 0, g: 0, b: 0, a: 0}
@@ -2006,7 +2006,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Gradient, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"colorKeys":[{"color":{"r":1.0,"g":1.0,"b":1.0,"a":1.0},"time":0.6500037908554077},{"color":{"r":1.0,"g":0.5854066610336304,"b":0.0,"a":1.0},"time":1.0}],"alphaKeys":[{"alpha":1.0,"time":0.0},{"alpha":0.4313725531101227,"time":1.0}],"gradientMode":0}'
+      m_SerializableObject: '{"colorKeys":[{"color":{"r":1.0,"g":1.0,"b":1.0,"a":1.0},"time":0.6500037908554077},{"color":{"r":1.0,"g":0.5854066610336304,"b":0.0,"a":1.0},"time":1.0}],"alphaKeys":[{"alpha":1.0,"time":0.0},{"alpha":0.0,"time":1.0}],"gradientMode":0}'
     m_Space: 2147483647
   m_Property:
     name: Color
@@ -2368,8 +2368,7 @@ MonoBehaviour:
         PublicKeyToken=b77a5c561934e089
     attributes: []
   m_Direction: 0
-  m_LinkedSlots:
-  - {fileID: 8926484042661614834}
+  m_LinkedSlots: []
 --- !u!114 &8926484042661614789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2402,7 +2401,8 @@ MonoBehaviour:
         PublicKeyToken=b77a5c561934e089
     attributes: []
   m_Direction: 0
-  m_LinkedSlots: []
+  m_LinkedSlots:
+  - {fileID: 8926484042661614834}
 --- !u!114 &8926484042661614790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2680,7 +2680,7 @@ MonoBehaviour:
     attributes: []
   m_Direction: 1
   m_LinkedSlots:
-  - {fileID: 8926484042661614788}
+  - {fileID: 8926484042661614789}
 --- !u!114 &8926484042661614835
 MonoBehaviour:
   m_ObjectHideFlags: 0

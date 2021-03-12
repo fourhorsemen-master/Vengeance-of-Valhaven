@@ -7,9 +7,9 @@ public class StaticUI : Singleton<StaticUI>
 
     private void Start()
     {
-        GameStateController.Instance.GameStateTransitionSubject.Subscribe(gameState =>
+        GameplayStateController.Instance.GameStateTransitionSubject.Subscribe(gameState =>
         {
-            bool visible = gameState == GameState.Playing;
+            bool visible = gameState == GameplayState.Playing;
             canvasGroup.alpha = visible ? 1 : 0;
         });
     }

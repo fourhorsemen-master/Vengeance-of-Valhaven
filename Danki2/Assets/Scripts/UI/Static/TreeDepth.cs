@@ -20,7 +20,7 @@ public class TreeDepth : MonoBehaviour
 
     private void Start()
     {
-        player = RoomManager.Instance.Player;
+        player = ActorCache.Instance.Player;
 
         UpdateDepth();
 

@@ -695,7 +695,7 @@ retry:
 
         void HandlePlayModeStateChange(PlayModeStateChange state)
         {
-            if (state == PlayModeStateChange.ExitingEditMode || state == PlayModeStateChange.EnteredEditMode)
+            if (state == PlayModeStateChange.ExitingEditMode || state == PlayModeStateChange.ExitingPlayMode)
             {
                 Destroy();
             }

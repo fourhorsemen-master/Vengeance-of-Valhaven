@@ -34,7 +34,7 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
 
     private void Start()
     {
-        Player player = RoomManager.Instance.Player;
+        Player player = ActorCache.Instance.Player;
         playerTreeTooltipBuilder = new PlayerTreeTooltipBuilder(player);
     }
 

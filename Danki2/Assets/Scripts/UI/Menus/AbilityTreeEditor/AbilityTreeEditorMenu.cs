@@ -35,9 +35,9 @@ public class AbilityTreeEditorMenu : Singleton<AbilityTreeEditorMenu>
         abilityListDisplay.Initialise();
         abilityTreeDisplay.Initialise();
 
-        GameStateController.Instance.GameStateTransitionSubject.Subscribe(gameState =>
+        GameplayStateController.Instance.GameStateTransitionSubject.Subscribe(gameState =>
         {
-            if (gameState == GameState.InAbilityTreeEditor)
+            if (gameState == GameplayState.InAbilityTreeEditor)
             {
                 gameObject.SetActive(true);
                 abilityListDisplay.PopulateAbilityList();

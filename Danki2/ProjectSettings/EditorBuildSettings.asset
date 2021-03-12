@@ -6,6 +6,30 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/PlayableLevel/PlayableLevel.unity
-    guid: b27d03fcea0662442977e18fa91988bb
+    path: Assets/Scenes/MetaScenes/EntryScene/EntryScene.unity
+    guid: 766d8ac33dc25ff49bcc92b10ae27659
+  - enabled: 1
+    path: Assets/Scenes/MenuScenes/MainMenu/MainMenu.unity
+    guid: ac0402ef0d21d4148a82092c08c64a6d
+  - enabled: 1
+    path: Assets/Scenes/MetaScenes/GameplayEntryScene/GameplayEntryScene.unity
+    guid: d916786854a84b84395dc40affa60af7
+  - enabled: 1
+    path: Assets/Scenes/MetaScenes/GameplayExitScene/GameplayExitScene.unity
+    guid: fc45584d024b6f346b3c7534bd74d866
+  - enabled: 1
+    path: Assets/Scenes/MenuScenes/GameplayVictoryScene/GameplayVictoryScene.unity
+    guid: fd2127d884d76fb498e1cec82bd5118a
+  - enabled: 1
+    path: Assets/Scenes/MenuScenes/GameplayDefeatScene/GameplayDefeatScene.unity
+    guid: 15d02734f1c9ceb48a1ad1c8eddac227
+  - enabled: 1
+    path: Assets/Scenes/GameplayScenes/DummyGameplayScenes/GameplayScene1/GameplayScene1.unity
+    guid: b742055673aa11c4bb75efcd3f99daac
+  - enabled: 1
+    path: Assets/Scenes/GameplayScenes/DummyGameplayScenes/GameplayScene2/GameplayScene2.unity
+    guid: a9e331718c2c86e46b65b041ee001729
+  - enabled: 1
+    path: Assets/Scenes/GameplayScenes/DummyGameplayScenes/GameplayScene3/GameplayScene3.unity
+    guid: a70e1bb81ccd9eb4a8057e828455b3fe
   m_configObjects: {}
