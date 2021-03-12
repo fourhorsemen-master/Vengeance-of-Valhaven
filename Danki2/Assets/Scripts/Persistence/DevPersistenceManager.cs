@@ -17,6 +17,8 @@ public class DevPersistenceManager : PersistenceManager
     
     public override SaveData SaveData => GenerateNewSaveData();
 
+    protected override bool DestroyOnLoad => true;
+
     protected override void Awake()
     {
         base.Awake();
