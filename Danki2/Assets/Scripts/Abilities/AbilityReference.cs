@@ -21,5 +21,6 @@
     Maul,
     BearCharge,    
     Cleave,
-    RingOfDeath
+    RingOfDeath,
+    Execute
 }
