@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public static class NewSaveGenerator
 {
@@ -49,7 +50,7 @@ public static class NewSaveGenerator
                         [0] = 1,
                         [1] = 2
                     },
-                    ModuleSeed = 1000
+                    ModuleSeed = Random.Range(0, int.MaxValue)
                 }
             },
             {
@@ -71,7 +72,7 @@ public static class NewSaveGenerator
                     {
                         [0] = 3
                     },
-                    ModuleSeed = 2000
+                    ModuleSeed = Random.Range(0, int.MaxValue)
                 }
             },
             {
@@ -94,7 +95,7 @@ public static class NewSaveGenerator
                     {
                         [0] = 3
                     },
-                    ModuleSeed = 3000
+                    ModuleSeed = Random.Range(0, int.MaxValue)
                 }
             },
             {
@@ -116,7 +117,7 @@ public static class NewSaveGenerator
                     {
                         [0] = 4
                     },
-                    ModuleSeed = 4000
+                    ModuleSeed = Random.Range(0, int.MaxValue)
                 }
             },
             {
