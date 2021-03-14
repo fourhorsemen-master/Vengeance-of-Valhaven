@@ -6,9 +6,11 @@
 ///
 /// NOTE: Public items in this class are marked as virtual so that the dev persistence manager can freely override them.
 /// </summary>
-public class PersistenceManager : NotDestroyedOnLoadSingleton<PersistenceManager>
+public class PersistenceManager : Singleton<PersistenceManager>
 {
     public virtual SaveData SaveData { get; private set; }
+
+    protected override bool DestroyOnLoad => false;
 
     protected virtual void Start()
     {

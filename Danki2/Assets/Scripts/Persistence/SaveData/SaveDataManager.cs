@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 
-public class SaveDataManager : NotDestroyedOnLoadSingleton<SaveDataManager>
+public class SaveDataManager : Singleton<SaveDataManager>
 {
     private string serializedSaveData = null;
 
     public bool HasSaveData => serializedSaveData != null;
+
+    protected override bool DestroyOnLoad => false;
 
     public void Save(SaveData saveData) => serializedSaveData = JsonUtility.ToJson(saveData.Serialize());
     
