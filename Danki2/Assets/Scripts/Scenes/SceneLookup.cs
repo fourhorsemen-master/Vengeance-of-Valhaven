@@ -1,5 +1,8 @@
-﻿public class SceneLookup : Singleton<SceneLookup>
+﻿using UnityEngine;
+
+public class SceneLookup : Singleton<SceneLookup>
 {
+   [SerializeField]
    public SceneDataLookup sceneDataLookup = new SceneDataLookup(() => new SceneData());
 
    protected override bool DestroyOnLoad => false;
