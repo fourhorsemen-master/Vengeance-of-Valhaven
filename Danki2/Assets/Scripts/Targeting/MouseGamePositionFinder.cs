@@ -12,8 +12,7 @@ public class MouseGamePositionFinder : Singleton<MouseGamePositionFinder>
 
     private void Start()
     {
-        Player player = ActorCache.Instance.Player;
-        heightOffset = player.Centre.y - player.transform.position.y;
+        heightOffset = ActorCache.Instance.Player.Height;
     }
 
     /// <summary>

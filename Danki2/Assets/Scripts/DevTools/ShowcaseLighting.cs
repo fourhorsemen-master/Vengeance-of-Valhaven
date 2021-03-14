@@ -6,9 +6,6 @@ public class ShowcaseLighting : MonoBehaviour
     public List<GameObject> MainLights;
     public List<GameObject> FillLights;
 
-    private GameObject CurrentActiveMainLight = null;
-    private GameObject CurrentActiveFillLight = null;
-
     // Start is called before the first frame update
     void OnValidate()
     {
@@ -18,52 +15,35 @@ public class ShowcaseLighting : MonoBehaviour
             return;
         }
 
-        if (MainLights.Count == 0) return;
-
-        foreach (GameObject Light in MainLights) Light.SetActive(false);
-        foreach (GameObject Light in FillLights) Light.SetActive(false);
-
-        SetActiveLight(0);
+        if (MainLights.Count == 0)
+        {
+            Debug.LogError("No lights defined.");
+            return;
+        }
     }
+    public int CurrentLightIndex => MainLights.FindIndex(l => l.activeInHierarchy);
 
     public void NextLight()
     {
-        if (MainLights.Count == 0) return;
-
-        int index = MainLights.IndexOf(CurrentActiveMainLight);
-        index = ++index % MainLights.Count;
+        int index = TrueMod(CurrentLightIndex + 1, MainLights.Count);
         SetActiveLight(index);
 	}
 
     public void PrevLight()
     {
-        if (MainLights.Count == 0) return;
-
-        int index = MainLights.IndexOf(CurrentActiveMainLight);
-        index = TrueMod(--index, MainLights.Count);
+        int index = TrueMod(CurrentLightIndex - 1, MainLights.Count);
         SetActiveLight(index);
-	}
+    }
 
-    public void HomeLight()
-    {
-        if (MainLights.Count == 0) return;
+    public void HomeLight() => SetActiveLight(0);
 
-        SetActiveLight(0);
-	}
-
-    private void SetActiveLight(int NewActiveLightIndex)
+    private void SetActiveLight(int index)
 	{
-        if (CurrentActiveMainLight != null)
-        {
-            CurrentActiveMainLight.SetActive(false);
-            CurrentActiveFillLight.SetActive(false);
-        }
+        MainLights.ForEach(l => l.SetActive(false));
+        FillLights.ForEach(l => l.SetActive(false));
 
-        CurrentActiveMainLight = MainLights[NewActiveLightIndex];
-        CurrentActiveMainLight.SetActive(true);
-
-        CurrentActiveFillLight = FillLights[NewActiveLightIndex];
-        CurrentActiveFillLight.SetActive(true);
+        MainLights[index].SetActive(true);
+        FillLights[index].SetActive(true);
     }
 
     //A proper modulo, handling negatives as it should.

@@ -24,7 +24,7 @@ public class ModuleManager : Singleton<ModuleManager>
     {
         sockets.ForEach(socket =>
         {
-            List<GameObject> prefabsWithTags = ModuleLookup.Instance.GetPrefabsWithTags(socket.SocketType, socket.Tags);
+            List<GameObject> prefabsWithTags = ModuleLookup.Instance.GetModulesWithMatchingTags(socket.SocketType, socket.Tags);
 
             if (prefabsWithTags.Count == 0)
             {
