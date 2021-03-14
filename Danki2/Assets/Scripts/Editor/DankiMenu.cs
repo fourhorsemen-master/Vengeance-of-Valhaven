@@ -1,12 +1,12 @@
 ﻿using UnityEditor;
+using UnityEditor.SceneManagement;
 
-[InitializeOnLoad]
 public static class DankiMenu
 {
     [MenuItem("Danki/Run Entry Scene")]
     private static void RunEntryScene()
     {
-        EditorApplication.OpenScene("Assets/Scenes/MetaScenes/EntryScene/EntryScene.unity");
+        EditorSceneManager.OpenScene("Assets/Scenes/MetaScenes/EntryScene/EntryScene.unity");
         
         EditorApplication.isPlaying = true;
     }
