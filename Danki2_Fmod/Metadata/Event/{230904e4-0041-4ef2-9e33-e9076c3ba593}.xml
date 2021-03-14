@@ -2,13 +2,13 @@
 <objects serializationModel="Studio.02.01.00">
 	<object class="Event" id="{230904e4-0041-4ef2-9e33-e9076c3ba593}">
 		<property name="name">
-			<value>AM_Forest</value>
+			<value>AM_Forest_Amb</value>
 		</property>
 		<property name="outputFormat">
 			<value>1</value>
 		</property>
 		<relationship name="folder">
-			<destination>{6d6854b6-e71c-49c3-8814-8c0ac752146b}</destination>
+			<destination>{0149e2c8-a14b-4bb7-a8dd-cc99aa369103}</destination>
 		</relationship>
 		<relationship name="mixer">
 			<destination>{5963df5d-ceb0-4011-aa20-b3064fc00e1c}</destination>
@@ -110,7 +110,7 @@
 	</object>
 	<object class="GroupTrack" id="{28e945dc-ba22-4023-a9cc-5b14aeeebb08}">
 		<relationship name="modules">
-			<destination>{f9b7b7d9-7339-41a8-8c54-718b349c548e}</destination>
+			<destination>{5f1a16e8-7bf4-400c-b5a5-63b2d5548894}</destination>
 		</relationship>
 		<relationship name="mixerGroup">
 			<destination>{6d6dd07b-d513-4ea0-b47d-165dbf5bd7cf}</destination>
@@ -122,8 +122,8 @@
 			<destination>{c34a278e-3365-4fc7-a68d-c103fb75dee8}</destination>
 			<destination>{47a6a35e-9e7d-4980-807a-893d169c6f9d}</destination>
 			<destination>{5529505e-c091-458a-9e3d-f67574d6422a}</destination>
-			<destination>{f9b7b7d9-7339-41a8-8c54-718b349c548e}</destination>
 			<destination>{e868791b-196b-4553-bd8f-9ae2db0e9302}</destination>
+			<destination>{5f1a16e8-7bf4-400c-b5a5-63b2d5548894}</destination>
 		</relationship>
 		<relationship name="markers">
 			<destination>{388643a4-61a1-4f1d-aab9-d6b82e3b6c7e}</destination>
@@ -162,7 +162,7 @@
 	</object>
 	<object class="EventMixerGroup" id="{803287b9-b166-44ce-9958-40247f0081a9}">
 		<property name="volume">
-			<value>-10</value>
+			<value>-11</value>
 		</property>
 		<property name="name">
 			<value>ambience</value>
@@ -197,7 +197,7 @@
 	</object>
 	<object class="EventMixerGroup" id="{8e7dd82e-de4c-421a-95c7-d481e2500085}">
 		<property name="volume">
-			<value>-0.5</value>
+			<value>-15.5</value>
 		</property>
 		<property name="name">
 			<value>Wind Howl</value>
@@ -222,7 +222,7 @@
 	</object>
 	<object class="EventMixerGroup" id="{c187ec45-3f7f-4a85-965c-14f29f2fc579}">
 		<property name="volume">
-			<value>-4</value>
+			<value>-6</value>
 		</property>
 		<property name="name">
 			<value>Wind Body</value>
@@ -241,6 +241,7 @@
 		<property name="length">
 			<value>17.011496133254013</value>
 		</property>
+		<property name="name" />
 		<relationship name="event">
 			<destination>{c1aef081-7194-475a-82c1-491f0894bdec}</destination>
 		</relationship>
@@ -290,21 +291,12 @@
 			<destination>{caaf2b1a-c476-422f-b640-68b4aa740483}</destination>
 		</relationship>
 	</object>
-	<object class="EventSound" id="{f9b7b7d9-7339-41a8-8c54-718b349c548e}">
-		<property name="triggerProbabilityEnabled">
-			<value>true</value>
-		</property>
-		<property name="triggerProbability">
-			<value>55</value>
-		</property>
+	<object class="EventSound" id="{5f1a16e8-7bf4-400c-b5a5-63b2d5548894}">
 		<property name="start">
-			<value>2.5</value>
+			<value>3</value>
 		</property>
 		<property name="length">
-			<value>14.511496133254013</value>
-		</property>
-		<property name="volume">
-			<value>-8</value>
+			<value>14.011496133254013</value>
 		</property>
 		<relationship name="event">
 			<destination>{c1aef081-7194-475a-82c1-491f0894bdec}</destination>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.01.00">
+	<object class="ParameterPreset" id="{89fc1f8d-8f6f-403d-be43-3a219ca48259}">
+		<property name="name">
+			<value>bashDraw</value>
+		</property>
+		<relationship name="folder">
+			<destination>{cd219845-d837-416f-8105-b5e4bb30ffef}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{b78fb09b-4691-47f5-b38f-08756e711280}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{b78fb09b-4691-47f5-b38f-08756e711280}">
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+	</object>
+</objects>

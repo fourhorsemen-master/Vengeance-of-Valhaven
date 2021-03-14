@@ -167,8 +167,8 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      fmodStartEventRef: event:/AS_Bash
-      fmodEndEventRef: 
+      fmodStartEventRef: event:/AS_Smash/AS_Smash_Draw
+      fmodEndEventRef: event:/AS_Smash/AS_Smash_Impact
       abilityBonusLookup:
         _keys:
         - PerfectSmash
