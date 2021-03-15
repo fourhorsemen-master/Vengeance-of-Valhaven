@@ -14,6 +14,7 @@ public class DevPersistenceManager : PersistenceManager
     [SerializeField] private AbilityReference leftAbility = AbilityReference.Slash;
     [SerializeField] private AbilityReference rightAbility = AbilityReference.Slash;
     [SerializeField] private int playerHealth = 0;
+    [SerializeField] private Pole cameraOrientation = Pole.North;
     
     public override SaveData SaveData => GenerateNewSaveData();
 
@@ -56,7 +57,8 @@ public class DevPersistenceManager : PersistenceManager
                             EnemiesCleared = false,
                             SpawnerIdToSpawnedActor = new Dictionary<int, ActorType>()
                         },
-                        ModuleSeed = 0
+                        ModuleSeed = 0,
+                        CameraOrientation = cameraOrientation
                     }
                 }
             }

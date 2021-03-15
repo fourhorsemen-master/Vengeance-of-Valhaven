@@ -50,7 +50,8 @@ public static class NewSaveGenerator
                         [0] = 1,
                         [1] = 2
                     },
-                    ModuleSeed = Random.Range(0, int.MaxValue)
+                    ModuleSeed = Random.Range(0, int.MaxValue),
+                    CameraOrientation = Pole.North
                 }
             },
             {
@@ -72,7 +73,8 @@ public static class NewSaveGenerator
                     {
                         [0] = 3
                     },
-                    ModuleSeed = Random.Range(0, int.MaxValue)
+                    ModuleSeed = Random.Range(0, int.MaxValue),
+                    CameraOrientation = Pole.South
                 }
             },
             {
@@ -95,7 +97,8 @@ public static class NewSaveGenerator
                     {
                         [0] = 3
                     },
-                    ModuleSeed = Random.Range(0, int.MaxValue)
+                    ModuleSeed = Random.Range(0, int.MaxValue),
+                    CameraOrientation = Pole.East
                 }
             },
             {
@@ -117,7 +120,8 @@ public static class NewSaveGenerator
                     {
                         [0] = 4
                     },
-                    ModuleSeed = Random.Range(0, int.MaxValue)
+                    ModuleSeed = Random.Range(0, int.MaxValue),
+                    CameraOrientation = Pole.West
                 }
             },
             {
