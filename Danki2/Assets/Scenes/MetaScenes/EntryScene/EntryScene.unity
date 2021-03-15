@@ -161,6 +161,7 @@ MonoBehaviour:
     - GameplayScene1
     - GameplayScene2
     - GameplayScene3
+    - GameplayScene4
     _values:
     - fileName: EntryScene
       sceneType: 0
@@ -211,6 +212,12 @@ MonoBehaviour:
         entranceData: []
         exitData: []
     - fileName: GameplayScene3
+      sceneType: 1
+      gameplaySceneData:
+        cameraOrientations: 
+        entranceData: []
+        exitData: []
+    - fileName: GameplayScene4
       sceneType: 1
       gameplaySceneData:
         cameraOrientations: 
