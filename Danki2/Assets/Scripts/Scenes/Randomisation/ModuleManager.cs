@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class ModuleManager : Singleton<ModuleManager>
 {
@@ -36,26 +37,43 @@ public class ModuleManager : Singleton<ModuleManager>
     {
         sockets.ForEach(socket =>
         {
-            FaceTowardsCamera(socket);
+            socket.transform.Rotate(0, yRotation, 0);
 
-            List<GameObject> modules = ModuleLookup.Instance.GetModulesWithMatchingTags(socket.SocketType, socket.Tags);
+            List<ModuleData> moduleDataList = ModuleLookup.Instance.GetModuleDataWithMatchingTags(socket.SocketType, socket.Tags);
 
-            if (modules.Count == 0)
+            if (moduleDataList.Count == 0)
             {
                 Debug.LogError($"Socket found with tags that match no modules, ensure socket {socket.Id} has valid tags.");
                 return;
             }
 
-            GameObject module = RandomUtils.Choice(modules);
-            Instantiate(module, socket.transform);
+            ModuleData moduleData = RandomUtils.Choice(moduleDataList);
+            GameObject module = Instantiate(moduleData.Prefab, socket.transform);
+            AddRandomRotation(module, moduleData, ModuleLookup.Instance.GetSocketRotationType(socket.SocketType));
         });
     }
 
-    private void FaceTowardsCamera(ModuleSocket socket)
+    private void AddRandomRotation(GameObject module, ModuleData moduleData, SocketRotationType socketRotationType)
     {
-        Transform socketTransform = socket.transform;
-        Vector3 socketRotation = socketTransform.eulerAngles;
-        socketRotation.y = yRotation;
-        socketTransform.eulerAngles = socketRotation;
+        switch (socketRotationType)
+        {
+            case SocketRotationType.Free:
+                AddRandomFreeRotation(module, moduleData.MinFreeRotation, moduleData.MaxFreeRotation);
+                break;
+            case SocketRotationType.Distinct:
+                AddRandomDistinctRotation(module, moduleData.DistinctRotations);
+                break;
+        }
+    }
+
+    private void AddRandomFreeRotation(GameObject module, float min, float max)
+    {
+        module.transform.Rotate(0, Random.Range(min, max), 0);
+    }
+
+    private void AddRandomDistinctRotation(GameObject module, List<float> rotations)
+    {
+        if (rotations.Count == 0) return;
+        module.transform.Rotate(0, RandomUtils.Choice(rotations), 0);
     }
 }
