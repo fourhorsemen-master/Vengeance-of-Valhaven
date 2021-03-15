@@ -51,7 +51,8 @@ public static class NewSaveGenerator
                         [1] = 2
                     },
                     ModuleSeed = Random.Range(0, int.MaxValue),
-                    CameraOrientation = Pole.North
+                    CameraOrientation = Pole.North,
+                    PlayerSpawnerId = 0
                 }
             },
             {
@@ -74,7 +75,8 @@ public static class NewSaveGenerator
                         [0] = 3
                     },
                     ModuleSeed = Random.Range(0, int.MaxValue),
-                    CameraOrientation = Pole.South
+                    CameraOrientation = Pole.South,
+                    PlayerSpawnerId = 0
                 }
             },
             {
@@ -98,7 +100,8 @@ public static class NewSaveGenerator
                         [0] = 3
                     },
                     ModuleSeed = Random.Range(0, int.MaxValue),
-                    CameraOrientation = Pole.East
+                    CameraOrientation = Pole.East,
+                    PlayerSpawnerId = 0
                 }
             },
             {
@@ -121,7 +124,8 @@ public static class NewSaveGenerator
                         [0] = 4
                     },
                     ModuleSeed = Random.Range(0, int.MaxValue),
-                    CameraOrientation = Pole.West
+                    CameraOrientation = Pole.West,
+                    PlayerSpawnerId = 0
                 }
             },
             {

@@ -10,9 +10,7 @@ public class SpawnerEditor : Editor
 
         EditorUtils.ShowScriptLink(spawner);
 
-        spawner.id = EditorGUILayout.IntField("ID", spawner.id);
-
-        if (EditorUtils.InPrefabEditor(target)) EditActorPrefabs(spawner);
+        EditActorPrefabs(spawner);
 
         if (GUI.changed)
         {

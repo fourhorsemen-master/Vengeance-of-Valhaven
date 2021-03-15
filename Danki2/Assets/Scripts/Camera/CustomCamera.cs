@@ -6,9 +6,6 @@ public class CustomCamera : Singleton<CustomCamera>
 {
     // Camera settings
     [SerializeField]
-    private GameObject target = null;
-
-    [SerializeField]
     private StudioListener listener = null;
 
     [SerializeField, Range(0, 50)]
@@ -42,6 +39,8 @@ public class CustomCamera : Singleton<CustomCamera>
     [SerializeField, Range(0, 1)]
     private float bigShakeDuration = 10;
 
+    private GameObject target;
+
     private Vector3 desiredPosition;
 
     private CameraShakeManager shakeManager = new CameraShakeManager(4);
@@ -64,6 +63,8 @@ public class CustomCamera : Singleton<CustomCamera>
 
     private void Start()
     {
+        target = ActorCache.Instance.Player.gameObject;
+
         FollowTarget(true);
         gameObject.transform.eulerAngles = new Vector3(angle, orientationToYRotation[orientation], 0);
 

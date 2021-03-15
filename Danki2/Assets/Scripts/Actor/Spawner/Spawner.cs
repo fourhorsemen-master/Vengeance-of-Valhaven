@@ -2,10 +2,7 @@
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField] public int id = 0;
     [SerializeField] public SpawnerDictionary prefabLookup = new SpawnerDictionary(defaultValue: null);
-
-    public int Id => id;
 
     public Actor Spawn(ActorType actorType)
     {

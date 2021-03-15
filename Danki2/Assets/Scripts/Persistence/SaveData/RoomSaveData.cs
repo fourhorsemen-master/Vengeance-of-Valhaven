@@ -10,6 +10,7 @@ public class RoomSaveData
     public Dictionary<int, int> RoomTransitionerIdToNextRoomId { get; set; }
     public int ModuleSeed { get; set; }
     public Pole CameraOrientation { get; set; }
+    public int PlayerSpawnerId { get; set; }
 
     public SerializableRoomSaveData Serialize()
     {
@@ -27,7 +28,8 @@ public class RoomSaveData
                 })
                 .ToList(),
             ModuleSeed = ModuleSeed,
-            CameraOrientation = CameraOrientation
+            CameraOrientation = CameraOrientation,
+            PlayerSpawnerId = PlayerSpawnerId
         };
     }
 }

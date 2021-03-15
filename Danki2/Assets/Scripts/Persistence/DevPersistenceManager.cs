@@ -58,7 +58,8 @@ public class DevPersistenceManager : PersistenceManager
                             SpawnerIdToSpawnedActor = new Dictionary<int, ActorType>()
                         },
                         ModuleSeed = 0,
-                        CameraOrientation = cameraOrientation
+                        CameraOrientation = cameraOrientation,
+                        PlayerSpawnerId = 0
                     }
                 }
             }
