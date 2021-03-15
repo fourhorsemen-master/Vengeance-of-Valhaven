@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -7,6 +8,7 @@ public class ModuleLookupEditor : Editor
 {
     private readonly EnumDictionary<SocketType, bool> socketFoldoutStatus = new EnumDictionary<SocketType, bool>(false);
     private EnumDictionary<SocketType, Dictionary<ModuleData, bool>> tagFoldoutStatus;
+    private EnumDictionary<SocketType, Dictionary<ModuleData, bool>> rotationsFoldoutStatus;
 
     public override void OnInspectorGUI()
     {
@@ -14,7 +16,7 @@ public class ModuleLookupEditor : Editor
 
         EditorUtils.ShowScriptLink(moduleLookup);
 
-        if (tagFoldoutStatus == null) InitialiseTagFoldoutStatus(moduleLookup);
+        if (tagFoldoutStatus == null) InitialiseFoldoutStatuses(moduleLookup);
 
         EnumUtils.ForEach<SocketType>(socketType =>
         {
@@ -22,18 +24,33 @@ public class ModuleLookupEditor : Editor
 
             if (!socketFoldoutStatus[socketType]) return;
 
-            List<ModuleData> moduleDataList = moduleLookup.moduleDataLookup[socketType].List;
-            
-            moduleDataList.ForEach(d => EditModuleData(d, socketType));
+            SocketData socketData = moduleLookup.moduleDataLookup[socketType];
+            socketData.SocketRotationType = (SocketRotationType) EditorGUILayout.EnumPopup(
+                "Rotation Type",
+                socketData.SocketRotationType
+            );
+
+            EditorUtils.VerticalSpace();
+
+            List<ModuleData> moduleData = socketData.ModuleData;
+
+            moduleData.ForEach(d => EditModuleData(d, socketType, socketData.SocketRotationType));
 
             EditorUtils.EditListSize(
                 "Add Module",
                 "Remove Module",
-                moduleDataList,
+                moduleData,
                 () => new ModuleData(),
-                d => tagFoldoutStatus[socketType][d] = false,
-                d => tagFoldoutStatus[socketType].Remove(d)
-            );
+                d =>
+                {
+                    tagFoldoutStatus[socketType][d] = false;
+                    rotationsFoldoutStatus[socketType][d] = false;
+                },
+                d =>
+                {
+                    tagFoldoutStatus[socketType].Remove(d);
+                    rotationsFoldoutStatus[socketType].Remove(d);
+                });
         });
 
         if (GUI.changed)
@@ -42,24 +59,71 @@ public class ModuleLookupEditor : Editor
         }
     }
 
-    private void InitialiseTagFoldoutStatus(ModuleLookup moduleLookup)
+    private void InitialiseFoldoutStatuses(ModuleLookup moduleLookup)
     {
         tagFoldoutStatus = new EnumDictionary<SocketType, Dictionary<ModuleData, bool>>(() => new Dictionary<ModuleData, bool>());
+        rotationsFoldoutStatus = new EnumDictionary<SocketType, Dictionary<ModuleData, bool>>(() => new Dictionary<ModuleData, bool>());
 
         EnumUtils.ForEach<SocketType>(socketType =>
         {
-            moduleLookup.moduleDataLookup[socketType].List.ForEach(d => tagFoldoutStatus[socketType][d] = false);
+            moduleLookup.moduleDataLookup[socketType].ModuleData.ForEach(d =>
+            {
+                tagFoldoutStatus[socketType][d] = false;
+                rotationsFoldoutStatus[socketType][d] = false;
+            });
         });
     }
 
-    private void EditModuleData(ModuleData moduleData, SocketType socketType)
+    private void EditModuleData(ModuleData moduleData, SocketType socketType, SocketRotationType socketRotationType)
     {
         EditorGUI.indentLevel++;
 
         moduleData.Prefab = EditorUtils.PrefabField("Prefab", moduleData.Prefab);
+        EditRotations(moduleData, socketType, socketRotationType);
         EditTags(moduleData.Tags, socketType, moduleData);
 
+        EditorUtils.VerticalSpace();
+
         EditorGUI.indentLevel--;
+    }
+
+    private void EditRotations(ModuleData moduleData, SocketType socketType, SocketRotationType socketRotationType)
+    {
+        rotationsFoldoutStatus[socketType][moduleData] = EditorGUILayout.Foldout(rotationsFoldoutStatus[socketType][moduleData], "Rotations");
+
+        if (!rotationsFoldoutStatus[socketType][moduleData]) return;
+
+        EditorGUI.indentLevel++;
+        
+        switch (socketRotationType)
+        {
+            case SocketRotationType.Free:
+                EditFreeRotation(moduleData);
+                break;
+            case SocketRotationType.Distinct:
+                EditorDistinctRotations(moduleData);
+                break;
+        }
+
+        EditorGUI.indentLevel--;
+    }
+    
+    private void EditFreeRotation(ModuleData moduleData)
+    {
+        moduleData.MinFreeRotation = EditorGUILayout.FloatField("Min Rotation", moduleData.MinFreeRotation);
+        moduleData.MaxFreeRotation = EditorGUILayout.FloatField("Max Rotation", moduleData.MaxFreeRotation);
+    }
+
+    private void EditorDistinctRotations(ModuleData moduleData)
+    {
+        List<float> distinctRotations = moduleData.DistinctRotations;
+
+        for (int i = 0; i < distinctRotations.Count; i++)
+        {
+            distinctRotations[i] = EditorGUILayout.FloatField("Rotation", distinctRotations[i]);
+        }
+
+        EditorUtils.EditListSize("Add Rotation", "Remove Rotation", distinctRotations, 0);
     }
 
     private void EditTags(List<ModuleTag> tags, SocketType socketType, ModuleData moduleData)
@@ -68,14 +132,16 @@ public class ModuleLookupEditor : Editor
 
         if (tagFoldoutStatus[socketType][moduleData])
         {
+            EditorGUI.indentLevel++;
+            
             for (int i = 0; i < tags.Count; i++)
             {
                 tags[i] = (ModuleTag) EditorGUILayout.EnumPopup("Tag", tags[i]);
             }
 
             EditorUtils.EditListSize("Add Tag", "Remove Tag", tags, ModuleTag.Short);
-        }
 
-        EditorUtils.VerticalSpace();
+            EditorGUI.indentLevel--;
+        }
     }
 }

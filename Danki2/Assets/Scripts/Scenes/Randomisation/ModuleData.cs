@@ -7,7 +7,13 @@ public class ModuleData
 {
     [SerializeField] private GameObject prefab = null;
     [SerializeField] private List<ModuleTag> tags = new List<ModuleTag>();
+    [SerializeField] private float minFreeRotation = 0;
+    [SerializeField] private float maxFreeRotation = 0;
+    [SerializeField] private List<float> distinctRotations = new List<float>();
 
     public GameObject Prefab { get => prefab; set => prefab = value; }
     public List<ModuleTag> Tags { get => tags; set => tags = value; }
+    public float MinFreeRotation { get => minFreeRotation; set => minFreeRotation = value; }
+    public float MaxFreeRotation { get => maxFreeRotation; set => maxFreeRotation = value; }
+    public List<float> DistinctRotations { get => distinctRotations; set => distinctRotations = value; }
 }

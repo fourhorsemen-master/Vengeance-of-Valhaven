@@ -5,11 +5,11 @@ using UnityEngine;
 public class ModuleLookup : Singleton<ModuleLookup>
 {
     [SerializeField]
-    public ModuleDataLookup moduleDataLookup = new ModuleDataLookup(() => new ModuleDataListWrapper());
+    public ModuleDataLookup moduleDataLookup = new ModuleDataLookup(() => new SocketData());
 
     public List<GameObject> GetModulesWithMatchingTags(SocketType socketType, List<ModuleTag> tags)
     {
-        return moduleDataLookup[socketType].List
+        return moduleDataLookup[socketType].ModuleData
             .Where(moduleData => tags.All(t => moduleData.Tags.Contains(t)))
             .Select(moduleData => moduleData.Prefab)
             .ToList();
