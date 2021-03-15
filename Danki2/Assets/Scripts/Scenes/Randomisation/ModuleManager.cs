@@ -58,7 +58,7 @@ public class ModuleManager : Singleton<ModuleManager>
         switch (socketRotationType)
         {
             case SocketRotationType.Free:
-                AddRandomFreeRotation(module, moduleData.MinFreeRotation, moduleData.MaxFreeRotation);
+                AddRandomFreeRotation(module, moduleData.AllowAnyFreeRotation, moduleData.MinFreeRotation, moduleData.MaxFreeRotation);
                 break;
             case SocketRotationType.Distinct:
                 AddRandomDistinctRotation(module, moduleData.DistinctRotations);
@@ -66,9 +66,10 @@ public class ModuleManager : Singleton<ModuleManager>
         }
     }
 
-    private void AddRandomFreeRotation(GameObject module, float min, float max)
+    private void AddRandomFreeRotation(GameObject module, bool allowAnyRotation, float min, float max)
     {
-        module.transform.Rotate(0, Random.Range(min, max), 0);
+        if (allowAnyRotation) module.transform.Rotate(0, Random.Range(0, 360), 0);
+        else module.transform.Rotate(0, Random.Range(min, max), 0);
     }
 
     private void AddRandomDistinctRotation(GameObject module, List<float> rotations)

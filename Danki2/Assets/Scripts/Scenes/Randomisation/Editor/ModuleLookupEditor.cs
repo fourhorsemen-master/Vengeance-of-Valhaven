@@ -110,6 +110,15 @@ public class ModuleLookupEditor : Editor
     
     private void EditFreeRotation(ModuleData moduleData)
     {
+        moduleData.AllowAnyFreeRotation = EditorGUILayout.Toggle("Allow Any Rotation", moduleData.AllowAnyFreeRotation);
+
+        if (moduleData.AllowAnyFreeRotation)
+        {
+            moduleData.MinFreeRotation = 0;
+            moduleData.MaxFreeRotation = 360;
+            return;
+        }
+
         moduleData.MinFreeRotation = EditorGUILayout.FloatField("Min Rotation", moduleData.MinFreeRotation);
         moduleData.MaxFreeRotation = EditorGUILayout.FloatField("Max Rotation", moduleData.MaxFreeRotation);
     }

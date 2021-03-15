@@ -50,28 +50,60 @@ MonoBehaviour:
     - SmallSquare
     - LargeSquare
     _values:
-    - list:
+    - socketRotationType: 0
+      moduleData:
       - prefab: {fileID: 4110214435533136738, guid: 83572ff6d6209ef42a090bfdad1b1c1e,
           type: 3}
         tags: 0000000003000000
+        allowAnyFreeRotation: 1
+        minFreeRotation: 0
+        maxFreeRotation: 360
+        distinctRotations: []
       - prefab: {fileID: 4110214435533136738, guid: dbb1d693db05ab643a3f465c35681b10,
           type: 3}
         tags: 0100000002000000
+        allowAnyFreeRotation: 1
+        minFreeRotation: 0
+        maxFreeRotation: 360
+        distinctRotations: []
       - prefab: {fileID: 4110214435533136738, guid: 2d43195569d40424f999c5ae8afd0b07,
           type: 3}
         tags: 0000000002000000
+        allowAnyFreeRotation: 1
+        minFreeRotation: 0
+        maxFreeRotation: 360
+        distinctRotations: []
       - prefab: {fileID: 4110214435533136738, guid: 0c60b7b04c03222408c745ff30fbd62a,
           type: 3}
         tags: 0100000003000000
-    - list:
+        allowAnyFreeRotation: 1
+        minFreeRotation: 0
+        maxFreeRotation: 360
+        distinctRotations: []
+    - socketRotationType: 0
+      moduleData:
       - prefab: {fileID: 7152780536418578668, guid: 25585d8dd9c7b634b85f7d6d1859ebdb,
           type: 3}
         tags: 
-    - list:
+        allowAnyFreeRotation: 1
+        minFreeRotation: 0
+        maxFreeRotation: 360
+        distinctRotations: []
+    - socketRotationType: 1
+      moduleData:
       - prefab: {fileID: 7152780536418578668, guid: 1ff71a9b2262bf841903ffd031cace20,
           type: 3}
         tags: 
-    - list:
+        allowAnyFreeRotation: 0
+        minFreeRotation: 0
+        maxFreeRotation: 0
+        distinctRotations: []
+    - socketRotationType: 1
+      moduleData:
       - prefab: {fileID: 7152780536418578668, guid: dcd11cea5639a074ba154cd554ba1add,
           type: 3}
         tags: 
+        allowAnyFreeRotation: 0
+        minFreeRotation: 0
+        maxFreeRotation: 0
+        distinctRotations: []
