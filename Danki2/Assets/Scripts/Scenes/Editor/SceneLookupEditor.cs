@@ -41,6 +41,13 @@ public class SceneLookupEditor : Editor
 
     private void EditGameplaySceneData(GameplaySceneData gameplaySceneData)
     {
+        EditCameraOrientations(gameplaySceneData);
+        EditEntranceData(gameplaySceneData.EntranceData);
+        EditExitData(gameplaySceneData.ExitData);
+    }
+
+    private void EditCameraOrientations(GameplaySceneData gameplaySceneData)
+    {
         EditorUtils.Header("Camera Orientations");
         EditorGUI.indentLevel++;
 
@@ -52,6 +59,38 @@ public class SceneLookupEditor : Editor
         }
 
         EditorUtils.EditListSize("Add Orientation", "Remove Orientation", cameraOrientations, Pole.North);
+
+        EditorGUI.indentLevel--;
+    }
+
+    private void EditEntranceData(List<EntranceData> entranceData)
+    {
+        EditorUtils.Header("Entrance Data");
+        EditorGUI.indentLevel++;
+        
+        entranceData.ForEach(e =>
+        {
+            e.Id = EditorGUILayout.IntField("ID", e.Id);
+            e.Side = (Pole) EditorGUILayout.EnumPopup("Side", e.Side);
+        });
+
+        EditorUtils.EditListSize("Add Entrance Data", "Remove Entrance Data", entranceData, () => new EntranceData());
+
+        EditorGUI.indentLevel--;
+    }
+
+    private void EditExitData(List<ExitData> exitData)
+    {
+        EditorUtils.Header("Exit Data");
+        EditorGUI.indentLevel++;
+        
+        exitData.ForEach(e =>
+        {
+            e.Id = EditorGUILayout.IntField("ID", e.Id);
+            e.Side = (Pole) EditorGUILayout.EnumPopup("Side", e.Side);
+        });
+
+        EditorUtils.EditListSize("Add Exit Data", "Remove Exit Data", exitData, () => new ExitData());
 
         EditorGUI.indentLevel--;
     }

@@ -14,7 +14,7 @@ public class EnemySpawnerEditor : Editor
 
         if (EditorUtils.InPrefabEditor(target))
         {
-            spawner.Spawner = (Spawner) EditorGUILayout.ObjectField("Spawner", spawner.Spawner, typeof(Spawner));
+            spawner.Spawner = (Spawner) EditorGUILayout.ObjectField("Spawner", spawner.Spawner, typeof(Spawner), true);
         }
 
         if (GUI.changed)
