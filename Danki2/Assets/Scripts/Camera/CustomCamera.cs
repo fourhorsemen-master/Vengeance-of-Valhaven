@@ -64,8 +64,8 @@ public class CustomCamera : Singleton<CustomCamera>
 
     private void Start()
     {
-        gameObject.transform.eulerAngles = new Vector3(angle, orientationToYRotation[orientation], 0);
         FollowTarget(true);
+        gameObject.transform.eulerAngles = new Vector3(angle, orientationToYRotation[orientation], 0);
 
         listener.attenuationObject = target;
     }
