@@ -32,7 +32,7 @@ public static class NewSaveGenerator
             [0] = new RoomSaveData
             {
                 Id = 0,
-                Scene = Scene.GameplayScene4,
+                Scene = Scene.RandomisedScene,
                 RoomType = RoomType.Combat,
                 CombatRoomSaveData = new CombatRoomSaveData
                 {
@@ -53,7 +53,7 @@ public static class NewSaveGenerator
             [1] = new RoomSaveData
             {
                 Id = 1,
-                Scene = Scene.GameplayScene4,
+                Scene = Scene.RandomisedScene,
                 RoomType = RoomType.Combat,
                 CombatRoomSaveData = new CombatRoomSaveData
                 {
@@ -76,7 +76,7 @@ public static class NewSaveGenerator
             [2] = new RoomSaveData
             {
                 Id = 2,
-                Scene = Scene.GameplayScene4,
+                Scene = Scene.RandomisedScene,
                 RoomType = RoomType.Combat,
                 CombatRoomSaveData = new CombatRoomSaveData
                 {
@@ -98,7 +98,7 @@ public static class NewSaveGenerator
             [3] = new RoomSaveData
             {
                 Id = 3,
-                Scene = Scene.GameplayScene4,
+                Scene = Scene.RandomisedScene,
                 RoomType = RoomType.Combat,
                 CombatRoomSaveData = new CombatRoomSaveData
                 {
@@ -120,7 +120,7 @@ public static class NewSaveGenerator
             [4] = new RoomSaveData
             {
                 Id = 4,
-                Scene = Scene.GameplayScene4,
+                Scene = Scene.RandomisedScene,
                 RoomType = RoomType.Combat,
                 CombatRoomSaveData = new CombatRoomSaveData
                 {
@@ -141,7 +141,7 @@ public static class NewSaveGenerator
             [5] = new RoomSaveData
             {
                 Id = 5,
-                Scene = Scene.GameplayScene4,
+                Scene = Scene.RandomisedScene,
                 RoomType = RoomType.Combat,
                 CombatRoomSaveData = new CombatRoomSaveData
                 {
@@ -163,7 +163,7 @@ public static class NewSaveGenerator
             [6] = new RoomSaveData
             {
                 Id = 6,
-                Scene = Scene.GameplayScene4,
+                Scene = Scene.RandomisedScene,
                 RoomType = RoomType.Combat,
                 CombatRoomSaveData = new CombatRoomSaveData
                 {

@@ -158,10 +158,7 @@ MonoBehaviour:
     - GameplayExitScene
     - GameplayVictoryScene
     - GameplayDefeatScene
-    - GameplayScene1
-    - GameplayScene2
-    - GameplayScene3
-    - GameplayScene4
+    - RandomisedScene
     _values:
     - fileName: EntryScene
       sceneType: 0
@@ -199,30 +196,22 @@ MonoBehaviour:
         cameraOrientations: 
         entranceData: []
         exitData: []
-    - fileName: GameplayScene1
+    - fileName: RandomisedScene
       sceneType: 1
       gameplaySceneData:
-        cameraOrientations: 
-        entranceData: []
-        exitData: []
-    - fileName: GameplayScene2
-      sceneType: 1
-      gameplaySceneData:
-        cameraOrientations: 
-        entranceData: []
-        exitData: []
-    - fileName: GameplayScene3
-      sceneType: 1
-      gameplaySceneData:
-        cameraOrientations: 
-        entranceData: []
-        exitData: []
-    - fileName: GameplayScene4
-      sceneType: 1
-      gameplaySceneData:
-        cameraOrientations: 
-        entranceData: []
-        exitData: []
+        cameraOrientations: 00000000010000000200000003000000
+        entranceData:
+        - id: 0
+          side: 2
+        - id: 1
+          side: 1
+        exitData:
+        - id: 0
+          side: 3
+        - id: 1
+          side: 0
+        - id: 2
+          side: 1
 --- !u!4 &496116276
 Transform:
   m_ObjectHideFlags: 0

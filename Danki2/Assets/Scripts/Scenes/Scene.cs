@@ -6,8 +6,5 @@
     GameplayExitScene,
     GameplayVictoryScene,
     GameplayDefeatScene,
-    GameplayScene1,
-    GameplayScene2,
-    GameplayScene3,
-    GameplayScene4
+    RandomisedScene
 }
