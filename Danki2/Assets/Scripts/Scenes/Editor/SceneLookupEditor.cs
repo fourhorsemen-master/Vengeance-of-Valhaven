@@ -44,6 +44,7 @@ public class SceneLookupEditor : Editor
         EditCameraOrientations(gameplaySceneData);
         EditEntranceData(gameplaySceneData.EntranceData);
         EditExitData(gameplaySceneData.ExitData);
+        EditEnemySpawnerIds(gameplaySceneData.EnemySpawnerIds);
     }
 
     private void EditCameraOrientations(GameplaySceneData gameplaySceneData)
@@ -91,6 +92,21 @@ public class SceneLookupEditor : Editor
         });
 
         EditorUtils.EditListSize("Add Exit Data", "Remove Exit Data", exitData, () => new ExitData());
+
+        EditorGUI.indentLevel--;
+    }
+
+    private void EditEnemySpawnerIds(List<int> enemySpawnerIds)
+    {
+        EditorUtils.Header("Enemy Spawner IDs");
+        EditorGUI.indentLevel++;
+
+        for (int i = 0; i < enemySpawnerIds.Count; i++)
+        {
+            enemySpawnerIds[i] = EditorGUILayout.IntField("ID", enemySpawnerIds[i]);
+        }
+
+        EditorUtils.EditListSize("Add Enemy Spawner ID", "Remove Enemy Spawner ID", enemySpawnerIds, 0);
 
         EditorGUI.indentLevel--;
     }
