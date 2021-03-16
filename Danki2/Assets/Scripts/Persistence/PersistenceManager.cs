@@ -42,7 +42,7 @@ public class PersistenceManager : Singleton<PersistenceManager>
     public virtual void TransitionToNextRoom(int nextRoomId)
     {
         if (!GameplayRoomTransitionManager.Instance.CanTransition) return;
-        if (!SaveData.RoomTransitions[SaveData.CurrentRoomId].Contains(nextRoomId)) return;
+        if (!SaveData.CurrentRoomSaveData.RoomTransitionerIdToNextRoomId.ContainsValue(nextRoomId)) return;
 
         UpdateSaveData();
         SaveData.CurrentRoomId = nextRoomId;

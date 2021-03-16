@@ -21,8 +21,7 @@ public static class NewSaveGenerator
             ),
             CurrentRoomId = 0,
             DefeatRoomId = 8,
-            RoomSaveDataLookup = GenerateNewRoomSaveDataLookup(),
-            RoomTransitions = GenerateNewRoomTransitions()
+            RoomSaveDataLookup = GenerateNewRoomSaveDataLookup()
         };
     }
 
@@ -195,20 +194,6 @@ public static class NewSaveGenerator
                 Scene = Scene.GameplayDefeatScene,
                 RoomType = RoomType.Defeat
             }
-        };
-    }
-
-    private static Dictionary<int, List<int>> GenerateNewRoomTransitions()
-    {
-        return new Dictionary<int, List<int>>
-        {
-            [0] = new List<int> {1},
-            [1] = new List<int> {2, 4, 5},
-            [2] = new List<int> {3},
-            [3] = new List<int> {7},
-            [4] = new List<int> {7},
-            [5] = new List<int> {6},
-            [6] = new List<int> {7}
         };
     }
 }
