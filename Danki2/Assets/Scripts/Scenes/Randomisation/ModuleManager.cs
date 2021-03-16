@@ -37,7 +37,7 @@ public class ModuleManager : Singleton<ModuleManager>
     {
         sockets.ForEach(socket =>
         {
-            socket.transform.Rotate(0, yRotation, 0);
+            if (!socket.LockRotation) socket.transform.Rotate(0, yRotation, 0);
 
             List<ModuleData> moduleDataList = ModuleLookup.Instance.GetModuleDataWithMatchingTags(socket.SocketType, socket.Tags);
 

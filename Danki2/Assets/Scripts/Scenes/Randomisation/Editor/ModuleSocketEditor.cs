@@ -22,6 +22,7 @@ public class ModuleSocketEditor : Editor
         else
         {
             EditId();
+            EditLockRotation();
             EditTags();
         }
 
@@ -61,6 +62,11 @@ public class ModuleSocketEditor : Editor
     private void EditId()
     {
         moduleSocket.Id = EditorGUILayout.IntField("ID", moduleSocket.Id);
+    }
+
+    private void EditLockRotation()
+    {
+        moduleSocket.LockRotation = EditorGUILayout.Toggle("Lock Rotation", moduleSocket.LockRotation);
     }
 
     private void EditTags()
