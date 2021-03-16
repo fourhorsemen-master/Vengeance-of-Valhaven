@@ -55,7 +55,14 @@ public class DevPersistenceManager : PersistenceManager
                         CombatRoomSaveData = new CombatRoomSaveData
                         {
                             EnemiesCleared = false,
-                            SpawnerIdToSpawnedActor = new Dictionary<int, ActorType>()
+                            SpawnerIdToSpawnedActor = new Dictionary<int, ActorType>
+                            {
+                                [0] = ActorType.Wolf
+                            }
+                        },
+                        RoomTransitionerIdToNextRoomId = new Dictionary<int, int>
+                        {
+                            [0] = 1
                         },
                         ModuleSeed = 0,
                         CameraOrientation = cameraOrientation,
