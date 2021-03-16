@@ -17,6 +17,7 @@ public class ModuleSocketEditor : Editor
         {
             EditSocketType();
             EditNavBlocker();
+            EditDirectionIndicator();
         }
         else
         {
@@ -40,6 +41,17 @@ public class ModuleSocketEditor : Editor
         moduleSocket.NavBlocker = (GameObject) EditorGUILayout.ObjectField(
             "Nav Blocker",
             moduleSocket.NavBlocker,
+            typeof(GameObject),
+            true,
+            null
+        );
+    }
+
+    private void EditDirectionIndicator()
+    {
+        moduleSocket.DirectionIndicator = (GameObject) EditorGUILayout.ObjectField(
+            "Direction Indicator",
+            moduleSocket.DirectionIndicator,
             typeof(GameObject),
             true,
             null
