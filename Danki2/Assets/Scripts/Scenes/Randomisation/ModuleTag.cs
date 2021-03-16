@@ -3,5 +3,6 @@
     Short,
     Tall,
     Leafy,
-    Rocky
+    Rocky,
+    Rune
 }
