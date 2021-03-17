@@ -2,20 +2,22 @@
 using System.Linq;
 using Random = UnityEngine.Random;
 
-public static class NewSaveGenerator
+public class NewSaveGenerator : Singleton<NewSaveGenerator>
 {
-    private const int SaveDataVersion = 1;
+    private const int SaveDataVersion = 0;
+
+    protected override bool DestroyOnLoad => false;
 
     /// <summary>
     /// Generates a new save data object which can be used to start a new game.
     /// </summary>
     /// <param name="seed"> An optional seed to generate the save with </param>
-    public static SaveData Generate(int seed = -1)
+    public SaveData Generate(int seed = -1)
     {
         if (seed == -1) seed = Random.Range(0, int.MaxValue);
         Random.InitState(seed);
 
-        RoomLayoutNode rootNode = RoomLayoutGenerator.Generate();
+        RoomLayoutNode rootNode = RoomLayoutGenerator.Instance.Generate();
         int defeatRoomId = rootNode.FindMaxId() + 1;
 
         return new SaveData
@@ -33,7 +35,7 @@ public static class NewSaveGenerator
         };
     }
 
-    private static Dictionary<int, RoomSaveData> GenerateRoomSaveDataLookup(RoomLayoutNode rootNode, int defeatRoomId)
+    private Dictionary<int, RoomSaveData> GenerateRoomSaveDataLookup(RoomLayoutNode rootNode, int defeatRoomId)
     {
         Dictionary<int, RoomSaveData> roomSaveDataLookup = new Dictionary<int, RoomSaveData>();
 
@@ -55,7 +57,7 @@ public static class NewSaveGenerator
         return roomSaveDataLookup;
     }
 
-    private static RoomSaveData GenerateCombatRoomSaveData(RoomLayoutNode node)
+    private RoomSaveData GenerateCombatRoomSaveData(RoomLayoutNode node)
     {
         return new RoomSaveData
         {
@@ -77,7 +79,7 @@ public static class NewSaveGenerator
         };
     }
 
-    private static RoomSaveData GenerateVictoryRoomSaveData(RoomLayoutNode node)
+    private RoomSaveData GenerateVictoryRoomSaveData(RoomLayoutNode node)
     {
         return new RoomSaveData
         {
@@ -87,7 +89,7 @@ public static class NewSaveGenerator
         };
     }
 
-    private static RoomSaveData GenerateDefeatRoomSaveData(int defeatRoomId)
+    private RoomSaveData GenerateDefeatRoomSaveData(int defeatRoomId)
     {
         return new RoomSaveData
         {
