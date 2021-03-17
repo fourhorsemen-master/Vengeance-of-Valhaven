@@ -47,6 +47,9 @@ public class CustomCamera : Singleton<CustomCamera>
 
     private Pole orientation;
 
+    private float HorizontalMouseOffset => Input.mousePosition.x / Screen.width - 0.5f;
+    private float VerticalMouseOffset => Input.mousePosition.y / Screen.height - 0.5f;
+
     private static readonly Dictionary<Pole, float> orientationToYRotation = new Dictionary<Pole, float>
     {
         [Pole.North] = 0,
@@ -108,26 +111,26 @@ public class CustomCamera : Singleton<CustomCamera>
             case Pole.North:
                 xOffset = 0;
                 zOffset = -distanceFromFloorIntersect;
-                mouseXOffset = Input.mousePosition.x / Screen.width - 0.5f;
-                mouseZOffset = Input.mousePosition.y / Screen.height - 0.5f;
+                mouseXOffset = HorizontalMouseOffset;
+                mouseZOffset = VerticalMouseOffset;
                 break;
             case Pole.East:
                 xOffset = -distanceFromFloorIntersect;
                 zOffset = 0;
-                mouseXOffset = Input.mousePosition.y / Screen.height - 0.5f;
-                mouseZOffset = -Input.mousePosition.x / Screen.width - 0.5f;
+                mouseXOffset = VerticalMouseOffset;
+                mouseZOffset = -HorizontalMouseOffset;
                 break;
             case Pole.South:
                 xOffset = 0;
                 zOffset = distanceFromFloorIntersect;
-                mouseXOffset = -Input.mousePosition.x / Screen.width - 0.5f;
-                mouseZOffset = -Input.mousePosition.y / Screen.height - 0.5f;
+                mouseXOffset = -HorizontalMouseOffset;
+                mouseZOffset = -VerticalMouseOffset;
                 break;
             case Pole.West:
                 xOffset = distanceFromFloorIntersect;
                 zOffset = 0;
-                mouseXOffset = -Input.mousePosition.y / Screen.height - 0.5f;
-                mouseZOffset = Input.mousePosition.x / Screen.width - 0.5f;
+                mouseXOffset = -VerticalMouseOffset;
+                mouseZOffset = HorizontalMouseOffset;
                 break;
         }
 
