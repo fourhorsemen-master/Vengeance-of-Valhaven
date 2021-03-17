@@ -68,8 +68,11 @@ public class ModuleManager : Singleton<ModuleManager>
 
     private void AddRandomFreeRotation(GameObject module, bool allowAnyRotation, float min, float max)
     {
-        if (allowAnyRotation) module.transform.Rotate(0, Random.Range(0, 360), 0);
-        else module.transform.Rotate(0, Random.Range(min, max), 0);
+        float rotation = allowAnyRotation
+            ? Random.Range(0, 360)
+            : Random.Range(min, max);
+
+        module.transform.Rotate(0, rotation, 0);
     }
 
     private void AddRandomDistinctRotation(GameObject module, List<float> rotations)
