@@ -1,4 +1,6 @@
-﻿/// <summary>
+﻿using UnityEngine;
+
+/// <summary>
 /// Handles persistence between gameplay rooms. The public property SaveData is available for anything to read from
 /// at any point so that it can initialise itself.
 ///
@@ -41,8 +43,17 @@ public class PersistenceManager : Singleton<PersistenceManager>
     /// </summary>
     public virtual void TransitionToNextRoom(int nextRoomId)
     {
-        if (!GameplayRoomTransitionManager.Instance.CanTransition) return;
-        if (!SaveData.CurrentRoomSaveData.RoomTransitionerIdToNextRoomId.ContainsValue(nextRoomId)) return;
+        if (!GameplayRoomTransitionManager.Instance.CanTransition)
+        {
+            Debug.LogWarning("Tried to transition to the next room when a transition was not allowed.");
+            return;
+        }
+
+        if (!SaveData.CurrentRoomSaveData.RoomTransitionerIdToNextRoomId.ContainsValue(nextRoomId))
+        {
+            Debug.LogWarning("Tried to transition to a room which is not available from the current room.");
+            return;
+        }
 
         UpdateSaveData();
         SaveData.CurrentRoomId = nextRoomId;
