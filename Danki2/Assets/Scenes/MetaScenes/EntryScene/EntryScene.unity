@@ -159,6 +159,7 @@ MonoBehaviour:
     - GameplayVictoryScene
     - GameplayDefeatScene
     - RandomisedScene
+    - CatchAllScene
     _values:
     - fileName: EntryScene
       sceneType: 0
@@ -219,6 +220,37 @@ MonoBehaviour:
         - id: 2
           side: 1
         enemyEnemySpawnerIds: 0000000001000000
+    - fileName: CatchAllScene
+      sceneType: 1
+      gameplaySceneData:
+        cameraOrientations: 00000000010000000200000003000000
+        entranceData:
+        - id: 0
+          side: 2
+        - id: 1
+          side: 1
+        - id: 2
+          side: 0
+        - id: 3
+          side: 3
+        exitData:
+        - id: 0
+          side: 2
+        - id: 1
+          side: 2
+        - id: 2
+          side: 1
+        - id: 3
+          side: 1
+        - id: 4
+          side: 0
+        - id: 5
+          side: 0
+        - id: 6
+          side: 3
+        - id: 7
+          side: 3
+        enemyEnemySpawnerIds: 00000000010000000200000003000000
 --- !u!4 &496116276
 Transform:
   m_ObjectHideFlags: 0
@@ -587,8 +619,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minRoomExits: 1
   maxRoomExits: 3
-  minRoomDepth: 2
-  maxRoomDepth: 3
+  minRoomDepth: 5
+  maxRoomDepth: 7
 --- !u!4 &1946525424
 Transform:
   m_ObjectHideFlags: 0
