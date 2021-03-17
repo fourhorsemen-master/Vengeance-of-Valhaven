@@ -98,42 +98,42 @@ public class RoomLayoutGenerator : Singleton<RoomLayoutGenerator>
         rootNode.IterateDown(
             node =>
             {
-                Pole parentExitDirection = SceneLookup.Instance.GetTrueExitDirection(
+                Pole trueParentExitDirection = SceneLookup.Instance.GetTrueExitDirection(
                     node.Parent.Scene,
                     node.Parent.CameraOrientation,
                     node.Parent.ChildToExitIdLookup[node]
                 );
-                SetSceneData(node, reversedPoleLookup[parentExitDirection]);
+                SetSceneData(node, reversedPoleLookup[trueParentExitDirection]);
             },
             node => !node.IsRootNode && node.RoomType != RoomType.Victory
         );
     }
 
-    private void SetSceneData(RoomLayoutNode node, Pole entranceDirection)
+    private void SetSceneData(RoomLayoutNode node, Pole trueEntranceDirection)
     {
-        node.Scene = RandomUtils.Choice(SceneLookup.Instance.GetValidScenes(entranceDirection, node.Children.Count));
+        node.Scene = RandomUtils.Choice(SceneLookup.Instance.GetValidScenes(trueEntranceDirection, node.Children.Count));
         node.CameraOrientation = RandomUtils.Choice(SceneLookup.Instance.GetValidCameraOrientations(
             node.Scene,
-            entranceDirection,
+            trueEntranceDirection,
             node.Children.Count
         ));
         node.EntranceId = RandomUtils.Choice(SceneLookup.Instance.GetValidEntranceIds(
             node.Scene,
-            entranceDirection,
+            trueEntranceDirection,
             node.CameraOrientation
         ));
 
-        List<ExitData> validExits = SceneLookup.Instance.GetValidExits(
+        List<int> validExitIds = SceneLookup.Instance.GetValidExitIds(
             node.Scene,
             node.CameraOrientation,
             node.EntranceId
         );
         node.Children.ForEach(child =>
         {
-            ExitData exitData = RandomUtils.Choice(validExits);
-            node.ExitIdToChildLookup[exitData.Id] = child;
-            node.ChildToExitIdLookup[child] = exitData.Id;
-            validExits.Remove(exitData);
+            int exitId = RandomUtils.Choice(validExitIds);
+            node.ExitIdToChildLookup[exitId] = child;
+            node.ChildToExitIdLookup[child] = exitId;
+            validExitIds.Remove(exitId);
         });
 
         node.SpawnerIdToSpawnedActor[0] = node.Children[0].RoomType == RoomType.Victory
