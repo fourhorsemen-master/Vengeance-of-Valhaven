@@ -14,7 +14,11 @@ public class DevPersistenceManager : PersistenceManager
     [SerializeField] private AbilityReference leftAbility = AbilityReference.Slash;
     [SerializeField] private AbilityReference rightAbility = AbilityReference.Slash;
     [SerializeField] private int playerHealth = 0;
-    
+    [SerializeField] private Pole cameraOrientation = Pole.North;
+    [SerializeField] private ActorType spawnedEnemy = ActorType.Wolf;
+    [SerializeField] private int moduleSeed = 0;
+    [SerializeField] private int playerSpawnerId = 0;
+
     public override SaveData SaveData => GenerateNewSaveData();
 
     protected override bool DestroyOnLoad => true;
@@ -39,25 +43,31 @@ public class DevPersistenceManager : PersistenceManager
         {
             PlayerHealth = playerHealth,
             AbilityTree = AbilityTreeFactory.CreateTree(
-            new EnumDictionary<AbilityReference, int>(ownedAbilityCount),
-            AbilityTreeFactory.CreateNode(leftAbility),
-            AbilityTreeFactory.CreateNode(rightAbility)
-        ),
+                new EnumDictionary<AbilityReference, int>(ownedAbilityCount),
+                AbilityTreeFactory.CreateNode(leftAbility),
+                AbilityTreeFactory.CreateNode(rightAbility)
+            ),
             CurrentRoomId = 0,
             RoomSaveDataLookup = new Dictionary<int, RoomSaveData>
             {
+                [0] = new RoomSaveData
                 {
-                    0,
-                    new RoomSaveData
+                    RoomType = RoomType.Combat,
+                    CombatRoomSaveData = new CombatRoomSaveData
                     {
-                        RoomType = RoomType.Combat,
-                        CombatRoomSaveData = new CombatRoomSaveData
+                        EnemiesCleared = false,
+                        SpawnerIdToSpawnedActor = new Dictionary<int, ActorType>
                         {
-                            EnemiesCleared = false,
-                            SpawnerIdToSpawnedActor = new Dictionary<int, ActorType>()
-                        },
-                        ModuleSeed = 0
-                    }
+                            [0] = spawnedEnemy
+                        }
+                    },
+                    RoomTransitionerIdToNextRoomId = new Dictionary<int, int>
+                    {
+                        [0] = 1
+                    },
+                    ModuleSeed = moduleSeed,
+                    CameraOrientation = cameraOrientation,
+                    PlayerSpawnerId = playerSpawnerId
                 }
             }
         };

@@ -1,12 +1,25 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class ModuleManager : Singleton<ModuleManager>
 {
+    private float yRotation;
+
+    private static readonly Dictionary<Pole, float> orientationToYRotation = new Dictionary<Pole, float>
+    {
+        [Pole.North] = 0,
+        [Pole.East] = 90,
+        [Pole.South] = 180,
+        [Pole.West] = 270
+    };
+
     private void Start()
     {
-        Random.InitState(PersistenceManager.Instance.SaveData.CurrentRoomSaveData.ModuleSeed);
+        RoomSaveData currentRoomSaveData = PersistenceManager.Instance.SaveData.CurrentRoomSaveData;
+        Random.InitState(currentRoomSaveData.ModuleSeed);
+        yRotation = orientationToYRotation[currentRoomSaveData.CameraOrientation];
 
         List<ModuleSocket> sockets = FindObjectsOfType<ModuleSocket>().ToList();
         sockets.SortById();
@@ -24,16 +37,47 @@ public class ModuleManager : Singleton<ModuleManager>
     {
         sockets.ForEach(socket =>
         {
-            List<GameObject> prefabsWithTags = ModuleLookup.Instance.GetModulesWithMatchingTags(socket.SocketType, socket.Tags);
+            if (!socket.LockRotation) socket.transform.Rotate(0, yRotation, 0);
 
-            if (prefabsWithTags.Count == 0)
+            List<ModuleData> moduleDataList = ModuleLookup.Instance.GetModuleDataWithMatchingTags(socket.SocketType, socket.Tags);
+
+            if (moduleDataList.Count == 0)
             {
                 Debug.LogError($"Socket found with tags that match no modules, ensure socket {socket.Id} has valid tags.");
                 return;
             }
 
-            GameObject prefab = RandomUtils.Choice(prefabsWithTags);
-            Instantiate(prefab, socket.transform);
+            ModuleData moduleData = RandomUtils.Choice(moduleDataList);
+            GameObject module = Instantiate(moduleData.Prefab, socket.transform);
+            AddRandomRotation(module, moduleData, ModuleLookup.Instance.GetSocketRotationType(socket.SocketType));
         });
+    }
+
+    private void AddRandomRotation(GameObject module, ModuleData moduleData, SocketRotationType socketRotationType)
+    {
+        switch (socketRotationType)
+        {
+            case SocketRotationType.Free:
+                AddRandomFreeRotation(module, moduleData.AllowAnyFreeRotation, moduleData.MinFreeRotation, moduleData.MaxFreeRotation);
+                break;
+            case SocketRotationType.Distinct:
+                AddRandomDistinctRotation(module, moduleData.DistinctRotations);
+                break;
+        }
+    }
+
+    private void AddRandomFreeRotation(GameObject module, bool allowAnyRotation, float min, float max)
+    {
+        float rotation = allowAnyRotation
+            ? Random.Range(0, 360)
+            : Random.Range(min, max);
+
+        module.transform.Rotate(0, rotation, 0);
+    }
+
+    private void AddRandomDistinctRotation(GameObject module, List<float> rotations)
+    {
+        if (rotations.Count == 0) return;
+        module.transform.Rotate(0, RandomUtils.Choice(rotations), 0);
     }
 }

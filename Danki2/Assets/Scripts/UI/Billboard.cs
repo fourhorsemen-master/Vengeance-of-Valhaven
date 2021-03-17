@@ -2,6 +2,13 @@
 
 public class Billboard : MonoBehaviour
 {
+    private Pole orientation;
+    
+    private void Start()
+    {
+        orientation = PersistenceManager.Instance.SaveData.CurrentRoomSaveData.CameraOrientation;
+    }
+
     /// <summary>
     /// Note: This is LateUpdate() rather than Update() so that it happens after any position updates to parent game
     ///       objects that this component is on. Otherwise this could be called before the parent game object's Update()
@@ -10,7 +17,25 @@ public class Billboard : MonoBehaviour
     private void LateUpdate()
     {
         Vector3 lookAtPosition = 2 * transform.position - Camera.main.transform.position;
-        lookAtPosition.x = transform.position.x;
+
+        switch (orientation)
+        {
+            case Pole.North:
+                lookAtPosition.x = transform.position.x;
+                break;
+            case Pole.East:
+                lookAtPosition.z = transform.position.z;
+                break;
+            case Pole.South:
+                lookAtPosition.x = transform.position.x;
+                lookAtPosition.z *= -1;
+                break;
+            case Pole.West:
+                lookAtPosition.z = transform.position.z;
+                lookAtPosition.x *= -1;
+                break;
+        }
+
         transform.LookAt(lookAtPosition);
     }
 }

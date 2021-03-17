@@ -5,13 +5,12 @@ using UnityEngine;
 public class ModuleLookup : Singleton<ModuleLookup>
 {
     [SerializeField]
-    public ModuleDataLookup moduleDataLookup = new ModuleDataLookup(() => new ModuleDataListWrapper());
+    public ModuleDataLookup moduleDataLookup = new ModuleDataLookup(() => new SocketData());
 
-    public List<GameObject> GetModulesWithMatchingTags(SocketType socketType, List<ModuleTag> tags)
-    {
-        return moduleDataLookup[socketType].List
+    public List<ModuleData> GetModuleDataWithMatchingTags(SocketType socketType, List<ModuleTag> tags) =>
+        moduleDataLookup[socketType].ModuleData
             .Where(moduleData => tags.All(t => moduleData.Tags.Contains(t)))
-            .Select(moduleData => moduleData.Prefab)
             .ToList();
-    }
+
+    public SocketRotationType GetSocketRotationType(SocketType socketType) => moduleDataLookup[socketType].SocketRotationType;
 }
