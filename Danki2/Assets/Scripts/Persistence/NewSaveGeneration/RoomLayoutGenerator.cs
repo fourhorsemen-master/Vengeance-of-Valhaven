@@ -23,7 +23,7 @@ public class RoomLayoutGenerator : Singleton<RoomLayoutGenerator>
     public RoomLayoutNode Generate()
     {
         RoomLayoutNode rootNode = new RoomLayoutNode();
-        RecursivelyGenerateChildren(rootNode, 1);
+        GenerateChildren(rootNode, 1);
         SetIds(rootNode);
         SetParentReferences(rootNode);
         SetRoomTypes(rootNode);
@@ -33,8 +33,10 @@ public class RoomLayoutGenerator : Singleton<RoomLayoutGenerator>
         return rootNode;
     }
 
-    private void RecursivelyGenerateChildren(RoomLayoutNode node, int currentDepth)
+    private void GenerateChildren(RoomLayoutNode node, int currentDepth)
     {
+        if (!ShouldGenerateChildren(currentDepth)) return;
+
         int numberOfChildren = Random.Range(minRoomExits, maxRoomExits + 1);
 
         for (int i = 0; i < numberOfChildren; i++)
@@ -42,16 +44,15 @@ public class RoomLayoutGenerator : Singleton<RoomLayoutGenerator>
             RoomLayoutNode childNode = new RoomLayoutNode();
             node.Children.Add(childNode);
 
-            int nextDepth = currentDepth + 1;
-            if (ShouldGenerateChildren(nextDepth)) RecursivelyGenerateChildren(childNode, nextDepth);
+            GenerateChildren(childNode, currentDepth + 1);
         }
     }
 
-    private bool ShouldGenerateChildren(int nodeDepth)
+    private bool ShouldGenerateChildren(int depth)
     {
-        if (nodeDepth < minRoomDepth) return true;
-        if (nodeDepth >= maxRoomDepth) return false;
-        return Random.value < 1f / (maxRoomDepth - nodeDepth + 1);
+        if (depth < minRoomDepth) return true;
+        if (depth >= maxRoomDepth) return false;
+        return Random.value < 1f / (maxRoomDepth - depth + 1);
     }
 
     private void SetIds(RoomLayoutNode rootNode)
