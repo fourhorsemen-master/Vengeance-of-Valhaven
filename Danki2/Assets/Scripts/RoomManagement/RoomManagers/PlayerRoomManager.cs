@@ -10,6 +10,7 @@ public class PlayerRoomManager : Singleton<PlayerRoomManager>
     private static readonly ISet<RoomType> playerRoomTypes = new HashSet<RoomType>
     {
         RoomType.Combat,
+        RoomType.Boss,
         RoomType.Shop
     };
     

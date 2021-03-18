@@ -44,6 +44,7 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
             switch (node.RoomType)
             {
                 case RoomType.Combat:
+                case RoomType.Boss:
                     roomSaveDataLookup[node.Id] = GenerateCombatRoomSaveData(node);
                     break;
                 case RoomType.Victory:

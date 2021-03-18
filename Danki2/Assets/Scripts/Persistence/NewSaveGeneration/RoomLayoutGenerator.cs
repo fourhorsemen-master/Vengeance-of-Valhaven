@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class RoomLayoutGenerator : Singleton<RoomLayoutGenerator>
 {
@@ -69,7 +71,7 @@ public class RoomLayoutGenerator : Singleton<RoomLayoutGenerator>
 
     private void SetRoomTypes(RoomLayoutNode rootNode)
     {
-        rootNode.IterateDown(n => n.RoomType = RoomType.Combat);
+        rootNode.IterateDown(n => n.RoomType = n.IsLeafNode ? RoomType.Boss : RoomType.Combat);
     }
 
     private void AddVictoryNode(RoomLayoutNode rootNode)
@@ -136,8 +138,14 @@ public class RoomLayoutGenerator : Singleton<RoomLayoutGenerator>
             validExitIds.Remove(exitId);
         });
 
-        node.SpawnerIdToSpawnedActor[0] = node.Children[0].RoomType == RoomType.Victory
-            ? ActorType.Bear
-            : ActorType.Wolf;
+        switch (node.RoomType)
+        {
+            case RoomType.Combat:
+                node.SpawnerIdToSpawnedActor[0] = ActorType.Wolf;
+                break;
+            case RoomType.Boss:
+                node.SpawnerIdToSpawnedActor[0] = ActorType.Bear;
+                break;
+        }
     }
 }

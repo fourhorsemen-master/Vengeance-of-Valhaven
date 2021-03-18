@@ -14,7 +14,7 @@ public class CombatRoomManager : Singleton<CombatRoomManager>
     {
         RoomSaveData roomSaveData = PersistenceManager.Instance.SaveData.CurrentRoomSaveData;
 
-        if (roomSaveData.RoomType != RoomType.Combat) return;
+        if (roomSaveData.RoomType != RoomType.Combat && roomSaveData.RoomType != RoomType.Boss) return;
         
         CombatRoomSaveData combatRoomSaveData = roomSaveData.CombatRoomSaveData;
 
