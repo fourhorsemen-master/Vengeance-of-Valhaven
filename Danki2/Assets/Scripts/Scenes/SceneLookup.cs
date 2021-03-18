@@ -9,14 +9,6 @@ public class SceneLookup : Singleton<SceneLookup>
 
    protected override bool DestroyOnLoad => false;
 
-   private static readonly Dictionary<Pole, Pole> reversedPoleLookup = new Dictionary<Pole, Pole>
-   {
-      [Pole.North] = Pole.South,
-      [Pole.East] = Pole.West,
-      [Pole.South] = Pole.North,
-      [Pole.West] = Pole.East,
-   };
-
    private static readonly Dictionary<Pole, Dictionary<Pole, Pole>> cameraOrientationAndElementSideToTrueElementSide
       = new Dictionary<Pole, Dictionary<Pole, Pole>>
       {
@@ -153,7 +145,7 @@ public class SceneLookup : Singleton<SceneLookup>
       sceneDataLookup[scene].GameplaySceneData.ExitData.ForEach(exitData =>
       {
          Pole trueExitDirection = GetTrueExitDirection(scene, cameraOrientation, exitData.Id);
-         if (trueExitDirection != Pole.South && trueExitDirection != trueEntranceDirection) validExits.Add(exitData.Id);
+         if (trueExitDirection != trueEntranceDirection && trueExitDirection != Pole.South) validExits.Add(exitData.Id);
       });
       
       return validExits;
