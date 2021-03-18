@@ -103,9 +103,11 @@ public class SceneLookup : Singleton<SceneLookup>
          if (!gameplaySceneData.CameraOrientations.Contains(cameraOrientation)) return;
 
          // given this camera orientation, check if there is an entrance from the true entrance direction
-         if (gameplaySceneData.EntranceData.All(entrance => trueEntranceDirection != GetTrueEntranceDirection(scene, cameraOrientation, entrance.Id))) return;
+         bool hasValidEntrance = gameplaySceneData.EntranceData
+            .Any(entrance => GetTrueEntranceDirection(scene, cameraOrientation, entrance.Id) == trueEntranceDirection);
+         if (!hasValidEntrance) return;
 
-         // given this camera orientation, check if there is enough exits
+         // given this camera orientation, check if there are enough exits
          //   - exits need to be on a different side to the entrance
          //   - exits cannot be facing south given the camera orientation
          int validExitCount = 0;
