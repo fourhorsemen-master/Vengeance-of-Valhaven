@@ -2487,6 +2487,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1762835000188673968, guid: 33ec0a335bbed5349a794f9621982215,
         type: 3}
+      propertyPath: tags.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1762835000188673968, guid: 33ec0a335bbed5349a794f9621982215,
+        type: 3}
+      propertyPath: blockerTags.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1762835000188673968, guid: 33ec0a335bbed5349a794f9621982215,
+        type: 3}
       propertyPath: hasAssociatedExit
       value: 0
       objectReference: {fileID: 0}
@@ -2499,6 +2509,16 @@ PrefabInstance:
         type: 3}
       propertyPath: id
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1762835000188673968, guid: 33ec0a335bbed5349a794f9621982215,
+        type: 3}
+      propertyPath: tags.Array.data[0]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1762835000188673968, guid: 33ec0a335bbed5349a794f9621982215,
+        type: 3}
+      propertyPath: blockerTags.Array.data[0]
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3125447937092061176, guid: 33ec0a335bbed5349a794f9621982215,
         type: 3}
@@ -2646,8 +2666,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1762835000188673968, guid: 33ec0a335bbed5349a794f9621982215,
         type: 3}
+      propertyPath: tags.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1762835000188673968, guid: 33ec0a335bbed5349a794f9621982215,
+        type: 3}
+      propertyPath: blockerTags.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1762835000188673968, guid: 33ec0a335bbed5349a794f9621982215,
+        type: 3}
       propertyPath: hasAssociatedExit
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1762835000188673968, guid: 33ec0a335bbed5349a794f9621982215,
+        type: 3}
+      propertyPath: tags.Array.data[0]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1762835000188673968, guid: 33ec0a335bbed5349a794f9621982215,
+        type: 3}
+      propertyPath: blockerTags.Array.data[0]
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3125447937092061176, guid: 33ec0a335bbed5349a794f9621982215,
         type: 3}

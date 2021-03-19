@@ -23,7 +23,12 @@ public class TransitionSocketEditor : Editor
             EditAssociatedEntrance(transitionSocket);
             EditHasAssociatedExit(transitionSocket);
             EditAssociatedExit(transitionSocket);
-            EditTags(transitionSocket.Tags);
+            EditorUtils.VerticalSpace();
+
+            EditTags("Exit Tags", transitionSocket.ExitTags);
+            EditorUtils.VerticalSpace();
+
+            EditTags("Blocker Tags", transitionSocket.BlockerTags);
         }
 
         if (GUI.changed)
@@ -95,9 +100,9 @@ public class TransitionSocketEditor : Editor
         EditorGUI.EndDisabledGroup();
     }
     
-    private void EditTags(List<ModuleTag> tags)
+    private void EditTags(string label, List<ModuleTag> tags)
     {
-        EditorUtils.Header("Tags");
+        EditorUtils.Header(label);
 
         EditorGUI.indentLevel++;
 

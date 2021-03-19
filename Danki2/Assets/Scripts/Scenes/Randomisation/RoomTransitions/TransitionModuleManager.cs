@@ -44,7 +44,7 @@ public class TransitionModuleManager : Singleton<TransitionModuleManager>
 
     private void InstantiateExit(TransitionSocket socket)
     {
-        List<GameObject> modules = TransitionModuleLookup.Instance.GetExitModulesWithMatchingTags(socket.Tags);
+        List<GameObject> modules = TransitionModuleLookup.Instance.GetExitModulesWithMatchingTags(socket.ExitTags);
         if (modules.Count == 0)
         {
             Debug.LogError($"Exit socket found with tags that match no modules, ensure socket {socket.Id} has valid tags.");
@@ -55,7 +55,7 @@ public class TransitionModuleManager : Singleton<TransitionModuleManager>
 
     private void InstantiateBlocker(TransitionSocket socket)
     {
-        List<GameObject> modules = TransitionModuleLookup.Instance.GetBlockersWithMatchingTags(socket.Tags);
+        List<GameObject> modules = TransitionModuleLookup.Instance.GetBlockersWithMatchingTags(socket.BlockerTags);
         if (modules.Count == 0)
         {
             Debug.LogError($"Blocker socket found with tags that match no modules, ensure socket {socket.Id} has valid tags.");
