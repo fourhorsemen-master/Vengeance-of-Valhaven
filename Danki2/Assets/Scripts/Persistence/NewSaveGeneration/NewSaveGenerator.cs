@@ -75,6 +75,7 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
                 kvp => kvp.Value.Id
             ),
             ModuleSeed = Random.Range(0, int.MaxValue),
+            TransitionModuleSeed = Random.Range(0, int.MaxValue),
             CameraOrientation = node.CameraOrientation,
             PlayerSpawnerId = node.EntranceId
         };
