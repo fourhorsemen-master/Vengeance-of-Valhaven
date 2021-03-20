@@ -153,13 +153,21 @@ public class SceneLookup : Singleton<SceneLookup>
 
    public Pole GetTrueExitDirection(Scene scene, Pole cameraOrientation, int exitId)
    {
-      Pole exitSide = sceneDataLookup[scene].GameplaySceneData.ExitData.First(e => e.Id == exitId).Side;
+      Pole exitSide = sceneDataLookup[scene]
+         .GameplaySceneData
+         .ExitData
+         .First(e => e.Id == exitId)
+         .Side;
       return GetTrueDirection(cameraOrientation, exitSide);
    }
 
    public Pole GetTrueEntranceDirection(Scene scene, Pole cameraOrientation, int entranceId)
    {
-      Pole entranceSide = sceneDataLookup[scene].GameplaySceneData.EntranceData.First(e => e.Id == entranceId).Side;
+      Pole entranceSide = sceneDataLookup[scene]
+         .GameplaySceneData
+         .EntranceData
+         .First(e => e.Id == entranceId)
+         .Side;
       return GetTrueDirection(cameraOrientation, entranceSide);
    }
    
