@@ -51,7 +51,7 @@ public class MapGenerator : Singleton<MapGenerator>
     {
         if (depth < minRoomDepth) return true;
         if (depth >= maxRoomDepth) return false;
-        return Random.value < 1f / (maxRoomDepth - depth + 1);
+        return Random.value <= 1f / (maxRoomDepth - depth + 1);
     }
 
     private void SetIds(MapNode rootNode)
