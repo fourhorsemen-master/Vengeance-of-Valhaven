@@ -1,24 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 
-public class RoomLayoutNode
+public class MapNode
 {
-    public RoomLayoutNode Parent { get; set; }
-    public List<RoomLayoutNode> Children { get; } = new List<RoomLayoutNode>();
+    public MapNode Parent { get; set; }
+    public List<MapNode> Children { get; } = new List<MapNode>();
 
     public int Id { get; set; }
     public RoomType RoomType { get; set; }
     public Scene Scene { get; set; }
     public Pole CameraOrientation { get; set; }
     public int EntranceId { get; set; }
-    public Dictionary<int, RoomLayoutNode> ExitIdToChildLookup { get; } = new Dictionary<int, RoomLayoutNode>();
-    public Dictionary<RoomLayoutNode, int> ChildToExitIdLookup { get; } = new Dictionary<RoomLayoutNode, int>();
+    public Dictionary<int, MapNode> ExitIdToChildLookup { get; } = new Dictionary<int, MapNode>();
+    public Dictionary<MapNode, int> ChildToExitIdLookup { get; } = new Dictionary<MapNode, int>();
     public Dictionary<int, ActorType> SpawnerIdToSpawnedActor { get; } = new Dictionary<int, ActorType>();
 
     public bool IsRootNode => Parent == null;
     public bool IsLeafNode => Children.Count == 0;
 
-    public void IterateDown(Action<RoomLayoutNode> action, Func<RoomLayoutNode, bool> filter = null)
+    public void IterateDown(Action<MapNode> action, Func<MapNode, bool> filter = null)
     {
         if (filter == null || filter(this)) action(this);
 

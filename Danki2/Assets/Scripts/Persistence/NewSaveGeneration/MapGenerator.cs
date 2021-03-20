@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class RoomLayoutGenerator : Singleton<RoomLayoutGenerator>
+public class MapGenerator : Singleton<MapGenerator>
 {
     [SerializeField] private int minRoomExits = 0;
     [SerializeField] private int maxRoomExits = 0;
@@ -20,9 +20,9 @@ public class RoomLayoutGenerator : Singleton<RoomLayoutGenerator>
         [Pole.West] = Pole.East,
     };
 
-    public RoomLayoutNode Generate()
+    public MapNode Generate()
     {
-        RoomLayoutNode rootNode = new RoomLayoutNode();
+        MapNode rootNode = new MapNode();
         GenerateChildren(rootNode, 1);
         SetIds(rootNode);
         SetParentReferences(rootNode);
@@ -33,7 +33,7 @@ public class RoomLayoutGenerator : Singleton<RoomLayoutGenerator>
         return rootNode;
     }
 
-    private void GenerateChildren(RoomLayoutNode node, int currentDepth)
+    private void GenerateChildren(MapNode node, int currentDepth)
     {
         if (!ShouldGenerateChildren(currentDepth)) return;
 
@@ -41,7 +41,7 @@ public class RoomLayoutGenerator : Singleton<RoomLayoutGenerator>
 
         for (int i = 0; i < numberOfChildren; i++)
         {
-            RoomLayoutNode childNode = new RoomLayoutNode();
+            MapNode childNode = new MapNode();
             node.Children.Add(childNode);
 
             GenerateChildren(childNode, currentDepth + 1);
@@ -55,7 +55,7 @@ public class RoomLayoutGenerator : Singleton<RoomLayoutGenerator>
         return Random.value < 1f / (maxRoomDepth - depth + 1);
     }
 
-    private void SetIds(RoomLayoutNode rootNode)
+    private void SetIds(MapNode rootNode)
     {
         int currentId = 0;
         rootNode.IterateDown(n =>
@@ -65,26 +65,26 @@ public class RoomLayoutGenerator : Singleton<RoomLayoutGenerator>
         });
     }
 
-    private void SetParentReferences(RoomLayoutNode rootNode)
+    private void SetParentReferences(MapNode rootNode)
     {
         rootNode.IterateDown(n => n.Children.ForEach(c => c.Parent = n));
     }
 
-    private void SetRoomTypes(RoomLayoutNode rootNode)
+    private void SetRoomTypes(MapNode rootNode)
     {
         rootNode.IterateDown(n => n.RoomType = n.IsLeafNode ? RoomType.Boss : RoomType.Combat);
     }
 
-    private void AddVictoryNode(RoomLayoutNode rootNode)
+    private void AddVictoryNode(MapNode rootNode)
     {
-        RoomLayoutNode victoryNode = new RoomLayoutNode
+        MapNode victoryNode = new MapNode
         {
             Id = rootNode.FindMaxId() + 1,
             RoomType = RoomType.Victory,
             Scene = Scene.GameplayVictoryScene
         };
 
-        List<RoomLayoutNode> leafNodes = new List<RoomLayoutNode>();
+        List<MapNode> leafNodes = new List<MapNode>();
 
         rootNode.IterateDown(n =>
         {
@@ -94,7 +94,7 @@ public class RoomLayoutGenerator : Singleton<RoomLayoutGenerator>
         leafNodes.ForEach(n => n.Children.Add(victoryNode));
     }
 
-    private void SetSceneData(RoomLayoutNode rootNode)
+    private void SetSceneData(MapNode rootNode)
     {
         SetSceneData(rootNode, Pole.South);
 
@@ -112,7 +112,7 @@ public class RoomLayoutGenerator : Singleton<RoomLayoutGenerator>
         );
     }
 
-    private void SetSceneData(RoomLayoutNode node, Pole trueEntranceDirection)
+    private void SetSceneData(MapNode node, Pole trueEntranceDirection)
     {
         node.Scene = RandomUtils.Choice(SceneLookup.Instance.GetValidScenes(trueEntranceDirection, node.Children.Count));
         node.CameraOrientation = RandomUtils.Choice(SceneLookup.Instance.GetValidCameraOrientations(

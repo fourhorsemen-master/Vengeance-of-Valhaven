@@ -17,7 +17,7 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
         if (seed == -1) seed = Random.Range(0, int.MaxValue);
         Random.InitState(seed);
 
-        RoomLayoutNode rootNode = RoomLayoutGenerator.Instance.Generate();
+        MapNode rootNode = MapGenerator.Instance.Generate();
         int defeatRoomId = rootNode.FindMaxId() + 1;
 
         return new SaveData
@@ -35,7 +35,7 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
         };
     }
 
-    private Dictionary<int, RoomSaveData> GenerateRoomSaveDataLookup(RoomLayoutNode rootNode, int defeatRoomId)
+    private Dictionary<int, RoomSaveData> GenerateRoomSaveDataLookup(MapNode rootNode, int defeatRoomId)
     {
         Dictionary<int, RoomSaveData> roomSaveDataLookup = new Dictionary<int, RoomSaveData>();
 
@@ -58,7 +58,7 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
         return roomSaveDataLookup;
     }
 
-    private RoomSaveData GenerateCombatRoomSaveData(RoomLayoutNode node)
+    private RoomSaveData GenerateCombatRoomSaveData(MapNode node)
     {
         return new RoomSaveData
         {
@@ -80,7 +80,7 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
         };
     }
 
-    private RoomSaveData GenerateVictoryRoomSaveData(RoomLayoutNode node)
+    private RoomSaveData GenerateVictoryRoomSaveData(MapNode node)
     {
         return new RoomSaveData
         {
