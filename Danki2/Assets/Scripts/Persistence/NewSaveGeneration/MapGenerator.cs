@@ -11,14 +11,6 @@ public class MapGenerator : Singleton<MapGenerator>
 
     protected override bool DestroyOnLoad => false;
 
-    private static readonly Dictionary<Pole, Pole> reversedPoleLookup = new Dictionary<Pole, Pole>
-    {
-        [Pole.North] = Pole.South,
-        [Pole.East] = Pole.West,
-        [Pole.South] = Pole.North,
-        [Pole.West] = Pole.East,
-    };
-
     public MapNode Generate()
     {
         MapNode rootNode = new MapNode();
@@ -105,7 +97,7 @@ public class MapGenerator : Singleton<MapGenerator>
                     node.Parent.CameraOrientation,
                     node.Parent.ChildToExitIdLookup[node]
                 );
-                SetSceneData(node, reversedPoleLookup[trueParentExitDirection]);
+                SetSceneData(node, OrientationUtils.GetReversedPole(trueParentExitDirection));
             },
             node => !node.IsRootNode && node.RoomType != RoomType.Victory
         );

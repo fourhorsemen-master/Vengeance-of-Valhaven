@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerControls : Singleton<PlayerControls>
 {
@@ -10,18 +9,10 @@ public class PlayerControls : Singleton<PlayerControls>
 
     private float yRotation;
 
-    private static readonly Dictionary<Pole, float> orientationToYRotation = new Dictionary<Pole, float>
-    {
-        [Pole.North] = 0,
-        [Pole.East] = 90,
-        [Pole.South] = 180,
-        [Pole.West] = 270
-    };
-
     protected override void Awake()
     {
         base.Awake();
-        yRotation = orientationToYRotation[PersistenceManager.Instance.SaveData.CurrentRoomSaveData.CameraOrientation];
+        yRotation = OrientationUtils.GetYRotation(PersistenceManager.Instance.SaveData.CurrentRoomSaveData.CameraOrientation);
     }
 
     private void Update()
