@@ -96,7 +96,7 @@ public class SceneLookup : Singleton<SceneLookup>
 
          // given this camera orientation, check if there is an entrance from the true entrance direction
          bool hasValidEntrance = gameplaySceneData.EntranceData
-            .Any(entrance => GetTrueEntranceDirection(scene, cameraOrientation, entrance.Id) == trueEntranceDirection);
+            .Any(entrance => GetTrueDirection(cameraOrientation, entrance.Side) == trueEntranceDirection);
          if (!hasValidEntrance) return;
 
          // given this camera orientation, check if there are enough exits
@@ -105,7 +105,7 @@ public class SceneLookup : Singleton<SceneLookup>
          int validExitCount = 0;
          gameplaySceneData.ExitData.ForEach(exit =>
          {
-            Pole trueExitDirection = GetTrueExitDirection(scene, cameraOrientation, exit.Id);
+            Pole trueExitDirection = GetTrueDirection(cameraOrientation, exit.Side);
 
             if (trueExitDirection == trueEntranceDirection) return;
 
@@ -144,7 +144,7 @@ public class SceneLookup : Singleton<SceneLookup>
       
       sceneDataLookup[scene].GameplaySceneData.ExitData.ForEach(exitData =>
       {
-         Pole trueExitDirection = GetTrueExitDirection(scene, cameraOrientation, exitData.Id);
+         Pole trueExitDirection = GetTrueDirection(cameraOrientation, exitData.Side);
          if (trueExitDirection != trueEntranceDirection && trueExitDirection != Pole.South) validExits.Add(exitData.Id);
       });
       
@@ -154,12 +154,17 @@ public class SceneLookup : Singleton<SceneLookup>
    public Pole GetTrueExitDirection(Scene scene, Pole cameraOrientation, int exitId)
    {
       Pole exitSide = sceneDataLookup[scene].GameplaySceneData.ExitData.First(e => e.Id == exitId).Side;
-      return cameraOrientationAndElementSideToTrueElementSide[cameraOrientation][exitSide];
+      return GetTrueDirection(cameraOrientation, exitSide);
    }
 
    public Pole GetTrueEntranceDirection(Scene scene, Pole cameraOrientation, int entranceId)
    {
       Pole entranceSide = sceneDataLookup[scene].GameplaySceneData.EntranceData.First(e => e.Id == entranceId).Side;
-      return cameraOrientationAndElementSideToTrueElementSide[cameraOrientation][entranceSide];
+      return GetTrueDirection(cameraOrientation, entranceSide);
+   }
+   
+   private Pole GetTrueDirection(Pole cameraOrientation, Pole side)
+   {
+      return cameraOrientationAndElementSideToTrueElementSide[cameraOrientation][side];
    }
 }
