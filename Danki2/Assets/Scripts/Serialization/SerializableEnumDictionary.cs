@@ -23,6 +23,8 @@ public class SerializableEnumDictionary<TEnumKey, TValue> : ISerializationCallba
 
     public Dictionary<TEnumKey, TValue>.KeyCollection Keys => _dictionary.Keys;
 
+    public Dictionary<TEnumKey, TValue>.ValueCollection Values => _dictionary.Values;
+
     public SerializableEnumDictionary(TValue defaultValue)
     {
         EnumUtils.ForEach<TEnumKey>(key => _dictionary.Add(key, defaultValue));

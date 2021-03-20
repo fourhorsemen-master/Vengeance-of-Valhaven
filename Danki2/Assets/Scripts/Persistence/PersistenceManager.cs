@@ -22,7 +22,7 @@ public class PersistenceManager : Singleton<PersistenceManager>
             return;
         }
 
-        SaveData = NewSaveGenerator.Generate();
+        SaveData = NewSaveGenerator.Instance.Generate();
         SaveDataManager.Instance.Save(SaveData);
     }
 
@@ -78,7 +78,7 @@ public class PersistenceManager : Singleton<PersistenceManager>
         SaveData.AbilityTree = ActorCache.Instance.Player.AbilityTree;
 
         RoomSaveData currentRoomSaveData = SaveData.CurrentRoomSaveData;
-        if (currentRoomSaveData.RoomType == RoomType.Combat)
+        if (currentRoomSaveData.RoomType == RoomType.Combat || currentRoomSaveData.RoomType == RoomType.Boss)
         {
             CombatRoomSaveData combatRoomSaveData = currentRoomSaveData.CombatRoomSaveData;
             combatRoomSaveData.EnemiesCleared = CombatRoomManager.Instance.EnemiesCleared;

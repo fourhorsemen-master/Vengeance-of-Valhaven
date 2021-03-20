@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public static class EnumUtils
 {
@@ -29,5 +30,10 @@ public static class EnumUtils
     public static TEnum FromString<TEnum>(string raw) where TEnum : Enum
     {
         return (TEnum) Enum.Parse(typeof(TEnum), raw);
+    }
+
+    public static List<TEnum> ToList<TEnum>() where TEnum : Enum
+    {
+        return Enum.GetValues(typeof(TEnum)).Cast<TEnum>().ToList();
     }
 }
