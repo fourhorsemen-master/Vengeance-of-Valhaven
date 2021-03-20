@@ -7,19 +7,11 @@ public class ModuleManager : Singleton<ModuleManager>
 {
     private float yRotation;
 
-    private static readonly Dictionary<Pole, float> orientationToYRotation = new Dictionary<Pole, float>
-    {
-        [Pole.North] = 0,
-        [Pole.East] = 90,
-        [Pole.South] = 180,
-        [Pole.West] = 270
-    };
-
     private void Start()
     {
         RoomSaveData currentRoomSaveData = PersistenceManager.Instance.SaveData.CurrentRoomSaveData;
         Random.InitState(currentRoomSaveData.ModuleSeed);
-        yRotation = orientationToYRotation[currentRoomSaveData.CameraOrientation];
+        yRotation = OrientationUtils.GetYRotation(currentRoomSaveData.CameraOrientation);
 
         List<ModuleSocket> sockets = FindObjectsOfType<ModuleSocket>().ToList();
         sockets.SortById();

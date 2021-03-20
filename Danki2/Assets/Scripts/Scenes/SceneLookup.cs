@@ -9,72 +9,6 @@ public class SceneLookup : Singleton<SceneLookup>
 
    protected override bool DestroyOnLoad => false;
 
-   private static readonly Dictionary<Pole, Dictionary<Pole, Pole>> cameraOrientationAndElementSideToTrueElementSide
-      = new Dictionary<Pole, Dictionary<Pole, Pole>>
-      {
-         [Pole.North] = new Dictionary<Pole, Pole>
-         {
-            [Pole.North] = Pole.North,
-            [Pole.East] = Pole.East,
-            [Pole.South] = Pole.South,
-            [Pole.West] = Pole.West
-         },
-         [Pole.East] = new Dictionary<Pole, Pole>
-         {
-            [Pole.North] = Pole.West,
-            [Pole.East] = Pole.North,
-            [Pole.South] = Pole.East,
-            [Pole.West] = Pole.South
-         },
-         [Pole.South] = new Dictionary<Pole, Pole>
-         {
-            [Pole.North] = Pole.South,
-            [Pole.East] = Pole.West,
-            [Pole.South] = Pole.North,
-            [Pole.West] = Pole.East
-         },
-         [Pole.West] = new Dictionary<Pole, Pole>
-         {
-            [Pole.North] = Pole.East,
-            [Pole.East] = Pole.South,
-            [Pole.South] = Pole.West,
-            [Pole.West] = Pole.North
-         }
-      };
-
-   private static readonly Dictionary<Pole, Dictionary<Pole, Pole>> cameraOrientationAndTrueElementSideToElementSide
-      = new Dictionary<Pole, Dictionary<Pole, Pole>>
-      {
-         [Pole.North] = new Dictionary<Pole, Pole>
-         {
-            [Pole.North] = Pole.North,
-            [Pole.East] = Pole.East,
-            [Pole.South] = Pole.South,
-            [Pole.West] = Pole.West
-         },
-         [Pole.East] = new Dictionary<Pole, Pole>
-         {
-            [Pole.North] = Pole.East,
-            [Pole.East] = Pole.South,
-            [Pole.South] = Pole.West,
-            [Pole.West] = Pole.North
-         },
-         [Pole.South] = new Dictionary<Pole, Pole>
-         {
-            [Pole.North] = Pole.South,
-            [Pole.East] = Pole.West,
-            [Pole.South] = Pole.North,
-            [Pole.West] = Pole.East
-         },
-         [Pole.West] = new Dictionary<Pole, Pole>
-         {
-            [Pole.North] = Pole.West,
-            [Pole.East] = Pole.North,
-            [Pole.South] = Pole.East,
-            [Pole.West] = Pole.South
-         }
-      };
-
    public string GetFileName(Scene scene) => sceneDataLookup[scene].FileName;
 
    public List<Scene> GetValidScenes(Pole trueEntranceDirection, int numberOfExits)
@@ -96,7 +30,7 @@ public class SceneLookup : Singleton<SceneLookup>
 
          // given this camera orientation, check if there is an entrance from the true entrance direction
          bool hasValidEntrance = gameplaySceneData.EntranceData
-            .Any(entrance => GetTrueEntranceDirection(scene, cameraOrientation, entrance.Id) == trueEntranceDirection);
+            .Any(entrance => OrientationUtils.GetTrueDirection(cameraOrientation, entrance.Side) == trueEntranceDirection);
          if (!hasValidEntrance) return;
 
          // given this camera orientation, check if there are enough exits
@@ -105,7 +39,7 @@ public class SceneLookup : Singleton<SceneLookup>
          int validExitCount = 0;
          gameplaySceneData.ExitData.ForEach(exit =>
          {
-            Pole trueExitDirection = GetTrueExitDirection(scene, cameraOrientation, exit.Id);
+            Pole trueExitDirection = OrientationUtils.GetTrueDirection(cameraOrientation, exit.Side);
 
             if (trueExitDirection == trueEntranceDirection) return;
 
@@ -126,7 +60,7 @@ public class SceneLookup : Singleton<SceneLookup>
    {
       List<int> validEntranceIds = new List<int>();
 
-      Pole requiredEntranceSide = cameraOrientationAndTrueElementSideToElementSide[cameraOrientation][trueEntranceDirection];
+      Pole requiredEntranceSide = OrientationUtils.GetOriginalDirection(cameraOrientation, trueEntranceDirection);
       
       sceneDataLookup[scene].GameplaySceneData.EntranceData.ForEach(entranceData =>
       {
@@ -144,7 +78,7 @@ public class SceneLookup : Singleton<SceneLookup>
       
       sceneDataLookup[scene].GameplaySceneData.ExitData.ForEach(exitData =>
       {
-         Pole trueExitDirection = GetTrueExitDirection(scene, cameraOrientation, exitData.Id);
+         Pole trueExitDirection = OrientationUtils.GetTrueDirection(cameraOrientation, exitData.Side);
          if (trueExitDirection != trueEntranceDirection && trueExitDirection != Pole.South) validExits.Add(exitData.Id);
       });
       
@@ -153,13 +87,21 @@ public class SceneLookup : Singleton<SceneLookup>
 
    public Pole GetTrueExitDirection(Scene scene, Pole cameraOrientation, int exitId)
    {
-      Pole exitSide = sceneDataLookup[scene].GameplaySceneData.ExitData.First(e => e.Id == exitId).Side;
-      return cameraOrientationAndElementSideToTrueElementSide[cameraOrientation][exitSide];
+      Pole exitSide = sceneDataLookup[scene]
+         .GameplaySceneData
+         .ExitData
+         .First(e => e.Id == exitId)
+         .Side;
+      return OrientationUtils.GetTrueDirection(cameraOrientation, exitSide);
    }
 
    public Pole GetTrueEntranceDirection(Scene scene, Pole cameraOrientation, int entranceId)
    {
-      Pole entranceSide = sceneDataLookup[scene].GameplaySceneData.EntranceData.First(e => e.Id == entranceId).Side;
-      return cameraOrientationAndElementSideToTrueElementSide[cameraOrientation][entranceSide];
+      Pole entranceSide = sceneDataLookup[scene]
+         .GameplaySceneData
+         .EntranceData
+         .First(e => e.Id == entranceId)
+         .Side;
+      return OrientationUtils.GetTrueDirection(cameraOrientation, entranceSide);
    }
 }

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using FMODUnity;
+﻿using FMODUnity;
 using UnityEngine;
 
 public class CustomCamera : Singleton<CustomCamera>
@@ -50,14 +49,6 @@ public class CustomCamera : Singleton<CustomCamera>
     private float HorizontalMouseOffset => Input.mousePosition.x / Screen.width - 0.5f;
     private float VerticalMouseOffset => Input.mousePosition.y / Screen.height - 0.5f;
 
-    private static readonly Dictionary<Pole, float> orientationToYRotation = new Dictionary<Pole, float>
-    {
-        [Pole.North] = 0,
-        [Pole.East] = 90,
-        [Pole.South] = 180,
-        [Pole.West] = 270
-    };
-
     protected override void Awake()
     {
         base.Awake();
@@ -69,7 +60,7 @@ public class CustomCamera : Singleton<CustomCamera>
         target = ActorCache.Instance.Player.gameObject;
 
         FollowTarget(true);
-        gameObject.transform.eulerAngles = new Vector3(angle, orientationToYRotation[orientation], 0);
+        gameObject.transform.eulerAngles = new Vector3(angle, OrientationUtils.GetYRotation(orientation), 0);
 
         listener.attenuationObject = target;
     }
