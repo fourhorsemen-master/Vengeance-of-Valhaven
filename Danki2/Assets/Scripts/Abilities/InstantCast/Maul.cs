@@ -36,14 +36,18 @@ public class Maul : InstantCast
 
         bool hasDealtDamage = false;
 
-        CollisionTemplateManager.Instance.GetCollidingActors(CollisionTemplate.Wedge45, BiteRange, Owner.CollisionTemplateSource, castRotation)
-            .Where(actor => Owner.Opposes(actor))
-            .ForEach(actor =>
+        TemplateCollision(
+            CollisionTemplate.Wedge45,
+            BiteRange,
+            Owner.CollisionTemplateSource,
+            castRotation,
+            actor =>
             {
                 DealPrimaryDamage(actor);
                 actor.EffectManager.AddActiveEffect(ActiveEffect.Slow, SlowDuration);
                 hasDealtDamage = true;
-            });
+            }
+        );
 
         if (hasDealtDamage)
         {

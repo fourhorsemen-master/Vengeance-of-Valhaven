@@ -32,19 +32,17 @@ public class Swipe : InstantCast
     {
         bool hasDealtDamage = false;
 
-        CollisionTemplateManager.Instance.GetCollidingActors(
+        TemplateCollision(
             CollisionTemplate.Wedge90,
             DamageRadius,
             Owner.CollisionTemplateSource,
-            Quaternion.LookRotation(Owner.transform.forward)
-        ).ForEach(actor =>
-        {
-            if (Owner.Opposes(actor))
+            Quaternion.LookRotation(Owner.transform.forward),
+            actor =>
             {
                 DealPrimaryDamage(actor);
                 hasDealtDamage = true;
             }
-        });
+        );
 
         SwipeObject swipeObject = SwipeObject.Create(
             Owner.AbilitySource,

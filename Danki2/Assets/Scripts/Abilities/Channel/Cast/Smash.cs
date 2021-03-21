@@ -33,15 +33,19 @@ public class Smash : Cast
 
         bool hasDealtDamage = false;
 
-        CollisionTemplateManager.Instance.GetCollidingActors(CollisionTemplate.Cylinder, Radius, center)
-            .Where(actor => Owner.Opposes(actor))
-            .ForEach(actor =>
+        TemplateCollision(
+            CollisionTemplate.Cylinder,
+            Radius,
+            center,
+            Quaternion.identity,
+            actor =>
             {
                 DealPrimaryDamage(actor);
                 hasDealtDamage = true;
 
                 if (HasBonus("PerfectSmash")) actor.EffectManager.AddActiveEffect(ActiveEffect.Stun, PerfectSmashStunDuration);
-            });
+            }
+        );
 
         CustomCamera.Instance.AddShake(ShakeIntensity.High);
         SmashObject.Create(center);

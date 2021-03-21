@@ -46,14 +46,18 @@ public class Lunge : InstantCast
 
         bool hasDealtDamage = false;
 
-        CollisionTemplateManager.Instance.GetCollidingActors(CollisionTemplate.Wedge90, StunRange, Owner.CollisionTemplateSource, castRotation)
-            .Where(actor => actor.Opposes(Owner))
-            .ForEach(actor =>
+        TemplateCollision(
+            CollisionTemplate.Wedge90,
+            StunRange,
+            Owner.CollisionTemplateSource,
+            castRotation,
+            actor =>
             {
                 actor.EffectManager.AddActiveEffect(ActiveEffect.Stun, StunDuration);
                 DealPrimaryDamage(actor);
                 hasDealtDamage = true;
-            });
+            }
+        );
 
         SuccessFeedbackSubject.Next(hasDealtDamage);
         Owner.MovementManager.Pause(PauseDuration);
