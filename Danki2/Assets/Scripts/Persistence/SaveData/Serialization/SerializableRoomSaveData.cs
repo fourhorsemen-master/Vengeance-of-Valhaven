@@ -11,12 +11,18 @@ public class SerializableRoomSaveData
     [SerializeField] private RoomType roomType;
     [SerializeField] private SerializableCombatRoomSaveData serializableCombatRoomSaveData;
     [SerializeField] private List<SerializableRoomTransitioner> serializableRoomTransitioners;
+    [SerializeField] private int moduleSeed;
+    [SerializeField] private Pole cameraOrientation;
+    [SerializeField] private int playerSpawnerId;
 
-    public int Id {get => id; set => id = value; }
-    public RoomType RoomType {get => roomType; set => roomType = value; }
-    public Scene Scene {get => scene; set => scene = value; }
-    public SerializableCombatRoomSaveData SerializableCombatRoomSaveData {get => serializableCombatRoomSaveData; set => serializableCombatRoomSaveData = value; }
+    public int Id { get => id; set => id = value; }
+    public RoomType RoomType { get => roomType; set => roomType = value; }
+    public Scene Scene { get => scene; set => scene = value; }
+    public SerializableCombatRoomSaveData SerializableCombatRoomSaveData { get => serializableCombatRoomSaveData; set => serializableCombatRoomSaveData = value; }
     public List<SerializableRoomTransitioner> SerializableRoomTransitioners { get => serializableRoomTransitioners; set => serializableRoomTransitioners = value; }
+    public int ModuleSeed { get => moduleSeed; set => moduleSeed = value; }
+    public Pole CameraOrientation { get => cameraOrientation; set => cameraOrientation = value; }
+    public int PlayerSpawnerId { get => playerSpawnerId; set => playerSpawnerId = value; }
 
     public RoomSaveData Deserialize()
     {
@@ -29,7 +35,10 @@ public class SerializableRoomSaveData
             RoomTransitionerIdToNextRoomId = SerializableRoomTransitioners.ToDictionary(
                 t => t.RoomTransitionerId,
                 t => t.NextRoomId
-            )
+            ),
+            ModuleSeed = ModuleSeed,
+            CameraOrientation =  CameraOrientation,
+            PlayerSpawnerId = PlayerSpawnerId
         };
     }
 }

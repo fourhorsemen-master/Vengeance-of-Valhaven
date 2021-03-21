@@ -1,0 +1,116 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5252346724549057213
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3607690556235679673}
+  - component: {fileID: 8354847309233353129}
+  m_Layer: 0
+  m_Name: ModuleLookup
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3607690556235679673
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5252346724549057213}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8354847309233353129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5252346724549057213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a2a5d1cb7dd4c5685a2f5af97b33057, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moduleDataLookup:
+    _keys:
+    - SmallCircular
+    - LargeCircular
+    - SmallSquare
+    - LargeSquare
+    _values:
+    - socketRotationType: 0
+      moduleData:
+      - prefab: {fileID: 4110214435533136738, guid: 83572ff6d6209ef42a090bfdad1b1c1e,
+          type: 3}
+        tags: 0000000003000000
+        allowAnyFreeRotation: 1
+        minFreeRotation: 0
+        maxFreeRotation: 360
+        distinctRotations: []
+      - prefab: {fileID: 4110214435533136738, guid: dbb1d693db05ab643a3f465c35681b10,
+          type: 3}
+        tags: 0100000002000000
+        allowAnyFreeRotation: 1
+        minFreeRotation: 0
+        maxFreeRotation: 360
+        distinctRotations: []
+      - prefab: {fileID: 4110214435533136738, guid: 2d43195569d40424f999c5ae8afd0b07,
+          type: 3}
+        tags: 0000000002000000
+        allowAnyFreeRotation: 1
+        minFreeRotation: 0
+        maxFreeRotation: 360
+        distinctRotations: []
+      - prefab: {fileID: 4110214435533136738, guid: 0c60b7b04c03222408c745ff30fbd62a,
+          type: 3}
+        tags: 0100000003000000
+        allowAnyFreeRotation: 1
+        minFreeRotation: 0
+        maxFreeRotation: 360
+        distinctRotations: []
+      - prefab: {fileID: 4110214435533136738, guid: 783af93464e823a4eaf5feae7a103f6a,
+          type: 3}
+        tags: 000000000200000004000000
+        allowAnyFreeRotation: 0
+        minFreeRotation: -40
+        maxFreeRotation: 40
+        distinctRotations: []
+    - socketRotationType: 0
+      moduleData:
+      - prefab: {fileID: 7152780536418578668, guid: 25585d8dd9c7b634b85f7d6d1859ebdb,
+          type: 3}
+        tags: 
+        allowAnyFreeRotation: 1
+        minFreeRotation: 0
+        maxFreeRotation: 360
+        distinctRotations: []
+    - socketRotationType: 1
+      moduleData:
+      - prefab: {fileID: 7152780536418578668, guid: 1ff71a9b2262bf841903ffd031cace20,
+          type: 3}
+        tags: 
+        allowAnyFreeRotation: 0
+        minFreeRotation: 0
+        maxFreeRotation: 0
+        distinctRotations: []
+    - socketRotationType: 1
+      moduleData:
+      - prefab: {fileID: 7152780536418578668, guid: dcd11cea5639a074ba154cd554ba1add,
+          type: 3}
+        tags: 
+        allowAnyFreeRotation: 0
+        minFreeRotation: 0
+        maxFreeRotation: 0
+        distinctRotations: []

@@ -2,6 +2,7 @@
 
 public class AbilityIconManager : Singleton<AbilityIconManager>
 {
+    [SerializeField]
     public AbilityIconDictionary spriteLookup = new AbilityIconDictionary((Sprite)null);
 
     protected override void Awake()

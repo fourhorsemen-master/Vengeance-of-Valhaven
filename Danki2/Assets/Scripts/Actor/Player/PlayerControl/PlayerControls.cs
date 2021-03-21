@@ -7,6 +7,14 @@ public class PlayerControls : Singleton<PlayerControls>
 
     public ActionControlState ActionControlState { get; private set; } = ActionControlState.None;
 
+    private float yRotation;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        yRotation = OrientationUtils.GetYRotation(PersistenceManager.Instance.SaveData.CurrentRoomSaveData.CameraOrientation);
+    }
+
     private void Update()
     {
         HandleSceneControls();
@@ -28,6 +36,8 @@ public class PlayerControls : Singleton<PlayerControls>
         if (Input.GetAxis("Horizontal") < 0) moveDirection.x -= 1f;
         if (Input.GetAxis("Vertical") > 0) moveDirection.z += 1f;
         if (Input.GetAxis("Vertical") < 0) moveDirection.z -= 1f;
+
+        moveDirection = Quaternion.Euler(0, yRotation, 0) * moveDirection;
 
         if (Input.GetAxis("Roll") > 0 && moveDirection != Vector3.zero)
         {

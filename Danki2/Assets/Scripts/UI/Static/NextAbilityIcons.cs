@@ -29,6 +29,7 @@ public class NextAbilityIcons : MonoBehaviour
     private float remainingCooldown = 0f;
     private float currentCooldownPeriod = 1f;
     private bool abilityInProgress = false;
+    private bool hasWhiffed;
 
     private void Start()
     {
@@ -81,7 +82,7 @@ public class NextAbilityIcons : MonoBehaviour
 
     private void ShowFeedback(bool result)
     {
-        if (abilityInProgress)
+        if (!hasWhiffed)
         {
             IndicateAbilityCompletion(player.AbilityTree.DirectionLastWalked, result);
         }
@@ -89,6 +90,8 @@ public class NextAbilityIcons : MonoBehaviour
 
     private void ShowWhiff()
     {
+        hasWhiffed = true;
+
         if (leftAbilityIcon.enabled) IndicateAbilityCompletion(Direction.Left, false);
         if (rightAbilityIcon.enabled) IndicateAbilityCompletion(Direction.Right, false);
     }
@@ -101,6 +104,8 @@ public class NextAbilityIcons : MonoBehaviour
 
     private void RefreshAbilityIcons()
     {
+        hasWhiffed = false;
+
         SetSpritesForDirection(Direction.Left, leftAbilityIcon, leftAbilityCooldown, leftAbilityFrame);
         SetSpritesForDirection(Direction.Right, rightAbilityIcon, rightAbilityCooldown, rightAbilityFrame);
     }

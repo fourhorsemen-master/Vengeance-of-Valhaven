@@ -13,6 +13,8 @@ Blender must be installed for the project to load.
 ### Fmod
 Danki2 uses FMOD as audio middleware - this is the official user guide https://fmod.com/resources/documentation-unity?version=2.0&page=user-guide.html#using-source-control
 
+Note - we have implemented a workaround for a bug where the sound wasn't stopping correctly when exiting play mode (this happened if and only if any text component in scene had a non-default font - it wasn't clear why this was happening). This involved adding a "state == PlayModeStateChange.ExitingPlayMode" case on line 698 of Danki2\Assets\Plugins\FMOD\src\Runtime\RuntimeManager.cs (ie. in the fmod source code).
+
 ### Smart Merge
 
 To use [Unity Smart Merge](https://docs.unity3d.com/Manual/SmartMerge.html), for resolving merge conflicts in non-code files, you must first check that the file path to your verion of UnityYamlMerge is the same as that in the .gitconfig file (if not then change the file path in the .gitconfig file). Then run the following command:

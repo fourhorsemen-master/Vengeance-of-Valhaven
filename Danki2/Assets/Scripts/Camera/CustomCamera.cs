@@ -5,9 +5,6 @@ public class CustomCamera : Singleton<CustomCamera>
 {
     // Camera settings
     [SerializeField]
-    private GameObject target = null;
-
-    [SerializeField]
     private StudioListener listener = null;
 
     [SerializeField, Range(0, 50)]
@@ -41,14 +38,29 @@ public class CustomCamera : Singleton<CustomCamera>
     [SerializeField, Range(0, 1)]
     private float bigShakeDuration = 10;
 
+    private GameObject target;
+
     private Vector3 desiredPosition;
 
     private CameraShakeManager shakeManager = new CameraShakeManager(4);
 
+    private Pole orientation;
+
+    private float HorizontalMouseOffset => Input.mousePosition.x / Screen.width - 0.5f;
+    private float VerticalMouseOffset => Input.mousePosition.y / Screen.height - 0.5f;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        orientation = PersistenceManager.Instance.SaveData.CurrentRoomSaveData.CameraOrientation;
+    }
+
     private void Start()
     {
+        target = ActorCache.Instance.Player.gameObject;
+
         FollowTarget(true);
-        gameObject.transform.eulerAngles = new Vector3(angle, 0, 0);
+        gameObject.transform.eulerAngles = new Vector3(angle, OrientationUtils.GetYRotation(orientation), 0);
 
         listener.attenuationObject = target;
     }
@@ -77,16 +89,46 @@ public class CustomCamera : Singleton<CustomCamera>
 
     private void FollowTarget(bool snap)
     {
-        float zDistanceFromFloorIntersect = height / (Mathf.Tan(Mathf.Deg2Rad * angle));
+        float distanceFromFloorIntersect = height / (Mathf.Tan(Mathf.Deg2Rad * angle));
         Vector3 targetPosition = target.transform.position;
 
-        float mouseOffsetH = Input.mousePosition.x / Screen.width - 0.5f;
-        float mouseOffsetV = Input.mousePosition.y / Screen.height - 0.5f;
+        float xOffset = 0;
+        float zOffset = 0;
+        float mouseXOffset = 0;
+        float mouseZOffset = 0;
+
+        switch (orientation)
+        {
+            case Pole.North:
+                xOffset = 0;
+                zOffset = -distanceFromFloorIntersect;
+                mouseXOffset = HorizontalMouseOffset;
+                mouseZOffset = VerticalMouseOffset;
+                break;
+            case Pole.East:
+                xOffset = -distanceFromFloorIntersect;
+                zOffset = 0;
+                mouseXOffset = VerticalMouseOffset;
+                mouseZOffset = -HorizontalMouseOffset;
+                break;
+            case Pole.South:
+                xOffset = 0;
+                zOffset = distanceFromFloorIntersect;
+                mouseXOffset = -HorizontalMouseOffset;
+                mouseZOffset = -VerticalMouseOffset;
+                break;
+            case Pole.West:
+                xOffset = distanceFromFloorIntersect;
+                zOffset = 0;
+                mouseXOffset = -VerticalMouseOffset;
+                mouseZOffset = HorizontalMouseOffset;
+                break;
+        }
 
         desiredPosition.Set(
-            targetPosition.x + (mouseOffsetH * mouseFollowFactor),
+            targetPosition.x + xOffset + (mouseXOffset * mouseFollowFactor),
             targetPosition.y + height,
-            targetPosition.z - zDistanceFromFloorIntersect + (mouseOffsetV * mouseFollowFactor)
+            targetPosition.z +zOffset + (mouseZOffset * mouseFollowFactor)
         );
 
         if (snap)

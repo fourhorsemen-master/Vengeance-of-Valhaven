@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class AbilityLookup : Singleton<AbilityLookup>
 {
+    [SerializeField]
     public SerializableMetadataLookup serializableMetadataLookup = new SerializableMetadataLookup(
         () => new SerializableAbilityMetadata()
     );

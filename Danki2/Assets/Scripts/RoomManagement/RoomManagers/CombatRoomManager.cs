@@ -14,7 +14,7 @@ public class CombatRoomManager : Singleton<CombatRoomManager>
     {
         RoomSaveData roomSaveData = PersistenceManager.Instance.SaveData.CurrentRoomSaveData;
 
-        if (roomSaveData.RoomType != RoomType.Combat) return;
+        if (roomSaveData.RoomType != RoomType.Combat && roomSaveData.RoomType != RoomType.Boss) return;
         
         CombatRoomSaveData combatRoomSaveData = roomSaveData.CombatRoomSaveData;
 
@@ -28,18 +28,18 @@ public class CombatRoomManager : Singleton<CombatRoomManager>
             return;
         }
 
-        List<Actor> enemies = SpawnEnemies(combatRoomSaveData);
+        List<Enemy> enemies = SpawnEnemies(combatRoomSaveData);
         TrackEnemyDeaths(enemies, roomClearedSubject);
     }
 
-    private List<Actor> SpawnEnemies(CombatRoomSaveData combatRoomSaveData)
+    private List<Enemy> SpawnEnemies(CombatRoomSaveData combatRoomSaveData)
     {
-        Dictionary<int, Spawner> spawnerLookup = FindObjectsOfType<Spawner>().ToDictionary(s => s.Id);
+        Dictionary<int, EnemySpawner> spawnerLookup = FindObjectsOfType<EnemySpawner>().ToDictionary(s => s.Id);
 
-        List<Actor> enemies = new List<Actor>();
+        List<Enemy> enemies = new List<Enemy>();
         foreach (int spawnerId in combatRoomSaveData.SpawnerIdToSpawnedActor.Keys)
         {
-            Spawner spawner = spawnerLookup[spawnerId];
+            EnemySpawner spawner = spawnerLookup[spawnerId];
             ActorType actorType = combatRoomSaveData.SpawnerIdToSpawnedActor[spawnerId];
             enemies.Add(spawner.Spawn(actorType));
         }
@@ -47,7 +47,7 @@ public class CombatRoomManager : Singleton<CombatRoomManager>
         return enemies;
     }
 
-    private void TrackEnemyDeaths(List<Actor> enemies, Subject roomClearedSubject)
+    private void TrackEnemyDeaths(List<Enemy> enemies, Subject roomClearedSubject)
     {
         int enemyCount = enemies.Count;
         int deadEnemyCount = 0;

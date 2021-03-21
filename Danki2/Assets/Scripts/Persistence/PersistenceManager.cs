@@ -1,4 +1,6 @@
-﻿/// <summary>
+﻿using UnityEngine;
+
+/// <summary>
 /// Handles persistence between gameplay rooms. The public property SaveData is available for anything to read from
 /// at any point so that it can initialise itself.
 ///
@@ -6,9 +8,11 @@
 ///
 /// NOTE: Public items in this class are marked as virtual so that the dev persistence manager can freely override them.
 /// </summary>
-public class PersistenceManager : NotDestroyedOnLoadSingleton<PersistenceManager>
+public class PersistenceManager : Singleton<PersistenceManager>
 {
     public virtual SaveData SaveData { get; private set; }
+
+    protected override bool DestroyOnLoad => false;
 
     protected virtual void Start()
     {
@@ -18,7 +22,7 @@ public class PersistenceManager : NotDestroyedOnLoadSingleton<PersistenceManager
             return;
         }
 
-        SaveData = NewSaveGenerator.Generate();
+        SaveData = NewSaveGenerator.Instance.Generate();
         SaveDataManager.Instance.Save(SaveData);
     }
 
@@ -39,8 +43,17 @@ public class PersistenceManager : NotDestroyedOnLoadSingleton<PersistenceManager
     /// </summary>
     public virtual void TransitionToNextRoom(int nextRoomId)
     {
-        if (!GameplayRoomTransitionManager.Instance.CanTransition) return;
-        if (!SaveData.RoomTransitions[SaveData.CurrentRoomId].Contains(nextRoomId)) return;
+        if (!GameplayRoomTransitionManager.Instance.CanTransition)
+        {
+            Debug.LogWarning("Tried to transition to the next room when a transition was not allowed.");
+            return;
+        }
+
+        if (!SaveData.CurrentRoomSaveData.RoomTransitionerIdToNextRoomId.ContainsValue(nextRoomId))
+        {
+            Debug.LogWarning("Tried to transition to a room which is not available from the current room.");
+            return;
+        }
 
         UpdateSaveData();
         SaveData.CurrentRoomId = nextRoomId;
@@ -65,7 +78,7 @@ public class PersistenceManager : NotDestroyedOnLoadSingleton<PersistenceManager
         SaveData.AbilityTree = ActorCache.Instance.Player.AbilityTree;
 
         RoomSaveData currentRoomSaveData = SaveData.CurrentRoomSaveData;
-        if (currentRoomSaveData.RoomType == RoomType.Combat)
+        if (currentRoomSaveData.RoomType == RoomType.Combat || currentRoomSaveData.RoomType == RoomType.Boss)
         {
             CombatRoomSaveData combatRoomSaveData = currentRoomSaveData.CombatRoomSaveData;
             combatRoomSaveData.EnemiesCleared = CombatRoomManager.Instance.EnemiesCleared;
