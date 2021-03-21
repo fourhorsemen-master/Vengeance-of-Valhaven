@@ -52,9 +52,6 @@ public class Swipe : InstantCast
         Owner.MovementManager.Pause(PauseDuration);
         SuccessFeedbackSubject.Next(hasDealtDamage);
 
-        if (hasDealtDamage)
-        {
-            CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
-        }
+        if (hasDealtDamage) CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
     }
 }
