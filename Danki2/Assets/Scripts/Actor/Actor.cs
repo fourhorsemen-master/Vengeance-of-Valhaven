@@ -14,11 +14,14 @@ public abstract class Actor : MonoBehaviour
     private TrailRenderer trailRenderer = null;
 
     [SerializeField]
-    private MeshRenderer[] meshRenderers = null;
+    private Renderer[] meshRenderers = null;
 
     // Serialized properties
     [SerializeField] private float weight = 0;
     public float Weight => weight;
+
+    [SerializeField] private Animator animController = null;
+    public Animator AnimController => animController;
 
     [Header("Sockets")]
 

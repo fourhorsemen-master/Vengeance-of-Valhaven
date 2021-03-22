@@ -47,8 +47,6 @@ public class MovementManager : IMovementStatusProvider
     public bool IsMoving { get; private set; } = false;
     private bool movedThisFrame = false;
 
-    private Animator animController = null;
-
     public Subject MoveLockSubject { get; } = new Subject();
 
     public MovementManager(Actor actor, Subject updateSubject, NavMeshAgent navMeshAgent)
@@ -61,8 +59,6 @@ public class MovementManager : IMovementStatusProvider
         updateSubject.Subscribe(UpdateMovement);
         movementStatusManager = new MovementStatusManager(updateSubject);
         movementStatusManager.RegisterProviders(this, actor.ChannelService, new StunHandler(actor));
-
-        animController = actor.GetComponentInChildren<Animator>();
     }
 
     public bool Stuns() => movementPaused;
@@ -229,10 +225,10 @@ public class MovementManager : IMovementStatusProvider
 
         IsMoving = movedThisFrame || (navMeshAgent.hasPath && navMeshAgent.velocity.magnitude > 0f);
 
-        if (animController)
+        if (actor.AnimController)
         {
             float blendValue = movedThisFrame ? 1f : 0f;
-            animController.SetFloat("MoveSpeed_Blend", blendValue, 0.1f, Time.deltaTime);
+            actor.AnimController.SetFloat("MoveSpeed_Blend", blendValue, 0.1f, Time.deltaTime);
         }
 
         movedThisFrame = false;

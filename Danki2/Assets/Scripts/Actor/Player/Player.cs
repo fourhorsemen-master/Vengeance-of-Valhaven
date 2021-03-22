@@ -20,8 +20,6 @@ public class Player : Actor
     [Header("Fmod events")]
     [EventRef] [SerializeField] private string whiffEvent = null;
 
-    private Animator animController = null;
-
     private bool readyToRoll = true;
 
     public float ShortCooldown => shortCooldown;
@@ -44,8 +42,6 @@ public class Player : Actor
     protected override void Awake()
     {
         base.Awake();
-
-        animController = GetComponentInChildren<Animator>();
 
         AbilityTree = PersistenceManager.Instance.SaveData.AbilityTree;
         ComboManager = new ComboManager(this, updateSubject, rollResetsCombo);
@@ -85,10 +81,7 @@ public class Player : Actor
             readyToRoll = false;
             this.WaitAndAct(totalRollCooldown, () => readyToRoll = true);
 
-			if (animController)
-			{
-                animController.Play("Dash_OneShot");
-			}
+            AnimController.Play("Dash_OneShot");
         }
     }
 
