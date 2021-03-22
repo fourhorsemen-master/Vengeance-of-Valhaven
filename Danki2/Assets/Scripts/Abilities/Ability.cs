@@ -4,6 +4,7 @@ using System.Linq;
 using FMOD.Studio;
 using UnityEngine;
 using STOP_MODE = FMOD.Studio.STOP_MODE;
+using System;
 
 public abstract class Ability
 {
@@ -67,6 +68,20 @@ public abstract class Ability
         float newAngleX = Mathf.Clamp(castAngleX, MinMeleeVerticalAngle, MaxMeleeVerticalAngle);
 
         return Quaternion.Euler(newAngleX, castRotation.eulerAngles.y, castRotation.eulerAngles.z);
+    }
+
+    protected void TemplateCollision(CollisionTemplate template, float scale, Vector3 position, Quaternion rotation, Action<Actor> offensiveAction)
+    {
+        TemplateCollision(template, scale * Vector3.one, position, rotation, offensiveAction);
+    }
+
+    protected void TemplateCollision(CollisionTemplate template, Vector3 scale, Vector3 position, Quaternion rotation, Action<Actor> offensiveAction)
+    {
+        // TODO: handle collision sounds and screenshake here?
+
+        CollisionTemplateManager.Instance.GetCollidingActors(template, scale, position, rotation)
+            .Where(actor => Owner.Opposes(actor))
+            .ForEach(offensiveAction);
     }
 
     protected void PlayStartEvent()

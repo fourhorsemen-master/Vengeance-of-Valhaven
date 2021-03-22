@@ -36,18 +36,17 @@ public class Disengage : InstantCast
 
         bool dealtDamage = false;
 
-        CollisionTemplateManager.Instance.GetCollidingActors(
+        TemplateCollision(
             CollisionTemplate.Cylinder,
             partingShotRange,
-            position
-        ).ForEach(actor =>
-        {
-            if (Owner.Opposes(actor))
+            position,
+            Quaternion.identity,
+            actor =>
             {
                 DealPrimaryDamage(actor);
                 dealtDamage = true;
             }
-        });
+        );
 
         SuccessFeedbackSubject.Next(dealtDamage);
     }

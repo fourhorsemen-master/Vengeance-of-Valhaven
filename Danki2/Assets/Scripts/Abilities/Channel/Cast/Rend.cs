@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [Ability(AbilityReference.Rend)]
 public class Rend : Cast
 {
     private const float Range = 3f;
-    private int bleedStacks = 2;
+    private const int BleedStacks = 2;
 
     public Rend(Actor owner, AbilityData abilityData, string fmodStartEvent, string fmodEndEvent, string[] availableBonuses, float duration)
         : base(owner, abilityData, fmodStartEvent, fmodEndEvent, availableBonuses, duration)
@@ -16,26 +15,24 @@ public class Rend : Cast
     {
         Owner.MovementManager.LookAt(floorTargetPosition);
 
-        List<Actor> opposingActors = CollisionTemplateManager.Instance
-            .GetCollidingActors(CollisionTemplate.Cylinder, Range, Owner.CollisionTemplateSource)
-            .Where(Owner.Opposes);
+        bool enemiesHit = false;
 
-        bool enemiesHit = opposingActors.Count > 0;
+        TemplateCollision(
+            CollisionTemplate.Cylinder,
+            Range,
+            Owner.CollisionTemplateSource,
+            Quaternion.identity,
+            actor =>
+            {
+                actor.EffectManager.AddStacks(StackingEffect.Bleed, BleedStacks);
+                enemiesHit = true;
+            }
+        );
+
         RendObject.Create(Owner.transform, Owner.AbilitySource);
 
-        if (!enemiesHit)
-        {
-            SuccessFeedbackSubject.Next(false);
-            return;
-        }
+        SuccessFeedbackSubject.Next(enemiesHit);
 
-        SuccessFeedbackSubject.Next(true);
-
-        opposingActors.ForEach(actor =>
-        {
-            actor.EffectManager.AddStacks(StackingEffect.Bleed, bleedStacks);
-        });
-
-        CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
+        if (enemiesHit) CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
     }
 }

@@ -40,11 +40,19 @@ public class Reflect : Channel
 
     private void HandleIncomingDamage(DamageData damageData)
     {
-        List<Actor> collidingActors = CollisionTemplateManager.Instance
-            .GetCollidingActors(CollisionTemplate.Wedge90, Range, Owner.transform.position, Owner.transform.rotation)
-            .Where(actor => Owner.Opposes(actor));
+        bool damageSourceInRange = false;
 
-        if (!collidingActors.Contains(damageData.Source)) return;
+        TemplateCollision(
+            CollisionTemplate.Wedge90,
+            Range,
+            Owner.transform.position,
+            Owner.transform.rotation,
+            actor => {
+                if (actor == damageData.Source) damageSourceInRange = true;
+            }
+        );
+
+        if (!damageSourceInRange) return;
 
         if (!receivedDamage) SuccessFeedbackSubject.Next(true);
         receivedDamage = true;

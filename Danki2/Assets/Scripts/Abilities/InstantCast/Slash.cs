@@ -18,13 +18,17 @@ public class Slash : InstantCast
 
         bool hasDealtDamage = false;
 
-        CollisionTemplateManager.Instance.GetCollidingActors(CollisionTemplate.Wedge90, Range, Owner.CollisionTemplateSource, castRotation)
-            .Where(actor => Owner.Opposes(actor))
-            .ForEach(actor =>
+        TemplateCollision(
+            CollisionTemplate.Wedge90,
+            Range,
+            Owner.CollisionTemplateSource,
+            castRotation,
+            actor =>
             {
                 DealPrimaryDamage(actor);
                 hasDealtDamage = true;
-            });
+            }
+        );
 
         SuccessFeedbackSubject.Next(hasDealtDamage);
 

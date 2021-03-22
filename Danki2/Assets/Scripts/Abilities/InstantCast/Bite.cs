@@ -23,13 +23,17 @@ public class Bite : InstantCast
 
         bool hasDealtDamage = false;
 
-        CollisionTemplateManager.Instance.GetCollidingActors(CollisionTemplate.Wedge45, Range, Owner.CollisionTemplateSource, castRotation)
-            .Where(actor => Owner.Opposes(actor))
-            .ForEach(actor =>
+        TemplateCollision(
+            CollisionTemplate.Wedge45,
+            Range,
+            Owner.CollisionTemplateSource,
+            castRotation,
+            actor =>
             {
                 DealPrimaryDamage(actor);
                 hasDealtDamage = true;
-            });
+            }
+        );
 
         if (hasDealtDamage)
         {

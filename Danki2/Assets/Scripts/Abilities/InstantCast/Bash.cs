@@ -27,14 +27,18 @@ public class Bash : InstantCast
 
         bool hasDealtDamage = false;
 
-        CollisionTemplateManager.Instance.GetCollidingActors(CollisionTemplate.Cylinder, Radius, center)
-            .Where(actor => Owner.Opposes(actor))
-            .ForEach(actor =>
+        TemplateCollision(
+            CollisionTemplate.Cylinder,
+            Radius,
+            center,
+            Quaternion.identity,
+            actor =>
             {
                 DealPrimaryDamage(actor);
                 actor.EffectManager.AddActiveEffect(ActiveEffect.Stun, StunDuration);
                 hasDealtDamage = true;
-            });
+            }
+        );
 
         SuccessFeedbackSubject.Next(hasDealtDamage);
         
