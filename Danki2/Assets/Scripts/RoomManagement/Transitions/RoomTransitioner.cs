@@ -4,7 +4,7 @@ public class RoomTransitioner : MonoBehaviour
 {
     private const float TransitionDistance = 1;
 
-    [SerializeField] public int id = 0;
+    [SerializeField] private int id = 0;
     [SerializeField] private Light pointLight = null;
 
     private bool active = false;
