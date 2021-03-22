@@ -80,6 +80,8 @@ public class Player : Actor
 
             readyToRoll = false;
             this.WaitAndAct(totalRollCooldown, () => readyToRoll = true);
+
+            AnimController.Play("Dash_OneShot");
         }
     }
 

@@ -224,6 +224,13 @@ public class MovementManager : IMovementStatusProvider
         }
 
         IsMoving = movedThisFrame || (navMeshAgent.hasPath && navMeshAgent.velocity.magnitude > 0f);
+
+        if (actor.AnimController)
+        {
+            float blendValue = movedThisFrame ? 1f : 0f;
+            actor.AnimController.SetFloat("MoveSpeed_Blend", blendValue, 0.1f, Time.deltaTime);
+        }
+
         movedThisFrame = false;
 
         navMeshAgent.speed = GetMoveSpeed();

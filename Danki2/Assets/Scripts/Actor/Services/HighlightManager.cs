@@ -3,13 +3,13 @@ using UnityEngine;
 
 public class HighlightManager
 {
-    private readonly MeshRenderer[] meshRenderers;
+    private readonly Renderer[] meshRenderers;
 
     private float currentIntensity = 0;
 
     private readonly Registry<float> intensities;
 
-    public HighlightManager(Subject updateSubject, MeshRenderer[] meshRenderers)
+    public HighlightManager(Subject updateSubject, Renderer[] meshRenderers)
     {
         this.meshRenderers = meshRenderers;
 
@@ -37,7 +37,7 @@ public class HighlightManager
         currentIntensity = nextIntensity;
         Color highlight = new Color(nextIntensity, nextIntensity, nextIntensity);
 
-        foreach (MeshRenderer meshRenderer in meshRenderers)
+        foreach (Renderer meshRenderer in meshRenderers)
         {
             meshRenderer.material.SetEmissiveColour(highlight);
         }
