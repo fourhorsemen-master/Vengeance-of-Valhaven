@@ -62,20 +62,18 @@ public class BearCharge : Channel
     {
         bool hasDealtDamage = false;
 
-        CollisionTemplateManager.Instance.GetCollidingActors(
+        TemplateCollision(
             CollisionTemplate.Wedge90,
             DamageRadius,
             Owner.CollisionTemplateSource,
-            Quaternion.LookRotation(Owner.transform.forward)
-        ).ForEach(actor =>
-        {
-            if (Owner.Opposes(actor))
+            Quaternion.LookRotation(Owner.transform.forward),
+            actor =>
             {
                 KnockBack(actor);
                 DealPrimaryDamage(actor);
                 hasDealtDamage = true;
             }
-        });
+        );
 
         chargeObject.CreateSwipe(
             Owner.AbilitySource,

@@ -22,14 +22,18 @@ public class Cleave : InstantCast
 
         bool hasDealtDamage = false;
 
-        CollisionTemplateManager.Instance.GetCollidingActors(CollisionTemplate.Wedge180, Range, Owner.CollisionTemplateSource, castRotation)
-            .Where(actor => Owner.Opposes(actor))
-            .ForEach(actor =>
+        TemplateCollision(
+            CollisionTemplate.Wedge180,
+            Range,
+            Owner.CollisionTemplateSource,
+            castRotation,
+            actor =>
             {
                 DealPrimaryDamage(actor);
                 KnockBack(actor);
                 hasDealtDamage = true;
-            });
+            }
+        );
 
         SuccessFeedbackSubject.Next(hasDealtDamage);
 
