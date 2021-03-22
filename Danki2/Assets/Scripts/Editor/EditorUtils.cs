@@ -63,9 +63,9 @@ public static class EditorUtils
     /// </summary>
     public static void ShowScriptLink<T>(T target) where T : MonoBehaviour
     {
-        GUI.enabled = false;
+        EditorGUI.BeginDisabledGroup(true);
         EditorGUILayout.ObjectField("Script", MonoScript.FromMonoBehaviour(target), typeof(T), false);
-        GUI.enabled = true;
+        EditorGUI.EndDisabledGroup();
     }
     
     /// <summary>
@@ -112,7 +112,7 @@ public static class EditorUtils
             itemAddedCallback?.Invoke(newItem);
         }
 
-        GUI.enabled = list.Count > 0;
+        EditorGUI.BeginDisabledGroup(list.Count == 0);
         if (GUILayout.Button(removeLabel))
         {
             int index = list.Count - 1;
@@ -120,7 +120,7 @@ public static class EditorUtils
             list.RemoveAt(index);
             itemRemovedCallback?.Invoke(oldItem);
         }
-        GUI.enabled = true;
+        EditorGUI.EndDisabledGroup();
         GUILayout.EndHorizontal();
     }
 
