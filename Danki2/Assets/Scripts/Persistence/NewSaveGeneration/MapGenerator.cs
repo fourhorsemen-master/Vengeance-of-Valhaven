@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class MapGenerator : Singleton<MapGenerator>
 {
+    private const int AbilityChoices = 3;
+
     [SerializeField] private int minRoomExits = 0;
     [SerializeField] private int maxRoomExits = 0;
     [SerializeField] private int minRoomDepth = 0;
     [SerializeField] private int maxRoomDepth = 0;
-    [SerializeField] private int abilityChoices = 0;
 
     protected override bool DestroyOnLoad => false;
 
@@ -176,7 +176,7 @@ public class MapGenerator : Singleton<MapGenerator>
     private void SetAbilityData(MapNode node)
     {
         List<AbilityReference> abilities = EnumUtils.ToList<AbilityReference>();
-        for (int _ = 0; _ < abilityChoices; _++)
+        for (int _ = 0; _ < AbilityChoices; _++)
         {
             AbilityReference abilityChoice = RandomUtils.Choice(abilities);
             node.AbilityChoices.Add(abilityChoice);

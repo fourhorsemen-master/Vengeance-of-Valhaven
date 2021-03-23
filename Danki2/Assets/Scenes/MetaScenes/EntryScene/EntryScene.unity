@@ -160,6 +160,7 @@ MonoBehaviour:
     - GameplayDefeatScene
     - RandomisedScene
     - CatchAllScene
+    - AbilityScene
     _values:
     - fileName: EntryScene
       sceneType: 0
@@ -241,6 +242,13 @@ MonoBehaviour:
         - id: 3
           side: 3
         enemyEnemySpawnerIds: 00000000010000000200000003000000
+    - fileName: AbilityScene
+      sceneType: 1
+      gameplaySceneData:
+        cameraOrientations: 
+        entranceData: []
+        exitData: []
+        enemyEnemySpawnerIds: 
 --- !u!4 &496116276
 Transform:
   m_ObjectHideFlags: 0
