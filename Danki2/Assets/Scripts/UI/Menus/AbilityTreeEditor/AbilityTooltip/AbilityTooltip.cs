@@ -28,15 +28,9 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
 
     public Subject OnDeactivate { get; } = new Subject();
 
-    private PlayerTreeTooltipBuilder playerTreeTooltipBuilder;
-
     private readonly List<AbilityBonusTooltipSection> bonusSections = new List<AbilityBonusTooltipSection>();
 
-    private void Start()
-    {
-        Player player = ActorCache.Instance.Player;
-        playerTreeTooltipBuilder = new PlayerTreeTooltipBuilder(player);
-    }
+    private PlayerTreeTooltipBuilder PlayerTreeTooltipBuilder => new PlayerTreeTooltipBuilder(ActorCache.Instance.Player);
 
     public void Deactivate()
     {
@@ -65,12 +59,12 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
     /// <param name="node"></param>
     public void Activate(Node node)
     {
-        List<TooltipSegment> tooltipSegments = playerTreeTooltipBuilder.Build(node);
+        List<TooltipSegment> tooltipSegments = PlayerTreeTooltipBuilder.Build(node);
 
         Activate(
             node.Ability,
             tooltipSegments,
-            bonus => playerTreeTooltipBuilder.BuildBonus(node, bonus),
+            bonus => PlayerTreeTooltipBuilder.BuildBonus(node, bonus),
             node.Depth
         );
     }
