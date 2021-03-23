@@ -47,6 +47,9 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
                 case RoomType.Boss:
                     roomSaveDataLookup[node.Id] = GenerateCombatRoomSaveData(node);
                     break;
+                case RoomType.Ability:
+                    roomSaveDataLookup[node.Id] = GenerateAbilityRoomSaveData(node);
+                    break;
                 case RoomType.Victory:
                     roomSaveDataLookup[node.Id] = GenerateVictoryRoomSaveData(node);
                     break;
@@ -60,16 +63,34 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
 
     private RoomSaveData GenerateCombatRoomSaveData(MapNode node)
     {
-        return new RoomSaveData
+        RoomSaveData roomSaveData = GenerateCommonRoomSaveData(node);
+        roomSaveData.CombatRoomSaveData = new CombatRoomSaveData
+        {
+            EnemiesCleared = false,
+            SpawnerIdToSpawnedActor = node.SpawnerIdToSpawnedActor
+        };
+
+        return roomSaveData;
+    }
+
+    private RoomSaveData GenerateAbilityRoomSaveData(MapNode node)
+    {
+        RoomSaveData roomSaveData = GenerateCommonRoomSaveData(node);
+        roomSaveData.AbilityRoomSaveData = new AbilityRoomSaveData
+        {
+            AbilityChoices = node.AbilityChoices
+        };
+
+        return roomSaveData;
+    }
+
+    private RoomSaveData GenerateCommonRoomSaveData(MapNode node)
+    {
+        return new RoomSaveData()
         {
             Id = node.Id,
             Scene = node.Scene,
             RoomType = node.RoomType,
-            CombatRoomSaveData = new CombatRoomSaveData
-            {
-                EnemiesCleared = false,
-                SpawnerIdToSpawnedActor = node.SpawnerIdToSpawnedActor
-            },
             RoomTransitionerIdToNextRoomId = node.ExitIdToChildLookup.ToDictionary(
                 kvp => kvp.Key,
                 kvp => kvp.Value.Id
@@ -80,7 +101,7 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
             PlayerSpawnerId = node.EntranceId
         };
     }
-
+    
     private RoomSaveData GenerateVictoryRoomSaveData(MapNode node)
     {
         return new RoomSaveData

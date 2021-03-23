@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -8,6 +9,7 @@ public class MapGenerator : Singleton<MapGenerator>
     [SerializeField] private int maxRoomExits = 0;
     [SerializeField] private int minRoomDepth = 0;
     [SerializeField] private int maxRoomDepth = 0;
+    [SerializeField] private int abilityChoices = 0;
 
     protected override bool DestroyOnLoad => false;
 
@@ -63,7 +65,22 @@ public class MapGenerator : Singleton<MapGenerator>
 
     private void SetRoomTypes(MapNode rootNode)
     {
-        rootNode.IterateDown(n => n.RoomType = n.IsLeafNode ? RoomType.Boss : RoomType.Combat);
+        rootNode.IterateDown(node =>
+        {
+            if (node.IsLeafNode)
+            {
+                node.RoomType = RoomType.Boss;
+                return;
+            }
+
+            if ((node.Depth + 1) % 3 == 0)
+            {
+                node.RoomType = RoomType.Ability;
+                return;
+            }
+
+            node.RoomType = RoomType.Combat;
+        });
     }
 
     private void AddVictoryNode(MapNode rootNode)
@@ -87,7 +104,8 @@ public class MapGenerator : Singleton<MapGenerator>
 
     private void SetSceneData(MapNode rootNode)
     {
-        SetSceneData(rootNode, Pole.South);
+        SetCommonData(rootNode, Pole.South);
+        SetCombatData(rootNode);
 
         rootNode.IterateDown(
             node =>
@@ -97,13 +115,24 @@ public class MapGenerator : Singleton<MapGenerator>
                     node.Parent.CameraOrientation,
                     node.Parent.ChildToExitIdLookup[node]
                 );
-                SetSceneData(node, OrientationUtils.GetReversedPole(trueParentExitDirection));
+                SetCommonData(node, OrientationUtils.GetReversedPole(trueParentExitDirection));
+
+                switch (node.RoomType)
+                {
+                    case RoomType.Combat:
+                    case RoomType.Boss:
+                        SetCombatData(node);
+                        break;
+                    case RoomType.Ability:
+                        SetAbilityData(node);
+                        break;
+                }
             },
             node => !node.IsRootNode && node.RoomType != RoomType.Victory
         );
     }
 
-    private void SetSceneData(MapNode node, Pole trueEntranceDirection)
+    private void SetCommonData(MapNode node, Pole trueEntranceDirection)
     {
         node.Scene = RandomUtils.Choice(SceneLookup.Instance.GetValidScenes(trueEntranceDirection, node.Children.Count));
         node.CameraOrientation = RandomUtils.Choice(SceneLookup.Instance.GetValidCameraOrientations(
@@ -129,7 +158,10 @@ public class MapGenerator : Singleton<MapGenerator>
             node.ChildToExitIdLookup[child] = exitId;
             validExitIds.Remove(exitId);
         });
+    }
 
+    private void SetCombatData(MapNode node)
+    {
         switch (node.RoomType)
         {
             case RoomType.Combat:
@@ -138,6 +170,17 @@ public class MapGenerator : Singleton<MapGenerator>
             case RoomType.Boss:
                 node.SpawnerIdToSpawnedActor[0] = ActorType.Bear;
                 break;
+        }
+    }
+
+    private void SetAbilityData(MapNode node)
+    {
+        List<AbilityReference> abilities = EnumUtils.ToList<AbilityReference>();
+        for (int _ = 0; _ < abilityChoices; _++)
+        {
+            AbilityReference abilityChoice = RandomUtils.Choice(abilities);
+            node.AbilityChoices.Add(abilityChoice);
+            abilities.Remove(abilityChoice);
         }
     }
 }

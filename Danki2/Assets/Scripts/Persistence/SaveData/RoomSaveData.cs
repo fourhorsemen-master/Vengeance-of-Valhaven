@@ -7,6 +7,7 @@ public class RoomSaveData
     public Scene Scene { get; set; }
     public RoomType RoomType { get; set; }
     public CombatRoomSaveData CombatRoomSaveData { get; set; }
+    public AbilityRoomSaveData AbilityRoomSaveData { get; set; }
     public Dictionary<int, int> RoomTransitionerIdToNextRoomId { get; set; }
     public int ModuleSeed { get; set; }
     public int TransitionModuleSeed { get; set; }
@@ -21,6 +22,7 @@ public class RoomSaveData
             Scene = Scene,
             RoomType = RoomType,
             SerializableCombatRoomSaveData = CombatRoomSaveData?.Serialize(),
+            SerializableAbilityRoomSaveData = AbilityRoomSaveData.Serialize(),
             SerializableRoomTransitioners = RoomTransitionerIdToNextRoomId?.Keys
                 .Select(transitionerId => new SerializableRoomTransitioner
                 {
