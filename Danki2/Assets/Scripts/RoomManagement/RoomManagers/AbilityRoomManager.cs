@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class AbilityRoomManager : Singleton<AbilityRoomManager>
 {
@@ -22,8 +23,29 @@ public class AbilityRoomManager : Singleton<AbilityRoomManager>
     {
         if (AbilitiesViewed) return;
 
-        if (Input.GetKeyDown(KeyCode.R))
+        List<AbilityReference> choices = PersistenceManager.Instance.SaveData.CurrentRoomSaveData.AbilityRoomSaveData.AbilityChoices;
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
+            ActorCache.Instance.Player.AbilityTree.AddToInventory(choices[0]);
+            AbilitiesViewed = true;
+            abilitiesViewedSubject.Next();
+            PersistenceManager.Instance.Save();
+            return;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            ActorCache.Instance.Player.AbilityTree.AddToInventory(choices[1]);
+            AbilitiesViewed = true;
+            abilitiesViewedSubject.Next();
+            PersistenceManager.Instance.Save();
+            return;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            ActorCache.Instance.Player.AbilityTree.AddToInventory(choices[2]);
             AbilitiesViewed = true;
             abilitiesViewedSubject.Next();
             PersistenceManager.Instance.Save();
