@@ -2,4 +2,5 @@
 {
     InAbilityTreeEditor,
     Playing,
+    InAbilitySelection
 }
