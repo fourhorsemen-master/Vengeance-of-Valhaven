@@ -134,7 +134,11 @@ public class MapGenerator : Singleton<MapGenerator>
 
     private void SetCommonData(MapNode node, Pole trueEntranceDirection)
     {
-        node.Scene = RandomUtils.Choice(SceneLookup.Instance.GetValidScenes(trueEntranceDirection, node.Children.Count));
+        node.Scene = RandomUtils.Choice(SceneLookup.Instance.GetValidScenes(
+            node.RoomType,
+            trueEntranceDirection,
+            node.Children.Count
+        ));
         node.CameraOrientation = RandomUtils.Choice(SceneLookup.Instance.GetValidCameraOrientations(
             node.Scene,
             trueEntranceDirection,

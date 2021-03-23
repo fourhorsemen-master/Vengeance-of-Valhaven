@@ -22,7 +22,7 @@ public class RoomSaveData
             Scene = Scene,
             RoomType = RoomType,
             SerializableCombatRoomSaveData = CombatRoomSaveData?.Serialize(),
-            SerializableAbilityRoomSaveData = AbilityRoomSaveData.Serialize(),
+            SerializableAbilityRoomSaveData = AbilityRoomSaveData?.Serialize(),
             SerializableRoomTransitioners = RoomTransitionerIdToNextRoomId?.Keys
                 .Select(transitionerId => new SerializableRoomTransitioner
                 {

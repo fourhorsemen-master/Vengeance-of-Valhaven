@@ -41,10 +41,28 @@ public class SceneLookupEditor : Editor
 
     private void EditGameplaySceneData(GameplaySceneData gameplaySceneData)
     {
+        EditRoomTypes(gameplaySceneData);
         EditCameraOrientations(gameplaySceneData);
         EditEntranceData(gameplaySceneData.EntranceData);
         EditExitData(gameplaySceneData.ExitData);
         EditEnemySpawnerIds(gameplaySceneData.EnemySpawnerIds);
+    }
+
+    private void EditRoomTypes(GameplaySceneData gameplaySceneData)
+    {
+        EditorUtils.Header("Room Types");
+        EditorGUI.indentLevel++;
+
+        List<RoomType> roomTypes = gameplaySceneData.RoomTypes;
+
+        for (int i = 0; i < roomTypes.Count; i++)
+        {
+            roomTypes[i] = (RoomType) EditorGUILayout.EnumPopup("Room Type", roomTypes[i]);
+        }
+
+        EditorUtils.EditListSize("Add Room Type", "Remove Room Type", roomTypes, RoomType.Combat);
+
+        EditorGUI.indentLevel--;
     }
 
     private void EditCameraOrientations(GameplaySceneData gameplaySceneData)

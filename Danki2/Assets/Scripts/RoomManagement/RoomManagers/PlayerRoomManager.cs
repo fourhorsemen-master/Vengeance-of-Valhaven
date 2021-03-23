@@ -11,7 +11,8 @@ public class PlayerRoomManager : Singleton<PlayerRoomManager>
     {
         RoomType.Combat,
         RoomType.Boss,
-        RoomType.Shop
+        RoomType.Shop,
+        RoomType.Ability
     };
     
     private void Start()
