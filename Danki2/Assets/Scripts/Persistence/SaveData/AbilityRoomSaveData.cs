@@ -2,13 +2,15 @@
 
 public class AbilityRoomSaveData
 {
-    public List<AbilityReference> AbilityChoices { set; get; } = new List<AbilityReference>();
+    public List<AbilityReference> AbilityChoices { get; set; } = new List<AbilityReference>();
+    public bool AbilitiesViewed { get; set; } = false;
 
     public SerializableAbilityRoomSaveData Serialize()
     {
         return new SerializableAbilityRoomSaveData
         {
-            AbilityChoices = AbilityChoices
+            AbilityChoices = AbilityChoices,
+            AbilitiesViewed = AbilitiesViewed
         };
     }
 }
