@@ -21,7 +21,7 @@ public class AbilityRoomManager : Singleton<AbilityRoomManager>
 
     private void Update()
     {
-        if (AbilitiesViewed) return;
+        if (PersistenceManager.Instance.SaveData.CurrentRoomSaveData.RoomType != RoomType.Ability || AbilitiesViewed) return;
 
         List<AbilityReference> choices = PersistenceManager.Instance.SaveData.CurrentRoomSaveData.AbilityRoomSaveData.AbilityChoices;
 
