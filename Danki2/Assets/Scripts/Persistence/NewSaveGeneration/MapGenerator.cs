@@ -104,8 +104,7 @@ public class MapGenerator : Singleton<MapGenerator>
 
     private void SetSceneData(MapNode rootNode)
     {
-        SetCommonData(rootNode, Pole.South);
-        SetCombatData(rootNode);
+        SetSceneData(rootNode, Pole.South);
 
         rootNode.IterateDown(
             node =>
@@ -115,21 +114,26 @@ public class MapGenerator : Singleton<MapGenerator>
                     node.Parent.CameraOrientation,
                     node.Parent.ChildToExitIdLookup[node]
                 );
-                SetCommonData(node, OrientationUtils.GetReversedPole(trueParentExitDirection));
-
-                switch (node.RoomType)
-                {
-                    case RoomType.Combat:
-                    case RoomType.Boss:
-                        SetCombatData(node);
-                        break;
-                    case RoomType.Ability:
-                        SetAbilityData(node);
-                        break;
-                }
+                SetSceneData(node, OrientationUtils.GetReversedPole(trueParentExitDirection));
             },
             node => !node.IsRootNode && node.RoomType != RoomType.Victory
         );
+    }
+
+    private void SetSceneData(MapNode node, Pole trueEntranceDirection)
+    {
+        SetCommonData(node, trueEntranceDirection);
+
+        switch (node.RoomType)
+        {
+            case RoomType.Combat:
+            case RoomType.Boss:
+                SetCombatData(node);
+                break;
+            case RoomType.Ability:
+                SetAbilityData(node);
+                break;
+        }
     }
 
     private void SetCommonData(MapNode node, Pole trueEntranceDirection)
