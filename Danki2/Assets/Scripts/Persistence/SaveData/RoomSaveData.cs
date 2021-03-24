@@ -9,6 +9,7 @@ public class RoomSaveData
     public CombatRoomSaveData CombatRoomSaveData { get; set; }
     public Dictionary<int, int> RoomTransitionerIdToNextRoomId { get; set; }
     public int ModuleSeed { get; set; }
+    public int TransitionModuleSeed { get; set; }
     public Pole CameraOrientation { get; set; }
     public int PlayerSpawnerId { get; set; }
 
@@ -28,6 +29,7 @@ public class RoomSaveData
                 })
                 .ToList(),
             ModuleSeed = ModuleSeed,
+            TransitionModuleSeed = TransitionModuleSeed,
             CameraOrientation = CameraOrientation,
             PlayerSpawnerId = PlayerSpawnerId
         };

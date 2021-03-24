@@ -12,6 +12,7 @@ public class SerializableRoomSaveData
     [SerializeField] private SerializableCombatRoomSaveData serializableCombatRoomSaveData;
     [SerializeField] private List<SerializableRoomTransitioner> serializableRoomTransitioners;
     [SerializeField] private int moduleSeed;
+    [SerializeField] private int transitionModuleSeed;
     [SerializeField] private Pole cameraOrientation;
     [SerializeField] private int playerSpawnerId;
 
@@ -21,6 +22,7 @@ public class SerializableRoomSaveData
     public SerializableCombatRoomSaveData SerializableCombatRoomSaveData { get => serializableCombatRoomSaveData; set => serializableCombatRoomSaveData = value; }
     public List<SerializableRoomTransitioner> SerializableRoomTransitioners { get => serializableRoomTransitioners; set => serializableRoomTransitioners = value; }
     public int ModuleSeed { get => moduleSeed; set => moduleSeed = value; }
+    public int TransitionModuleSeed { get => transitionModuleSeed; set => transitionModuleSeed = value; }
     public Pole CameraOrientation { get => cameraOrientation; set => cameraOrientation = value; }
     public int PlayerSpawnerId { get => playerSpawnerId; set => playerSpawnerId = value; }
 
@@ -37,6 +39,7 @@ public class SerializableRoomSaveData
                 t => t.NextRoomId
             ),
             ModuleSeed = ModuleSeed,
+            TransitionModuleSeed = TransitionModuleSeed,
             CameraOrientation =  CameraOrientation,
             PlayerSpawnerId = PlayerSpawnerId
         };
