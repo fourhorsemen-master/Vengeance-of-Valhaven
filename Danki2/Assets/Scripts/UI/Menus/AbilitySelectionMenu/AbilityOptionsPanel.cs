@@ -34,9 +34,7 @@ public class AbilityOptionsPanel : MonoBehaviour
         for (int i = 0; i < options.Count; i++)
         {
             AbilityOptionPanel abilityOptionPanel = abilityOptionPanels[i];
-            AbilityReference abilityReference = options[i];
-
-            abilityOptionPanel.Initialise(abilityReference);
+            abilityOptionPanel.Initialise(options[i]);
             subscriptions.Add(
                 abilityOptionPanel.OnClickSubject.Subscribe(() => OnOptionClicked(abilityOptionPanel))
             );

@@ -46,37 +46,4 @@
 
         GameplayStateController.Instance.GameplayState = GameplayState.Playing;
     }
-
-    // private void Update()
-    // {
-    //     if (PersistenceManager.Instance.SaveData.CurrentRoomSaveData.RoomType != RoomType.Ability || AbilitiesViewed) return;
-    //
-    //     List<AbilityReference> choices = PersistenceManager.Instance.SaveData.CurrentRoomSaveData.AbilityRoomSaveData.AbilityChoices;
-    //
-    //     if (Input.GetKeyDown(KeyCode.Alpha1))
-    //     {
-    //         ActorCache.Instance.Player.AbilityTree.AddToInventory(choices[0]);
-    //         AbilitiesViewed = true;
-    //         abilitiesViewedSubject.Next();
-    //         PersistenceManager.Instance.Save();
-    //         return;
-    //     }
-    //
-    //     if (Input.GetKeyDown(KeyCode.Alpha2))
-    //     {
-    //         ActorCache.Instance.Player.AbilityTree.AddToInventory(choices[1]);
-    //         AbilitiesViewed = true;
-    //         abilitiesViewedSubject.Next();
-    //         PersistenceManager.Instance.Save();
-    //         return;
-    //     }
-    //
-    //     if (Input.GetKeyDown(KeyCode.Alpha3))
-    //     {
-    //         ActorCache.Instance.Player.AbilityTree.AddToInventory(choices[2]);
-    //         AbilitiesViewed = true;
-    //         abilitiesViewedSubject.Next();
-    //         PersistenceManager.Instance.Save();
-    //     }
-    // }
 }
