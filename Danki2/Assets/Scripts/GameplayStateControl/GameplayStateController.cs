@@ -34,11 +34,6 @@ public class GameplayStateController : Singleton<GameplayStateController>
                 : GameplayState.InAbilityTreeEditor;
         }
 
-        if (Input.GetButtonDown("AbilitySelectionMenu"))
-        {
-            GameplayState = GameplayState == GameplayState.InAbilitySelection
-                ? GameplayState.Playing
-                : GameplayState.InAbilitySelection;
-        }
+        if (Input.GetButtonDown("AbilitySelectionMenu")) AbilityRoomManager.Instance.ViewAbilities();
     }
 }

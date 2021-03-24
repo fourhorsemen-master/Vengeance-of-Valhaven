@@ -86,7 +86,9 @@ public class PersistenceManager : Singleton<PersistenceManager>
                 combatRoomSaveData.EnemiesCleared = CombatRoomManager.Instance.EnemiesCleared;
                 break;
             case RoomType.Ability:
-                currentRoomSaveData.AbilityRoomSaveData.AbilitiesViewed = AbilityRoomManager.Instance.AbilitiesViewed;
+                AbilityRoomSaveData abilityRoomSaveData = currentRoomSaveData.AbilityRoomSaveData;
+                abilityRoomSaveData.AbilitiesViewed = AbilityRoomManager.Instance.AbilitiesViewed;
+                abilityRoomSaveData.AbilitySelected = AbilityRoomManager.Instance.AbilitySelected;
                 break;
         }
     }
