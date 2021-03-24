@@ -42,7 +42,7 @@ public class AbilityShrine : Singleton<AbilityShrine>
 
     private void ListenForInteraction()
     {
-        if (Input.GetButtonDown("AbilitySelectionMenu"))
+        if (Input.GetButtonDown("Interact"))
         {
             AbilityRoomManager.Instance.ViewAbilities();
             HideInteractionText();
