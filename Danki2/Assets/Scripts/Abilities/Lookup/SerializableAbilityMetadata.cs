@@ -20,6 +20,8 @@ public class SerializableAbilityMetadata
     [SerializeField]
     private SerializableAbilityBonusLookup abilityBonusLookup = new SerializableAbilityBonusLookup();
     [SerializeField]
+    private bool playerCanCast = true;
+    [SerializeField]
     private bool finisher = false;
     [SerializeField]
     private float channelDuration = 0f;
@@ -30,6 +32,7 @@ public class SerializableAbilityMetadata
     public string FmodStartEventRef { get => fmodStartEventRef; set => fmodStartEventRef = value; }
     public string FmodEndEventRef { get => fmodEndEventRef; set => fmodEndEventRef = value; }
     public SerializableAbilityBonusLookup AbilityBonusLookup { get => abilityBonusLookup; set => abilityBonusLookup = value; }
+    public bool PlayerCanCast { get => playerCanCast; set => playerCanCast = value; }
     public bool Finisher { get => finisher; set => finisher = value; }
     public float ChannelDuration { get => channelDuration; set => channelDuration = value; }
 

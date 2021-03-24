@@ -183,7 +183,10 @@ public class MapGenerator : Singleton<MapGenerator>
 
     private void SetAbilityData(MapNode node)
     {
-        List<AbilityReference> abilities = EnumUtils.ToList<AbilityReference>();
+        List<AbilityReference> abilities = EnumUtils
+            .ToList<AbilityReference>()
+            .Where(a => AbilityLookup.Instance.PlayerCanCast(a));
+
         for (int _ = 0; _ < AbilityChoices; _++)
         {
             AbilityReference abilityChoice = RandomUtils.Choice(abilities);
