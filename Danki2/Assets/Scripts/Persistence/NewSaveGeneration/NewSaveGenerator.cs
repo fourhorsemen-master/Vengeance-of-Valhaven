@@ -28,11 +28,11 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
         {
             Version = SaveDataVersion,
             PlayerHealth = 20,
-            AbilityTree = AbilityTreeFactory.CreateTree(
+            SerializableAbilityTree = AbilityTreeFactory.CreateTree(
                 ownedAbilities,
                 AbilityTreeFactory.CreateNode(AbilityReference.Slash),
                 AbilityTreeFactory.CreateNode(AbilityReference.Lunge)
-            ),
+            ).Serialize(),
             CurrentRoomId = 0,
             DefeatRoomId = defeatRoomId,
             RoomSaveDataLookup = GenerateRoomSaveDataLookup(rootNode, defeatRoomId)
@@ -105,7 +105,7 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
             PlayerSpawnerId = node.EntranceId
         };
     }
-    
+
     private RoomSaveData GenerateVictoryRoomSaveData(MapNode node)
     {
         return new RoomSaveData

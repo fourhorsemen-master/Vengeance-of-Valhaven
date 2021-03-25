@@ -93,6 +93,11 @@ public abstract class AbilityTree
         UpdateInventory();
     }
 
+    public SerializableAbilityTree Serialize()
+    {
+        return new SerializableAbilityTree(this);
+    }
+
     private void UpdateInventory()
     {
         Inventory = new EnumDictionary<AbilityReference, int>(OwnedAbilities);

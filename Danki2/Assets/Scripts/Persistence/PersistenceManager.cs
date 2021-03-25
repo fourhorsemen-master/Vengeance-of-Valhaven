@@ -75,7 +75,7 @@ public class PersistenceManager : Singleton<PersistenceManager>
     private void UpdateSaveData()
     {
         SaveData.PlayerHealth = ActorCache.Instance.Player.HealthManager.Health;
-        SaveData.AbilityTree = ActorCache.Instance.Player.AbilityTree;
+        SaveData.SerializableAbilityTree = ActorCache.Instance.Player.AbilityTree.Serialize();
 
         RoomSaveData currentRoomSaveData = SaveData.CurrentRoomSaveData;
         switch (currentRoomSaveData.RoomType)

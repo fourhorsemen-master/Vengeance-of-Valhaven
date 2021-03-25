@@ -9,9 +9,9 @@ public class AbilityOptionButtons : MonoBehaviour
 
     public Subject ConfirmSubject { get; } = new Subject();
 
-    public bool Interactable { set => confirmButton.interactable = value; }
+    public bool CanConfirm { set => confirmButton.interactable = value; }
 
-    private void OnEnable() => Interactable = false;
+    private void OnEnable() => CanConfirm = false;
 
     public void Skip() => SkipSubject.Next();
 

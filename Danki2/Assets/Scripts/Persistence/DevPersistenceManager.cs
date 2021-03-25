@@ -49,11 +49,11 @@ public class DevPersistenceManager : PersistenceManager
         return new SaveData
         {
             PlayerHealth = playerHealth,
-            AbilityTree = AbilityTreeFactory.CreateTree(
+            SerializableAbilityTree = AbilityTreeFactory.CreateTree(
                 new EnumDictionary<AbilityReference, int>(ownedAbilityCount),
                 AbilityTreeFactory.CreateNode(leftAbility),
                 AbilityTreeFactory.CreateNode(rightAbility)
-            ),
+            ).Serialize(),
             CurrentRoomId = 0,
             RoomSaveDataLookup = new Dictionary<int, RoomSaveData>
             {

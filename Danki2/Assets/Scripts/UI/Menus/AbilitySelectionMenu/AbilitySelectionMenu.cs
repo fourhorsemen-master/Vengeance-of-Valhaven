@@ -32,13 +32,13 @@ public class AbilitySelectionMenu : MonoBehaviour
     private void HandleAbilitySelection(AbilityReference abilityReference)
     {
         selectedAbility = abilityReference;
-        abilityOptionButtons.Interactable = true;
+        abilityOptionButtons.CanConfirm = true;
     }
 
     private void HandleAbilityDeselection()
     {
         selectedAbility = default;
-        abilityOptionButtons.Interactable = false;
+        abilityOptionButtons.CanConfirm = false;
     }
 
     private void HandleSkip() => AbilityRoomManager.Instance.SkipAbilities();
