@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class AbilitySelectionMenu : MonoBehaviour
 {
-    [SerializeField] private AbilityOptionsPanel abilityOptionsPanel = null;
+    [SerializeField] private AbilityOptionPanels abilityOptionPanels = null;
     [SerializeField] private AbilityOptionButtons abilityOptionButtons = null;
 
     private readonly List<Subscription> subscriptions = new List<Subscription>();
@@ -13,9 +13,9 @@ public class AbilitySelectionMenu : MonoBehaviour
 
     private void OnEnable()
     {
-        abilitySelectedSubscription = abilityOptionsPanel.AbilitySelectedSubject.Subscribe(HandleAbilitySelection);
+        abilitySelectedSubscription = abilityOptionPanels.AbilitySelectedSubject.Subscribe(HandleAbilitySelection);
         subscriptions.Add(
-            abilityOptionsPanel.AbilityDeselectedSubject.Subscribe(HandleAbilityDeselection),
+            abilityOptionPanels.AbilityDeselectedSubject.Subscribe(HandleAbilityDeselection),
             abilityOptionButtons.SkipSubject.Subscribe(HandleSkip),
             abilityOptionButtons.ConfirmSubject.Subscribe(() => HandleConfirm(selectedAbility))
         );

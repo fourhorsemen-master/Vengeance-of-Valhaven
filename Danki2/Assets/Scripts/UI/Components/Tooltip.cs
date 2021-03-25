@@ -28,8 +28,6 @@ public class Tooltip : MonoBehaviour
 
     protected void ActivateTooltip()
     {
-        gameObject.SetActive(true);
-
         currentScreenQuadrant = InputHelpers.GetMouseScreenQuadrant();
         tooltipPanel.pivot = pivotPoints[currentScreenQuadrant];
 

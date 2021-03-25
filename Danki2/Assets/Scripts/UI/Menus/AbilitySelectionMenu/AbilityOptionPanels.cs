@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class AbilityOptionsPanel : MonoBehaviour
+public class AbilityOptionPanels : MonoBehaviour
 {
     [SerializeField]
     private List<AbilityOptionPanel> abilityOptionPanels = null;

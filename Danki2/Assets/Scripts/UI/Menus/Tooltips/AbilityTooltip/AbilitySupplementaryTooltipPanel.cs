@@ -11,9 +11,6 @@ public class AbilitySupplementaryTooltipPanel : MonoBehaviour
     private RectTransform rectTransform = null;
 
     [SerializeField]
-    private Transform followTransform = null;
-
-    [SerializeField]
     private RectTransform abilityTooltipRectTransform = null;
 
     [SerializeField]
@@ -44,7 +41,7 @@ public class AbilitySupplementaryTooltipPanel : MonoBehaviour
     {
         bool isLeftQuadrant = leftQuadrants.Contains(currentScreenQuadrant);
         float horizontalOffset = abilityTooltipRectTransform.sizeDelta.x * abilityTooltipRectTransform.GetParentCanvas().scaleFactor * (isLeftQuadrant ? 1 : -1);
-        transform.position = followTransform.position + new Vector3(horizontalOffset, 0);
+        transform.position = abilityTooltipRectTransform.position + new Vector3(horizontalOffset, 0);
     }
 
     public void Activate(AbilityReference ability)
