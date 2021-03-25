@@ -90,7 +90,6 @@ GameObject:
   - component: {fileID: 1178105531026763120}
   - component: {fileID: 1178105531026763122}
   - component: {fileID: 1178105531026763121}
-  - component: {fileID: 2829930592868534239}
   - component: {fileID: 8957018154622046591}
   - component: {fileID: 2003970975181364277}
   - component: {fileID: 323266000693339423}
@@ -159,26 +158,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2829930592868534239
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1178105531026763127}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3eb7be4b109dbdb41ba0b7ddd0cf00cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tooltipPanel: {fileID: 1178105531026763120}
-  titleText: {fileID: 1178105530808077705}
-  finisherText: {fileID: 3040591355945113836}
-  descriptionText: {fileID: 1178105531171348630}
-  bonusSectionPrefab: {fileID: 460642973656654736, guid: 94dffd2a12949dc498b46c4ed243e3ad,
-    type: 3}
-  buffedNumericColour: {r: 0, g: 1, b: 0, a: 1}
-  deBuffedNumericColour: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &8957018154622046591
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -464,7 +443,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayDelay: 0.7
   rectTransform: {fileID: 3050305313239380974}
-  abilityTooltip: {fileID: 2829930592868534239}
+  followTransform: {fileID: 1178105531026763120}
   abilityTooltipRectTransform: {fileID: 1178105531026763120}
   abilitySupplementaryTooltipPrefab: {fileID: 4002273806927399769, guid: 1d70dac379a00c14dbca05ebca78cd93,
     type: 3}
@@ -491,6 +470,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2151595569064825263}
+  - component: {fileID: 4347684193238751770}
   m_Layer: 0
   m_Name: AbilityTooltip
   m_TagString: Untagged
@@ -514,3 +494,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4347684193238751770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7663861012506300485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3eb7be4b109dbdb41ba0b7ddd0cf00cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tooltipPanel: {fileID: 1178105531026763120}
+  titleText: {fileID: 1178105530808077705}
+  finisherText: {fileID: 3040591355945113836}
+  descriptionText: {fileID: 1178105531171348630}
+  bonusSectionPrefab: {fileID: 460642973656654736, guid: 94dffd2a12949dc498b46c4ed243e3ad,
+    type: 3}
+  buffedNumericColour: {r: 0, g: 1, b: 0, a: 1}
+  deBuffedNumericColour: {r: 1, g: 0, b: 0, a: 1}
+  abilitySupplementaryTooltipPanel: {fileID: 5047211428027740419}
+  tooltipRectTransform: {fileID: 1178105531026763120}

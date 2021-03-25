@@ -23,6 +23,16 @@ public class AbilityTreeEditorMenu : Singleton<AbilityTreeEditorMenu>
 
     private readonly List<Subscription<AbilityReference>> subscriptions = new List<Subscription<AbilityReference>>();
 
+    public AbilityTooltip CreateTooltip(AbilityReference ability)
+    {
+        return AbilityTooltip.Create(transform, ability);
+    }
+
+    public AbilityTooltip CreateTooltip(Node node)
+    {
+        return AbilityTooltip.Create(transform, node);
+    }
+    
     private void OnEnable()
     {
         subscriptions.Add(ListAbilityDragStartSubject.Subscribe(ability => {

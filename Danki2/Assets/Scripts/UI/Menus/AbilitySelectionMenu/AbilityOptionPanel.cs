@@ -11,6 +11,10 @@ public class AbilityOptionPanel : MonoBehaviour
 
     public Subject OnClickSubject { get; } = new Subject();
 
+    public Subject OnPointerEnterSubject { get; } = new Subject();
+
+    public Subject OnPointerExitSubject { get; } = new Subject();
+
     public bool Selected
     {
         get => selectedIndicator.enabled;
@@ -30,4 +34,8 @@ public class AbilityOptionPanel : MonoBehaviour
     }
 
     public void Click() => OnClickSubject.Next();
+
+    public void PointerEnter() => OnPointerEnterSubject.Next();
+
+    public void PointerExit() => OnPointerExitSubject.Next();
 }

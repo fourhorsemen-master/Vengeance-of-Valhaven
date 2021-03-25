@@ -12,6 +12,8 @@ public class AbilityOptionsPanel : MonoBehaviour
 
     private readonly List<Subscription> subscriptions = new List<Subscription>();
 
+    private AbilityTooltip abilityTooltip;
+
     private void OnEnable()
     {
         InitialisePanels(PersistenceManager.Instance.SaveData.CurrentRoomSaveData.AbilityRoomSaveData.AbilityChoices);
@@ -21,6 +23,7 @@ public class AbilityOptionsPanel : MonoBehaviour
     {
         subscriptions.ForEach(s => s.Unsubscribe());
         subscriptions.Clear();
+        TryDestroyTooltip();
     }
 
     private void InitialisePanels(List<AbilityReference> options)
@@ -36,7 +39,9 @@ public class AbilityOptionsPanel : MonoBehaviour
             AbilityOptionPanel abilityOptionPanel = abilityOptionPanels[i];
             abilityOptionPanel.Initialise(options[i]);
             subscriptions.Add(
-                abilityOptionPanel.OnClickSubject.Subscribe(() => OnOptionClicked(abilityOptionPanel))
+                abilityOptionPanel.OnClickSubject.Subscribe(() => OnOptionClicked(abilityOptionPanel)),
+                abilityOptionPanel.OnPointerEnterSubject.Subscribe(() => OnPointerEnter(abilityOptionPanel)),
+                abilityOptionPanel.OnPointerExitSubject.Subscribe(OnPointerExit)
             );
         }
     }
@@ -51,5 +56,21 @@ public class AbilityOptionsPanel : MonoBehaviour
 
         if (abilityOptionPanel.Selected) AbilitySelectedSubject.Next(abilityOptionPanel.AbilityReference);
         else AbilityDeselectedSubject.Next();
+    }
+
+    private void OnPointerEnter(AbilityOptionPanel abilityOptionPanel)
+    {
+        TryDestroyTooltip();
+        abilityTooltip = AbilityTooltip.Create(transform, abilityOptionPanel.AbilityReference);
+    }
+
+    private void OnPointerExit()
+    {
+        TryDestroyTooltip();
+    }
+
+    private void TryDestroyTooltip()
+    {
+        if (abilityTooltip) abilityTooltip.Destroy();
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class Tooltip<T> : Singleton<T> where T : MonoBehaviour
+public class Tooltip : MonoBehaviour
 {
     [SerializeField]
     protected RectTransform tooltipPanel = null;
@@ -18,16 +18,12 @@ public class Tooltip<T> : Singleton<T> where T : MonoBehaviour
 
     protected virtual void Update()
     {
-        if (gameObject.activeInHierarchy)
-        {
-            MoveToMouse();
-        }
+        MoveToMouse();
     }
 
-    private void OnDisable()
+    public void Destroy()
     {
-        // This is to avoid the tooltip being displayed if the menu is closed and reopened with the mouse no longer over an ability.
-        DeactivateTooltip();
+        Destroy(gameObject);
     }
 
     protected void ActivateTooltip()
@@ -38,11 +34,6 @@ public class Tooltip<T> : Singleton<T> where T : MonoBehaviour
         tooltipPanel.pivot = pivotPoints[currentScreenQuadrant];
 
         MoveToMouse();
-    }
-
-    protected void DeactivateTooltip()
-    {
-        gameObject.SetActive(false);
     }
 
     private void MoveToMouse()

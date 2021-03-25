@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class AbilityTooltip : Tooltip<AbilityTooltip>
+public class AbilityTooltip : Tooltip
 {
     [SerializeField]
     private Text titleText = null;
@@ -24,25 +24,35 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
     [SerializeField]
     private Color deBuffedNumericColour = default;
 
-    public Subject<AbilityReference> OnActivate { get; } = new Subject<AbilityReference>();
+    [SerializeField]
+    private AbilitySupplementaryTooltipPanel abilitySupplementaryTooltipPanel = null;
 
-    public Subject OnDeactivate { get; } = new Subject();
+    [SerializeField]
+    private RectTransform tooltipRectTransform = null;
 
     private readonly List<AbilityBonusTooltipSection> bonusSections = new List<AbilityBonusTooltipSection>();
 
     private PlayerTreeTooltipBuilder PlayerTreeTooltipBuilder => new PlayerTreeTooltipBuilder(ActorCache.Instance.Player);
-
-    public void Deactivate()
+    
+    public static AbilityTooltip Create(Transform transform, AbilityReference ability)
     {
-        DeactivateTooltip();
-        OnDeactivate.Next();
+        AbilityTooltip abilityTooltip = Instantiate(TooltipLookup.Instance.AbilityTooltipPrefab, transform);
+        abilityTooltip.Activate(ability);
+        return abilityTooltip;
+    }
+
+    public static AbilityTooltip Create(Transform transform, Node node)
+    {
+        AbilityTooltip abilityTooltip = Instantiate(TooltipLookup.Instance.AbilityTooltipPrefab, transform);
+        abilityTooltip.Activate(node);
+        return abilityTooltip;
     }
 
     /// <summary>
     /// Used to update the tooltip for abilities not in an ability tree.
     /// </summary>
     /// <param name="ability"></param>
-    public void Activate(AbilityReference ability)
+    private void Activate(AbilityReference ability)
     {
         List<TooltipSegment> tooltipSegments = PlayerListTooltipBuilder.Build(ability);
 
@@ -57,7 +67,7 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
     /// Used to update tooltip for abilities in the ability tree.
     /// </summary>
     /// <param name="node"></param>
-    public void Activate(Node node)
+    private void Activate(Node node)
     {
         List<TooltipSegment> tooltipSegments = PlayerTreeTooltipBuilder.Build(node);
 
@@ -86,7 +96,7 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
 
         SetContents(titleText, isFinisher, descriptionText, bonuses, bonusSegmenter, treeDepth);
 
-        OnActivate.Next(ability);
+        abilitySupplementaryTooltipPanel.Activate(ability);
     }
 
     private string GenerateDescription(List<TooltipSegment> segments)
@@ -145,7 +155,7 @@ public class AbilityTooltip : Tooltip<AbilityTooltip>
         bonusKeys.ForEach(bonus =>
         {
             AbilityBonusData bonusData = bonuses[bonus];
-            AbilityBonusTooltipSection section = Instantiate(bonusSectionPrefab, Vector3.zero, Quaternion.identity, transform);
+            AbilityBonusTooltipSection section = Instantiate(bonusSectionPrefab, Vector3.zero, Quaternion.identity, tooltipRectTransform);
             section.Initialise(
                 bonusData.DisplayName,
                 GenerateDescription(segmenter(bonus)),

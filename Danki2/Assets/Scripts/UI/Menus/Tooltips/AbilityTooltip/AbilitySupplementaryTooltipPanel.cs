@@ -11,7 +11,7 @@ public class AbilitySupplementaryTooltipPanel : MonoBehaviour
     private RectTransform rectTransform = null;
 
     [SerializeField]
-    private AbilityTooltip abilityTooltip = null;
+    private Transform followTransform = null;
 
     [SerializeField]
     private RectTransform abilityTooltipRectTransform = null;
@@ -35,24 +35,20 @@ public class AbilitySupplementaryTooltipPanel : MonoBehaviour
     private ScreenQuadrant currentScreenQuadrant;
     private Coroutine displayCoroutine;
 
-    private void Start()
+    public void OnDestroy()
     {
-        abilityTooltip.OnActivate.Subscribe(Activate);
-        abilityTooltip.OnDeactivate.Subscribe(Deactivate);
-        gameObject.SetActive(false);
+        StopCoroutine(displayCoroutine);
     }
 
     private void Update()
     {
         bool isLeftQuadrant = leftQuadrants.Contains(currentScreenQuadrant);
         float horizontalOffset = abilityTooltipRectTransform.sizeDelta.x * abilityTooltipRectTransform.GetParentCanvas().scaleFactor * (isLeftQuadrant ? 1 : -1);
-        transform.position = abilityTooltip.transform.position + new Vector3(horizontalOffset, 0);
+        transform.position = followTransform.position + new Vector3(horizontalOffset, 0);
     }
 
-    private void Activate(AbilityReference ability)
+    public void Activate(AbilityReference ability)
     {
-        gameObject.SetActive(true);
-
         currentScreenQuadrant = InputHelpers.GetMouseScreenQuadrant();
         rectTransform.pivot = pivotPoints[currentScreenQuadrant];
 
@@ -68,17 +64,5 @@ public class AbilitySupplementaryTooltipPanel : MonoBehaviour
             Instantiate(abilitySupplementaryTooltipPrefab, transform)
                 .Setup(k);
         });
-    }
-
-    private void Deactivate()
-    {
-        StopCoroutine(displayCoroutine);
-
-        foreach (Transform child in transform)
-        {
-            Destroy(child.gameObject);
-        }
-
-        gameObject.SetActive(false);
     }
 }
