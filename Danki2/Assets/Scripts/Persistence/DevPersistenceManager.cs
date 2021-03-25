@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -15,7 +17,7 @@ public class DevPersistenceManager : PersistenceManager
     [SerializeField] private AbilityReference rightAbility = AbilityReference.Slash;
     [SerializeField] private int playerHealth = 0;
     [SerializeField] private Pole cameraOrientation = Pole.North;
-    [SerializeField] private ActorType spawnedEnemy = ActorType.Wolf;
+    [SerializeField] private List<SpawnedEnemy> spawnedEnemies = new List<SpawnedEnemy>();
     [SerializeField] private int moduleSeed = 0;
     [SerializeField] private int transitionModuleSeed = 0;
     [SerializeField] private int playerSpawnerId = 0;
@@ -61,10 +63,10 @@ public class DevPersistenceManager : PersistenceManager
                     CombatRoomSaveData = new CombatRoomSaveData
                     {
                         EnemiesCleared = false,
-                        SpawnerIdToSpawnedActor = new Dictionary<int, ActorType>
-                        {
-                            [0] = spawnedEnemy
-                        }
+                        SpawnerIdToSpawnedActor = spawnedEnemies.ToDictionary(
+                            spawnedEnemy => spawnedEnemy.SpawnerId,
+                            spawnedEnemy => spawnedEnemy.ActorType
+                        )
                     },
                     AbilityRoomSaveData = new AbilityRoomSaveData
                     {
@@ -88,5 +90,15 @@ public class DevPersistenceManager : PersistenceManager
                 }
             }
         };
+    }
+
+    [Serializable]
+    private class SpawnedEnemy
+    {
+        [SerializeField] private int spawnerId;
+        [SerializeField] private ActorType actorType;
+
+        public int SpawnerId { get => spawnerId; set => spawnerId = value; }
+        public ActorType ActorType { get => actorType; set => actorType = value; }
     }
 }
