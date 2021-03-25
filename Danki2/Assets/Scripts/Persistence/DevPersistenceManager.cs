@@ -19,6 +19,10 @@ public class DevPersistenceManager : PersistenceManager
     [SerializeField] private int moduleSeed = 0;
     [SerializeField] private int transitionModuleSeed = 0;
     [SerializeField] private int playerSpawnerId = 0;
+    [SerializeField] private RoomType roomType = RoomType.Combat;
+    [SerializeField] private AbilityReference abilityChoice1 = AbilityReference.Slash;
+    [SerializeField] private AbilityReference abilityChoice2 = AbilityReference.Slash;
+    [SerializeField] private AbilityReference abilityChoice3 = AbilityReference.Slash;
 
     public override SaveData SaveData => GenerateNewSaveData();
 
@@ -53,7 +57,7 @@ public class DevPersistenceManager : PersistenceManager
             {
                 [0] = new RoomSaveData
                 {
-                    RoomType = RoomType.Combat,
+                    RoomType = roomType,
                     CombatRoomSaveData = new CombatRoomSaveData
                     {
                         EnemiesCleared = false,
@@ -61,6 +65,17 @@ public class DevPersistenceManager : PersistenceManager
                         {
                             [0] = spawnedEnemy
                         }
+                    },
+                    AbilityRoomSaveData = new AbilityRoomSaveData
+                    {
+                        AbilityChoices = new List<AbilityReference>
+                        {
+                            abilityChoice1,
+                            abilityChoice2,
+                            abilityChoice3
+                        },
+                        AbilitiesViewed = false,
+                        AbilitySelected = false
                     },
                     RoomTransitionerIdToNextRoomId = new Dictionary<int, int>
                     {
