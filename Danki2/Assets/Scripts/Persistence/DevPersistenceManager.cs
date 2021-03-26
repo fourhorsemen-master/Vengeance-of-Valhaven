@@ -17,6 +17,7 @@ public class DevPersistenceManager : PersistenceManager
     [SerializeField] private Pole cameraOrientation = Pole.North;
     [SerializeField] private ActorType spawnedEnemy = ActorType.Wolf;
     [SerializeField] private int moduleSeed = 0;
+    [SerializeField] private int transitionModuleSeed = 0;
     [SerializeField] private int playerSpawnerId = 0;
 
     public override SaveData SaveData => GenerateNewSaveData();
@@ -66,6 +67,7 @@ public class DevPersistenceManager : PersistenceManager
                         [0] = 1
                     },
                     ModuleSeed = moduleSeed,
+                    TransitionModuleSeed = transitionModuleSeed,
                     CameraOrientation = cameraOrientation,
                     PlayerSpawnerId = playerSpawnerId
                 }
