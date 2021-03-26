@@ -41,7 +41,7 @@ public class AbilitySelectionMenu : MonoBehaviour
         abilityOptionButtons.CanConfirm = false;
     }
 
-    private void HandleSkip() => AbilityRoomManager.Instance.SkipAbilities();
+    private void HandleSkip() => AbilitySelectionRoomManager.Instance.SkipAbilities();
 
-    private void HandleConfirm(AbilityReference abilityReference) => AbilityRoomManager.Instance.SelectAbility(abilityReference);
+    private void HandleConfirm(AbilityReference abilityReference) => AbilitySelectionRoomManager.Instance.SelectAbility(abilityReference);
 }

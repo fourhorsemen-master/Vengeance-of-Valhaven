@@ -12,8 +12,8 @@ public class AbilityShrine : Singleton<AbilityShrine>
     {
         HideInteractionText();
 
-        abilitySelected = AbilityRoomManager.Instance.AbilitySelected;
-        AbilityRoomManager.Instance.AbilitySelectedSubject.Subscribe(() =>
+        abilitySelected = AbilitySelectionRoomManager.Instance.AbilitySelected;
+        AbilitySelectionRoomManager.Instance.AbilitySelectedSubject.Subscribe(() =>
         {
             abilitySelected = true;
             HideInteractionText();
@@ -44,7 +44,7 @@ public class AbilityShrine : Singleton<AbilityShrine>
     {
         if (Input.GetButtonDown("Interact"))
         {
-            AbilityRoomManager.Instance.ViewAbilities();
+            AbilitySelectionRoomManager.Instance.ViewAbilities();
             HideInteractionText();
         }
     }

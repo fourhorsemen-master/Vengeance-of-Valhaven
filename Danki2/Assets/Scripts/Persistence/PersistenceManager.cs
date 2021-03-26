@@ -87,8 +87,8 @@ public class PersistenceManager : Singleton<PersistenceManager>
                 break;
             case RoomType.Ability:
                 AbilityRoomSaveData abilityRoomSaveData = currentRoomSaveData.AbilityRoomSaveData;
-                abilityRoomSaveData.AbilitiesViewed = AbilityRoomManager.Instance.AbilitiesViewed;
-                abilityRoomSaveData.AbilitySelected = AbilityRoomManager.Instance.AbilitySelected;
+                abilityRoomSaveData.AbilitiesViewed = AbilitySelectionRoomManager.Instance.AbilitiesViewed;
+                abilityRoomSaveData.AbilitySelected = AbilitySelectionRoomManager.Instance.AbilitySelected;
                 break;
         }
     }

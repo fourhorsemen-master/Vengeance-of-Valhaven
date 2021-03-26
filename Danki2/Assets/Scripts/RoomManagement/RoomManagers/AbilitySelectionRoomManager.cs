@@ -1,4 +1,4 @@
-﻿public class AbilityRoomManager : Singleton<AbilityRoomManager>
+﻿public class AbilitySelectionRoomManager : Singleton<AbilitySelectionRoomManager>
 {
     public bool AbilitiesViewed { get; private set; } = false;
     public bool AbilitySelected { get; private set; } = false;
