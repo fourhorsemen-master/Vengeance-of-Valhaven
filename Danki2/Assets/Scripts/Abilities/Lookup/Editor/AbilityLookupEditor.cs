@@ -72,6 +72,7 @@ public class AbilityLookupEditor : Editor
 
         serializableAbilityMetadata.DisplayName = EditorGUILayout.TextField("Display Name", serializableAbilityMetadata.DisplayName);
         serializableAbilityMetadata.Tooltip = EditorUtils.MultilineTextField("Tooltip", serializableAbilityMetadata.Tooltip, 3);
+        serializableAbilityMetadata.Rarity = (Rarity) EditorGUILayout.EnumPopup("Rarity", serializableAbilityMetadata.Rarity);
         serializableAbilityMetadata.PlayerCanCast = EditorGUILayout.Toggle("Player Can Cast", serializableAbilityMetadata.PlayerCanCast);
         serializableAbilityMetadata.Finisher = EditorGUILayout.Toggle("Finisher", serializableAbilityMetadata.Finisher);
         EditChannelDuration(abilityReference, serializableAbilityMetadata);
