@@ -27,6 +27,7 @@ public class RarityLookupEditor : Editor
     private void EditRarityData(RarityData rarityData)
     {
         rarityData.DisplayName = EditorGUILayout.TextField("Display Name", rarityData.DisplayName);
+        rarityData.Weighting = EditorGUILayout.IntField("Weighting", rarityData.Weighting);
         rarityData.Colour = EditorGUILayout.ColorField("Colour", rarityData.Colour);
         rarityData.Frame = (Sprite) EditorGUILayout.ObjectField("Frame", rarityData.Frame, typeof(Sprite), false);
     }
