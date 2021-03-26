@@ -23,6 +23,7 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
         return new SaveData
         {
             Version = SaveDataVersion,
+            Seed = seed,
             PlayerHealth = 20,
             AbilityTree = AbilityTreeFactory.CreateTree(
                 new EnumDictionary<AbilityReference, int>(3),
