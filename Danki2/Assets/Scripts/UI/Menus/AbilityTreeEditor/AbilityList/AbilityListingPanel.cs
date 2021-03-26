@@ -72,6 +72,7 @@ public class AbilityListingPanel : MonoBehaviour, IBeginDragHandler, IDragHandle
         iconPanelImage.sprite = AbilityIconManager.Instance.GetIcon(ability);
 
         namePanelText.text = AbilityLookup.Instance.GetAbilityDisplayName(ability);
+        namePanelText.color = RarityLookup.Instance.Lookup[AbilityLookup.Instance.GetRarity(ability)].Colour;
 
         UpdateQuantityText();
     }
