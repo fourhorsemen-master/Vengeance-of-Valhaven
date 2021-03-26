@@ -183,15 +183,21 @@ public class MapGenerator : Singleton<MapGenerator>
 
     private void SetAbilityData(MapNode node)
     {
-        List<AbilityReference> abilities = EnumUtils
-            .ToList<AbilityReference>()
-            .Where(a => AbilityLookup.Instance.PlayerCanCast(a));
-
-        for (int _ = 0; _ < AbilityChoices; _++)
+        List<AbilityReference> choices = new List<AbilityReference>();
+        EnumUtils.ForEach<AbilityReference>(abilityReference =>
         {
-            AbilityReference abilityChoice = RandomUtils.Choice(abilities);
-            node.AbilityChoices.Add(abilityChoice);
-            abilities.Remove(abilityChoice);
-        }
+            if (!AbilityLookup.Instance.PlayerCanCast(abilityReference)) return;
+
+            Rarity rarity = AbilityLookup.Instance.GetRarity(abilityReference);
+            int weighting = RarityLookup.Instance.Lookup[rarity].Weighting;
+            Utils.Repeat(weighting, () => choices.Add(abilityReference));
+        });
+
+        Utils.Repeat(AbilityChoices, () =>
+        {
+            AbilityReference choice = RandomUtils.Choice(choices);
+            node.AbilityChoices.Add(choice);
+            choices.RemoveAll(c => c == choice);
+        });
     }
 }
