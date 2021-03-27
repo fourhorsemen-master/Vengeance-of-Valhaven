@@ -18,7 +18,7 @@ public class Rend : Cast
         bool enemiesHit = false;
 
         TemplateCollision(
-            CollisionTemplate.Cylinder,
+            CollisionTemplateShape.Cylinder,
             Range,
             Owner.CollisionTemplateSource,
             Quaternion.identity,

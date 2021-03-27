@@ -37,7 +37,7 @@ public class Disengage : InstantCast
         bool dealtDamage = false;
 
         TemplateCollision(
-            CollisionTemplate.Cylinder,
+            CollisionTemplateShape.Cylinder,
             partingShotRange,
             position,
             Quaternion.identity,

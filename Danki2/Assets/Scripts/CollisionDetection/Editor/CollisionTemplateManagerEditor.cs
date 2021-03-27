@@ -9,12 +9,12 @@ public class CollisionTemplateManagerEditor : Editor
     {
         CollisionTemplateManager collisionTemplateManager = (CollisionTemplateManager)target;
 
-        foreach (CollisionTemplate template in Enum.GetValues(typeof(CollisionTemplate)))
+        foreach (CollisionTemplateShape template in Enum.GetValues(typeof(CollisionTemplateShape)))
         {
-            collisionTemplateManager.prefabLookup[template] = (MeshCollider)EditorGUILayout.ObjectField(
+            collisionTemplateManager.prefabLookup[template] = (CollisionTemplate)EditorGUILayout.ObjectField(
                 template.ToString(),
                 collisionTemplateManager.prefabLookup[template],
-                typeof(MeshCollider),
+                typeof(CollisionTemplate),
                 false,
                 null
             );

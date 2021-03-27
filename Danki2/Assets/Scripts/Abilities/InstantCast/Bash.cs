@@ -28,7 +28,7 @@ public class Bash : InstantCast
         bool hasDealtDamage = false;
 
         TemplateCollision(
-            CollisionTemplate.Cylinder,
+            CollisionTemplateShape.Cylinder,
             Radius,
             center,
             Quaternion.identity,

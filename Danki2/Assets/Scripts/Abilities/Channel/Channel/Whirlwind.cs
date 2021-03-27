@@ -58,7 +58,7 @@ public class Whirlwind : Channel
         bool actorsHit = false;
 
         TemplateCollision(
-            CollisionTemplate.Cylinder,
+            CollisionTemplateShape.Cylinder,
             radius,
             Owner.transform.position,
             Quaternion.identity,

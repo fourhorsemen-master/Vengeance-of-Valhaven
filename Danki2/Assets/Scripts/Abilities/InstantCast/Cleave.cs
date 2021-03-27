@@ -23,7 +23,7 @@ public class Cleave : InstantCast
         bool hasDealtDamage = false;
 
         TemplateCollision(
-            CollisionTemplate.Wedge180,
+            CollisionTemplateShape.Wedge180,
             Range,
             Owner.CollisionTemplateSource,
             castRotation,

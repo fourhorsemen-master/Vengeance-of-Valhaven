@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 995196306568313772}
   - component: {fileID: 494047220747924326}
   - component: {fileID: 1965540101791532195}
+  - component: {fileID: 5275098106184393956}
   m_Layer: 12
   m_Name: Cuboid
   m_TagString: Untagged
@@ -54,3 +55,16 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &5275098106184393956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8898108972351270902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b69da79670b14486bc51d0a09bf41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collider: {fileID: 1965540101791532195}

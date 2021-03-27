@@ -59,7 +59,7 @@ public class PiercingRush : Cast
         bool hasDealtDamage = false;
 
         TemplateCollision(
-            CollisionTemplate.Cuboid,
+            CollisionTemplateShape.Cuboid,
             collisionDetectionScale,
             collisionDetectionPosition,
             Quaternion.LookRotation(direction),
@@ -104,7 +104,7 @@ public class PiercingRush : Cast
         bool hasDealtDamage = false;
 
         TemplateCollision(
-            CollisionTemplate.Wedge90,
+            CollisionTemplateShape.Wedge90,
             jetstreamRange,
             Owner.transform.position,
             castRotation,

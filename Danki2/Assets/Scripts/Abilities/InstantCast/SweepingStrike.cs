@@ -22,7 +22,7 @@ public class SweepingStrike : InstantCast
         bool hasDealtDamage = false;
 
         TemplateCollision(
-            CollisionTemplate.Wedge90,
+            CollisionTemplateShape.Wedge90,
             Range,
             Owner.CollisionTemplateSource,
             castRotation,

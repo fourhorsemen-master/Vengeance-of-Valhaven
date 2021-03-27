@@ -34,7 +34,7 @@ public class Smash : Cast
         bool hasDealtDamage = false;
 
         TemplateCollision(
-            CollisionTemplate.Cylinder,
+            CollisionTemplateShape.Cylinder,
             Radius,
             center,
             Quaternion.identity,
