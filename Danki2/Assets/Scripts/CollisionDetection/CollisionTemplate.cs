@@ -5,7 +5,31 @@ using UnityEngine;
 public class CollisionTemplate : MonoBehaviour
 {
     [SerializeField]
-    MeshCollider collider;
+    MeshCollider collider = null;
+
+    private List<PhysicMaterial> materials = new List<PhysicMaterial>();
+
+    private CollisionSoundLevel collisionSoundLevel = default;
+
+    private bool playCollisionSound = false;
+
+    private void Start()
+    {
+        if (!playCollisionSound) Destroy(gameObject);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.material == null) return;
+
+        materials.Add(other.material);
+    }
+
+    private void Update()
+    {
+        CollisionSoundManager.Instance.Play(materials.Distinct(), collisionSoundLevel, transform.position);
+        Destroy(gameObject);
+    }
 
     public void SetScale(Vector3 scale)
     {
@@ -34,9 +58,10 @@ public class CollisionTemplate : MonoBehaviour
             .ToList();
     }
 
-    public void PlayCollisionSounds(int impactSize)
+    public void PlayCollisionSound(CollisionSoundLevel collisionSoundLevel)
     {
-
+        this.collisionSoundLevel = collisionSoundLevel;
+        playCollisionSound = true;
     }
 
     /// <summary>
