@@ -9,11 +9,11 @@ public class CollisionTemplateManagerEditor : Editor
     {
         CollisionTemplateManager collisionTemplateManager = (CollisionTemplateManager)target;
 
-        foreach (CollisionTemplateShape template in Enum.GetValues(typeof(CollisionTemplateShape)))
+        foreach (CollisionTemplateShape shape in Enum.GetValues(typeof(CollisionTemplateShape)))
         {
-            collisionTemplateManager.prefabLookup[template] = (CollisionTemplate)EditorGUILayout.ObjectField(
-                template.ToString(),
-                collisionTemplateManager.prefabLookup[template],
+            collisionTemplateManager.prefabLookup[shape] = (CollisionTemplate)EditorGUILayout.ObjectField(
+                shape.ToString(),
+                collisionTemplateManager.prefabLookup[shape],
                 typeof(CollisionTemplate),
                 false,
                 null
