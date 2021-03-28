@@ -16,19 +16,20 @@ public class CollisionTemplate : MonoBehaviour
     private void Start()
     {
         if (!playCollisionSound) Destroy(gameObject);
+
+        // We have to wait for a physics cycle to run to ensure collisions have been registered
+        this.WaitForFixedUpdateAndAct(() =>
+        {
+            CollisionSoundManager.Instance.Play(materials.Distinct(), collisionSoundLevel, transform.position);
+            Destroy(gameObject);
+        });
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.material == null) return;
+        if (other.sharedMaterial == null) return;
 
-        materials.Add(other.material);
-    }
-
-    private void Update()
-    {
-        CollisionSoundManager.Instance.Play(materials.Distinct(), collisionSoundLevel, transform.position);
-        Destroy(gameObject);
+        materials.Add(other.sharedMaterial);
     }
 
     public void SetScale(Vector3 scale)

@@ -10,14 +10,60 @@ public class CollisionSoundManager : Singleton<CollisionSoundManager>
     [EventRef]
     private string collisionEvent = null;
 
-    public void Play(IEnumerable<PhysicMaterial> materials, CollisionSoundLevel collisionSoundLevel, Vector3 position)
+    [SerializeField] private PhysicMaterial dirtPhysicMaterial = null;
+    [SerializeField] private PhysicMaterial stonePhysicMaterial = null;
+    [SerializeField] private PhysicMaterial waterPhysicMaterial = null;
+    [SerializeField] private PhysicMaterial fleshPhysicMaterial = null;
+    [SerializeField] private PhysicMaterial woodPhysicMaterial = null;
+
+    private Dictionary<PhysicMaterial, MaterialParameterValue> physicMaterialNameToParameterValue;
+
+    private List<MaterialParameterValue> DescendingMaterialPriority = new List<MaterialParameterValue>
     {
-        if (!materials.Any()) return;
+        MaterialParameterValue.Flesh,
+        MaterialParameterValue.Stone,
+        MaterialParameterValue.Wood,
+        MaterialParameterValue.Water,
+        MaterialParameterValue.Dirt
+    };
+
+    private void Start()
+    {
+        physicMaterialNameToParameterValue = new Dictionary<PhysicMaterial, MaterialParameterValue>
+        {
+            [dirtPhysicMaterial] = MaterialParameterValue.Dirt,
+            [stonePhysicMaterial] = MaterialParameterValue.Stone,
+            [waterPhysicMaterial] = MaterialParameterValue.Water,
+            [fleshPhysicMaterial] = MaterialParameterValue.Flesh,
+            [woodPhysicMaterial] = MaterialParameterValue.Wood,
+        };
+    }
+
+    public void Play(IEnumerable<PhysicMaterial> sharedMaterials, CollisionSoundLevel collisionSoundLevel, Vector3 position)
+    {
+        if (!sharedMaterials.Any()) return;
+
+        MaterialParameterValue? priorityMaterialValue = sharedMaterials.Distinct()
+            .Where(m => physicMaterialNameToParameterValue.ContainsKey(m))
+            .Select(m => physicMaterialNameToParameterValue[m])
+            .OrderBy(m => DescendingMaterialPriority.IndexOf(m))
+            .FirstOrDefault();
+
+        if (!priorityMaterialValue.HasValue) return;
 
         EventInstance eventInstance = RuntimeManager.CreateInstance(collisionEvent);
-        eventInstance.setParameterByName("material", 0);
+        eventInstance.setParameterByName("material", (int)priorityMaterialValue.Value);
         eventInstance.setParameterByName("size", (int)collisionSoundLevel);
         eventInstance.start();
         eventInstance.release();
+    }
+
+    private enum MaterialParameterValue
+    {
+        Dirt = 0,
+        Stone = 1,
+        Water = 2,
+        Flesh = 3,
+        Wood = 4
     }
 }
