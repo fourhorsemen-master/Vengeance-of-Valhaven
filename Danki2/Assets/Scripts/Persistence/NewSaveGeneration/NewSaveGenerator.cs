@@ -27,6 +27,7 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
         return new SaveData
         {
             Version = SaveDataVersion,
+            Seed = seed,
             PlayerHealth = 20,
             SerializableAbilityTree = AbilityTreeFactory.CreateTree(
                 ownedAbilities,
