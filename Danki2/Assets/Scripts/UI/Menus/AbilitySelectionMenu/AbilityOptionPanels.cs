@@ -30,7 +30,10 @@ public class AbilityOptionPanels : MonoBehaviour
     {
         if (options.Count != abilityOptionPanels.Count)
         {
-            Debug.LogError($"{options.Count} ability options given, but only {abilityOptionPanels.Count} ability option panels");
+            Debug.LogError(
+                "Ability option count must be the same as the ability option panel count. " +
+                $"Received {options.Count} options, but there are {abilityOptionPanels.Count} panels."
+            );
             return;
         }
 
