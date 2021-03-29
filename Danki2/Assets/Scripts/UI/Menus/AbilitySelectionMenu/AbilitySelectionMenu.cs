@@ -6,15 +6,14 @@ public class AbilitySelectionMenu : MonoBehaviour
     [SerializeField] private AbilityOptionPanels abilityOptionPanels = null;
     [SerializeField] private AbilityOptionButtons abilityOptionButtons = null;
 
-    private readonly List<Subscription> subscriptions = new List<Subscription>();
-    private Subscription<AbilityReference> abilitySelectedSubscription = null;
+    private readonly List<ISubscription> subscriptions = new List<ISubscription>();
 
     private AbilityReference selectedAbility = default;
 
     private void OnEnable()
     {
-        abilitySelectedSubscription = abilityOptionPanels.AbilitySelectedSubject.Subscribe(HandleAbilitySelection);
         subscriptions.Add(
+            abilityOptionPanels.AbilitySelectedSubject.Subscribe(HandleAbilitySelection),
             abilityOptionPanels.AbilityDeselectedSubject.Subscribe(HandleAbilityDeselection),
             abilityOptionButtons.SkipSubject.Subscribe(HandleSkip),
             abilityOptionButtons.ConfirmSubject.Subscribe(() => HandleConfirm(selectedAbility))
@@ -25,8 +24,6 @@ public class AbilitySelectionMenu : MonoBehaviour
     {
         subscriptions.ForEach(s => s.Unsubscribe());
         subscriptions.Clear();
-        abilitySelectedSubscription.Unsubscribe();
-        abilitySelectedSubscription = null;
     }
 
     private void HandleAbilitySelection(AbilityReference abilityReference)
