@@ -6,6 +6,10 @@ using UnityEngine;
 public class SceneLookupEditor : Editor
 {
     private readonly EnumDictionary<Scene, bool> foldoutStatus = new EnumDictionary<Scene, bool>(false);
+
+    private readonly EnumDictionary<Scene, EnumDictionary<SceneSpecificFoldoutStatus, bool>> sceneSpecificFoldoutStatus
+        = new EnumDictionary<Scene, EnumDictionary<SceneSpecificFoldoutStatus, bool>>(() =>
+            new EnumDictionary<SceneSpecificFoldoutStatus, bool>(false));
     
     public override void OnInspectorGUI()
     {
@@ -20,7 +24,7 @@ public class SceneLookupEditor : Editor
 
             EditorGUI.indentLevel++;
 
-            EditSceneData(sceneLookup.sceneDataLookup[scene]);
+            EditSceneData(sceneLookup.sceneDataLookup[scene], sceneSpecificFoldoutStatus[scene]);
 
             EditorGUI.indentLevel--;
         });
@@ -31,26 +35,37 @@ public class SceneLookupEditor : Editor
         }
     }
 
-    private void EditSceneData(SceneData sceneData)
+    private void EditSceneData(SceneData sceneData, EnumDictionary<SceneSpecificFoldoutStatus, bool> specificFoldoutStatus)
     {
         sceneData.FileName = EditorGUILayout.TextField("File name", sceneData.FileName);
         sceneData.SceneType = (SceneType) EditorGUILayout.EnumPopup("Scene type", sceneData.SceneType);
 
-        if (sceneData.SceneType == SceneType.Gameplay) EditGameplaySceneData(sceneData.GameplaySceneData);
+        if (sceneData.SceneType == SceneType.Gameplay) EditGameplaySceneData(sceneData.GameplaySceneData, specificFoldoutStatus);
     }
 
-    private void EditGameplaySceneData(GameplaySceneData gameplaySceneData)
+    private void EditGameplaySceneData(
+        GameplaySceneData gameplaySceneData,
+        EnumDictionary<SceneSpecificFoldoutStatus, bool> specificFoldoutStatus
+    )
     {
-        EditRoomTypes(gameplaySceneData);
-        EditCameraOrientations(gameplaySceneData);
-        EditEntranceData(gameplaySceneData.EntranceData);
-        EditExitData(gameplaySceneData.ExitData);
-        EditEnemySpawnerIds(gameplaySceneData.EnemySpawnerIds);
+        EditRoomTypes(gameplaySceneData, specificFoldoutStatus);
+        EditCameraOrientations(gameplaySceneData, specificFoldoutStatus);
+        EditEntranceData(gameplaySceneData.EntranceData, specificFoldoutStatus);
+        EditExitData(gameplaySceneData.ExitData, specificFoldoutStatus);
+        EditEnemySpawnerIds(gameplaySceneData.EnemySpawnerIds, specificFoldoutStatus);
     }
 
-    private void EditRoomTypes(GameplaySceneData gameplaySceneData)
+    private void EditRoomTypes(
+        GameplaySceneData gameplaySceneData,
+        EnumDictionary<SceneSpecificFoldoutStatus, bool> specificFoldoutStatus
+    )
     {
-        EditorUtils.Header("Room Types");
+        specificFoldoutStatus[SceneSpecificFoldoutStatus.RoomTypes] = EditorGUILayout.Foldout(
+            specificFoldoutStatus[SceneSpecificFoldoutStatus.RoomTypes],
+            "Room Types"
+        );
+        if (!specificFoldoutStatus[SceneSpecificFoldoutStatus.RoomTypes]) return;
+        
         EditorGUI.indentLevel++;
 
         List<RoomType> roomTypes = gameplaySceneData.RoomTypes;
@@ -65,9 +80,16 @@ public class SceneLookupEditor : Editor
         EditorGUI.indentLevel--;
     }
 
-    private void EditCameraOrientations(GameplaySceneData gameplaySceneData)
+    private void EditCameraOrientations(
+        GameplaySceneData gameplaySceneData,
+        EnumDictionary<SceneSpecificFoldoutStatus, bool> specificFoldoutStatus
+    )
     {
-        EditorUtils.Header("Camera Orientations");
+        specificFoldoutStatus[SceneSpecificFoldoutStatus.CameraOrientations] = EditorGUILayout.Foldout(
+            specificFoldoutStatus[SceneSpecificFoldoutStatus.CameraOrientations],
+            "Camera Orientations"
+        );
+        if (!specificFoldoutStatus[SceneSpecificFoldoutStatus.CameraOrientations]) return;
         EditorGUI.indentLevel++;
 
         List<Pole> cameraOrientations = gameplaySceneData.CameraOrientations;
@@ -82,9 +104,16 @@ public class SceneLookupEditor : Editor
         EditorGUI.indentLevel--;
     }
 
-    private void EditEntranceData(List<EntranceData> entranceData)
+    private void EditEntranceData(
+        List<EntranceData> entranceData,
+        EnumDictionary<SceneSpecificFoldoutStatus, bool> specificFoldoutStatus
+    )
     {
-        EditorUtils.Header("Entrance Data");
+        specificFoldoutStatus[SceneSpecificFoldoutStatus.EntranceData] = EditorGUILayout.Foldout(
+            specificFoldoutStatus[SceneSpecificFoldoutStatus.EntranceData],
+            "Entrance Data"
+        );
+        if (!specificFoldoutStatus[SceneSpecificFoldoutStatus.EntranceData]) return;
         EditorGUI.indentLevel++;
         
         entranceData.ForEach(e =>
@@ -98,9 +127,16 @@ public class SceneLookupEditor : Editor
         EditorGUI.indentLevel--;
     }
 
-    private void EditExitData(List<ExitData> exitData)
+    private void EditExitData(
+        List<ExitData> exitData,
+        EnumDictionary<SceneSpecificFoldoutStatus, bool> specificFoldoutStatus
+    )
     {
-        EditorUtils.Header("Exit Data");
+        specificFoldoutStatus[SceneSpecificFoldoutStatus.ExitData] = EditorGUILayout.Foldout(
+            specificFoldoutStatus[SceneSpecificFoldoutStatus.ExitData],
+            "Exit Data"
+        );
+        if (!specificFoldoutStatus[SceneSpecificFoldoutStatus.ExitData]) return;
         EditorGUI.indentLevel++;
         
         exitData.ForEach(e =>
@@ -114,9 +150,16 @@ public class SceneLookupEditor : Editor
         EditorGUI.indentLevel--;
     }
 
-    private void EditEnemySpawnerIds(List<int> enemySpawnerIds)
+    private void EditEnemySpawnerIds(
+        List<int> enemySpawnerIds,
+        EnumDictionary<SceneSpecificFoldoutStatus, bool> specificFoldoutStatus
+    )
     {
-        EditorUtils.Header("Enemy Spawner IDs");
+        specificFoldoutStatus[SceneSpecificFoldoutStatus.EnemySpawnerIds] = EditorGUILayout.Foldout(
+            specificFoldoutStatus[SceneSpecificFoldoutStatus.EnemySpawnerIds],
+            "Enemy Spawner IDs"
+        );
+        if (!specificFoldoutStatus[SceneSpecificFoldoutStatus.EnemySpawnerIds]) return;
         EditorGUI.indentLevel++;
 
         for (int i = 0; i < enemySpawnerIds.Count; i++)
