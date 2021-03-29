@@ -5,6 +5,8 @@ public class SaveData
 {
     public int Version { get; set; }
 
+    public int Seed { get; set; }
+
     public int PlayerHealth { get; set; }
     public SerializableAbilityTree SerializableAbilityTree { get; set; }
 
@@ -20,6 +22,7 @@ public class SaveData
         return new SerializableSaveData
         {
             Version = Version,
+            Seed = Seed,
             PlayerHealth = PlayerHealth,
             SerializableAbilityTree = SerializableAbilityTree,
             CurrentRoomId = CurrentRoomId,

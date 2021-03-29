@@ -30,7 +30,10 @@ public class AbilityOptionPanels : MonoBehaviour
     {
         if (options.Count != abilityOptionPanels.Count)
         {
-            Debug.LogError($"{options.Count} ability options given, but only {abilityOptionPanels.Count} ability option panels");
+            Debug.LogError(
+                "Ability option count must be the same as the ability option panel count. " +
+                $"Received {options.Count} options, but there are {abilityOptionPanels.Count} panels."
+            );
             return;
         }
 
@@ -41,7 +44,7 @@ public class AbilityOptionPanels : MonoBehaviour
             subscriptions.Add(
                 abilityOptionPanel.OnClickSubject.Subscribe(() => OnOptionClicked(abilityOptionPanel)),
                 abilityOptionPanel.OnPointerEnterSubject.Subscribe(() => OnPointerEnter(abilityOptionPanel)),
-                abilityOptionPanel.OnPointerExitSubject.Subscribe(OnPointerExit)
+                abilityOptionPanel.OnPointerExitSubject.Subscribe(() => OnPointerExit(abilityOptionPanel))
             );
         }
     }
@@ -62,11 +65,13 @@ public class AbilityOptionPanels : MonoBehaviour
     {
         TryDestroyTooltip();
         abilityTooltip = AbilityTooltip.Create(transform, abilityOptionPanel.AbilityReference);
+        abilityOptionPanel.Highlighted = true;
     }
 
-    private void OnPointerExit()
+    private void OnPointerExit(AbilityOptionPanel abilityOptionPanel)
     {
         TryDestroyTooltip();
+        abilityOptionPanel.Highlighted = false;
     }
 
     private void TryDestroyTooltip()

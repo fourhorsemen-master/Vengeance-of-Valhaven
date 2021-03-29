@@ -31,25 +31,21 @@ public class ModuleLookupEditor : Editor
 
             EditorUtils.VerticalSpace();
 
-            List<ModuleData> moduleData = socketData.ModuleData;
-
-            moduleData.ForEach(d => EditModuleData(d, socketType, socketData.SocketRotationType));
-
-            EditorUtils.EditListSize(
-                "Add Module",
-                "Remove Module",
-                moduleData,
+            EditorUtils.ResizeableList(
+                socketData.ModuleData,
+                moduleData => EditModuleData(moduleData, socketType, socketData.SocketRotationType),
                 () => new ModuleData(),
-                d =>
+                moduleData =>
                 {
-                    tagFoldoutStatus[socketType][d] = false;
-                    rotationsFoldoutStatus[socketType][d] = false;
+                    tagFoldoutStatus[socketType][moduleData] = false;
+                    rotationsFoldoutStatus[socketType][moduleData] = false;
                 },
-                d =>
+                moduleData =>
                 {
-                    tagFoldoutStatus[socketType].Remove(d);
-                    rotationsFoldoutStatus[socketType].Remove(d);
-                });
+                    tagFoldoutStatus[socketType].Remove(moduleData);
+                    rotationsFoldoutStatus[socketType].Remove(moduleData);
+                }
+            );
         });
 
         if (GUI.changed)
@@ -124,14 +120,11 @@ public class ModuleLookupEditor : Editor
 
     private void EditorDistinctRotations(ModuleData moduleData)
     {
-        List<float> distinctRotations = moduleData.DistinctRotations;
-
-        for (int i = 0; i < distinctRotations.Count; i++)
-        {
-            distinctRotations[i] = EditorGUILayout.FloatField("Rotation", distinctRotations[i]);
-        }
-
-        EditorUtils.EditListSize("Add Rotation", "Remove Rotation", distinctRotations, 0);
+        EditorUtils.ResizeableList(
+            moduleData.DistinctRotations,
+            rotation => EditorGUILayout.FloatField("Rotation", rotation),
+            0
+        );
     }
 
     private void EditTags(List<ModuleTag> tags, SocketType socketType, ModuleData moduleData)
@@ -142,12 +135,11 @@ public class ModuleLookupEditor : Editor
         {
             EditorGUI.indentLevel++;
             
-            for (int i = 0; i < tags.Count; i++)
-            {
-                tags[i] = (ModuleTag) EditorGUILayout.EnumPopup("Tag", tags[i]);
-            }
-
-            EditorUtils.EditListSize("Add Tag", "Remove Tag", tags, ModuleTag.Short);
+            EditorUtils.ResizeableList(
+                tags,
+                tag => (ModuleTag) EditorGUILayout.EnumPopup("Tag", tag),
+                ModuleTag.Short
+            );
 
             EditorGUI.indentLevel--;
         }

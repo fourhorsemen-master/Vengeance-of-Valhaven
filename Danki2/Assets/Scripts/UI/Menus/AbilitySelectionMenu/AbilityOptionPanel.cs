@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class AbilityOptionPanel : MonoBehaviour
 {
     [SerializeField] private Image selectedIndicator = null;
+    [SerializeField] private Image highlightedIndicator = null;
     [SerializeField] private Image image = null;
     [SerializeField] private Image frame = null;
     [SerializeField] private Text text = null;
@@ -22,9 +23,15 @@ public class AbilityOptionPanel : MonoBehaviour
         set => selectedIndicator.enabled = value;
     }
 
+    public bool Highlighted
+    {
+        set => highlightedIndicator.enabled = value;
+    }
+
     private void OnEnable()
     {
         Selected = false;
+        Highlighted = false;
     }
 
     public void Initialise(AbilityReference abilityReference)

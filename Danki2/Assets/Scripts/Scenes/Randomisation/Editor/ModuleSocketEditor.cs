@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(ModuleSocket))]
@@ -75,16 +74,11 @@ public class ModuleSocketEditor : Editor
 
         EditorGUI.indentLevel++;
         
-        List<ModuleTag> tags = moduleSocket.Tags;
-        
-        for (int i = 0; i < tags.Count; i++)
-        {
-            tags[i] = (ModuleTag) EditorGUILayout.EnumPopup("Tag", tags[i]);
-        }
-        
-        EditorUtils.VerticalSpace();
-
-        EditorUtils.EditListSize("Add Tag", "Remove Tag", tags, ModuleTag.Short);
+        EditorUtils.ResizeableList(
+            moduleSocket.Tags,
+            tag => (ModuleTag) EditorGUILayout.EnumPopup("Tag", tag),
+            ModuleTag.Short
+        );
 
         EditorGUI.indentLevel--;
     }

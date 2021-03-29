@@ -88,7 +88,6 @@ public abstract class AbilityTree
 
     public void AddToInventory(AbilityReference abilityReference)
     {
-        Reset();
         OwnedAbilities[abilityReference]++;
         UpdateInventory();
     }
