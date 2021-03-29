@@ -77,25 +77,78 @@ public static class EditorUtils
     }
 
     /// <summary>
+    /// Edits all list items according to the input function and adds ability to edit the list size.
+    /// </summary>
+    public static void ResizeableList<T>(
+        List<T> items,
+        Func<T, T> editItem,
+        T defaultValue,
+        Action<T> itemAddedCallback = null,
+        Action<T> itemRemovedCallback = null
+    )
+    {
+        ResizeableList(items, editItem, () => defaultValue, itemAddedCallback, itemRemovedCallback);
+    }
+
+    /// <inheritdoc cref="ResizeableList{T}(System.Collections.Generic.List{T},System.Func{T,T},T,System.Action{T},System.Action{T})"/>
+    public static void ResizeableList<T>(
+        List<T> items,
+        Func<T, T> editItem,
+        Func<T> defaultValueProvider,
+        Action<T> itemAddedCallback = null,
+        Action<T> itemRemovedCallback = null
+    )
+    {
+        for (int i = 0; i < items.Count; i++)
+        {
+            items[i] = editItem(items[i]);
+        }
+
+        EditListSize(items, defaultValueProvider, itemAddedCallback, itemRemovedCallback);
+    }
+
+    /// <inheritdoc cref="ResizeableList{T}(System.Collections.Generic.List{T},System.Func{T,T},T,System.Action{T},System.Action{T})"/>
+    public static void ResizeableList<T>(
+        List<T> items,
+        Action<T> editItem,
+        T defaultValue,
+        Action<T> itemAddedCallback = null,
+        Action<T> itemRemovedCallback = null
+    )
+    {
+        ResizeableList(items, editItem, () => defaultValue, itemAddedCallback, itemRemovedCallback);
+    }
+
+    /// <inheritdoc cref="ResizeableList{T}(System.Collections.Generic.List{T},System.Func{T,T},T,System.Action{T},System.Action{T})"/>
+    public static void ResizeableList<T>(
+        List<T> items,
+        Action<T> editItem,
+        Func<T> defaultValueProvider,
+        Action<T> itemAddedCallback = null,
+        Action<T> itemRemovedCallback = null
+    )
+    {
+        items.ForEach(editItem);
+
+        EditListSize(items, defaultValueProvider, itemAddedCallback, itemRemovedCallback);
+    }
+
+    /// <summary>
     /// Adds buttons to add and remove elements from the given list. Items are always added to and removed
     /// from the end of the list.
     /// </summary>
     public static void EditListSize<T>(
-        string addLabel,
-        string removeLabel,
         List<T> list,
         T defaultValue,
         Action<T> itemAddedCallback = null,
         Action<T> itemRemovedCallback = null
     )
     {
-        EditListSize(addLabel, removeLabel, list, () => defaultValue, itemAddedCallback, itemRemovedCallback);
+        EditListSize(list, () => defaultValue, itemAddedCallback, itemRemovedCallback);
     }
 
-    /// <inheritdoc cref="EditListSize{T}(string,string,System.Collections.Generic.List{T},T,System.Action{T},System.Action{T})" />
+    /// <inheritdoc cref="EditListSize{T}(System.Collections.Generic.List{T},T,System.Action{T},System.Action{T})" />
     public static void EditListSize<T>(
-        string addLabel,
-        string removeLabel,
         List<T> list,
         Func<T> defaultValueProvider,
         Action<T> itemAddedCallback = null,
@@ -105,7 +158,7 @@ public static class EditorUtils
         GUILayout.BeginHorizontal();
         GUILayout.Space(EditorGUI.indentLevel * LineHeight);
 
-        if (GUILayout.Button(addLabel))
+        if (GUILayout.Button("Add Item"))
         {
             T newItem = defaultValueProvider();
             list.Add(newItem);
@@ -113,7 +166,7 @@ public static class EditorUtils
         }
 
         EditorGUI.BeginDisabledGroup(list.Count == 0);
-        if (GUILayout.Button(removeLabel))
+        if (GUILayout.Button("Remove Item"))
         {
             int index = list.Count - 1;
             T oldItem = list[index];

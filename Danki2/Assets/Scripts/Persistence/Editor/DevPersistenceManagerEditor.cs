@@ -51,16 +51,13 @@ public class DevPersistenceManagerEditor : Editor
         EditorUtils.Header("Spawned Enemies");
         EditorGUI.indentLevel++;
 
-        devPersistenceManager.spawnedEnemies.ForEach(spawnedEnemy =>
-        {
-            spawnedEnemy.SpawnerId = EditorGUILayout.IntField("Spawner ID", spawnedEnemy.SpawnerId);
-            spawnedEnemy.ActorType = (ActorType) EditorGUILayout.EnumPopup("Actor Type", spawnedEnemy.ActorType);
-        });
-        
-        EditorUtils.EditListSize(
-            "Add Spawned Enemy",
-            "Remove Spawned Enemy",
+        EditorUtils.ResizeableList(
             devPersistenceManager.spawnedEnemies,
+            spawnedEnemy =>
+            {
+                spawnedEnemy.SpawnerId = EditorGUILayout.IntField("Spawner ID", spawnedEnemy.SpawnerId);
+                spawnedEnemy.ActorType = (ActorType) EditorGUILayout.EnumPopup("Actor Type", spawnedEnemy.ActorType);
+            },
             () => new DevPersistenceManager.SpawnedEnemy()
         );
         
