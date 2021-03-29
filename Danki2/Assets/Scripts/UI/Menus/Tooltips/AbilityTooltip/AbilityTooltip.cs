@@ -37,46 +37,26 @@ public class AbilityTooltip : Tooltip
     public static AbilityTooltip Create(Transform transform, AbilityReference ability)
     {
         AbilityTooltip abilityTooltip = Instantiate(TooltipLookup.Instance.AbilityTooltipPrefab, transform);
-        abilityTooltip.Activate(ability);
+        abilityTooltip.Activate(
+            ability,
+            PlayerListTooltipBuilder.Build(ability),
+            bonus => PlayerListTooltipBuilder.BuildBonus(ability, bonus)
+        );
+
         return abilityTooltip;
     }
 
     public static AbilityTooltip Create(Transform transform, Node node)
     {
         AbilityTooltip abilityTooltip = Instantiate(TooltipLookup.Instance.AbilityTooltipPrefab, transform);
-        abilityTooltip.Activate(node);
-        return abilityTooltip;
-    }
-
-    /// <summary>
-    /// Used to update the tooltip for abilities not in an ability tree.
-    /// </summary>
-    /// <param name="ability"></param>
-    private void Activate(AbilityReference ability)
-    {
-        List<TooltipSegment> tooltipSegments = PlayerListTooltipBuilder.Build(ability);
-
-        Activate(
-            ability,
-            tooltipSegments,
-            bonus => PlayerListTooltipBuilder.BuildBonus(ability, bonus)
-        );
-    }
-
-    /// <summary>
-    /// Used to update tooltip for abilities in the ability tree.
-    /// </summary>
-    /// <param name="node"></param>
-    private void Activate(Node node)
-    {
-        List<TooltipSegment> tooltipSegments = PlayerTreeTooltipBuilder.Build(node);
-
-        Activate(
+        abilityTooltip.Activate(
             node.Ability,
-            tooltipSegments,
-            bonus => PlayerTreeTooltipBuilder.BuildBonus(node, bonus),
+            abilityTooltip.PlayerTreeTooltipBuilder.Build(node),
+            bonus => abilityTooltip.PlayerTreeTooltipBuilder.BuildBonus(node, bonus),
             node.Depth
         );
+
+        return abilityTooltip;
     }
 
     private void Activate(
