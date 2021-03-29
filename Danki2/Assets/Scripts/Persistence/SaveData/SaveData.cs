@@ -8,7 +8,7 @@ public class SaveData
     public int Seed { get; set; }
 
     public int PlayerHealth { get; set; }
-    public AbilityTree AbilityTree { get; set; }
+    public SerializableAbilityTree SerializableAbilityTree { get; set; }
 
     public int CurrentRoomId { get; set; }
     public int DefeatRoomId { get; set; }
@@ -24,7 +24,7 @@ public class SaveData
             Version = Version,
             Seed = Seed,
             PlayerHealth = PlayerHealth,
-            SerializableAbilityTree = new SerializableAbilityTree(AbilityTree),
+            SerializableAbilityTree = SerializableAbilityTree,
             CurrentRoomId = CurrentRoomId,
             DefeatRoomId = DefeatRoomId,
             SerializableRoomSaveDataList = RoomSaveDataLookup.Values

@@ -160,10 +160,12 @@ MonoBehaviour:
     - GameplayDefeatScene
     - RandomisedScene
     - CatchAllScene
+    - AbilityScene
     _values:
     - fileName: EntryScene
       sceneType: 0
       gameplaySceneData:
+        roomTypes: 
         cameraOrientations: 
         entranceData: []
         exitData: []
@@ -171,6 +173,7 @@ MonoBehaviour:
     - fileName: MainMenu
       sceneType: 0
       gameplaySceneData:
+        roomTypes: 
         cameraOrientations: 
         entranceData: []
         exitData: []
@@ -178,6 +181,7 @@ MonoBehaviour:
     - fileName: GameplayEntryScene
       sceneType: 0
       gameplaySceneData:
+        roomTypes: 
         cameraOrientations: 
         entranceData: []
         exitData: []
@@ -185,6 +189,7 @@ MonoBehaviour:
     - fileName: GameplayExitScene
       sceneType: 0
       gameplaySceneData:
+        roomTypes: 
         cameraOrientations: 
         entranceData: []
         exitData: []
@@ -192,6 +197,7 @@ MonoBehaviour:
     - fileName: GameplayVictoryScene
       sceneType: 0
       gameplaySceneData:
+        roomTypes: 
         cameraOrientations: 
         entranceData: []
         exitData: []
@@ -199,6 +205,7 @@ MonoBehaviour:
     - fileName: GameplayDefeatScene
       sceneType: 0
       gameplaySceneData:
+        roomTypes: 
         cameraOrientations: 
         entranceData: []
         exitData: []
@@ -206,6 +213,7 @@ MonoBehaviour:
     - fileName: RandomisedScene
       sceneType: 1
       gameplaySceneData:
+        roomTypes: 0000000001000000
         cameraOrientations: 00000000010000000200000003000000
         entranceData:
         - id: 0
@@ -223,6 +231,7 @@ MonoBehaviour:
     - fileName: CatchAllScene
       sceneType: 1
       gameplaySceneData:
+        roomTypes: 0000000001000000
         cameraOrientations: 00000000010000000200000003000000
         entranceData:
         - id: 0
@@ -241,6 +250,28 @@ MonoBehaviour:
         - id: 3
           side: 3
         enemyEnemySpawnerIds: 00000000010000000200000003000000
+    - fileName: AbilityScene
+      sceneType: 1
+      gameplaySceneData:
+        roomTypes: 05000000
+        cameraOrientations: 00000000
+        entranceData:
+        - id: 0
+          side: 2
+        - id: 1
+          side: 1
+        - id: 2
+          side: 3
+        exitData:
+        - id: 0
+          side: 1
+        - id: 1
+          side: 0
+        - id: 2
+          side: 0
+        - id: 3
+          side: 3
+        enemyEnemySpawnerIds: 
 --- !u!4 &496116276
 Transform:
   m_ObjectHideFlags: 0
@@ -609,8 +640,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minRoomExits: 1
   maxRoomExits: 3
-  minRoomDepth: 5
-  maxRoomDepth: 7
+  minRoomDepth: 9
+  maxRoomDepth: 11
 --- !u!4 &1946525424
 Transform:
   m_ObjectHideFlags: 0

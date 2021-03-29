@@ -35,4 +35,12 @@ public static class ListUtils
     {
         list.Sort((a, b) => a.Id == b.Id ? 0 : a.Id < b.Id ? -1 : 1);
     }
+
+    /// <summary>
+    /// Helper method to allow adding items to lists with param syntax.
+    /// </summary>
+    public static void Add<T>(this List<T> list, params T[] items)
+    {
+        list.AddRange(items);
+    }
 }

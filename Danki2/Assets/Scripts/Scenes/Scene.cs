@@ -7,5 +7,6 @@
     GameplayVictoryScene,
     GameplayDefeatScene,
     RandomisedScene,
-    CatchAllScene
+    CatchAllScene,
+    AbilityScene
 }

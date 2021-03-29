@@ -29,7 +29,7 @@ public class SerializableSaveData
             Version = Version,
             Seed = Seed,
             PlayerHealth = PlayerHealth,
-            AbilityTree = SerializableAbilityTree.Deserialize(),
+            SerializableAbilityTree = SerializableAbilityTree,
             CurrentRoomId = CurrentRoomId,
             DefeatRoomId = DefeatRoomId,
             RoomSaveDataLookup = SerializableRoomSaveDataList.ToDictionary(

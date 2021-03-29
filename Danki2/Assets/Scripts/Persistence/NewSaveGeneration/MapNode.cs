@@ -14,9 +14,12 @@ public class MapNode
     public Dictionary<int, MapNode> ExitIdToChildLookup { get; } = new Dictionary<int, MapNode>();
     public Dictionary<MapNode, int> ChildToExitIdLookup { get; } = new Dictionary<MapNode, int>();
     public Dictionary<int, ActorType> SpawnerIdToSpawnedActor { get; } = new Dictionary<int, ActorType>();
+    public List<AbilityReference> AbilityChoices { get; } = new List<AbilityReference>();
 
     public bool IsRootNode => Parent == null;
     public bool IsLeafNode => Children.Count == 0;
+
+    public int Depth => IsRootNode ? 1 : Parent.Depth + 1;
 
     public void IterateDown(Action<MapNode> action, Func<MapNode, bool> filter = null)
     {

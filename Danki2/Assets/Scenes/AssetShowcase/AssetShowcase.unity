@@ -3719,6 +3719,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1285520992}
     m_Modifications:
+    - target: {fileID: 1873322766099463150, guid: 937a2be9f9a5f3b40aedafb045404f48,
+        type: 3}
+      propertyPath: spawnedEnemies.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1873322766099463151, guid: 937a2be9f9a5f3b40aedafb045404f48,
         type: 3}
       propertyPath: m_IsActive

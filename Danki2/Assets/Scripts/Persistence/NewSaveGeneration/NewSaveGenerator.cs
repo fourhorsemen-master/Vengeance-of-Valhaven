@@ -20,16 +20,20 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
         MapNode rootNode = MapGenerator.Instance.Generate();
         int defeatRoomId = rootNode.FindMaxId() + 1;
 
+        EnumDictionary<AbilityReference, int> ownedAbilities = new EnumDictionary<AbilityReference, int>(0);
+        ownedAbilities[AbilityReference.Slash] = 1;
+        ownedAbilities[AbilityReference.Lunge] = 1;
+
         return new SaveData
         {
             Version = SaveDataVersion,
             Seed = seed,
             PlayerHealth = 20,
-            AbilityTree = AbilityTreeFactory.CreateTree(
-                new EnumDictionary<AbilityReference, int>(3),
-                AbilityTreeFactory.CreateNode(AbilityReference.SweepingStrike),
+            SerializableAbilityTree = AbilityTreeFactory.CreateTree(
+                ownedAbilities,
+                AbilityTreeFactory.CreateNode(AbilityReference.Slash),
                 AbilityTreeFactory.CreateNode(AbilityReference.Lunge)
-            ),
+            ).Serialize(),
             CurrentRoomId = 0,
             DefeatRoomId = defeatRoomId,
             RoomSaveDataLookup = GenerateRoomSaveDataLookup(rootNode, defeatRoomId)
@@ -48,6 +52,9 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
                 case RoomType.Boss:
                     roomSaveDataLookup[node.Id] = GenerateCombatRoomSaveData(node);
                     break;
+                case RoomType.Ability:
+                    roomSaveDataLookup[node.Id] = GenerateAbilityRoomSaveData(node);
+                    break;
                 case RoomType.Victory:
                     roomSaveDataLookup[node.Id] = GenerateVictoryRoomSaveData(node);
                     break;
@@ -61,16 +68,34 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
 
     private RoomSaveData GenerateCombatRoomSaveData(MapNode node)
     {
-        return new RoomSaveData
+        RoomSaveData roomSaveData = GenerateCommonRoomSaveData(node);
+        roomSaveData.CombatRoomSaveData = new CombatRoomSaveData
+        {
+            EnemiesCleared = false,
+            SpawnerIdToSpawnedActor = node.SpawnerIdToSpawnedActor
+        };
+
+        return roomSaveData;
+    }
+
+    private RoomSaveData GenerateAbilityRoomSaveData(MapNode node)
+    {
+        RoomSaveData roomSaveData = GenerateCommonRoomSaveData(node);
+        roomSaveData.AbilityRoomSaveData = new AbilityRoomSaveData
+        {
+            AbilityChoices = node.AbilityChoices
+        };
+
+        return roomSaveData;
+    }
+
+    private RoomSaveData GenerateCommonRoomSaveData(MapNode node)
+    {
+        return new RoomSaveData()
         {
             Id = node.Id,
             Scene = node.Scene,
             RoomType = node.RoomType,
-            CombatRoomSaveData = new CombatRoomSaveData
-            {
-                EnemiesCleared = false,
-                SpawnerIdToSpawnedActor = node.SpawnerIdToSpawnedActor
-            },
             RoomTransitionerIdToNextRoomId = node.ExitIdToChildLookup.ToDictionary(
                 kvp => kvp.Key,
                 kvp => kvp.Value.Id

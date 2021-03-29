@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -10,15 +12,19 @@ using UnityEngine;
 /// </summary>
 public class DevPersistenceManager : PersistenceManager
 {
-    [SerializeField] private int ownedAbilityCount = 0;
-    [SerializeField] private AbilityReference leftAbility = AbilityReference.Slash;
-    [SerializeField] private AbilityReference rightAbility = AbilityReference.Slash;
-    [SerializeField] private int playerHealth = 0;
-    [SerializeField] private Pole cameraOrientation = Pole.North;
-    [SerializeField] private ActorType spawnedEnemy = ActorType.Wolf;
-    [SerializeField] private int moduleSeed = 0;
-    [SerializeField] private int transitionModuleSeed = 0;
-    [SerializeField] private int playerSpawnerId = 0;
+    [SerializeField] public int ownedAbilityCount = 0;
+    [SerializeField] public AbilityReference leftAbility = AbilityReference.Slash;
+    [SerializeField] public AbilityReference rightAbility = AbilityReference.Slash;
+    [SerializeField] public int playerHealth = 0;
+    [SerializeField] public Pole cameraOrientation = Pole.North;
+    [SerializeField] public List<SpawnedEnemy> spawnedEnemies = new List<SpawnedEnemy>();
+    [SerializeField] public int moduleSeed = 0;
+    [SerializeField] public int transitionModuleSeed = 0;
+    [SerializeField] public int playerSpawnerId = 0;
+    [SerializeField] public RoomType roomType = RoomType.Combat;
+    [SerializeField] public AbilityReference abilityChoice1 = AbilityReference.Slash;
+    [SerializeField] public AbilityReference abilityChoice2 = AbilityReference.Slash;
+    [SerializeField] public AbilityReference abilityChoice3 = AbilityReference.Slash;
 
     public override SaveData SaveData => GenerateNewSaveData();
 
@@ -43,24 +49,35 @@ public class DevPersistenceManager : PersistenceManager
         return new SaveData
         {
             PlayerHealth = playerHealth,
-            AbilityTree = AbilityTreeFactory.CreateTree(
+            SerializableAbilityTree = AbilityTreeFactory.CreateTree(
                 new EnumDictionary<AbilityReference, int>(ownedAbilityCount),
                 AbilityTreeFactory.CreateNode(leftAbility),
                 AbilityTreeFactory.CreateNode(rightAbility)
-            ),
+            ).Serialize(),
             CurrentRoomId = 0,
             RoomSaveDataLookup = new Dictionary<int, RoomSaveData>
             {
                 [0] = new RoomSaveData
                 {
-                    RoomType = RoomType.Combat,
+                    RoomType = roomType,
                     CombatRoomSaveData = new CombatRoomSaveData
                     {
                         EnemiesCleared = false,
-                        SpawnerIdToSpawnedActor = new Dictionary<int, ActorType>
+                        SpawnerIdToSpawnedActor = spawnedEnemies.ToDictionary(
+                            spawnedEnemy => spawnedEnemy.SpawnerId,
+                            spawnedEnemy => spawnedEnemy.ActorType
+                        )
+                    },
+                    AbilityRoomSaveData = new AbilityRoomSaveData
+                    {
+                        AbilityChoices = new List<AbilityReference>
                         {
-                            [0] = spawnedEnemy
-                        }
+                            abilityChoice1,
+                            abilityChoice2,
+                            abilityChoice3
+                        },
+                        AbilitiesViewed = false,
+                        AbilitySelected = false
                     },
                     RoomTransitionerIdToNextRoomId = new Dictionary<int, int>
                     {
@@ -73,5 +90,15 @@ public class DevPersistenceManager : PersistenceManager
                 }
             }
         };
+    }
+
+    [Serializable]
+    public class SpawnedEnemy
+    {
+        [SerializeField] private int spawnerId;
+        [SerializeField] private ActorType actorType;
+
+        public int SpawnerId { get => spawnerId; set => spawnerId = value; }
+        public ActorType ActorType { get => actorType; set => actorType = value; }
     }
 }

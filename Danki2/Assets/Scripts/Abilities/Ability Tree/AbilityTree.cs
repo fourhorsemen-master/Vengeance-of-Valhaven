@@ -86,6 +86,17 @@ public abstract class AbilityTree
         CurrentDepthSubject.Next(CurrentDepth);
     }
 
+    public void AddToInventory(AbilityReference abilityReference)
+    {
+        OwnedAbilities[abilityReference]++;
+        UpdateInventory();
+    }
+
+    public SerializableAbilityTree Serialize()
+    {
+        return new SerializableAbilityTree(this);
+    }
+
     private void UpdateInventory()
     {
         Inventory = new EnumDictionary<AbilityReference, int>(OwnedAbilities);

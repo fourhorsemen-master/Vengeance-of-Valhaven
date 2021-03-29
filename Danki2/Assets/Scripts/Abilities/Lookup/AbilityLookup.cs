@@ -15,6 +15,7 @@ public class AbilityLookup : Singleton<AbilityLookup>
     private readonly AbilityMap<AbilityData> baseAbilityDataMap = new AbilityMap<AbilityData>();
     private readonly AbilityMap<List<TemplatedTooltipSegment>> templatedTooltipSegmentsMap = new AbilityMap<List<TemplatedTooltipSegment>>();
     private readonly AbilityMap<Dictionary<string, AbilityBonusData>> abilityBonusDataMap = new AbilityMap<Dictionary<string, AbilityBonusData>>();
+    private readonly AbilityMap<bool> playerCanCastLookup = new AbilityMap<bool>();
     private readonly AbilityMap<bool> finisherLookup = new AbilityMap<bool>();
     private readonly AbilityMap<float> channelDurationMap = new AbilityMap<float>();
     private readonly AbilityMap<string> fmodStartEventRefs = new AbilityMap<string>();
@@ -117,6 +118,8 @@ public class AbilityLookup : Singleton<AbilityLookup>
 
     public Dictionary<string, AbilityBonusData> GetAbilityBonusDataLookup(AbilityReference abilityReference) => abilityBonusDataMap[abilityReference];
 
+    public bool PlayerCanCast(AbilityReference abilityReference) => playerCanCastLookup[abilityReference];
+
     public bool IsFinisher(AbilityReference abilityReference) => finisherLookup[abilityReference];
 
     public bool TryGetChannelDuration(AbilityReference abilityReference, out float channelDuration) =>
@@ -133,6 +136,7 @@ public class AbilityLookup : Singleton<AbilityLookup>
             fmodEndEventRefs[ability] = serializableAbilityMetadata.FmodEndEventRef;
             baseAbilityDataMap[ability] = serializableAbilityMetadata.BaseAbilityData;
             finisherLookup[ability] = serializableAbilityMetadata.Finisher;
+            playerCanCastLookup[ability] = serializableAbilityMetadata.PlayerCanCast;
 
             if (abilityAttributeDataLookup[ability].Type.IsSubclassOf(typeof(Channel)))
             {

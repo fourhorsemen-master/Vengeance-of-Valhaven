@@ -19,18 +19,25 @@ public class AbilityListingPanel : MonoBehaviour, IBeginDragHandler, IDragHandle
     private AbilityReference ability;
     private int quantity;
 
+    private AbilityTooltip tooltip;
+
+    private void OnDisable()
+    {
+        if (tooltip) tooltip.Destroy();
+    }
+
     public void OnPointerEnter(PointerEventData _)
     {
         if (AbilityTreeEditorMenu.Instance.IsDraggingFromList) return;
 
-        AbilityTooltip.Instance.Activate(ability);
+        tooltip = AbilityTreeEditorMenu.Instance.CreateTooltip(ability);
         if (highlighter.HighlightState != DraggableHighlightState.Dragging)
             highlighter.HighlightState = DraggableHighlightState.Hover;
     }
 
     public void OnPointerExit(PointerEventData _)
     {
-        AbilityTooltip.Instance.Deactivate();
+        if (tooltip) tooltip.Destroy();
         if (highlighter.HighlightState != DraggableHighlightState.Dragging)
             highlighter.HighlightState = DraggableHighlightState.Default;
     }

@@ -43,7 +43,7 @@ public class Player : Actor
     {
         base.Awake();
 
-        AbilityTree = PersistenceManager.Instance.SaveData.AbilityTree;
+        AbilityTree = PersistenceManager.Instance.SaveData.SerializableAbilityTree.Deserialize();
         ComboManager = new ComboManager(this, updateSubject, rollResetsCombo);
         TargetFinder = new PlayerTargetFinder(this, updateSubject);
 

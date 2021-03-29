@@ -33,6 +33,8 @@ public class TreeAbility : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     private Subscription<AbilityReference> dragStartSubscription;
     private Subscription<AbilityReference> dragStopSubscription;
 
+    private AbilityTooltip tooltip;
+    
     private void Start()
     {
         dragStartSubscription = AbilityTreeEditorMenu.Instance.ListAbilityDragStartSubject
@@ -51,6 +53,7 @@ public class TreeAbility : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     {
         dragStartSubscription?.Unsubscribe();
         dragStopSubscription?.Unsubscribe();
+        if (tooltip) tooltip.Destroy();
     }
 
     public void OnPointerEnter(PointerEventData _)
@@ -59,7 +62,7 @@ public class TreeAbility : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
         AbilityTreeEditorMenu.Instance.CurrentTreeNodeHover = node;
 
-        AbilityTooltip.Instance.Activate(node);
+        tooltip = AbilityTreeEditorMenu.Instance.CreateTooltip(node);
         if (highlighter.HighlightState != DraggableHighlightState.Dragging)
             highlighter.HighlightState = DraggableHighlightState.Hover;
     }
@@ -67,7 +70,7 @@ public class TreeAbility : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     public void OnPointerExit(PointerEventData _)
     {
         AbilityTreeEditorMenu.Instance.CurrentTreeNodeHover = null;
-        AbilityTooltip.Instance.Deactivate();
+        if (tooltip) tooltip.Destroy();
         if (highlighter.HighlightState != DraggableHighlightState.Dragging)
             highlighter.HighlightState = DraggableHighlightState.Default;
     }
