@@ -12,19 +12,19 @@ using UnityEngine;
 /// </summary>
 public class DevPersistenceManager : PersistenceManager
 {
-    [SerializeField] private int ownedAbilityCount = 0;
-    [SerializeField] private AbilityReference leftAbility = AbilityReference.Slash;
-    [SerializeField] private AbilityReference rightAbility = AbilityReference.Slash;
-    [SerializeField] private int playerHealth = 0;
-    [SerializeField] private Pole cameraOrientation = Pole.North;
-    [SerializeField] private List<SpawnedEnemy> spawnedEnemies = new List<SpawnedEnemy>();
-    [SerializeField] private int moduleSeed = 0;
-    [SerializeField] private int transitionModuleSeed = 0;
-    [SerializeField] private int playerSpawnerId = 0;
-    [SerializeField] private RoomType roomType = RoomType.Combat;
-    [SerializeField] private AbilityReference abilityChoice1 = AbilityReference.Slash;
-    [SerializeField] private AbilityReference abilityChoice2 = AbilityReference.Slash;
-    [SerializeField] private AbilityReference abilityChoice3 = AbilityReference.Slash;
+    [SerializeField] public int ownedAbilityCount = 0;
+    [SerializeField] public AbilityReference leftAbility = AbilityReference.Slash;
+    [SerializeField] public AbilityReference rightAbility = AbilityReference.Slash;
+    [SerializeField] public int playerHealth = 0;
+    [SerializeField] public Pole cameraOrientation = Pole.North;
+    [SerializeField] public List<SpawnedEnemy> spawnedEnemies = new List<SpawnedEnemy>();
+    [SerializeField] public int moduleSeed = 0;
+    [SerializeField] public int transitionModuleSeed = 0;
+    [SerializeField] public int playerSpawnerId = 0;
+    [SerializeField] public RoomType roomType = RoomType.Combat;
+    [SerializeField] public AbilityReference abilityChoice1 = AbilityReference.Slash;
+    [SerializeField] public AbilityReference abilityChoice2 = AbilityReference.Slash;
+    [SerializeField] public AbilityReference abilityChoice3 = AbilityReference.Slash;
 
     public override SaveData SaveData => GenerateNewSaveData();
 
@@ -93,7 +93,7 @@ public class DevPersistenceManager : PersistenceManager
     }
 
     [Serializable]
-    private class SpawnedEnemy
+    public class SpawnedEnemy
     {
         [SerializeField] private int spawnerId;
         [SerializeField] private ActorType actorType;
