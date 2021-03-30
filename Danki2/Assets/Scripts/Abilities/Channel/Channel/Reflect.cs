@@ -17,10 +17,7 @@ public class Reflect : Channel
 
     public override ChannelEffectOnMovement EffectOnMovement => ChannelEffectOnMovement.Root;
 
-    public Reflect(Actor owner, AbilityData abilityData, string fmodStartEvent, string fmodEndEvent, string[] availableBonuses, float duration)
-        : base(owner, abilityData, fmodStartEvent, fmodEndEvent, availableBonuses, duration)
-    {
-    }
+    public Reflect(AbilityContructionArgs arguments) : base(arguments) { }
 
     public override void Start(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {

@@ -10,10 +10,7 @@ public class Pounce : InstantCast
     private const float DamageRadius = 2f;
     private const float PauseDuration = 0.3f;
 
-    public Pounce(Actor owner, AbilityData abilityData, string fmodStartEvent, string fmodEndEvent, string[] availableBonuses)
-        : base(owner, abilityData, fmodStartEvent, fmodEndEvent, availableBonuses)
-    {
-    }
+    public Pounce(AbilityContructionArgs arguments) : base(arguments) { }
 
     public override void Cast(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {

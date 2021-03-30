@@ -14,10 +14,7 @@ public class FanOfKnives : InstantCast
 
     private int collisionCounter = 0;
 
-    public FanOfKnives(Actor owner, AbilityData abilityData, string fmodStartEvent, string fmodEndEvent, string[] availableBonuses)
-        : base(owner, abilityData, fmodStartEvent, fmodEndEvent, availableBonuses)
-    {
-    }
+    public FanOfKnives(AbilityContructionArgs arguments) : base(arguments) { }
 
     public override void Cast(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {

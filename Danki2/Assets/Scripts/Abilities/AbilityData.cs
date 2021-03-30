@@ -52,7 +52,7 @@ public struct AbilityData
             a.secondaryDamage * i,
             a.heal * i,
             a.shield * i
-        );
+        ) ;
     }
 
     public static AbilityData FromAbilityDataDiffers(List<IAbilityDataDiffer> differs, Node node)

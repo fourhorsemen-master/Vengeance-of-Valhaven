@@ -84,7 +84,7 @@ public class SerializableMetadataLookupValidator
 
     private void ValidateInstantCast(Type type)
     {
-        if (type.GetConstructor(new[] {typeof(Actor), typeof(AbilityData), typeof(string), typeof(string), typeof(string[])}) == null)
+        if (type.GetConstructor(new[] {typeof(AbilityContructionArgs)}) == null)
         {
             LogError($"Could not find valid instant cast constructor on \"{type}\".");
         }
@@ -92,7 +92,7 @@ public class SerializableMetadataLookupValidator
 
     private void ValidateChannel(Type type)
     {
-        if (type.GetConstructor(new[] {typeof(Actor), typeof(AbilityData), typeof(string), typeof(string), typeof(string[]), typeof(float)}) == null)
+        if (type.GetConstructor(new[] {typeof(AbilityContructionArgs)}) == null)
         {
             LogError($"Could not find valid channel constructor on \"{type}\".");
         }

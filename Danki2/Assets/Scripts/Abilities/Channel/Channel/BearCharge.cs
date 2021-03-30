@@ -21,8 +21,7 @@ public class BearCharge : Channel
     
     public override ChannelEffectOnMovement EffectOnMovement => ChannelEffectOnMovement.None;
 
-    public BearCharge(Actor owner, AbilityData abilityData, string fmodStartEvent, string fmodEndEvent, string[] availableBonuses, float duration)
-        : base(owner, abilityData, fmodStartEvent, fmodEndEvent, availableBonuses, duration)
+    public BearCharge(AbilityContructionArgs arguments) : base(arguments)
     {
         repeater = new Repeater(ChargeEffectInterval, ChargeEffect, ChargeEffectInterval);
     }

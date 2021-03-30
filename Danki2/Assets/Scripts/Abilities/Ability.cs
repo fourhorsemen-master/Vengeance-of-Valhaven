@@ -6,6 +6,37 @@ using UnityEngine;
 using STOP_MODE = FMOD.Studio.STOP_MODE;
 using System;
 
+public class AbilityContructionArgs
+{
+    public AbilityContructionArgs(Actor owner, AbilityData abilityData, string fmodStartEvent, string fmodEndEvent, string[] activeBonuses, AbilityAnimationType animationType)
+	{
+        this.owner = owner;
+        this.abilityData = abilityData;
+        this.fmodStartEvent = fmodStartEvent;
+        this.fmodEndEvent = fmodEndEvent;
+        this.activeBonuses = activeBonuses;
+        this.animation = animationType;
+	}
+
+	public AbilityContructionArgs(Actor owner, AbilityData abilityData, string fmodStartEvent, string fmodEndEvent, string[] activeBonuses, AbilityAnimationType animationType, float? channelDuration)
+	{
+		this.owner = owner;
+		this.abilityData = abilityData;
+		this.fmodStartEvent = fmodStartEvent;
+		this.fmodEndEvent = fmodEndEvent;
+		this.activeBonuses = activeBonuses;
+		this.animation = animationType;
+		this.channelDuration = channelDuration;
+	}
+	public Actor owner;
+    public AbilityData abilityData;
+    public string fmodStartEvent;
+    public string fmodEndEvent;
+    public string[] activeBonuses;
+    public AbilityAnimationType animation;
+    public float? channelDuration;
+}
+
 public abstract class Ability
 {
     // Max angle and min vertical angles you can target with melee attacks
@@ -14,6 +45,8 @@ public abstract class Ability
 
     private readonly string fmodStartEvent;
     private readonly string fmodEndEvent;
+
+    private readonly AbilityAnimationType animationType;
 
     private readonly List<EventInstance> startEventInstances = new List<EventInstance>();
     private readonly List<EventInstance> endEventInstances = new List<EventInstance>();
@@ -26,13 +59,14 @@ public abstract class Ability
 
     private string[] ActiveBonuses { get; }
 
-    protected Ability(Actor owner, AbilityData abilityData, string fmodStartEvent, string fmodEndEvent, string[] activeBonuses)
+    protected Ability( AbilityContructionArgs arguments )
     {
-        Owner = owner;
-        AbilityData = abilityData;
-        this.fmodStartEvent = fmodStartEvent;
-        this.fmodEndEvent = fmodEndEvent;
-        ActiveBonuses = activeBonuses;
+        Owner = arguments.owner;
+        AbilityData = arguments.abilityData;
+        this.fmodStartEvent = arguments.fmodStartEvent;
+        this.fmodEndEvent = arguments.fmodEndEvent;
+        ActiveBonuses = arguments.activeBonuses;
+        animationType = arguments.animation;
         SuccessFeedbackSubject = new Subject<bool>();
     }
 
