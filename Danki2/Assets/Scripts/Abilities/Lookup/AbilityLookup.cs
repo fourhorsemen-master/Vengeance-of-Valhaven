@@ -134,6 +134,9 @@ public class AbilityLookup : Singleton<AbilityLookup>
     public bool TryGetChannelDuration(AbilityReference abilityReference, out float channelDuration) =>
         channelDurationMap.TryGetValue(abilityReference, out channelDuration);
 
+    public bool TryGetAnimationType(AbilityReference abilityReference, out AbilityAnimationType animationType) =>
+        animationTypes.TryGetValue(abilityReference, out animationType);
+
     private void BuildMetadataLookups()
     {
         EnumUtils.ForEach<AbilityReference>(ability =>
