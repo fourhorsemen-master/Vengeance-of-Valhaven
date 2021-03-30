@@ -8,10 +8,7 @@ public class Bash : InstantCast
     private const float Radius = 0.8f;
     private const float PauseDuration = 0.3f;
 
-    public Bash(Actor owner, AbilityData abilityData, string fmodStartEvent, string fmodEndEvent, string[] availableBonuses)
-        : base(owner, abilityData, fmodStartEvent, fmodEndEvent, availableBonuses)
-    {
-    }
+    public Bash(AbilityConstructionArgs arguments) : base(arguments) { }
 
     public override void Cast(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
