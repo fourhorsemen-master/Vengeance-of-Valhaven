@@ -12,10 +12,7 @@ public class Execute : Cast
     private readonly Subject onCastFail = new Subject();
     private readonly Subject<Actor> onCastComplete = new Subject<Actor>();
 
-    public Execute(Actor owner, AbilityData abilityData, string fmodStartEvent, string fmodEndEvent, string[] availableBonuses, float duration)
-        : base(owner, abilityData, fmodStartEvent, fmodEndEvent, availableBonuses, duration)
-    {
-    }
+    public Execute(AbilityConstructionArgs arguments) : base(arguments) { }
 
     protected override void Start()
     {

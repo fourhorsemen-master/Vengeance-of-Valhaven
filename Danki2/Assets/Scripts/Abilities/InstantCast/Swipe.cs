@@ -8,10 +8,7 @@ public class Swipe : InstantCast
     private const float PauseDuration = 0.3f;
     private const float DamageRadius = 3f;
 
-    public Swipe(Actor owner, AbilityData abilityData, string fmodStartEvent, string fmodEndEvent, string[] availableBonuses)
-        : base(owner, abilityData, fmodStartEvent, fmodEndEvent, availableBonuses)
-    {
-    }
+    public Swipe(AbilityConstructionArgs arguments) : base(arguments) { }
 
     public override void Cast(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {

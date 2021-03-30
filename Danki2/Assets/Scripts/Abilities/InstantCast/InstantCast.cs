@@ -2,10 +2,7 @@
 
 public abstract class InstantCast : Ability
 {
-    protected InstantCast(Actor owner, AbilityData abilityData, string fmodStartEvent, string fmodEndEvent, string[] availableBonuses)
-        : base(owner, abilityData, fmodStartEvent, fmodEndEvent, availableBonuses)
-    {
-    }
+    protected InstantCast(AbilityConstructionArgs arguments) : base(arguments) { }
 
     public abstract void Cast(Vector3 floorTargetPosition, Vector3 offsetTargetPosition);
 

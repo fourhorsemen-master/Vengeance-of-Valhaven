@@ -8,10 +8,10 @@ public abstract class Channel : Ability
 
     public virtual ChannelEffectOnMovement EffectOnMovement => ChannelEffectOnMovement.Stun;
 
-    protected Channel(Actor owner, AbilityData abilityData, string fmodStartEvent, string fmodEndEvent, string[] availableBonuses, float duration)
-        : base(owner, abilityData, fmodStartEvent, fmodEndEvent, availableBonuses)
+    protected Channel(AbilityConstructionArgs arguments)
+        : base(arguments)
     {
-        Duration = duration;
+        Duration = arguments.ChannelDuration;
     }
     
     public virtual void Start(Vector3 floorTargetPosition, Vector3 offsetTargetPosition) { }

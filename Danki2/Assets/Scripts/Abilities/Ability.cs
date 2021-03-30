@@ -15,6 +15,8 @@ public abstract class Ability
     private readonly string fmodStartEvent;
     private readonly string fmodEndEvent;
 
+    private readonly AbilityAnimationType animationType;
+
     private readonly List<EventInstance> startEventInstances = new List<EventInstance>();
     private readonly List<EventInstance> endEventInstances = new List<EventInstance>();
     
@@ -26,13 +28,14 @@ public abstract class Ability
 
     private string[] ActiveBonuses { get; }
 
-    protected Ability(Actor owner, AbilityData abilityData, string fmodStartEvent, string fmodEndEvent, string[] activeBonuses)
+    protected Ability( AbilityConstructionArgs arguments )
     {
-        Owner = owner;
-        AbilityData = abilityData;
-        this.fmodStartEvent = fmodStartEvent;
-        this.fmodEndEvent = fmodEndEvent;
-        ActiveBonuses = activeBonuses;
+        Owner = arguments.Owner;
+        AbilityData = arguments.AbilityDataObject;
+        this.fmodStartEvent = arguments.FmodStartEvent;
+        this.fmodEndEvent = arguments.FmodEndEvent;
+        ActiveBonuses = arguments.ActiveBonuses;
+        animationType = arguments.Animation;
         SuccessFeedbackSubject = new Subject<bool>();
     }
 
