@@ -4,7 +4,7 @@ public abstract class Cast : Channel
 {
     public sealed override ChannelType ChannelType => ChannelType.Cast;
 
-    protected Cast(AbilityContructionArgs arguments) : base(arguments) { }
+    protected Cast(AbilityConstructionArgs arguments) : base(arguments) { }
 
     public sealed override void Start(Vector3 floorTargetPosition, Vector3 offsetTargetPosition) => Start();
 

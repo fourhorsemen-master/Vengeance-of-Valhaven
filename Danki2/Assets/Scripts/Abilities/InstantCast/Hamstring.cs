@@ -8,7 +8,7 @@ public class Hamstring : InstantCast
     private const int VulnerableStacks = 2;
     private const int HackDamageBonus = 4;
     
-    public Hamstring(AbilityContructionArgs arguments) : base(arguments) { }
+    public Hamstring(AbilityConstructionArgs arguments) : base(arguments) { }
 
     public override void Cast(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {

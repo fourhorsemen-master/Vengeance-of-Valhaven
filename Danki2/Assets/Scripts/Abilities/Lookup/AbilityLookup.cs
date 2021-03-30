@@ -22,8 +22,8 @@ public class AbilityLookup : Singleton<AbilityLookup>
     private readonly AbilityMap<string> fmodEndEventRefs = new AbilityMap<string>();
     private readonly AbilityMap<AbilityAnimationType> animationTypes = new AbilityMap<AbilityAnimationType>();
 
-    private readonly AbilityMap<Func<AbilityContructionArgs, InstantCast>> instantCastBuilderMap = new AbilityMap<Func<AbilityContructionArgs, InstantCast>>();
-    private readonly AbilityMap<Func<AbilityContructionArgs, Channel>> channelBuilderMap = new AbilityMap<Func<AbilityContructionArgs, Channel>>();
+    private readonly AbilityMap<Func<AbilityConstructionArgs, InstantCast>> instantCastBuilderMap = new AbilityMap<Func<AbilityConstructionArgs, InstantCast>>();
+    private readonly AbilityMap<Func<AbilityConstructionArgs, Channel>> channelBuilderMap = new AbilityMap<Func<AbilityConstructionArgs, Channel>>();
     private readonly AbilityMap<AbilityType> abilityTypeMap = new AbilityMap<AbilityType>();
     private readonly AbilityMap<ChannelType> channelTypeMap = new AbilityMap<ChannelType>();
 
@@ -67,7 +67,7 @@ public class AbilityLookup : Singleton<AbilityLookup>
         {
             AbilityData abilityData = baseAbilityDataMap[abilityReference] + abilityDataDiff;
 
-            AbilityContructionArgs args = new AbilityContructionArgs(
+            AbilityConstructionArgs args = new AbilityConstructionArgs(
                 owner,
                 abilityData,
                 fmodStartEventRefs[abilityReference],
@@ -96,7 +96,7 @@ public class AbilityLookup : Singleton<AbilityLookup>
         {
             AbilityData abilityData = baseAbilityDataMap[abilityReference] + abilityDataDiff;
 
-            AbilityContructionArgs args = new AbilityContructionArgs(
+            AbilityConstructionArgs args = new AbilityConstructionArgs(
                 owner, 
                 abilityData, 
                 fmodStartEventRefs[abilityReference], 
@@ -201,7 +201,7 @@ public class AbilityLookup : Singleton<AbilityLookup>
 
             if (type.IsSubclassOf(typeof(InstantCast)))
             {
-                ConstructorInfo constructor = type.GetConstructor(new [] {typeof(AbilityContructionArgs)});
+                ConstructorInfo constructor = type.GetConstructor(new [] {typeof(AbilityConstructionArgs)});
                 instantCastBuilderMap[abilityReference] = (a) => (InstantCast)constructor.Invoke(new object[] {a});
                 abilityTypeMap[abilityReference] = AbilityType.InstantCast;
                 continue;
@@ -209,7 +209,7 @@ public class AbilityLookup : Singleton<AbilityLookup>
 
             if (type.IsSubclassOf(typeof(Channel)))
             {
-                ConstructorInfo constructor = type.GetConstructor(new [] {typeof(Actor), typeof(AbilityData), typeof(string), typeof(string), typeof(string[]), typeof(float), typeof(AbilityAnimationType) });
+                ConstructorInfo constructor = type.GetConstructor(new [] {typeof(AbilityConstructionArgs)});
                 channelBuilderMap[abilityReference] = (a) => (Channel)constructor.Invoke(new object[] {a});
                 abilityTypeMap[abilityReference] = AbilityType.Channel;
                 BuildChannelTypeLookup(abilityReference, type);

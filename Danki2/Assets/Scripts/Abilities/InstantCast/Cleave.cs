@@ -8,7 +8,7 @@ public class Cleave : InstantCast
     private const float KnockBackDuration = 0.3f;
     private const float KnockBackSpeed = 8f;
 
-    public Cleave(AbilityContructionArgs arguments) : base(arguments) { }
+    public Cleave(AbilityConstructionArgs arguments) : base(arguments) { }
 
     public override void Cast(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {

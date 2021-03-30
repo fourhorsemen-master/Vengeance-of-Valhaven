@@ -8,7 +8,7 @@ public class Maul : InstantCast
     private const float BiteRange = 2.5f;
     private const float SlowDuration = 2f;
 
-    public Maul(AbilityContructionArgs arguments) : base(arguments) { }
+    public Maul(AbilityConstructionArgs arguments) : base(arguments) { }
 
     public override void Cast(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {

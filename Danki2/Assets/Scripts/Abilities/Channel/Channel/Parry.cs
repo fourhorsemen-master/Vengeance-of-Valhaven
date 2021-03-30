@@ -12,7 +12,7 @@ public class Parry : Channel
     private bool receivedDamage = false;
     private Guid effectId;
 
-    public Parry(AbilityContructionArgs arguments) : base(arguments) { }
+    public Parry(AbilityConstructionArgs arguments) : base(arguments) { }
 
     public override void Start(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {

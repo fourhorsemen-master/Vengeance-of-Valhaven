@@ -18,7 +18,7 @@ public class Whirlwind : Channel
 
     public override ChannelEffectOnMovement EffectOnMovement => ChannelEffectOnMovement.None;
 
-    public Whirlwind(AbilityContructionArgs arguments) : base(arguments) { }
+    public Whirlwind(AbilityConstructionArgs arguments) : base(arguments) { }
 
     public override void Start(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {

@@ -21,7 +21,7 @@ public class BearCharge : Channel
     
     public override ChannelEffectOnMovement EffectOnMovement => ChannelEffectOnMovement.None;
 
-    public BearCharge(AbilityContructionArgs arguments) : base(arguments)
+    public BearCharge(AbilityConstructionArgs arguments) : base(arguments)
     {
         repeater = new Repeater(ChargeEffectInterval, ChargeEffect, ChargeEffectInterval);
     }

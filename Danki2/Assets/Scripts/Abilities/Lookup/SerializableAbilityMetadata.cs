@@ -2,15 +2,6 @@
 using System;
 using UnityEngine;
 
-public enum AbilityAnimationType
-{
-	None,
-	Slash,
-	Lunge,
-	OverheadSlash,
-	GroundSlam
-}
-
 [Serializable]
 public class SerializableAbilityMetadata
 {

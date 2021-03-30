@@ -14,7 +14,7 @@ public class FanOfKnives : InstantCast
 
     private int collisionCounter = 0;
 
-    public FanOfKnives(AbilityContructionArgs arguments) : base(arguments) { }
+    public FanOfKnives(AbilityConstructionArgs arguments) : base(arguments) { }
 
     public override void Cast(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {

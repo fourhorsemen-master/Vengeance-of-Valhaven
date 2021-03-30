@@ -11,7 +11,7 @@ public class Disengage : InstantCast
     private const float partingShotRange = 2.2f;
     private const float smashObjectScaleFactor = 1.28f;
 
-    public Disengage(AbilityContructionArgs arguments) : base(arguments) { }
+    public Disengage(AbilityConstructionArgs arguments) : base(arguments) { }
 
     public override void Cast(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {

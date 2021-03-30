@@ -9,7 +9,7 @@ public class GrapplingHook : InstantCast
     private const float pullOffset = 2f;
     private const float stunDuration = 2f;
 
-    public GrapplingHook(AbilityContructionArgs arguments) : base(arguments) { }
+    public GrapplingHook(AbilityConstructionArgs arguments) : base(arguments) { }
 
     public override void Cast(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {

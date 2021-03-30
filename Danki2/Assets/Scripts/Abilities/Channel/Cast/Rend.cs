@@ -6,7 +6,7 @@ public class Rend : Cast
     private const float Range = 3f;
     private const int BleedStacks = 2;
 
-    public Rend(AbilityContructionArgs arguments) : base(arguments) { }
+    public Rend(AbilityConstructionArgs arguments) : base(arguments) { }
 
     public override void End(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {

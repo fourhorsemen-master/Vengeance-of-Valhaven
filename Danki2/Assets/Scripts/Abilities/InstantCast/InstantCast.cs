@@ -2,7 +2,7 @@
 
 public abstract class InstantCast : Ability
 {
-    protected InstantCast(AbilityContructionArgs arguments) : base(arguments) { }
+    protected InstantCast(AbilityConstructionArgs arguments) : base(arguments) { }
 
     public abstract void Cast(Vector3 floorTargetPosition, Vector3 offsetTargetPosition);
 

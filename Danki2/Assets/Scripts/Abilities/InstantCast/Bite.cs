@@ -6,7 +6,7 @@ public class Bite : InstantCast
     public const float Range = 2f;
     private const float PauseDuration = 0.3f;
 
-    public Bite(AbilityContructionArgs arguments) : base(arguments) { }
+    public Bite(AbilityConstructionArgs arguments) : base(arguments) { }
 
     public override void Cast(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {

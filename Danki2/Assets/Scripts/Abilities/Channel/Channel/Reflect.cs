@@ -17,7 +17,7 @@ public class Reflect : Channel
 
     public override ChannelEffectOnMovement EffectOnMovement => ChannelEffectOnMovement.Root;
 
-    public Reflect(AbilityContructionArgs arguments) : base(arguments) { }
+    public Reflect(AbilityConstructionArgs arguments) : base(arguments) { }
 
     public override void Start(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {

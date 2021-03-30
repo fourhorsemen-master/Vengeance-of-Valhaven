@@ -15,7 +15,7 @@ public class RingOfDeath : InstantCast
 
     private int collisionCounter = 0;
 
-    public RingOfDeath(AbilityContructionArgs arguments) : base(arguments) { }
+    public RingOfDeath(AbilityConstructionArgs arguments) : base(arguments) { }
 
     public override void Cast(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {

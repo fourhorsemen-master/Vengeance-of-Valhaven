@@ -21,7 +21,7 @@ public class PiercingRush : Cast
 
     public override ChannelEffectOnMovement EffectOnMovement => ChannelEffectOnMovement.Root;
 
-    public PiercingRush(AbilityContructionArgs arguments) : base(arguments) { }
+    public PiercingRush(AbilityConstructionArgs arguments) : base(arguments) { }
 
     protected override void Start()
     {

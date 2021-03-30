@@ -12,7 +12,7 @@ public class Execute : Cast
     private readonly Subject onCastFail = new Subject();
     private readonly Subject<Actor> onCastComplete = new Subject<Actor>();
 
-    public Execute(AbilityContructionArgs arguments) : base(arguments) { }
+    public Execute(AbilityConstructionArgs arguments) : base(arguments) { }
 
     protected override void Start()
     {

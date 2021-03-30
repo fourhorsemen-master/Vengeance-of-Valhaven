@@ -7,7 +7,7 @@ public class BarbedDagger : InstantCast
     private const float DrawTime = 0.2f;
     private const float PauseTime = 0.2f;
 
-    public BarbedDagger(AbilityContructionArgs arguments) : base(arguments) { }
+    public BarbedDagger(AbilityConstructionArgs arguments) : base(arguments) { }
 
     public override void Cast(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {

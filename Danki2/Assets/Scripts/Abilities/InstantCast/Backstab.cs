@@ -6,7 +6,7 @@ public class Backstab : InstantCast
     private const float Range = 3f;
     private const float PauseDuration = 0.3f;
 
-    public Backstab(AbilityContructionArgs arguments) : base(arguments) { }
+    public Backstab(AbilityConstructionArgs arguments) : base(arguments) { }
 
     public override void Cast(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {

@@ -12,7 +12,7 @@ public class Lunge : InstantCast
 
     private readonly Subject<Vector3> onFinishMovement = new Subject<Vector3>();
 
-    public Lunge(AbilityContructionArgs arguments) : base(arguments) { }
+    public Lunge(AbilityConstructionArgs arguments) : base(arguments) { }
 
     public override void Cast(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {

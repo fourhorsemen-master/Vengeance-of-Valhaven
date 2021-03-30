@@ -8,7 +8,7 @@ public class Smash : Cast
     private const float PerfectSmashStunDuration = 3f;
     private const float PauseDuration = 0.3f;
 
-    public Smash(AbilityContructionArgs arguments) : base(arguments) { }
+    public Smash(AbilityConstructionArgs arguments) : base(arguments) { }
 
     protected override void Start() => PlayStartEvent();
 

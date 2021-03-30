@@ -6,7 +6,7 @@ public abstract class Charge : Channel
 
     protected float TimeCharged { get; private set; } = 0;
 
-    protected Charge(AbilityContructionArgs arguments) : base(arguments) { }
+    protected Charge(AbilityConstructionArgs arguments) : base(arguments) { }
 
     public sealed override void Start(Vector3 floorTargetPosition, Vector3 offsetTargetPosition) => Start();
 
