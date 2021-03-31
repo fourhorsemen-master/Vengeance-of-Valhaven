@@ -45,7 +45,7 @@ public class CollisionSoundManager : Singleton<CollisionSoundManager>
 
     public void Play(ISet<PhysicMaterial> sharedMaterials, CollisionSoundLevel collisionSoundLevel, Vector3 position)
     {
-        if (!sharedMaterials.Any()) return;
+        if (sharedMaterials.Count == 0) return;
 
         MaterialParameterValue? priorityMaterialValue = sharedMaterials.Distinct()
             .Where(m => physicMaterialNameToParameterValue.ContainsKey(m))
