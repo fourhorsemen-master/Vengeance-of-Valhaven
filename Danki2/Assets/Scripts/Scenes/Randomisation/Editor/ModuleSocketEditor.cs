@@ -60,7 +60,10 @@ public class ModuleSocketEditor : Editor
 
     private void EditId()
     {
+        GUILayout.BeginHorizontal();
         moduleSocket.Id = EditorGUILayout.IntField("ID", moduleSocket.Id);
+        if (GUILayout.Button("Generate Random ID")) moduleSocket.Id = Random.Range(0, int.MaxValue);
+        GUILayout.EndHorizontal();
     }
 
     private void EditLockRotation()
