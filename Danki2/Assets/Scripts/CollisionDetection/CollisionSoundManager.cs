@@ -47,7 +47,7 @@ public class CollisionSoundManager : Singleton<CollisionSoundManager>
     {
         if (sharedMaterials.Count == 0) return;
 
-        MaterialParameterValue? priorityMaterialValue = sharedMaterials.Distinct()
+        MaterialParameterValue? priorityMaterialValue = sharedMaterials
             .Where(m => physicMaterialNameToParameterValue.ContainsKey(m))
             .Select(m => physicMaterialNameToParameterValue[m])
             .OrderBy(m => descendingMaterialPriority.IndexOf(m))
