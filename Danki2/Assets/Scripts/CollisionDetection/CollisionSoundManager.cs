@@ -18,7 +18,7 @@ public class CollisionSoundManager : Singleton<CollisionSoundManager>
 
     private Dictionary<PhysicMaterial, MaterialParameterValue> physicMaterialNameToParameterValue;
 
-    private List<MaterialParameterValue> DescendingMaterialPriority = new List<MaterialParameterValue>
+    private static readonly List<MaterialParameterValue> descendingMaterialPriority = new List<MaterialParameterValue>
     {
         MaterialParameterValue.Flesh,
         MaterialParameterValue.Stone,
@@ -50,7 +50,7 @@ public class CollisionSoundManager : Singleton<CollisionSoundManager>
         MaterialParameterValue? priorityMaterialValue = sharedMaterials.Distinct()
             .Where(m => physicMaterialNameToParameterValue.ContainsKey(m))
             .Select(m => physicMaterialNameToParameterValue[m])
-            .OrderBy(m => DescendingMaterialPriority.IndexOf(m))
+            .OrderBy(m => descendingMaterialPriority.IndexOf(m))
             .FirstOrDefault();
 
         if (!priorityMaterialValue.HasValue) return;
