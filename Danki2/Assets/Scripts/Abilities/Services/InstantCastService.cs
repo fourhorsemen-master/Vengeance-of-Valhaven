@@ -35,8 +35,11 @@ public class InstantCastService : AbilityService
 
         if(AbilityLookup.Instance.TryGetAnimationType(abilityReference, out AbilityAnimationType animationType))
         {
-            string animationState = AnimationStringLookup.LookupTable[animationType];
-            actor.AnimController.Play(animationState);
+            if(animationType != AbilityAnimationType.None && actor.AnimController)
+            {
+                string animationState = AnimationStringLookup.LookupTable[animationType];
+                actor.AnimController.Play(animationState);
+            }
         }
 
         return true;

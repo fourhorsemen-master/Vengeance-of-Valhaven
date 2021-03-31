@@ -140,8 +140,11 @@ public class ChannelService : AbilityService, IMovementStatusProvider
 
         if (AbilityLookup.Instance.TryGetAnimationType(_currentAbilityReference, out AbilityAnimationType animationType))
         {
-            string animationState = AnimationStringLookup.LookupTable[animationType];
-            actor.AnimController.Play(animationState);
+            if(animationType != AbilityAnimationType.None && actor.AnimController)
+            {
+                string animationState = AnimationStringLookup.LookupTable[animationType];
+                actor.AnimController.Play(animationState);
+            }
         }
 
         ChannelEndSubject.Next();
