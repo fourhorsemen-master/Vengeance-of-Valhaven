@@ -12,10 +12,7 @@ public class Parry : Channel
     private bool receivedDamage = false;
     private Guid effectId;
 
-    public Parry(Actor owner, AbilityData abilityData, string fmodStartEvent, string fmodEndEvent, string[] availableBonuses, float duration)
-        : base(owner, abilityData, fmodStartEvent, fmodEndEvent, availableBonuses, duration)
-    {
-    }
+    public Parry(AbilityConstructionArgs arguments) : base(arguments) { }
 
     public override void Start(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {

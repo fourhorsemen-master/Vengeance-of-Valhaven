@@ -69,15 +69,18 @@ public class AbilityLookupEditor : Editor
         if (!foldoutStatus[abilityReference][AbilityDataDropdownGroup.EntireAbility]) return;
 
         EditorGUI.indentLevel++;
-            
+
         serializableAbilityMetadata.DisplayName = EditorGUILayout.TextField("Display Name", serializableAbilityMetadata.DisplayName);
         serializableAbilityMetadata.Tooltip = EditorUtils.MultilineTextField("Tooltip", serializableAbilityMetadata.Tooltip, 3);
+        serializableAbilityMetadata.Rarity = (Rarity) EditorGUILayout.EnumPopup("Rarity", serializableAbilityMetadata.Rarity);
+        serializableAbilityMetadata.PlayerCanCast = EditorGUILayout.Toggle("Player Can Cast", serializableAbilityMetadata.PlayerCanCast);
         serializableAbilityMetadata.Finisher = EditorGUILayout.Toggle("Finisher", serializableAbilityMetadata.Finisher);
+        serializableAbilityMetadata.AnimationType = (AbilityAnimationType)EditorGUILayout.EnumPopup("Animation", serializableAbilityMetadata.AnimationType);
         EditChannelDuration(abilityReference, serializableAbilityMetadata);
         EditFmodEvents(abilityReference);
         EditBaseAbilityData(abilityReference, serializableAbilityMetadata);
         EditAbilityBonusData(abilityReference, serializableAbilityMetadata);
-            
+
         EditorGUI.indentLevel--;
     }
 

@@ -4,5 +4,6 @@
     Boss,
     Shop,
     Victory,
-    Defeat
+    Defeat,
+    Ability
 }

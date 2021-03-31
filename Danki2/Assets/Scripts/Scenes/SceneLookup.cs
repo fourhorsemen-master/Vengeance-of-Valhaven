@@ -11,10 +11,11 @@ public class SceneLookup : Singleton<SceneLookup>
 
    public string GetFileName(Scene scene) => sceneDataLookup[scene].FileName;
 
-   public List<Scene> GetValidScenes(Pole trueEntranceDirection, int numberOfExits)
+   public List<Scene> GetValidScenes(RoomType roomType, Pole trueEntranceDirection, int numberOfExits)
    {
       return sceneDataLookup.Keys
          .Where(scene => sceneDataLookup[scene].SceneType == SceneType.Gameplay)
+         .Where(scene => sceneDataLookup[scene].GameplaySceneData.RoomTypes.Contains(roomType))
          .Where(scene => GetValidCameraOrientations(scene, trueEntranceDirection, numberOfExits).Count > 0)
          .ToList();
    }

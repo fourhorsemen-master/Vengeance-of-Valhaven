@@ -82,6 +82,8 @@ MonoBehaviour:
       abilityBonusLookup:
         _keys: []
         _values: []
+      rarity: 0
+      playerCanCast: 1
       finisher: 0
       channelDuration: 0
     - displayName: Whirlwind
@@ -101,6 +103,8 @@ MonoBehaviour:
         - displayName: Cross Step
           tooltip: Caster no longer has {SLOW} whilst channeling.
           requiredTreeDepth: 3
+      rarity: 1
+      playerCanCast: 1
       finisher: 0
       channelDuration: 2
     - displayName: Barbed Dagger
@@ -116,6 +120,8 @@ MonoBehaviour:
       abilityBonusLookup:
         _keys: []
         _values: []
+      rarity: 0
+      playerCanCast: 1
       finisher: 0
       channelDuration: 0
     - displayName: Bite
@@ -130,6 +136,8 @@ MonoBehaviour:
       abilityBonusLookup:
         _keys: []
         _values: []
+      rarity: 0
+      playerCanCast: 0
       finisher: 0
       channelDuration: 0
     - displayName: Pounce
@@ -144,6 +152,8 @@ MonoBehaviour:
       abilityBonusLookup:
         _keys: []
         _values: []
+      rarity: 0
+      playerCanCast: 0
       finisher: 0
       channelDuration: 0
     - displayName: Lunge
@@ -159,6 +169,8 @@ MonoBehaviour:
       abilityBonusLookup:
         _keys: []
         _values: []
+      rarity: 0
+      playerCanCast: 1
       finisher: 0
       channelDuration: 0
     - displayName: Smash
@@ -177,6 +189,8 @@ MonoBehaviour:
         - displayName: Perfect Smash
           tooltip: Applies a 3s {STUN} to all affected enemies.
           requiredTreeDepth: 3
+      rarity: 2
+      playerCanCast: 1
       finisher: 1
       channelDuration: 0.5
     - displayName: Bash
@@ -191,6 +205,8 @@ MonoBehaviour:
       abilityBonusLookup:
         _keys: []
         _values: []
+      rarity: 0
+      playerCanCast: 1
       finisher: 0
       channelDuration: 0
     - displayName: Sweeping Strike
@@ -206,6 +222,8 @@ MonoBehaviour:
       abilityBonusLookup:
         _keys: []
         _values: []
+      rarity: 1
+      playerCanCast: 1
       finisher: 0
       channelDuration: 0
     - displayName: Grappling Hook
@@ -221,6 +239,8 @@ MonoBehaviour:
       abilityBonusLookup:
         _keys: []
         _values: []
+      rarity: 0
+      playerCanCast: 1
       finisher: 0
       channelDuration: 0
     - displayName: Backstab
@@ -237,6 +257,8 @@ MonoBehaviour:
       abilityBonusLookup:
         _keys: []
         _values: []
+      rarity: 1
+      playerCanCast: 1
       finisher: 0
       channelDuration: 0
     - displayName: Piercing Rush
@@ -261,6 +283,8 @@ MonoBehaviour:
           tooltip: After the dash the sharp winds of the jetstream causes {PRIMARY_DAMAGE}
             damage to enemies in a cone behind you.
           requiredTreeDepth: 5
+      rarity: 2
+      playerCanCast: 1
       finisher: 1
       channelDuration: 1
     - displayName: Parry
@@ -276,6 +300,8 @@ MonoBehaviour:
       abilityBonusLookup:
         _keys: []
         _values: []
+      rarity: 0
+      playerCanCast: 1
       finisher: 0
       channelDuration: 1
     - displayName: Rend
@@ -290,6 +316,8 @@ MonoBehaviour:
       abilityBonusLookup:
         _keys: []
         _values: []
+      rarity: 0
+      playerCanCast: 1
       finisher: 0
       channelDuration: 1
     - displayName: Disengage
@@ -304,6 +332,8 @@ MonoBehaviour:
       abilityBonusLookup:
         _keys: []
         _values: []
+      rarity: 1
+      playerCanCast: 1
       finisher: 0
       channelDuration: 0
     - displayName: Fan of Knives
@@ -323,6 +353,8 @@ MonoBehaviour:
         - displayName: Spray
           tooltip: Throw an additional 2 knives.
           requiredTreeDepth: 4
+      rarity: 0
+      playerCanCast: 1
       finisher: 0
       channelDuration: 0
     - displayName: Hamstring
@@ -341,6 +373,8 @@ MonoBehaviour:
         - displayName: Hack
           tooltip: Increase damage dealt by 4.
           requiredTreeDepth: 2
+      rarity: 1
+      playerCanCast: 1
       finisher: 0
       channelDuration: 0
     - displayName: Swipe
@@ -355,6 +389,8 @@ MonoBehaviour:
       abilityBonusLookup:
         _keys: []
         _values: []
+      rarity: 0
+      playerCanCast: 0
       finisher: 0
       channelDuration: 0
     - displayName: Maul
@@ -370,6 +406,8 @@ MonoBehaviour:
       abilityBonusLookup:
         _keys: []
         _values: []
+      rarity: 0
+      playerCanCast: 0
       finisher: 0
       channelDuration: 0
     - displayName: Bear Charge
@@ -384,6 +422,8 @@ MonoBehaviour:
       abilityBonusLookup:
         _keys: []
         _values: []
+      rarity: 0
+      playerCanCast: 0
       finisher: 0
       channelDuration: 2
     - displayName: Cleave
@@ -398,6 +438,8 @@ MonoBehaviour:
       abilityBonusLookup:
         _keys: []
         _values: []
+      rarity: 0
+      playerCanCast: 0
       finisher: 0
       channelDuration: 0
     - displayName: Ring of Death
@@ -420,6 +462,8 @@ MonoBehaviour:
         - displayName: Barbed Daggers
           tooltip: The knives are barbed, causing {BLEED|1}.
           requiredTreeDepth: 3
+      rarity: 2
+      playerCanCast: 1
       finisher: 1
       channelDuration: 0
     - displayName: Execute
@@ -443,6 +487,8 @@ MonoBehaviour:
         - displayName: Sharpened Edge
           tooltip: Do triple damage when the enemy is below 20% health instead.
           requiredTreeDepth: 4
+      rarity: 2
+      playerCanCast: 1
       finisher: 1
       channelDuration: 0.5
     - displayName: Reflect
@@ -458,5 +504,7 @@ MonoBehaviour:
       abilityBonusLookup:
         _keys: []
         _values: []
+      rarity: 1
+      playerCanCast: 1
       finisher: 0
       channelDuration: 2

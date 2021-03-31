@@ -75,13 +75,21 @@ public class PersistenceManager : Singleton<PersistenceManager>
     private void UpdateSaveData()
     {
         SaveData.PlayerHealth = ActorCache.Instance.Player.HealthManager.Health;
-        SaveData.AbilityTree = ActorCache.Instance.Player.AbilityTree;
+        SaveData.SerializableAbilityTree = ActorCache.Instance.Player.AbilityTree.Serialize();
 
         RoomSaveData currentRoomSaveData = SaveData.CurrentRoomSaveData;
-        if (currentRoomSaveData.RoomType == RoomType.Combat || currentRoomSaveData.RoomType == RoomType.Boss)
+        switch (currentRoomSaveData.RoomType)
         {
-            CombatRoomSaveData combatRoomSaveData = currentRoomSaveData.CombatRoomSaveData;
-            combatRoomSaveData.EnemiesCleared = CombatRoomManager.Instance.EnemiesCleared;
+            case RoomType.Combat:
+            case RoomType.Boss:
+                CombatRoomSaveData combatRoomSaveData = currentRoomSaveData.CombatRoomSaveData;
+                combatRoomSaveData.EnemiesCleared = CombatRoomManager.Instance.EnemiesCleared;
+                break;
+            case RoomType.Ability:
+                AbilityRoomSaveData abilityRoomSaveData = currentRoomSaveData.AbilityRoomSaveData;
+                abilityRoomSaveData.AbilitiesViewed = AbilitySelectionRoomManager.Instance.AbilitiesViewed;
+                abilityRoomSaveData.AbilitySelected = AbilitySelectionRoomManager.Instance.AbilitySelected;
+                break;
         }
     }
 }

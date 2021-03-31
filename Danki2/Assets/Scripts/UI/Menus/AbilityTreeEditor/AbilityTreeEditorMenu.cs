@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class AbilityTreeEditorMenu : Singleton<AbilityTreeEditorMenu>
 {
@@ -20,33 +21,40 @@ public class AbilityTreeEditorMenu : Singleton<AbilityTreeEditorMenu>
 
     public Node CurrentTreeNodeHover { get; set; } = null;
 
-    private void Start()
+    private readonly List<Subscription<AbilityReference>> subscriptions = new List<Subscription<AbilityReference>>();
+
+    public AbilityTooltip CreateTooltip(AbilityReference ability)
     {
-        ListAbilityDragStartSubject.Subscribe(ability => {
+        return AbilityTooltip.Create(transform, ability);
+    }
+
+    public AbilityTooltip CreateTooltip(Node node)
+    {
+        return AbilityTooltip.Create(transform, node);
+    }
+    
+    private void OnEnable()
+    {
+        subscriptions.Add(ListAbilityDragStartSubject.Subscribe(ability => {
             AbilityDraggingFromList = ability;
             IsDraggingFromList = true;
-        });
+        }));
 
-        ListAbilityDragStopSubject.Subscribe(ability => {
+        subscriptions.Add(ListAbilityDragStopSubject.Subscribe(ability => {
             AbilityDraggingFromList = ability;
             IsDraggingFromList = false;
-        });
+        }));
 
         abilityListDisplay.Initialise();
         abilityTreeDisplay.Initialise();
 
-        GameplayStateController.Instance.GameStateTransitionSubject.Subscribe(gameState =>
-        {
-            if (gameState == GameplayState.InAbilityTreeEditor)
-            {
-                gameObject.SetActive(true);
-                abilityListDisplay.PopulateAbilityList();
-                abilityTreeDisplay.RecalculateDisplay();
-            }
-            else
-            {
-                gameObject.SetActive(false);
-            }
-        });
+        abilityListDisplay.PopulateAbilityList();
+        abilityTreeDisplay.RecalculateDisplay();
+    }
+
+    private void OnDisable()
+    {
+        subscriptions.ForEach(s => s.Unsubscribe());
+        subscriptions.Clear();
     }
 }
