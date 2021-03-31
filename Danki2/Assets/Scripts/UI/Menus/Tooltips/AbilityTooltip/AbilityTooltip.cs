@@ -69,12 +69,13 @@ public class AbilityTooltip : Tooltip
         ActivateTooltip();
 
         string titleText = AbilityLookup.Instance.GetAbilityDisplayName(ability);
+        Color color = RarityLookup.Instance.Lookup[AbilityLookup.Instance.GetRarity(ability)].Colour;
         bool isFinisher = AbilityLookup.Instance.IsFinisher(ability);
         string descriptionText = GenerateDescription(tooltipSegments);
 
         Dictionary<string, AbilityBonusData> bonuses = AbilityLookup.Instance.GetAbilityBonusDataLookup(ability);
 
-        SetContents(titleText, isFinisher, descriptionText, bonuses, bonusSegmenter, treeDepth);
+        SetContents(titleText, color, isFinisher, descriptionText, bonuses, bonusSegmenter, treeDepth);
 
         abilitySupplementaryTooltipPanel.Activate(ability);
     }
@@ -111,6 +112,7 @@ public class AbilityTooltip : Tooltip
 
     private void SetContents(
         string title,
+        Color color,
         bool isFinisher,
         string description,
         Dictionary<string, AbilityBonusData> bonuses,
@@ -119,6 +121,7 @@ public class AbilityTooltip : Tooltip
     )
     {
         titleText.text = title;
+        titleText.color = color;
         finisherText.enabled = isFinisher;
         descriptionText.text = description;
 

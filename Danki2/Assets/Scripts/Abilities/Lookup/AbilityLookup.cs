@@ -15,6 +15,7 @@ public class AbilityLookup : Singleton<AbilityLookup>
     private readonly AbilityMap<AbilityData> baseAbilityDataMap = new AbilityMap<AbilityData>();
     private readonly AbilityMap<List<TemplatedTooltipSegment>> templatedTooltipSegmentsMap = new AbilityMap<List<TemplatedTooltipSegment>>();
     private readonly AbilityMap<Dictionary<string, AbilityBonusData>> abilityBonusDataMap = new AbilityMap<Dictionary<string, AbilityBonusData>>();
+    private readonly AbilityMap<Rarity> rarityLookup = new AbilityMap<Rarity>();
     private readonly AbilityMap<bool> playerCanCastLookup = new AbilityMap<bool>();
     private readonly AbilityMap<bool> finisherLookup = new AbilityMap<bool>();
     private readonly AbilityMap<float> channelDurationMap = new AbilityMap<float>();
@@ -127,6 +128,8 @@ public class AbilityLookup : Singleton<AbilityLookup>
 
     public Dictionary<string, AbilityBonusData> GetAbilityBonusDataLookup(AbilityReference abilityReference) => abilityBonusDataMap[abilityReference];
 
+    public Rarity GetRarity(AbilityReference abilityReference) => rarityLookup[abilityReference];
+
     public bool PlayerCanCast(AbilityReference abilityReference) => playerCanCastLookup[abilityReference];
 
     public bool IsFinisher(AbilityReference abilityReference) => finisherLookup[abilityReference];
@@ -146,6 +149,7 @@ public class AbilityLookup : Singleton<AbilityLookup>
             baseAbilityDataMap[ability] = serializableAbilityMetadata.BaseAbilityData;
             finisherLookup[ability] = serializableAbilityMetadata.Finisher;
             playerCanCastLookup[ability] = serializableAbilityMetadata.PlayerCanCast;
+            rarityLookup[ability] = serializableAbilityMetadata.Rarity;
             animationTypes[ability] = serializableAbilityMetadata.AnimationType;
 
             if (abilityAttributeDataLookup[ability].Type.IsSubclassOf(typeof(Channel)))
