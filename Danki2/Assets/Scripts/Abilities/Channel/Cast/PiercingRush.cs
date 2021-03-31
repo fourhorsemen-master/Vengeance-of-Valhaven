@@ -64,7 +64,8 @@ public class PiercingRush : Cast
             {
                 DealDamageDuringRush(actor, direction, dashSpeed);                
                 hasDealtDamage = true;
-            }
+            },
+            CollisionSoundLevel.Low
         );
 
         // Jetstream.
@@ -109,7 +110,8 @@ public class PiercingRush : Cast
             {
                 DealPrimaryDamage(actor);
                 hasDealtDamage = true;
-            }
+            },
+            CollisionSoundLevel.Low
         );
 
         if (hasDealtDamage) CustomCamera.Instance.AddShake(ShakeIntensity.Medium);

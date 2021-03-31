@@ -28,7 +28,8 @@ public class SweepingStrike : InstantCast
                 DealPrimaryDamage(actor);
                 hasDealtDamage = true;
                 KnockBack(actor);
-            }
+            },
+            CollisionSoundLevel.Low
         );
 
         SuccessFeedbackSubject.Next(hasDealtDamage);

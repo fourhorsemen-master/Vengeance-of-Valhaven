@@ -34,7 +34,8 @@ public class Bash : InstantCast
                 DealPrimaryDamage(actor);
                 actor.EffectManager.AddActiveEffect(ActiveEffect.Stun, StunDuration);
                 hasDealtDamage = true;
-            }
+            },
+            CollisionSoundLevel.High
         );
 
         SuccessFeedbackSubject.Next(hasDealtDamage);

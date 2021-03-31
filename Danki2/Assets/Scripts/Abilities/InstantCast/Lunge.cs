@@ -53,7 +53,8 @@ public class Lunge : InstantCast
                 actor.EffectManager.AddActiveEffect(ActiveEffect.Stun, StunDuration);
                 DealPrimaryDamage(actor);
                 hasDealtDamage = true;
-            }
+            },
+            CollisionSoundLevel.Low
         );
 
         SuccessFeedbackSubject.Next(hasDealtDamage);

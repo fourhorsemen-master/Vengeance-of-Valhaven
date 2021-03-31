@@ -24,7 +24,8 @@ public class Slash : InstantCast
             {
                 DealPrimaryDamage(actor);
                 hasDealtDamage = true;
-            }
+            },
+            CollisionSoundLevel.Low
         );
 
         SuccessFeedbackSubject.Next(hasDealtDamage);

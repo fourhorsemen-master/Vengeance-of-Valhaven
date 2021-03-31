@@ -23,7 +23,8 @@ public class Rend : Cast
             {
                 actor.EffectManager.AddStacks(StackingEffect.Bleed, BleedStacks);
                 enemiesHit = true;
-            }
+            },
+            CollisionSoundLevel.Low
         );
 
         RendObject.Create(Owner.transform, Owner.AbilitySource);

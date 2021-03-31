@@ -63,7 +63,8 @@ public class Whirlwind : Channel
             {
                 damageAction(actor);
                 actorsHit = true;
-            }
+            },
+            CollisionSoundLevel.Low
         );
 
         if (actorsHit)

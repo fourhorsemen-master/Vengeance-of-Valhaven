@@ -42,7 +42,8 @@ public class Disengage : InstantCast
             {
                 DealPrimaryDamage(actor);
                 dealtDamage = true;
-            }
+            },
+            CollisionSoundLevel.Low
         );
 
         SuccessFeedbackSubject.Next(dealtDamage);
