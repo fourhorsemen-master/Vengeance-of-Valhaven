@@ -12,9 +12,9 @@ public class HealthManager
 
     public float HealthProportion => (float)Health / MaxHealth;
 
-    public Subject<DamageData> UnmodifiedDamageSubject { get; } = new Subject<DamageData>();
+    private Registry<Func<DamageData, bool>> damagePipeRegistry;
+
     public Subject<DamageData> ModifiedDamageSubject { get; } = new Subject<DamageData>();
-    public Subject<int> UnmodifiedTickDamageSubject { get; } = new Subject<int>();
     public Subject<int> ModifiedTickDamageSubject { get; } = new Subject<int>();
     public Subject DamageSubject { get; } = new Subject();
     public Subject<int> HealSubject { get; } = new Subject<int>();
@@ -34,6 +34,8 @@ public class HealthManager
             Health = Math.Min(Health, MaxHealth);
         });
 
+        damagePipeRegistry = new Registry<Func<DamageData, bool>>(updateSubject);
+
         ModifiedTickDamageSubject.Subscribe(_ => DamageSubject.Next());
         ModifiedDamageSubject.Subscribe(_ => DamageSubject.Next());
     }
@@ -41,8 +43,6 @@ public class HealthManager
     public void TickDamage(int damage)
     {
         if (actor.Dead) return;
-
-        UnmodifiedTickDamageSubject.Next(damage);
 
         if (damage < 0)
         {
@@ -61,7 +61,13 @@ public class HealthManager
     {
         if (actor.Dead) return;
 
-        UnmodifiedDamageSubject.Next(new DamageData(damage, source));
+        bool damageBlockedByPipes = false;
+        damagePipeRegistry.ForEach(pipe =>
+        {
+            damageBlockedByPipes = damageBlockedByPipes || !pipe(new DamageData(damage, source));
+        });
+
+        if (damageBlockedByPipes) return;
 
         // If already 0, damage should be left as 0, else reduce according to defence, but not below the minimum threshold.
         damage = damage == 0 ? 0 : Mathf.Max(MinimumDamageAfterStats, damage - actor.StatsManager.Get(Stat.Defence));
@@ -97,6 +103,10 @@ public class HealthManager
             ModifyHealth(healing);
         }
     }
+
+    public Guid RegisterDamagePipe(Func<DamageData, bool> pipe) => damagePipeRegistry.AddIndefinite(pipe);
+
+    public void DeregisterDamagePipe(Guid pipeId) => damagePipeRegistry.Remove(pipeId);
 
     private void ModifyHealth(int healthChange)
     {
