@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class ProjectileObject : AbilityObject
@@ -69,6 +70,8 @@ public abstract class ProjectileObject : AbilityObject
         if (ReferenceEquals(caster.gameObject, other.gameObject)) return;
 
         collisionCallback(other.gameObject);
+
+        CollisionSoundManager.Instance.Play(other.sharedMaterial, CollisionSoundLevel.Low);
 
         if (isSticky)
         {

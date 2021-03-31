@@ -44,7 +44,7 @@ public class Lunge : InstantCast
         bool hasDealtDamage = false;
 
         TemplateCollision(
-            CollisionTemplate.Wedge90,
+            CollisionTemplateShape.Wedge90,
             StunRange,
             Owner.CollisionTemplateSource,
             castRotation,
@@ -53,7 +53,8 @@ public class Lunge : InstantCast
                 actor.EffectManager.AddActiveEffect(ActiveEffect.Stun, StunDuration);
                 DealPrimaryDamage(actor);
                 hasDealtDamage = true;
-            }
+            },
+            CollisionSoundLevel.Low
         );
 
         SuccessFeedbackSubject.Next(hasDealtDamage);

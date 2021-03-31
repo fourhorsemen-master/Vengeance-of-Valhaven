@@ -73,18 +73,20 @@ public abstract class Ability
         return Quaternion.Euler(newAngleX, castRotation.eulerAngles.y, castRotation.eulerAngles.z);
     }
 
-    protected void TemplateCollision(CollisionTemplate template, float scale, Vector3 position, Quaternion rotation, Action<Actor> offensiveAction)
+    protected void TemplateCollision(CollisionTemplateShape shape, float scale, Vector3 position, Quaternion rotation, Action<Actor> offensiveAction, CollisionSoundLevel? soundLevel = null)
     {
-        TemplateCollision(template, scale * Vector3.one, position, rotation, offensiveAction);
+        TemplateCollision(shape, scale * Vector3.one, position, rotation, offensiveAction, soundLevel);
     }
 
-    protected void TemplateCollision(CollisionTemplate template, Vector3 scale, Vector3 position, Quaternion rotation, Action<Actor> offensiveAction)
+    protected void TemplateCollision(CollisionTemplateShape shape, Vector3 scale, Vector3 position, Quaternion rotation, Action<Actor> offensiveAction, CollisionSoundLevel? soundLevel = null)
     {
-        // TODO: handle collision sounds and screenshake here?
+        CollisionTemplate template = CollisionTemplateManager.Instance.Create(shape, scale, position, rotation);
 
-        CollisionTemplateManager.Instance.GetCollidingActors(template, scale, position, rotation)
+        template.GetCollidingActors()
             .Where(actor => Owner.Opposes(actor))
             .ForEach(offensiveAction);
+
+        if (soundLevel.HasValue) template.PlayCollisionSound(soundLevel.Value);
     }
 
     protected void PlayStartEvent()

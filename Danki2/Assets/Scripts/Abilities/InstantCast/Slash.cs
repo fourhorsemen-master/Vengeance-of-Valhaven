@@ -16,7 +16,7 @@ public class Slash : InstantCast
         bool hasDealtDamage = false;
 
         TemplateCollision(
-            CollisionTemplate.Wedge90,
+            CollisionTemplateShape.Wedge90,
             Range,
             Owner.CollisionTemplateSource,
             castRotation,
@@ -24,7 +24,8 @@ public class Slash : InstantCast
             {
                 DealPrimaryDamage(actor);
                 hasDealtDamage = true;
-            }
+            },
+            CollisionSoundLevel.Low
         );
 
         SuccessFeedbackSubject.Next(hasDealtDamage);

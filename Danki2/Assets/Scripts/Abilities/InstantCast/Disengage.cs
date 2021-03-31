@@ -34,7 +34,7 @@ public class Disengage : InstantCast
         bool dealtDamage = false;
 
         TemplateCollision(
-            CollisionTemplate.Cylinder,
+            CollisionTemplateShape.Cylinder,
             partingShotRange,
             position,
             Quaternion.identity,
@@ -42,7 +42,8 @@ public class Disengage : InstantCast
             {
                 DealPrimaryDamage(actor);
                 dealtDamage = true;
-            }
+            },
+            CollisionSoundLevel.Low
         );
 
         SuccessFeedbackSubject.Next(dealtDamage);

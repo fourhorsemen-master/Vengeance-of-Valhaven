@@ -31,7 +31,7 @@ public class Smash : Cast
         bool hasDealtDamage = false;
 
         TemplateCollision(
-            CollisionTemplate.Cylinder,
+            CollisionTemplateShape.Cylinder,
             Radius,
             center,
             Quaternion.identity,
@@ -41,7 +41,8 @@ public class Smash : Cast
                 hasDealtDamage = true;
 
                 if (HasBonus("PerfectSmash")) actor.EffectManager.AddActiveEffect(ActiveEffect.Stun, PerfectSmashStunDuration);
-            }
+            },
+            CollisionSoundLevel.High
         );
 
         CustomCamera.Instance.AddShake(ShakeIntensity.High);
