@@ -6,6 +6,7 @@ public class AbilityOptionPanel : MonoBehaviour
     [SerializeField] private Image selectedIndicator = null;
     [SerializeField] private Image highlightedIndicator = null;
     [SerializeField] private Image image = null;
+    [SerializeField] private Image frame = null;
     [SerializeField] private Text text = null;
 
     public AbilityReference AbilityReference { get; private set; }
@@ -36,8 +37,14 @@ public class AbilityOptionPanel : MonoBehaviour
     public void Initialise(AbilityReference abilityReference)
     {
         AbilityReference = abilityReference;
+
+        RarityData rarityData = RarityLookup.Instance.Lookup[AbilityLookup.Instance.GetRarity(abilityReference)];
+
         image.sprite = AbilityIconManager.Instance.GetIcon(abilityReference);
+        frame.sprite = rarityData.Frame;
+        frame.color = rarityData.Colour;
         text.text = AbilityLookup.Instance.GetAbilityDisplayName(abilityReference);
+        text.color = rarityData.Colour;
     }
 
     public void Click() => OnClickSubject.Next();
