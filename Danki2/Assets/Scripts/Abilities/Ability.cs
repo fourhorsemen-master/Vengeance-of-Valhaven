@@ -86,7 +86,7 @@ public abstract class Ability
             .Where(actor => Owner.Opposes(actor))
             .ForEach(offensiveAction);
 
-        if (soundLevel != null) template.PlayCollisionSound(soundLevel.Value);
+        if (soundLevel.HasValue) template.PlayCollisionSound(soundLevel.Value);
     }
 
     protected void PlayStartEvent()
