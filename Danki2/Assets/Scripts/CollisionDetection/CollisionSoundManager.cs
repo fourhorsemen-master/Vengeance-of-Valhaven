@@ -38,6 +38,10 @@ public class CollisionSoundManager : Singleton<CollisionSoundManager>
             [woodPhysicMaterial] = MaterialParameterValue.Wood,
         };
     }
+    public void Play(PhysicMaterial sharedMaterial, CollisionSoundLevel collisionSoundLevel, Vector3 position)
+    {
+        Play(new List<PhysicMaterial> { sharedMaterial }, collisionSoundLevel, position);
+    }
 
     public void Play(IEnumerable<PhysicMaterial> sharedMaterials, CollisionSoundLevel collisionSoundLevel, Vector3 position)
     {
