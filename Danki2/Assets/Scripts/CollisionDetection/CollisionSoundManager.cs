@@ -38,25 +38,24 @@ public class CollisionSoundManager : Singleton<CollisionSoundManager>
             [woodPhysicMaterial] = MaterialParameterValue.Wood,
         };
     }
-    public void Play(PhysicMaterial sharedMaterial, CollisionSoundLevel collisionSoundLevel, Vector3 position)
+
+    public void Play(PhysicMaterial sharedMaterial, CollisionSoundLevel collisionSoundLevel)
     {
-        Play(new HashSet<PhysicMaterial> { sharedMaterial }, collisionSoundLevel, position);
+        Play(new HashSet<PhysicMaterial> { sharedMaterial }, collisionSoundLevel);
     }
 
-    public void Play(ISet<PhysicMaterial> sharedMaterials, CollisionSoundLevel collisionSoundLevel, Vector3 position)
+    public void Play(ISet<PhysicMaterial> sharedMaterials, CollisionSoundLevel collisionSoundLevel)
     {
-        if (sharedMaterials.Count == 0) return;
-
-        MaterialParameterValue? priorityMaterialValue = sharedMaterials
+        List<MaterialParameterValue> materialParameterValues = sharedMaterials
             .Where(m => physicMaterialNameToParameterValue.ContainsKey(m))
             .Select(m => physicMaterialNameToParameterValue[m])
             .OrderBy(m => descendingMaterialPriority.IndexOf(m))
-            .FirstOrDefault();
+            .ToList();
 
-        if (!priorityMaterialValue.HasValue) return;
+        if (materialParameterValues.Count == 0) return;
 
         EventInstance eventInstance = RuntimeManager.CreateInstance(collisionEvent);
-        eventInstance.setParameterByName("material", (int)priorityMaterialValue.Value);
+        eventInstance.setParameterByName("material", (int)materialParameterValues[0]);
         eventInstance.setParameterByName("size", (int)collisionSoundLevel);
         eventInstance.start();
         eventInstance.release();
