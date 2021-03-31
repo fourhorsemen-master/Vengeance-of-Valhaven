@@ -7,7 +7,7 @@ public class CollisionTemplate : MonoBehaviour
     [SerializeField]
     MeshCollider meshCollider = null;
 
-    private HashSet<PhysicMaterial> materials = new HashSet<PhysicMaterial>();
+    private readonly HashSet<PhysicMaterial> materials = new HashSet<PhysicMaterial>();
 
     private CollisionSoundLevel collisionSoundLevel = default;
 
