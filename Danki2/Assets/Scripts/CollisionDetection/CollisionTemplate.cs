@@ -5,9 +5,9 @@ using UnityEngine;
 public class CollisionTemplate : MonoBehaviour
 {
     [SerializeField]
-    MeshCollider collider = null;
+    MeshCollider meshCollider = null;
 
-    private List<PhysicMaterial> materials = new List<PhysicMaterial>();
+    private HashSet<PhysicMaterial> materials = new HashSet<PhysicMaterial>();
 
     private CollisionSoundLevel collisionSoundLevel = default;
 
@@ -20,7 +20,7 @@ public class CollisionTemplate : MonoBehaviour
         // We have to wait for a physics cycle to run to ensure collisions have been registered
         this.WaitForFixedUpdateAndAct(() =>
         {
-            CollisionSoundManager.Instance.Play(materials.Distinct(), collisionSoundLevel, transform.position);
+            CollisionSoundManager.Instance.Play(materials, collisionSoundLevel, transform.position);
             Destroy(gameObject);
         });
     }
@@ -34,11 +34,11 @@ public class CollisionTemplate : MonoBehaviour
 
     public void SetScale(Vector3 scale)
     {
-        Vector3 currentScale = collider.transform.localScale;
+        Vector3 currentScale = meshCollider.transform.localScale;
         if (currentScale != scale)
         {
-            collider.transform.localScale = scale;
-            ResetMesh(collider);
+            meshCollider.transform.localScale = scale;
+            ResetMesh(meshCollider);
         }
     }
 
@@ -49,9 +49,9 @@ public class CollisionTemplate : MonoBehaviour
                 actorCacheItem.Collider,
                 actorCacheItem.Collider.transform.position,
                 actorCacheItem.Collider.transform.rotation,
-                collider,
-                collider.transform.position,
-                collider.transform.rotation,
+                meshCollider,
+                meshCollider.transform.position,
+                meshCollider.transform.rotation,
                 out _,
                 out _
             ))
