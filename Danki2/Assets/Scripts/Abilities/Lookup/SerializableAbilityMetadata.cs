@@ -18,6 +18,9 @@ public class SerializableAbilityMetadata
     private string fmodEndEventRef = "";
 
     [SerializeField]
+    AbilityAnimationType animationType = AbilityAnimationType.None;
+
+    [SerializeField]
     private SerializableAbilityBonusLookup abilityBonusLookup = new SerializableAbilityBonusLookup();
     [SerializeField]
     private Rarity rarity = Rarity.Common;
@@ -33,6 +36,7 @@ public class SerializableAbilityMetadata
     public AbilityData BaseAbilityData { get => baseAbilityData; set => baseAbilityData = value; }
     public string FmodStartEventRef { get => fmodStartEventRef; set => fmodStartEventRef = value; }
     public string FmodEndEventRef { get => fmodEndEventRef; set => fmodEndEventRef = value; }
+    public AbilityAnimationType AnimationType { get => animationType; set => animationType = value; }
     public SerializableAbilityBonusLookup AbilityBonusLookup { get => abilityBonusLookup; set => abilityBonusLookup = value; }
     public Rarity Rarity { get => rarity; set => rarity = value; }
     public bool PlayerCanCast { get => playerCanCast; set => playerCanCast = value; }

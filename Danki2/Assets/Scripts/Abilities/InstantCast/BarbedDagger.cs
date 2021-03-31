@@ -7,10 +7,7 @@ public class BarbedDagger : InstantCast
     private const float DrawTime = 0.2f;
     private const float PauseTime = 0.2f;
 
-    public BarbedDagger(Actor owner, AbilityData abilityData, string fmodStartEvent, string fmodEndEvent, string[] availableBonuses)
-        : base(owner, abilityData, fmodStartEvent, fmodEndEvent, availableBonuses)
-    {
-    }
+    public BarbedDagger(AbilityConstructionArgs arguments) : base(arguments) { }
 
     public override void Cast(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
