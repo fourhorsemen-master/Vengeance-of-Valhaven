@@ -34,7 +34,7 @@ public class Maul : InstantCast
         bool hasDealtDamage = false;
 
         TemplateCollision(
-            CollisionTemplate.Wedge45,
+            CollisionTemplateShape.Wedge45,
             BiteRange,
             Owner.CollisionTemplateSource,
             castRotation,

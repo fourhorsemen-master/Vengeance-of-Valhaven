@@ -26,6 +26,11 @@ public static class MonoBehaviourExtensions
         }
     }
 
+    public static Coroutine WaitForFixedUpdateAndAct(this MonoBehaviour monoBehaviour, Action action)
+    {
+        return monoBehaviour.StartCoroutine(PostFixedUpdateAction(action));
+    }
+
     private static IEnumerator DelayedAction(float delay, Action action)
     {
         yield return new WaitForSeconds(delay);
@@ -56,5 +61,12 @@ public static class MonoBehaviourExtensions
 
             if (numRepetitions.HasValue && counter == numRepetitions) break;
         }
+    }
+
+    private static IEnumerator PostFixedUpdateAction(Action action)
+    {
+        yield return new WaitForFixedUpdate();
+
+        action();
     }
 }

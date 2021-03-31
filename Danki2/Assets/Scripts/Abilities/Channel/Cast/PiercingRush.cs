@@ -56,7 +56,7 @@ public class PiercingRush : Cast
         bool hasDealtDamage = false;
 
         TemplateCollision(
-            CollisionTemplate.Cuboid,
+            CollisionTemplateShape.Cuboid,
             collisionDetectionScale,
             collisionDetectionPosition,
             Quaternion.LookRotation(direction),
@@ -64,7 +64,8 @@ public class PiercingRush : Cast
             {
                 DealDamageDuringRush(actor, direction, dashSpeed);                
                 hasDealtDamage = true;
-            }
+            },
+            CollisionSoundLevel.Low
         );
 
         // Jetstream.
@@ -101,7 +102,7 @@ public class PiercingRush : Cast
         bool hasDealtDamage = false;
 
         TemplateCollision(
-            CollisionTemplate.Wedge90,
+            CollisionTemplateShape.Wedge90,
             jetstreamRange,
             Owner.transform.position,
             castRotation,
@@ -109,7 +110,8 @@ public class PiercingRush : Cast
             {
                 DealPrimaryDamage(actor);
                 hasDealtDamage = true;
-            }
+            },
+            CollisionSoundLevel.Low
         );
 
         if (hasDealtDamage) CustomCamera.Instance.AddShake(ShakeIntensity.Medium);

@@ -25,7 +25,7 @@ public class Bash : InstantCast
         bool hasDealtDamage = false;
 
         TemplateCollision(
-            CollisionTemplate.Cylinder,
+            CollisionTemplateShape.Cylinder,
             Radius,
             center,
             Quaternion.identity,
@@ -34,7 +34,8 @@ public class Bash : InstantCast
                 DealPrimaryDamage(actor);
                 actor.EffectManager.AddActiveEffect(ActiveEffect.Stun, StunDuration);
                 hasDealtDamage = true;
-            }
+            },
+            CollisionSoundLevel.High
         );
 
         SuccessFeedbackSubject.Next(hasDealtDamage);

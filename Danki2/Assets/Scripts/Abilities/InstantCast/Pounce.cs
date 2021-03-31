@@ -34,7 +34,7 @@ public class Pounce : InstantCast
         bool hasDealtDamage = false;
 
         TemplateCollision(
-            CollisionTemplate.Wedge90,
+            CollisionTemplateShape.Wedge90,
             DamageRadius,
             Owner.CollisionTemplateSource,
             Quaternion.LookRotation(Owner.transform.forward),

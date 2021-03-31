@@ -15,7 +15,7 @@ public class Rend : Cast
         bool enemiesHit = false;
 
         TemplateCollision(
-            CollisionTemplate.Cylinder,
+            CollisionTemplateShape.Cylinder,
             Range,
             Owner.CollisionTemplateSource,
             Quaternion.identity,
@@ -23,7 +23,8 @@ public class Rend : Cast
             {
                 actor.EffectManager.AddStacks(StackingEffect.Bleed, BleedStacks);
                 enemiesHit = true;
-            }
+            },
+            CollisionSoundLevel.Low
         );
 
         RendObject.Create(Owner.transform, Owner.AbilitySource);

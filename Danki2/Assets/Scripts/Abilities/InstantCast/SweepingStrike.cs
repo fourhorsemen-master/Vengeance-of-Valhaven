@@ -19,7 +19,7 @@ public class SweepingStrike : InstantCast
         bool hasDealtDamage = false;
 
         TemplateCollision(
-            CollisionTemplate.Wedge90,
+            CollisionTemplateShape.Wedge90,
             Range,
             Owner.CollisionTemplateSource,
             castRotation,
@@ -28,7 +28,8 @@ public class SweepingStrike : InstantCast
                 DealPrimaryDamage(actor);
                 hasDealtDamage = true;
                 KnockBack(actor);
-            }
+            },
+            CollisionSoundLevel.Low
         );
 
         SuccessFeedbackSubject.Next(hasDealtDamage);

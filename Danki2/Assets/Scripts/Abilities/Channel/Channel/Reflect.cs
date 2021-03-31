@@ -40,7 +40,7 @@ public class Reflect : Channel
         bool damageSourceInRange = false;
 
         TemplateCollision(
-            CollisionTemplate.Wedge90,
+            CollisionTemplateShape.Wedge90,
             Range,
             Owner.transform.position,
             Owner.transform.rotation,

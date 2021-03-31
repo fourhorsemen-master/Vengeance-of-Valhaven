@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(CollisionTemplateManager))]
@@ -9,16 +8,9 @@ public class CollisionTemplateManagerEditor : Editor
     {
         CollisionTemplateManager collisionTemplateManager = (CollisionTemplateManager)target;
 
-        foreach (CollisionTemplate template in Enum.GetValues(typeof(CollisionTemplate)))
-        {
-            collisionTemplateManager.prefabLookup[template] = (MeshCollider)EditorGUILayout.ObjectField(
-                template.ToString(),
-                collisionTemplateManager.prefabLookup[template],
-                typeof(MeshCollider),
-                false,
-                null
-            );
-        }
+        EnumUtils.ForEach<CollisionTemplateShape>(shape =>
+            EditorUtils.PrefabField(shape.ToString(), collisionTemplateManager.prefabLookup[shape])
+        );
 
         if (GUI.changed)
         {

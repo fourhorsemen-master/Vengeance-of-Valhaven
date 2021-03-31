@@ -21,7 +21,7 @@ public class Bite : InstantCast
         bool hasDealtDamage = false;
 
         TemplateCollision(
-            CollisionTemplate.Wedge45,
+            CollisionTemplateShape.Wedge45,
             Range,
             Owner.CollisionTemplateSource,
             castRotation,
