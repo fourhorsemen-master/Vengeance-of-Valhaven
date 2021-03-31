@@ -19,7 +19,7 @@ public class ModuleSocket : MonoBehaviour, IIdentifiable
 
     private void Start()
     {
-        Destroy(navBlocker);
-        Destroy(directionIndicator);
+        if (navBlocker) Destroy(navBlocker);
+        if (directionIndicator) Destroy(directionIndicator);
     }
 }
