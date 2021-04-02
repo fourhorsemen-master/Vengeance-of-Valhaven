@@ -1,7 +1,9 @@
 ﻿using FMOD.Studio;
 using FMODUnity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 public class CollisionSoundManager : Singleton<CollisionSoundManager>
@@ -40,6 +42,8 @@ public class CollisionSoundManager : Singleton<CollisionSoundManager>
 
         // Set terrain to have dirt PhysicMaterial
         FindObjectOfType<TerrainCollider>().sharedMaterial = dirtPhysicMaterial;
+
+        ScanForMissingPhysicMaterials();
     }
 
     public void Play(PhysicMaterial sharedMaterial, CollisionSoundLevel collisionSoundLevel)
@@ -63,6 +67,26 @@ public class CollisionSoundManager : Singleton<CollisionSoundManager>
         eventInstance.setParameterByName("size", (int)collisionSoundLevel);
         eventInstance.start();
         eventInstance.release();
+    }
+
+    private void ScanForMissingPhysicMaterials()
+    {
+        List<Collider> collidersMissingMaterials = FindObjectsOfType<Collider>()
+               .Where(c => c.gameObject.layer == (int)Layer.Actors || c.gameObject.layer == (int)Layer.Props)
+               .Where(c => c.sharedMaterial == null)
+               .ToList();
+
+        collidersMissingMaterials.ForEach(c =>
+        {
+            if (c.gameObject.layer == (int)Layer.Actors)
+            {
+                Debug.LogWarning($"Actor {c.gameObject.name} doesn't have a physic material on it's collider.");
+            }
+            else
+            {
+                Debug.LogWarning($"Prop {c.transform.parent.name} doesn't have a physic material on it's collider.");
+            }
+        });
     }
 
     private enum MaterialParameterValue
