@@ -7,11 +7,12 @@ public class CollisionTemplate : MonoBehaviour
     [SerializeField]
     MeshCollider meshCollider = null;
 
-    private readonly HashSet<PhysicMaterial> materials = new HashSet<PhysicMaterial>();
+    private readonly HashSet<PhysicMaterial> collisionMaterials = new HashSet<PhysicMaterial>();
 
     private CollisionSoundLevel collisionSoundLevel = default;
 
     private bool playCollisionSound = false;
+    private Actor owner = null;
 
     private void Start()
     {
@@ -20,7 +21,7 @@ public class CollisionTemplate : MonoBehaviour
         // We have to wait for a physics cycle to run to ensure collisions have been registered
         this.WaitForFixedUpdateAndAct(() =>
         {
-            CollisionSoundManager.Instance.Play(materials, collisionSoundLevel);
+            CollisionSoundManager.Instance.Play(collisionMaterials, collisionSoundLevel);
             Destroy(gameObject);
         });
     }
@@ -29,11 +30,16 @@ public class CollisionTemplate : MonoBehaviour
     {
         if (other.sharedMaterial == null) return;
 
-        materials.Add(other.sharedMaterial);
+        if (owner.Colliders.Contains(other)) return;
+
+        collisionMaterials.Add(other.sharedMaterial);
     }
 
-    public void SetScale(Vector3 scale)
+    // This method must be called directly after instantiation
+    public void Initialise(Actor owner, Vector3 scale)
     {
+        this.owner = owner;
+
         Vector3 currentScale = meshCollider.transform.localScale;
         if (currentScale != scale)
         {
