@@ -71,7 +71,10 @@ public abstract class ProjectileObject : AbilityObject
 
         collisionCallback(other.gameObject);
 
-        CollisionSoundManager.Instance.Play(other.sharedMaterial, CollisionSoundLevel.Low);
+        if (other.sharedMaterial != null)
+        {
+            CollisionSoundManager.Instance.Play(other.sharedMaterial, CollisionSoundLevel.Low);
+        }
 
         if (isSticky)
         {

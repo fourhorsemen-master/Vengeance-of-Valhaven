@@ -47,6 +47,7 @@ public class CollisionSoundManager : Singleton<CollisionSoundManager>
     public void Play(ISet<PhysicMaterial> sharedMaterials, CollisionSoundLevel collisionSoundLevel)
     {
         List<MaterialParameterValue> materialParameterValues = sharedMaterials
+            .Where(m => m != null)
             .Where(m => physicMaterialNameToParameterValue.ContainsKey(m))
             .Select(m => physicMaterialNameToParameterValue[m])
             .OrderBy(m => descendingMaterialPriority.IndexOf(m))
