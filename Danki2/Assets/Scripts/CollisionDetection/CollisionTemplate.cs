@@ -32,6 +32,9 @@ public class CollisionTemplate : MonoBehaviour
 
         if (owner.Colliders.Contains(other)) return;
 
+        // Ignore the terrain
+        if (other.gameObject.layer == (int)Layer.Floor) return;
+
         collisionMaterials.Add(other.sharedMaterial);
     }
 

@@ -37,6 +37,9 @@ public class CollisionSoundManager : Singleton<CollisionSoundManager>
             [fleshPhysicMaterial] = MaterialParameterValue.Flesh,
             [woodPhysicMaterial] = MaterialParameterValue.Wood,
         };
+
+        // Set terrain to have dirt PhysicMaterial
+        FindObjectOfType<TerrainCollider>().sharedMaterial = dirtPhysicMaterial;
     }
 
     public void Play(PhysicMaterial sharedMaterial, CollisionSoundLevel collisionSoundLevel)
