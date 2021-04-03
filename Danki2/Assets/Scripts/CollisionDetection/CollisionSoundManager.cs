@@ -39,12 +39,12 @@ public class CollisionSoundManager : Singleton<CollisionSoundManager>
         };
     }
 
-    public void Play(PhysicMaterial sharedMaterial, CollisionSoundLevel collisionSoundLevel)
+    public void Play(PhysicMaterial sharedMaterial, CollisionSoundLevel collisionSoundLevel, Vector3 position)
     {
-        Play(new HashSet<PhysicMaterial> { sharedMaterial }, collisionSoundLevel);
+        Play(new HashSet<PhysicMaterial> { sharedMaterial }, collisionSoundLevel, position);
     }
 
-    public void Play(ISet<PhysicMaterial> sharedMaterials, CollisionSoundLevel collisionSoundLevel)
+    public void Play(ISet<PhysicMaterial> sharedMaterials, CollisionSoundLevel collisionSoundLevel, Vector3 position)
     {
         List<MaterialParameterValue> materialParameterValues = sharedMaterials
             .Where(m => physicMaterialNameToParameterValue.ContainsKey(m))
@@ -54,7 +54,7 @@ public class CollisionSoundManager : Singleton<CollisionSoundManager>
 
         if (materialParameterValues.Count == 0) return;
 
-        EventInstance eventInstance = RuntimeManager.CreateInstance(collisionEvent);
+        EventInstance eventInstance = FmodUtils.CreateInstance(collisionEvent, position);
         eventInstance.setParameterByName("material", (int)materialParameterValues[0]);
         eventInstance.setParameterByName("size", (int)collisionSoundLevel);
         eventInstance.start();
