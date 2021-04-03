@@ -89,11 +89,11 @@ public abstract class Ability
         if (soundLevel.HasValue) template.PlayCollisionSound(soundLevel.Value);
     }
 
-    protected void PlayStartEvent(Vector3 position)
+    protected void PlayStartEvent()
     {
         if (string.IsNullOrEmpty(fmodStartEvent)) return;
 
-        EventInstance eventInstance = FmodUtils.CreateInstance(fmodStartEvent, position);
+        EventInstance eventInstance = RuntimeManager.CreateInstance(fmodStartEvent);
         startEventInstances.Add(eventInstance);
         eventInstance.start();
         eventInstance.release();
@@ -101,11 +101,11 @@ public abstract class Ability
 
     protected void StopStartEvents() => startEventInstances.ForEach(e => e.stop(STOP_MODE.IMMEDIATE));
 
-    protected void PlayEndEvent(Vector3 position)
+    protected void PlayEndEvent()
     {
         if (string.IsNullOrEmpty(fmodEndEvent)) return;
 
-        EventInstance eventInstance = FmodUtils.CreateInstance(fmodStartEvent, position);
+        EventInstance eventInstance = RuntimeManager.CreateInstance(fmodEndEvent);
         endEventInstances.Add(eventInstance);
         eventInstance.start();
         eventInstance.release();

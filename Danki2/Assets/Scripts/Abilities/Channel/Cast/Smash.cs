@@ -10,7 +10,7 @@ public class Smash : Cast
 
     public Smash(AbilityConstructionArgs arguments) : base(arguments) { }
 
-    protected override void Start() => PlayStartEvent(Owner.AbilitySource);
+    protected override void Start() => PlayStartEvent();
 
     protected override void Cancel() => StopStartEvents();
 
@@ -19,7 +19,7 @@ public class Smash : Cast
         Owner.MovementManager.LookAt(floorTargetPosition);
         Owner.MovementManager.Pause(PauseDuration);
 
-        PlayEndEvent(floorTargetPosition);
+        PlayEndEvent();
 
         Vector3 position = Owner.transform.position;
 
