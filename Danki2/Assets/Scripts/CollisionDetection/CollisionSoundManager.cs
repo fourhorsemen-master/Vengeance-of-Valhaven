@@ -54,7 +54,7 @@ public class CollisionSoundManager : Singleton<CollisionSoundManager>
 
         if (materialParameterValues.Count == 0) return;
 
-        EventInstance eventInstance = FmodUtils.CreateInstance(collisionEvent, position);
+        EventInstance eventInstance = FmodUtils.CreatePositionedInstance(collisionEvent, position);
         eventInstance.setParameterByName("material", (int)materialParameterValues[0]);
         eventInstance.setParameterByName("size", (int)collisionSoundLevel);
         eventInstance.start();

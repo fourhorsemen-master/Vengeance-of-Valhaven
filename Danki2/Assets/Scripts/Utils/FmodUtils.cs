@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class FmodUtils
 {
-    public static EventInstance CreateInstance(string fmodEvent, Vector3 position)
+    public static EventInstance CreatePositionedInstance(string fmodEvent, Vector3 position)
     {
         EventInstance eventInstance = RuntimeManager.CreateInstance(fmodEvent);
         eventInstance.set3DAttributes(RuntimeUtils.To3DAttributes(position));
