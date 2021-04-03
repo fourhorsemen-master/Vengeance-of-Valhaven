@@ -5,7 +5,7 @@
 			<value>SX_Collision</value>
 		</property>
 		<property name="outputFormat">
-			<value>1</value>
+			<value>2</value>
 		</property>
 		<relationship name="folder">
 			<destination>{6d6854b6-e71c-49c3-8814-8c0ac752146b}</destination>
@@ -423,6 +423,7 @@
 	<object class="MixerBusEffectChain" id="{5434afae-a2b5-4b7a-8684-0a2bb864dd9f}">
 		<relationship name="effects">
 			<destination>{bfd6120d-58d1-4323-bcd8-a5e73f3136f5}</destination>
+			<destination>{f7346254-e211-4007-97cf-8af5860512ba}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{ef883c39-81d5-4620-bca3-00ea079173c2}" />
@@ -812,6 +813,7 @@
 	</object>
 	<object class="MixerBusPanner" id="{7d37d95a-e130-4151-a354-3381ce98d1ce}" />
 	<object class="MixerBusFader" id="{bfd6120d-58d1-4323-bcd8-a5e73f3136f5}" />
+	<object class="SpatialiserEffect" id="{f7346254-e211-4007-97cf-8af5860512ba}" />
 	<object class="AutomationCurve" id="{da3f8d9b-9857-4a7b-a118-e86247d3a271}">
 		<relationship name="parameter">
 			<destination>{3c29192f-0c80-46ca-af53-cfeb9c305886}</destination>
