@@ -511,7 +511,7 @@ PrefabInstance:
     - target: {fileID: 1873322766099463150, guid: 937a2be9f9a5f3b40aedafb045404f48,
         type: 3}
       propertyPath: playerSpawnerId
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1873322766099463150, guid: 937a2be9f9a5f3b40aedafb045404f48,
         type: 3}
@@ -522,6 +522,16 @@ PrefabInstance:
         type: 3}
       propertyPath: useRandomSeeds
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1873322766099463150, guid: 937a2be9f9a5f3b40aedafb045404f48,
+        type: 3}
+      propertyPath: abilityChoice2
+      value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 1873322766099463150, guid: 937a2be9f9a5f3b40aedafb045404f48,
+        type: 3}
+      propertyPath: abilityChoice3
+      value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 1873322766099463151, guid: 937a2be9f9a5f3b40aedafb045404f48,
         type: 3}
@@ -7816,7 +7826,7 @@ PrefabInstance:
     - target: {fileID: 1027586290030674157, guid: 3ea0d52de7526b249933178698a90c55,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.0036621094
+      value: -0.154
       objectReference: {fileID: 0}
     - target: {fileID: 1027586290030674157, guid: 3ea0d52de7526b249933178698a90c55,
         type: 3}
