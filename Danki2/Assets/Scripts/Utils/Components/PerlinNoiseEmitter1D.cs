@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PerlinNoiseEmitter : MonoBehaviour
+public class PerlinNoiseEmitter1D : MonoBehaviour
 {
     private const float MaxStartOffset = 1000;
 

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class RandomTransformer : MonoBehaviour
+public class RandomTransformer2D : MonoBehaviour
 {
     [SerializeField] private PerlinNoiseEmitter2D perlinNoiseEmitter = null;
 

@@ -3,7 +3,7 @@
 public class LightFlicker : MonoBehaviour
 {
     [SerializeField] private Light lightSource = null;
-    [SerializeField] private PerlinNoiseEmitter perlinNoiseEmitter = null;
+    [SerializeField] private PerlinNoiseEmitter1D perlinNoiseEmitter = null;
 
     private void Update() => lightSource.intensity = perlinNoiseEmitter.Value;
 }
