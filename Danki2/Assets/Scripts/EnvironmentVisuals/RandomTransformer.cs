@@ -6,7 +6,7 @@ public class RandomTransformer : MonoBehaviour
 
     private float initialX;
     private float initialZ;
-    
+
     private void Start()
     {
         Vector3 position = transform.position;

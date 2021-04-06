@@ -29,6 +29,6 @@ public class PerlinNoiseEmitter2D : MonoBehaviour
         y += speed2 * Time.deltaTime;
         
         Value1 = min1 + (max1 - min1) * Mathf.PerlinNoise(x, 0);
-        Value2 = min2 + (max2 - min1) * Mathf.PerlinNoise(0, y);
+        Value2 = min2 + (max2 - min2) * Mathf.PerlinNoise(0, y);
     }
 }
