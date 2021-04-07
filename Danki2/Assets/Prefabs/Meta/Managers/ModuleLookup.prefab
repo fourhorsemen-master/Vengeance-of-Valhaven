@@ -138,11 +138,15 @@ MonoBehaviour:
       moduleData:
       - prefab: {fileID: 7152780536418578668, guid: dcd11cea5639a074ba154cd554ba1add,
           type: 3}
-        tags: 
+        tags: 000000000200000006000000
         allowAnyFreeRotation: 0
         minFreeRotation: 0
         maxFreeRotation: 0
-        distinctRotations: []
+        distinctRotations:
+        - 0
+        - 90
+        - 180
+        - 270
     - socketRotationType: 0
       moduleData:
       - prefab: {fileID: 7152780536418578668, guid: a5d3054108d6f064496c490af2173db0,

@@ -3926,12 +3926,12 @@ PrefabInstance:
     - target: {fileID: 1873322766099463150, guid: 937a2be9f9a5f3b40aedafb045404f48,
         type: 3}
       propertyPath: playerSpawnerId
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1873322766099463150, guid: 937a2be9f9a5f3b40aedafb045404f48,
         type: 3}
       propertyPath: cameraOrientation
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1873322766099463150, guid: 937a2be9f9a5f3b40aedafb045404f48,
         type: 3}
@@ -4935,8 +4935,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2723263318124139224, guid: c9691e80000f728428c651775602a3ce,
         type: 3}
+      propertyPath: tags.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2723263318124139224, guid: c9691e80000f728428c651775602a3ce,
+        type: 3}
       propertyPath: id
       value: 994960941
+      objectReference: {fileID: 0}
+    - target: {fileID: 2723263318124139224, guid: c9691e80000f728428c651775602a3ce,
+        type: 3}
+      propertyPath: tags.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2723263318124139224, guid: c9691e80000f728428c651775602a3ce,
+        type: 3}
+      propertyPath: tags.Array.data[1]
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8446230034033301112, guid: c9691e80000f728428c651775602a3ce,
         type: 3}

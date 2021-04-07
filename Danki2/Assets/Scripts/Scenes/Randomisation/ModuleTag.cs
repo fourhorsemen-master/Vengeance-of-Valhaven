@@ -5,5 +5,6 @@
     Leafy,
     Rocky,
     Rune,
-    Floating
+    Floating,
+    Ruins
 }
