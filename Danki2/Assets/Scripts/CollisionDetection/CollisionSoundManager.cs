@@ -67,9 +67,9 @@ public class CollisionSoundManager : Singleton<CollisionSoundManager>
     private void ScanForMissingPhysicMaterials()
     {
         List<Collider> collidersMissingMaterials = FindObjectsOfType<Collider>()
-               .Where(c => c.gameObject.layer == (int)Layer.Actors || c.gameObject.layer == (int)Layer.Props)
-               .Where(c => c.sharedMaterial == null)
-               .ToList();
+            .Where(c => c.gameObject.layer == (int)Layer.Actors || c.gameObject.layer == (int)Layer.Props)
+            .Where(c => c.sharedMaterial == null)
+            .ToList();
 
         collidersMissingMaterials.ForEach(c =>
         {
