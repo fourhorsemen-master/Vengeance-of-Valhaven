@@ -15,10 +15,15 @@ public class MainMenuManager : MonoBehaviour
     {
         SceneUtils.LoadScene(Scene.GameplayEntryScene);
     }
-    
+
     public void NewGame()
     {
         SaveDataManager.Instance.Clear();
         SceneUtils.LoadScene(Scene.GameplayEntryScene);
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
     }
 }
