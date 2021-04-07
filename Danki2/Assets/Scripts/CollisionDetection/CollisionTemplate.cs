@@ -14,6 +14,12 @@ public class CollisionTemplate : MonoBehaviour
     private bool playCollisionSound = false;
     private Actor owner = null;
 
+    public static CollisionTemplate Create(CollisionTemplate prefab, Actor owner, Vector3 scale, Vector3 position, Quaternion rotation)
+    {
+        return Instantiate(prefab, position, rotation)
+            .Initialise(owner, scale);
+    }
+
     private void Start()
     {
         if (!playCollisionSound) Destroy(gameObject);
@@ -38,19 +44,6 @@ public class CollisionTemplate : MonoBehaviour
         collisionMaterials.Add(other.sharedMaterial);
     }
 
-    // This method must be called directly after instantiation
-    public void Initialise(Actor owner, Vector3 scale)
-    {
-        this.owner = owner;
-
-        Vector3 currentScale = meshCollider.transform.localScale;
-        if (currentScale != scale)
-        {
-            meshCollider.transform.localScale = scale;
-            ResetMesh(meshCollider);
-        }
-    }
-
     public List<Actor> GetCollidingActors()
     {
         return ActorCache.Instance.Cache
@@ -72,6 +65,20 @@ public class CollisionTemplate : MonoBehaviour
     {
         this.collisionSoundLevel = collisionSoundLevel;
         playCollisionSound = true;
+    }
+
+    private CollisionTemplate Initialise(Actor owner, Vector3 scale)
+    {
+        this.owner = owner;
+
+        Vector3 currentScale = meshCollider.transform.localScale;
+        if (currentScale != scale)
+        {
+            meshCollider.transform.localScale = scale;
+            ResetMesh(meshCollider);
+        }
+
+        return this;
     }
 
     /// <summary>
