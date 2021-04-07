@@ -37,6 +37,8 @@ public class CollisionSoundManager : Singleton<CollisionSoundManager>
             [fleshPhysicMaterial] = MaterialParameterValue.Flesh,
             [woodPhysicMaterial] = MaterialParameterValue.Wood,
         };
+
+        ScanForMissingPhysicMaterials();
     }
 
     public void Play(PhysicMaterial sharedMaterial, CollisionSoundLevel collisionSoundLevel, Vector3 position)
@@ -47,6 +49,7 @@ public class CollisionSoundManager : Singleton<CollisionSoundManager>
     public void Play(ISet<PhysicMaterial> sharedMaterials, CollisionSoundLevel collisionSoundLevel, Vector3 position)
     {
         List<MaterialParameterValue> materialParameterValues = sharedMaterials
+            .Where(m => m != null)
             .Where(m => physicMaterialNameToParameterValue.ContainsKey(m))
             .Select(m => physicMaterialNameToParameterValue[m])
             .OrderBy(m => descendingMaterialPriority.IndexOf(m))
@@ -59,6 +62,30 @@ public class CollisionSoundManager : Singleton<CollisionSoundManager>
         eventInstance.setParameterByName("size", (int)collisionSoundLevel);
         eventInstance.start();
         eventInstance.release();
+    }
+
+    private void ScanForMissingPhysicMaterials()
+    {
+        List<Collider> collidersMissingMaterials = FindObjectsOfType<Collider>()
+            .Where(c => c.gameObject.layer == (int)Layer.Actors || c.gameObject.layer == (int)Layer.Props)
+            .Where(c => c.sharedMaterial == null)
+            .ToList();
+
+        collidersMissingMaterials.ForEach(c =>
+        {
+            if (c.gameObject.layer == (int)Layer.Actors)
+            {
+                Debug.LogWarning($"Actor {c.gameObject.name} doesn't have a physic material on it's collider.");
+            }
+            else if (c.gameObject.layer == (int)Layer.Floor)
+            {
+                Debug.LogWarning($"The terrain doesn't have a physic material on it's collider.");
+            }
+            else
+            {
+                Debug.LogWarning($"Prop {c.transform.parent.name} doesn't have a physic material on it's collider.");
+            }
+        });
     }
 
     private enum MaterialParameterValue

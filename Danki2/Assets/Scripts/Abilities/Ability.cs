@@ -80,7 +80,7 @@ public abstract class Ability
 
     protected void TemplateCollision(CollisionTemplateShape shape, Vector3 scale, Vector3 position, Quaternion rotation, Action<Actor> offensiveAction, CollisionSoundLevel? soundLevel = null)
     {
-        CollisionTemplate template = CollisionTemplateManager.Instance.Create(shape, scale, position, rotation);
+        CollisionTemplate template = CollisionTemplateManager.Instance.Create(Owner, shape, scale, position, rotation);
 
         template.GetCollidingActors()
             .Where(actor => Owner.Opposes(actor))

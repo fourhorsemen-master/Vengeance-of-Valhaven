@@ -389,7 +389,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4828296177260448678}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: b0a9c3c3726b960419be580de98d5723, type: 2}
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
@@ -420,6 +420,9 @@ MonoBehaviour:
   meshRenderers:
   - {fileID: 878473333365630948}
   weight: 2
+  animController: {fileID: 0}
+  colliders:
+  - {fileID: 7545607284339213606}
   centre: {fileID: 7817277397840590268}
   abilitySource: {fileID: 2501541229603721505}
   collisionTemplateSource: {fileID: 7496201845270352354}
