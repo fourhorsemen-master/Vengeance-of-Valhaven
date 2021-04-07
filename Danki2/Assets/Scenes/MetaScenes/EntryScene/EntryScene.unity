@@ -161,6 +161,7 @@ MonoBehaviour:
     - RandomisedScene
     - CatchAllScene
     - AbilityScene
+    - ForestCliffScene
     _values:
     - fileName: EntryScene
       sceneType: 0
@@ -271,6 +272,14 @@ MonoBehaviour:
           side: 0
         - id: 3
           side: 3
+        enemyEnemySpawnerIds: 
+    - fileName: ForestCliffScene
+      sceneType: 1
+      gameplaySceneData:
+        roomTypes: 
+        cameraOrientations: 
+        entranceData: []
+        exitData: []
         enemyEnemySpawnerIds: 
 --- !u!4 &496116276
 Transform:
