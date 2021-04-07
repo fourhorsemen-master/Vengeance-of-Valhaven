@@ -4,8 +4,8 @@
     public static AbilityTree CreateTree(EnumDictionary<AbilityReference, int> ownedAbilities, Node leftChild, Node rightChild)
     {
         Node rootNode = new NodeImplementation();
-        rootNode.SetChild(Direction.Left, leftChild);
-        rootNode.SetChild(Direction.Right, rightChild);
+        if (leftChild != null) rootNode.SetChild(Direction.Left, leftChild);
+        if (rightChild != null) rootNode.SetChild(Direction.Right, rightChild);
         return new AbilityTreeImplementation(ownedAbilities, rootNode);
     }
 
