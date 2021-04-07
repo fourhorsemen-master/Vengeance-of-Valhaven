@@ -67,23 +67,34 @@ public class CollisionSoundManager : Singleton<CollisionSoundManager>
     private void ScanForMissingPhysicMaterials()
     {
         List<Collider> collidersMissingMaterials = FindObjectsOfType<Collider>()
-            .Where(c => c.gameObject.layer == (int)Layer.Actors || c.gameObject.layer == (int)Layer.Props)
+            .Where(c =>
+            {
+                int layer = c.gameObject.layer;
+                bool isActor = layer == (int) Layer.Actors;
+                bool isProp = layer == (int) Layer.Props;
+                bool isFloor = layer == (int) Layer.Floor;
+                bool isWater = layer == (int) Layer.Water;
+                return isActor || isProp || isFloor || isWater;
+            })
             .Where(c => c.sharedMaterial == null)
             .ToList();
 
         collidersMissingMaterials.ForEach(c =>
         {
-            if (c.gameObject.layer == (int)Layer.Actors)
+            switch (c.gameObject.layer)
             {
-                Debug.LogWarning($"Actor {c.gameObject.name} doesn't have a physic material on it's collider.");
-            }
-            else if (c.gameObject.layer == (int)Layer.Floor)
-            {
-                Debug.LogWarning($"The terrain doesn't have a physic material on it's collider.");
-            }
-            else
-            {
-                Debug.LogWarning($"Prop {c.transform.parent.name} doesn't have a physic material on it's collider.");
+                case (int)Layer.Actors:
+                    Debug.LogWarning($"Actor {c.gameObject.name} doesn't have a physic material on it's collider.");
+                    break;
+                case (int) Layer.Props:
+                    Debug.LogWarning($"Prop {c.transform.parent.name} doesn't have a physic material on it's collider.");
+                    break;
+                case (int)Layer.Floor:
+                    Debug.LogWarning("The terrain doesn't have a physic material on it's collider.");
+                    break;
+                default:
+                    Debug.LogWarning("The water doesn't have a physic material on it's collider.");
+                    break;
             }
         });
     }
