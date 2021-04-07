@@ -64,7 +64,7 @@ To create a new scene:
   - Enemy spawners,
   - Props,
   - Etc...
-- Add a terrain as a child of Room and call it "Floor", you'll probably want to make it a lot smaller and raise it up so that you have room for sunken terrain,
+- Add a terrain as a child of Room and call it "Floor", you'll probably want to make it a lot smaller and raise it up using the "Set Height" tool so that you have room for sunken terrain,
 - Adding the terrain will have created a new terrain asset in the root of the "Assets" folder. Rename this to "\<your-scene-name\>_TerrainData" and move it into your scenes folder,
 - Bake the navmesh and save (Ctrl+S),
 - This is a good time to make a commit, as you have all of the new files required for a new scene,
@@ -80,3 +80,13 @@ To create a new scene:
   - Open your new scene, then go to the build settings and click "Add Open Scenes". You should see a change in the EditorBuildSettings.asset file,
   - In the SceneLookup, fill out all of the data required.
 - The scene should now be finished and will come up in random scene selection.
+
+### Making New Modules
+
+To create a new module:
+
+- Create a prefab in the relevant folder,
+- Add props to the prefab as required (you can add an instance of the socket you're creating the module for temporarily to show you the required size),
+- Make sure the prefab has the default transform and that it is facing the -ve z-axis (if the direction is important to the module),
+- In the ModuleLookup, add a new entry for your module, drag in the prefab, set the appropriate tags and data about available rotations,
+- The module will now come up in random module selection.
