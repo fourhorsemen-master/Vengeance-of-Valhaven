@@ -73,7 +73,7 @@ public abstract class ProjectileObject : AbilityObject
 
         if (other.sharedMaterial != null)
         {
-            CollisionSoundManager.Instance.Play(other.sharedMaterial, CollisionSoundLevel.Low);
+            CollisionSoundManager.Instance.Play(other.sharedMaterial, CollisionSoundLevel.Low, transform.position);
         }
 
         if (isSticky)

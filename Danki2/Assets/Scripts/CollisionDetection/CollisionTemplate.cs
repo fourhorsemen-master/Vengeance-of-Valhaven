@@ -27,7 +27,7 @@ public class CollisionTemplate : MonoBehaviour
         // We have to wait for a physics cycle to run to ensure collisions have been registered
         this.WaitForFixedUpdateAndAct(() =>
         {
-            CollisionSoundManager.Instance.Play(collisionMaterials, collisionSoundLevel);
+            CollisionSoundManager.Instance.Play(collisionMaterials, collisionSoundLevel, transform.position);
             Destroy(gameObject);
         });
     }
