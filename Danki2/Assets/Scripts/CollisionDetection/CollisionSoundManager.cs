@@ -1,9 +1,7 @@
 ﻿using FMOD.Studio;
 using FMODUnity;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 
 public class CollisionSoundManager : Singleton<CollisionSoundManager>
@@ -39,9 +37,6 @@ public class CollisionSoundManager : Singleton<CollisionSoundManager>
             [fleshPhysicMaterial] = MaterialParameterValue.Flesh,
             [woodPhysicMaterial] = MaterialParameterValue.Wood,
         };
-
-        // Set terrain to have dirt PhysicMaterial
-        FindObjectOfType<TerrainCollider>().sharedMaterial = dirtPhysicMaterial;
 
         ScanForMissingPhysicMaterials();
     }
@@ -81,6 +76,10 @@ public class CollisionSoundManager : Singleton<CollisionSoundManager>
             if (c.gameObject.layer == (int)Layer.Actors)
             {
                 Debug.LogWarning($"Actor {c.gameObject.name} doesn't have a physic material on it's collider.");
+            }
+            else if (c.gameObject.layer == (int)Layer.Floor)
+            {
+                Debug.LogWarning($"The terrain doesn't have a physic material on it's collider.");
             }
             else
             {
