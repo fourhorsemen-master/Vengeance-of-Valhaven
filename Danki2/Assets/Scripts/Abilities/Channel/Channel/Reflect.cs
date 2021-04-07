@@ -6,7 +6,6 @@ public class Reflect : Channel
 {
     private const float Range = 3;
     private const float VisualPositionOffset = 0.7f;
-    private const float MaxReflectAngle = 45; // Note that this value is tied to the collision template we use
 
     private ReflectObject reflectObject;
 
@@ -54,12 +53,7 @@ public class Reflect : Channel
             DealPrimaryDamage(damageData.Source, damageData.Damage);
         }
 
-        float angle = Vector3.Angle(
-            Owner.transform.forward,
-            damageData.Source.transform.position - Owner.transform.position
-        );
-
-        return angle > MaxReflectAngle;
+        return !damageSourceInRange;
     }
 
     private void Finish()
