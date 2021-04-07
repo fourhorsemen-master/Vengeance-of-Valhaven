@@ -3,6 +3,7 @@
 public class ChannelService : AbilityService, IMovementStatusProvider
 {
     private Channel _currentChannel;
+    private AbilityReference _currentAbilityReference;
 
     public Subject<ChannelType> ChannelStartSubject { get; } = new Subject<ChannelType>();
     public Subject ChannelEndSubject { get; } = new Subject();
@@ -48,6 +49,7 @@ public class ChannelService : AbilityService, IMovementStatusProvider
         )) return false;
 
         _currentChannel = channel;
+        _currentAbilityReference = abilityReference;
         RemainingDuration = _currentChannel.Duration;
         Active = true;
 
@@ -134,6 +136,15 @@ public class ChannelService : AbilityService, IMovementStatusProvider
         else
         {
             _currentChannel.End(FloorTargetPosition, OffsetTargetPosition);
+        }
+
+        if (AbilityLookup.Instance.TryGetAnimationType(_currentAbilityReference, out AbilityAnimationType animationType))
+        {
+            if(animationType != AbilityAnimationType.None && actor.AnimController)
+            {
+                string animationState = AnimationStringLookup.LookupTable[animationType];
+                actor.AnimController.Play(animationState);
+            }
         }
 
         ChannelEndSubject.Next();

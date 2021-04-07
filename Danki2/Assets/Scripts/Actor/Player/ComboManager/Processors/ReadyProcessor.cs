@@ -44,6 +44,12 @@
                 return false;
         }
 
+        if (!player.AbilityTree.CanWalkDirection(castDirection))
+        {
+            nextState = default;
+            return false;
+        }
+
         AbilityReference abilityReference = player.AbilityTree.GetAbility(castDirection);
         AbilityType abilityType = AbilityLookup.Instance.GetAbilityType(abilityReference);
 
