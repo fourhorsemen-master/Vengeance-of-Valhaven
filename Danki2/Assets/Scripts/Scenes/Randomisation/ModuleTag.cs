@@ -4,5 +4,6 @@
     Tall,
     Leafy,
     Rocky,
-    Rune
+    Rune,
+    Floating
 }
