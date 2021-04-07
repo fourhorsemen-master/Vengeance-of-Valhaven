@@ -7,14 +7,11 @@ public abstract class Actor : MonoBehaviour
     [HideInInspector]
     public StatsDictionary baseStats = new StatsDictionary(0);
 
-    [SerializeField]
-    private NavMeshAgent navmeshAgent = null;
+    [SerializeField] private NavMeshAgent navmeshAgent = null;
 
-    [SerializeField]
-    private TrailRenderer trailRenderer = null;
+    [SerializeField] private TrailRenderer trailRenderer = null;
 
-    [SerializeField]
-    private Renderer[] meshRenderers = null;
+    [SerializeField] private Renderer[] meshRenderers = null;
 
     // Serialized properties
     [SerializeField] private float weight = 0;
@@ -22,6 +19,9 @@ public abstract class Actor : MonoBehaviour
 
     [SerializeField] private Animator animController = null;
     public Animator AnimController => animController;
+
+    [SerializeField] private Collider[] colliders = null;
+    public Collider[] Colliders => colliders;
 
     [Header("Sockets")]
 

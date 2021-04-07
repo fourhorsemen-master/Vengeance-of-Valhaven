@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 [Ability(AbilityReference.Reflect)]
@@ -10,10 +9,8 @@ public class Reflect : Channel
 
     private ReflectObject reflectObject;
 
-    private Subscription<DamageData> damageSubscription;
+    private Guid damagePipeId;
     private readonly Subject onReflect = new Subject();
-    private bool receivedDamage = false;
-    private Guid effectId;
 
     public override ChannelEffectOnMovement EffectOnMovement => ChannelEffectOnMovement.Root;
 
@@ -22,8 +19,7 @@ public class Reflect : Channel
     public override void Start(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
         reflectObject = ReflectObject.Create(Owner.transform, Owner.Height, onReflect, VisualPositionOffset);
-        Owner.EffectManager.TryAddPassiveEffect(PassiveEffect.Block, out effectId);
-        damageSubscription = Owner.HealthManager.UnmodifiedDamageSubject.Subscribe(HandleIncomingDamage);
+        damagePipeId = Owner.HealthManager.RegisterDamagePipe(DamagePipe);
     }
 
     public override void Continue(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
@@ -35,7 +31,7 @@ public class Reflect : Channel
 
     public override void End(Vector3 floorTargetPosition, Vector3 offsetTargetPosition) => Finish();
 
-    private void HandleIncomingDamage(DamageData damageData)
+    private bool DamagePipe(DamageData damageData)
     {
         bool damageSourceInRange = false;
 
@@ -49,20 +45,21 @@ public class Reflect : Channel
             }
         );
 
-        if (!damageSourceInRange) return;
+        if (damageSourceInRange)
+        {
+            SuccessFeedbackSubject.Next(true);
 
-        if (!receivedDamage) SuccessFeedbackSubject.Next(true);
-        receivedDamage = true;
+            onReflect.Next();
+            DealPrimaryDamage(damageData.Source, damageData.Damage);
+        }
 
-        onReflect.Next();
-        DealPrimaryDamage(damageData.Source, damageData.Damage);
+        return !damageSourceInRange;
     }
 
     private void Finish()
     {
         reflectObject.Destroy();
-        Owner.EffectManager.RemovePassiveEffect(effectId);
-        damageSubscription.Unsubscribe();
-        if (!receivedDamage) SuccessFeedbackSubject.Next(false);
+        Owner.HealthManager.DeregisterDamagePipe(damagePipeId);
+        SuccessFeedbackSubject.Next(false);
     }
 }
