@@ -19,7 +19,7 @@ public class Reflect : Channel
     public override void Start(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
         reflectObject = ReflectObject.Create(Owner.transform, Owner.Height, onReflect, VisualPositionOffset);
-        damagePipeId = Owner.HealthManager.RegisterDamagePipe(BlockDirectionalDamage);
+        damagePipeId = Owner.HealthManager.RegisterDamagePipe(DamagePipe);
     }
 
     public override void Continue(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
@@ -31,7 +31,7 @@ public class Reflect : Channel
 
     public override void End(Vector3 floorTargetPosition, Vector3 offsetTargetPosition) => Finish();
 
-    private bool BlockDirectionalDamage(DamageData damageData)
+    private bool DamagePipe(DamageData damageData)
     {
         bool damageSourceInRange = false;
 

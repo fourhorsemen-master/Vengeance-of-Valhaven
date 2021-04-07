@@ -15,14 +15,14 @@ public class Parry : Channel
     {
         ParryObject.Create(Owner.transform, onParry);
 
-        damagePipeId = Owner.HealthManager.RegisterDamagePipe(BlockDamage);
+        damagePipeId = Owner.HealthManager.RegisterDamagePipe(DamagePipe);
     }
 
     public override void Cancel(Vector3 floorTargetPosition, Vector3 offsetTargetPosition) => Finish();
 
     public override void End(Vector3 floorTargetPosition, Vector3 offsetTargetPosition) => Finish();
 
-    private bool BlockDamage(DamageData damageData)
+    private bool DamagePipe(DamageData damageData)
     {
         onParry.Next();
         

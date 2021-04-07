@@ -104,6 +104,11 @@ public class HealthManager
         }
     }
 
+    /// <summary>
+    /// Register a pipe that damage data is passed through. Returning false will cause the damage to be blocked.
+    /// </summary>
+    /// <param name="pipe"></param>
+    /// <returns></returns>
     public Guid RegisterDamagePipe(Func<DamageData, bool> pipe) => damagePipeRegistry.AddIndefinite(pipe);
 
     public void DeregisterDamagePipe(Guid pipeId) => damagePipeRegistry.Remove(pipeId);
