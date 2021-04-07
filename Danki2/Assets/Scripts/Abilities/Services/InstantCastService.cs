@@ -33,6 +33,15 @@ public class InstantCastService : AbilityService
             instantCast.Cast(floorTargetPosition, offsetTargetPosition);
         }
 
+        if(AbilityLookup.Instance.TryGetAnimationType(abilityReference, out AbilityAnimationType animationType))
+        {
+            if(animationType != AbilityAnimationType.None && actor.AnimController)
+            {
+                string animationState = AnimationStringLookup.LookupTable[animationType];
+                actor.AnimController.Play(animationState);
+            }
+        }
+
         return true;
     }
 }

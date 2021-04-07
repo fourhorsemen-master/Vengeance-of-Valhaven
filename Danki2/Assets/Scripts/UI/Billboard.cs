@@ -21,18 +21,12 @@ public class Billboard : MonoBehaviour
         switch (orientation)
         {
             case Pole.North:
+            case Pole.South:
                 lookAtPosition.x = transform.position.x;
                 break;
             case Pole.East:
-                lookAtPosition.z = transform.position.z;
-                break;
-            case Pole.South:
-                lookAtPosition.x = transform.position.x;
-                lookAtPosition.z *= -1;
-                break;
             case Pole.West:
                 lookAtPosition.z = transform.position.z;
-                lookAtPosition.x *= -1;
                 break;
         }
 

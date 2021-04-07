@@ -79,6 +79,7 @@ MonoBehaviour:
         shield: 0
       fmodStartEventRef: event:/AS_Slash
       fmodEndEventRef: 
+      animationType: 1
       abilityBonusLookup:
         _keys: []
         _values: []
@@ -96,6 +97,7 @@ MonoBehaviour:
         shield: 0
       fmodStartEventRef: 
       fmodEndEventRef: 
+      animationType: 0
       abilityBonusLookup:
         _keys:
         - Cross-Step
@@ -117,10 +119,11 @@ MonoBehaviour:
         shield: 0
       fmodStartEventRef: event:/AS_FanOfKnives/AS_FanOfKnives_Draw
       fmodEndEventRef: event:/AS_FanOfKnives/AS_FanOfKnives_Woosh
+      animationType: 0
       abilityBonusLookup:
         _keys: []
         _values: []
-      rarity: 0
+      rarity: 1
       playerCanCast: 1
       finisher: 0
       channelDuration: 0
@@ -133,6 +136,7 @@ MonoBehaviour:
         shield: 0
       fmodStartEventRef: 
       fmodEndEventRef: 
+      animationType: 0
       abilityBonusLookup:
         _keys: []
         _values: []
@@ -149,6 +153,7 @@ MonoBehaviour:
         shield: 0
       fmodStartEventRef: 
       fmodEndEventRef: 
+      animationType: 0
       abilityBonusLookup:
         _keys: []
         _values: []
@@ -166,6 +171,7 @@ MonoBehaviour:
         shield: 0
       fmodStartEventRef: 
       fmodEndEventRef: 
+      animationType: 2
       abilityBonusLookup:
         _keys: []
         _values: []
@@ -182,6 +188,7 @@ MonoBehaviour:
         shield: 0
       fmodStartEventRef: event:/AS_Smash/AS_Smash_Draw
       fmodEndEventRef: event:/AS_Smash/AS_Smash_Impact
+      animationType: 4
       abilityBonusLookup:
         _keys:
         - PerfectSmash
@@ -189,7 +196,7 @@ MonoBehaviour:
         - displayName: Perfect Smash
           tooltip: Applies a 3s {STUN} to all affected enemies.
           requiredTreeDepth: 3
-      rarity: 2
+      rarity: 1
       playerCanCast: 1
       finisher: 1
       channelDuration: 0.5
@@ -202,6 +209,7 @@ MonoBehaviour:
         shield: 0
       fmodStartEventRef: 
       fmodEndEventRef: 
+      animationType: 4
       abilityBonusLookup:
         _keys: []
         _values: []
@@ -219,6 +227,7 @@ MonoBehaviour:
         shield: 0
       fmodStartEventRef: 
       fmodEndEventRef: 
+      animationType: 1
       abilityBonusLookup:
         _keys: []
         _values: []
@@ -236,6 +245,7 @@ MonoBehaviour:
         shield: 0
       fmodStartEventRef: 
       fmodEndEventRef: 
+      animationType: 0
       abilityBonusLookup:
         _keys: []
         _values: []
@@ -254,6 +264,7 @@ MonoBehaviour:
         shield: 0
       fmodStartEventRef: 
       fmodEndEventRef: 
+      animationType: 3
       abilityBonusLookup:
         _keys: []
         _values: []
@@ -271,6 +282,7 @@ MonoBehaviour:
         shield: 0
       fmodStartEventRef: 
       fmodEndEventRef: 
+      animationType: 2
       abilityBonusLookup:
         _keys:
         - Daze
@@ -297,10 +309,11 @@ MonoBehaviour:
         shield: 0
       fmodStartEventRef: 
       fmodEndEventRef: 
+      animationType: 1
       abilityBonusLookup:
         _keys: []
         _values: []
-      rarity: 0
+      rarity: 2
       playerCanCast: 1
       finisher: 0
       channelDuration: 1
@@ -313,6 +326,7 @@ MonoBehaviour:
         shield: 0
       fmodStartEventRef: 
       fmodEndEventRef: 
+      animationType: 1
       abilityBonusLookup:
         _keys: []
         _values: []
@@ -329,6 +343,7 @@ MonoBehaviour:
         shield: 0
       fmodStartEventRef: 
       fmodEndEventRef: 
+      animationType: 2
       abilityBonusLookup:
         _keys: []
         _values: []
@@ -346,6 +361,7 @@ MonoBehaviour:
         shield: 0
       fmodStartEventRef: event:/AS_FanOfKnives/AS_FanOfKnives_Draw
       fmodEndEventRef: event:/AS_FanOfKnives/AS_FanOfKnives_Woosh
+      animationType: 0
       abilityBonusLookup:
         _keys:
         - Spray
@@ -366,6 +382,7 @@ MonoBehaviour:
         shield: 0
       fmodStartEventRef: 
       fmodEndEventRef: 
+      animationType: 2
       abilityBonusLookup:
         _keys:
         - Hack
@@ -386,6 +403,7 @@ MonoBehaviour:
         shield: 0
       fmodStartEventRef: 
       fmodEndEventRef: 
+      animationType: 0
       abilityBonusLookup:
         _keys: []
         _values: []
@@ -403,6 +421,7 @@ MonoBehaviour:
         shield: 0
       fmodStartEventRef: 
       fmodEndEventRef: 
+      animationType: 0
       abilityBonusLookup:
         _keys: []
         _values: []
@@ -419,6 +438,7 @@ MonoBehaviour:
         shield: 0
       fmodStartEventRef: 
       fmodEndEventRef: 
+      animationType: 0
       abilityBonusLookup:
         _keys: []
         _values: []
@@ -435,6 +455,7 @@ MonoBehaviour:
         shield: 0
       fmodStartEventRef: 
       fmodEndEventRef: 
+      animationType: 0
       abilityBonusLookup:
         _keys: []
         _values: []
@@ -451,6 +472,7 @@ MonoBehaviour:
         shield: 0
       fmodStartEventRef: event:/AS_FanOfKnives/AS_FanOfKnives_Draw
       fmodEndEventRef: event:/AS_FanOfKnives/AS_FanOfKnives_Woosh
+      animationType: 0
       abilityBonusLookup:
         _keys:
         - Double Down
@@ -476,6 +498,7 @@ MonoBehaviour:
         shield: 0
       fmodStartEventRef: 
       fmodEndEventRef: 
+      animationType: 4
       abilityBonusLookup:
         _keys:
         - Finishing Touch
@@ -501,6 +524,7 @@ MonoBehaviour:
         shield: 0
       fmodStartEventRef: 
       fmodEndEventRef: 
+      animationType: 2
       abilityBonusLookup:
         _keys: []
         _values: []
