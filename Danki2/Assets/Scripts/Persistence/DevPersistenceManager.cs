@@ -85,8 +85,8 @@ public class DevPersistenceManager : PersistenceManager
                     {
                         [0] = 1
                     },
-                    ModuleSeed = useRandomSeeds ? Random.Range(0, int.MaxValue) : moduleSeed,
-                    TransitionModuleSeed = useRandomSeeds ? Random.Range(0, int.MaxValue) : transitionModuleSeed,
+                    ModuleSeed = useRandomSeeds ? RandomUtils.Seed() : moduleSeed,
+                    TransitionModuleSeed = useRandomSeeds ? RandomUtils.Seed() : transitionModuleSeed,
                     CameraOrientation = cameraOrientation,
                     PlayerSpawnerId = playerSpawnerId
                 }
