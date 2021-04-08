@@ -120,7 +120,14 @@ MonoBehaviour:
       moduleData:
       - prefab: {fileID: 7152780536418578668, guid: 25585d8dd9c7b634b85f7d6d1859ebdb,
           type: 3}
-        tags: 0200000006000000
+        tags: 06000000
+        allowAnyFreeRotation: 0
+        minFreeRotation: -10
+        maxFreeRotation: 10
+        distinctRotations: []
+      - prefab: {fileID: 7152780536418578668, guid: 87dc76671cb73d0408fc10ebf27d2f7c,
+          type: 3}
+        tags: 02000000
         allowAnyFreeRotation: 0
         minFreeRotation: -10
         maxFreeRotation: 10
