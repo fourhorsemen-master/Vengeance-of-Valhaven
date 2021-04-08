@@ -23,6 +23,7 @@ public class ModuleSocketEditor : Editor
             EditId();
             EditLockRotation();
             EditTags();
+            EditTagsToExclude();
         }
 
         if (GUI.changed)
@@ -60,7 +61,10 @@ public class ModuleSocketEditor : Editor
 
     private void EditId()
     {
+        GUILayout.BeginHorizontal();
         moduleSocket.Id = EditorGUILayout.IntField("ID", moduleSocket.Id);
+        if (GUILayout.Button("Generate Random ID")) moduleSocket.Id = RandomUtils.Seed();
+        GUILayout.EndHorizontal();
     }
 
     private void EditLockRotation()
@@ -76,6 +80,21 @@ public class ModuleSocketEditor : Editor
         
         EditorUtils.ResizeableList(
             moduleSocket.Tags,
+            tag => (ModuleTag) EditorGUILayout.EnumPopup("Tag", tag),
+            ModuleTag.Short
+        );
+
+        EditorGUI.indentLevel--;
+    }
+
+    private void EditTagsToExclude()
+    {
+        EditorUtils.Header("Tags To Exclude");
+
+        EditorGUI.indentLevel++;
+        
+        EditorUtils.ResizeableList(
+            moduleSocket.TagsToExclude,
             tag => (ModuleTag) EditorGUILayout.EnumPopup("Tag", tag),
             ModuleTag.Short
         );

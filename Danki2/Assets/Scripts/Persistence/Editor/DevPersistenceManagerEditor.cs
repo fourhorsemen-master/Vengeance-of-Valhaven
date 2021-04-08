@@ -28,8 +28,11 @@ public class DevPersistenceManagerEditor : Editor
         EditorUtils.Header("Scene");
         EditorGUI.indentLevel++;
         devPersistenceManager.cameraOrientation = (Pole) EditorGUILayout.EnumPopup("Camera Orientation", devPersistenceManager.cameraOrientation);
+        devPersistenceManager.useRandomSeeds = EditorGUILayout.Toggle("Use Random Seeds", devPersistenceManager.useRandomSeeds);
+        if (devPersistenceManager.useRandomSeeds) EditorGUI.BeginDisabledGroup(true);
         devPersistenceManager.moduleSeed = EditorGUILayout.IntField("Module Seed", devPersistenceManager.moduleSeed);
         devPersistenceManager.transitionModuleSeed = EditorGUILayout.IntField("Transitions Module Seed", devPersistenceManager.transitionModuleSeed);
+        if (devPersistenceManager.useRandomSeeds) EditorGUI.EndDisabledGroup();
         EditorGUI.indentLevel--;
         EditorUtils.VerticalSpace();
         

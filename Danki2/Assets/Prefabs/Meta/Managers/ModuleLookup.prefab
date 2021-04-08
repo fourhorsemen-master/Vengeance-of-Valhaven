@@ -49,6 +49,7 @@ MonoBehaviour:
     - LargeCircular
     - SmallSquare
     - LargeSquare
+    - TinyCircular
     _values:
     - socketRotationType: 0
       moduleData:
@@ -82,10 +83,24 @@ MonoBehaviour:
         distinctRotations: []
       - prefab: {fileID: 4110214435533136738, guid: 783af93464e823a4eaf5feae7a103f6a,
           type: 3}
-        tags: 000000000200000004000000
+        tags: 000000000300000004000000
         allowAnyFreeRotation: 0
         minFreeRotation: -40
         maxFreeRotation: 40
+        distinctRotations: []
+      - prefab: {fileID: 4110214435533136738, guid: 7cf18c898b038fd40908aee4b5b27972,
+          type: 3}
+        tags: 0000000002000000
+        allowAnyFreeRotation: 1
+        minFreeRotation: 0
+        maxFreeRotation: 360
+        distinctRotations: []
+      - prefab: {fileID: 4110214435533136738, guid: e430818b07862094cb2e9e376b008519,
+          type: 3}
+        tags: 0000000003000000
+        allowAnyFreeRotation: 1
+        minFreeRotation: 0
+        maxFreeRotation: 360
         distinctRotations: []
     - socketRotationType: 0
       moduleData:
@@ -113,4 +128,41 @@ MonoBehaviour:
         allowAnyFreeRotation: 0
         minFreeRotation: 0
         maxFreeRotation: 0
+        distinctRotations: []
+    - socketRotationType: 0
+      moduleData:
+      - prefab: {fileID: 7152780536418578668, guid: a5d3054108d6f064496c490af2173db0,
+          type: 3}
+        tags: 0000000002000000
+        allowAnyFreeRotation: 0
+        minFreeRotation: 0
+        maxFreeRotation: 360
+        distinctRotations: []
+      - prefab: {fileID: 7152780536418578668, guid: 44c7875a620278f409c640b39399401c,
+          type: 3}
+        tags: 0000000002000000
+        allowAnyFreeRotation: 0
+        minFreeRotation: 0
+        maxFreeRotation: 360
+        distinctRotations: []
+      - prefab: {fileID: 7152780536418578668, guid: 4e2390c1bdc19fe4ba9dc5a6d91171c3,
+          type: 3}
+        tags: 0000000002000000
+        allowAnyFreeRotation: 0
+        minFreeRotation: 0
+        maxFreeRotation: 360
+        distinctRotations: []
+      - prefab: {fileID: 7152780536418578668, guid: a3f3a79287a26b44ca8d5d070e7db2fd,
+          type: 3}
+        tags: 0000000002000000
+        allowAnyFreeRotation: 0
+        minFreeRotation: 0
+        maxFreeRotation: 360
+        distinctRotations: []
+      - prefab: {fileID: 7152780536418578668, guid: 922a39d78fca4734095e593e56dbec44,
+          type: 3}
+        tags: 0000000002000000
+        allowAnyFreeRotation: 0
+        minFreeRotation: 0
+        maxFreeRotation: 360
         distinctRotations: []

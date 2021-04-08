@@ -31,7 +31,11 @@ public class ModuleManager : Singleton<ModuleManager>
         {
             if (!socket.LockRotation) socket.transform.Rotate(0, yRotation, 0);
 
-            List<ModuleData> moduleDataList = ModuleLookup.Instance.GetModuleDataWithMatchingTags(socket.SocketType, socket.Tags);
+            List<ModuleData> moduleDataList = ModuleLookup.Instance.GetModuleDataWithMatchingTags(
+                socket.SocketType,
+                socket.Tags,
+                socket.TagsToExclude
+            );
 
             if (moduleDataList.Count == 0)
             {
