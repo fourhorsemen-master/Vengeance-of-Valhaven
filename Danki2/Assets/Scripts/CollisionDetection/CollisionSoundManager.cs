@@ -67,15 +67,6 @@ public class CollisionSoundManager : Singleton<CollisionSoundManager>
     private void ScanForMissingPhysicMaterials()
     {
         List<Collider> collidersMissingMaterials = FindObjectsOfType<Collider>()
-            .Where(c =>
-            {
-                int layer = c.gameObject.layer;
-                bool isActor = layer == (int) Layer.Actors;
-                bool isProp = layer == (int) Layer.Props;
-                bool isFloor = layer == (int) Layer.Floor;
-                bool isWater = layer == (int) Layer.Water;
-                return isActor || isProp || isFloor || isWater;
-            })
             .Where(c => c.sharedMaterial == null)
             .ToList();
 
@@ -92,7 +83,7 @@ public class CollisionSoundManager : Singleton<CollisionSoundManager>
                 case (int)Layer.Floor:
                     Debug.LogWarning("The terrain doesn't have a physic material on it's collider.");
                     break;
-                default:
+                case (int)Layer.Water:
                     Debug.LogWarning("The water doesn't have a physic material on it's collider.");
                     break;
             }
