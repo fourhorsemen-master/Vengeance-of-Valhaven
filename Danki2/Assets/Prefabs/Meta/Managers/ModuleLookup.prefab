@@ -149,7 +149,18 @@ MonoBehaviour:
         - 270
       - prefab: {fileID: 7152780536418578668, guid: d70288c6eed7fed4f8b7132ad8039828,
           type: 3}
-        tags: 000000000200000006000000
+        tags: 00000000020000000600000003000000
+        allowAnyFreeRotation: 0
+        minFreeRotation: 0
+        maxFreeRotation: 0
+        distinctRotations:
+        - 0
+        - 90
+        - 180
+        - 270
+      - prefab: {fileID: 7152780536418578668, guid: 98e0220e40c2e744d9074834ae832817,
+          type: 3}
+        tags: 0000000002000000
         allowAnyFreeRotation: 0
         minFreeRotation: 0
         maxFreeRotation: 0
