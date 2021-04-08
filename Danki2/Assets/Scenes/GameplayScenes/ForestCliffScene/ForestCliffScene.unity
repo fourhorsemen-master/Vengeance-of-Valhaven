@@ -9947,6 +9947,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1873322766099463150, guid: 937a2be9f9a5f3b40aedafb045404f48,
         type: 3}
+      propertyPath: transitionerData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1873322766099463150, guid: 937a2be9f9a5f3b40aedafb045404f48,
+        type: 3}
+      propertyPath: activeTransitions.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1873322766099463150, guid: 937a2be9f9a5f3b40aedafb045404f48,
+        type: 3}
       propertyPath: roomType
       value: 0
       objectReference: {fileID: 0}
@@ -9979,6 +9989,21 @@ PrefabInstance:
         type: 3}
       propertyPath: spawnedEnemies.Array.data[0].actorType
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1873322766099463150, guid: 937a2be9f9a5f3b40aedafb045404f48,
+        type: 3}
+      propertyPath: activeTransitions.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1873322766099463150, guid: 937a2be9f9a5f3b40aedafb045404f48,
+        type: 3}
+      propertyPath: activeTransitions.Array.data[2]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1873322766099463150, guid: 937a2be9f9a5f3b40aedafb045404f48,
+        type: 3}
+      propertyPath: activeTransitions.Array.data[3]
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1873322766099463151, guid: 937a2be9f9a5f3b40aedafb045404f48,
         type: 3}
