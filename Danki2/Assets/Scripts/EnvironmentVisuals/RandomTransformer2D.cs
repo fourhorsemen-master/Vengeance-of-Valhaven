@@ -5,7 +5,7 @@ public class RandomTransformer2D : MonoBehaviour
     [SerializeField] private PerlinNoiseEmitter2D perlinNoiseEmitter = null;
 
     private Vector3 initialPosition;
-    private Vector3 transformVector;
+    private Vector3 transformVector = Vector3.zero;
 
     private void Start()
     {
