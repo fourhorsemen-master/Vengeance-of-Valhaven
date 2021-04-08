@@ -83,7 +83,7 @@ public class DevPersistenceManager : PersistenceManager
                     },
                     RoomTransitionerIdToNextRoomId = new Dictionary<int, int>
                     {
-                        [0] = 1
+                        [3] = 1
                     },
                     ModuleSeed = useRandomSeeds ? RandomUtils.Seed() : moduleSeed,
                     TransitionModuleSeed = useRandomSeeds ? RandomUtils.Seed() : transitionModuleSeed,
