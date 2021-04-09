@@ -3,6 +3,7 @@
 public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
     public static T Instance { get; private set; }
+    public static bool Exists => Instance != null;
 
     protected virtual bool DestroyOnLoad => true;
 

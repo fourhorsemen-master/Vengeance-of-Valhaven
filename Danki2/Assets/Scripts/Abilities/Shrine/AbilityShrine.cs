@@ -22,30 +22,15 @@ public class AbilityShrine : Singleton<AbilityShrine>
 
     private void Update()
     {
-        if (GameplayStateController.Instance.GameplayState != GameplayState.Playing) return;
-        if (abilitySelected) return;
-
-        if (transform.DistanceFromPlayer() <= interactionDistance)
-        {
-            ShowInteractionText();
-            ListenForInteraction();
-        }
-        else
-        {
-            HideInteractionText();
-        }
+        if (CanInteract()) ShowInteractionText();
+        else HideInteractionText();
     }
 
+    public bool CanInteract() => GameplayStateController.Instance.GameplayState == GameplayState.Playing &&
+                                 !abilitySelected &&
+                                 transform.DistanceFromPlayer() <= interactionDistance;
+    
     private void ShowInteractionText() => interactionText.enabled = true;
 
     private void HideInteractionText() => interactionText.enabled = false;
-
-    private void ListenForInteraction()
-    {
-        if (Input.GetButtonDown("Interact"))
-        {
-            AbilitySelectionRoomManager.Instance.ViewAbilities();
-            HideInteractionText();
-        }
-    }
 }
