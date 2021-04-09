@@ -1,22 +1,17 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class MenuController : Singleton<MenuController>
 {
-    [SerializeField] private AbilityTreeEditorMenu abilityTreeEditorMenu = null;
-    [SerializeField] private AbilitySelectionMenu abilitySelectionMenu = null;
-    [SerializeField] private PauseMenu pauseMenu = null;
+    [SerializeField]
+    public List<MenuData> menuData = new List<MenuData>();
 
-    private Dictionary<GameplayState, GameObject> menuLookup = new Dictionary<GameplayState, GameObject>();
+    private Dictionary<GameplayState, GameObject> menuLookup;
     
     private void Start()
     {
-        menuLookup = new Dictionary<GameplayState, GameObject>
-        {
-            [GameplayState.InAbilityTreeEditor] = abilityTreeEditorMenu.gameObject,
-            [GameplayState.InAbilitySelection] = abilitySelectionMenu.gameObject,
-            [GameplayState.InPauseMenu] = pauseMenu.gameObject,
-        };
+        menuLookup = menuData.ToDictionary(d => d.GameplayState, d => d.Menu);
 
         GameplayStateController.Instance.GameStateTransitionSubject.Subscribe(newGameplayState =>
         {
