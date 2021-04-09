@@ -28,7 +28,6 @@ public class AbilityShrine : Singleton<AbilityShrine>
         if (transform.DistanceFromPlayer() <= interactionDistance)
         {
             ShowInteractionText();
-            ListenForInteraction();
         }
         else
         {
@@ -36,16 +35,9 @@ public class AbilityShrine : Singleton<AbilityShrine>
         }
     }
 
+    public bool CanInteract() => transform.DistanceFromPlayer() <= interactionDistance;
+    
     private void ShowInteractionText() => interactionText.enabled = true;
 
     private void HideInteractionText() => interactionText.enabled = false;
-
-    private void ListenForInteraction()
-    {
-        if (Input.GetButtonDown("Interact"))
-        {
-            AbilitySelectionRoomManager.Instance.ViewAbilities();
-            HideInteractionText();
-        }
-    }
 }

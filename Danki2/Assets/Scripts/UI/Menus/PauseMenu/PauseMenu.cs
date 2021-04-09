@@ -2,23 +2,13 @@
 
 public class PauseMenu : MonoBehaviour
 {
-    private void OnEnable()
-    {
-        PauseManager.Pause();
-    }
+    public Subject ContinueClickedSubject { get; } = new Subject();
 
-    private void OnDisable()
-    {
-        PauseManager.UnPause();
-    }
-
-    public void Continue()
-    {
-        GameplayStateController.Instance.GameplayState = GameplayState.Playing;
-    }
-
-    public void Quit()
-    {
-        SceneUtils.LoadScene(Scene.GameplayExitScene);
-    }
+    private void OnEnable() => PauseUtils.Pause();
+    
+    private void OnDisable() => PauseUtils.UnPause();
+    
+    public void Continue() => ContinueClickedSubject.Next();
+    
+    public void Quit() => SceneUtils.LoadScene(Scene.GameplayExitScene);
 }

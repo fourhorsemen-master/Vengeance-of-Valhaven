@@ -29,19 +29,11 @@
 
     public void ViewAbilities()
     {
-        if (!AbilitiesViewed)
-        {
-            AbilitiesViewed = true;
-            abilitiesViewedSubject.Next();
-            PersistenceManager.Instance.Save();
-        }
+        if (AbilitiesViewed) return;
 
-        GameplayStateController.Instance.GameplayState = GameplayState.InAbilitySelection;
-    }
-
-    public void SkipAbilities()
-    {
-        GameplayStateController.Instance.GameplayState = GameplayState.Playing;
+        AbilitiesViewed = true;
+        abilitiesViewedSubject.Next();
+        PersistenceManager.Instance.Save();
     }
 
     public void SelectAbility(AbilityReference abilityReference)
@@ -50,7 +42,5 @@
         AbilitySelected = true;
         AbilitySelectedSubject.Next();
         PersistenceManager.Instance.Save();
-
-        GameplayStateController.Instance.GameplayState = GameplayState.Playing;
     }
 }

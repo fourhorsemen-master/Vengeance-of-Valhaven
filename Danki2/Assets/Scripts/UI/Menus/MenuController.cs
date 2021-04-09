@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class MenusController : Singleton<MenusController>
+public class MenuController : Singleton<MenuController>
 {
     [SerializeField] private AbilityTreeEditorMenu abilityTreeEditorMenu = null;
     [SerializeField] private AbilitySelectionMenu abilitySelectionMenu = null;

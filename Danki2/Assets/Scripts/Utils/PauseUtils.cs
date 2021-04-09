@@ -1,7 +1,7 @@
 ﻿using FMODUnity;
 using UnityEngine;
 
-public static class PauseManager
+public static class PauseUtils
 {
     public static void Pause()
     {
