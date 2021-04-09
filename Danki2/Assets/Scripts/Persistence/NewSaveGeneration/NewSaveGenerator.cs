@@ -55,6 +55,9 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
                 case RoomType.Ability:
                     roomSaveDataLookup[node.Id] = GenerateAbilityRoomSaveData(node);
                     break;
+                case RoomType.Healing:
+                    roomSaveDataLookup[node.Id] = GenerateHealingRoomSaveData(node);
+                    break;
                 case RoomType.Victory:
                     roomSaveDataLookup[node.Id] = GenerateVictoryRoomSaveData(node);
                     break;
@@ -85,6 +88,14 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
         {
             AbilityChoices = node.AbilityChoices
         };
+
+        return roomSaveData;
+    }
+
+    private RoomSaveData GenerateHealingRoomSaveData(MapNode node)
+    {
+        RoomSaveData roomSaveData = GenerateCommonRoomSaveData(node);
+        roomSaveData.HealingRoomSaveData = new HealingRoomSaveData();
 
         return roomSaveData;
     }

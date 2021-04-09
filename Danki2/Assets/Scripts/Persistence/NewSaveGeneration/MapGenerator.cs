@@ -73,9 +73,15 @@ public class MapGenerator : Singleton<MapGenerator>
                 return;
             }
 
-            if ((node.Depth + 1) % 3 == 0)
+            if ((node.Depth + 2) % 4 == 0)
             {
                 node.RoomType = RoomType.Ability;
+                return;
+            }
+
+            if (node.Depth % 4 == 0)
+            {
+                node.RoomType = RoomType.Healing;
                 return;
             }
 

@@ -276,7 +276,7 @@ MonoBehaviour:
     - fileName: HealingScene
       sceneType: 1
       gameplaySceneData:
-        roomTypes: 00000000
+        roomTypes: 06000000
         cameraOrientations: 00000000
         entranceData:
         - id: 0
@@ -287,11 +287,11 @@ MonoBehaviour:
           side: 3
         exitData:
         - id: 0
-          side: 1
+          side: 0
         - id: 1
           side: 0
         - id: 2
-          side: 3
+          side: 0
         enemyEnemySpawnerIds: 
 --- !u!4 &496116276
 Transform:
