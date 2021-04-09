@@ -9,7 +9,7 @@ public static class PauseUtils
         RuntimeManager.PauseAllEvents(true);
     }
 
-    public static void UnPause()
+    public static void Unpause()
     {
         Time.timeScale = 1;
         RuntimeManager.PauseAllEvents(false);

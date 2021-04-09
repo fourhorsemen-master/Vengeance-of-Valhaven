@@ -29,12 +29,13 @@ public class MenuStateMachine : StateMachineMonoBehaviour
             .WithTransition(
                 GameplayState.Playing,
                 GameplayState.InAbilitySelection,
-                new ShrineExists() & new CanInteractWithShrine() & new ButtonDown(AbilitySelectionButtonName)
+                new ButtonDown(AbilitySelectionButtonName) & new ShrineExists() & new CanInteractWithShrine()
             )
             .WithTransition(
                 GameplayState.InPauseMenu,
                 GameplayState.Playing,
-                new ButtonDown(PauseButtonName) | new SubjectEmitted(pauseMenu.ContinueClickedSubject))
+                new ButtonDown(PauseButtonName) | new SubjectEmitted(pauseMenu.ContinueClickedSubject)
+            )
             .WithTransition(
                 GameplayState.InAbilityTreeEditor,
                 GameplayState.Playing,
@@ -49,8 +50,7 @@ public class MenuStateMachine : StateMachineMonoBehaviour
                 GameplayState.InAbilitySelection,
                 GameplayState.Playing,
                 new SubjectEmitted(abilitySelectionMenu.SkipClickedSubject) |
-                new SubjectEmitted(abilitySelectionMenu.ConfirmClickedSubject) |
-                new ButtonDown(AbilitySelectionButtonName)
+                new SubjectEmitted(abilitySelectionMenu.ConfirmClickedSubject)
             )
             .WithTransition(
                 GameplayState.InAbilitySelection,

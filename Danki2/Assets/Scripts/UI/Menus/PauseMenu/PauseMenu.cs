@@ -6,7 +6,7 @@ public class PauseMenu : MonoBehaviour
 
     private void OnEnable() => PauseUtils.Pause();
     
-    private void OnDisable() => PauseUtils.UnPause();
+    private void OnDisable() => PauseUtils.Unpause();
     
     public void Continue() => ContinueClickedSubject.Next();
     
