@@ -85,7 +85,7 @@ public class DevPersistenceManager : PersistenceManager
                     },
                     HealingRoomSaveData = new HealingRoomSaveData
                     {
-                        HasHealed = false
+                        HasHealed = hasHealed
                     },
                     RoomTransitionerIdToNextRoomId = activeTransitions.ToDictionary(t => t, _ => 0),
                     ModuleSeed = useRandomSeeds ? RandomUtils.Seed() : moduleSeed,
