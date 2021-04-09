@@ -8,5 +8,6 @@
     GameplayDefeatScene,
     RandomisedScene,
     CatchAllScene,
-    AbilityScene
+    AbilityScene,
+    HealingScene
 }
