@@ -29,7 +29,7 @@ public class MenuStateMachine : StateMachineMonoBehaviour
             .WithTransition(
                 State.AbilitySelection,
                 State.Playing,
-                new SubjectEmitted(abilitySelectionMenu.SkipClickedSubject) | new SubjectEmitted(abilitySelectionMenu.ConfirmClickedSubject)
+                new SubjectEmitted(abilitySelectionMenu.SkipClickedSubject) | new SubjectEmitted(abilitySelectionMenu.ConfirmClickedSubject) | new ButtonDown(AbilitySelectionButtonName)
             )
             .WithTransition(State.AbilitySelection, State.Paused, new ButtonDown(PauseButtonName));
     }
