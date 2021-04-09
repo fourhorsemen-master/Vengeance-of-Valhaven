@@ -8,6 +8,7 @@ public class RoomSaveData
     public RoomType RoomType { get; set; }
     public CombatRoomSaveData CombatRoomSaveData { get; set; }
     public AbilityRoomSaveData AbilityRoomSaveData { get; set; }
+    public HealingRoomSaveData HealingRoomSaveData { get; set; }
     public Dictionary<int, int> RoomTransitionerIdToNextRoomId { get; set; }
     public int ModuleSeed { get; set; }
     public int TransitionModuleSeed { get; set; }
@@ -23,6 +24,7 @@ public class RoomSaveData
             RoomType = RoomType,
             SerializableCombatRoomSaveData = CombatRoomSaveData?.Serialize(),
             SerializableAbilityRoomSaveData = AbilityRoomSaveData?.Serialize(),
+            SerializableHealingRoomSaveData = HealingRoomSaveData?.Serialize(),
             SerializableRoomTransitioners = RoomTransitionerIdToNextRoomId?.Keys
                 .Select(transitionerId => new SerializableRoomTransitioner
                 {

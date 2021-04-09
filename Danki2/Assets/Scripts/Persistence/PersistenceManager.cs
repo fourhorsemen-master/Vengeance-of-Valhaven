@@ -90,6 +90,9 @@ public class PersistenceManager : Singleton<PersistenceManager>
                 abilityRoomSaveData.AbilitiesViewed = AbilitySelectionRoomManager.Instance.AbilitiesViewed;
                 abilityRoomSaveData.AbilitySelected = AbilitySelectionRoomManager.Instance.AbilitySelected;
                 break;
+            case RoomType.Healing:
+                currentRoomSaveData.HealingRoomSaveData.HasHealed = HealingRoomManager.Instance.HasHealed;
+                break;
         }
     }
 }

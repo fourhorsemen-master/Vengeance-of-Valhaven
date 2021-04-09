@@ -41,6 +41,7 @@ public class DevPersistenceManagerEditor : Editor
         devPersistenceManager.roomType = (RoomType) EditorGUILayout.EnumPopup("Room Type", devPersistenceManager.roomType);
         if (devPersistenceManager.roomType == RoomType.Combat) EditCombatRoomData(devPersistenceManager);
         if (devPersistenceManager.roomType == RoomType.Ability) EditAbilityRoomData(devPersistenceManager);
+        if (devPersistenceManager.roomType == RoomType.Healing) EditHealingRoomData(devPersistenceManager);
         EditorGUI.indentLevel--;
 
         if (GUI.changed)
@@ -72,5 +73,10 @@ public class DevPersistenceManagerEditor : Editor
         devPersistenceManager.abilityChoice1 = (AbilityReference) EditorGUILayout.EnumPopup("Ability Choice 1", devPersistenceManager.abilityChoice1);
         devPersistenceManager.abilityChoice2 = (AbilityReference) EditorGUILayout.EnumPopup("Ability Choice 2", devPersistenceManager.abilityChoice2);
         devPersistenceManager.abilityChoice3 = (AbilityReference) EditorGUILayout.EnumPopup("Ability Choice 3", devPersistenceManager.abilityChoice3);
+    }
+
+    private void EditHealingRoomData(DevPersistenceManager devPersistenceManager)
+    {
+        devPersistenceManager.hasHealed = EditorGUILayout.Toggle("Has Healed", devPersistenceManager.hasHealed);
     }
 }

@@ -7,19 +7,17 @@ using System.Linq;
 /// </summary>
 public class PlayerRoomManager : Singleton<PlayerRoomManager>
 {
-    private static readonly ISet<RoomType> playerRoomTypes = new HashSet<RoomType>
+    private static readonly ISet<RoomType> ignoredRoomTypes = new HashSet<RoomType>
     {
-        RoomType.Combat,
-        RoomType.Boss,
-        RoomType.Shop,
-        RoomType.Ability
+        RoomType.Victory,
+        RoomType.Defeat,
     };
     
     private void Start()
     {
         RoomSaveData roomSaveData = PersistenceManager.Instance.SaveData.CurrentRoomSaveData;
 
-        if (!playerRoomTypes.Contains(roomSaveData.RoomType)) return;
+        if (ignoredRoomTypes.Contains(roomSaveData.RoomType)) return;
 
         Dictionary<int, PlayerSpawner> spawnerLookup = FindObjectsOfType<PlayerSpawner>().ToDictionary(s => s.Id);
 
