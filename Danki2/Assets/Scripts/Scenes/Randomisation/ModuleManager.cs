@@ -5,13 +5,10 @@ using Random = UnityEngine.Random;
 
 public class ModuleManager : Singleton<ModuleManager>
 {
-    private float yRotation;
-
     private void Start()
     {
         RoomSaveData currentRoomSaveData = PersistenceManager.Instance.SaveData.CurrentRoomSaveData;
         Random.InitState(currentRoomSaveData.ModuleSeed);
-        yRotation = OrientationUtils.GetYRotation(currentRoomSaveData.CameraOrientation);
 
         List<ModuleSocket> sockets = FindObjectsOfType<ModuleSocket>().ToList();
         sockets.SortById();
@@ -29,8 +26,6 @@ public class ModuleManager : Singleton<ModuleManager>
     {
         sockets.ForEach(socket =>
         {
-            if (!socket.LockRotation) socket.transform.Rotate(0, yRotation, 0);
-
             List<ModuleData> moduleDataList = ModuleLookup.Instance.GetModuleDataWithMatchingTags(
                 socket.SocketType,
                 socket.Tags,
