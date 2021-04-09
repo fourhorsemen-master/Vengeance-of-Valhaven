@@ -21,6 +21,12 @@ public class PlayerTargetFinder
 
     private void UpdateTarget()
     {
+        if (GameplayStateController.Instance.GameplayState != GameplayState.Playing)
+        {
+            RemoveTarget();
+            return;
+        }
+
         if (TryHitActor()) return;
         if (TryHitNavmesh()) return;
         HitPlane();

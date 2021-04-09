@@ -6,12 +6,10 @@ public class MenuController : Singleton<MenuController>
 {
     [SerializeField]
     public List<MenuData> menuData = new List<MenuData>();
-
-    private Dictionary<GameplayState, GameObject> menuLookup;
     
     private void Start()
     {
-        menuLookup = menuData.ToDictionary(d => d.GameplayState, d => d.Menu);
+        Dictionary<GameplayState, GameObject> menuLookup = menuData.ToDictionary(d => d.GameplayState, d => d.Menu);
 
         GameplayStateController.Instance.GameStateTransitionSubject.Subscribe(newGameplayState =>
         {
