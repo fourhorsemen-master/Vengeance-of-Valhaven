@@ -9,5 +9,6 @@
     RandomisedScene,
     CatchAllScene,
     AbilityScene,
-    HealingScene
+    ForestCliffScene,
+    HealingScene,
 }

@@ -161,6 +161,7 @@ MonoBehaviour:
     - RandomisedScene
     - CatchAllScene
     - AbilityScene
+    - ForestCliffScene
     - HealingScene
     _values:
     - fileName: EntryScene
@@ -273,6 +274,28 @@ MonoBehaviour:
         - id: 3
           side: 3
         enemyEnemySpawnerIds: 
+    - fileName: ForestCliffScene
+      sceneType: 1
+      gameplaySceneData:
+        roomTypes: 00000000
+        cameraOrientations: 000000000100000003000000
+        entranceData:
+        - id: 0
+          side: 2
+        - id: 1
+          side: 1
+        - id: 2
+          side: 3
+        exitData:
+        - id: 0
+          side: 2
+        - id: 1
+          side: 1
+        - id: 2
+          side: 3
+        - id: 3
+          side: 0
+        enemyEnemySpawnerIds: 0000000001000000
     - fileName: HealingScene
       sceneType: 1
       gameplaySceneData:

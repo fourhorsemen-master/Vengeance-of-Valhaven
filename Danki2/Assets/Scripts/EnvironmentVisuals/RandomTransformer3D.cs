@@ -4,24 +4,20 @@ public class RandomTransformer3D : MonoBehaviour
 {
     [SerializeField] private PerlinNoiseEmitter3D perlinNoiseEmitter = null;
 
-    private float initialX;
-    private float initialY;
-    private float initialZ;
+    private Vector3 initialPosition;
+    private Vector3 transformVector = Vector3.zero;
 
     private void Start()
     {
-        Vector3 position = transform.position;
-        initialX = position.x;
-        initialY = position.y;
-        initialZ = position.z;
+        initialPosition = transform.position;
     }
 
     private void Update()
     {
-        Vector3 newPosition = transform.position;
-        newPosition.x = initialX + perlinNoiseEmitter.Value1;
-        newPosition.y = initialY + perlinNoiseEmitter.Value2;
-        newPosition.z = initialZ + perlinNoiseEmitter.Value3;
-        transform.position = newPosition;
+        transform.position = initialPosition;
+        transformVector.x = perlinNoiseEmitter.Value1;
+        transformVector.y = perlinNoiseEmitter.Value2;
+        transformVector.z = perlinNoiseEmitter.Value3;
+        transform.Translate(transformVector, Space.Self);
     }
 }
