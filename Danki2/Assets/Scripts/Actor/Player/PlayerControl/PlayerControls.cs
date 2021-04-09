@@ -17,8 +17,6 @@ public class PlayerControls : Singleton<PlayerControls>
 
     private void Update()
     {
-        HandleSceneControls();
-
         if (GameplayStateController.Instance.GameplayState == GameplayState.Playing)
         {
             HandleMovement();
@@ -57,12 +55,5 @@ public class PlayerControls : Singleton<PlayerControls>
         ActionControlState = left
             ? (right ? ActionControlState.Both : ActionControlState.Left)
             : (right ? ActionControlState.Right : ActionControlState.None);
-    }
-
-    // TODO: hook up to menu system.
-    private void HandleSceneControls()
-    {
-        // When the player quits.
-        if (Input.GetKeyDown(KeyCode.Escape)) SceneUtils.LoadScene(Scene.GameplayExitScene);
     }
 }

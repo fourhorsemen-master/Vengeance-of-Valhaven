@@ -33,5 +33,12 @@ public class GameplayStateController : Singleton<GameplayStateController>
                 ? GameplayState.Playing
                 : GameplayState.InAbilityTreeEditor;
         }
+
+        if (Input.GetButtonDown("PauseMenu"))
+        {
+            GameplayState = GameplayState == GameplayState.InPauseMenu
+                ? GameplayState.Playing
+                : GameplayState.InPauseMenu;
+        }
     }
 }
