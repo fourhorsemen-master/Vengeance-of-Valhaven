@@ -22,20 +22,13 @@ public class AbilityShrine : Singleton<AbilityShrine>
 
     private void Update()
     {
-        if (GameplayStateController.Instance.GameplayState != GameplayState.Playing) return;
-        if (abilitySelected) return;
-
-        if (transform.DistanceFromPlayer() <= interactionDistance)
-        {
-            ShowInteractionText();
-        }
-        else
-        {
-            HideInteractionText();
-        }
+        if (CanInteract()) ShowInteractionText();
+        else HideInteractionText();
     }
 
-    public bool CanInteract() => transform.DistanceFromPlayer() <= interactionDistance;
+    public bool CanInteract() => GameplayStateController.Instance.GameplayState == GameplayState.Playing &&
+                                 !abilitySelected &&
+                                 transform.DistanceFromPlayer() <= interactionDistance;
     
     private void ShowInteractionText() => interactionText.enabled = true;
 
