@@ -15,10 +15,5 @@ public abstract class StateMachineMonoBehaviour : MonoBehaviour
         StateMachineComponent.Update();
     }
 
-    private void OnDestroy()
-    {
-        StateMachineComponent.Exit();
-    }
-
     protected abstract IStateMachineComponent BuildStateMachineComponent();
 }
