@@ -2,6 +2,7 @@
 {
 	public Actor Owner { get; }
 	public AbilityData AbilityDataObject { get; }
+	public string FmodVocalisationEvent { get; }
 	public string FmodStartEvent { get; }
 	public string FmodEndEvent { get; }
 	public string[] ActiveBonuses { get; }
@@ -12,6 +13,7 @@
 	(
 		Actor owner,
 		AbilityData abilityData,
+		string fmodVocalisationEvent,
 		string fmodStartEvent,
 		string fmodEndEvent,
 		string[] activeBonuses,
@@ -19,12 +21,13 @@
 		float channelDuration = -1f
 	)
 	{
-		this.Owner = owner;
-		this.AbilityDataObject = abilityData;
-		this.FmodStartEvent = fmodStartEvent;
-		this.FmodEndEvent = fmodEndEvent;
-		this.ActiveBonuses = activeBonuses;
-		this.Animation = animationType;
-		this.ChannelDuration = channelDuration;
+		Owner = owner;
+		AbilityDataObject = abilityData;
+		FmodVocalisationEvent = fmodVocalisationEvent;
+		FmodStartEvent = fmodStartEvent;
+		FmodEndEvent = fmodEndEvent;
+		ActiveBonuses = activeBonuses;
+		Animation = animationType;
+		ChannelDuration = channelDuration;
 	}
 }

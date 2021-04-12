@@ -24,7 +24,8 @@ public class FanOfKnives : InstantCast
 
         Owner.MovementManager.LookAt(offsetTargetPosition);
 
-        PlayStartEvent(Owner.AbilitySource);
+        PlayVocalisationEvent();
+        PlayStartEvent();
 
         for (float i = 0; i < NumberOfKnives; i++)
         {
@@ -41,7 +42,7 @@ public class FanOfKnives : InstantCast
 
     private void Fire(Quaternion castRotation)
     {
-        PlayEndEvent(Owner.AbilitySource);
+        PlayEndEvent();
         FanOfKnivesObject.Fire(Owner, OnCollision, KnifeSpeed, Owner.AbilitySource, castRotation);
     }
 

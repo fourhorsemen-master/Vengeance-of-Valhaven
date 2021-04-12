@@ -102,7 +102,8 @@ public class AbilityLookupEditor : Editor
 
         if (!foldoutStatus[abilityReference][AbilityDataDropdownGroup.FmodEvents]) return;
 
-        SerializedProperty serializableAbilityMetadata = serializedObject.FindProperty($"serializableMetadataLookup._values").GetArrayElementAtIndex((int)abilityReference);
+        SerializedProperty serializableAbilityMetadata = serializedObject.FindProperty("serializableMetadataLookup._values").GetArrayElementAtIndex((int)abilityReference);
+        EditorGUILayout.PropertyField(serializableAbilityMetadata.FindPropertyRelative("fmodVocalisationEventRef"), new GUIContent("Vocalisation"));
         EditorGUILayout.PropertyField(serializableAbilityMetadata.FindPropertyRelative("fmodStartEventRef"), new GUIContent("Start"));
         EditorGUILayout.PropertyField(serializableAbilityMetadata.FindPropertyRelative("fmodEndEventRef"), new GUIContent("End"));
     }
