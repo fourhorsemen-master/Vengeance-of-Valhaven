@@ -2,5 +2,5 @@
 {
     Common,
     Rare,
-    Epic
+    Legendary
 }
