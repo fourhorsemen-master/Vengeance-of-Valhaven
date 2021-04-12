@@ -5,5 +5,6 @@
     Shop,
     Victory,
     Defeat,
-    Ability
+    Ability,
+    Healing
 }

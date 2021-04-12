@@ -28,6 +28,7 @@ public class DevPersistenceManager : PersistenceManager
     [SerializeField] public AbilityReference abilityChoice1 = AbilityReference.Slash;
     [SerializeField] public AbilityReference abilityChoice2 = AbilityReference.Slash;
     [SerializeField] public AbilityReference abilityChoice3 = AbilityReference.Slash;
+    [SerializeField] public bool hasHealed = false;
 
     public override SaveData SaveData => GenerateNewSaveData();
 
@@ -81,6 +82,10 @@ public class DevPersistenceManager : PersistenceManager
                         },
                         AbilitiesViewed = false,
                         AbilitySelected = false
+                    },
+                    HealingRoomSaveData = new HealingRoomSaveData
+                    {
+                        HasHealed = hasHealed
                     },
                     RoomTransitionerIdToNextRoomId = activeTransitions.ToDictionary(t => t, _ => 0),
                     ModuleSeed = useRandomSeeds ? RandomUtils.Seed() : moduleSeed,

@@ -162,6 +162,7 @@ MonoBehaviour:
     - CatchAllScene
     - AbilityScene
     - ForestCliffScene
+    - HealingScene
     _values:
     - fileName: EntryScene
       sceneType: 0
@@ -295,6 +296,26 @@ MonoBehaviour:
         - id: 3
           side: 0
         enemyEnemySpawnerIds: 0000000001000000
+    - fileName: HealingScene
+      sceneType: 1
+      gameplaySceneData:
+        roomTypes: 06000000
+        cameraOrientations: 00000000
+        entranceData:
+        - id: 0
+          side: 2
+        - id: 1
+          side: 1
+        - id: 2
+          side: 3
+        exitData:
+        - id: 0
+          side: 0
+        - id: 1
+          side: 0
+        - id: 2
+          side: 0
+        enemyEnemySpawnerIds: 
 --- !u!4 &496116276
 Transform:
   m_ObjectHideFlags: 0
@@ -663,8 +684,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minRoomExits: 1
   maxRoomExits: 3
-  minRoomDepth: 9
-  maxRoomDepth: 11
+  minRoomDepth: 12
+  maxRoomDepth: 15
 --- !u!4 &1946525424
 Transform:
   m_ObjectHideFlags: 0

@@ -11,6 +11,7 @@ public class SerializableRoomSaveData
     [SerializeField] private RoomType roomType;
     [SerializeField] private SerializableCombatRoomSaveData serializableCombatRoomSaveData;
     [SerializeField] private SerializableAbilityRoomSaveData serializableAbilityRoomSaveData;
+    [SerializeField] private SerializableHealingRoomSaveData serializableHealingRoomSaveData;
     [SerializeField] private List<SerializableRoomTransitioner> serializableRoomTransitioners;
     [SerializeField] private int moduleSeed;
     [SerializeField] private int transitionModuleSeed;
@@ -22,6 +23,7 @@ public class SerializableRoomSaveData
     public Scene Scene { get => scene; set => scene = value; }
     public SerializableCombatRoomSaveData SerializableCombatRoomSaveData { get => serializableCombatRoomSaveData; set => serializableCombatRoomSaveData = value; }
     public SerializableAbilityRoomSaveData SerializableAbilityRoomSaveData { get => serializableAbilityRoomSaveData; set => serializableAbilityRoomSaveData = value; }
+    public SerializableHealingRoomSaveData SerializableHealingRoomSaveData { get => serializableHealingRoomSaveData; set => serializableHealingRoomSaveData = value; }
     public List<SerializableRoomTransitioner> SerializableRoomTransitioners { get => serializableRoomTransitioners; set => serializableRoomTransitioners = value; }
     public int ModuleSeed { get => moduleSeed; set => moduleSeed = value; }
     public int TransitionModuleSeed { get => transitionModuleSeed; set => transitionModuleSeed = value; }
@@ -37,6 +39,7 @@ public class SerializableRoomSaveData
             RoomType = RoomType,
             CombatRoomSaveData = SerializableCombatRoomSaveData.Deserialize(),
             AbilityRoomSaveData = SerializableAbilityRoomSaveData.Deserialize(),
+            HealingRoomSaveData = SerializableHealingRoomSaveData.Deserialize(),
             RoomTransitionerIdToNextRoomId = SerializableRoomTransitioners.ToDictionary(
                 t => t.RoomTransitionerId,
                 t => t.NextRoomId
