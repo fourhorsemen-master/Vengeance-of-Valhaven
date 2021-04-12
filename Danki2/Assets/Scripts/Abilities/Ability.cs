@@ -92,11 +92,12 @@ public abstract class Ability
         if (soundLevel.HasValue) template.PlayCollisionSound(soundLevel.Value);
     }
 
-    protected void PlayVocalisationEvent(Vector3 position)
+    protected void PlayVocalisationEvent(Vector3? position = null)
     {
         if (string.IsNullOrEmpty(fmodVocalisationEvent)) return;
+        if (!position.HasValue) position = Owner.AbilitySource;
 
-        EventInstance eventInstance = FmodUtils.CreatePositionedInstance(fmodVocalisationEvent, position);
+        EventInstance eventInstance = FmodUtils.CreatePositionedInstance(fmodVocalisationEvent, position.Value);
         vocalisationEventInstances.Add(eventInstance);
         eventInstance.start();
         eventInstance.release();
@@ -104,11 +105,12 @@ public abstract class Ability
 
     protected void StopVocalisationEvents() => vocalisationEventInstances.ForEach(e => e.stop(STOP_MODE.IMMEDIATE));
 
-    protected void PlayStartEvent(Vector3 position)
+    protected void PlayStartEvent(Vector3? position = null)
     {
         if (string.IsNullOrEmpty(fmodStartEvent)) return;
+        if (!position.HasValue) position = Owner.AbilitySource;
 
-        EventInstance eventInstance = FmodUtils.CreatePositionedInstance(fmodStartEvent, position);
+        EventInstance eventInstance = FmodUtils.CreatePositionedInstance(fmodStartEvent, position.Value);
         startEventInstances.Add(eventInstance);
         eventInstance.start();
         eventInstance.release();
@@ -116,11 +118,12 @@ public abstract class Ability
 
     protected void StopStartEvents() => startEventInstances.ForEach(e => e.stop(STOP_MODE.IMMEDIATE));
 
-    protected void PlayEndEvent(Vector3 position)
+    protected void PlayEndEvent(Vector3? position = null)
     {
         if (string.IsNullOrEmpty(fmodEndEvent)) return;
+        if (!position.HasValue) position = Owner.AbilitySource;
 
-        EventInstance eventInstance = FmodUtils.CreatePositionedInstance(fmodEndEvent, position);
+        EventInstance eventInstance = FmodUtils.CreatePositionedInstance(fmodEndEvent, position.Value);
         endEventInstances.Add(eventInstance);
         eventInstance.start();
         eventInstance.release();
