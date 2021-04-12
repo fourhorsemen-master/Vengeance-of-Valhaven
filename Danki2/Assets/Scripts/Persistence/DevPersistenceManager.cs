@@ -25,9 +25,7 @@ public class DevPersistenceManager : PersistenceManager
     [SerializeField] public int transitionModuleSeed = 0;
     [SerializeField] public int playerSpawnerId = 0;
     [SerializeField] public RoomType roomType = RoomType.Combat;
-    [SerializeField] public AbilityReference abilityChoice1 = AbilityReference.Slash;
-    [SerializeField] public AbilityReference abilityChoice2 = AbilityReference.Slash;
-    [SerializeField] public AbilityReference abilityChoice3 = AbilityReference.Slash;
+    [SerializeField] public List<AbilityReference> abilityChoices = new List<AbilityReference>();
     [SerializeField] public bool hasHealed = false;
 
     public override SaveData SaveData => GenerateNewSaveData();
@@ -74,12 +72,7 @@ public class DevPersistenceManager : PersistenceManager
                     },
                     AbilityRoomSaveData = new AbilityRoomSaveData
                     {
-                        AbilityChoices = new List<AbilityReference>
-                        {
-                            abilityChoice1,
-                            abilityChoice2,
-                            abilityChoice3
-                        },
+                        AbilityChoices = abilityChoices,
                         AbilitiesViewed = false,
                         AbilitySelected = false
                     },
