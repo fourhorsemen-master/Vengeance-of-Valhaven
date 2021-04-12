@@ -549,7 +549,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8501680027219967870}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: b0a9c3c3726b960419be580de98d5723, type: 2}
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
@@ -582,6 +582,9 @@ MonoBehaviour:
   - {fileID: 2657111828653746043}
   - {fileID: 7327917836514509559}
   weight: 1
+  animController: {fileID: 0}
+  colliders:
+  - {fileID: 2369984067544073560}
   centre: {fileID: 3521829330655442378}
   abilitySource: {fileID: 3395099262877307326}
   collisionTemplateSource: {fileID: 3126725177292564709}
@@ -612,7 +615,7 @@ MonoBehaviour:
   retreatTime: 3
   firstRetreatHealthProportion: 0.5
   secondRetreatHealthProportion: 0.2
-  followDistance: 2
+  followDistance: 2.5
   biteRange: 3
   biteMaxAngle: 10
   biteDelay: 0.5

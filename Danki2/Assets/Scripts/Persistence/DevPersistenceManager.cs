@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 /// <summary>
 /// This class is only to be used for dev purposes and should not be active in a real build.
@@ -18,6 +19,8 @@ public class DevPersistenceManager : PersistenceManager
     [SerializeField] public int playerHealth = 0;
     [SerializeField] public Pole cameraOrientation = Pole.North;
     [SerializeField] public List<SpawnedEnemy> spawnedEnemies = new List<SpawnedEnemy>();
+    [SerializeField] public List<int> activeTransitions = new List<int>();
+    [SerializeField] public bool useRandomSeeds = true;
     [SerializeField] public int moduleSeed = 0;
     [SerializeField] public int transitionModuleSeed = 0;
     [SerializeField] public int playerSpawnerId = 0;
@@ -79,12 +82,9 @@ public class DevPersistenceManager : PersistenceManager
                         AbilitiesViewed = false,
                         AbilitySelected = false
                     },
-                    RoomTransitionerIdToNextRoomId = new Dictionary<int, int>
-                    {
-                        [0] = 1
-                    },
-                    ModuleSeed = moduleSeed,
-                    TransitionModuleSeed = transitionModuleSeed,
+                    RoomTransitionerIdToNextRoomId = activeTransitions.ToDictionary(t => t, _ => 0),
+                    ModuleSeed = useRandomSeeds ? RandomUtils.Seed() : moduleSeed,
+                    TransitionModuleSeed = useRandomSeeds ? RandomUtils.Seed() : transitionModuleSeed,
                     CameraOrientation = cameraOrientation,
                     PlayerSpawnerId = playerSpawnerId
                 }

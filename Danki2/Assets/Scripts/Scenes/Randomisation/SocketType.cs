@@ -3,5 +3,6 @@
     SmallCircular,
     LargeCircular,
     SmallSquare,
-    LargeSquare
+    LargeSquare,
+    TinyCircular
 }

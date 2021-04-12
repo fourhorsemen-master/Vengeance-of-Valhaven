@@ -15,7 +15,7 @@ public class BarbedDagger : InstantCast
 
         Owner.MovementManager.LookAt(offsetTargetPosition);
 
-        PlayStartEvent();
+        PlayStartEvent(Owner.AbilitySource);
 
         Quaternion rotation = Quaternion.LookRotation(offsetTargetPosition - Owner.Centre);
 
@@ -24,7 +24,7 @@ public class BarbedDagger : InstantCast
             InterruptionType.Hard,
             () =>
             {
-                PlayEndEvent();
+                PlayEndEvent(Owner.AbilitySource);
                 BarbedDaggerObject.Fire(Owner, OnCollision, DaggerSpeed, Owner.AbilitySource, rotation);
             }
         );

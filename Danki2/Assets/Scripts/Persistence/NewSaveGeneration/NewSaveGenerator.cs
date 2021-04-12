@@ -14,7 +14,7 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
     /// <param name="seed"> An optional seed to generate the save with </param>
     public SaveData Generate(int seed = -1)
     {
-        if (seed == -1) seed = Random.Range(0, int.MaxValue);
+        if (seed == -1) seed = RandomUtils.Seed();
         Random.InitState(seed);
 
         MapNode rootNode = MapGenerator.Instance.Generate();
@@ -100,8 +100,8 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
                 kvp => kvp.Key,
                 kvp => kvp.Value.Id
             ),
-            ModuleSeed = Random.Range(0, int.MaxValue),
-            TransitionModuleSeed = Random.Range(0, int.MaxValue),
+            ModuleSeed = RandomUtils.Seed(),
+            TransitionModuleSeed = RandomUtils.Seed(),
             CameraOrientation = node.CameraOrientation,
             PlayerSpawnerId = node.EntranceId
         };
