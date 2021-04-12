@@ -27,6 +27,8 @@ public class MapGenerationLookup : Singleton<MapGenerationLookup>
     [SerializeField] private int maxRoomDepth = 0;
     [SerializeField] private int minRoomExits = 0;
     [SerializeField] private int maxRoomExits = 0;
+    [SerializeField] private float chanceRoomTypeIndicatedByParent = 0;
+    [SerializeField] private float chanceRoomTypeIndicatedByGrandparent = 0;
 
     [SerializeField] private RoomDataLookup roomDataLookup = new RoomDataLookup(() => new RoomData());
 
@@ -36,6 +38,8 @@ public class MapGenerationLookup : Singleton<MapGenerationLookup>
     public int MaxRoomDepth { get => maxRoomDepth; set => maxRoomDepth = value; }
     public int MinRoomExits { get => minRoomExits; set => minRoomExits = value; }
     public int MaxRoomExits { get => maxRoomExits; set => maxRoomExits = value; }
+    public float ChanceRoomTypeIndicatedByParent { get => chanceRoomTypeIndicatedByParent; set => chanceRoomTypeIndicatedByParent = value; }
+    public float ChanceRoomTypeIndicatedByGrandparent { get => chanceRoomTypeIndicatedByGrandparent; set => chanceRoomTypeIndicatedByGrandparent = value; }
 
     public RoomDataLookup RoomDataLookup => roomDataLookup;
 

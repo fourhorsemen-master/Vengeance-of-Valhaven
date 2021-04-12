@@ -109,7 +109,12 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
             RoomType = node.RoomType,
             RoomTransitionerIdToTransitionData = node.ExitIdToChildLookup.ToDictionary(
                 kvp => kvp.Key,
-                kvp => new TransitionData { NextRoomId = kvp.Value.Id }
+                kvp => new TransitionData
+                {
+                    NextRoomId = kvp.Value.Id,
+                    IndicatesNextRoomType = node.ExitIdToIndicatesNextRoomType[kvp.Key],
+                    FurtherIndicatedRoomTypes = node.ExitIdToFurtherIndicatedRoomTypes[kvp.Key]
+                }
             ),
             ModuleSeed = RandomUtils.Seed(),
             TransitionModuleSeed = RandomUtils.Seed(),
