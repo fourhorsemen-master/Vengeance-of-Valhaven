@@ -12,11 +12,13 @@ public abstract class Ability
     public const float MaxMeleeVerticalAngle = 30f;
     public const float MinMeleeVerticalAngle = -30f;
 
+    private readonly string fmodVocalisationEvent;
     private readonly string fmodStartEvent;
     private readonly string fmodEndEvent;
 
     private readonly AbilityAnimationType animationType;
 
+    private readonly List<EventInstance> vocalisationEventInstances = new List<EventInstance>();
     private readonly List<EventInstance> startEventInstances = new List<EventInstance>();
     private readonly List<EventInstance> endEventInstances = new List<EventInstance>();
     
@@ -32,8 +34,9 @@ public abstract class Ability
     {
         Owner = arguments.Owner;
         AbilityData = arguments.AbilityDataObject;
-        this.fmodStartEvent = arguments.FmodStartEvent;
-        this.fmodEndEvent = arguments.FmodEndEvent;
+        fmodVocalisationEvent = arguments.FmodVocalisationEvent;
+        fmodStartEvent = arguments.FmodStartEvent;
+        fmodEndEvent = arguments.FmodEndEvent;
         ActiveBonuses = arguments.ActiveBonuses;
         animationType = arguments.Animation;
         SuccessFeedbackSubject = new Subject<bool>();
@@ -88,6 +91,18 @@ public abstract class Ability
 
         if (soundLevel.HasValue) template.PlayCollisionSound(soundLevel.Value);
     }
+
+    protected void PlayVocalisationEvent(Vector3 position)
+    {
+        if (string.IsNullOrEmpty(fmodVocalisationEvent)) return;
+
+        EventInstance eventInstance = FmodUtils.CreatePositionedInstance(fmodVocalisationEvent, position);
+        vocalisationEventInstances.Add(eventInstance);
+        eventInstance.start();
+        eventInstance.release();
+    }
+
+    protected void StopVocalisationEvents() => vocalisationEventInstances.ForEach(e => e.stop(STOP_MODE.IMMEDIATE));
 
     protected void PlayStartEvent(Vector3 position)
     {
