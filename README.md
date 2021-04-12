@@ -58,7 +58,7 @@ To create a new scene:
 
 - Create a new folder and scene inside that folder,
 - Open the new scene and delete the camera and directional light so that it completely empty,
-- Open an existing scene and copy the main camera and the entire Meta game object to your clipboard,
+- Open an existing scene and copy the main camera and Meta game objects into your new scene,
 - Add an empty game object called "Room" to the scene (ideally with the default transform). This will contain everything else related to the level, including:
   - The floor,
   - Enemy spawners,
