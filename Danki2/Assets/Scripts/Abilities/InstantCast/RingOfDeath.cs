@@ -25,7 +25,8 @@ public class RingOfDeath : InstantCast
 
         Owner.MovementManager.Pause(DrawTime + KnifeCastInterval * NumberOfKnives);
 
-        PlayStartEvent(Owner.AbilitySource);
+        PlayVocalisationEvent();
+        PlayStartEvent();
 
         Owner.InterruptibleIntervalAction(
             KnifeCastInterval,
@@ -38,7 +39,7 @@ public class RingOfDeath : InstantCast
 
     private void Throw(Quaternion rotation, int index)
     {
-        PlayEndEvent(Owner.AbilitySource);
+        PlayEndEvent();
 
         float angleOffset = KnifeArcAngle * index / NumberOfKnives;
 

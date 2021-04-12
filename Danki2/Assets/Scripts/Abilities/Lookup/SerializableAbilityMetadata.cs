@@ -13,6 +13,8 @@ public class SerializableAbilityMetadata
     private AbilityData baseAbilityData = AbilityData.Zero;
 
     [SerializeField, EventRef]
+    private string fmodVocalisationEventRef = "";
+    [SerializeField, EventRef]
     private string fmodStartEventRef = "";
     [SerializeField, EventRef]
     private string fmodEndEventRef = "";
@@ -34,6 +36,7 @@ public class SerializableAbilityMetadata
     public string DisplayName { get => displayName; set => displayName = value; }
     public string Tooltip { get => tooltip; set => tooltip = value; }
     public AbilityData BaseAbilityData { get => baseAbilityData; set => baseAbilityData = value; }
+    public string FmodVocalisationEventRef { get => fmodVocalisationEventRef; set => fmodVocalisationEventRef = value; }
     public string FmodStartEventRef { get => fmodStartEventRef; set => fmodStartEventRef = value; }
     public string FmodEndEventRef { get => fmodEndEventRef; set => fmodEndEventRef = value; }
     public AbilityAnimationType AnimationType { get => animationType; set => animationType = value; }
