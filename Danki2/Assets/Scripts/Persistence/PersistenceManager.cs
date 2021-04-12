@@ -36,25 +36,13 @@ public class PersistenceManager : Singleton<PersistenceManager>
     }
 
     /// <summary>
-    /// Transitions to the given room id. This room id must be a valid transition.
+    /// Transitions to the given room id.
     ///
     /// The save data is updated before we transition, then the reference to the current room is updated so that
     /// we can save as if we were right at the start of the next room.
     /// </summary>
     public virtual void TransitionToNextRoom(int nextRoomId)
     {
-        if (!GameplayRoomTransitionManager.Instance.CanTransition)
-        {
-            Debug.LogWarning("Tried to transition to the next room when a transition was not allowed.");
-            return;
-        }
-
-        if (!SaveData.CurrentRoomSaveData.RoomTransitionerIdToNextRoomId.ContainsValue(nextRoomId))
-        {
-            Debug.LogWarning("Tried to transition to a room which is not available from the current room.");
-            return;
-        }
-
         UpdateSaveData();
         SaveData.CurrentRoomId = nextRoomId;
         SaveDataManager.Instance.Save(SaveData);

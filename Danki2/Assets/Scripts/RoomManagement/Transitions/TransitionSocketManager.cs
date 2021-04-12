@@ -18,7 +18,7 @@ public class TransitionSocketManager : MonoBehaviour
             return;
         }
         
-        InstantiateModules(sockets, currentRoomSaveData.RoomTransitionerIdToNextRoomId.Keys.ToList());
+        InstantiateModules(sockets, currentRoomSaveData.RoomTransitionerIdToTransitionData.Keys.ToList());
     }
 
     private void InstantiateModules(List<TransitionSocket> sockets, List<int> activeExitIds)

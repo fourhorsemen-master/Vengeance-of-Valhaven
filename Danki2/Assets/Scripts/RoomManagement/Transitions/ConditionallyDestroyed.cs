@@ -20,7 +20,7 @@ public class ConditionallyDestroyed : MonoBehaviour
 
         if (hasAssociatedEntrance && associatedEntranceId == currentRoomSaveData.PlayerSpawnerId) return;
 
-        List<int> activeExitIds = currentRoomSaveData.RoomTransitionerIdToNextRoomId.Keys.ToList();
+        List<int> activeExitIds = currentRoomSaveData.RoomTransitionerIdToTransitionData.Keys.ToList();
         if (hasAssociatedExit && activeExitIds.Contains(associatedExitId)) return;
 
         Destroy(gameObject);
