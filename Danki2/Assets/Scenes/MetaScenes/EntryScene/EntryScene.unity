@@ -493,6 +493,30 @@ MonoBehaviour:
   maxRoomDepth: 15
   minRoomExits: 1
   maxRoomExits: 3
+  roomDataLookup:
+    _keys:
+    - Combat
+    - Boss
+    - Shop
+    - Victory
+    - Defeat
+    - Ability
+    - Healing
+    _values:
+    - availableInPool: 1
+      weights: 01000000020000000400000006000000
+    - availableInPool: 0
+      weights: 
+    - availableInPool: 0
+      weights: 
+    - availableInPool: 0
+      weights: 
+    - availableInPool: 0
+      weights: 
+    - availableInPool: 1
+      weights: 000000000100000002000000
+    - availableInPool: 1
+      weights: 000000000100000002000000
 --- !u!4 &1495542133
 Transform:
   m_ObjectHideFlags: 0
