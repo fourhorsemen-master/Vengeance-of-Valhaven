@@ -37,7 +37,21 @@ public class MapGenerationLookup : Singleton<MapGenerationLookup>
     public int MinRoomExits { get => minRoomExits; set => minRoomExits = value; }
     public int MaxRoomExits { get => maxRoomExits; set => maxRoomExits = value; }
 
-    public RoomDataLookup RoomDataLookup { get => roomDataLookup; set => roomDataLookup = value; }
+    public RoomDataLookup RoomDataLookup => roomDataLookup;
 
     protected override bool DestroyOnLoad => false;
+
+    public bool IsAvailableInPool(RoomType roomType) => RoomDataLookup[roomType].AvailableInPool;
+
+    public int GetDistanceWhenRequired(RoomType roomType) => RoomDataLookup[roomType].Weights.Count + 1;
+
+    public int GetWeight(RoomType roomType, int distanceFromPrevious) => RoomDataLookup[roomType].Weights[distanceFromPrevious - 1];
+
+    public void ForEachRoomTypeInPool(Action<RoomType> action)
+    {
+        EnumUtils.ForEach<RoomType>(roomType =>
+        {
+            if (IsAvailableInPool(roomType)) action(roomType);
+        });
+    }
 }

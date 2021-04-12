@@ -68,20 +68,50 @@ public class MapGenerator : Singleton<MapGenerator>
                 return;
             }
 
-            if ((node.Depth + 2) % 4 == 0)
-            {
-                node.RoomType = RoomType.Ability;
-                return;
-            }
-
-            if (node.Depth % 4 == 0)
-            {
-                node.RoomType = RoomType.Healing;
-                return;
-            }
-
-            node.RoomType = RoomType.Combat;
+            SetRoomType(node);
         });
+    }
+
+    /// <summary>
+    /// Sets the room type according to the following strategy:
+    ///  - For each room type, find the distance from the node to the nearest parent with that room type,
+    ///  - If no such parent exists, assume that the node before the root node was of that room type. That is to
+    ///    assume that the node before the root node is a special node of every room type,
+    ///  - If there is no weight available for a room type (i.e. it's weight array does not have a value for that
+    ///    room type's distance), then mark that room type as required,
+    ///  - If there are any required room types, then select one randomly,
+    ///  - Otherwise, select a room randomly from all room types weighted according to the relevant weight for each
+    ///    room type, which depends on the distance from the node and a parent with that room type.
+    /// </summary>
+    private void SetRoomType(MapNode node)
+    {
+        Dictionary<RoomType, int> distancesFromPreviousRoomTypes = new Dictionary<RoomType, int>();
+        MapGenerationLookup.Instance.ForEachRoomTypeInPool(roomType =>
+        {
+            int distance = node.GetDistanceFromPreviousRoomType(roomType);
+            distancesFromPreviousRoomTypes[roomType] = distance == -1 ? node.Depth : distance;
+        });
+
+        List<RoomType> requiredRoomTypes = new List<RoomType>();
+        MapGenerationLookup.Instance.ForEachRoomTypeInPool(roomType =>
+        {
+            if (distancesFromPreviousRoomTypes[roomType] >= MapGenerationLookup.Instance.GetDistanceWhenRequired(roomType)) requiredRoomTypes.Add(roomType);
+        });
+
+        if (requiredRoomTypes.Count != 0)
+        {
+            node.RoomType = RandomUtils.Choice(requiredRoomTypes);
+            return;
+        }
+
+        List<RoomType> choices = new List<RoomType>();
+        MapGenerationLookup.Instance.ForEachRoomTypeInPool(roomType =>
+        {
+            int weighting = MapGenerationLookup.Instance.GetWeight(roomType, distancesFromPreviousRoomTypes[roomType]);
+            Utils.Repeat(weighting, () => choices.Add(roomType));
+        });
+
+        node.RoomType = RandomUtils.Choice(choices);
     }
 
     private void AddVictoryNode(MapNode rootNode)
