@@ -10,8 +10,13 @@ public class AbilitySelectionMenu : MonoBehaviour
 
     private AbilityReference selectedAbility = default;
 
+    public Subject SkipClickedSubject { get; } = new Subject();
+    public Subject ConfirmClickedSubject { get; } = new Subject();
+
     private void OnEnable()
     {
+        AbilitySelectionRoomManager.Instance.ViewAbilities();
+
         subscriptions.Add(
             abilityOptionPanels.AbilitySelectedSubject.Subscribe(HandleAbilitySelection),
             abilityOptionPanels.AbilityDeselectedSubject.Subscribe(HandleAbilityDeselection),
@@ -38,7 +43,11 @@ public class AbilitySelectionMenu : MonoBehaviour
         abilityOptionButtons.CanConfirm = false;
     }
 
-    private void HandleSkip() => AbilitySelectionRoomManager.Instance.SkipAbilities();
+    private void HandleSkip() => SkipClickedSubject.Next();
 
-    private void HandleConfirm(AbilityReference abilityReference) => AbilitySelectionRoomManager.Instance.SelectAbility(abilityReference);
+    private void HandleConfirm(AbilityReference abilityReference)
+    {
+        AbilitySelectionRoomManager.Instance.SelectAbility(abilityReference);
+        ConfirmClickedSubject.Next();
+    }
 }

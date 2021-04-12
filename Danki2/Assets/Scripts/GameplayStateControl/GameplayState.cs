@@ -2,5 +2,6 @@
 {
     InAbilityTreeEditor,
     Playing,
-    InAbilitySelection
+    InAbilitySelection,
+    InPauseMenu
 }
