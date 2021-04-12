@@ -15,6 +15,7 @@ public class BarbedDagger : InstantCast
 
         Owner.MovementManager.LookAt(offsetTargetPosition);
 
+        PlayVocalisationEvent();
         PlayStartEvent();
 
         Quaternion rotation = Quaternion.LookRotation(offsetTargetPosition - Owner.Centre);

@@ -19,6 +19,7 @@ public class Smash : Cast
         Owner.MovementManager.LookAt(floorTargetPosition);
         Owner.MovementManager.Pause(PauseDuration);
 
+        PlayVocalisationEvent();
         PlayEndEvent();
 
         Vector3 position = Owner.transform.position;

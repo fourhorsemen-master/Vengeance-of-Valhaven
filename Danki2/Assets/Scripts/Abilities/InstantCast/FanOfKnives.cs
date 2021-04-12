@@ -24,6 +24,7 @@ public class FanOfKnives : InstantCast
 
         Owner.MovementManager.LookAt(offsetTargetPosition);
 
+        PlayVocalisationEvent();
         PlayStartEvent();
 
         for (float i = 0; i < NumberOfKnives; i++)

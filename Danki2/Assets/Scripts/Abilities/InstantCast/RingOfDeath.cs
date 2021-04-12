@@ -25,6 +25,7 @@ public class RingOfDeath : InstantCast
 
         Owner.MovementManager.Pause(DrawTime + KnifeCastInterval * NumberOfKnives);
 
+        PlayVocalisationEvent();
         PlayStartEvent();
 
         Owner.InterruptibleIntervalAction(
