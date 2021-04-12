@@ -52,3 +52,42 @@ Things to be sure to do when making prop prefabs:
     - If a collider is present, it should have a physic material assigned to it (determines which collision sound will play if struck)
   - The game object layer should be set to "Props" (including all children)
   - If the prop should be part of the navmesh, it should have "Navigation Static" selected and an appropriate "Navigation Area".
+
+### Making New Scenes
+
+To create a new scene:
+
+- Create a new folder and scene inside that folder,
+- Open the new scene and delete the camera and directional light so that it completely empty,
+- Open an existing scene and copy the main camera and Meta game objects into your new scene,
+- Add an empty game object called "Room" to the scene (ideally with the default transform). This will contain everything else related to the level, including:
+  - The floor,
+  - Enemy spawners,
+  - Props,
+  - Etc...
+- Add a terrain as a child of Room and call it "Floor", you'll probably want to make it a lot smaller and raise it up using the "Set Height" tool so that you have room for sunken terrain. Be sure to set the layer to "Floor", if adding water then set the water's layer to "Water",
+- Adding the terrain will have created a new terrain asset in the root of the "Assets" folder. Rename this to "\<your-scene-name\>_TerrainData" and move it into your scenes folder,
+- Bake the navmesh and save (Ctrl+S),
+- This is a good time to make a commit, as you have all of the new files required for a new scene,
+- The next step is to build the scene in whichever way is required. This will include adding the following, as well as any kind of props (see other scenes for examples of hierarchy structure):
+  - *Entrances*. To create an entrance, add an instance of the PlayerSpawner prefab. This will need an ID which must be unique from any other player spawners in the scene,
+  - *Exits*. To create an exit, add an instance of the RoomTransitioner prefab. This will need an ID which must be unique from any other room transitioners in the scene,
+  - *Transition Sockets*. To add a transition socket to an exit (a doorway which will only be there when the exit is in use), add an instance of the TransitionSocket prefab. This will need an ID which must be unique from any other transition sockets in the scene. It also needs an associated exit ID, this is the ID of the room transitioner that is to be associated with this socket. When the exit is active in a scene, the transition socket will pick an appropriate doorway to instantiate. When the exit is not active, the transition socket is destroyed when the scene loads,
+  - *Spawners*. To create an enemy spawner, add an instance of the EnemySpawner prefab. This will need an ID which must be unique from any other enemy spawners in the scene,
+  - *Sockets*. To create a socket, add an instance of one of the socket prefabs. This will need an ID which must be unique from any other sockets in the scene. Tags added will be required on any module that gets put in that socket, tags to exclude will ensure that none of the tags in that list are on any of the modules that get put in that socket. Sockets should be rotated so that they face a direction that generally makes sense within the scene, some modules will take this rotation into account and some modules will still allow free rotation,
+  - *Blockers*. To create an entrance or exit blocker, create an empty game object and add the "Conditional Blocker" component to it. This can have an associated entrance and/or an associated exit (Note that this means that we can have entrances and exits and the exact same points in a scene). Use the editor to associate and entrance or exit. When the game runs, if either the associated entrance or the associated exit is active, then the blocker will be destroyed, leaving open space. Any props can be added as children of the blocker, to block the doorway when the entrance/exit isn't active.
+- Before a scene is finished, data about it must be added to the SceneLookup which can be found in the EntryScene:
+  - Add a new entry to the Scene enum for your new scene,
+  - Open your new scene, then go to the build settings and click "Add Open Scenes". You should see a change in the EditorBuildSettings.asset file,
+  - In the SceneLookup, fill out all of the data required.
+- The scene should now be finished and will come up in random scene selection.
+
+### Making New Modules
+
+To create a new module:
+
+- Create a prefab in the relevant folder,
+- Add props to the prefab as required (you can add an instance of the socket you're creating the module for temporarily to show you the required size),
+- Make sure the prefab has the default transform and that it is facing the -ve z-axis (if the direction is important to the module),
+- In the ModuleLookup, add a new entry for your module, drag in the prefab, set the appropriate tags and data about available rotations,
+- The module will now come up in random module selection.
