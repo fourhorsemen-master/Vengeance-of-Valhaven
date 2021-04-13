@@ -69,6 +69,7 @@ MonoBehaviour:
     - RingOfDeath
     - Execute
     - Reflect
+    - PoisonStab
     _values:
     - displayName: Slash
       tooltip: Deal {PRIMARY_DAMAGE} damage to enemies in a cone.
@@ -556,3 +557,21 @@ MonoBehaviour:
       playerCanCast: 1
       finisher: 0
       channelDuration: 2
+    - displayName: Poison Stab
+      tooltip: Poison stab
+      baseAbilityData:
+        primaryDamage: 0
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      fmodVocalisationEventRef: 
+      fmodStartEventRef: 
+      fmodEndEventRef: 
+      animationType: 0
+      abilityBonusLookup:
+        _keys: []
+        _values: []
+      rarity: 0
+      playerCanCast: 1
+      finisher: 1
+      channelDuration: 0.4

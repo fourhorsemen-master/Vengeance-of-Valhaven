@@ -23,5 +23,6 @@
     Cleave,
     RingOfDeath,
     Execute,
-    Reflect
+    Reflect,
+    PoisonStab
 }
