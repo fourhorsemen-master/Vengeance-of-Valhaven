@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class TransitionModule : MonoBehaviour
@@ -7,18 +8,20 @@ public class TransitionModule : MonoBehaviour
 
     public void InstantiateIndicatedRoomTypes(List<RoomType> indicatedRoomTypes)
     {
-        if (indicatedRoomTypes.Count > indicatorSockets.Count)
+        List<RoomType> distinctIndicatedRoomTypes = indicatedRoomTypes.Distinct().ToList();
+
+        if (distinctIndicatedRoomTypes.Count > indicatorSockets.Count)
         {
             Debug.LogError("Tried to instantiate more room type indicators than were available on the transition module");
             return;
         }
 
-        for (int i = 0; i < indicatedRoomTypes.Count; i++)
+        for (int i = 0; i < distinctIndicatedRoomTypes.Count; i++)
         {
             GameObject prefab = RandomUtils.Choice(
                 TransitionModuleLookup
                     .Instance
-                    .TransitionModuleDictionary[indicatedRoomTypes[i]]
+                    .TransitionModuleDictionary[distinctIndicatedRoomTypes[i]]
                     .IndicatorPrefabs
             );
             Instantiate(prefab, indicatorSockets[i].transform);
