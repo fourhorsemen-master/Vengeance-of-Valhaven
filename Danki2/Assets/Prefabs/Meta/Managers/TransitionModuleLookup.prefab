@@ -43,7 +43,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a38f74981654da546958e9628202afd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  modules:
-  - {fileID: 3364926987640515662, guid: bdba69b27033a634b8dc6d229a3f7b9a, type: 3}
-  - {fileID: 3364926987640515662, guid: 3dbc76ad8f0638145b0fdda1ea994c13, type: 3}
-  - {fileID: 3364926987640515662, guid: 89772dd92de091049993fad8f4882415, type: 3}
+  genericModules:
+  - {fileID: 25003474997665040, guid: 89772dd92de091049993fad8f4882415, type: 3}
+  transitionModuleDictionary:
+    _keys:
+    - Combat
+    - Boss
+    - Shop
+    - Victory
+    - Defeat
+    - Ability
+    - Healing
+    _values:
+    - transitionPrefabs:
+      - {fileID: 25003474997665040, guid: 89772dd92de091049993fad8f4882415, type: 3}
+      indicatorPrefabs: []
+    - transitionPrefabs:
+      - {fileID: 25003474997665040, guid: 89772dd92de091049993fad8f4882415, type: 3}
+      indicatorPrefabs: []
+    - transitionPrefabs: []
+      indicatorPrefabs: []
+    - transitionPrefabs: []
+      indicatorPrefabs: []
+    - transitionPrefabs: []
+      indicatorPrefabs: []
+    - transitionPrefabs:
+      - {fileID: 1457807948694575811, guid: 3dbc76ad8f0638145b0fdda1ea994c13, type: 3}
+      indicatorPrefabs: []
+    - transitionPrefabs:
+      - {fileID: 6608904816669444857, guid: bdba69b27033a634b8dc6d229a3f7b9a, type: 3}
+      indicatorPrefabs: []
