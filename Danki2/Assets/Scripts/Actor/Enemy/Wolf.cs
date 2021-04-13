@@ -2,10 +2,22 @@
 
 public class Wolf : Enemy
 {
+    [SerializeField]
+    private float dashDuration = 0f;
+
+    [SerializeField]
+    private float dashSpeed = 0f;
+
     public override ActorType Type => ActorType.Wolf;
 
     public Subject OnHowl { get; } = new Subject();
     public Subject OnAttack { get; } = new Subject();
+
+    public void DashFromActor(Actor actor)
+    {
+        Vector3 direction = transform.position - actor.transform.position;
+        MovementManager.TryLockMovement(MovementLockType.Dash, dashDuration, dashSpeed, direction, direction);
+    }
 
     public void Bite()
     {
