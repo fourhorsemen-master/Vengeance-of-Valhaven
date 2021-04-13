@@ -81,7 +81,12 @@ public class DevPersistenceManager : PersistenceManager
                     },
                     RoomTransitionerIdToTransitionData = activeTransitions.ToDictionary(
                         t => t,
-                        _ => new TransitionData()
+                        _ => new TransitionData
+                        {
+                            NextRoomId = 0,
+                            IndicatesNextRoomType = false,
+                            FurtherIndicatedRoomTypes = new List<RoomType>()
+                        }
                     ),
                     ModuleSeed = useRandomSeeds ? RandomUtils.Seed() : moduleSeed,
                     TransitionModuleSeed = useRandomSeeds ? RandomUtils.Seed() : transitionModuleSeed,
