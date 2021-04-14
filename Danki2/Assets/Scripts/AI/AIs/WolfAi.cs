@@ -89,7 +89,7 @@ public class WolfAi : Ai
             .WithComponent(EvadeState.Circle, new Circle(wolf, player))
             .WithComponent(EvadeState.MoveTowards, new MoveTowards(wolf, player))
             .WithTransition(EvadeState.MoveTowards, EvadeState.Circle, new DistanceLessThan(wolf, player, (minCircleDistance + maxCircleDistance) / 2))
-            .WithGlobalTransition(EvadeState.MoveTowards, new DistanceGreaterThan(wolf, player, maxCircleDistance));
+            .WithTransition(EvadeState.Circle, EvadeState.MoveTowards, new DistanceGreaterThan(wolf, player, maxCircleDistance));
 
         IStateMachineComponent engageStateMachine = new StateMachine<EngageState>(EngageState.Howl)
             .WithComponent(EngageState.Howl, new WolfHowl(wolf))
