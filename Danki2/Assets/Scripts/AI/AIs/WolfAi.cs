@@ -19,8 +19,8 @@ public class WolfAi : Ai
     [Header("Engage")]
     [SerializeField] private int minAttacks = 0;
     [SerializeField] private int maxAttacks = 0;
-    [SerializeField] private float evadeTime = 0;
-    [SerializeField] private float retreatTime = 0;
+    [SerializeField] private float minEvadeTime = 0;
+    [SerializeField] private float maxEvadeTime = 0;
     [SerializeField, Range(0, 1)] private float firstRetreatHealthProportion = 0;
     [SerializeField, Range(0, 1)] private float secondRetreatHealthProportion = 0;
 
@@ -85,26 +85,27 @@ public class WolfAi : Ai
             .WithTransition(AttackState.TelegraphPounce, AttackState.Pounce, new TimeElapsed(pounceDelay))
             .WithTransition(AttackState.Pounce, AttackState.Reposition, new AlwaysTrigger());
 
-        IStateMachineComponent evadeStateMachine = new StateMachine<EvadeState>(EvadeState.DashAway)
+        IStateMachineComponent evadeStateMachine = new StateMachine<EvadeState>(EvadeState.Circle)
             .WithComponent(EvadeState.Circle, new Circle(wolf, player))
             .WithComponent(EvadeState.MoveTowards, new MoveTowards(wolf, player))
-            .WithComponent(EvadeState.DashAway, new DashAway(wolf, player))
             .WithTransition(EvadeState.MoveTowards, EvadeState.Circle, new DistanceLessThan(wolf, player, (minCircleDistance + maxCircleDistance) / 2))
-            .WithTransition(EvadeState.DashAway, EvadeState.Circle, new CanMove(wolf))
-            .WithGlobalTransition(EvadeState.MoveTowards, new DistanceGreaterThan(wolf, player, maxCircleDistance))
-            .WithGlobalTransition(EvadeState.DashAway, new DistanceLessThan(wolf, player, minCircleDistance) & new CanMove(wolf));
+            .WithGlobalTransition(EvadeState.MoveTowards, new DistanceGreaterThan(wolf, player, maxCircleDistance));
 
         IStateMachineComponent engageStateMachine = new StateMachine<EngageState>(EngageState.Howl)
             .WithComponent(EngageState.Howl, new WolfHowl(wolf))
             .WithComponent(EngageState.Attack, attackStateMachine)
+            .WithComponent(EngageState.DashAway, new DashAway(wolf, player))
             .WithComponent(EngageState.Evade, evadeStateMachine)
-            .WithComponent(EngageState.Retreat, new MoveAway(wolf, player))
             .WithTransition(EngageState.Howl, EngageState.Attack, new AlwaysTrigger())
-            .WithTransition(EngageState.Attack, EngageState.Evade, new WolfRandomAttackCountReached(wolf, minAttacks, maxAttacks) & new CanMove(wolf))
-            .WithTransition(EngageState.Evade, EngageState.Attack, new TimeElapsed(evadeTime))
-            .WithTransition(EngageState.Retreat, EngageState.Howl, new TimeElapsed(retreatTime))
+            .WithTransition(EngageState.Attack, EngageState.DashAway, new WolfRandomAttackCountReached(wolf, minAttacks, maxAttacks) & new CanMove(wolf))
+            .WithTransition(EngageState.DashAway, EngageState.Evade, new CanMove(wolf))
+            .WithTransition(
+                EngageState.Evade,
+                EngageState.Attack,
+                new RandomTimeElapsed(minEvadeTime, maxEvadeTime) | new DistanceLessThan(wolf, player, minCircleDistance) | new TakesNonTickDamage(wolf)
+            )
             .WithGlobalTransition(
-                EngageState.Retreat,
+                EngageState.DashAway,
                 new HealthGoesBelowProportion(wolf, firstRetreatHealthProportion) | new HealthGoesBelowProportion(wolf, secondRetreatHealthProportion)
             );
 
@@ -144,15 +145,14 @@ public class WolfAi : Ai
     private enum EvadeState
     {
         Circle,
-        MoveTowards,
-        DashAway
+        MoveTowards
     }
 
     private enum EngageState
     {
         Howl,
         Attack,
-        Evade,
-        Retreat
+        DashAway,
+        Evade
     }
 }
