@@ -10,9 +10,16 @@ public class PoisonStab : Cast
     private const float PoisonDuration = 10f;
     private const float PotentPoisonDuration = 15f;
 
+    private readonly Subject onFinishMovement = new Subject();
+
     private bool HasPotent => HasBonus("Potent");
 
     public PoisonStab(AbilityConstructionArgs arguments) : base(arguments) {}
+
+    protected override void Start()
+    {
+        PoisonStabObject.Create(Owner.AbilitySourceTransform, onFinishMovement);
+    }
 
     public override void End(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
@@ -40,6 +47,8 @@ public class PoisonStab : Cast
 
     private void PoisonOnLand(Vector3 castDirection)
     {
+        onFinishMovement.Next();
+
         Quaternion castRotation = GetMeleeCastRotation(castDirection);
 
         bool hasAppliedPoison = false;
