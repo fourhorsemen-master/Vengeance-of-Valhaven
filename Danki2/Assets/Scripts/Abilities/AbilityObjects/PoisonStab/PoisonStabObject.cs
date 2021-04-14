@@ -4,7 +4,7 @@ using UnityEngine.VFX;
 public class PoisonStabObject : StaticAbilityObject
 {
     [SerializeField] private VisualEffect visualEffect = null;
-    [SerializeField] private ModularPFXComponent mpfx = null;
+    [SerializeField] private PoisonStabVisual poisonStabVisualPrefab = null;
 
     public override float StickTime => 5f;
 
@@ -22,7 +22,7 @@ public class PoisonStabObject : StaticAbilityObject
         onFinishMovement.Subscribe(() =>
         {
             visualEffect.Stop();
-            mpfx.enabled = true;
+            PoisonStabVisual.Create(poisonStabVisualPrefab, transform.position, transform.rotation);
         });
     }
 }
