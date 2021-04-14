@@ -161,10 +161,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   meshRenderer: {fileID: 2176939319689186579}
-  northTransform: {fileID: 4930263307480688213}
-  eastTransform: {fileID: 2104928610081109719}
-  southTransform: {fileID: 1605849218182223909}
-  westTransform: {fileID: 8767194708632943812}
+  cameraTransformLookup:
+    _keys:
+    - North
+    - East
+    - South
+    - West
+    _values:
+    - {fileID: 4930263307480688213}
+    - {fileID: 2104928610081109719}
+    - {fileID: 1605849218182223909}
+    - {fileID: 8767194708632943812}
+  poleColorLookup:
+    _keys:
+    - North
+    - East
+    - South
+    - West
+    _values:
+    - {r: 0, g: 0, b: 1, a: 1}
+    - {r: 1, g: 0, b: 0, a: 1}
+    - {r: 0, g: 1, b: 0, a: 1}
+    - {r: 1, g: 1, b: 0, a: 1}
+  overrideSmoothFactor: 0
+  smoothFactorOverride: 0
 --- !u!1 &5854216524615388360
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,25 +1,51 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+
+[Serializable]
+public class CameraTransformLookup : SerializableEnumDictionary<Pole, Transform>
+{
+    public CameraTransformLookup(Transform defaultValue) : base(defaultValue) {}
+    public CameraTransformLookup(Func<Transform> defaultValueProvider) : base(defaultValueProvider) {}
+}
+
+[Serializable]
+public class PoleColorLookup : SerializableEnumDictionary<Pole, Color>
+{
+    public PoleColorLookup(Color defaultValue) : base(defaultValue) {}
+    public PoleColorLookup(Func<Color> defaultValueProvider) : base(defaultValueProvider) {}
+}
 
 public class CameraVolume : MonoBehaviour
 {
-    [SerializeField] private MeshRenderer meshRenderer = null;
+    [SerializeField]
+    private MeshRenderer meshRenderer = null;
+    public MeshRenderer MeshRenderer { get => meshRenderer; set => meshRenderer = value; }
 
-    [SerializeField] private Transform northTransform = null;
-    [SerializeField] private Transform eastTransform = null;
-    [SerializeField] private Transform southTransform = null;
-    [SerializeField] private Transform westTransform = null;
+    [SerializeField]
+    private CameraTransformLookup cameraTransformLookup = new CameraTransformLookup(defaultValue: null);
+    public CameraTransformLookup CameraTransformLookup => cameraTransformLookup;
 
-    [SerializeField] private bool overrideSmoothFactor = false;
-    [SerializeField] private float smoothFactorOverride = 1;
+    [SerializeField]
+    private PoleColorLookup poleColorLookup = new PoleColorLookup(Color.white);
+    public PoleColorLookup PoleColorLookup => poleColorLookup;
+
+    [SerializeField]
+    private bool overrideSmoothFactor = false;
+    public bool OverrideSmoothFactor { get => overrideSmoothFactor; set => overrideSmoothFactor = value; }
+
+    [SerializeField]
+    private float smoothFactorOverride = 0;
+    public float SmoothFactorOverride { get => smoothFactorOverride; set => smoothFactorOverride = value; }
 
     private Pole cameraOrientation;
 
     private void OnDrawGizmos()
     {
-        GizmoUtils.DrawArrow(northTransform.position, northTransform.forward, Color.blue);
-        GizmoUtils.DrawArrow(eastTransform.position, eastTransform.forward, Color.red);
-        GizmoUtils.DrawArrow(southTransform.position, southTransform.forward, Color.green);
-        GizmoUtils.DrawArrow(westTransform.position, westTransform.forward, Color.yellow);
+        EnumUtils.ForEach<Pole>(p => GizmoUtils.DrawArrow(
+            cameraTransformLookup[p].position,
+            cameraTransformLookup[p].forward,
+            PoleColorLookup[p]
+        ));
     }
 
     private void Awake()
@@ -36,21 +62,10 @@ public class CameraVolume : MonoBehaviour
     {
         if (!IsPlayer(other)) return;
 
-        switch (cameraOrientation)
-        {
-            case Pole.North:
-                CustomCamera.Instance.OverrideDesiredTransform(northTransform, overrideSmoothFactor ? smoothFactorOverride : -1);
-                break;
-            case Pole.East:
-                CustomCamera.Instance.OverrideDesiredTransform(eastTransform, overrideSmoothFactor ? smoothFactorOverride : -1);
-                break;
-            case Pole.South:
-                CustomCamera.Instance.OverrideDesiredTransform(southTransform, overrideSmoothFactor ? smoothFactorOverride : -1);
-                break;
-            case Pole.West:
-                CustomCamera.Instance.OverrideDesiredTransform(westTransform, overrideSmoothFactor ? smoothFactorOverride : -1);
-                break;
-        }
+        CustomCamera.Instance.OverrideDesiredTransform(
+            CameraTransformLookup[cameraOrientation],
+            overrideSmoothFactor ? smoothFactorOverride : (float?) null
+        );
     }
 
     private void OnTriggerExit(Collider other)
