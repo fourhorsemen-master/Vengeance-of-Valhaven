@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[Ability(AbilityReference.PoisonStab)]
+[Ability(AbilityReference.PoisonStab, new []{ "Potent" })]
 public class PoisonStab : Cast
 {
     private const float MovementSpeedMultiplier = 6f;
@@ -8,6 +8,9 @@ public class PoisonStab : Cast
     private const float PauseDuration = 0.3f;
     private const float Range = 2f;
     private const float PoisonDuration = 10f;
+    private const float PotentPoisonDuration = 15f;
+
+    private bool HasPotent => HasBonus("Potent");
 
     public PoisonStab(AbilityConstructionArgs arguments) : base(arguments) {}
 
@@ -48,7 +51,10 @@ public class PoisonStab : Cast
             castRotation,
             actor =>
             {
-                actor.EffectManager.AddActiveEffect(ActiveEffect.Poison, PoisonDuration);
+                actor.EffectManager.AddActiveEffect(
+                    ActiveEffect.Poison,
+                    HasPotent ? PotentPoisonDuration : PoisonDuration
+                );
                 DealPrimaryDamage(actor);
                 hasAppliedPoison = true;
             },

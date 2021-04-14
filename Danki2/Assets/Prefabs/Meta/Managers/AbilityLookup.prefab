@@ -569,8 +569,12 @@ MonoBehaviour:
       fmodEndEventRef: 
       animationType: 2
       abilityBonusLookup:
-        _keys: []
-        _values: []
+        _keys:
+        - Potent
+        _values:
+        - displayName: Potent
+          tooltip: Increase poison duration
+          requiredTreeDepth: 2
       rarity: 1
       playerCanCast: 1
       finisher: 1
