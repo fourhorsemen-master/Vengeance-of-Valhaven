@@ -24,8 +24,13 @@ public class MapNode
     public void IterateDown(Action<MapNode> action, Func<MapNode, bool> filter = null)
     {
         if (filter == null || filter(this)) action(this);
-
         Children.ForEach(c => c.IterateDown(action, filter));
+    }
+
+    public void IterateUp(Action<MapNode> action, Func<MapNode, bool> filter = null)
+    {
+        if (filter == null || filter(this)) action(this);
+        if (!IsRootNode) Parent.IterateUp(action, filter);
     }
 
     public int FindMaxId()
@@ -33,5 +38,25 @@ public class MapNode
         int maxId = Id;
         IterateDown(n => maxId = n.Id > maxId ? n.Id : maxId);
         return maxId;
+    }
+
+    /// <summary>
+    /// Returns the distance from the nearest parent that has given room type. If no such parent exists then -1 is returned.
+    /// </summary>
+    public int GetDistanceFromPreviousRoomType(RoomType roomType)
+    {
+        bool foundSameRoomType = false;
+        int distance = 0;
+
+        IterateUp(
+            node =>
+            {
+                distance++;
+                if (node.RoomType == roomType) foundSameRoomType = true;
+            },
+            node => !foundSameRoomType && !node.Equals(this)
+        );
+
+        return foundSameRoomType ? distance : -1;
     }
 }
