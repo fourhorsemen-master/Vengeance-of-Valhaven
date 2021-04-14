@@ -98,7 +98,7 @@ public class WolfAi : Ai
             .WithComponent(EngageState.Evade, evadeStateMachine)
             .WithTransition(EngageState.Howl, EngageState.Attack, new AlwaysTrigger())
             .WithTransition(EngageState.Attack, EngageState.DashAway, new WolfRandomAttackCountReached(wolf, minAttacks, maxAttacks) & new CanMove(wolf))
-            .WithTransition(EngageState.DashAway, EngageState.Evade, new CanMove(wolf))
+            .WithTransition(EngageState.DashAway, EngageState.Evade, new TimeElapsed(wolf.DashDuration))
             .WithTransition(
                 EngageState.Evade,
                 EngageState.Attack,

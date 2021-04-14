@@ -12,6 +12,7 @@ public class Wolf : Enemy
 
     public Subject OnHowl { get; } = new Subject();
     public Subject OnAttack { get; } = new Subject();
+    public float DashDuration => dashDuration;
 
     public void DashFromActor(Actor actor)
     {
