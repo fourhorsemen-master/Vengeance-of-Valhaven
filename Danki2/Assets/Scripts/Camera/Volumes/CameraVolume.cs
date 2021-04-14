@@ -66,11 +66,15 @@ public class CameraVolume : MonoBehaviour
             CameraTransformLookup[cameraOrientation],
             overrideSmoothFactor ? smoothFactorOverride : (float?) null
         );
+
+        StaticUI.Instance.OverrideVisibility(0);
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (IsPlayer(other)) CustomCamera.Instance.RemoveTransformOverride();
+
+        StaticUI.Instance.RemoveVisibilityOverride();
     }
 
     private bool IsPlayer(Collider other) => other.CompareTag(Tag.Player);
