@@ -9,6 +9,9 @@ public class CameraVolume : MonoBehaviour
     [SerializeField] private Transform southTransform = null;
     [SerializeField] private Transform westTransform = null;
 
+    [SerializeField] private bool overrideSmoothFactor = false;
+    [SerializeField] private float smoothFactorOverride = 1;
+
     private Pole cameraOrientation;
 
     private void OnDrawGizmos()
@@ -36,16 +39,16 @@ public class CameraVolume : MonoBehaviour
         switch (cameraOrientation)
         {
             case Pole.North:
-                CustomCamera.Instance.OverrideDesiredTransform(northTransform);
+                CustomCamera.Instance.OverrideDesiredTransform(northTransform, overrideSmoothFactor ? smoothFactorOverride : -1);
                 break;
             case Pole.East:
-                CustomCamera.Instance.OverrideDesiredTransform(eastTransform);
+                CustomCamera.Instance.OverrideDesiredTransform(eastTransform, overrideSmoothFactor ? smoothFactorOverride : -1);
                 break;
             case Pole.South:
-                CustomCamera.Instance.OverrideDesiredTransform(southTransform);
+                CustomCamera.Instance.OverrideDesiredTransform(southTransform, overrideSmoothFactor ? smoothFactorOverride : -1);
                 break;
             case Pole.West:
-                CustomCamera.Instance.OverrideDesiredTransform(westTransform);
+                CustomCamera.Instance.OverrideDesiredTransform(westTransform, overrideSmoothFactor ? smoothFactorOverride : -1);
                 break;
         }
     }

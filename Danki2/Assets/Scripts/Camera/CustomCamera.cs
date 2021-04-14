@@ -49,6 +49,7 @@ public class CustomCamera : Singleton<CustomCamera>
     private Pole orientation;
 
     private Transform transformOverride = null;
+    private float smoothFactorOverride = -1;
 
     private float HorizontalMouseOffset => Input.mousePosition.x / Screen.width - 0.5f;
     private float VerticalMouseOffset => Input.mousePosition.y / Screen.height - 0.5f;
@@ -92,14 +93,16 @@ public class CustomCamera : Singleton<CustomCamera>
         }
     }
 
-    public void OverrideDesiredTransform(Transform transformOverride)
+    public void OverrideDesiredTransform(Transform transformOverride, float smoothFactorOverride = -1)
     {
         this.transformOverride = transformOverride;
+        this.smoothFactorOverride = smoothFactorOverride;
     }
 
     public void RemoveTransformOverride()
     {
         transformOverride = null;
+        smoothFactorOverride = -1;
     }
 
     private void FollowTarget(bool snap)
@@ -114,7 +117,7 @@ public class CustomCamera : Singleton<CustomCamera>
             return;
         }
 
-        float lerpAmount = 1 - Mathf.Exp(- Time.deltaTime / smoothFactor);
+        float lerpAmount = 1 - Mathf.Exp(- Time.deltaTime / (smoothFactorOverride == -1 ? smoothFactor : smoothFactorOverride));
         transform.position = Vector3.Lerp(transform.position, desiredPosition, lerpAmount);
         transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, lerpAmount);
     }
