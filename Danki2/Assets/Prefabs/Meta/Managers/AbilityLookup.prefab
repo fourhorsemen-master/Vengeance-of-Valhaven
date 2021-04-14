@@ -558,7 +558,7 @@ MonoBehaviour:
       finisher: 0
       channelDuration: 2
     - displayName: Poison Stab
-      tooltip: Poison stab
+      tooltip: Deals {PRIMARY_DAMAGE} damage on impact and applies {POISON} for 10s.
       baseAbilityData:
         primaryDamage: 2
         secondaryDamage: 0
@@ -573,8 +573,8 @@ MonoBehaviour:
         - Potent
         _values:
         - displayName: Potent
-          tooltip: Increase poison duration
-          requiredTreeDepth: 2
+          tooltip: Increases {POISON} duration to 20s.
+          requiredTreeDepth: 3
       rarity: 1
       playerCanCast: 1
       finisher: 1

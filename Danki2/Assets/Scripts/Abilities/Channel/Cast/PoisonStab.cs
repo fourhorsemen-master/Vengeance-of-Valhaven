@@ -8,7 +8,7 @@ public class PoisonStab : Cast
     private const float PauseDuration = 0.3f;
     private const float Range = 2f;
     private const float PoisonDuration = 10f;
-    private const float PotentPoisonDuration = 15f;
+    private const float PotentPoisonDuration = 20f;
 
     private readonly Subject onCastFail = new Subject();
     private readonly Subject onFinishMovement = new Subject();
