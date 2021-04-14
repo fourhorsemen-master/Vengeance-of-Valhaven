@@ -622,8 +622,6 @@ MonoBehaviour:
   maxBites: 2
   minEvadeTime: 4
   maxEvadeTime: 8
-  firstRetreatHealthProportion: 0.5
-  secondRetreatHealthProportion: 0.2
   followDistance: 2.5
   biteRange: 3
   biteMaxAngle: 3
@@ -1008,6 +1006,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8063099716140605082}
     m_Modifications:
+    - target: {fileID: 1271377981754553914, guid: bb4df8ade51d93c46b7624021b9a0502,
+        type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3682941386759011557, guid: bb4df8ade51d93c46b7624021b9a0502,
         type: 3}
       propertyPath: actor

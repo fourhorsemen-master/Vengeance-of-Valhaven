@@ -21,8 +21,6 @@ public class WolfAi : Ai
     [SerializeField] private int maxBites = 0;
     [SerializeField] private float minEvadeTime = 0;
     [SerializeField] private float maxEvadeTime = 0;
-    [SerializeField, Range(0, 1)] private float firstRetreatHealthProportion = 0;
-    [SerializeField, Range(0, 1)] private float secondRetreatHealthProportion = 0;
 
     [Header("Attack")]
     [SerializeField] private float followDistance = 0;
@@ -103,10 +101,6 @@ public class WolfAi : Ai
                 EngageState.Evade,
                 EngageState.Attack,
                 new RandomTimeElapsed(minEvadeTime, maxEvadeTime) | new DistanceLessThan(wolf, player, minCircleDistance) | new TakesNonTickDamage(wolf)
-            )
-            .WithGlobalTransition(
-                EngageState.DashAway,
-                new HealthGoesBelowProportion(wolf, firstRetreatHealthProportion) | new HealthGoesBelowProportion(wolf, secondRetreatHealthProportion)
             );
 
         return new StateMachine<State>(State.Patrol)
