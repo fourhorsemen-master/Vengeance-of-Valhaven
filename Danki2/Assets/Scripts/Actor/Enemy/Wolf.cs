@@ -11,7 +11,7 @@ public class Wolf : Enemy
     public override ActorType Type => ActorType.Wolf;
 
     public Subject OnHowl { get; } = new Subject();
-    public Subject OnAttack { get; } = new Subject();
+    public Subject OnBite { get; } = new Subject();
     public float DashDuration => dashDuration;
 
     public void DashFromActor(Actor actor)
@@ -27,7 +27,7 @@ public class Wolf : Enemy
             GetBiteTargetPosition(transform.position),
             GetBiteTargetPosition(Centre)
         );
-        OnAttack.Next();
+        OnBite.Next();
     }
 
     public void Pounce(Actor target)
@@ -37,7 +37,6 @@ public class Wolf : Enemy
             GetPounceTargetPosition(transform.position, target.transform.position),
             GetPounceTargetPosition(Centre, target.Centre)
         );
-        OnAttack.Next();
     }
 
     public void Howl()

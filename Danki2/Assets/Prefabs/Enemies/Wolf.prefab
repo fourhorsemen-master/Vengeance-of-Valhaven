@@ -618,8 +618,8 @@ MonoBehaviour:
   maxStillTime: 3
   minMovementTime: 0.5
   maxMovementTime: 1.5
-  minAttacks: 2
-  maxAttacks: 2
+  minBites: 1
+  maxBites: 2
   minEvadeTime: 4
   maxEvadeTime: 8
   firstRetreatHealthProportion: 0.5
@@ -629,7 +629,7 @@ MonoBehaviour:
   biteMaxAngle: 3
   biteDelay: 0.5
   biteCooldown: 2.5
-  pounceMinRange: 5
+  pounceMinRange: 4
   pounceMaxRange: 10
   pounceDelay: 0.5
   pounceCooldown: 5

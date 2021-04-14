@@ -17,8 +17,8 @@ public class WolfAi : Ai
     [SerializeField] private float maxMovementTime = 0;
 
     [Header("Engage")]
-    [SerializeField] private int minAttacks = 0;
-    [SerializeField] private int maxAttacks = 0;
+    [SerializeField] private int minBites = 0;
+    [SerializeField] private int maxBites = 0;
     [SerializeField] private float minEvadeTime = 0;
     [SerializeField] private float maxEvadeTime = 0;
     [SerializeField, Range(0, 1)] private float firstRetreatHealthProportion = 0;
@@ -97,7 +97,7 @@ public class WolfAi : Ai
             .WithComponent(EngageState.DashAway, new DashAway(wolf, player))
             .WithComponent(EngageState.Evade, evadeStateMachine)
             .WithTransition(EngageState.Howl, EngageState.Attack, new AlwaysTrigger())
-            .WithTransition(EngageState.Attack, EngageState.DashAway, new WolfRandomAttackCountReached(wolf, minAttacks, maxAttacks) & new CanMove(wolf))
+            .WithTransition(EngageState.Attack, EngageState.DashAway, new WolfRandomBiteCountReached(wolf, minBites, maxBites) & new CanMove(wolf))
             .WithTransition(EngageState.DashAway, EngageState.Evade, new TimeElapsed(wolf.DashDuration))
             .WithTransition(
                 EngageState.Evade,
