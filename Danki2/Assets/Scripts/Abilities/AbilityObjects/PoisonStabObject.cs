@@ -1,22 +1,28 @@
 ﻿using UnityEngine;
+using UnityEngine.VFX;
 
 public class PoisonStabObject : StaticAbilityObject
 {
-    [SerializeField]
-    private ModularPFXComponent mpfx = null;
+    [SerializeField] private VisualEffect visualEffect = null;
+    [SerializeField] private ModularPFXComponent mpfx = null;
 
     public override float StickTime => 5f;
 
-    public static void Create(Transform transform, Subject onFinishMovement)
+    public static void Create(Transform transform, Subject onCastFail, Subject onFinishMovement)
     {
         Instantiate(
             AbilityObjectPrefabLookup.Instance.PoisonStabObjectPrefab,
             transform
-        ).Setup(onFinishMovement);
+        ).Setup(onCastFail, onFinishMovement);
     }
 
-    private void Setup(Subject onFinishMovement)
+    private void Setup(Subject onCastFail, Subject onFinishMovement)
     {
-        onFinishMovement.Subscribe(() => mpfx.enabled = true);
+        onCastFail.Subscribe(() => visualEffect.Stop());
+        onFinishMovement.Subscribe(() =>
+        {
+            visualEffect.Stop();
+            mpfx.enabled = true;
+        });
     }
 }

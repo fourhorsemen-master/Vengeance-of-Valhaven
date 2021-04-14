@@ -10,6 +10,7 @@ public class PoisonStab : Cast
     private const float PoisonDuration = 10f;
     private const float PotentPoisonDuration = 15f;
 
+    private readonly Subject onCastFail = new Subject();
     private readonly Subject onFinishMovement = new Subject();
 
     private bool HasPotent => HasBonus("Potent");
@@ -18,7 +19,12 @@ public class PoisonStab : Cast
 
     protected override void Start()
     {
-        PoisonStabObject.Create(Owner.AbilitySourceTransform, onFinishMovement);
+        PoisonStabObject.Create(Owner.AbilitySourceTransform, onCastFail, onFinishMovement);
+    }
+
+    protected override void Cancel()
+    {
+        onCastFail.Next();
     }
 
     public override void End(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
