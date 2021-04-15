@@ -512,6 +512,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1873322766099463150, guid: 937a2be9f9a5f3b40aedafb045404f48,
         type: 3}
+      propertyPath: abilityChoices.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1873322766099463150, guid: 937a2be9f9a5f3b40aedafb045404f48,
+        type: 3}
       propertyPath: roomType
       value: 5
       objectReference: {fileID: 0}
@@ -539,6 +544,16 @@ PrefabInstance:
         type: 3}
       propertyPath: cameraOrientation
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1873322766099463150, guid: 937a2be9f9a5f3b40aedafb045404f48,
+        type: 3}
+      propertyPath: abilityChoices.Array.data[1]
+      value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 1873322766099463150, guid: 937a2be9f9a5f3b40aedafb045404f48,
+        type: 3}
+      propertyPath: abilityChoices.Array.data[2]
+      value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 1873322766099463151, guid: 937a2be9f9a5f3b40aedafb045404f48,
         type: 3}
