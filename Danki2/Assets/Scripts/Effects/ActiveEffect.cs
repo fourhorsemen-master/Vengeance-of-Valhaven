@@ -1,5 +1,6 @@
 ﻿public enum ActiveEffect
 {
     Stun,
-    Slow
+    Slow,
+    Poison
 }
