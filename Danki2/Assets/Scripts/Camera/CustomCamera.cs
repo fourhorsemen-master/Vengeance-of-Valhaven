@@ -54,6 +54,8 @@ public class CustomCamera : Singleton<CustomCamera>
     private float HorizontalMouseOffset => Input.mousePosition.x / Screen.width - 0.5f;
     private float VerticalMouseOffset => Input.mousePosition.y / Screen.height - 0.5f;
 
+    private float SmoothFactor => smoothFactorOverride ?? smoothFactor;
+
     protected override void Awake()
     {
         base.Awake();
@@ -110,14 +112,14 @@ public class CustomCamera : Singleton<CustomCamera>
         SetDesiredPosition();
         SetDesiredRotation();
 
-        if (snap)
+        if (snap || SmoothFactor == 0)
         {
             transform.position = desiredPosition;
             transform.rotation = desiredRotation;
             return;
         }
 
-        float lerpAmount = 1 - Mathf.Exp(- Time.deltaTime / (smoothFactorOverride ?? smoothFactor));
+        float lerpAmount = 1 - Mathf.Exp(- Time.deltaTime / (SmoothFactor));
         transform.position = Vector3.Lerp(transform.position, desiredPosition, lerpAmount);
         transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, lerpAmount);
     }
