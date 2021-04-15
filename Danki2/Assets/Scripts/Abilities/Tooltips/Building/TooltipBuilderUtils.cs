@@ -46,7 +46,7 @@ public static class TooltipBuilderUtils
                 return new TooltipSegment(TooltipSegmentType.BoldText, $"Bleed x{templatedTooltipSegment.Value}");
             
             case TemplatedTooltipSegmentType.Poison:
-                return new TooltipSegment(TooltipSegmentType.BoldText, $"Poison x{templatedTooltipSegment.Value}");
+                return new TooltipSegment(TooltipSegmentType.BoldText, "Poison");
             
             case TemplatedTooltipSegmentType.Vulnerable:
                 return new TooltipSegment(TooltipSegmentType.BoldText, $"Vulnerable x{templatedTooltipSegment.Value}");

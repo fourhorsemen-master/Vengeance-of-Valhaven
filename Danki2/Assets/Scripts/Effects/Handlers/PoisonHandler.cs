@@ -1,15 +1,11 @@
-﻿public class PoisonHandler : StackingEffectHandler
+﻿public class PoisonHandler : ActiveEffectHandler
 {
-    private const float TickInterval = 0.5f;
-    private const float TickStartDelay = 0.5f;
-    private const int DamagePerStack = 1;
-    
-    public PoisonHandler(Actor actor, EffectManager effectManager)
-        : base(actor, effectManager, StackingEffect.Poison, TickInterval, TickStartDelay) {}
+    private const float TickInterval = 2f;
+    private const float TickStartDelay = 2f;
+    private const int DamagePerTick = 1;
 
-    protected override void HandleEffectTicked()
-    {
-        int damage = DamagePerStack * effectManager.GetStacks(StackingEffect.Poison);
-        actor.HealthManager.TickDamage(damage);
-    }
+    public PoisonHandler(Actor actor, EffectManager effectManager)
+        : base(actor, effectManager, ActiveEffect.Poison, TickInterval, TickStartDelay) {}
+
+    protected override void HandleEffectTicked() => actor.HealthManager.TickDamage(DamagePerTick);
 }
