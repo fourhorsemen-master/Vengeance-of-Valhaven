@@ -52,6 +52,7 @@ public class CameraVolume : MonoBehaviour
     public bool TurnOffStaticHealthBarUI { get => turnOffStaticHealthBarUI; set => turnOffStaticHealthBarUI = value; }
 
     private Pole cameraOrientation;
+    private Subscription enemiesClearedSubscription;
 
     private void OnDrawGizmos()
     {
@@ -73,7 +74,7 @@ public class CameraVolume : MonoBehaviour
         if (CombatRoomManager.Instance.InCombatRoom && !CombatRoomManager.Instance.EnemiesCleared)
         {
             meshCollider.enabled = false;
-            CombatRoomManager.Instance.EnemiesClearedSubject.Subscribe(() => meshCollider.enabled = true);
+            enemiesClearedSubscription = CombatRoomManager.Instance.EnemiesClearedSubject.Subscribe(() => meshCollider.enabled = true);
         }
     }
 
@@ -98,6 +99,11 @@ public class CameraVolume : MonoBehaviour
 
         if (turnOffStaticAbilityUI) StaticAbilityUI.Instance.RemoveVisibilityOverride();
         if (turnOffStaticHealthBarUI) StaticHealthBarUI.Instance.RemoveVisibilityOverride();
+    }
+
+    private void OnDestroy()
+    {
+        enemiesClearedSubscription?.Unsubscribe();
     }
 
     private bool IsPlayer(Collider other) => other.CompareTag(Tag.Player);
