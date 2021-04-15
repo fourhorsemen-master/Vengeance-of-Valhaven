@@ -37,6 +37,10 @@ public class CameraVolume : MonoBehaviour
     private float smoothFactorOverride = 0;
     public float SmoothFactorOverride { get => smoothFactorOverride; set => smoothFactorOverride = value; }
 
+    [SerializeField]
+    private bool turnOffStaticUI = true;
+    public bool TurnOffStaticUI { get => turnOffStaticUI; set => turnOffStaticUI = value; }
+
     private Pole cameraOrientation;
 
     private void OnDrawGizmos()
@@ -44,7 +48,7 @@ public class CameraVolume : MonoBehaviour
         EnumUtils.ForEach<Pole>(p => GizmoUtils.DrawArrow(
             cameraTransformLookup[p].position,
             cameraTransformLookup[p].forward,
-            PoleColorLookup[p]
+            poleColorLookup[p]
         ));
     }
 
@@ -63,18 +67,20 @@ public class CameraVolume : MonoBehaviour
         if (!IsPlayer(other)) return;
 
         CustomCamera.Instance.OverrideDesiredTransform(
-            CameraTransformLookup[cameraOrientation],
+            cameraTransformLookup[cameraOrientation],
             overrideSmoothFactor ? smoothFactorOverride : (float?) null
         );
 
-        StaticUI.Instance.OverrideVisibility(0);
+        if (turnOffStaticUI) StaticUI.Instance.OverrideVisibility(0);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (IsPlayer(other)) CustomCamera.Instance.RemoveTransformOverride();
+        if (!IsPlayer(other)) return;
 
-        StaticUI.Instance.RemoveVisibilityOverride();
+        CustomCamera.Instance.RemoveTransformOverride();
+
+        if (turnOffStaticUI) StaticUI.Instance.RemoveVisibilityOverride();
     }
 
     private bool IsPlayer(Collider other) => other.CompareTag(Tag.Player);
