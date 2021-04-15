@@ -85,9 +85,17 @@ public class DevPersistenceManagerEditor : Editor
 
     private void EditAbilityRoomData(DevPersistenceManager devPersistenceManager)
     {
-        devPersistenceManager.abilityChoice1 = (AbilityReference) EditorGUILayout.EnumPopup("Ability Choice 1", devPersistenceManager.abilityChoice1);
-        devPersistenceManager.abilityChoice2 = (AbilityReference) EditorGUILayout.EnumPopup("Ability Choice 2", devPersistenceManager.abilityChoice2);
-        devPersistenceManager.abilityChoice3 = (AbilityReference) EditorGUILayout.EnumPopup("Ability Choice 3", devPersistenceManager.abilityChoice3);
+        EditorUtils.Header("Ability Choices");
+
+        EditorGUI.indentLevel++;
+
+        EditorUtils.ResizeableList(
+            devPersistenceManager.abilityChoices,
+            abilityChoice => (AbilityReference) EditorGUILayout.EnumPopup("Ability Choice", abilityChoice),
+            AbilityReference.Slash
+        );
+
+        EditorGUI.indentLevel--;
     }
 
     private void EditHealingRoomData(DevPersistenceManager devPersistenceManager)

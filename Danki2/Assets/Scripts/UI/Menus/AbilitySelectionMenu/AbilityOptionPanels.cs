@@ -4,15 +4,15 @@ using UnityEngine;
 public class AbilityOptionPanels : MonoBehaviour
 {
     [SerializeField]
-    private List<AbilityOptionPanel> abilityOptionPanels = null;
+    private AbilityOptionPanel abilityOptionPanelPrefab = null;
 
-    public Subject<AbilityReference> AbilitySelectedSubject { get; } = new Subject<AbilityReference>();
-
-    public Subject AbilityDeselectedSubject { get; } = new Subject();
-
+    private readonly List<AbilityOptionPanel> abilityOptionPanels = new List<AbilityOptionPanel>();
     private readonly List<Subscription> subscriptions = new List<Subscription>();
 
     private AbilityTooltip abilityTooltip;
+
+    public Subject<AbilityReference> AbilitySelectedSubject { get; } = new Subject<AbilityReference>();
+    public Subject AbilityDeselectedSubject { get; } = new Subject();
 
     private void OnEnable()
     {
@@ -21,6 +21,8 @@ public class AbilityOptionPanels : MonoBehaviour
 
     private void OnDisable()
     {
+        abilityOptionPanels.ForEach(p => Destroy(p.gameObject));
+        abilityOptionPanels.Clear();
         subscriptions.ForEach(s => s.Unsubscribe());
         subscriptions.Clear();
         TryDestroyTooltip();
@@ -28,25 +30,17 @@ public class AbilityOptionPanels : MonoBehaviour
 
     private void InitialisePanels(List<AbilityReference> options)
     {
-        if (options.Count != abilityOptionPanels.Count)
+        options.ForEach(option =>
         {
-            Debug.LogError(
-                "Ability option count must be the same as the ability option panel count. " +
-                $"Received {options.Count} options, but there are {abilityOptionPanels.Count} panels."
-            );
-            return;
-        }
-
-        for (int i = 0; i < options.Count; i++)
-        {
-            AbilityOptionPanel abilityOptionPanel = abilityOptionPanels[i];
-            abilityOptionPanel.Initialise(options[i]);
+            AbilityOptionPanel abilityOptionPanel = Instantiate(abilityOptionPanelPrefab, transform);
+            abilityOptionPanels.Add(abilityOptionPanel);
+            abilityOptionPanel.Initialise(option);
             subscriptions.Add(
                 abilityOptionPanel.OnClickSubject.Subscribe(() => OnOptionClicked(abilityOptionPanel)),
                 abilityOptionPanel.OnPointerEnterSubject.Subscribe(() => OnPointerEnter(abilityOptionPanel)),
                 abilityOptionPanel.OnPointerExitSubject.Subscribe(() => OnPointerExit(abilityOptionPanel))
             );
-        }
+        });
     }
 
     private void OnOptionClicked(AbilityOptionPanel abilityOptionPanel)
