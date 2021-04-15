@@ -24,5 +24,6 @@
     RingOfDeath,
     Execute,
     Reflect,
-    PoisonStab
+    PoisonStab,
+    Eviscerate
 }
