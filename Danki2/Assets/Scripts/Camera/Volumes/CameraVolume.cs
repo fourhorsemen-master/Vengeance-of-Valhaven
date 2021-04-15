@@ -53,12 +53,6 @@ public class CameraVolume : MonoBehaviour
 
     private Pole cameraOrientation;
 
-    private static readonly ISet<RoomType> deactiveRoomTypes = new HashSet<RoomType>
-    {
-        RoomType.Combat,
-        RoomType.Boss
-    };
-
     private void OnDrawGizmos()
     {
         EnumUtils.ForEach<Pole>(p => GizmoUtils.DrawArrow(
@@ -76,7 +70,7 @@ public class CameraVolume : MonoBehaviour
 
         cameraOrientation = roomSaveData.CameraOrientation;
 
-        if (deactiveRoomTypes.Contains(roomSaveData.RoomType))
+        if (CombatRoomManager.Instance.InCombatRoom && !CombatRoomManager.Instance.EnemiesCleared)
         {
             meshCollider.enabled = false;
             CombatRoomManager.Instance.EnemiesClearedSubject.Subscribe(() => meshCollider.enabled = true);

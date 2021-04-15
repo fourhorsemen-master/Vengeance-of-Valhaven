@@ -10,30 +10,41 @@ public class CombatRoomManager : Singleton<CombatRoomManager>
 {
     public bool EnemiesCleared { get; private set; } = false;
     public Subject EnemiesClearedSubject { get; }  = new Subject();
-    
+    public bool InCombatRoom { get; private set; }
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        RoomSaveData roomSaveData = PersistenceManager.Instance.SaveData.CurrentRoomSaveData;
+        InCombatRoom = roomSaveData.RoomType == RoomType.Combat || roomSaveData.RoomType == RoomType.Boss;
+
+        if (!InCombatRoom) return;
+
+        EnemiesCleared = roomSaveData.CombatRoomSaveData.EnemiesCleared;
+    }
+
     private void Start()
     {
-        RoomSaveData roomSaveData = PersistenceManager.Instance.SaveData.CurrentRoomSaveData;
-
-        if (roomSaveData.RoomType != RoomType.Combat && roomSaveData.RoomType != RoomType.Boss) return;
-        
-        CombatRoomSaveData combatRoomSaveData = roomSaveData.CombatRoomSaveData;
+        if (!InCombatRoom) return;
 
         GameplayRoomTransitionManager.Instance.RegisterCanTransitionSubject(EnemiesClearedSubject);
 
-        if (combatRoomSaveData.EnemiesCleared)
+        if (EnemiesCleared)
         {
             EnemiesCleared = true;
             EnemiesClearedSubject.Next();
             return;
         }
 
-        List<Enemy> enemies = SpawnEnemies(combatRoomSaveData);
+        List<Enemy> enemies = SpawnEnemies();
         TrackEnemyDeaths(enemies);
     }
 
-    private List<Enemy> SpawnEnemies(CombatRoomSaveData combatRoomSaveData)
+    private List<Enemy> SpawnEnemies()
     {
+        CombatRoomSaveData combatRoomSaveData = PersistenceManager.Instance.SaveData.CurrentRoomSaveData.CombatRoomSaveData;
+        
         Dictionary<int, EnemySpawner> spawnerLookup = FindObjectsOfType<EnemySpawner>().ToDictionary(s => s.Id);
 
         List<Enemy> enemies = new List<Enemy>();

@@ -18,6 +18,7 @@ public class DevPersistenceManager : PersistenceManager
     [SerializeField] public AbilityReference rightAbility = AbilityReference.Slash;
     [SerializeField] public int playerHealth = 0;
     [SerializeField] public Pole cameraOrientation = Pole.North;
+    [SerializeField] public bool enemiesCleared = false;
     [SerializeField] public List<SpawnedEnemy> spawnedEnemies = new List<SpawnedEnemy>();
     [SerializeField] public List<int> activeTransitions = new List<int>();
     [SerializeField] public bool useRandomSeeds = true;
@@ -64,7 +65,7 @@ public class DevPersistenceManager : PersistenceManager
                     RoomType = roomType,
                     CombatRoomSaveData = new CombatRoomSaveData
                     {
-                        EnemiesCleared = false,
+                        EnemiesCleared = enemiesCleared,
                         SpawnerIdToSpawnedActor = spawnedEnemies.ToDictionary(
                             spawnedEnemy => spawnedEnemy.SpawnerId,
                             spawnedEnemy => spawnedEnemy.ActorType
