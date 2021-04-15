@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class StaticUI : Singleton<StaticUI>
+public abstract class StaticUI<T> : Singleton<T> where T : MonoBehaviour
 {
     [SerializeField]
     private CanvasGroup canvasGroup = null;

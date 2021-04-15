@@ -295,6 +295,11 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2984385168757181565, guid: ac1ac9b557115bf429008e45ec6529de,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3565448376248781361, guid: ac1ac9b557115bf429008e45ec6529de,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -9233,6 +9238,16 @@ PrefabInstance:
     - target: {fileID: 8115754406498809776, guid: f66c988069820c74e8eaa0a7113d65eb,
         type: 3}
       propertyPath: smoothFactorOverride
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8115754406498809776, guid: f66c988069820c74e8eaa0a7113d65eb,
+        type: 3}
+      propertyPath: turnOffStaticAbilityUI
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8115754406498809776, guid: f66c988069820c74e8eaa0a7113d65eb,
+        type: 3}
+      propertyPath: turnOffStaticHealthBarUI
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -19355,6 +19370,16 @@ PrefabInstance:
         type: 3}
       propertyPath: smoothFactorOverride
       value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8115754406498809776, guid: f66c988069820c74e8eaa0a7113d65eb,
+        type: 3}
+      propertyPath: turnOffStaticAbilityUI
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8115754406498809776, guid: f66c988069820c74e8eaa0a7113d65eb,
+        type: 3}
+      propertyPath: turnOffStaticHealthBarUI
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f66c988069820c74e8eaa0a7113d65eb, type: 3}

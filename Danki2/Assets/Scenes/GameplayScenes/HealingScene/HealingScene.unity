@@ -745,12 +745,12 @@ PrefabInstance:
     - target: {fileID: 4930263307480688213, guid: 2c51c6172b72ead49b154ad1cc257c36,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 21.43
+      value: 22.7
       objectReference: {fileID: 0}
     - target: {fileID: 4930263307480688213, guid: 2c51c6172b72ead49b154ad1cc257c36,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.769
+      value: -0.853
       objectReference: {fileID: 0}
     - target: {fileID: 4930263307480688213, guid: 2c51c6172b72ead49b154ad1cc257c36,
         type: 3}
@@ -781,6 +781,11 @@ PrefabInstance:
         type: 3}
       propertyPath: overrideSmoothFactor
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8115754406498809776, guid: 2c51c6172b72ead49b154ad1cc257c36,
+        type: 3}
+      propertyPath: turnOffStaticHealthBarUI
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2c51c6172b72ead49b154ad1cc257c36, type: 3}
@@ -915,6 +920,11 @@ PrefabInstance:
     - target: {fileID: 1291833037492194686, guid: ac1ac9b557115bf429008e45ec6529de,
         type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2984385168757181565, guid: ac1ac9b557115bf429008e45ec6529de,
+        type: 3}
+      propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3565448376248781361, guid: ac1ac9b557115bf429008e45ec6529de,

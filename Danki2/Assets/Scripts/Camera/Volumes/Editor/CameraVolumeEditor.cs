@@ -21,7 +21,7 @@ public class CameraVolumeEditor : Editor
         else
         {
             EditSmoothFactor();
-            EditTurnOffStaticUI();
+            EditStaticUI();
         }
         
         if (GUI.changed)
@@ -88,8 +88,9 @@ public class CameraVolumeEditor : Editor
         if (!cameraVolume.OverrideSmoothFactor) EditorGUI.EndDisabledGroup();
     }
 
-    private void EditTurnOffStaticUI()
+    private void EditStaticUI()
     {
-        cameraVolume.TurnOffStaticUI = EditorGUILayout.Toggle("Turn Off Static UI", cameraVolume.TurnOffStaticUI);
+        cameraVolume.TurnOffStaticAbilityUI = EditorGUILayout.Toggle("Turn Off Static Ability UI", cameraVolume.TurnOffStaticAbilityUI);
+        cameraVolume.TurnOffStaticHealthBarUI = EditorGUILayout.Toggle("Turn Off Static HealthBar UI", cameraVolume.TurnOffStaticHealthBarUI);
     }
 }

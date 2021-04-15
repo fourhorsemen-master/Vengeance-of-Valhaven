@@ -38,8 +38,12 @@ public class CameraVolume : MonoBehaviour
     public float SmoothFactorOverride { get => smoothFactorOverride; set => smoothFactorOverride = value; }
 
     [SerializeField]
-    private bool turnOffStaticUI = true;
-    public bool TurnOffStaticUI { get => turnOffStaticUI; set => turnOffStaticUI = value; }
+    private bool turnOffStaticAbilityUI = true;
+    public bool TurnOffStaticAbilityUI { get => turnOffStaticAbilityUI; set => turnOffStaticAbilityUI = value; }
+
+    [SerializeField]
+    private bool turnOffStaticHealthBarUI = true;
+    public bool TurnOffStaticHealthBarUI { get => turnOffStaticHealthBarUI; set => turnOffStaticHealthBarUI = value; }
 
     private Pole cameraOrientation;
 
@@ -71,7 +75,8 @@ public class CameraVolume : MonoBehaviour
             overrideSmoothFactor ? smoothFactorOverride : (float?) null
         );
 
-        if (turnOffStaticUI) StaticUI.Instance.OverrideVisibility(0);
+        if (turnOffStaticAbilityUI) StaticAbilityUI.Instance.OverrideVisibility(0);
+        if (turnOffStaticHealthBarUI) StaticHealthBarUI.Instance.OverrideVisibility(0);
     }
 
     private void OnTriggerExit(Collider other)
@@ -80,7 +85,8 @@ public class CameraVolume : MonoBehaviour
 
         CustomCamera.Instance.RemoveTransformOverride();
 
-        if (turnOffStaticUI) StaticUI.Instance.RemoveVisibilityOverride();
+        if (turnOffStaticAbilityUI) StaticAbilityUI.Instance.RemoveVisibilityOverride();
+        if (turnOffStaticHealthBarUI) StaticHealthBarUI.Instance.RemoveVisibilityOverride();
     }
 
     private bool IsPlayer(Collider other) => other.CompareTag(Tag.Player);
