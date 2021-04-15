@@ -15,6 +15,7 @@ public class CameraVolumeEditor : Editor
         if (EditorUtils.InPrefabEditor(target))
         {
             EditMeshRenderer();
+            EditMeshCollider();
             EditCameraTransformLookup();
             EditPoleColorLookup();
         }
@@ -36,6 +37,16 @@ public class CameraVolumeEditor : Editor
             "Mesh Renderer",
             cameraVolume.MeshRenderer,
             typeof(MeshRenderer),
+            true
+        );
+    }
+
+    private void EditMeshCollider()
+    {
+        cameraVolume.MeshCollider = (MeshCollider) EditorGUILayout.ObjectField(
+            "Mesh Collider",
+            cameraVolume.MeshCollider,
+            typeof(MeshCollider),
             true
         );
     }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [Serializable]
@@ -20,6 +22,10 @@ public class CameraVolume : MonoBehaviour
     [SerializeField]
     private MeshRenderer meshRenderer = null;
     public MeshRenderer MeshRenderer { get => meshRenderer; set => meshRenderer = value; }
+
+    [SerializeField]
+    private MeshCollider meshCollider = null;
+    public MeshCollider MeshCollider { get => meshCollider; set => meshCollider = value; }
 
     [SerializeField]
     private CameraTransformLookup cameraTransformLookup = new CameraTransformLookup(defaultValue: null);
@@ -47,6 +53,12 @@ public class CameraVolume : MonoBehaviour
 
     private Pole cameraOrientation;
 
+    private static readonly ISet<RoomType> deactiveRoomTypes = new HashSet<RoomType>
+    {
+        RoomType.Combat,
+        RoomType.Boss
+    };
+
     private void OnDrawGizmos()
     {
         EnumUtils.ForEach<Pole>(p => GizmoUtils.DrawArrow(
@@ -56,14 +68,19 @@ public class CameraVolume : MonoBehaviour
         ));
     }
 
-    private void Awake()
-    {
-        cameraOrientation = PersistenceManager.Instance.SaveData.CurrentRoomSaveData.CameraOrientation;
-    }
-
     private void Start()
     {
         meshRenderer.enabled = false;
+
+        RoomSaveData roomSaveData = PersistenceManager.Instance.SaveData.CurrentRoomSaveData;
+
+        cameraOrientation = roomSaveData.CameraOrientation;
+
+        if (deactiveRoomTypes.Contains(roomSaveData.RoomType))
+        {
+            meshCollider.enabled = false;
+            CombatRoomManager.Instance.EnemiesClearedSubject.Subscribe(() => meshCollider.enabled = true);
+        }
     }
 
     private void OnTriggerEnter(Collider other)

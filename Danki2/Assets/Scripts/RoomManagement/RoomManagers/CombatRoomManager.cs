@@ -9,6 +9,7 @@ using System.Linq;
 public class CombatRoomManager : Singleton<CombatRoomManager>
 {
     public bool EnemiesCleared { get; private set; } = false;
+    public Subject EnemiesClearedSubject { get; }  = new Subject();
     
     private void Start()
     {
@@ -18,18 +19,17 @@ public class CombatRoomManager : Singleton<CombatRoomManager>
         
         CombatRoomSaveData combatRoomSaveData = roomSaveData.CombatRoomSaveData;
 
-        Subject roomClearedSubject = new Subject();
-        GameplayRoomTransitionManager.Instance.RegisterCanTransitionSubject(roomClearedSubject);
+        GameplayRoomTransitionManager.Instance.RegisterCanTransitionSubject(EnemiesClearedSubject);
 
         if (combatRoomSaveData.EnemiesCleared)
         {
             EnemiesCleared = true;
-            roomClearedSubject.Next();
+            EnemiesClearedSubject.Next();
             return;
         }
 
         List<Enemy> enemies = SpawnEnemies(combatRoomSaveData);
-        TrackEnemyDeaths(enemies, roomClearedSubject);
+        TrackEnemyDeaths(enemies);
     }
 
     private List<Enemy> SpawnEnemies(CombatRoomSaveData combatRoomSaveData)
@@ -47,7 +47,7 @@ public class CombatRoomManager : Singleton<CombatRoomManager>
         return enemies;
     }
 
-    private void TrackEnemyDeaths(List<Enemy> enemies, Subject roomClearedSubject)
+    private void TrackEnemyDeaths(List<Enemy> enemies)
     {
         int enemyCount = enemies.Count;
         int deadEnemyCount = 0;
@@ -57,7 +57,7 @@ public class CombatRoomManager : Singleton<CombatRoomManager>
             if (deadEnemyCount != enemyCount) return;
 
             EnemiesCleared = true;
-            roomClearedSubject.Next();
+            EnemiesClearedSubject.Next();
             PersistenceManager.Instance.Save();
         }));
     }
