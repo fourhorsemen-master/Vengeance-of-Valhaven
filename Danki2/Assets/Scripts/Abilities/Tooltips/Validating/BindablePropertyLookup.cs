@@ -29,7 +29,7 @@ public static class BindablePropertyLookup
             {BindableProperty.Slow, false},
             {BindableProperty.Block, false},
             {BindableProperty.Bleed, true},
-            {BindableProperty.Poison, true},
+            {BindableProperty.Poison, false},
             {BindableProperty.Vulnerable, true},
         };
 

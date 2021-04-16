@@ -1,16 +1,21 @@
-﻿public abstract class StackingEffectHandler
+﻿using System;
+
+public abstract class EffectHandler<TEffect> where TEffect : Enum
 {
     protected readonly Actor actor;
     protected readonly EffectManager effectManager;
 
-    private readonly StackingEffect effectToHandle;
+    private readonly TEffect effectToHandle;
 
     private Repeater repeater;
 
-    protected StackingEffectHandler(
+    protected abstract Subject<TEffect> EffectAddedSubject { get; }
+    protected abstract Subject<TEffect> EffectRemovedSubject { get; }
+
+    protected EffectHandler(
         Actor actor,
         EffectManager effectManager,
-        StackingEffect effectToHandle,
+        TEffect effectToHandle,
         float tickInterval,
         float tickStartDelay = 0
     )
@@ -19,15 +24,15 @@
         this.effectManager = effectManager;
         this.effectToHandle = effectToHandle;
 
-        effectManager.StackingEffectAddedSubject
+        EffectAddedSubject
             .Where(EffectFilter)
             .Subscribe(_ =>
             {
-                repeater = repeater ?? new Repeater(tickInterval, HandleEffectTicked, tickStartDelay);
+                repeater ??= new Repeater(tickInterval, HandleEffectTicked, tickStartDelay);
                 HandleEffectAdded();
             });
 
-        effectManager.StackingEffectRemovedSubject
+        EffectRemovedSubject
             .Where(EffectFilter)
             .Subscribe(_ =>
             {
@@ -44,5 +49,5 @@
     
     protected virtual void HandleEffectTicked() {}
 
-    private bool EffectFilter(StackingEffect effect) => effect == effectToHandle;
+    private bool EffectFilter(TEffect effect) => effect.Equals(effectToHandle);
 }
