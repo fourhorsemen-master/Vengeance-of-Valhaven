@@ -25,9 +25,14 @@ public class Consume : Cast
                 actorCacheItem.Actor.HealthManager.ReceiveDamage(stacks * DamagePerStack, Owner);
             });
 
-        SuccessFeedbackSubject.Next(stacksConsumed > 0);
-        Owner.MovementManager.Pause(PauseDuration);
+        if (stacksConsumed > 0)
+        {
+            SuccessFeedbackSubject.Next(true);
+            CustomCamera.Instance.AddShake(ShakeIntensity.High);
+            if (HasVampiric) Owner.HealthManager.ReceiveHeal(stacksConsumed * HealPerStack);
+        }
 
-        if (HasVampiric) Owner.HealthManager.ReceiveHeal(stacksConsumed * HealPerStack);
+        SuccessFeedbackSubject.Next(false);
+        Owner.MovementManager.Pause(PauseDuration);
     }
 }
