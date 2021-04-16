@@ -1,6 +1,6 @@
 ﻿public class CanMove : StateMachineTrigger
 {
-    private Actor actor;
+    private readonly Actor actor;
 
     public CanMove(Actor actor)
     {

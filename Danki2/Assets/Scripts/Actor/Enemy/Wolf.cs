@@ -14,9 +14,8 @@ public class Wolf : Enemy
     public Subject OnBite { get; } = new Subject();
     public float DashDuration => dashDuration;
 
-    public void DashFromActor(Actor actor)
+    public void Dash(Vector3 direction)
     {
-        Vector3 direction = transform.position - actor.transform.position;
         MovementManager.TryLockMovement(MovementLockType.Dash, dashDuration, dashSpeed, direction, direction);
     }
 

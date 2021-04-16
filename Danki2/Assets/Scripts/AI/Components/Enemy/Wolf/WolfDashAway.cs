@@ -1,4 +1,6 @@
-﻿public class WolfDashAway : IStateMachineComponent
+﻿using UnityEngine;
+
+public class WolfDashAway : IStateMachineComponent
 {
     private readonly Wolf wolf;
     private readonly Actor target;
@@ -9,7 +11,11 @@
         this.target = target;
     }
 
-    public void Enter() => wolf.DashFromActor(target);
+    public void Enter()
+    {
+        Vector3 direction = wolf.transform.position - target.transform.position;
+        wolf.Dash(direction);
+    }
     public void Exit() { }
     public void Update() { }
 }
