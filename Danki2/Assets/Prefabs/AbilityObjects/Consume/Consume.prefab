@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbc593a593ae4647a079c8976fc04993, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  visualEffect: {fileID: 1030662035154863916}
 --- !u!1 &8939010868817306583
 GameObject:
   m_ObjectHideFlags: 0
@@ -69,7 +70,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8939010868817306583}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -113,6 +114,15 @@ VisualEffect:
         m_Overridden: 1
       - m_Value: 0.1
         m_Name: MaxHeight
+        m_Overridden: 1
+      - m_Value: 5
+        m_Name: RadiusChangeRate
+        m_Overridden: 1
+      - m_Value: 10
+        m_Name: SpawnRate
+        m_Overridden: 1
+      - m_Value: 5
+        m_Name: Gravity
         m_Overridden: 1
     m_Vector2f:
       m_Array: []

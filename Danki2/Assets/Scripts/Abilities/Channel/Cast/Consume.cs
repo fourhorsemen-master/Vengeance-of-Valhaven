@@ -7,17 +7,23 @@ public class Consume : Cast
     private const float PauseDuration = 0.3f;
     private const int HealPerStack = 1;
     
+    private readonly Subject onCastFinished = new Subject();
+
     private bool HasVampiric => HasBonus("Vampiric");
     
     public Consume(AbilityConstructionArgs arguments) : base(arguments) {}
 
     protected override void Start()
     {
-        ConsumeObject.Create(Owner.transform);
+        ConsumeObject.Create(Owner.transform.position, onCastFinished);
     }
+
+    protected override void Cancel() => onCastFinished.Next();
 
     public override void End(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
+        onCastFinished.Next();
+
         int stacksConsumed = 0;
 
         ActorCache.Instance.Cache
