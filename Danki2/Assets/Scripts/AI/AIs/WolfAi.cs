@@ -92,7 +92,7 @@ public class WolfAi : Ai
         IStateMachineComponent engageStateMachine = new StateMachine<EngageState>(EngageState.Howl)
             .WithComponent(EngageState.Howl, new WolfHowl(wolf))
             .WithComponent(EngageState.Attack, attackStateMachine)
-            .WithComponent(EngageState.DashAway, new DashAway(wolf, player))
+            .WithComponent(EngageState.DashAway, new WolfDashAway(wolf, player))
             .WithComponent(EngageState.Evade, evadeStateMachine)
             .WithTransition(EngageState.Howl, EngageState.Attack, new AlwaysTrigger())
             .WithTransition(EngageState.Attack, EngageState.DashAway, new WolfRandomBiteCountReached(wolf, minBites, maxBites) & new CanMove(wolf))

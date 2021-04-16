@@ -1,9 +1,9 @@
-﻿public class DashAway : IStateMachineComponent
+﻿public class WolfDashAway : IStateMachineComponent
 {
     private readonly Wolf wolf;
     private readonly Actor target;
 
-    public DashAway(Wolf wolf, Actor target)
+    public WolfDashAway(Wolf wolf, Actor target)
     {
         this.wolf = wolf;
         this.target = target;
