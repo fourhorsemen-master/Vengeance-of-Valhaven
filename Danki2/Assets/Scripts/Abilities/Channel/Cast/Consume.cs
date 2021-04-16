@@ -11,6 +11,11 @@ public class Consume : Cast
     
     public Consume(AbilityConstructionArgs arguments) : base(arguments) {}
 
+    protected override void Start()
+    {
+        ConsumeObject.Create(Owner.transform);
+    }
+
     public override void End(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
         int stacksConsumed = 0;
