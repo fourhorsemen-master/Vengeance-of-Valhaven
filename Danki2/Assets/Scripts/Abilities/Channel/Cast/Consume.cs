@@ -3,11 +3,12 @@
 [Ability(AbilityReference.Consume, new []{ "Vampiric" })]
 public class Consume : Cast
 {
-    private const int DamagePerStack = 2;
+    private const int DamagePerStack = 3;
     private const float PauseDuration = 0.3f;
     private const int HealPerStack = 1;
     
-    private readonly Subject onCastFinished = new Subject();
+    private readonly Subject onCastSuccessful = new Subject();
+    private readonly Subject onCastFailed = new Subject();
 
     private bool HasVampiric => HasBonus("Vampiric");
     
@@ -15,15 +16,13 @@ public class Consume : Cast
 
     protected override void Start()
     {
-        ConsumeObject.Create(Owner.transform.position, onCastFinished);
+        ConsumeObject.Create(Owner.transform.position, onCastSuccessful, onCastFailed);
     }
 
-    protected override void Cancel() => onCastFinished.Next();
+    protected override void Cancel() => onCastFailed.Next();
 
     public override void End(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
-        onCastFinished.Next();
-
         int stacksConsumed = 0;
 
         ActorCache.Instance.Cache
@@ -39,11 +38,16 @@ public class Consume : Cast
         if (stacksConsumed > 0)
         {
             SuccessFeedbackSubject.Next(true);
-            CustomCamera.Instance.AddShake(ShakeIntensity.High);
+            onCastSuccessful.Next();
+            CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
             if (HasVampiric) Owner.HealthManager.ReceiveHeal(stacksConsumed * HealPerStack);
         }
+        else
+        {
+            SuccessFeedbackSubject.Next(false);
+            onCastFailed.Next();
+        }
 
-        SuccessFeedbackSubject.Next(false);
         Owner.MovementManager.Pause(PauseDuration);
     }
 }
