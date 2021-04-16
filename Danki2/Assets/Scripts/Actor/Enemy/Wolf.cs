@@ -2,11 +2,9 @@
 
 public class Wolf : Enemy
 {
-    [SerializeField]
-    private float dashDuration = 0f;
-
-    [SerializeField]
-    private float dashSpeed = 0f;
+    [Header("Dash")]
+    [SerializeField] private float dashDuration = 0f;
+    [SerializeField] private float dashSpeed = 0f;
 
     public override ActorType Type => ActorType.Wolf;
 
