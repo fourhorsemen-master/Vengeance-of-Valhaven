@@ -74,6 +74,9 @@ public class AbilityObjectPrefabLookup : Singleton<AbilityObjectPrefabLookup>
     [SerializeField]
     private PoisonStabObject _poisonStabObjectPrefab = null;
 
+    [SerializeField]
+    private EviscerateObject _eviscerateObjectPrefab = null;
+
     public BarbedDaggerObject BarbedDaggerObjectPrefab => _barbedDaggerObjectPrefab;
     public BiteObject BiteObjectPrefab => _biteObjectPrefab;
     public PounceObject PounceObjectPrefab => _pounceObjectPrefab;
@@ -98,4 +101,5 @@ public class AbilityObjectPrefabLookup : Singleton<AbilityObjectPrefabLookup>
     public ExecuteObject ExecuteObjectPrefab => _executeObjectPrefab;
     public ReflectObject ReflectObjectPrefab => _reflectObjectPrefab;
     public PoisonStabObject PoisonStabObjectPrefab => _poisonStabObjectPrefab;
+    public EviscerateObject EviscerateObjectPrefab => _eviscerateObjectPrefab;
 }
