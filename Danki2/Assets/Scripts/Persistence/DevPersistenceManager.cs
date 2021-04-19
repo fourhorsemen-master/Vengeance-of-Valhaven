@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 /// <summary>
 /// This class is only to be used for dev purposes and should not be active in a real build.
@@ -80,7 +79,15 @@ public class DevPersistenceManager : PersistenceManager
                     {
                         HasHealed = hasHealed
                     },
-                    RoomTransitionerIdToNextRoomId = activeTransitions.ToDictionary(t => t, _ => 0),
+                    RoomTransitionerIdToTransitionData = activeTransitions.ToDictionary(
+                        t => t,
+                        _ => new TransitionData
+                        {
+                            NextRoomId = 0,
+                            IndicatesNextRoomType = false,
+                            FurtherIndicatedRoomTypes = new List<RoomType>()
+                        }
+                    ),
                     ModuleSeed = useRandomSeeds ? RandomUtils.Seed() : moduleSeed,
                     TransitionModuleSeed = useRandomSeeds ? RandomUtils.Seed() : transitionModuleSeed,
                     CameraOrientation = cameraOrientation,
