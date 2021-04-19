@@ -8,6 +8,16 @@ public class WraithAi : Ai
     
     protected override IStateMachineComponent BuildStateMachineComponent()
     {
-        return new MoveTowards(wraith, ActorCache.Instance.Player);
+        return new StateMachine<State>(State.Follow)
+            .WithComponent(State.Follow, new MoveTowards(wraith, ActorCache.Instance.Player))
+            .WithComponent(State.Blink, new WraithBlink(wraith))
+            .WithTransition(State.Follow, State.Blink, new ButtonDown("Interact"))
+            .WithTransition(State.Blink, State.Follow, new AlwaysTrigger());
+    }
+
+    private enum State
+    {
+        Follow,
+        Blink
     }
 }
