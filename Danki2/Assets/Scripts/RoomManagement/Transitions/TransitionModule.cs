@@ -12,7 +12,7 @@ public class TransitionModule : MonoBehaviour
 
         if (distinctIndicatedRoomTypes.Count > indicatorSockets.Count)
         {
-            Debug.LogError("Tried to instantiate more room type indicators than were available on the transition module");
+            Debug.LogWarning("Tried to instantiate more room type indicators than were available on the transition module");
             return;
         }
 
