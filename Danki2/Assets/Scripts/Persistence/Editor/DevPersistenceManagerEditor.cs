@@ -67,6 +67,8 @@ public class DevPersistenceManagerEditor : Editor
 
     private void EditCombatRoomData(DevPersistenceManager devPersistenceManager)
     {
+        devPersistenceManager.enemiesCleared = EditorGUILayout.Toggle("Enemies Cleared", devPersistenceManager.enemiesCleared);
+
         EditorUtils.Header("Spawned Enemies");
         EditorGUI.indentLevel++;
 
