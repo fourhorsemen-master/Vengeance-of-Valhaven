@@ -102,14 +102,19 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
 
     private RoomSaveData GenerateCommonRoomSaveData(MapNode node)
     {
-        return new RoomSaveData()
+        return new RoomSaveData
         {
             Id = node.Id,
             Scene = node.Scene,
             RoomType = node.RoomType,
-            RoomTransitionerIdToNextRoomId = node.ExitIdToChildLookup.ToDictionary(
+            RoomTransitionerIdToTransitionData = node.ExitIdToChildLookup.ToDictionary(
                 kvp => kvp.Key,
-                kvp => kvp.Value.Id
+                kvp => new TransitionData
+                {
+                    NextRoomId = kvp.Value.Id,
+                    IndicatesNextRoomType = node.ExitIdToIndicatesNextRoomType[kvp.Key],
+                    FurtherIndicatedRoomTypes = node.ExitIdToFurtherIndicatedRoomTypes[kvp.Key]
+                }
             ),
             ModuleSeed = RandomUtils.Seed(),
             TransitionModuleSeed = RandomUtils.Seed(),

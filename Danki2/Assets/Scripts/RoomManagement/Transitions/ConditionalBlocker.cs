@@ -24,7 +24,7 @@ public class ConditionalBlocker : MonoBehaviour
             return;
         }
 
-        List<int> activeExitIds = currentRoomSaveData.RoomTransitionerIdToNextRoomId.Keys.ToList();
+        List<int> activeExitIds = currentRoomSaveData.RoomTransitionerIdToTransitionData.Keys.ToList();
         if (hasAssociatedExit && activeExitIds.Contains(associatedExitId)) Destroy(gameObject);
     }
 }

@@ -185,6 +185,11 @@ public class MapGenerator : Singleton<MapGenerator>
             node.CameraOrientation
         ));
 
+        SetTransitionData(node);
+    }
+
+    private void SetTransitionData(MapNode node)
+    {
         List<int> validExitIds = SceneLookup.Instance.GetValidExitIds(
             node.Scene,
             node.CameraOrientation,
@@ -195,8 +200,33 @@ public class MapGenerator : Singleton<MapGenerator>
             int exitId = RandomUtils.Choice(validExitIds);
             node.ExitIdToChildLookup[exitId] = child;
             node.ChildToExitIdLookup[child] = exitId;
+            node.ExitIdToIndicatesNextRoomType[exitId] = false;
+            node.ExitIdToFurtherIndicatedRoomTypes[exitId] = new List<RoomType>();
             validExitIds.Remove(exitId);
         });
+
+        SetTransitionIndicationData(node);
+    }
+
+    private void SetTransitionIndicationData(MapNode node)
+    {
+        if (node.IsRootNode) return;
+
+        bool isIndicatedInParent =
+            node.RoomType == RoomType.Boss ||
+            Random.value <= MapGenerationLookup.Instance.ChanceIndicatesChildRoomType;
+        if (!isIndicatedInParent) return;
+
+        MapNode parent = node.Parent;
+        parent.ExitIdToIndicatesNextRoomType[parent.ChildToExitIdLookup[node]] = true;
+
+        if (parent.IsRootNode) return;
+
+        bool isIndicatedInGrandparent = Random.value <= MapGenerationLookup.Instance.ChanceIndicatesGrandchildRoomType;
+        if (!isIndicatedInGrandparent) return;
+
+        MapNode grandparent = parent.Parent;
+        grandparent.ExitIdToFurtherIndicatedRoomTypes[grandparent.ChildToExitIdLookup[parent]].Add(node.RoomType);
     }
 
     private void SetCombatData(MapNode node)

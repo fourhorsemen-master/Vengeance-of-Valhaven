@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class CustomCamera : Singleton<CustomCamera>
 {
-    // Camera settings
+    [Header("Camera settings")]
     [SerializeField]
     private StudioListener listener = null;
 
@@ -19,7 +19,7 @@ public class CustomCamera : Singleton<CustomCamera>
     [SerializeField, Range(0f, 1f)]
     private float smoothFactor = 0.1f;
 
-    // Shake levels
+    [Header("Shake levels")]
     [SerializeField, Range(0, 50)]
     private float smallShakeStrength = 10;
 
@@ -40,14 +40,21 @@ public class CustomCamera : Singleton<CustomCamera>
 
     private GameObject target;
 
-    private Vector3 desiredPosition;
+    private Vector3 desiredPosition = Vector3.zero;
+    private Quaternion desiredRotation = Quaternion.identity;
+    private Quaternion defaultRotation;
 
-    private CameraShakeManager shakeManager = new CameraShakeManager(4);
+    private readonly CameraShakeManager shakeManager = new CameraShakeManager(4);
 
     private Pole orientation;
 
+    private Transform transformOverride = null;
+    private float? smoothFactorOverride = null;
+
     private float HorizontalMouseOffset => Input.mousePosition.x / Screen.width - 0.5f;
     private float VerticalMouseOffset => Input.mousePosition.y / Screen.height - 0.5f;
+
+    private float SmoothFactor => smoothFactorOverride ?? smoothFactor;
 
     protected override void Awake()
     {
@@ -60,7 +67,8 @@ public class CustomCamera : Singleton<CustomCamera>
         target = ActorCache.Instance.Player.gameObject;
 
         FollowTarget(true);
-        gameObject.transform.eulerAngles = new Vector3(angle, OrientationUtils.GetYRotation(orientation), 0);
+        defaultRotation = Quaternion.Euler(new Vector3(angle, OrientationUtils.GetYRotation(orientation), 0));
+        gameObject.transform.rotation = defaultRotation;
 
         listener.attenuationObject = target;
     }
@@ -87,8 +95,43 @@ public class CustomCamera : Singleton<CustomCamera>
         }
     }
 
+    public void OverrideDesiredTransform(Transform transformOverride, float? smoothFactorOverride = null)
+    {
+        this.transformOverride = transformOverride;
+        this.smoothFactorOverride = smoothFactorOverride;
+    }
+
+    public void RemoveTransformOverride()
+    {
+        transformOverride = null;
+        smoothFactorOverride = null;
+    }
+
     private void FollowTarget(bool snap)
     {
+        SetDesiredPosition();
+        SetDesiredRotation();
+
+        if (snap || SmoothFactor == 0)
+        {
+            transform.position = desiredPosition;
+            transform.rotation = desiredRotation;
+            return;
+        }
+
+        float lerpAmount = 1 - Mathf.Exp(- Time.deltaTime / (SmoothFactor));
+        transform.position = Vector3.Lerp(transform.position, desiredPosition, lerpAmount);
+        transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, lerpAmount);
+    }
+
+    private void SetDesiredPosition()
+    {
+        if (transformOverride)
+        {
+            desiredPosition = transformOverride.position;
+            return;
+        }
+
         float distanceFromFloorIntersect = height / (Mathf.Tan(Mathf.Deg2Rad * angle));
         Vector3 targetPosition = target.transform.position;
 
@@ -130,15 +173,12 @@ public class CustomCamera : Singleton<CustomCamera>
             targetPosition.y + height,
             targetPosition.z +zOffset + (mouseZOffset * mouseFollowFactor)
         );
+    }
 
-        if (snap)
-        {
-            transform.position = desiredPosition;
-            return;
-        }
-
-        float lerpAmount = 1 - Mathf.Exp(- Time.deltaTime / smoothFactor);
-
-        transform.position = Vector3.Lerp(transform.position, desiredPosition, lerpAmount);
+    private void SetDesiredRotation()
+    {
+        desiredRotation = transformOverride
+            ? transformOverride.rotation
+            : defaultRotation;
     }
 }
