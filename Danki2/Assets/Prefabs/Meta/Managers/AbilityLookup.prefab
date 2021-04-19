@@ -601,7 +601,8 @@ MonoBehaviour:
       finisher: 0
       channelDuration: 0
     - displayName: Consume
-      tooltip: Consume...
+      tooltip: Consumes all stacks of bleed from all enemies. Each enemy receives
+        3 damage per stack consumed from it.
       baseAbilityData:
         primaryDamage: 0
         secondaryDamage: 0
@@ -616,7 +617,7 @@ MonoBehaviour:
         - Vampiric
         _values:
         - displayName: Vampiric
-          tooltip: Vampiric
+          tooltip: Heals 1 health for each stack consumed.
           requiredTreeDepth: 4
       rarity: 2
       playerCanCast: 1
