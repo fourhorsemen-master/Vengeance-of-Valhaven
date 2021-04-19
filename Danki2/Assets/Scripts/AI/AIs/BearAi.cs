@@ -32,7 +32,7 @@ public class BearAi : Ai
         IStateMachineComponent advanceStateMachine = new StateMachine<AdvanceState>(AdvanceState.Walk)
             .WithComponent(AdvanceState.Walk, new WalkTowards(bear, player))
             .WithComponent(AdvanceState.Run, new MoveTowards(bear, player))
-            .WithTransition(AdvanceState.Walk, AdvanceState.Run, new DistanceGreaterThan(bear, player, minRunDistance) | new TakesDamage(bear));
+            .WithTransition(AdvanceState.Walk, AdvanceState.Run, new DistanceGreaterThan(bear, player, minRunDistance) | new TakesNonTickDamage(bear));
 
         IStateMachineComponent attackStateMachine = new StateMachine<AttackState>(AttackState.ChooseAbility)
             .WithComponent(AttackState.WatchTarget, new WatchTarget(bear, player))

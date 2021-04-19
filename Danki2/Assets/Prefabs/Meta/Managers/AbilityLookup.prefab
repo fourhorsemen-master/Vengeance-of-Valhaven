@@ -70,6 +70,7 @@ MonoBehaviour:
     - Execute
     - Reflect
     - PoisonStab
+    - Eviscerate
     _values:
     - displayName: Slash
       tooltip: Deal {PRIMARY_DAMAGE} damage to enemies in a cone.
@@ -579,3 +580,22 @@ MonoBehaviour:
       playerCanCast: 1
       finisher: 1
       channelDuration: 0.4
+    - displayName: Eviscerate
+      tooltip: Deals {PRIMARY_DAMAGE} damage and applies {BLEED|1} to enemies in
+        a cone.
+      baseAbilityData:
+        primaryDamage: 3
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      fmodVocalisationEventRef: 
+      fmodStartEventRef: 
+      fmodEndEventRef: 
+      animationType: 1
+      abilityBonusLookup:
+        _keys: []
+        _values: []
+      rarity: 0
+      playerCanCast: 1
+      finisher: 0
+      channelDuration: 0
