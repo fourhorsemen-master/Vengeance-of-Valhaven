@@ -4,6 +4,7 @@ using UnityEngine;
 public class SaveDataManager : Singleton<SaveDataManager>
 {
     private string serializedSaveData = null;
+    private int saveThreadId = 0;
 
     public bool HasSaveData => serializedSaveData != null;
     public BehaviourSubject<bool> SavingSubject { get; } = new BehaviourSubject<bool>(false);
@@ -13,16 +14,33 @@ public class SaveDataManager : Singleton<SaveDataManager>
     public void Save(SaveData saveData)
     {
         SavingSubject.Next(true);
-        new Thread(SaveThreadStart).Start(saveData);
+        saveThreadId++;
+        new Thread(SaveThreadStart).Start(new SaveThreadContext(saveThreadId, saveData));
     }
     
     public SaveData Load() => JsonUtility.FromJson<SerializableSaveData>(serializedSaveData).Deserialize();
 
     public void Clear() => serializedSaveData = null;
 
-    private void SaveThreadStart(object saveData)
+    private void SaveThreadStart(object o)
     {
-        serializedSaveData = JsonUtility.ToJson(((SaveData) saveData).Serialize());
+        SaveThreadContext saveThreadContext = (SaveThreadContext) o;
+
+        string newSerializedSaveData = JsonUtility.ToJson(saveThreadContext.SaveData.Serialize());
+        if (saveThreadContext.Id != saveThreadId) return;
+        serializedSaveData = newSerializedSaveData;
         SavingSubject.Next(false);
+    }
+    
+    private struct SaveThreadContext
+    {
+        public int Id { get; }
+        public SaveData SaveData { get; }
+
+        public SaveThreadContext(int id, SaveData saveData)
+        {
+            Id = id;
+            SaveData = saveData;
+        }
     }
 }
