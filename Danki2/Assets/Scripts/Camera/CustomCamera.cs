@@ -177,12 +177,8 @@ public class CustomCamera : Singleton<CustomCamera>
 
     private void SetDesiredRotation()
     {
-        if (transformOverride)
-        {
-            desiredRotation = transformOverride.rotation;
-            return;
-        }
-
-        desiredRotation = defaultRotation;
+        desiredRotation = transformOverride
+            ? transformOverride.rotation
+            : defaultRotation;
     }
 }
