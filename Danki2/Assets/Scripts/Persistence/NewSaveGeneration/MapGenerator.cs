@@ -214,7 +214,7 @@ public class MapGenerator : Singleton<MapGenerator>
 
         bool isIndicatedInParent =
             node.RoomType == RoomType.Boss ||
-            Random.value <= MapGenerationLookup.Instance.ChanceRoomTypeIndicatedByParent;
+            Random.value <= MapGenerationLookup.Instance.ChanceIndicatesChildRoomType;
         if (!isIndicatedInParent) return;
 
         MapNode parent = node.Parent;
@@ -222,7 +222,7 @@ public class MapGenerator : Singleton<MapGenerator>
 
         if (parent.IsRootNode) return;
 
-        bool isIndicatedInGrandparent = Random.value <= MapGenerationLookup.Instance.ChanceRoomTypeIndicatedByGrandparent;
+        bool isIndicatedInGrandparent = Random.value <= MapGenerationLookup.Instance.ChanceIndicatesGrandchildRoomType;
         if (!isIndicatedInGrandparent) return;
 
         MapNode grandparent = parent.Parent;

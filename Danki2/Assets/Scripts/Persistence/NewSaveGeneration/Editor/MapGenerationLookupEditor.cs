@@ -35,13 +35,13 @@ public class MapGenerationLookupEditor : Editor
         mapGenerationLookup.MaxRoomDepth = EditorGUILayout.IntField("Max Room Depth", mapGenerationLookup.MaxRoomDepth);
         mapGenerationLookup.MinRoomExits = EditorGUILayout.IntField("Min Room Exits", mapGenerationLookup.MinRoomExits);
         mapGenerationLookup.MaxRoomExits = EditorGUILayout.IntField("Max Room Exits", mapGenerationLookup.MaxRoomExits);
-        mapGenerationLookup.ChanceRoomTypeIndicatedByParent = EditorGUILayout.FloatField(
+        mapGenerationLookup.ChanceIndicatesChildRoomType = EditorGUILayout.FloatField(
             "Chance Room Type Indicated By Parent",
-            mapGenerationLookup.ChanceRoomTypeIndicatedByParent
+            mapGenerationLookup.ChanceIndicatesChildRoomType
         );
-        mapGenerationLookup.ChanceRoomTypeIndicatedByGrandparent = EditorGUILayout.FloatField(
+        mapGenerationLookup.ChanceIndicatesGrandchildRoomType = EditorGUILayout.FloatField(
             "Chance Room Type Indicated By Grandparent",
-            mapGenerationLookup.ChanceRoomTypeIndicatedByGrandparent
+            mapGenerationLookup.ChanceIndicatesGrandchildRoomType
         );
 
         EditorGUI.indentLevel--;
