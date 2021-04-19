@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class WolfRandomAttackCountReached : StateMachineTrigger
+public class WolfRandomBiteCountReached : StateMachineTrigger
 {
     private readonly Wolf wolf;
     private readonly int minAttacks;
@@ -11,7 +11,7 @@ public class WolfRandomAttackCountReached : StateMachineTrigger
     private int requiredAttacks;
     private readonly List<Subscription> attackSubscriptions = new List<Subscription>();
 
-    public WolfRandomAttackCountReached(Wolf wolf, int minAttacks, int maxAttacks)
+    public WolfRandomBiteCountReached(Wolf wolf, int minAttacks, int maxAttacks)
     {
         this.wolf = wolf;
         this.minAttacks = minAttacks;
@@ -22,7 +22,7 @@ public class WolfRandomAttackCountReached : StateMachineTrigger
     {
         attacks = 0;
         requiredAttacks = Random.Range(minAttacks, maxAttacks + 1);
-        attackSubscriptions.Add(wolf.OnAttack.Subscribe(() => attacks++));
+        attackSubscriptions.Add(wolf.OnBite.Subscribe(() => attacks++));
     }
 
     public override void Deactivate()

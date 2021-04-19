@@ -5,7 +5,7 @@ public class Circle : IStateMachineComponent
     private readonly Actor actor;
     private readonly Actor target;
 
-    private CircleDirection circleDirection = CircleDirection.Clockwise;
+    private CircleDirection circleDirection;
 
     public Circle(Actor actor, Actor target)
     {
@@ -13,7 +13,10 @@ public class Circle : IStateMachineComponent
         this.target = target;
     }
 
-    public void Enter() {}
+    public void Enter()
+    {
+        circleDirection = RandomUtils.Choice(CircleDirection.Clockwise, CircleDirection.Anticlockwise);
+    }
 
     public void Exit()
     {

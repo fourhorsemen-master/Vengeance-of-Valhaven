@@ -2,10 +2,20 @@
 
 public class Wolf : Enemy
 {
+    [Header("Dash")]
+    [SerializeField] private float dashDuration = 0f;
+    [SerializeField] private float dashSpeed = 0f;
+
     public override ActorType Type => ActorType.Wolf;
 
     public Subject OnHowl { get; } = new Subject();
-    public Subject OnAttack { get; } = new Subject();
+    public Subject OnBite { get; } = new Subject();
+    public float DashDuration => dashDuration;
+
+    public void Dash(Vector3 direction)
+    {
+        MovementManager.TryLockMovement(MovementLockType.Dash, dashDuration, dashSpeed, direction, direction);
+    }
 
     public void Bite()
     {
@@ -14,7 +24,7 @@ public class Wolf : Enemy
             GetBiteTargetPosition(transform.position),
             GetBiteTargetPosition(Centre)
         );
-        OnAttack.Next();
+        OnBite.Next();
     }
 
     public void Pounce(Actor target)
@@ -24,7 +34,6 @@ public class Wolf : Enemy
             GetPounceTargetPosition(transform.position, target.transform.position),
             GetPounceTargetPosition(Centre, target.Centre)
         );
-        OnAttack.Next();
     }
 
     public void Howl()
