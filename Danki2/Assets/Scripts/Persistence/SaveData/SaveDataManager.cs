@@ -1,4 +1,4 @@
-﻿using System.Threading;
+﻿using System.Threading.Tasks;
 using UnityEngine;
 
 public class SaveDataManager : Singleton<SaveDataManager>
@@ -15,32 +15,18 @@ public class SaveDataManager : Singleton<SaveDataManager>
     {
         SavingSubject.Next(true);
         saveThreadId++;
-        new Thread(SaveThreadStart).Start(new SaveThreadContext(saveThreadId, saveData));
+        Task.Run(() => SaveThreadStart(saveThreadId, saveData));
     }
     
     public SaveData Load() => JsonUtility.FromJson<SerializableSaveData>(serializedSaveData).Deserialize();
 
     public void Clear() => serializedSaveData = null;
 
-    private void SaveThreadStart(object o)
+    private void SaveThreadStart(int id, SaveData saveData)
     {
-        SaveThreadContext saveThreadContext = (SaveThreadContext) o;
-
-        string newSerializedSaveData = JsonUtility.ToJson(saveThreadContext.SaveData.Serialize());
-        if (saveThreadContext.Id != saveThreadId) return;
+        string newSerializedSaveData = JsonUtility.ToJson(saveData.Serialize());
+        if (id != saveThreadId) return;
         serializedSaveData = newSerializedSaveData;
         SavingSubject.Next(false);
-    }
-    
-    private struct SaveThreadContext
-    {
-        public int Id { get; }
-        public SaveData SaveData { get; }
-
-        public SaveThreadContext(int id, SaveData saveData)
-        {
-            Id = id;
-            SaveData = saveData;
-        }
     }
 }
