@@ -26,5 +26,6 @@
     Reflect,
     PoisonStab,
     Eviscerate,
-    Consume
+    Consume,
+    Blink
 }
