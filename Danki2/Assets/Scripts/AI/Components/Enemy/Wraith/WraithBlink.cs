@@ -11,10 +11,10 @@ public class WraithBlink : IStateMachineComponent
 
     public void Enter()
     {
-        wraith.transform.position = new Vector3(
-            5,
-            0,
-            5
+        wraith.InstantCastService.TryCast(
+            AbilityReference.Blink,
+            wraith.transform.position + Vector3.forward,
+            wraith.transform.position + Vector3.forward
         );
     }
 
