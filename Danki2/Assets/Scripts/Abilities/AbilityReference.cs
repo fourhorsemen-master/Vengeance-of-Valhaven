@@ -27,5 +27,6 @@
     PoisonStab,
     Eviscerate,
     Consume,
-    Blink
+    Blink,
+    WraithSwipe
 }

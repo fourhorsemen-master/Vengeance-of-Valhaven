@@ -73,6 +73,7 @@ MonoBehaviour:
     - Eviscerate
     - Consume
     - Blink
+    - WraithSwipe
     _values:
     - displayName: Slash
       tooltip: Deal {PRIMARY_DAMAGE} damage to enemies in a cone.
@@ -642,3 +643,21 @@ MonoBehaviour:
       playerCanCast: 0
       finisher: 0
       channelDuration: 1
+    - displayName: Swipe
+      tooltip: Lunges forward and deals {PRIMARY_DAMAGE}.
+      baseAbilityData:
+        primaryDamage: 7
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      fmodVocalisationEventRef: 
+      fmodStartEventRef: 
+      fmodEndEventRef: 
+      animationType: 0
+      abilityBonusLookup:
+        _keys: []
+        _values: []
+      rarity: 0
+      playerCanCast: 0
+      finisher: 0
+      channelDuration: 0
