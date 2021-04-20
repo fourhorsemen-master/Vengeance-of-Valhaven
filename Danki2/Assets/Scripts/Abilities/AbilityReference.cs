@@ -28,5 +28,6 @@
     Eviscerate,
     Consume,
     Blink,
-    WraithSwipe
+    WraithSwipe,
+    Spine
 }
