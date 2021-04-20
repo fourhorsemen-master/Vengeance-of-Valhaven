@@ -15,6 +15,7 @@ public static class TemplatedTooltipSegmentTypeLookup
             {BindableProperty.Bleed, TemplatedTooltipSegmentType.Bleed},
             {BindableProperty.Poison, TemplatedTooltipSegmentType.Poison},
             {BindableProperty.Vulnerable, TemplatedTooltipSegmentType.Vulnerable},
+            {BindableProperty.BleedInfo, TemplatedTooltipSegmentType.BleedInfo},
         };
 
     public static TemplatedTooltipSegmentType FromBindableProperty(BindableProperty bindableProperty)

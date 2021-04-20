@@ -25,5 +25,6 @@
     Execute,
     Reflect,
     PoisonStab,
-    Eviscerate
+    Eviscerate,
+    Consume
 }

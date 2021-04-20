@@ -12,6 +12,7 @@ public static class TooltipBuilderUtils
         TemplatedTooltipSegmentType.Bleed,
         TemplatedTooltipSegmentType.Poison,
         TemplatedTooltipSegmentType.Vulnerable,
+        TemplatedTooltipSegmentType.BleedInfo,
     };
     
     /// <summary>
@@ -50,6 +51,9 @@ public static class TooltipBuilderUtils
             
             case TemplatedTooltipSegmentType.Vulnerable:
                 return new TooltipSegment(TooltipSegmentType.BoldText, $"Vulnerable x{templatedTooltipSegment.Value}");
+            
+            case TemplatedTooltipSegmentType.BleedInfo:
+                return new TooltipSegment(TooltipSegmentType.BoldText, "Bleed");
 
             default:
                 throw new ArgumentOutOfRangeException();

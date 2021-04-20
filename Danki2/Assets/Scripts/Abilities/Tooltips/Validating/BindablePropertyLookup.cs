@@ -15,6 +15,7 @@ public static class BindablePropertyLookup
             {BindableProperty.Bleed, "BLEED"},
             {BindableProperty.Poison, "POISON"},
             {BindableProperty.Vulnerable, "VULNERABLE"},
+            {BindableProperty.BleedInfo, "BLEED_INFO"},
         };
     private static readonly Dictionary<string, BindableProperty> stringToBindableProperty = new Dictionary<string, BindableProperty>();
 
@@ -31,6 +32,7 @@ public static class BindablePropertyLookup
             {BindableProperty.Bleed, true},
             {BindableProperty.Poison, false},
             {BindableProperty.Vulnerable, true},
+            {BindableProperty.BleedInfo, false},
         };
 
     static BindablePropertyLookup()
