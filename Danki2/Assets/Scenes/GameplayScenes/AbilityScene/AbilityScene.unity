@@ -512,11 +512,6 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1873322766099463150, guid: 937a2be9f9a5f3b40aedafb045404f48,
         type: 3}
-      propertyPath: abilityChoices.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1873322766099463150, guid: 937a2be9f9a5f3b40aedafb045404f48,
-        type: 3}
       propertyPath: roomType
       value: 5
       objectReference: {fileID: 0}
@@ -544,6 +539,11 @@ PrefabInstance:
         type: 3}
       propertyPath: cameraOrientation
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1873322766099463150, guid: 937a2be9f9a5f3b40aedafb045404f48,
+        type: 3}
+      propertyPath: abilityChoices.Array.size
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1873322766099463150, guid: 937a2be9f9a5f3b40aedafb045404f48,
         type: 3}
@@ -3211,9 +3211,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 182734627}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 505c34d8f3ca4e5b9cc27e1e7dcee5c4, type: 3}
+  m_Script: {fileID: 11500000, guid: 6262aa488183ddf4ab7465779f5ed59b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 1
   hasAssociatedEntrance: 0
   associatedEntranceId: 0
   hasAssociatedExit: 1
@@ -5422,9 +5423,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 326211320}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 505c34d8f3ca4e5b9cc27e1e7dcee5c4, type: 3}
+  m_Script: {fileID: 11500000, guid: 6262aa488183ddf4ab7465779f5ed59b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 1
   hasAssociatedEntrance: 1
   associatedEntranceId: 0
   hasAssociatedExit: 0
@@ -5489,9 +5491,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 328734476}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 505c34d8f3ca4e5b9cc27e1e7dcee5c4, type: 3}
+  m_Script: {fileID: 11500000, guid: 6262aa488183ddf4ab7465779f5ed59b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 1
   hasAssociatedEntrance: 0
   associatedEntranceId: 0
   hasAssociatedExit: 1
@@ -10809,9 +10812,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 729987351}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 505c34d8f3ca4e5b9cc27e1e7dcee5c4, type: 3}
+  m_Script: {fileID: 11500000, guid: 6262aa488183ddf4ab7465779f5ed59b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 1
   hasAssociatedEntrance: 0
   associatedEntranceId: 0
   hasAssociatedExit: 1
@@ -11034,9 +11038,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 750357682}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 505c34d8f3ca4e5b9cc27e1e7dcee5c4, type: 3}
+  m_Script: {fileID: 11500000, guid: 6262aa488183ddf4ab7465779f5ed59b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 1
   hasAssociatedEntrance: 1
   associatedEntranceId: 2
   hasAssociatedExit: 0
@@ -15463,9 +15468,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 970733007}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 505c34d8f3ca4e5b9cc27e1e7dcee5c4, type: 3}
+  m_Script: {fileID: 11500000, guid: 6262aa488183ddf4ab7465779f5ed59b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 1
   hasAssociatedEntrance: 1
   associatedEntranceId: 1
   hasAssociatedExit: 0
@@ -21669,9 +21675,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1438251306}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 505c34d8f3ca4e5b9cc27e1e7dcee5c4, type: 3}
+  m_Script: {fileID: 11500000, guid: 6262aa488183ddf4ab7465779f5ed59b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 1
   hasAssociatedEntrance: 0
   associatedEntranceId: 0
   hasAssociatedExit: 1

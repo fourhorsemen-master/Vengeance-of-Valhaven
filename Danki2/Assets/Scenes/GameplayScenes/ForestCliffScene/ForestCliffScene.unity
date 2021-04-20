@@ -3810,9 +3810,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 352133552}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 505c34d8f3ca4e5b9cc27e1e7dcee5c4, type: 3}
+  m_Script: {fileID: 11500000, guid: 6262aa488183ddf4ab7465779f5ed59b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 1
   hasAssociatedEntrance: 1
   associatedEntranceId: 2
   hasAssociatedExit: 1
@@ -7902,13 +7903,7 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 582632415}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &836645259 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1630904176956861215, guid: 9ff5090052106814db4bc974f69fdaa7,
-    type: 3}
-  m_PrefabInstance: {fileID: 582632415}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &836645260
+--- !u!114 &836645258
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7917,13 +7912,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 836645257}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16416702aa64169429bbe77247f2fb79, type: 3}
+  m_Script: {fileID: 11500000, guid: 6262aa488183ddf4ab7465779f5ed59b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 0
   hasAssociatedEntrance: 0
   associatedEntranceId: 0
   hasAssociatedExit: 1
   associatedExitId: 3
+--- !u!4 &836645259 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1630904176956861215, guid: 9ff5090052106814db4bc974f69fdaa7,
+    type: 3}
+  m_PrefabInstance: {fileID: 582632415}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &841793027 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3226464871675855603, guid: cc4364713daf28c4bab8b492ddab0ce6,
@@ -8388,9 +8390,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 875424431}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 505c34d8f3ca4e5b9cc27e1e7dcee5c4, type: 3}
+  m_Script: {fileID: 11500000, guid: 6262aa488183ddf4ab7465779f5ed59b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 1
   hasAssociatedEntrance: 1
   associatedEntranceId: 1
   hasAssociatedExit: 1
@@ -12285,9 +12288,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1253094416}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 505c34d8f3ca4e5b9cc27e1e7dcee5c4, type: 3}
+  m_Script: {fileID: 11500000, guid: 6262aa488183ddf4ab7465779f5ed59b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 1
   hasAssociatedEntrance: 0
   associatedEntranceId: 0
   hasAssociatedExit: 1
@@ -14171,9 +14175,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1404057213}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 505c34d8f3ca4e5b9cc27e1e7dcee5c4, type: 3}
+  m_Script: {fileID: 11500000, guid: 6262aa488183ddf4ab7465779f5ed59b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 1
   hasAssociatedEntrance: 1
   associatedEntranceId: 0
   hasAssociatedExit: 1
@@ -15570,9 +15575,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1513132198}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16416702aa64169429bbe77247f2fb79, type: 3}
+  m_Script: {fileID: 11500000, guid: 6262aa488183ddf4ab7465779f5ed59b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 0
   hasAssociatedEntrance: 0
   associatedEntranceId: 0
   hasAssociatedExit: 1
@@ -19018,13 +19024,7 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 798025071}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &1770852194 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1630904176956861215, guid: 9ff5090052106814db4bc974f69fdaa7,
-    type: 3}
-  m_PrefabInstance: {fileID: 798025071}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1770852195
+--- !u!114 &1770852193
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -19033,13 +19033,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 1770852192}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16416702aa64169429bbe77247f2fb79, type: 3}
+  m_Script: {fileID: 11500000, guid: 6262aa488183ddf4ab7465779f5ed59b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 0
   hasAssociatedEntrance: 0
   associatedEntranceId: 0
   hasAssociatedExit: 1
   associatedExitId: 3
+--- !u!4 &1770852194 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1630904176956861215, guid: 9ff5090052106814db4bc974f69fdaa7,
+    type: 3}
+  m_PrefabInstance: {fileID: 798025071}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1774725911
 PrefabInstance:
   m_ObjectHideFlags: 0
