@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 /// <summary>
 /// This class is only to be used for dev purposes and should not be active in a real build.
@@ -18,6 +17,7 @@ public class DevPersistenceManager : PersistenceManager
     [SerializeField] public AbilityReference rightAbility = AbilityReference.Slash;
     [SerializeField] public int playerHealth = 0;
     [SerializeField] public Pole cameraOrientation = Pole.North;
+    [SerializeField] public bool enemiesCleared = false;
     [SerializeField] public List<SpawnedEnemy> spawnedEnemies = new List<SpawnedEnemy>();
     [SerializeField] public List<int> activeTransitions = new List<int>();
     [SerializeField] public bool useRandomSeeds = true;
@@ -64,7 +64,7 @@ public class DevPersistenceManager : PersistenceManager
                     RoomType = roomType,
                     CombatRoomSaveData = new CombatRoomSaveData
                     {
-                        EnemiesCleared = false,
+                        EnemiesCleared = enemiesCleared,
                         SpawnerIdToSpawnedActor = spawnedEnemies.ToDictionary(
                             spawnedEnemy => spawnedEnemy.SpawnerId,
                             spawnedEnemy => spawnedEnemy.ActorType
@@ -80,7 +80,15 @@ public class DevPersistenceManager : PersistenceManager
                     {
                         HasHealed = hasHealed
                     },
-                    RoomTransitionerIdToNextRoomId = activeTransitions.ToDictionary(t => t, _ => 0),
+                    RoomTransitionerIdToTransitionData = activeTransitions.ToDictionary(
+                        t => t,
+                        _ => new TransitionData
+                        {
+                            NextRoomId = 0,
+                            IndicatesNextRoomType = false,
+                            FurtherIndicatedRoomTypes = new List<RoomType>()
+                        }
+                    ),
                     ModuleSeed = useRandomSeeds ? RandomUtils.Seed() : moduleSeed,
                     TransitionModuleSeed = useRandomSeeds ? RandomUtils.Seed() : transitionModuleSeed,
                     CameraOrientation = cameraOrientation,

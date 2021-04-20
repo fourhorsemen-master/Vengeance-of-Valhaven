@@ -13,6 +13,8 @@ public class MapNode
     public int EntranceId { get; set; }
     public Dictionary<int, MapNode> ExitIdToChildLookup { get; } = new Dictionary<int, MapNode>();
     public Dictionary<MapNode, int> ChildToExitIdLookup { get; } = new Dictionary<MapNode, int>();
+    public Dictionary<int, bool> ExitIdToIndicatesNextRoomType { get; } = new Dictionary<int, bool>();
+    public Dictionary<int, List<RoomType>> ExitIdToFurtherIndicatedRoomTypes { get; } = new Dictionary<int, List<RoomType>>();
     public Dictionary<int, ActorType> SpawnerIdToSpawnedActor { get; } = new Dictionary<int, ActorType>();
     public List<AbilityReference> AbilityChoices { get; } = new List<AbilityReference>();
 
