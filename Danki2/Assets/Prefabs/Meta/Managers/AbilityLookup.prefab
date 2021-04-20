@@ -75,6 +75,7 @@ MonoBehaviour:
     - Blink
     - WraithSwipe
     - Spine
+    - GuidedOrb
     _values:
     - displayName: Slash
       tooltip: Deal {PRIMARY_DAMAGE} damage to enemies in a cone.
@@ -667,6 +668,24 @@ MonoBehaviour:
         a {SLOW}.
       baseAbilityData:
         primaryDamage: 4
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      fmodVocalisationEventRef: 
+      fmodStartEventRef: 
+      fmodEndEventRef: 
+      animationType: 0
+      abilityBonusLookup:
+        _keys: []
+        _values: []
+      rarity: 0
+      playerCanCast: 0
+      finisher: 0
+      channelDuration: 0
+    - displayName: Guided Orb
+      tooltip: Guided orb...
+      baseAbilityData:
+        primaryDamage: 7
         secondaryDamage: 0
         heal: 0
         shield: 0

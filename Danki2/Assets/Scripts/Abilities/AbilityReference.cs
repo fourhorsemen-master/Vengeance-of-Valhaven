@@ -29,5 +29,6 @@
     Consume,
     Blink,
     WraithSwipe,
-    Spine
+    Spine,
+    GuidedOrb
 }
