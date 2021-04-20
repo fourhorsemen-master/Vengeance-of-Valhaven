@@ -20,6 +20,8 @@ public class Consume : Cast
 
     public override void End(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
+        Owner.MovementManager.Pause(PauseDuration);
+
         int stacksConsumed = 0;
 
         ActorCache.Instance.Cache
@@ -32,19 +34,17 @@ public class Consume : Cast
                 actorCacheItem.Actor.HealthManager.ReceiveDamage(stacks * DamagePerStack, Owner);
             });
 
-        if (stacksConsumed > 0)
-        {
-            SuccessFeedbackSubject.Next(true);
-            onCastSuccessful.Next();
-            CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
-            if (HasVampiric) Owner.HealthManager.ReceiveHeal(stacksConsumed * HealPerStack);
-        }
-        else
+        if (stacksConsumed <= 0)
         {
             SuccessFeedbackSubject.Next(false);
             onCastFailed.Next();
+            return;
         }
 
-        Owner.MovementManager.Pause(PauseDuration);
+        SuccessFeedbackSubject.Next(true);
+        onCastSuccessful.Next();
+        CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
+
+        if (HasVampiric) Owner.HealthManager.ReceiveHeal(stacksConsumed * HealPerStack);
     }
 }
