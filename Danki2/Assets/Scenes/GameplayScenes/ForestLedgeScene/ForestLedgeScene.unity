@@ -462,12 +462,12 @@ PrefabInstance:
     - target: {fileID: 372357615792900388, guid: e99b6be599f1b004bb6aef4f85a4086f,
         type: 3}
       propertyPath: m_Name
-      value: RoomTransitioner3
+      value: RoomTransitioner4
       objectReference: {fileID: 0}
     - target: {fileID: 940633970527979516, guid: e99b6be599f1b004bb6aef4f85a4086f,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 940633970527979516, guid: e99b6be599f1b004bb6aef4f85a4086f,
         type: 3}
@@ -522,7 +522,7 @@ PrefabInstance:
     - target: {fileID: 1743824942045492390, guid: e99b6be599f1b004bb6aef4f85a4086f,
         type: 3}
       propertyPath: id
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7024961737020042773, guid: e99b6be599f1b004bb6aef4f85a4086f,
         type: 3}
@@ -765,12 +765,12 @@ PrefabInstance:
     - target: {fileID: 372357615792900388, guid: e99b6be599f1b004bb6aef4f85a4086f,
         type: 3}
       propertyPath: m_Name
-      value: RoomTransitioner4
+      value: RoomTransitioner3
       objectReference: {fileID: 0}
     - target: {fileID: 940633970527979516, guid: e99b6be599f1b004bb6aef4f85a4086f,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 940633970527979516, guid: e99b6be599f1b004bb6aef4f85a4086f,
         type: 3}
@@ -825,7 +825,7 @@ PrefabInstance:
     - target: {fileID: 1743824942045492390, guid: e99b6be599f1b004bb6aef4f85a4086f,
         type: 3}
       propertyPath: id
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7024961737020042773, guid: e99b6be599f1b004bb6aef4f85a4086f,
         type: 3}
@@ -867,10 +867,10 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1348390741}
-  - {fileID: 1917622523}
   - {fileID: 1846194700}
   - {fileID: 596913034}
+  - {fileID: 1348390741}
+  - {fileID: 1917622523}
   - {fileID: 1983539660}
   m_Father: {fileID: 2093801846}
   m_RootOrder: 4
@@ -1190,22 +1190,22 @@ PrefabInstance:
     - target: {fileID: 6164326770177086597, guid: ed0eaccfe211eb244b4c1cfcc02973f1,
         type: 3}
       propertyPath: id
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6164326770177086597, guid: ed0eaccfe211eb244b4c1cfcc02973f1,
         type: 3}
       propertyPath: associatedExitId
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8446230034033301112, guid: ed0eaccfe211eb244b4c1cfcc02973f1,
         type: 3}
       propertyPath: m_Name
-      value: TransitionSocket1
+      value: TransitionSocket2
       objectReference: {fileID: 0}
     - target: {fileID: 9067832688504420694, guid: ed0eaccfe211eb244b4c1cfcc02973f1,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9067832688504420694, guid: ed0eaccfe211eb244b4c1cfcc02973f1,
         type: 3}
@@ -1275,7 +1275,7 @@ PrefabInstance:
     - target: {fileID: 4369521733232040260, guid: f29a608e50d020f4cb9a4b728d0a59a9,
         type: 3}
       propertyPath: id
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4369521733232040261, guid: f29a608e50d020f4cb9a4b728d0a59a9,
         type: 3}
@@ -1335,7 +1335,7 @@ PrefabInstance:
     - target: {fileID: 4369521733232040267, guid: f29a608e50d020f4cb9a4b728d0a59a9,
         type: 3}
       propertyPath: m_Name
-      value: PlayerSpawner2
+      value: PlayerSpawner1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f29a608e50d020f4cb9a4b728d0a59a9, type: 3}
@@ -1779,10 +1779,10 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 330559107}
-  - {fileID: 103171027}
   - {fileID: 1049299839}
   - {fileID: 1791564071}
+  - {fileID: 330559107}
+  - {fileID: 103171027}
   m_Father: {fileID: 2093801846}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1862,12 +1862,12 @@ PrefabInstance:
     - target: {fileID: 372357615792900388, guid: e99b6be599f1b004bb6aef4f85a4086f,
         type: 3}
       propertyPath: m_Name
-      value: RoomTransitioner2
+      value: RoomTransitioner1
       objectReference: {fileID: 0}
     - target: {fileID: 940633970527979516, guid: e99b6be599f1b004bb6aef4f85a4086f,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 940633970527979516, guid: e99b6be599f1b004bb6aef4f85a4086f,
         type: 3}
@@ -1922,7 +1922,7 @@ PrefabInstance:
     - target: {fileID: 1743824942045492390, guid: e99b6be599f1b004bb6aef4f85a4086f,
         type: 3}
       propertyPath: id
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7024961737020042773, guid: e99b6be599f1b004bb6aef4f85a4086f,
         type: 3}
@@ -2245,22 +2245,22 @@ PrefabInstance:
     - target: {fileID: 6164326770177086597, guid: ed0eaccfe211eb244b4c1cfcc02973f1,
         type: 3}
       propertyPath: id
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6164326770177086597, guid: ed0eaccfe211eb244b4c1cfcc02973f1,
         type: 3}
       propertyPath: associatedExitId
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8446230034033301112, guid: ed0eaccfe211eb244b4c1cfcc02973f1,
         type: 3}
       propertyPath: m_Name
-      value: TransitionSocket4
+      value: TransitionSocket3
       objectReference: {fileID: 0}
     - target: {fileID: 9067832688504420694, guid: ed0eaccfe211eb244b4c1cfcc02973f1,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 9067832688504420694, guid: ed0eaccfe211eb244b4c1cfcc02973f1,
         type: 3}
@@ -2565,12 +2565,12 @@ PrefabInstance:
     - target: {fileID: 372357615792900388, guid: e99b6be599f1b004bb6aef4f85a4086f,
         type: 3}
       propertyPath: m_Name
-      value: RoomTransitioner1
+      value: RoomTransitioner2
       objectReference: {fileID: 0}
     - target: {fileID: 940633970527979516, guid: e99b6be599f1b004bb6aef4f85a4086f,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 940633970527979516, guid: e99b6be599f1b004bb6aef4f85a4086f,
         type: 3}
@@ -2622,6 +2622,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1743824942045492390, guid: e99b6be599f1b004bb6aef4f85a4086f,
+        type: 3}
+      propertyPath: id
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7024961737020042773, guid: e99b6be599f1b004bb6aef4f85a4086f,
         type: 3}
       propertyPath: m_Version
@@ -2645,22 +2650,22 @@ PrefabInstance:
     - target: {fileID: 6164326770177086597, guid: ed0eaccfe211eb244b4c1cfcc02973f1,
         type: 3}
       propertyPath: id
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6164326770177086597, guid: ed0eaccfe211eb244b4c1cfcc02973f1,
         type: 3}
       propertyPath: associatedExitId
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8446230034033301112, guid: ed0eaccfe211eb244b4c1cfcc02973f1,
         type: 3}
       propertyPath: m_Name
-      value: TransitionSocket2
+      value: TransitionSocket1
       objectReference: {fileID: 0}
     - target: {fileID: 9067832688504420694, guid: ed0eaccfe211eb244b4c1cfcc02973f1,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9067832688504420694, guid: ed0eaccfe211eb244b4c1cfcc02973f1,
         type: 3}
@@ -2740,7 +2745,7 @@ PrefabInstance:
     - target: {fileID: 4369521733232040261, guid: f29a608e50d020f4cb9a4b728d0a59a9,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.77
+      value: -4.43
       objectReference: {fileID: 0}
     - target: {fileID: 4369521733232040261, guid: f29a608e50d020f4cb9a4b728d0a59a9,
         type: 3}
@@ -2750,7 +2755,7 @@ PrefabInstance:
     - target: {fileID: 4369521733232040261, guid: f29a608e50d020f4cb9a4b728d0a59a9,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 12.05
+      value: -8.02
       objectReference: {fileID: 0}
     - target: {fileID: 4369521733232040261, guid: f29a608e50d020f4cb9a4b728d0a59a9,
         type: 3}
@@ -2810,22 +2815,22 @@ PrefabInstance:
     - target: {fileID: 6164326770177086597, guid: ed0eaccfe211eb244b4c1cfcc02973f1,
         type: 3}
       propertyPath: id
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6164326770177086597, guid: ed0eaccfe211eb244b4c1cfcc02973f1,
         type: 3}
       propertyPath: associatedExitId
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8446230034033301112, guid: ed0eaccfe211eb244b4c1cfcc02973f1,
         type: 3}
       propertyPath: m_Name
-      value: TransitionSocket3
+      value: TransitionSocket4
       objectReference: {fileID: 0}
     - target: {fileID: 9067832688504420694, guid: ed0eaccfe211eb244b4c1cfcc02973f1,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 9067832688504420694, guid: ed0eaccfe211eb244b4c1cfcc02973f1,
         type: 3}
@@ -3179,6 +3184,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 102127545}
     m_Modifications:
+    - target: {fileID: 4369521733232040260, guid: f29a608e50d020f4cb9a4b728d0a59a9,
+        type: 3}
+      propertyPath: id
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4369521733232040261, guid: f29a608e50d020f4cb9a4b728d0a59a9,
         type: 3}
       propertyPath: m_RootOrder
@@ -3237,7 +3247,7 @@ PrefabInstance:
     - target: {fileID: 4369521733232040267, guid: f29a608e50d020f4cb9a4b728d0a59a9,
         type: 3}
       propertyPath: m_Name
-      value: PlayerSpawner1
+      value: PlayerSpawner2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f29a608e50d020f4cb9a4b728d0a59a9, type: 3}
