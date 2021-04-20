@@ -58,6 +58,7 @@ MonoBehaviour:
     - Bleed
     - Poison
     - Vulnerable
+    - BleedInfo
     _values:
     - displayName: Finisher
       description: Can only be placed at the end of a combo.
@@ -85,3 +86,5 @@ MonoBehaviour:
       description: Deals damage over time.
     - displayName: Vulnerable
       description: Increases damage taken.
+    - displayName: Bleed
+      description: Deals damage over time.
