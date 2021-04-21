@@ -11,17 +11,23 @@ public class WraithAi : Ai
         Player player = ActorCache.Instance.Player;
 
         IStateMachineComponent rangedAttackStateMachine = new StateMachine<RangedAttackState>(RangedAttackState.Decider)
+            .WithComponent(RangedAttackState.TelegraphSpine1, new TelegraphAttackAndWatch(wraith, player, Color.green))
             .WithComponent(RangedAttackState.Spine1, new WraithCastSpine(wraith, player))
+            .WithComponent(RangedAttackState.TelegraphSpine2, new TelegraphAttackAndWatch(wraith, player, Color.green))
             .WithComponent(RangedAttackState.Spine2, new WraithCastSpine(wraith, player))
+            .WithComponent(RangedAttackState.TelegraphGuidedOrb, new TelegraphAttackAndWatch(wraith, player, Color.blue))
             .WithComponent(RangedAttackState.GuidedOrb, new WraithCastGuidedOrb(wraith, player))
             .WithDecisionState(RangedAttackState.Decider, new UniformDecider<RangedAttackState>(
-                RangedAttackState.Spine1,
-                RangedAttackState.Spine2,
-                RangedAttackState.GuidedOrb
+                RangedAttackState.TelegraphSpine1,
+                RangedAttackState.TelegraphSpine2,
+                RangedAttackState.TelegraphGuidedOrb
             ))
-            .WithTransition(RangedAttackState.Spine1, RangedAttackState.Spine2, new RandomTimeElapsed(2, 3))
-            .WithTransition(RangedAttackState.Spine2, RangedAttackState.GuidedOrb, new RandomTimeElapsed(2, 3))
-            .WithTransition(RangedAttackState.GuidedOrb, RangedAttackState.Spine1, new RandomTimeElapsed(2, 3));
+            .WithTransition(RangedAttackState.TelegraphSpine1, RangedAttackState.Spine1, new TimeElapsed(2))
+            .WithTransition(RangedAttackState.Spine1, RangedAttackState.TelegraphSpine2)
+            .WithTransition(RangedAttackState.TelegraphSpine2, RangedAttackState.Spine2, new TimeElapsed(2))
+            .WithTransition(RangedAttackState.Spine2, RangedAttackState.TelegraphGuidedOrb)
+            .WithTransition(RangedAttackState.TelegraphGuidedOrb, RangedAttackState.GuidedOrb, new TimeElapsed(2))
+            .WithTransition(RangedAttackState.GuidedOrb, RangedAttackState.TelegraphSpine1);
 
         IStateMachineComponent meleeAttackStateMachine = new StateMachine<MeleeAttackState>(MeleeAttackState.Advance)
             .WithComponent(MeleeAttackState.Advance, new MoveTowards(wraith, player))
@@ -34,8 +40,9 @@ public class WraithAi : Ai
             .WithTransition(MeleeAttackState.Swipe, MeleeAttackState.Advance);
 
         IStateMachineComponent blinkStateMachine = new StateMachine<BlinkState>(BlinkState.Telegraph)
-            .WithComponent(BlinkState.Telegraph, new TelegraphAttack(wraith, Color.blue))
+            .WithComponent(BlinkState.Telegraph, new TelegraphAttack(wraith, Color.cyan))
             .WithComponent(BlinkState.Blink, new WraithCastBlink(wraith, player, 5, 10))
+            .WithComponent(BlinkState.PostBlinkPause, new WatchTarget(wraith, player))
             .WithTransition(BlinkState.Telegraph, BlinkState.Blink, new TimeElapsed(2))
             .WithTransition(BlinkState.Blink, BlinkState.PostBlinkPause);
 
@@ -51,7 +58,7 @@ public class WraithAi : Ai
             .WithTransition(State.RangedAttacks, State.Blink, new RandomTimeElapsed(10, 15))
             .WithTransition(State.MeleeAttacks, State.RangedAttacks, new DistanceGreaterThan(wraith, player, 4))
             .WithTransition(State.MeleeAttacks, State.Blink, new SubjectEmittedTimes(wraith.SwipeSubject, 2))
-            .WithTransition(State.Blink, State.Advance, new TimeElapsed(2 + 2));
+            .WithTransition(State.Blink, State.Advance, new TimeElapsed(2 + 1));
     }
 
     private enum State
@@ -66,8 +73,11 @@ public class WraithAi : Ai
     private enum RangedAttackState
     {
         Decider,
+        TelegraphSpine1,
         Spine1,
+        TelegraphSpine2,
         Spine2,
+        TelegraphGuidedOrb,
         GuidedOrb
     }
 
