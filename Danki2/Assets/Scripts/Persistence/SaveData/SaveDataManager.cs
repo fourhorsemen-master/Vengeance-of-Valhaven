@@ -7,7 +7,7 @@ public class SaveDataManager : Singleton<SaveDataManager>
     private int saveThreadId = 0;
 
     public bool HasSaveData => serializedSaveData != null;
-    public BehaviourSubject<bool> SavingSubject { get; } = new BehaviourSubject<bool>(false);
+    public virtual BehaviourSubject<bool> SavingSubject { get; } = new BehaviourSubject<bool>(false);
 
     protected override bool DestroyOnLoad => false;
 
