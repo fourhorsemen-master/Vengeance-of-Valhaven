@@ -12,5 +12,6 @@
     Block,
     Bleed,
     Poison,
-    Vulnerable
+    Vulnerable,
+    BleedInfo
 }

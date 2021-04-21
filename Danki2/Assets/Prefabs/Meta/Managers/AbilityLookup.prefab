@@ -71,6 +71,7 @@ MonoBehaviour:
     - Reflect
     - PoisonStab
     - Eviscerate
+    - Consume
     _values:
     - displayName: Slash
       tooltip: Deal {PRIMARY_DAMAGE} damage to enemies in a cone.
@@ -599,3 +600,26 @@ MonoBehaviour:
       playerCanCast: 1
       finisher: 0
       channelDuration: 0
+    - displayName: Consume
+      tooltip: Consumes all stacks of {BLEED_INFO} from all enemies. Each enemy receives
+        3 damage per stack consumed from it.
+      baseAbilityData:
+        primaryDamage: 0
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      fmodVocalisationEventRef: 
+      fmodStartEventRef: 
+      fmodEndEventRef: 
+      animationType: 0
+      abilityBonusLookup:
+        _keys:
+        - Vampiric
+        _values:
+        - displayName: Vampiric
+          tooltip: Heals 1 health for each stack consumed.
+          requiredTreeDepth: 4
+      rarity: 2
+      playerCanCast: 1
+      finisher: 1
+      channelDuration: 1
