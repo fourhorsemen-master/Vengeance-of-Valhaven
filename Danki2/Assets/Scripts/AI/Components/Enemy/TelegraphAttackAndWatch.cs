@@ -15,7 +15,6 @@ public class TelegraphAttackAndWatch : IStateMachineComponent
 
     public void Enter()
     {
-        enemy.MovementManager.StopPathfinding();
         enemy.MovementManager.Watch(target.transform);
         enemy.StartTelegraph(telegraphColour);
     }

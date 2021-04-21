@@ -86,6 +86,9 @@ public class AbilityObjectPrefabLookup : Singleton<AbilityObjectPrefabLookup>
     [SerializeField]
     private GuidedOrbObject _guidedOrbObjectPrefab = null;
 
+    [SerializeField]
+    private WraithSwipeObject _wraithSwipeObjectPrefab = null;
+
     public BarbedDaggerObject BarbedDaggerObjectPrefab => _barbedDaggerObjectPrefab;
     public BiteObject BiteObjectPrefab => _biteObjectPrefab;
     public PounceObject PounceObjectPrefab => _pounceObjectPrefab;
@@ -114,4 +117,5 @@ public class AbilityObjectPrefabLookup : Singleton<AbilityObjectPrefabLookup>
     public ConsumeObject ConsumeObjectPrefab => _consumeObjectPrefab;
     public SpineObject SpineObjectPrefab => _spineObjectPrefab;
     public GuidedOrbObject GuidedOrbObjectPrefab => _guidedOrbObjectPrefab;
+    public WraithSwipeObject WraithSwipeObjectPrefab => _wraithSwipeObjectPrefab;
 }

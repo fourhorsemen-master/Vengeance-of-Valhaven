@@ -49,6 +49,8 @@ public class WraithSwipe : InstantCast
             CollisionSoundLevel.Low
         );
 
+        WraithSwipeObject.Create(Owner.AbilitySource, castRotation);
+        
         SuccessFeedbackSubject.Next(hasDealtDamage);
         Owner.MovementManager.Pause(PauseDuration);
 
