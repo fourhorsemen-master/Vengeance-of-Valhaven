@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 918857200436086427}
   - component: {fileID: 918857200436086424}
+  - component: {fileID: 2149326593565702010}
   m_Layer: 0
-  m_Name: DevPersistenceManager
+  m_Name: DevManagers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -60,3 +61,15 @@ MonoBehaviour:
   roomType: 0
   abilityChoices: 
   hasHealed: 0
+--- !u!114 &2149326593565702010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 918857200436086425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b1ed89ac9d8413191ba343eedfd6ffa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
