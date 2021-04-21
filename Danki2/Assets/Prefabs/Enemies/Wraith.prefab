@@ -445,7 +445,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wraith: {fileID: 3159524844991251707}
   aggroRange: 12
-  rangedAttackStateRange: 10
+  rangedAttackStateRange: 8
   rangedAttackStateTolerance: 2
   meleeAttackStateRange: 3
   meleeAttackStateTolerance: 2
@@ -458,8 +458,8 @@ MonoBehaviour:
   forcedBlinkMaxTime: 15
   meleeAttacksBeforeBlinking: 2
   blinkDelay: 2
-  minBlinkDistance: 5
-  maxBlinkDistance: 10
+  minBlinkDistance: 7
+  maxBlinkDistance: 9
 --- !u!195 &1307004630582523634
 NavMeshAgent:
   m_ObjectHideFlags: 0
