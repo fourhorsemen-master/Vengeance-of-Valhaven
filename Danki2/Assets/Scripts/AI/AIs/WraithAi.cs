@@ -44,9 +44,9 @@ public class WraithAi : Ai
                 RangedAttackState.TelegraphSpine,
                 RangedAttackState.TelegraphGuidedOrb
             ))
-            .WithTransition(RangedAttackState.TelegraphSpine, RangedAttackState.Spine, new TimeElapsed(spineDelay))
+            .WithTransition(RangedAttackState.TelegraphSpine, RangedAttackState.Spine, new CastableTimeElapsed(wraith, spineDelay))
             .WithTransition(RangedAttackState.Spine, RangedAttackState.ChooseAttack)
-            .WithTransition(RangedAttackState.TelegraphGuidedOrb, RangedAttackState.GuidedOrb, new TimeElapsed(guidedOrbDelay))
+            .WithTransition(RangedAttackState.TelegraphGuidedOrb, RangedAttackState.GuidedOrb, new CastableTimeElapsed(wraith, guidedOrbDelay))
             .WithTransition(RangedAttackState.GuidedOrb, RangedAttackState.ChooseAttack);
 
         IStateMachineComponent meleeAttackStateMachine = new StateMachine<MeleeAttackState>(MeleeAttackState.Advance)
@@ -56,7 +56,7 @@ public class WraithAi : Ai
             .WithComponent(MeleeAttackState.Swipe, new WraithCastSwipe(wraith))
             .WithTransition(MeleeAttackState.Advance, MeleeAttackState.WatchTarget, new DistanceLessThan(wraith, player, swipeRange))
             .WithTransition(MeleeAttackState.WatchTarget, MeleeAttackState.Telegraph, new Facing(wraith, player, maxSwipeAngle))
-            .WithTransition(MeleeAttackState.Telegraph, MeleeAttackState.Swipe, new TimeElapsed(swipeDelay))
+            .WithTransition(MeleeAttackState.Telegraph, MeleeAttackState.Swipe, new CastableTimeElapsed(wraith, swipeDelay))
             .WithTransition(MeleeAttackState.Swipe, MeleeAttackState.Advance);
 
         IStateMachineComponent blinkStateMachine = new StateMachine<BlinkState>(BlinkState.Telegraph)
@@ -78,7 +78,7 @@ public class WraithAi : Ai
             .WithTransition(State.RangedAttacks, State.Blink, new RandomTimeElapsed(forcedBlinkMinTime, forcedBlinkMaxTime))
             .WithTransition(State.MeleeAttacks, State.RangedAttacks, new DistanceGreaterThan(wraith, player, meleeAttackStateRange + meleeAttackStateTolerance))
             .WithTransition(State.MeleeAttacks, State.Blink, new SubjectEmittedTimes(wraith.SwipeSubject, meleeAttacksBeforeBlinking))
-            .WithTransition(State.Blink, State.Advance, new TimeElapsed(blinkDelay));
+            .WithTransition(State.Blink, State.Advance, new CastableTimeElapsed(wraith, blinkDelay));
     }
 
     private enum State
