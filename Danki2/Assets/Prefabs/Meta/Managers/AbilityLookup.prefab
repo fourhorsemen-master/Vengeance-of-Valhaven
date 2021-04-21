@@ -648,7 +648,7 @@ MonoBehaviour:
     - displayName: Swipe
       tooltip: Lunges forward and deals {PRIMARY_DAMAGE} damage.
       baseAbilityData:
-        primaryDamage: 7
+        primaryDamage: 6
         secondaryDamage: 0
         heal: 0
         shield: 0
@@ -683,9 +683,10 @@ MonoBehaviour:
       finisher: 0
       channelDuration: 0
     - displayName: Guided Orb
-      tooltip: Guided orb...
+      tooltip: Guided projectile that moves towards target and deals {PRIMARY_DAMAGE}
+        damage on impact.
       baseAbilityData:
-        primaryDamage: 7
+        primaryDamage: 8
         secondaryDamage: 0
         heal: 0
         shield: 0
