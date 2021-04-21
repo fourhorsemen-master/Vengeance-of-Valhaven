@@ -6,7 +6,7 @@ public class GuidedOrbObject : MonoBehaviour
     private float requiredExplosionDistance;
     private float speed;
     private float rotationSpeed;
-    private Transform followTarget;
+    private Transform target;
     private Action<Vector3> explosionCallback;
     
     public static void Fire(
@@ -14,7 +14,7 @@ public class GuidedOrbObject : MonoBehaviour
         float requiredExplosionDistance,
         float speed,
         float rotationSpeed,
-        Transform followTarget,
+        Transform target,
         Vector3 position,
         Action<Vector3> explosionCallback
     )
@@ -22,12 +22,12 @@ public class GuidedOrbObject : MonoBehaviour
         GuidedOrbObject guidedOrbObject = Instantiate(
             AbilityObjectPrefabLookup.Instance.GuidedOrbObjectPrefab,
             position,
-            Quaternion.LookRotation(followTarget.position - position)
+            Quaternion.LookRotation(target.position - position)
         );
         guidedOrbObject.requiredExplosionDistance = requiredExplosionDistance;
         guidedOrbObject.speed = speed;
         guidedOrbObject.rotationSpeed = rotationSpeed;
-        guidedOrbObject.followTarget = followTarget;
+        guidedOrbObject.target = target;
         guidedOrbObject.explosionCallback = explosionCallback;
 
         guidedOrbObject.WaitAndAct(maxDuration, guidedOrbObject.Explode);
@@ -35,7 +35,7 @@ public class GuidedOrbObject : MonoBehaviour
 
     private void Update()
     {
-        if (Vector3.Distance(transform.position, followTarget.transform.position) <= requiredExplosionDistance)
+        if (Vector3.Distance(transform.position, target.transform.position) <= requiredExplosionDistance)
         {
             Explode();
             return;
@@ -43,7 +43,7 @@ public class GuidedOrbObject : MonoBehaviour
 
         transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(
             transform.forward,
-            followTarget.position - transform.position,
+            target.position - transform.position,
             rotationSpeed * Time.deltaTime,
             Mathf.Infinity
         ));

@@ -37,8 +37,8 @@ public class WraithCastBlink : IStateMachineComponent
         while (positionsFound != PositionsToSample)
         {
             float distance = Random.Range(minDistance, maxDistance);
-            Vector2 offset = Random.insideUnitCircle.normalized;
-            Vector3 direction = new Vector3(offset.x, 0f, offset.y);
+            Vector2 direction2D = Random.insideUnitCircle.normalized;
+            Vector3 direction = new Vector3(direction2D.x, 0f, direction2D.y);
             Vector3 newPosition = wraith.transform.position + distance * direction;
             if (wraith.MovementManager.CanReach(newPosition))
             {
