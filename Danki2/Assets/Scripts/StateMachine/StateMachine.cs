@@ -41,7 +41,7 @@ public class StateMachine<TState> : IStateMachineComponent where TState : Enum
         return this;
     }
 
-    public IStateMachineComponent WithDecisionState(TState fromState, IStateMachineDecider<TState> decider)
+    public StateMachine<TState> WithDecisionState(TState fromState, IStateMachineDecider<TState> decider)
     {
         deciders[fromState] = decider;
         return this;

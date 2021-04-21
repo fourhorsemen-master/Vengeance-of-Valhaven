@@ -4,35 +4,38 @@ public class WraithAi : Ai
 {
     [SerializeField] private Wraith wraith = null;
 
-    [Header("General")]
-    [SerializeField] private float aggroDistance = 0;
-
-    [Header("Engagement")]
-    [SerializeField] private float attackDistance = 0;
-    [SerializeField] private float advanceDistance = 0;
-
     protected override Actor Actor => wraith;
     
     protected override IStateMachineComponent BuildStateMachineComponent()
     {
         Player player = ActorCache.Instance.Player;
-        
-        // IStateMachineComponent attackStateMachine = new NoOpComponent();
-        //
-        // IStateMachineComponent engageStateMachine = new StateMachine<EngageState>(EngageState.Advance)
-        //     .WithComponent(EngageState.Advance, new MoveTowards(wraith, player))
-        //     .WithComponent(EngageState.Attack, attackStateMachine)
-        //     .WithComponent(EngageState.Blink, new WraithBlink(wraith))
-        //     .WithTransition(EngageState.Advance, EngageState.Attack, new DistanceLessThan(wraith, player, attackDistance))
-        //     .WithTransition(EngageState.Attack, EngageState.Advance, new DistanceGreaterThan(wraith, player, advanceDistance));
-        //
-        // return new StateMachine<State>(State.Idle)
-        //     .WithComponent(State.Engage, engageStateMachine)
-        //     .WithTransition(
-        //         State.Idle,
-        //         State.Engage,
-        //         new DistanceLessThan(wraith, player, aggroDistance) | new TakesDamage(wraith)
-        //     );
+
+        IStateMachineComponent rangedAttackStateMachine = new StateMachine<RangedAttackState>(RangedAttackState.Decider)
+            .WithComponent(RangedAttackState.Spine1, new WraithCastSpine(wraith, player))
+            .WithComponent(RangedAttackState.Spine2, new WraithCastSpine(wraith, player))
+            .WithComponent(RangedAttackState.GuidedOrb, new WraithCastGuidedOrb(wraith, player))
+            .WithDecisionState(RangedAttackState.Decider, new UniformDecider<RangedAttackState>(
+                RangedAttackState.Spine1,
+                RangedAttackState.Spine2,
+                RangedAttackState.GuidedOrb
+            ))
+            .WithTransition(RangedAttackState.Spine1, RangedAttackState.Spine2, new RandomTimeElapsed(2, 3))
+            .WithTransition(RangedAttackState.Spine2, RangedAttackState.GuidedOrb, new RandomTimeElapsed(2, 3))
+            .WithTransition(RangedAttackState.GuidedOrb, RangedAttackState.Spine1, new RandomTimeElapsed(2, 3));
+
+        return new StateMachine<State>(State.Idle)
+            .WithComponent(State.Advance, new MoveTowardsAtDistance(wraith, player, 8))
+            .WithComponent(State.RangedAttacks, rangedAttackStateMachine)
+            .WithComponent(State.Swipe, new WraithCastSwipe(wraith, player))
+            .WithComponent(State.Blink, new WraithCastBlink(wraith, player, 5, 10))
+            .WithTransition(State.Idle, State.Advance, new DistanceLessThan(wraith, player, 12) | new TakesDamage(wraith))
+            .WithTransition(State.Advance, State.RangedAttacks, new DistanceLessThan(wraith, player, 10))
+            .WithTransition(State.RangedAttacks, State.Advance, new DistanceGreaterThan(wraith, player, 12))
+            .WithTransition(State.RangedAttacks, State.Swipe, new DistanceLessThan(player, wraith, 3))
+            .WithTransition(State.RangedAttacks, State.Blink, new RandomTimeElapsed(10, 15))
+            .WithTransition(State.Swipe, State.RangedAttacks, new DistanceGreaterThan(wraith, player, 4))
+            .WithTransition(State.Swipe, State.Blink, new AlwaysTrigger())
+            .WithTransition(State.Blink, State.Advance, new AlwaysTrigger());
     }
 
     private enum State
@@ -44,8 +47,9 @@ public class WraithAi : Ai
         Blink
     }
 
-    private enum RangeAttackState
+    private enum RangedAttackState
     {
+        Decider,
         Spine1,
         Spine2,
         GuidedOrb

@@ -26,7 +26,7 @@ public class GuidedOrb : InstantCast
             Speed,
             RotationSpeed,
             target.CentreTransform,
-            Owner.Centre,
+            Owner.AbilitySource,
             HandleExplosion
         );
     }
