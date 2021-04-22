@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-/// <summary>
+﻿/// <summary>
 /// Handles persistence between gameplay rooms. The public property SaveData is available for anything to read from
 /// at any point so that it can initialise itself.
 ///
