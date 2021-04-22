@@ -2,8 +2,6 @@
 
 public class DevSaveDataManager : SaveDataManager
 {
-    public override BehaviourSubject<bool> SavingSubject { get; } = new BehaviourSubject<bool>(false);
-
     protected override bool DestroyOnLoad => true;
     
     protected override void Awake()
