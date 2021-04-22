@@ -165,6 +165,7 @@ MonoBehaviour:
     - AbilityScene
     - ForestCliffScene
     - HealingScene
+    - ForestValleyScene
     _values:
     - fileName: EntryScene
       sceneType: 0
@@ -279,7 +280,7 @@ MonoBehaviour:
     - fileName: ForestCliffScene
       sceneType: 1
       gameplaySceneData:
-        roomTypes: 00000000
+        roomTypes: 0000000001000000
         cameraOrientations: 000000000100000003000000
         entranceData:
         - id: 0
@@ -318,6 +319,26 @@ MonoBehaviour:
         - id: 2
           side: 0
         enemyEnemySpawnerIds: 
+    - fileName: ForestValleyScene
+      sceneType: 1
+      gameplaySceneData:
+        roomTypes: 0000000001000000
+        cameraOrientations: 0000000002000000
+        entranceData:
+        - id: 0
+          side: 2
+        - id: 1
+          side: 3
+        - id: 2
+          side: 0
+        exitData:
+        - id: 0
+          side: 2
+        - id: 1
+          side: 3
+        - id: 2
+          side: 0
+        enemyEnemySpawnerIds: 0000000001000000
 --- !u!4 &496116276
 Transform:
   m_ObjectHideFlags: 0
