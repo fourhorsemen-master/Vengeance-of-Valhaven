@@ -57,7 +57,7 @@ public class WraithAi : Ai
             .WithTransition(MeleeAttackState.Advance, MeleeAttackState.WatchTarget, new DistanceLessThan(wraith, player, swipeRange))
             .WithTransition(MeleeAttackState.WatchTarget, MeleeAttackState.Telegraph, new Facing(wraith, player, maxSwipeAngle))
             .WithTransition(MeleeAttackState.Telegraph, MeleeAttackState.Swipe, new CastableTimeElapsed(wraith, swipeDelay))
-            .WithTransition(MeleeAttackState.Swipe, MeleeAttackState.Advance);
+            .WithTransition(MeleeAttackState.Swipe, MeleeAttackState.WatchTarget);
 
         IStateMachineComponent blinkStateMachine = new StateMachine<BlinkState>(BlinkState.Telegraph)
             .WithComponent(BlinkState.Telegraph, new TelegraphAttack(wraith, Color.cyan))
