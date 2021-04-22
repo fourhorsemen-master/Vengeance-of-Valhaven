@@ -4826,7 +4826,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &801863481
 Transform:
   m_ObjectHideFlags: 0
@@ -5813,6 +5813,11 @@ PrefabInstance:
       propertyPath: id
       value: 1973044952
       objectReference: {fileID: 0}
+    - target: {fileID: 2723263318124139224, guid: c9691e80000f728428c651775602a3ce,
+        type: 3}
+      propertyPath: tags.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8446230034033301112, guid: c9691e80000f728428c651775602a3ce,
         type: 3}
       propertyPath: m_Name
@@ -6322,6 +6327,16 @@ PrefabInstance:
       propertyPath: id
       value: 1267932471
       objectReference: {fileID: 0}
+    - target: {fileID: 2723263318124139224, guid: c9691e80000f728428c651775602a3ce,
+        type: 3}
+      propertyPath: tags.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2723263318124139224, guid: c9691e80000f728428c651775602a3ce,
+        type: 3}
+      propertyPath: tags.Array.data[1]
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8446230034033301112, guid: c9691e80000f728428c651775602a3ce,
         type: 3}
       propertyPath: m_Name
@@ -6632,7 +6647,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1298671267
 Transform:
   m_ObjectHideFlags: 0
@@ -6640,13 +6655,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1298671266}
-  m_LocalRotation: {x: 0.4362853, y: 0.4925902, z: -0.16396748, w: 0.7349318}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -9.235477, y: 161.27095, z: -255.52834}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 725505171}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 53.4, y: 77.01, z: 18.46199}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!114 &1298671268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8836,6 +8851,21 @@ PrefabInstance:
       propertyPath: id
       value: 1254957138
       objectReference: {fileID: 0}
+    - target: {fileID: 2723263318124139224, guid: c9691e80000f728428c651775602a3ce,
+        type: 3}
+      propertyPath: tags.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2723263318124139224, guid: c9691e80000f728428c651775602a3ce,
+        type: 3}
+      propertyPath: tags.Array.data[0]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2723263318124139224, guid: c9691e80000f728428c651775602a3ce,
+        type: 3}
+      propertyPath: tags.Array.data[1]
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8446230034033301112, guid: c9691e80000f728428c651775602a3ce,
         type: 3}
       propertyPath: m_Name
@@ -9507,7 +9537,7 @@ PrefabInstance:
     - target: {fileID: 1873322766099463150, guid: 937a2be9f9a5f3b40aedafb045404f48,
         type: 3}
       propertyPath: cameraOrientation
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1873322766099463150, guid: 937a2be9f9a5f3b40aedafb045404f48,
         type: 3}
