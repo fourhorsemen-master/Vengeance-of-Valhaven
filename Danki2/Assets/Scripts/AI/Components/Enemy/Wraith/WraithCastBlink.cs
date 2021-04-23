@@ -25,7 +25,7 @@ public class WraithCastBlink : IStateMachineComponent
     private Vector3 GetNewPosition()
     {
         return GetPotentialPositions()
-            .OrderBy(p => Vector3.Distance(p, actorToAvoid.transform.position))
+            .OrderBy(p => Vector3.Distance(p, wraith.transform.position))
             .Last();
     }
 
@@ -39,7 +39,7 @@ public class WraithCastBlink : IStateMachineComponent
             float distance = Random.Range(minDistance, maxDistance);
             Vector2 direction2D = Random.insideUnitCircle.normalized;
             Vector3 direction = new Vector3(direction2D.x, 0f, direction2D.y);
-            Vector3 newPosition = wraith.transform.position + distance * direction;
+            Vector3 newPosition = actorToAvoid.transform.position + distance * direction;
             if (wraith.MovementManager.CanReach(newPosition))
             {
                 potentialPositions[positionsFound] = newPosition;
