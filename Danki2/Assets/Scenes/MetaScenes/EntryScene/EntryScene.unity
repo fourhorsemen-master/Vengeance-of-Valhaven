@@ -123,238 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &496116274
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 496116276}
-  - component: {fileID: 496116275}
-  m_Layer: 0
-  m_Name: SceneLookup
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &496116275
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 496116274}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b0cde90560c8ab94786a9179cd9ff95e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneDataLookup:
-    _keys:
-    - EntryScene
-    - MainMenu
-    - GameplayEntryScene
-    - GameplayExitScene
-    - GameplayVictoryScene
-    - GameplayDefeatScene
-    - RandomisedScene
-    - CatchAllScene
-    - AbilityScene
-    - ForestCliffScene
-    - HealingScene
-    - ForestLedgeScene
-    _values:
-    - fileName: EntryScene
-      sceneType: 0
-      gameplaySceneData:
-        roomTypes: 
-        cameraOrientations: 
-        entranceData: []
-        exitData: []
-        enemyEnemySpawnerIds: 
-    - fileName: MainMenu
-      sceneType: 0
-      gameplaySceneData:
-        roomTypes: 
-        cameraOrientations: 
-        entranceData: []
-        exitData: []
-        enemyEnemySpawnerIds: 
-    - fileName: GameplayEntryScene
-      sceneType: 0
-      gameplaySceneData:
-        roomTypes: 
-        cameraOrientations: 
-        entranceData: []
-        exitData: []
-        enemyEnemySpawnerIds: 
-    - fileName: GameplayExitScene
-      sceneType: 0
-      gameplaySceneData:
-        roomTypes: 
-        cameraOrientations: 
-        entranceData: []
-        exitData: []
-        enemyEnemySpawnerIds: 
-    - fileName: GameplayVictoryScene
-      sceneType: 0
-      gameplaySceneData:
-        roomTypes: 
-        cameraOrientations: 
-        entranceData: []
-        exitData: []
-        enemyEnemySpawnerIds: 
-    - fileName: GameplayDefeatScene
-      sceneType: 0
-      gameplaySceneData:
-        roomTypes: 
-        cameraOrientations: 
-        entranceData: []
-        exitData: []
-        enemyEnemySpawnerIds: 
-    - fileName: RandomisedScene
-      sceneType: 1
-      gameplaySceneData:
-        roomTypes: 0000000001000000
-        cameraOrientations: 00000000010000000200000003000000
-        entranceData:
-        - id: 0
-          side: 2
-        - id: 1
-          side: 1
-        exitData:
-        - id: 0
-          side: 3
-        - id: 1
-          side: 0
-        - id: 2
-          side: 1
-        enemyEnemySpawnerIds: 0000000001000000
-    - fileName: CatchAllScene
-      sceneType: 1
-      gameplaySceneData:
-        roomTypes: 0000000001000000
-        cameraOrientations: 00000000010000000200000003000000
-        entranceData:
-        - id: 0
-          side: 2
-        - id: 1
-          side: 1
-        - id: 2
-          side: 3
-        exitData:
-        - id: 0
-          side: 1
-        - id: 1
-          side: 0
-        - id: 2
-          side: 0
-        - id: 3
-          side: 3
-        enemyEnemySpawnerIds: 00000000010000000200000003000000
-    - fileName: AbilityScene
-      sceneType: 1
-      gameplaySceneData:
-        roomTypes: 05000000
-        cameraOrientations: 00000000
-        entranceData:
-        - id: 0
-          side: 2
-        - id: 1
-          side: 1
-        - id: 2
-          side: 3
-        exitData:
-        - id: 0
-          side: 1
-        - id: 1
-          side: 0
-        - id: 2
-          side: 0
-        - id: 3
-          side: 3
-        enemyEnemySpawnerIds: 
-    - fileName: ForestCliffScene
-      sceneType: 1
-      gameplaySceneData:
-        roomTypes: 00000000
-        cameraOrientations: 000000000100000003000000
-        entranceData:
-        - id: 0
-          side: 2
-        - id: 1
-          side: 1
-        - id: 2
-          side: 3
-        exitData:
-        - id: 0
-          side: 2
-        - id: 1
-          side: 1
-        - id: 2
-          side: 3
-        - id: 3
-          side: 0
-        enemyEnemySpawnerIds: 0000000001000000
-    - fileName: HealingScene
-      sceneType: 1
-      gameplaySceneData:
-        roomTypes: 06000000
-        cameraOrientations: 00000000
-        entranceData:
-        - id: 0
-          side: 2
-        - id: 1
-          side: 1
-        - id: 2
-          side: 3
-        exitData:
-        - id: 0
-          side: 0
-        - id: 1
-          side: 0
-        - id: 2
-          side: 0
-        enemyEnemySpawnerIds: 
-    - fileName: ForestLedgeScene
-      sceneType: 1
-      gameplaySceneData:
-        roomTypes: 00000000
-        cameraOrientations: 00000000010000000300000002000000
-        entranceData:
-        - id: 0
-          side: 2
-        - id: 1
-          side: 1
-        - id: 3
-          side: 0
-        exitData:
-        - id: 0
-          side: 2
-        - id: 1
-          side: 1
-        - id: 2
-          side: 3
-        - id: 3
-          side: 0
-        enemyEnemySpawnerIds: 00000000
---- !u!4 &496116276
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 496116274}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &793806251
 GameObject:
   m_ObjectHideFlags: 0
@@ -483,80 +251,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1495542131
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1495542133}
-  - component: {fileID: 1495542132}
-  m_Layer: 0
-  m_Name: MapGenerationLookup
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1495542132
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1495542131}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b196381cbf0d52a46b0199810801b785, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  abilityChoices: 3
-  minRoomDepth: 12
-  maxRoomDepth: 15
-  minRoomExits: 1
-  maxRoomExits: 3
-  chanceIndicatesChildRoomType: 0.5
-  chanceIndicatesGrandchildRoomType: 0.5
-  roomDataLookup:
-    _keys:
-    - Combat
-    - Boss
-    - Shop
-    - Victory
-    - Defeat
-    - Ability
-    - Healing
-    _values:
-    - availableInPool: 1
-      weights: 010000000200000004000000060000000a000000
-    - availableInPool: 0
-      weights: 
-    - availableInPool: 0
-      weights: 
-    - availableInPool: 0
-      weights: 
-    - availableInPool: 0
-      weights: 
-    - availableInPool: 1
-      weights: 00000000000000000100000002000000
-    - availableInPool: 1
-      weights: 00000000000000000100000002000000
---- !u!4 &1495542133
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1495542131}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1709698283
 GameObject:
@@ -805,3 +499,141 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &3693903067568113744
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3693903067491445346, guid: d5a830b39eef18c4596489ca7e8479e9,
+        type: 3}
+      propertyPath: m_Name
+      value: SceneLookup
+      objectReference: {fileID: 0}
+    - target: {fileID: 3693903067491445348, guid: d5a830b39eef18c4596489ca7e8479e9,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3693903067491445348, guid: d5a830b39eef18c4596489ca7e8479e9,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3693903067491445348, guid: d5a830b39eef18c4596489ca7e8479e9,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3693903067491445348, guid: d5a830b39eef18c4596489ca7e8479e9,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3693903067491445348, guid: d5a830b39eef18c4596489ca7e8479e9,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3693903067491445348, guid: d5a830b39eef18c4596489ca7e8479e9,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3693903067491445348, guid: d5a830b39eef18c4596489ca7e8479e9,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3693903067491445348, guid: d5a830b39eef18c4596489ca7e8479e9,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3693903067491445348, guid: d5a830b39eef18c4596489ca7e8479e9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3693903067491445348, guid: d5a830b39eef18c4596489ca7e8479e9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3693903067491445348, guid: d5a830b39eef18c4596489ca7e8479e9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d5a830b39eef18c4596489ca7e8479e9, type: 3}
+--- !u!1001 &7362973761907433537
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7362973762832533810, guid: 5e590d68f58d6a94c9e55d44a0b7f3dc,
+        type: 3}
+      propertyPath: m_Name
+      value: MapGenerationLookup
+      objectReference: {fileID: 0}
+    - target: {fileID: 7362973762832533812, guid: 5e590d68f58d6a94c9e55d44a0b7f3dc,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7362973762832533812, guid: 5e590d68f58d6a94c9e55d44a0b7f3dc,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7362973762832533812, guid: 5e590d68f58d6a94c9e55d44a0b7f3dc,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7362973762832533812, guid: 5e590d68f58d6a94c9e55d44a0b7f3dc,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7362973762832533812, guid: 5e590d68f58d6a94c9e55d44a0b7f3dc,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7362973762832533812, guid: 5e590d68f58d6a94c9e55d44a0b7f3dc,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7362973762832533812, guid: 5e590d68f58d6a94c9e55d44a0b7f3dc,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7362973762832533812, guid: 5e590d68f58d6a94c9e55d44a0b7f3dc,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7362973762832533812, guid: 5e590d68f58d6a94c9e55d44a0b7f3dc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7362973762832533812, guid: 5e590d68f58d6a94c9e55d44a0b7f3dc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7362973762832533812, guid: 5e590d68f58d6a94c9e55d44a0b7f3dc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5e590d68f58d6a94c9e55d44a0b7f3dc, type: 3}
