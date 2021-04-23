@@ -12,7 +12,7 @@ public class SceneLookupTest
     {
         RoomType.Victory,
         RoomType.Defeat,
-        // RoomType.Shop, // TODO: Remove this once we are supporting shop rooms.
+        RoomType.Shop, // TODO: Remove this once we are supporting shop rooms.
     };
     
     private readonly ISet<Pole> trueEntranceDirectionsToIgnore = new HashSet<Pole>
