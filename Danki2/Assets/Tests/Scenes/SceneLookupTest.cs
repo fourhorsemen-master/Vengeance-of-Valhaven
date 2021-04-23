@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
+using UnityEngine;
 using UnityEngine.TestTools;
 
 public class SceneLookupTest
@@ -26,6 +27,8 @@ public class SceneLookupTest
         SceneLookup sceneLookup = TestUtils.InstantiatePrefab<SceneLookup>(SceneLookupAssetPath);
         MapGenerationLookup mapGenerationLookup = TestUtils.InstantiatePrefab<MapGenerationLookup>(MapGenerationLookupAssetPath);
         
+        bool hasInvalidConfigurations = false;
+
         EnumUtils.ForEach<RoomType>(roomType =>
         {
             if (roomTypesToIgnore.Contains(roomType)) return;
@@ -37,17 +40,22 @@ public class SceneLookupTest
                 for (int numberOfExits = mapGenerationLookup.MinRoomExits; numberOfExits <= mapGenerationLookup.MaxRoomExits; numberOfExits++)
                 {
                     List<Scene> validScenes = sceneLookup.GetValidScenes(roomType, trueEntranceDirection, numberOfExits);
-                    Assert.Greater(
-                        validScenes.Count,
-                        0,
+                    
+                    if (validScenes.Count > 0) continue;
+                    
+                    hasInvalidConfigurations = true;
+                    Debug.Log(
                         $"RoomType: {roomType}, " +
                         $"TrueEntranceDirection: {trueEntranceDirection}, " +
-                        $"NumberOfExists: {numberOfExits} " +
+                        $"NumberOfExits: {numberOfExits} " +
                         "has no valid scenes. Ensure that there is a scene that accommodates this configuration."
                     );
                 }
+                
             });
         });
+
+        Assert.False(hasInvalidConfigurations, "Found invalid room configurations, see console for more info.");
         
         yield return null;
     }
