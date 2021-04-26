@@ -36,12 +36,15 @@ public class DynamicLighting : Singleton<DynamicLighting>
             0
         );
 
-        float depthProportion = (float) currentRoomSaveData.Depth / MapGenerationLookup.Instance.MaxRoomDepth;
+        InitialiseLights((float) currentRoomSaveData.Depth / MapGenerationLookup.Instance.MaxRoomDepth);
+    }
 
+    public void InitialiseLights(float depthProportion)
+    {
         InitialiseLight(mainLight, mainLightData, depthProportion);
         InitialiseLight(fillLight, fillLightData, depthProportion);
     }
-
+    
     private void InitialiseLight(HDAdditionalLightData light, DynamicLightingData data, float depthProportion)
     {
         light.color = data.Color.Evaluate(depthProportion);
