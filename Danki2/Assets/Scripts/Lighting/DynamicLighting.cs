@@ -26,15 +26,13 @@ public class DynamicLighting : Singleton<DynamicLighting>
     [SerializeField] private DynamicLightingData mainLightData = null;
     [SerializeField] private DynamicLightingData fillLightData = null;
 
+    private float yRotation;
+    
     private void Start()
     {
         RoomSaveData currentRoomSaveData = PersistenceManager.Instance.SaveData.CurrentRoomSaveData;
         
-        transform.rotation = Quaternion.Euler(
-            0,
-            OrientationUtils.GetYRotation(currentRoomSaveData.CameraOrientation),
-            0
-        );
+        yRotation = OrientationUtils.GetYRotation(currentRoomSaveData.CameraOrientation);
 
         InitialiseLights((float) currentRoomSaveData.Depth / MapGenerationLookup.Instance.MaxRoomDepth);
     }
@@ -52,7 +50,7 @@ public class DynamicLighting : Singleton<DynamicLighting>
         light.volumetricDimmer = data.VolumetricsMultiplier.Evaluate(depthProportion);
         light.transform.rotation = Quaternion.Euler(
             data.XAngle.Evaluate(depthProportion),
-            data.YAngle.Evaluate(depthProportion),
+            data.YAngle.Evaluate(depthProportion) + yRotation,
             0
         );
     }
