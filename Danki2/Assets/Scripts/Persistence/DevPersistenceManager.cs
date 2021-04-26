@@ -24,6 +24,7 @@ public class DevPersistenceManager : PersistenceManager
     [SerializeField] public int moduleSeed = 0;
     [SerializeField] public int transitionModuleSeed = 0;
     [SerializeField] public int playerSpawnerId = 0;
+    [SerializeField] public int depth = 0;
     [SerializeField] public RoomType roomType = RoomType.Combat;
     [SerializeField] public List<AbilityReference> abilityChoices = new List<AbilityReference>();
     [SerializeField] public bool hasHealed = false;
@@ -61,6 +62,7 @@ public class DevPersistenceManager : PersistenceManager
             {
                 [0] = new RoomSaveData
                 {
+                    Depth = depth,
                     RoomType = roomType,
                     CombatRoomSaveData = new CombatRoomSaveData
                     {
