@@ -33,7 +33,7 @@ public class MapGenerationLookup : Singleton<MapGenerationLookup>
 
     public int AbilityChoices { get => abilityChoices; set => abilityChoices = value; }
 
-    public int MaxRoomDepth { get => maxRoomDepth; set => maxRoomDepth = value; }
+    public virtual int MaxRoomDepth { get => maxRoomDepth; set => maxRoomDepth = value; }
     public int MinRoomExits { get => minRoomExits; set => minRoomExits = value; }
     public int MaxRoomExits { get => maxRoomExits; set => maxRoomExits = value; }
     public float ChanceIndicatesChildRoomType { get => chanceIndicatesChildRoomType; set => chanceIndicatesChildRoomType = value; }

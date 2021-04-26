@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 918857200436086427}
   - component: {fileID: 918857200436086424}
   - component: {fileID: 2149326593565702010}
+  - component: {fileID: 4793855590491244011}
   m_Layer: 0
   m_Name: DevManagers
   m_TagString: Untagged
@@ -74,3 +75,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b1ed89ac9d8413191ba343eedfd6ffa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4793855590491244011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 918857200436086425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfa35982928630947a5b43397cd54e38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  abilityChoices: 0
+  maxRoomDepth: 0
+  minRoomExits: 0
+  maxRoomExits: 0
+  chanceIndicatesChildRoomType: 0
+  chanceIndicatesGrandchildRoomType: 0
+  roomDataLookup:
+    _keys:
+    - Combat
+    - Boss
+    - Shop
+    - Victory
+    - Defeat
+    - Ability
+    - Healing
+    _values:
+    - availableInPool: 1
+      weights: 
+    - availableInPool: 1
+      weights: 
+    - availableInPool: 1
+      weights: 
+    - availableInPool: 1
+      weights: 
+    - availableInPool: 1
+      weights: 
+    - availableInPool: 1
+      weights: 
+    - availableInPool: 1
+      weights: 
+  maxRoomDepthOverride: 10
