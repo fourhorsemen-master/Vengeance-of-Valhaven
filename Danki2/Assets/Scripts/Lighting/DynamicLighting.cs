@@ -34,13 +34,18 @@ public class DynamicLighting : Singleton<DynamicLighting>
         
         yRotation = OrientationUtils.GetYRotation(currentRoomSaveData.CameraOrientation);
 
-        InitialiseLights((float) currentRoomSaveData.Depth / MapGenerationLookup.Instance.MaxRoomDepth);
+        InitialiseLights(GetDepthProportion(currentRoomSaveData.Depth, MapGenerationLookup.Instance.MaxRoomDepth));
     }
 
     public void InitialiseLights(float depthProportion)
     {
         InitialiseLight(mainLight, mainLightData, depthProportion);
         InitialiseLight(fillLight, fillLightData, depthProportion);
+    }
+
+    private float GetDepthProportion(int currentDepth, int maxDepth)
+    {
+        return (float) (currentDepth - 1) / (maxDepth - 1);
     }
     
     private void InitialiseLight(HDAdditionalLightData light, DynamicLightingData data, float depthProportion)
