@@ -72,6 +72,10 @@ MonoBehaviour:
     - PoisonStab
     - Eviscerate
     - Consume
+    - Blink
+    - WraithSwipe
+    - Spine
+    - GuidedOrb
     _values:
     - displayName: Slash
       tooltip: Deal {PRIMARY_DAMAGE} damage to enemies in a cone.
@@ -623,3 +627,77 @@ MonoBehaviour:
       playerCanCast: 1
       finisher: 1
       channelDuration: 1
+    - displayName: Blink
+      tooltip: Teleports to target location
+      baseAbilityData:
+        primaryDamage: 0
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      fmodVocalisationEventRef: 
+      fmodStartEventRef: 
+      fmodEndEventRef: 
+      animationType: 0
+      abilityBonusLookup:
+        _keys: []
+        _values: []
+      rarity: 0
+      playerCanCast: 0
+      finisher: 0
+      channelDuration: 1
+    - displayName: Swipe
+      tooltip: Lunges forward and deals {PRIMARY_DAMAGE} damage.
+      baseAbilityData:
+        primaryDamage: 6
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      fmodVocalisationEventRef: 
+      fmodStartEventRef: 
+      fmodEndEventRef: 
+      animationType: 0
+      abilityBonusLookup:
+        _keys: []
+        _values: []
+      rarity: 0
+      playerCanCast: 0
+      finisher: 0
+      channelDuration: 0
+    - displayName: Spine
+      tooltip: Projectile that deals {PRIMARY_DAMAGE} damage on impact and applies
+        a {SLOW}.
+      baseAbilityData:
+        primaryDamage: 4
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      fmodVocalisationEventRef: 
+      fmodStartEventRef: 
+      fmodEndEventRef: 
+      animationType: 0
+      abilityBonusLookup:
+        _keys: []
+        _values: []
+      rarity: 0
+      playerCanCast: 0
+      finisher: 0
+      channelDuration: 0
+    - displayName: Guided Orb
+      tooltip: Guided projectile that moves towards target and deals {PRIMARY_DAMAGE}
+        damage on impact.
+      baseAbilityData:
+        primaryDamage: 8
+        secondaryDamage: 0
+        heal: 0
+        shield: 0
+      fmodVocalisationEventRef: 
+      fmodStartEventRef: 
+      fmodEndEventRef: 
+      animationType: 0
+      abilityBonusLookup:
+        _keys: []
+        _values: []
+      rarity: 0
+      playerCanCast: 0
+      finisher: 0
+      channelDuration: 0

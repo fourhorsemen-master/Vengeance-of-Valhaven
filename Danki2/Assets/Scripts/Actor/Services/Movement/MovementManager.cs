@@ -183,6 +183,12 @@ public class MovementManager : IMovementStatusProvider
         return TryLockMovement(overrideLock, duration, speed, direction, rotation);
     }
 
+    public bool CanReach(Vector3 position)
+    {
+        NavMeshPath navMeshPath = new NavMeshPath();
+        return navMeshAgent.CalculatePath(position, navMeshPath) && navMeshPath.status == NavMeshPathStatus.PathComplete;
+    }
+
     /// <summary>
     /// Lock movement velocity for a given duration with a fixed rotation.
     /// </summary>
