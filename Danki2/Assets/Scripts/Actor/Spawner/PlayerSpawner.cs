@@ -10,6 +10,9 @@ public class PlayerSpawner : MonoBehaviour
 
     public void Spawn()
     {
-        spawner.Spawn(ActorType.Player);
+        Pole entranceSide = SceneLookup.Instance.GetEntranceSide(PersistenceManager.Instance.SaveData.CurrentRoomSaveData.Scene, id);
+        float yRotation = OrientationUtils.GetYRotation(OrientationUtils.GetReversedPole(entranceSide));
+
+        spawner.Spawn(ActorType.Player).transform.Rotate(0, yRotation, 0);
     }
 }
