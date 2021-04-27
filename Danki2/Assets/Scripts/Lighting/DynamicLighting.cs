@@ -42,11 +42,6 @@ public class DynamicLighting : Singleton<DynamicLighting>
         InitialiseLight(mainLight, mainLightData, depthProportion);
         InitialiseLight(fillLight, fillLightData, depthProportion);
     }
-
-    private float GetDepthProportion(int currentDepth, int maxDepth)
-    {
-        return (float) (currentDepth - 1) / (maxDepth - 1);
-    }
     
     private void InitialiseLight(HDAdditionalLightData light, DynamicLightingData data, float depthProportion)
     {
@@ -58,5 +53,10 @@ public class DynamicLighting : Singleton<DynamicLighting>
             data.YAngle.Evaluate(depthProportion) + yRotation,
             0
         );
+    }
+
+    private float GetDepthProportion(int currentDepth, int maxDepth)
+    {
+        return (float) (currentDepth - 1) / (maxDepth - 1);
     }
 }
