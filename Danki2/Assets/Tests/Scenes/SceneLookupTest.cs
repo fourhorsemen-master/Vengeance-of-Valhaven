@@ -6,9 +6,6 @@ using UnityEngine.TestTools;
 
 public class SceneLookupTest
 {
-    private const string SceneLookupAssetPath = "Assets/Prefabs/Meta/SceneLookup.prefab";
-    private const string MapGenerationLookupAssetPath = "Assets/Prefabs/Meta/MapGenerationLookup.prefab";
-    
     private readonly ISet<RoomType> roomTypesToIgnore = new HashSet<RoomType>
     {
         RoomType.Victory,
@@ -21,12 +18,23 @@ public class SceneLookupTest
         Pole.North,
     };
 
+    [OneTimeSetUp]
+    public void SetUp()
+    {
+        TestUtils.InstantiatePrefab<MapGenerationLookup>();
+        TestUtils.InstantiatePrefab<SceneLookup>();
+    }
+
+    [OneTimeTearDown]
+    public void TearDown()
+    {
+        MapGenerationLookup.Instance.Destroy();
+        SceneLookup.Instance.Destroy();
+    }
+
     [UnityTest]
     public IEnumerator TestSceneLookupContainsAllPossibleRoomConfigurations()
     {
-        SceneLookup sceneLookup = TestUtils.InstantiatePrefab<SceneLookup>(SceneLookupAssetPath);
-        MapGenerationLookup mapGenerationLookup = TestUtils.InstantiatePrefab<MapGenerationLookup>(MapGenerationLookupAssetPath);
-        
         bool hasInvalidConfigurations = false;
 
         EnumUtils.ForEach<RoomType>(roomType =>
@@ -37,9 +45,11 @@ public class SceneLookupTest
             {
                 if (trueEntranceDirectionsToIgnore.Contains(trueEntranceDirection)) return;
 
-                for (int numberOfExits = mapGenerationLookup.MinRoomExits; numberOfExits <= mapGenerationLookup.MaxRoomExits; numberOfExits++)
+                int minRoomExits = MapGenerationLookup.Instance.MinRoomExits;
+                int maxRoomExits = MapGenerationLookup.Instance.MaxRoomExits;
+                for (int numberOfExits = minRoomExits; numberOfExits <= maxRoomExits; numberOfExits++)
                 {
-                    List<Scene> validScenes = sceneLookup.GetValidScenes(roomType, trueEntranceDirection, numberOfExits);
+                    List<Scene> validScenes = SceneLookup.Instance.GetValidScenes(roomType, trueEntranceDirection, numberOfExits);
                     
                     if (validScenes.Count > 0) continue;
                     
