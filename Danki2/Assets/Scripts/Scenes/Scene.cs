@@ -11,4 +11,5 @@
     AbilityScene,
     ForestCliffScene,
     HealingScene,
+    ForestValleyScene,
 }
