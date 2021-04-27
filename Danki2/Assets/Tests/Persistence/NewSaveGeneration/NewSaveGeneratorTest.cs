@@ -7,12 +7,12 @@ public class NewSaveGeneratorTest
     [OneTimeSetUp]
     public void SetUp()
     {
-        TestUtils.InstantiatePrefab<AbilityLookup>(TestUtils.AbilityLookupAssetPath);
-        TestUtils.InstantiatePrefab<RarityLookup>(TestUtils.RarityLookupAssetPath);
-        TestUtils.InstantiatePrefab<MapGenerationLookup>(TestUtils.MapGenerationLookupAssetPath);
-        TestUtils.InstantiatePrefab<SceneLookup>(TestUtils.SceneLookupAssetPath);
-        TestUtils.InstantiatePrefab<MapGenerator>(TestUtils.MapGeneratorAssetPath);
-        TestUtils.InstantiatePrefab<NewSaveGenerator>(TestUtils.NewSaveGeneratorAssetPath);
+        TestUtils.InstantiatePrefab<AbilityLookup>();
+        TestUtils.InstantiatePrefab<RarityLookup>();
+        TestUtils.InstantiatePrefab<MapGenerationLookup>();
+        TestUtils.InstantiatePrefab<SceneLookup>();
+        TestUtils.InstantiatePrefab<MapGenerator>();
+        TestUtils.InstantiatePrefab<NewSaveGenerator>();
     }
 
     [OneTimeTearDown]

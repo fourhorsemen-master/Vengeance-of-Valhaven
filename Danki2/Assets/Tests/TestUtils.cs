@@ -1,18 +1,25 @@
+using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public static class TestUtils
 {
-    public static string AbilityLookupAssetPath => "Assets/Prefabs/Meta/GameplayManagers/AbilityLookup.prefab";
-    public static string RarityLookupAssetPath => "Assets/Prefabs/Meta/GameplayManagers/RarityLookup.prefab";
-    public static string MapGenerationLookupAssetPath => "Assets/Prefabs/Meta/MapGenerationLookup.prefab";
-    public static string SceneLookupAssetPath => "Assets/Prefabs/Meta/SceneLookup.prefab";
-    public static string MapGeneratorAssetPath => "Assets/Prefabs/Meta/MapGenerator.prefab";
-    public static string NewSaveGeneratorAssetPath => "Assets/Prefabs/Meta/NewSaveGenerator.prefab";
-    
-    public static T InstantiatePrefab<T>(string assetPath) where T : Object
+    private static readonly Dictionary<Type, string> assetPathLookup = new Dictionary<Type, string>
     {
+        [typeof(AbilityLookup)] = "Assets/Prefabs/Meta/GameplayManagers/AbilityLookup.prefab",
+        [typeof(RarityLookup)] = "Assets/Prefabs/Meta/GameplayManagers/RarityLookup.prefab",
+        [typeof(MapGenerationLookup)] = "Assets/Prefabs/Meta/MapGenerationLookup.prefab",
+        [typeof(SceneLookup)] = "Assets/Prefabs/Meta/SceneLookup.prefab",
+        [typeof(MapGenerator)] = "Assets/Prefabs/Meta/MapGenerator.prefab",
+        [typeof(NewSaveGenerator)] = "Assets/Prefabs/Meta/NewSaveGenerator.prefab",
+    };
+    
+    public static T InstantiatePrefab<T>() where T : Object
+    {
+        string assetPath = assetPathLookup[typeof(T)];
         T prefab = AssetDatabase.LoadAssetAtPath<T>(assetPath);
         return Object.Instantiate(prefab);
     }

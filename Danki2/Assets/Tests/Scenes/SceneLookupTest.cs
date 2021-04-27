@@ -21,8 +21,8 @@ public class SceneLookupTest
     [OneTimeSetUp]
     public void SetUp()
     {
-        TestUtils.InstantiatePrefab<MapGenerationLookup>(TestUtils.MapGenerationLookupAssetPath);
-        TestUtils.InstantiatePrefab<SceneLookup>(TestUtils.SceneLookupAssetPath);
+        TestUtils.InstantiatePrefab<MapGenerationLookup>();
+        TestUtils.InstantiatePrefab<SceneLookup>();
     }
 
     [OneTimeTearDown]
