@@ -9,8 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 918857200436086427}
+  - component: {fileID: 5315270533351582254}
   - component: {fileID: 918857200436086424}
   - component: {fileID: 2149326593565702010}
+  - component: {fileID: 4793855590491244011}
+  - component: {fileID: 70334590722672776}
   m_Layer: 0
   m_Name: DevManagers
   m_TagString: Untagged
@@ -32,6 +35,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5315270533351582254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 918857200436086425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17c5e4b90926402b9fc0ff44f45daa01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  message: Dev managers are active, this change should not be committed.
 --- !u!114 &918857200436086424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58,6 +74,7 @@ MonoBehaviour:
   moduleSeed: 0
   transitionModuleSeed: 0
   playerSpawnerId: 0
+  depth: 1
   roomType: 0
   abilityChoices: 
   hasHealed: 0
@@ -73,3 +90,170 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b1ed89ac9d8413191ba343eedfd6ffa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4793855590491244011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 918857200436086425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfa35982928630947a5b43397cd54e38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  abilityChoices: 0
+  maxRoomDepth: 0
+  minRoomExits: 0
+  maxRoomExits: 0
+  chanceIndicatesChildRoomType: 0
+  chanceIndicatesGrandchildRoomType: 0
+  roomDataLookup:
+    _keys:
+    - Combat
+    - Boss
+    - Shop
+    - Victory
+    - Defeat
+    - Ability
+    - Healing
+    _values:
+    - availableInPool: 1
+      weights: 
+    - availableInPool: 1
+      weights: 
+    - availableInPool: 1
+      weights: 
+    - availableInPool: 1
+      weights: 
+    - availableInPool: 1
+      weights: 
+    - availableInPool: 1
+      weights: 
+    - availableInPool: 1
+      weights: 
+  maxRoomDepthOverride: 10
+--- !u!114 &70334590722672776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 918857200436086425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2859bd1060464f4cacf909d7529eabc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneDataLookup:
+    _keys:
+    - EntryScene
+    - MainMenu
+    - GameplayEntryScene
+    - GameplayExitScene
+    - GameplayVictoryScene
+    - GameplayDefeatScene
+    - RandomisedScene
+    - CatchAllScene
+    - AbilityScene
+    - ForestCliffScene
+    - HealingScene
+    - ForestValleyScene
+    _values:
+    - fileName: 
+      sceneType: 0
+      gameplaySceneData:
+        roomTypes: 
+        cameraOrientations: 
+        entranceData: []
+        exitData: []
+        enemyEnemySpawnerIds: 
+    - fileName: 
+      sceneType: 0
+      gameplaySceneData:
+        roomTypes: 
+        cameraOrientations: 
+        entranceData: []
+        exitData: []
+        enemyEnemySpawnerIds: 
+    - fileName: 
+      sceneType: 0
+      gameplaySceneData:
+        roomTypes: 
+        cameraOrientations: 
+        entranceData: []
+        exitData: []
+        enemyEnemySpawnerIds: 
+    - fileName: 
+      sceneType: 0
+      gameplaySceneData:
+        roomTypes: 
+        cameraOrientations: 
+        entranceData: []
+        exitData: []
+        enemyEnemySpawnerIds: 
+    - fileName: 
+      sceneType: 0
+      gameplaySceneData:
+        roomTypes: 
+        cameraOrientations: 
+        entranceData: []
+        exitData: []
+        enemyEnemySpawnerIds: 
+    - fileName: 
+      sceneType: 0
+      gameplaySceneData:
+        roomTypes: 
+        cameraOrientations: 
+        entranceData: []
+        exitData: []
+        enemyEnemySpawnerIds: 
+    - fileName: 
+      sceneType: 0
+      gameplaySceneData:
+        roomTypes: 
+        cameraOrientations: 
+        entranceData: []
+        exitData: []
+        enemyEnemySpawnerIds: 
+    - fileName: 
+      sceneType: 0
+      gameplaySceneData:
+        roomTypes: 
+        cameraOrientations: 
+        entranceData: []
+        exitData: []
+        enemyEnemySpawnerIds: 
+    - fileName: 
+      sceneType: 0
+      gameplaySceneData:
+        roomTypes: 
+        cameraOrientations: 
+        entranceData: []
+        exitData: []
+        enemyEnemySpawnerIds: 
+    - fileName: 
+      sceneType: 0
+      gameplaySceneData:
+        roomTypes: 
+        cameraOrientations: 
+        entranceData: []
+        exitData: []
+        enemyEnemySpawnerIds: 
+    - fileName: 
+      sceneType: 0
+      gameplaySceneData:
+        roomTypes: 
+        cameraOrientations: 
+        entranceData: []
+        exitData: []
+        enemyEnemySpawnerIds: 
+    - fileName: 
+      sceneType: 0
+      gameplaySceneData:
+        roomTypes: 
+        cameraOrientations: 
+        entranceData: []
+        exitData: []
+        enemyEnemySpawnerIds: 
+  entranceSide: 2

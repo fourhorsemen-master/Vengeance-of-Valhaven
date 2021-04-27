@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-public class SaveData
+public class SaveData : ISerializable<SerializableSaveData>
 {
     public int Version { get; set; }
 

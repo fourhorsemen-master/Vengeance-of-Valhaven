@@ -29,9 +29,9 @@ public class StateMachine<TState> : IStateMachineComponent where TState : Enum
         return this;
     }
 
-    public StateMachine<TState> WithTransition(TState from, TState to, StateMachineTrigger stateMachineTrigger)
+    public StateMachine<TState> WithTransition(TState from, TState to, StateMachineTrigger stateMachineTrigger = null)
     {
-        localTriggers[from][to] = stateMachineTrigger;
+        localTriggers[from][to] = stateMachineTrigger ?? new AlwaysTrigger();
         return this;
     }
 
@@ -41,7 +41,7 @@ public class StateMachine<TState> : IStateMachineComponent where TState : Enum
         return this;
     }
 
-    public IStateMachineComponent WithDecisionState(TState fromState, IStateMachineDecider<TState> decider)
+    public StateMachine<TState> WithDecisionState(TState fromState, IStateMachineDecider<TState> decider)
     {
         deciders[fromState] = decider;
         return this;

@@ -26,5 +26,9 @@
     Reflect,
     PoisonStab,
     Eviscerate,
-    Consume
+    Consume,
+    Blink,
+    WraithSwipe,
+    Spine,
+    GuidedOrb
 }

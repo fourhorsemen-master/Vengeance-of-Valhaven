@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class SceneLookup : Singleton<SceneLookup>
 {
-   [SerializeField]
+   [SerializeField, HideInInspector]
    public SceneDataLookup sceneDataLookup = new SceneDataLookup(() => new SceneData());
 
    protected override bool DestroyOnLoad => false;
+
+   public virtual Pole GetEntranceSide(Scene scene, int entranceId) => sceneDataLookup[scene].GameplaySceneData.EntranceData[entranceId].Side;
 
    public string GetFileName(Scene scene) => sceneDataLookup[scene].FileName;
 

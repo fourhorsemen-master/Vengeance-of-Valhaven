@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class Bear : Enemy
+﻿public class Bear : Enemy
 {
     public override ActorType Type => ActorType.Bear;
 
@@ -8,8 +6,8 @@ public class Bear : Enemy
     {
         InstantCastService.TryCast(
             AbilityReference.Swipe,
-            GetTargetPosition(transform.position),
-            GetTargetPosition(Centre)
+            GetMeleeTargetPosition(transform.position),
+            GetMeleeTargetPosition(Centre)
         );
     }
 
@@ -22,8 +20,8 @@ public class Bear : Enemy
     {
         InstantCastService.TryCast(
             AbilityReference.Maul,
-            GetTargetPosition(transform.position),
-            GetTargetPosition(Centre)
+            GetMeleeTargetPosition(transform.position),
+            GetMeleeTargetPosition(Centre)
         );
     }
 
@@ -31,10 +29,8 @@ public class Bear : Enemy
     {
         InstantCastService.TryCast(
             AbilityReference.Cleave,
-            GetTargetPosition(transform.position),
-            GetTargetPosition(Centre)
+            GetMeleeTargetPosition(transform.position),
+            GetMeleeTargetPosition(Centre)
         );
     }
-
-    private Vector3 GetTargetPosition(Vector3 origin) => origin + transform.forward;
 }
