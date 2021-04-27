@@ -46,9 +46,9 @@ public class BearAi : Ai
             .WithTransition(AttackState.TelegraphSwipe, AttackState.Swipe, new CastableTimeElapsed(bear, swipeDelay))
             .WithTransition(AttackState.TelegraphMaul, AttackState.Maul, new CastableTimeElapsed(bear, maulDelay))
             .WithTransition(AttackState.TelegraphCleave, AttackState.Cleave, new CastableTimeElapsed(bear, cleaveDelay))
-            .WithTransition(AttackState.Swipe, AttackState.WatchTarget, new AlwaysTrigger())
-            .WithTransition(AttackState.Maul, AttackState.WatchTarget, new AlwaysTrigger())
-            .WithTransition(AttackState.Cleave, AttackState.WatchTarget, new AlwaysTrigger())
+            .WithTransition(AttackState.Swipe, AttackState.WatchTarget)
+            .WithTransition(AttackState.Maul, AttackState.WatchTarget)
+            .WithTransition(AttackState.Cleave, AttackState.WatchTarget)
             .WithDecisionState(AttackState.ChooseAbility, new HealthBasedRandomSelection<AttackState>(
                 bear,
                 new AttackState[] { AttackState.TelegraphMaul, AttackState.TelegraphCleave },
