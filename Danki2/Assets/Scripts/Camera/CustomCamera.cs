@@ -112,14 +112,14 @@ public class CustomCamera : Singleton<CustomCamera>
         SetDesiredPosition();
         SetDesiredRotation();
 
-        if (snap || SmoothFactor == 0)
+        if (snap)
         {
             transform.position = desiredPosition;
             transform.rotation = desiredRotation;
             return;
         }
 
-        float lerpAmount = 1 - Mathf.Exp(- Time.deltaTime / (SmoothFactor));
+        float lerpAmount = MathUtils.GetDeltaTimeLerpAmount(SmoothFactor);
         transform.position = Vector3.Lerp(transform.position, desiredPosition, lerpAmount);
         transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, lerpAmount);
     }

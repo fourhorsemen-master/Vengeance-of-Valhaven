@@ -21,7 +21,7 @@ public class MovementManager : IMovementStatusProvider
 
     private const float WalkSpeedMultiplier = 0.3f;
     private const float DestinationTolerance = 0.5f;
-    private const float RotationSmoothing = 0.15f;
+    private const float RotationSmoothing = 0.1f;
 
     private Transform watchTarget = null;
     private bool watching = false;
@@ -261,7 +261,8 @@ public class MovementManager : IMovementStatusProvider
         if (!direction.Equals(Vector3.zero))
         {
             Quaternion desiredRotation = Quaternion.LookRotation(direction);
-            actor.transform.rotation = Quaternion.Lerp(actor.transform.rotation, desiredRotation, RotationSmoothing);
+            float lerpAmount = MathUtils.GetDeltaTimeLerpAmount(RotationSmoothing);
+            actor.transform.rotation = Quaternion.Lerp(actor.transform.rotation, desiredRotation, lerpAmount);
         }
     }
 
