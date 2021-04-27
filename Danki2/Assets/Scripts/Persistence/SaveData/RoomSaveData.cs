@@ -4,6 +4,7 @@ using System.Linq;
 public class RoomSaveData
 {
     public int Id { get; set; }
+    public int Depth { get; set; }
     public Scene Scene { get; set; }
     public RoomType RoomType { get; set; }
     public CombatRoomSaveData CombatRoomSaveData { get; set; }
@@ -20,6 +21,7 @@ public class RoomSaveData
         return new SerializableRoomSaveData
         {
             Id = Id,
+            Depth = Depth,
             Scene = Scene,
             RoomType = RoomType,
             SerializableCombatRoomSaveData = CombatRoomSaveData?.Serialize(),

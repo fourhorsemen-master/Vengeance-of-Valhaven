@@ -24,6 +24,7 @@ public class DevPersistenceManager : PersistenceManager
     [SerializeField] public int moduleSeed = 0;
     [SerializeField] public int transitionModuleSeed = 0;
     [SerializeField] public int playerSpawnerId = 0;
+    [SerializeField] public int depth = 0;
     [SerializeField] public RoomType roomType = RoomType.Combat;
     [SerializeField] public List<AbilityReference> abilityChoices = new List<AbilityReference>();
     [SerializeField] public bool hasHealed = false;
@@ -31,12 +32,6 @@ public class DevPersistenceManager : PersistenceManager
     public override SaveData SaveData => GenerateNewSaveData();
 
     protected override bool DestroyOnLoad => true;
-
-    protected override void Awake()
-    {
-        base.Awake();
-        Debug.LogWarning("Dev persistence manager is active, this change should not be committed.");
-    }
 
     protected override void Start() {}
 
@@ -61,6 +56,7 @@ public class DevPersistenceManager : PersistenceManager
             {
                 [0] = new RoomSaveData
                 {
+                    Depth = depth,
                     RoomType = roomType,
                     CombatRoomSaveData = new CombatRoomSaveData
                     {
