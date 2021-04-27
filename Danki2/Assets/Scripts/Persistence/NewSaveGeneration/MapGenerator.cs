@@ -20,7 +20,7 @@ public class MapGenerator : Singleton<MapGenerator>
 
     private void GenerateChildren(MapNode node, int currentDepth)
     {
-        if (!ShouldGenerateChildren(currentDepth)) return;
+        if (currentDepth == MapGenerationLookup.Instance.MaxRoomDepth) return;
 
         int numberOfChildren = Random.Range(
             MapGenerationLookup.Instance.MinRoomExits,
@@ -34,13 +34,6 @@ public class MapGenerator : Singleton<MapGenerator>
 
             GenerateChildren(childNode, currentDepth + 1);
         }
-    }
-
-    private bool ShouldGenerateChildren(int depth)
-    {
-        if (depth < MapGenerationLookup.Instance.MinRoomDepth) return true;
-        if (depth >= MapGenerationLookup.Instance.MaxRoomDepth) return false;
-        return Random.value <= 1f / (MapGenerationLookup.Instance.MaxRoomDepth - depth + 1);
     }
 
     private void SetIds(MapNode rootNode)

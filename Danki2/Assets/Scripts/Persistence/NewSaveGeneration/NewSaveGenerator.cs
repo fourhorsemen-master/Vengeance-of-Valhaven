@@ -105,6 +105,7 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
         return new RoomSaveData
         {
             Id = node.Id,
+            Depth = node.Depth,
             Scene = node.Scene,
             RoomType = node.RoomType,
             RoomTransitionerIdToTransitionData = node.ExitIdToChildLookup.ToDictionary(
