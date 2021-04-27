@@ -20,6 +20,9 @@ public static class ListUtils
         return (list as IEnumerable<T>).Where(item => filter(item)).ToList();
     }
 
+    /// <summary>
+    /// Returns true iff the given list contains elements that are distinct.
+    /// </summary>
     public static bool IsDistinct<T>(this List<T> list)
     {
         return list.GroupBy(s => s).Count() == list.Count;
