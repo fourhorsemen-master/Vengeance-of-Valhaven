@@ -69,4 +69,119 @@ public class SceneLookupTest
         
         yield return null;
     }
+
+    [UnityTest]
+    public IEnumerator TestGameplayScenesHaveDistinctRoomTypes()
+    {
+        bool hasScenesWithNonDistinctRoomTypes = false;
+        
+        EnumUtils.ForEach<Scene>(scene =>
+        {
+            SceneData sceneData = SceneLookup.Instance.sceneDataLookup[scene];
+            if (sceneData.SceneType != SceneType.Gameplay) return;
+            if (sceneData.GameplaySceneData.RoomTypes.IsDistinct()) return;
+
+            hasScenesWithNonDistinctRoomTypes = true;
+            Debug.Log($"Scene: {scene} has room types that are not distinct.");
+        });
+
+        Assert.False(
+            hasScenesWithNonDistinctRoomTypes,
+            "Found scenes with room types that are not distinct, see console for more info."
+        );
+        
+        yield return null;
+    }
+
+    [UnityTest]
+    public IEnumerator TestGameplayScenesHaveDistinctCameraOrientations()
+    {
+        bool hasScenesWithNonDistinctCameraOrientations = false;
+        
+        EnumUtils.ForEach<Scene>(scene =>
+        {
+            SceneData sceneData = SceneLookup.Instance.sceneDataLookup[scene];
+            if (sceneData.SceneType != SceneType.Gameplay) return;
+            if (sceneData.GameplaySceneData.CameraOrientations.IsDistinct()) return;
+
+            hasScenesWithNonDistinctCameraOrientations = true;
+            Debug.Log($"Scene: {scene} has camera orientations that are not distinct.");
+        });
+
+        Assert.False(
+            hasScenesWithNonDistinctCameraOrientations,
+            "Found scenes with camera orientations that are not distinct, see console for more info."
+        );
+        
+        yield return null;
+    }
+
+    [UnityTest]
+    public IEnumerator TestGameplayScenesHaveDistinctEntranceIds()
+    {
+        bool hasScenesWithNonDistinctEntranceIds = false;
+        
+        EnumUtils.ForEach<Scene>(scene =>
+        {
+            SceneData sceneData = SceneLookup.Instance.sceneDataLookup[scene];
+            if (sceneData.SceneType != SceneType.Gameplay) return;
+            if (sceneData.GameplaySceneData.EntranceData.IsDistinctById()) return;
+
+            hasScenesWithNonDistinctEntranceIds = true;
+            Debug.Log($"Scene: {scene} has entrance IDs that are not distinct.");
+        });
+
+        Assert.False(
+            hasScenesWithNonDistinctEntranceIds,
+            "Found scenes with entrance IDs that are not distinct, see console for more info."
+        );
+        
+        yield return null;
+    }
+
+    [UnityTest]
+    public IEnumerator TestGameplayScenesHaveDistinctExitIds()
+    {
+        bool hasScenesWithNonDistinctExitIds = false;
+        
+        EnumUtils.ForEach<Scene>(scene =>
+        {
+            SceneData sceneData = SceneLookup.Instance.sceneDataLookup[scene];
+            if (sceneData.SceneType != SceneType.Gameplay) return;
+            if (sceneData.GameplaySceneData.ExitData.IsDistinctById()) return;
+
+            hasScenesWithNonDistinctExitIds = true;
+            Debug.Log($"Scene: {scene} has exit IDs that are not distinct.");
+        });
+
+        Assert.False(
+            hasScenesWithNonDistinctExitIds,
+            "Found scenes with exit IDs that are not distinct, see console for more info."
+        );
+        
+        yield return null;
+    }
+
+    [UnityTest]
+    public IEnumerator TestGameplayScenesHaveDistinctEnemySpawnerIds()
+    {
+        bool hasScenesWithNonDistinctEnemySpawnerIds = false;
+        
+        EnumUtils.ForEach<Scene>(scene =>
+        {
+            SceneData sceneData = SceneLookup.Instance.sceneDataLookup[scene];
+            if (sceneData.SceneType != SceneType.Gameplay) return;
+            if (sceneData.GameplaySceneData.EnemySpawnerIds.IsDistinct()) return;
+
+            hasScenesWithNonDistinctEnemySpawnerIds = true;
+            Debug.Log($"Scene: {scene} has enemy spawner IDs that are not distinct.");
+        });
+
+        Assert.False(
+            hasScenesWithNonDistinctEnemySpawnerIds,
+            "Found scenes with enemy spawner IDs that are not distinct, see console for more info."
+        );
+        
+        yield return null;
+    }
 }

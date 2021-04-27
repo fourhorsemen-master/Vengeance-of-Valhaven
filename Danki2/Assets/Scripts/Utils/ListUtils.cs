@@ -20,10 +20,15 @@ public static class ListUtils
         return (list as IEnumerable<T>).Where(item => filter(item)).ToList();
     }
 
+    public static bool IsDistinct<T>(this List<T> list)
+    {
+        return list.GroupBy(s => s).Count() == list.Count;
+    }
+    
     /// <summary>
     /// Returns true iff the given list contains elements with distinct IDs.
     /// </summary>
-    public static bool DistinctById<T>(this List<T> list) where T : IIdentifiable
+    public static bool IsDistinctById<T>(this List<T> list) where T : IIdentifiable
     {
         return list.GroupBy(s => s.Id).Count() == list.Count;
     }

@@ -13,7 +13,7 @@ public class ModuleManager : Singleton<ModuleManager>
         List<ModuleSocket> sockets = FindObjectsOfType<ModuleSocket>().ToList();
         sockets.SortById();
 
-        if (!sockets.DistinctById())
+        if (!sockets.IsDistinctById())
         {
             Debug.LogError("Invalid socket ids, ensure all socket ids are unique.");
             return;

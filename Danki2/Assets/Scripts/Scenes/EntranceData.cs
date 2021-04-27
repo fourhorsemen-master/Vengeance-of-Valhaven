@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [Serializable]
-public class EntranceData
+public class EntranceData : IIdentifiable
 {
     [SerializeField] private int id;
     [SerializeField] private Pole side;
