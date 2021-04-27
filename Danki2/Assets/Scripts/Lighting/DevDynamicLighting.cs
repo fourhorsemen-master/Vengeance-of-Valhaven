@@ -5,8 +5,7 @@ public class DevDynamicLighting : MonoBehaviour
     [SerializeField]
     private DynamicLighting dynamicLighting = null;
 
-    [Range(0, 1)]
-    [SerializeField]
+    [SerializeField, Range(0, 1)]
     private float depthProportion = 0;
     
     private void Start()
