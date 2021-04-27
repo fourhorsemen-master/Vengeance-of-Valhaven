@@ -10,6 +10,11 @@ public class PlayerSpawner : MonoBehaviour
 
     public void Spawn()
     {
+        Pole entranceSide = SceneLookup.Instance.GetEntranceSide(
+            PersistenceManager.Instance.SaveData.CurrentRoomSaveData.Scene,
+            id
+        );
+
         spawner.Spawn(ActorType.Player);
     }
 }
