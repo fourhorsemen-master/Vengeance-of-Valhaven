@@ -2,8 +2,12 @@
 
 public class DevDynamicLighting : MonoBehaviour
 {
-    [SerializeField] public DynamicLighting dynamicLighting = null;
-    [SerializeField] public float depthProportion = 0;
+    [SerializeField]
+    private DynamicLighting dynamicLighting = null;
+
+    [Range(0, 1)]
+    [SerializeField]
+    private float depthProportion = 0;
     
     private void Start()
     {
