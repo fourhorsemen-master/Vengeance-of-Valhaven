@@ -33,12 +33,6 @@ public class DevPersistenceManager : PersistenceManager
 
     protected override bool DestroyOnLoad => true;
 
-    protected override void Awake()
-    {
-        base.Awake();
-        Debug.LogWarning("Dev persistence manager is active, this change should not be committed.");
-    }
-
     protected override void Start() {}
 
     public override void Save() {}

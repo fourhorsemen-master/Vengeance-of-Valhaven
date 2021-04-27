@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 918857200436086424}
   - component: {fileID: 2149326593565702010}
   - component: {fileID: 4793855590491244011}
+  - component: {fileID: 5315270533351582254}
   m_Layer: 0
   m_Name: DevManagers
   m_TagString: Untagged
@@ -118,3 +119,16 @@ MonoBehaviour:
     - availableInPool: 1
       weights: 
   maxRoomDepthOverride: 10
+--- !u!114 &5315270533351582254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 918857200436086425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17c5e4b90926402b9fc0ff44f45daa01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  message: Dev managers are active, this change should not be committed.
