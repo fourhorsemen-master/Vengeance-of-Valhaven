@@ -3,4 +3,5 @@
     Player,
     Wolf,
     Bear,
+    Wraith,
 }

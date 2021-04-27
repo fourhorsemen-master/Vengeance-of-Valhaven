@@ -73,7 +73,7 @@ public class WolfAi : Ai
             )
             .WithTransition(AttackState.TelegraphBite, AttackState.Reposition, new Interrupted(wolf, InterruptionType.Hard))
             .WithTransition(AttackState.TelegraphBite, AttackState.Bite, new TimeElapsed(biteDelay))
-            .WithTransition(AttackState.Bite, AttackState.Reposition, new AlwaysTrigger())
+            .WithTransition(AttackState.Bite, AttackState.Reposition)
             .WithTransition(
                 AttackState.Reposition,
                 AttackState.TelegraphPounce,
@@ -81,7 +81,7 @@ public class WolfAi : Ai
             )
             .WithTransition(AttackState.TelegraphPounce, AttackState.Reposition, new Interrupted(wolf, InterruptionType.Hard))
             .WithTransition(AttackState.TelegraphPounce, AttackState.Pounce, new TimeElapsed(pounceDelay))
-            .WithTransition(AttackState.Pounce, AttackState.Reposition, new AlwaysTrigger());
+            .WithTransition(AttackState.Pounce, AttackState.Reposition);
 
         IStateMachineComponent evadeStateMachine = new StateMachine<EvadeState>(EvadeState.Circle)
             .WithComponent(EvadeState.Circle, new Circle(wolf, player))
@@ -94,7 +94,7 @@ public class WolfAi : Ai
             .WithComponent(EngageState.Attack, attackStateMachine)
             .WithComponent(EngageState.DashAway, new WolfDashAway(wolf, player))
             .WithComponent(EngageState.Evade, evadeStateMachine)
-            .WithTransition(EngageState.Howl, EngageState.Attack, new AlwaysTrigger())
+            .WithTransition(EngageState.Howl, EngageState.Attack)
             .WithTransition(EngageState.Attack, EngageState.DashAway, new WolfRandomBiteCountReached(wolf, minBites, maxBites) & new CanMove(wolf))
             .WithTransition(EngageState.DashAway, EngageState.Evade, new TimeElapsed(wolf.DashDuration))
             .WithTransition(
