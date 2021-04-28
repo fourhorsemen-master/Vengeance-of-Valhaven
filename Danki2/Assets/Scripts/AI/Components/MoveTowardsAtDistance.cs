@@ -5,12 +5,19 @@ public class MoveTowardsAtDistance : IStateMachineComponent
     private readonly Actor actor;
     private readonly Actor target;
     private readonly float distance;
+    private readonly float? rotationSmoothingOverride;
 
-    public MoveTowardsAtDistance(Actor actor, Actor target, float distance)
+    public MoveTowardsAtDistance(
+        Actor actor,
+        Actor target,
+        float distance,
+        float? rotationSmoothingOverride = null
+    )
     {
         this.actor = actor;
         this.target = target;
         this.distance = distance;
+        this.rotationSmoothingOverride = rotationSmoothingOverride;
     }
 
     public void Enter() {}
@@ -31,7 +38,7 @@ public class MoveTowardsAtDistance : IStateMachineComponent
         else
         {
             actor.MovementManager.StopPathfinding();
-            actor.MovementManager.Watch(target.transform);
+            actor.MovementManager.Watch(target.transform, rotationSmoothingOverride);
         }
     }
 }
