@@ -21,10 +21,10 @@ public class MovementManager : IMovementStatusProvider
 
     private const float WalkSpeedMultiplier = 0.3f;
     private const float DestinationTolerance = 0.5f;
-    private const float RotationSmoothing = 0.1f;
 
     private Transform watchTarget = null;
     private bool watching = false;
+    private float? rotationSmoothingOverride = null;
 
     private Vector3 movementLockDirection;
     private float movementLockSpeed;
@@ -48,6 +48,8 @@ public class MovementManager : IMovementStatusProvider
     private bool movedThisFrame = false;
 
     public Subject MoveLockSubject { get; } = new Subject();
+
+    private float RotationSmoothing => rotationSmoothingOverride ?? 0.1f;
 
     public MovementManager(Actor actor, Subject updateSubject, NavMeshAgent navMeshAgent)
     {
@@ -131,17 +133,18 @@ public class MovementManager : IMovementStatusProvider
     /// <summary>
     /// Lerp rotate the actor to face the target until we begin movement.
     /// </summary>
-    /// <param name="watchTarget"></param>
-    public void Watch(Transform target)
+    public void Watch(Transform target, float? rotationSmoothingOverride = null)
     {
         watchTarget = target;
         watching = true;
+        this.rotationSmoothingOverride = rotationSmoothingOverride;
     }
 
     public void ClearWatch()
     {
         watchTarget = null;
         watching = false;
+        rotationSmoothingOverride = null;
     }
 
     /// <summary>
