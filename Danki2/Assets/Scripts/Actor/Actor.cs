@@ -17,6 +17,9 @@ public abstract class Actor : MonoBehaviour
     [SerializeField] private float weight = 0;
     public float Weight => weight;
 
+    [SerializeField] private float rotationSmoothing = 0;
+    public float RotationSmoothing => rotationSmoothing;
+    
     [SerializeField] private Animator animController = null;
     public Animator AnimController => animController;
 

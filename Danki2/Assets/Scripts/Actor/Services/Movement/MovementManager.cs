@@ -49,7 +49,7 @@ public class MovementManager : IMovementStatusProvider
 
     public Subject MoveLockSubject { get; } = new Subject();
 
-    private float RotationSmoothing => rotationSmoothingOverride ?? 0.1f;
+    private float RotationSmoothing => rotationSmoothingOverride ?? actor.RotationSmoothing;
 
     public MovementManager(Actor actor, Subject updateSubject, NavMeshAgent navMeshAgent)
     {
