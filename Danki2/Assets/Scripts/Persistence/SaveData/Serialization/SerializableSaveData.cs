@@ -10,6 +10,7 @@ public class SerializableSaveData
     [SerializeField] private int seed;
     [SerializeField] private int playerHealth;
     [SerializeField] private SerializableAbilityTree serializableAbilityTree;
+    [SerializeField] private List<Rune> runes;
     [SerializeField] private int currentRoomId;
     [SerializeField] private int defeatRoomId;
     [SerializeField] private List<SerializableRoomSaveData> serializableRoomSaveDataList;
@@ -18,6 +19,7 @@ public class SerializableSaveData
     public int Seed { get => seed; set => seed = value; }
     public int PlayerHealth { get => playerHealth; set => playerHealth = value; }
     public SerializableAbilityTree SerializableAbilityTree { get => serializableAbilityTree; set => serializableAbilityTree = value; }
+    public List<Rune> Runes { get => runes; set => runes = value; }
     public int CurrentRoomId { get => currentRoomId; set => currentRoomId = value; }
     public int DefeatRoomId { get => defeatRoomId; set => defeatRoomId = value; }
     public List<SerializableRoomSaveData> SerializableRoomSaveDataList { get => serializableRoomSaveDataList; set => serializableRoomSaveDataList = value; }
@@ -30,6 +32,7 @@ public class SerializableSaveData
             Seed = Seed,
             PlayerHealth = PlayerHealth,
             SerializableAbilityTree = SerializableAbilityTree,
+            Runes = Runes,
             CurrentRoomId = CurrentRoomId,
             DefeatRoomId = DefeatRoomId,
             RoomSaveDataLookup = SerializableRoomSaveDataList.ToDictionary(

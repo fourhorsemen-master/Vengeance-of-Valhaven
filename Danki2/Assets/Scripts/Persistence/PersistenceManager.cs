@@ -62,6 +62,7 @@ public class PersistenceManager : Singleton<PersistenceManager>
     {
         SaveData.PlayerHealth = ActorCache.Instance.Player.HealthManager.Health;
         SaveData.SerializableAbilityTree = ActorCache.Instance.Player.AbilityTree.Serialize();
+        SaveData.Runes = ActorCache.Instance.Player.RuneManager.Runes;
 
         RoomSaveData currentRoomSaveData = SaveData.CurrentRoomSaveData;
         switch (currentRoomSaveData.RoomType)

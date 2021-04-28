@@ -9,6 +9,7 @@ public class SaveData : ISerializable<SerializableSaveData>
 
     public int PlayerHealth { get; set; }
     public SerializableAbilityTree SerializableAbilityTree { get; set; }
+    public List<Rune> Runes { get; set; }
 
     public int CurrentRoomId { get; set; }
     public int DefeatRoomId { get; set; }
@@ -25,6 +26,7 @@ public class SaveData : ISerializable<SerializableSaveData>
             Seed = Seed,
             PlayerHealth = PlayerHealth,
             SerializableAbilityTree = SerializableAbilityTree,
+            Runes = Runes,
             CurrentRoomId = CurrentRoomId,
             DefeatRoomId = DefeatRoomId,
             SerializableRoomSaveDataList = RoomSaveDataLookup.Values

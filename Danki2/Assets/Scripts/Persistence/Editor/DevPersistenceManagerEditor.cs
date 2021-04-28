@@ -14,6 +14,7 @@ public class DevPersistenceManagerEditor : Editor
         EditorGUI.indentLevel++;
         devPersistenceManager.playerSpawnerId = EditorGUILayout.IntField("Player Spawner ID", devPersistenceManager.playerSpawnerId);
         devPersistenceManager.playerHealth = EditorGUILayout.IntField("Player Health", devPersistenceManager.playerHealth);
+        EditRunes(devPersistenceManager);
         EditorGUI.indentLevel--;
         EditorUtils.VerticalSpace();
         
@@ -52,6 +53,20 @@ public class DevPersistenceManagerEditor : Editor
         }
     }
 
+    private void EditRunes(DevPersistenceManager devPersistenceManager)
+    {
+        EditorUtils.Header("Runes");
+        EditorGUI.indentLevel++;
+
+        EditorUtils.ResizeableList(
+            devPersistenceManager.runes,
+            r => (Rune) EditorGUILayout.EnumPopup("Rune", r),
+            Rune.DeepWounds
+        );
+
+        EditorGUI.indentLevel--;
+    }
+    
     private void EditTransitions(DevPersistenceManager devPersistenceManager)
     {
         EditorUtils.Header("Active Transitions");

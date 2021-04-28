@@ -16,6 +16,7 @@ public class DevPersistenceManager : PersistenceManager
     [SerializeField] public AbilityReference leftAbility = AbilityReference.Slash;
     [SerializeField] public AbilityReference rightAbility = AbilityReference.Slash;
     [SerializeField] public int playerHealth = 0;
+    [SerializeField] public List<Rune> runes = new List<Rune>();
     [SerializeField] public Pole cameraOrientation = Pole.North;
     [SerializeField] public bool enemiesCleared = false;
     [SerializeField] public List<SpawnedEnemy> spawnedEnemies = new List<SpawnedEnemy>();
@@ -51,6 +52,7 @@ public class DevPersistenceManager : PersistenceManager
                 AbilityTreeFactory.CreateNode(leftAbility),
                 AbilityTreeFactory.CreateNode(rightAbility)
             ).Serialize(),
+            Runes = runes,
             CurrentRoomId = 0,
             RoomSaveDataLookup = new Dictionary<int, RoomSaveData>
             {

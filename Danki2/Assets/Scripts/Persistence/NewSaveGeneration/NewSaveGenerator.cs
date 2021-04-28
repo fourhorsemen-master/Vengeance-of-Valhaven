@@ -34,6 +34,7 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
                 AbilityTreeFactory.CreateNode(AbilityReference.Slash),
                 AbilityTreeFactory.CreateNode(AbilityReference.Lunge)
             ).Serialize(),
+            Runes = new List<Rune>(),
             CurrentRoomId = 0,
             DefeatRoomId = defeatRoomId,
             RoomSaveDataLookup = GenerateRoomSaveDataLookup(rootNode, defeatRoomId)
