@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [Serializable]
-public class ExitData
+public class ExitData : IIdentifiable
 {
     [SerializeField] private int id;
     [SerializeField] private Pole side;

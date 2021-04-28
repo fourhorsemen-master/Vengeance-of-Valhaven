@@ -12,7 +12,7 @@ public class TransitionSocketManager : MonoBehaviour
         List<TransitionSocket> sockets = FindObjectsOfType<TransitionSocket>().ToList();
         sockets.SortById();
 
-        if (!sockets.DistinctById())
+        if (!sockets.IsDistinctById())
         {
             Debug.LogError("Invalid transition socket ids, ensure all transition socket ids are unique.");
             return;

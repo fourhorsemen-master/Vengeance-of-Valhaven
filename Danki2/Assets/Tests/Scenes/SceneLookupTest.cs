@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
@@ -68,5 +69,81 @@ public class SceneLookupTest
         Assert.False(hasInvalidConfigurations, "Found invalid room configurations, see console for more info.");
         
         yield return null;
+    }
+
+    [UnityTest]
+    public IEnumerator TestGameplayScenesHaveDistinctRoomTypes()
+    {
+        AssertDistinctGameplayDataElement(
+            d => d.RoomTypes.IsDistinct(),
+            s => $"Scene: {s} has room types that are not distinct.",
+            "Found scenes with room types that are not distinct, see console for more info."
+        );
+        yield return null;
+    }
+
+    [UnityTest]
+    public IEnumerator TestGameplayScenesHaveDistinctCameraOrientations()
+    {
+        AssertDistinctGameplayDataElement(
+            d => d.CameraOrientations.IsDistinct(),
+            s => $"Scene: {s} has camera orientations that are not distinct.",
+            "Found scenes with camera orientations that are not distinct, see console for more info."
+        );
+        yield return null;
+    }
+
+    [UnityTest]
+    public IEnumerator TestGameplayScenesHaveDistinctEntranceIds()
+    {
+        AssertDistinctGameplayDataElement(
+            d => d.EntranceData.IsDistinctById(),
+            s => $"Scene: {s} has entrance IDs that are not distinct.",
+            "Found scenes with entrance IDs that are not distinct, see console for more info."
+        );
+        yield return null;
+    }
+
+    [UnityTest]
+    public IEnumerator TestGameplayScenesHaveDistinctExitIds()
+    {
+        AssertDistinctGameplayDataElement(
+            d => d.ExitData.IsDistinctById(),
+            s => $"Scene: {s} has exit IDs that are not distinct.",
+            "Found scenes with exit IDs that are not distinct, see console for more info."
+        );
+        yield return null;
+    }
+
+    [UnityTest]
+    public IEnumerator TestGameplayScenesHaveDistinctEnemySpawnerIds()
+    {
+        AssertDistinctGameplayDataElement(
+            d => d.EnemySpawnerIds.IsDistinct(),
+            s => $"Scene: {s} has enemy spawner IDs that are not distinct.",
+            "Found scenes with enemy spawner IDs that are not distinct, see console for more info."
+        );
+        yield return null;
+    }
+
+    private void AssertDistinctGameplayDataElement(
+        Func<GameplaySceneData, bool> uniqueCheck,
+        Func<Scene, string> sceneErrorMessageProvider,
+        string overallErrorMessage
+    )
+    {
+        bool allScenesHaveDistinctElements = true;
+        
+        EnumUtils.ForEach<Scene>(scene =>
+        {
+            SceneData sceneData = SceneLookup.Instance.sceneDataLookup[scene];
+            if (sceneData.SceneType != SceneType.Gameplay) return;
+            if (uniqueCheck(sceneData.GameplaySceneData)) return;
+
+            allScenesHaveDistinctElements = false;
+            Debug.Log(sceneErrorMessageProvider(scene));
+        });
+
+        Assert.True(allScenesHaveDistinctElements, overallErrorMessage);
     }
 }
