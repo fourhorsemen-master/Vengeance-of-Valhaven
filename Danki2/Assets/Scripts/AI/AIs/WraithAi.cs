@@ -16,6 +16,7 @@ public class WraithAi : Ai
     [SerializeField] private float guidedOrbDelay = 0;
     
     [Header("Melee Attacks")]
+    [SerializeField] private float swipeRotationSmoothingOverride;
     [SerializeField] private float swipeRange = 0;
     [SerializeField] private float maxSwipeAngle = 0;
     [SerializeField] private float swipeDelay = 0;
@@ -51,7 +52,7 @@ public class WraithAi : Ai
 
         IStateMachineComponent meleeAttackStateMachine = new StateMachine<MeleeAttackState>(MeleeAttackState.Advance)
             .WithComponent(MeleeAttackState.Advance, new MoveTowards(wraith, player))
-            .WithComponent(MeleeAttackState.WatchTarget, new WatchTarget(wraith, player))
+            .WithComponent(MeleeAttackState.WatchTarget, new WatchTarget(wraith, player, swipeRotationSmoothingOverride))
             .WithComponent(MeleeAttackState.Telegraph, new TelegraphAttack(wraith, Color.yellow))
             .WithComponent(MeleeAttackState.Swipe, new WraithCastSwipe(wraith))
             .WithTransition(MeleeAttackState.Advance, MeleeAttackState.WatchTarget, new DistanceLessThan(wraith, player, swipeRange))

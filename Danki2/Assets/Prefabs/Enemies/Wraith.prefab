@@ -425,6 +425,7 @@ MonoBehaviour:
   meshRenderers:
   - {fileID: 8572665217511358311}
   weight: 1
+  rotationSmoothing: 0.1
   animController: {fileID: 0}
   colliders:
   - {fileID: 41546268463245919}
@@ -451,6 +452,7 @@ MonoBehaviour:
   meleeAttackStateTolerance: 2
   spineDelay: 2
   guidedOrbDelay: 2
+  swipeRotationSmoothingOverride: 0.03
   swipeRange: 2
   maxSwipeAngle: 10
   swipeDelay: 0.5
