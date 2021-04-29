@@ -29,6 +29,7 @@ public class DevPersistenceManager : PersistenceManager
     [SerializeField] public RoomType roomType = RoomType.Combat;
     [SerializeField] public List<AbilityReference> abilityChoices = new List<AbilityReference>();
     [SerializeField] public bool hasHealed = false;
+    [SerializeField] public int runeSeed = 0;
 
     public override SaveData SaveData => GenerateNewSaveData();
 
@@ -85,6 +86,12 @@ public class DevPersistenceManager : PersistenceManager
                     HealingRoomSaveData = new HealingRoomSaveData
                     {
                         HasHealed = hasHealed
+                    },
+                    RuneRoomSaveData = new RuneRoomSaveData
+                    {
+                        Seed = runeSeed,
+                        RunesViewed = false,
+                        RuneSelected = false
                     },
                     RoomTransitionerIdToTransitionData = activeTransitions.ToDictionary(
                         t => t,
