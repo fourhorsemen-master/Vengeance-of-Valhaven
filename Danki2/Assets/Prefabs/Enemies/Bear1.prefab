@@ -447,13 +447,13 @@ MonoBehaviour:
   minAdvanceRange: 3
   maxAttackRange: 4.5
   maxChargeRange: 10
-  chargeInterval: 4
+  chargeMinInterval: 3
+  chargeMaxInterval: 5
   chargeRecoveryTime: 2
-  minRunDistance: 6
   swipeDelay: 0.5
   chargeDelay: 0.5
   maulDelay: 0.5
-  cleaveDelay: 1
+  cleaveDelay: 1.3
   abilityInterval: 2
   maxAttackAngle: 10
 --- !u!195 &1307004630582523634
