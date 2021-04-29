@@ -25,7 +25,7 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
         ownedAbilities[AbilityReference.Lunge] = 1;
 
         List<RuneSocket> runeSockets = new List<RuneSocket>();
-        Utils.Repeat(MapGenerationLookup.Instance.RuneLimit, () => runeSockets.Add(new RuneSocket()));
+        Utils.Repeat(MapGenerationLookup.Instance.RuneSockets, () => runeSockets.Add(new RuneSocket()));
         
         return new SaveData
         {
@@ -61,6 +61,9 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
                     break;
                 case RoomType.Healing:
                     roomSaveDataLookup[node.Id] = GenerateHealingRoomSaveData(node);
+                    break;
+                case RoomType.Rune:
+                    roomSaveDataLookup[node.Id] = GenerateRuneRoomSaveData(node);
                     break;
                 case RoomType.Victory:
                     roomSaveDataLookup[node.Id] = GenerateVictoryRoomSaveData(node);
@@ -100,6 +103,19 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
     {
         RoomSaveData roomSaveData = GenerateCommonRoomSaveData(node);
         roomSaveData.HealingRoomSaveData = new HealingRoomSaveData();
+
+        return roomSaveData;
+    }
+
+    private RoomSaveData GenerateRuneRoomSaveData(MapNode node)
+    {
+        RoomSaveData roomSaveData = GenerateCommonRoomSaveData(node);
+        roomSaveData.RuneRoomSaveData = new RuneRoomSaveData
+        {
+            Seed = RandomUtils.Seed(),
+            RunesViewed = false,
+            RuneSelected = false
+        };
 
         return roomSaveData;
     }

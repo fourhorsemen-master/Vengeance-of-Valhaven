@@ -4,7 +4,7 @@ public class MenuStateMachine : StateMachineMonoBehaviour
 {
     private const string PauseButtonName = "PauseMenu";
     private const string AbilityTreeButtonName = "AbilityTreeMenu";
-    private const string AbilitySelectionButtonName = "Interact";
+    private const string InteractButtonName = "Interact";
     private const string RuneMenuButtonName = "RuneMenu";
     
     [SerializeField] private PauseMenu pauseMenu = null;
@@ -18,6 +18,7 @@ public class MenuStateMachine : StateMachineMonoBehaviour
             .WithComponent(GameplayState.InAbilityTreeEditor, new GameplayStateComponent(GameplayState.InAbilityTreeEditor))
             .WithComponent(GameplayState.InAbilitySelection, new GameplayStateComponent(GameplayState.InAbilitySelection))
             .WithComponent(GameplayState.InRuneMenu, new GameplayStateComponent(GameplayState.InRuneMenu))
+            .WithComponent(GameplayState.InRuneSelectionMenu, new GameplayStateComponent(GameplayState.InRuneSelectionMenu))
             .WithTransition(
                 GameplayState.Playing,
                 GameplayState.InPauseMenu,
@@ -31,7 +32,7 @@ public class MenuStateMachine : StateMachineMonoBehaviour
             .WithTransition(
                 GameplayState.Playing,
                 GameplayState.InAbilitySelection,
-                new ButtonDown(AbilitySelectionButtonName) & new ShrineExists() & new CanInteractWithShrine()
+                new ButtonDown(InteractButtonName) & new ShrineExists() & new CanInteractWithShrine()
             )
             .WithTransition(
                 GameplayState.Playing,

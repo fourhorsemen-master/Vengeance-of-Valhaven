@@ -5,4 +5,5 @@
     InAbilitySelection,
     InPauseMenu,
     InRuneMenu,
+    InRuneSelectionMenu,
 }

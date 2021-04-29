@@ -45,7 +45,7 @@ public class DevPersistenceManager : PersistenceManager
     private SaveData GenerateNewSaveData()
     {
         List<RuneSocket> runeSockets = new List<RuneSocket>();
-        Utils.Repeat(MapGenerationLookup.Instance.RuneLimit, () => runeSockets.Add(new RuneSocket()));
+        Utils.Repeat(MapGenerationLookup.Instance.RuneSockets, () => runeSockets.Add(new RuneSocket()));
         for (int i = 0; i < runes.Count; i++)
         {
             runeSockets[i].HasRune = true;

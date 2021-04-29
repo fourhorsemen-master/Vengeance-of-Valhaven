@@ -57,6 +57,7 @@ MonoBehaviour:
     - ForestCliffScene
     - HealingScene
     - ForestValleyScene
+    - RuneScene
     _values:
     - fileName: EntryScene
       sceneType: 0
@@ -230,3 +231,23 @@ MonoBehaviour:
         - id: 2
           side: 0
         enemyEnemySpawnerIds: 0000000001000000
+    - fileName: RuneScene
+      sceneType: 1
+      gameplaySceneData:
+        roomTypes: 07000000
+        cameraOrientations: 00000000
+        entranceData:
+        - id: 0
+          side: 2
+        - id: 1
+          side: 1
+        - id: 2
+          side: 3
+        exitData:
+        - id: 0
+          side: 0
+        - id: 1
+          side: 0
+        - id: 2
+          side: 0
+        enemyEnemySpawnerIds: 

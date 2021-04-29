@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   abilityChoices: 3
-  runeLimit: 3
+  runeSockets: 3
   maxRoomDepth: 14
   minRoomExits: 1
   maxRoomExits: 3
@@ -59,6 +59,7 @@ MonoBehaviour:
     - Defeat
     - Ability
     - Healing
+    - Rune
     _values:
     - availableInPool: 1
       weights: 010000000200000004000000060000000a000000
@@ -74,3 +75,5 @@ MonoBehaviour:
       weights: 00000000000000000100000002000000
     - availableInPool: 1
       weights: 00000000000000000100000002000000
+    - availableInPool: 1
+      weights: 0000000000000000000000000100000002000000

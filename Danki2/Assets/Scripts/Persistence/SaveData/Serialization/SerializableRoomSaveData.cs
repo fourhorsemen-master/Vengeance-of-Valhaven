@@ -13,6 +13,7 @@ public class SerializableRoomSaveData
     [SerializeField] private SerializableCombatRoomSaveData serializableCombatRoomSaveData;
     [SerializeField] private SerializableAbilityRoomSaveData serializableAbilityRoomSaveData;
     [SerializeField] private SerializableHealingRoomSaveData serializableHealingRoomSaveData;
+    [SerializeField] private SerializableRuneRoomSaveData serializableRuneRoomSaveData;
     [SerializeField] private List<SerializableTransitionData> serializableTransitionData;
     [SerializeField] private int moduleSeed;
     [SerializeField] private int transitionModuleSeed;
@@ -26,6 +27,7 @@ public class SerializableRoomSaveData
     public SerializableCombatRoomSaveData SerializableCombatRoomSaveData { get => serializableCombatRoomSaveData; set => serializableCombatRoomSaveData = value; }
     public SerializableAbilityRoomSaveData SerializableAbilityRoomSaveData { get => serializableAbilityRoomSaveData; set => serializableAbilityRoomSaveData = value; }
     public SerializableHealingRoomSaveData SerializableHealingRoomSaveData { get => serializableHealingRoomSaveData; set => serializableHealingRoomSaveData = value; }
+    public SerializableRuneRoomSaveData SerializableRuneRoomSaveData { get => serializableRuneRoomSaveData; set => serializableRuneRoomSaveData = value; }
     public List<SerializableTransitionData> SerializableTransitionData { get => serializableTransitionData; set => serializableTransitionData = value; }
     public int ModuleSeed { get => moduleSeed; set => moduleSeed = value; }
     public int TransitionModuleSeed { get => transitionModuleSeed; set => transitionModuleSeed = value; }
@@ -43,6 +45,7 @@ public class SerializableRoomSaveData
             CombatRoomSaveData = SerializableCombatRoomSaveData.Deserialize(),
             AbilityRoomSaveData = SerializableAbilityRoomSaveData.Deserialize(),
             HealingRoomSaveData = SerializableHealingRoomSaveData.Deserialize(),
+            RuneRoomSaveData = SerializableRuneRoomSaveData.Deserialize(),
             RoomTransitionerIdToTransitionData = SerializableTransitionData.ToDictionary(
                 d => d.RoomTransitionerId,
                 d => new TransitionData

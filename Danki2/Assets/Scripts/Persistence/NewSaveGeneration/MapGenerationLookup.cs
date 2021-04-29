@@ -22,7 +22,7 @@ public class RoomDataLookup : SerializableEnumDictionary<RoomType, RoomData>
 public class MapGenerationLookup : Singleton<MapGenerationLookup>
 {
     [SerializeField] private int abilityChoices = 0;
-    [SerializeField] private int runeLimit = 0;
+    [SerializeField] private int runeSockets = 0;
     
     [SerializeField] private int maxRoomDepth = 0;
     [SerializeField] private int minRoomExits = 0;
@@ -33,7 +33,7 @@ public class MapGenerationLookup : Singleton<MapGenerationLookup>
     [SerializeField] private RoomDataLookup roomDataLookup = new RoomDataLookup(() => new RoomData());
 
     public int AbilityChoices { get => abilityChoices; set => abilityChoices = value; }
-    public virtual int RuneLimit { get => runeLimit; set => runeLimit = value; }
+    public virtual int RuneSockets { get => runeSockets; set => runeSockets = value; }
 
     public virtual int MaxRoomDepth { get => maxRoomDepth; set => maxRoomDepth = value; }
     public int MinRoomExits { get => minRoomExits; set => minRoomExits = value; }

@@ -6,5 +6,6 @@
     Victory,
     Defeat,
     Ability,
-    Healing
+    Healing,
+    Rune,
 }
