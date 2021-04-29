@@ -24,6 +24,9 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
         ownedAbilities[AbilityReference.Slash] = 1;
         ownedAbilities[AbilityReference.Lunge] = 1;
 
+        List<RuneSocket> runeSockets = new List<RuneSocket>();
+        Utils.Repeat(MapGenerationLookup.Instance.RuneLimit, () => runeSockets.Add(new RuneSocket()));
+        
         return new SaveData
         {
             Version = SaveDataVersion,
@@ -34,7 +37,7 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
                 AbilityTreeFactory.CreateNode(AbilityReference.Slash),
                 AbilityTreeFactory.CreateNode(AbilityReference.Lunge)
             ).Serialize(),
-            Runes = new List<Rune>(),
+            RuneSockets = runeSockets,
             CurrentRoomId = 0,
             DefeatRoomId = defeatRoomId,
             RoomSaveDataLookup = GenerateRoomSaveDataLookup(rootNode, defeatRoomId)

@@ -44,6 +44,14 @@ public class DevPersistenceManager : PersistenceManager
 
     private SaveData GenerateNewSaveData()
     {
+        List<RuneSocket> runeSockets = new List<RuneSocket>();
+        Utils.Repeat(MapGenerationLookup.Instance.RuneLimit, () => runeSockets.Add(new RuneSocket()));
+        for (int i = 0; i < runes.Count; i++)
+        {
+            runeSockets[i].HasRune = true;
+            runeSockets[i].Rune = runes[i];
+        }
+
         return new SaveData
         {
             PlayerHealth = playerHealth,
@@ -52,7 +60,7 @@ public class DevPersistenceManager : PersistenceManager
                 AbilityTreeFactory.CreateNode(leftAbility),
                 AbilityTreeFactory.CreateNode(rightAbility)
             ).Serialize(),
-            Runes = runes,
+            RuneSockets = runeSockets,
             CurrentRoomId = 0,
             RoomSaveDataLookup = new Dictionary<int, RoomSaveData>
             {

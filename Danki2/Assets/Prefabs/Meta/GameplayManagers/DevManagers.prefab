@@ -104,6 +104,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   abilityChoices: 0
+  runeLimit: 0
   maxRoomDepth: 0
   minRoomExits: 0
   maxRoomExits: 0
@@ -133,6 +134,7 @@ MonoBehaviour:
       weights: 
     - availableInPool: 1
       weights: 
+  runeLimitOverride: 3
   maxRoomDepthOverride: 10
 --- !u!114 &70334590722672776
 MonoBehaviour:

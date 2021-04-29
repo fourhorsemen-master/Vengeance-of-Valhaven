@@ -12,9 +12,18 @@ public class RuneMenu : MonoBehaviour
     
     private void OnEnable()
     {
-        List<Rune> runes = ActorCache.Instance.Player.RuneManager.Runes;
-        runes.ForEach(CreateRunePanel);
-        CreateEmptyRunePanels(RuneManager.MaxNumberOfRunes - runes.Count);
+        List<RuneSocket> runeSockets = ActorCache.Instance.Player.RuneManager.RuneSockets;
+        runeSockets.ForEach(runeSocket =>
+        {
+            if (runeSocket.HasRune)
+            {
+                CreateRunePanel(runeSocket.Rune);
+            }
+            else
+            {
+                CreateEmptyRunePanel();
+            }
+        });
     }
 
     private void CreateRunePanel(Rune rune)
@@ -23,13 +32,10 @@ public class RuneMenu : MonoBehaviour
         runePanels.Add(runePanel);
     }
 
-    private void CreateEmptyRunePanels(int count)
+    private void CreateEmptyRunePanel()
     {
-        Utils.Repeat(count, () =>
-        {
-            GameObject emptyRunePanel = Instantiate(emptyRunePanelPrefab, runePanelsParent);
-            emptyRunePanels.Add(emptyRunePanel);
-        });
+        GameObject emptyRunePanel = Instantiate(emptyRunePanelPrefab, runePanelsParent);
+        emptyRunePanels.Add(emptyRunePanel);
     }
 
     private void OnDisable()

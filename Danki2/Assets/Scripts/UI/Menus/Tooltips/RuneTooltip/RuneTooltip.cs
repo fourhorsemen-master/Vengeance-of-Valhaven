@@ -20,6 +20,4 @@ public class RuneTooltip : Tooltip
         titleText.text = RuneLookup.Instance.GetDisplayName(rune);
         descriptionText.text = RuneLookup.Instance.GetTooltip(rune);
     }
-
-    public void Destroy() => Destroy(gameObject);
 }

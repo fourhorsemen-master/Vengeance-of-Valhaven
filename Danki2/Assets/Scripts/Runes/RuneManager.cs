@@ -1,25 +1,25 @@
 using System.Collections.Generic;
+using System.Linq;
 
 public class RuneManager
 {
-    public const int MaxNumberOfRunes = 3;
-
-    public List<Rune> Runes { get; }
+    public List<RuneSocket> RuneSockets { get; }
     public Subject<Rune> RuneAddedSubject { get; } = new Subject<Rune>();
 
     public RuneManager(Player player)
     {
-        Runes = PersistenceManager.Instance.SaveData.Runes;
+        RuneSockets = PersistenceManager.Instance.SaveData.RuneSockets;
 
         player.StatsManager.RegisterPipe(new IronSkinHandler(this, player));
         player.StatsManager.RegisterPipe(new FleetOfFootHandler(this, player));
     }
 
-    public bool HasRune(Rune rune) => Runes.Contains(rune);
+    public bool HasRune(Rune rune) => RuneSockets.Any(s => s.HasRune && s.Rune == rune);
     
-    public void AddRune(Rune rune)
+    public void AddRune(RuneSocket runeSocket, Rune rune)
     {
-        Runes.Add(rune);
+        runeSocket.HasRune = true;
+        runeSocket.Rune = rune;
         RuneAddedSubject.Next(rune);
     }
 }
