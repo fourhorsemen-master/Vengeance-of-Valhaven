@@ -18,8 +18,6 @@ public class RunePanel : MonoBehaviour
 
     private void OnDestroy() => TryDestroyTooltip();
 
-    public void Destroy() => Destroy(gameObject);
-
     public void PointerEnter() => runeTooltip = RuneTooltip.Create(rune, transform.parent);
 
     public void PointerExit() => TryDestroyTooltip();

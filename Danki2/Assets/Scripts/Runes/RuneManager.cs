@@ -2,6 +2,8 @@ using System.Collections.Generic;
 
 public class RuneManager
 {
+    public const int MaxNumberOfRunes = 3;
+
     public List<Rune> Runes { get; }
     public Subject<Rune> RuneAddedSubject { get; } = new Subject<Rune>();
 

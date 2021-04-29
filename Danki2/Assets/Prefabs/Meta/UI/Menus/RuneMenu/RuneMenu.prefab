@@ -90,8 +90,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 709ddb16842e477409d01231bf2980da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  runePanelParent: {fileID: 6280525408650315079}
+  runePanelsParent: {fileID: 6280525408650315079}
   runePanelPrefab: {fileID: 5708460413711806320, guid: d0d0b45e85cb9c64eb42c998ae59f355,
+    type: 3}
+  emptyRunePanelPrefab: {fileID: 2535470896406293926, guid: 0604dbe2223fb8340be9c605b76501a2,
     type: 3}
 --- !u!1 &7766984034796255086
 GameObject:
