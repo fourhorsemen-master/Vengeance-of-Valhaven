@@ -7,10 +7,13 @@ public class DevDynamicLightingEditor : Editor
     {
         SerializedProperty depthProportion = serializedObject.FindProperty("depthProportion");
         float previousDepthProportion = depthProportion.floatValue;
-        
+
+        SerializedProperty cameraOrientation = serializedObject.FindProperty("cameraOrientation");
+        int previousCameraOrientation = cameraOrientation.enumValueIndex;
+
         base.OnInspectorGUI();
 
-        if (previousDepthProportion != depthProportion.floatValue)
+        if (previousDepthProportion != depthProportion.floatValue || previousCameraOrientation != cameraOrientation.enumValueIndex)
         {
             DevDynamicLighting devDynamicLighting = (DevDynamicLighting) target;
             devDynamicLighting.InitialiseLights();
