@@ -25,25 +25,23 @@ public class DynamicLighting : Singleton<DynamicLighting>
     
     [SerializeField] private DynamicLightingData mainLightData = null;
     [SerializeField] private DynamicLightingData fillLightData = null;
-
-    private float yRotation;
     
     private void Start()
     {
         RoomSaveData currentRoomSaveData = PersistenceManager.Instance.SaveData.CurrentRoomSaveData;
-        
-        yRotation = OrientationUtils.GetYRotation(currentRoomSaveData.CameraOrientation);
 
-        InitialiseLights(GetDepthProportion(currentRoomSaveData.Depth, MapGenerationLookup.Instance.MaxRoomDepth));
+        InitialiseLights(GetDepthProportion(currentRoomSaveData.Depth, MapGenerationLookup.Instance.MaxRoomDepth), currentRoomSaveData.CameraOrientation);
     }
 
-    public void InitialiseLights(float depthProportion)
+    public void InitialiseLights(float depthProportion, Pole pole)
     {
-        InitialiseLight(mainLight, mainLightData, depthProportion);
-        InitialiseLight(fillLight, fillLightData, depthProportion);
+        float yRotation = OrientationUtils.GetYRotation(pole);
+
+        InitialiseLight(mainLight, mainLightData, depthProportion, yRotation);
+        InitialiseLight(fillLight, fillLightData, depthProportion, yRotation);
     }
     
-    private void InitialiseLight(HDAdditionalLightData light, DynamicLightingData data, float depthProportion)
+    private void InitialiseLight(HDAdditionalLightData light, DynamicLightingData data, float depthProportion, float yRotation)
     {
         light.color = data.Color.Evaluate(depthProportion);
         light.intensity = data.Intensity.Evaluate(depthProportion);
