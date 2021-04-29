@@ -1,4 +1,4 @@
-﻿public class ShrineExists : StateMachineTrigger
+﻿public class AbilityShrineExists : StateMachineTrigger
 {
     public override void Activate() {}
     public override void Deactivate() {}

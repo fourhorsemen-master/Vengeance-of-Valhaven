@@ -32,7 +32,7 @@ public class MenuStateMachine : StateMachineMonoBehaviour
             .WithTransition(
                 GameplayState.Playing,
                 GameplayState.InAbilitySelection,
-                new ButtonDown(InteractButtonName) & new ShrineExists() & new CanInteractWithShrine()
+                new ButtonDown(InteractButtonName) & new AbilityShrineExists() & new CanInteractWithShrine(AbilityShrine.Instance)
             )
             .WithTransition(
                 GameplayState.Playing,

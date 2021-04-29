@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class RuneShrine : Singleton<RuneShrine>
+public class RuneShrine : Singleton<RuneShrine>, IShrine
 {
     [SerializeField] private Text interactionText = null;
     [SerializeField] private float interactionDistance = 0;
