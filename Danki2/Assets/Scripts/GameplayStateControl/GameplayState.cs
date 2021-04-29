@@ -3,5 +3,6 @@
     InAbilityTreeEditor,
     Playing,
     InAbilitySelection,
-    InPauseMenu
+    InPauseMenu,
+    InRuneMenu,
 }

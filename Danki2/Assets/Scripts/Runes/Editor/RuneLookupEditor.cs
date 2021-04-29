@@ -40,7 +40,7 @@ public class RuneLookupEditor : Editor
         EditorGUI.indentLevel++;
 
         RuneData runeData = runeLookup.runeDataLookup[rune];
-        runeData.DisplayName = EditorGUILayout.TextField("Display Name", runeData.Tooltip);
+        runeData.DisplayName = EditorGUILayout.TextField("Display Name", runeData.DisplayName);
         runeData.Tooltip = EditorUtils.MultilineTextField("Tooltip", runeData.Tooltip, 3);
         runeData.Sprite = (Sprite) EditorGUILayout.ObjectField("Sprite", runeData.Sprite, typeof(Sprite), false);
         

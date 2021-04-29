@@ -5,6 +5,7 @@ public class MenuStateMachine : StateMachineMonoBehaviour
     private const string PauseButtonName = "PauseMenu";
     private const string AbilityTreeButtonName = "AbilityTreeMenu";
     private const string AbilitySelectionButtonName = "Interact";
+    private const string RuneMenuButtonName = "RuneMenu";
     
     [SerializeField] private PauseMenu pauseMenu = null;
     [SerializeField] private AbilitySelectionMenu abilitySelectionMenu = null;
@@ -16,6 +17,7 @@ public class MenuStateMachine : StateMachineMonoBehaviour
             .WithComponent(GameplayState.InPauseMenu, new GameplayStateComponent(GameplayState.InPauseMenu))
             .WithComponent(GameplayState.InAbilityTreeEditor, new GameplayStateComponent(GameplayState.InAbilityTreeEditor))
             .WithComponent(GameplayState.InAbilitySelection, new GameplayStateComponent(GameplayState.InAbilitySelection))
+            .WithComponent(GameplayState.InRuneMenu, new GameplayStateComponent(GameplayState.InRuneMenu))
             .WithTransition(
                 GameplayState.Playing,
                 GameplayState.InPauseMenu,
@@ -30,6 +32,11 @@ public class MenuStateMachine : StateMachineMonoBehaviour
                 GameplayState.Playing,
                 GameplayState.InAbilitySelection,
                 new ButtonDown(AbilitySelectionButtonName) & new ShrineExists() & new CanInteractWithShrine()
+            )
+            .WithTransition(
+                GameplayState.Playing,
+                GameplayState.InRuneMenu,
+                new ButtonDown(RuneMenuButtonName)
             )
             .WithTransition(
                 GameplayState.InPauseMenu,
@@ -56,6 +63,11 @@ public class MenuStateMachine : StateMachineMonoBehaviour
                 GameplayState.InAbilitySelection,
                 GameplayState.InPauseMenu,
                 new ButtonDown(PauseButtonName)
+            )
+            .WithTransition(
+                GameplayState.InRuneMenu,
+                GameplayState.Playing,
+                new ButtonDown(RuneMenuButtonName)
             );
     }
 }
