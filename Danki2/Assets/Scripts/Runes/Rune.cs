@@ -1,5 +1,6 @@
 public enum Rune
 {
     DeepWounds,
-    IronSkin
+    IronSkin,
+    FleetOfFoot,
 }

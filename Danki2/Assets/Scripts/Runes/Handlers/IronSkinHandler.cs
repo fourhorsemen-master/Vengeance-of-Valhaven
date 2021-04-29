@@ -9,10 +9,9 @@
         this.runeManager = runeManager;
 
         runeManager.RuneAddedSubject
+            .Where(rune => rune == Rune.IronSkin)
             .Subscribe(rune =>
             {
-                if (rune != Rune.IronSkin) return;
-
                 player.StatsManager.ClearCache();
                 player.HealthManager.ReceiveHeal(HealthBonus);
             });

@@ -10,6 +10,7 @@ public class RuneManager
         Runes = PersistenceManager.Instance.SaveData.Runes;
 
         player.StatsManager.RegisterPipe(new IronSkinHandler(this, player));
+        player.StatsManager.RegisterPipe(new FleetOfFootHandler(this, player));
     }
 
     public bool HasRune(Rune rune) => Runes.Contains(rune);
