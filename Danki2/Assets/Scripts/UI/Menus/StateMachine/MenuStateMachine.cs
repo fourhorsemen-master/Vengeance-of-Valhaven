@@ -9,6 +9,7 @@ public class MenuStateMachine : StateMachineMonoBehaviour
     
     [SerializeField] private PauseMenu pauseMenu = null;
     [SerializeField] private AbilitySelectionMenu abilitySelectionMenu = null;
+    [SerializeField] private RuneSelectionMenu runeSelectionMenu = null;
     
     protected override IStateMachineComponent BuildStateMachineComponent()
     {
@@ -40,6 +41,11 @@ public class MenuStateMachine : StateMachineMonoBehaviour
                 new ButtonDown(RuneMenuButtonName)
             )
             .WithTransition(
+                GameplayState.Playing,
+                GameplayState.InRuneSelectionMenu,
+                new ButtonDown(InteractButtonName) & new RuneShrineExists() & new CanInteractWithShrine(RuneShrine.Instance)
+            )
+            .WithTransition(
                 GameplayState.InPauseMenu,
                 GameplayState.Playing,
                 new ButtonDown(PauseButtonName) | new SubjectEmitted(pauseMenu.ContinueClickedSubject)
@@ -50,25 +56,21 @@ public class MenuStateMachine : StateMachineMonoBehaviour
                 new ButtonDown(AbilityTreeButtonName)
             )
             .WithTransition(
-                GameplayState.InAbilityTreeEditor,
-                GameplayState.InPauseMenu,
-                new ButtonDown(PauseButtonName)
-            )
-            .WithTransition(
                 GameplayState.InAbilitySelection,
                 GameplayState.Playing,
                 new SubjectEmitted(abilitySelectionMenu.SkipClickedSubject) |
                 new SubjectEmitted(abilitySelectionMenu.ConfirmClickedSubject)
             )
             .WithTransition(
-                GameplayState.InAbilitySelection,
-                GameplayState.InPauseMenu,
-                new ButtonDown(PauseButtonName)
-            )
-            .WithTransition(
                 GameplayState.InRuneMenu,
                 GameplayState.Playing,
                 new ButtonDown(RuneMenuButtonName)
+            )
+            .WithTransition(
+                GameplayState.InRuneSelectionMenu,
+                GameplayState.Playing,
+                new SubjectEmitted(runeSelectionMenu.SkipClickedSubject) |
+                new SubjectEmitted(runeSelectionMenu.RuneSelectedSubject)
             );
     }
 }

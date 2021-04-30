@@ -1,5 +1,7 @@
 ﻿public class RuneRoomManager : Singleton<RuneRoomManager>
 {
+    public Rune NextRune { get; private set; }
+    
     public bool RunesViewed { get; private set; } = false;
     public bool RuneSelected { get; private set; } = false;
 
@@ -22,6 +24,8 @@
     {
         if (PersistenceManager.Instance.SaveData.CurrentRoomSaveData.RoomType != RoomType.Rune) return;
 
+        NextRune = ActorCache.Instance.Player.RuneManager.GetNextRune();
+        
         GameplayRoomTransitionManager.Instance.RegisterCanTransitionSubject(runesViewedSubject);
 
         if (RunesViewed) runesViewedSubject.Next();
