@@ -45,7 +45,6 @@ public class DevPersistenceManagerEditor : Editor
         if (devPersistenceManager.roomType == RoomType.Combat) EditCombatRoomData(devPersistenceManager);
         if (devPersistenceManager.roomType == RoomType.Ability) EditAbilityRoomData(devPersistenceManager);
         if (devPersistenceManager.roomType == RoomType.Healing) EditHealingRoomData(devPersistenceManager);
-        if (devPersistenceManager.roomType == RoomType.Rune) EditRuneRoomData(devPersistenceManager);
         
         EditorGUI.indentLevel--;
 
@@ -121,10 +120,5 @@ public class DevPersistenceManagerEditor : Editor
     private void EditHealingRoomData(DevPersistenceManager devPersistenceManager)
     {
         devPersistenceManager.hasHealed = EditorGUILayout.Toggle("Has Healed", devPersistenceManager.hasHealed);
-    }
-
-    private void EditRuneRoomData(DevPersistenceManager devPersistenceManager)
-    {
-        devPersistenceManager.runeSeed = EditorGUILayout.IntField("Rune Seed", devPersistenceManager.runeSeed);
     }
 }
