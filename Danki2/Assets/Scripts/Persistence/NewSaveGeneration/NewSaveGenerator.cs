@@ -24,9 +24,6 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
         ownedAbilities[AbilityReference.Slash] = 1;
         ownedAbilities[AbilityReference.Lunge] = 1;
 
-        List<RuneSocket> runeSockets = new List<RuneSocket>();
-        Utils.Repeat(MapGenerationLookup.Instance.RuneSockets, () => runeSockets.Add(new RuneSocket()));
-        
         return new SaveData
         {
             Version = SaveDataVersion,
@@ -37,13 +34,29 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
                 AbilityTreeFactory.CreateNode(AbilityReference.Slash),
                 AbilityTreeFactory.CreateNode(AbilityReference.Lunge)
             ).Serialize(),
-            RuneSockets = runeSockets,
+            RuneSockets = GenerateRuneSockets(),
+            RuneOrder = GenerateRuneOrder(),
+            NextRuneIndex = 0,
             CurrentRoomId = 0,
             DefeatRoomId = defeatRoomId,
             RoomSaveDataLookup = GenerateRoomSaveDataLookup(rootNode, defeatRoomId)
         };
     }
 
+    private List<RuneSocket> GenerateRuneSockets()
+    {
+        List<RuneSocket> runeSockets = new List<RuneSocket>();
+        Utils.Repeat(MapGenerationLookup.Instance.RuneSockets, () => runeSockets.Add(new RuneSocket()));
+        return runeSockets;
+    }
+
+    private List<Rune> GenerateRuneOrder()
+    {
+        List<Rune> runes = EnumUtils.ToList<Rune>();
+        runes.Shuffle();
+        return runes;
+    }
+    
     private Dictionary<int, RoomSaveData> GenerateRoomSaveDataLookup(MapNode rootNode, int defeatRoomId)
     {
         Dictionary<int, RoomSaveData> roomSaveDataLookup = new Dictionary<int, RoomSaveData>();

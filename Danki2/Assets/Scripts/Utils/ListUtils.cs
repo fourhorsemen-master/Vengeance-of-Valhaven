@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Random = UnityEngine.Random;
 
 public static class ListUtils
 {
@@ -50,5 +51,19 @@ public static class ListUtils
     public static void Add<T>(this List<T> list, params T[] items)
     {
         list.AddRange(items);
+    }
+
+    /// <summary>
+    /// Shuffles the list using Fisher–Yates shuffle.
+    /// </summary>
+    public static void Shuffle<T>(this List<T> list)
+    {
+        for (int i = 0; i < list.Count; i++)
+        {
+            int swapIndex = Random.Range(i, list.Count);
+            T temp = list[swapIndex];
+            list[swapIndex] = list[i];
+            list[i] = temp;
+        }
     }
 }
