@@ -17,8 +17,7 @@ public class RuneSelectionMenu : MonoBehaviour
 
     private void Start()
     {
-        int runeIndex = ActorCache.Instance.Player.RuneManager.NextRuneIndex;
-        nextRune = PersistenceManager.Instance.SaveData.RuneOrder[runeIndex];
+        nextRune = ActorCache.Instance.Player.RuneManager.GetNextRune();
         nextRunePanel.Initialise(nextRune);
     }
 

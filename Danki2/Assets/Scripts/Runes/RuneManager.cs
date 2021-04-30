@@ -40,4 +40,24 @@ public class RuneManager
     {
         NextRuneIndex = (NextRuneIndex + 1) % PersistenceManager.Instance.SaveData.RuneOrder.Count;
     }
+
+    public Rune GetNextRune()
+    {
+        int index = NextRuneIndex;
+        Rune rune = default;
+        bool hasFoundRune = false;
+        while (!hasFoundRune)
+        {
+            rune = PersistenceManager.Instance.SaveData.RuneOrder[index];
+            if (RuneSockets.Any(s => s.HasRune && s.Rune == rune))
+            {
+                index = (index + 1) % PersistenceManager.Instance.SaveData.RuneOrder.Count;
+                continue;
+            }
+            
+            hasFoundRune = true;
+        }
+
+        return rune;
+    }
 }
