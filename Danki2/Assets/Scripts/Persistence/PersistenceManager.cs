@@ -83,6 +83,7 @@ public class PersistenceManager : Singleton<PersistenceManager>
                 break;
             case RoomType.Rune:
                 RuneRoomSaveData runeRoomSaveData = currentRoomSaveData.RuneRoomSaveData;
+                runeRoomSaveData.HasIncrementedRuneIndex = RuneRoomManager.Instance.HasIncrementedRuneIndex;
                 runeRoomSaveData.RunesViewed = RuneRoomManager.Instance.RunesViewed;
                 runeRoomSaveData.RuneSelected = RuneRoomManager.Instance.RuneSelected;
                 break;

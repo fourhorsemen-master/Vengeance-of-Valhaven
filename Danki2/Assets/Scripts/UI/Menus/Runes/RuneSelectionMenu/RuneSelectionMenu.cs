@@ -9,13 +9,17 @@ public class RuneSelectionMenu : MonoBehaviour
 
     private readonly List<ClickableRunePanel> clickableRunePanels = new List<ClickableRunePanel>();
     private readonly List<Subscription> subscriptions = new List<Subscription>();
+
+    private Rune nextRune;
     
     public Subject SkipClickedSubject { get; } = new Subject();
     public Subject RuneSelectedSubject { get; } = new Subject();
 
     private void Start()
     {
-        nextRunePanel.Initialise(RuneRoomManager.Instance.NextRune);
+        int runeIndex = ActorCache.Instance.Player.RuneManager.NextRuneIndex;
+        nextRune = PersistenceManager.Instance.SaveData.RuneOrder[runeIndex];
+        nextRunePanel.Initialise(nextRune);
     }
 
     private void OnEnable()
@@ -47,7 +51,7 @@ public class RuneSelectionMenu : MonoBehaviour
             clickableRunePanels.Add(clickableRunePanel);
             subscriptions.Add(clickableRunePanel.OnClickSubject.Subscribe(() =>
             {
-                RuneRoomManager.Instance.SelectRune(runeSocket, RuneRoomManager.Instance.NextRune);
+                RuneRoomManager.Instance.SelectRune(runeSocket, nextRune);
                 RuneSelectedSubject.Next();
             }));
         });

@@ -125,6 +125,7 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
         RoomSaveData roomSaveData = GenerateCommonRoomSaveData(node);
         roomSaveData.RuneRoomSaveData = new RuneRoomSaveData
         {
+            HasIncrementedRuneIndex = false,
             RunesViewed = false,
             RuneSelected = false
         };

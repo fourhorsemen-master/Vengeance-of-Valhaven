@@ -36,10 +36,8 @@ public class RuneManager
         RuneRemovedSubject.Next(previousRune);
     }
 
-    public Rune GetNextRune()
+    public void IncrementRuneIndex()
     {
-        Rune nextRune = PersistenceManager.Instance.SaveData.RuneOrder[NextRuneIndex];
         NextRuneIndex = (NextRuneIndex + 1) % PersistenceManager.Instance.SaveData.RuneOrder.Count;
-        return nextRune;
     }
 }
