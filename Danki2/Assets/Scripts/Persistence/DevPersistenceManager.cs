@@ -61,6 +61,8 @@ public class DevPersistenceManager : PersistenceManager
                 AbilityTreeFactory.CreateNode(rightAbility)
             ).Serialize(),
             RuneSockets = runeSockets,
+            RuneOrder = ListUtils.Singleton(Rune.DeepWounds),
+            NextRuneIndex = 0,
             CurrentRoomId = 0,
             RoomSaveDataLookup = new Dictionary<int, RoomSaveData>
             {

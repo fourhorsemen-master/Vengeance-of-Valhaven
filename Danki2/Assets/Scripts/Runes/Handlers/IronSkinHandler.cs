@@ -15,6 +15,10 @@
                 player.StatsManager.ClearCache();
                 player.HealthManager.ReceiveHeal(HealthBonus);
             });
+
+        runeManager.RuneRemovedSubject
+            .Where(rune => rune == Rune.IronSkin)
+            .Subscribe(_ => player.StatsManager.ClearCache());
     }
 
     public float ProcessStat(Stat stat, float value)

@@ -40,9 +40,9 @@
         PersistenceManager.Instance.Save();
     }
 
-    public void SelectRune(Rune rune)
+    public void SelectRune(RuneSocket runeSocket, Rune rune)
     {
-        // TODO: actually add the rune...
+        ActorCache.Instance.Player.RuneManager.AddRune(runeSocket, rune);
         RuneSelected = true;
         RuneSelectedSubject.Next();
         PersistenceManager.Instance.Save();

@@ -91,8 +91,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfcb1616dad974946a3ab8a43198a832, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clickableRunePanelPrefab: {fileID: 0}
-  nextRunePanel: {fileID: 1670836624726884223}
+  clickableRunePanelPrefab: {fileID: 660817945508077676, guid: 436ecd174d083e64c8e31eace2a4107f,
+    type: 3}
+  nextRunePanel: {fileID: 245763343084510387}
   currentRunePanels: {fileID: 3056515476917605499}
 --- !u!1 &1439267464555036790
 GameObject:
@@ -128,7 +129,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 754, y: 125.100006}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &473958763116298833
 MonoBehaviour:
@@ -147,7 +148,7 @@ MonoBehaviour:
     m_Right: 100
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 0
+  m_ChildAlignment: 4
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 0
@@ -184,7 +185,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1550094782450913062}
+  - {fileID: 133466995399060714}
   - {fileID: 3056515476917605499}
   m_Father: {fileID: 3981669951541882492}
   m_RootOrder: 1
@@ -341,8 +342,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 1522584029706322087}
+        m_TargetAssemblyTypeName: RuneSelectionMenu, ScriptsAssembly
         m_MethodName: Skip
         m_Mode: 1
         m_Arguments:
@@ -511,7 +512,7 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Skip
---- !u!1001 &6343469121843564559
+--- !u!1001 &5499360192249639875
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -630,17 +631,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d0d0b45e85cb9c64eb42c998ae59f355, type: 3}
---- !u!224 &1550094782450913062 stripped
+--- !u!224 &133466995399060714 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5587715289070001961, guid: d0d0b45e85cb9c64eb42c998ae59f355,
     type: 3}
-  m_PrefabInstance: {fileID: 6343469121843564559}
+  m_PrefabInstance: {fileID: 5499360192249639875}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1670836624726884223 stripped
+--- !u!114 &245763343084510387 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5708460413711806320, guid: d0d0b45e85cb9c64eb42c998ae59f355,
     type: 3}
-  m_PrefabInstance: {fileID: 6343469121843564559}
+  m_PrefabInstance: {fileID: 5499360192249639875}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
