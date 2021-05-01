@@ -2,6 +2,10 @@
 {
     public override ActorType Type => ActorType.Bear;
 
+    public Subject MaulAndSwipeSubject { get; set; } = new Subject();
+
+    public Subject CleaveSubject { get; set; } = new Subject();
+
     public void Swipe()
     {
         InstantCastService.TryCast(
@@ -9,6 +13,8 @@
             GetMeleeTargetPosition(transform.position),
             GetMeleeTargetPosition(Centre)
         );
+
+        MaulAndSwipeSubject.Next();
     }
 
     public void Charge()
@@ -23,6 +29,8 @@
             GetMeleeTargetPosition(transform.position),
             GetMeleeTargetPosition(Centre)
         );
+
+        MaulAndSwipeSubject.Next();
     }
 
     public void Cleave()
@@ -32,5 +40,7 @@
             GetMeleeTargetPosition(transform.position),
             GetMeleeTargetPosition(Centre)
         );
+
+        CleaveSubject.Next();
     }
 }

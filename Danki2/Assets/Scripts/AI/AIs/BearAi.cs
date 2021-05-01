@@ -47,10 +47,10 @@ public class BearAi : Ai
             .WithTransition(AttackState.Swipe, AttackState.WatchTarget)
             .WithTransition(AttackState.Maul, AttackState.WatchTarget)
             .WithTransition(AttackState.Cleave, AttackState.WatchTarget)
-            .WithDecisionState(AttackState.ChooseAbility, new HealthBasedRandomSelection<AttackState>(
-                bear,
-                new AttackState[] { AttackState.TelegraphMaul, AttackState.TelegraphCleave },
-                new AttackState[] { AttackState.TelegraphSwipe, AttackState.TelegraphMaul }
+            .WithDecisionState(AttackState.ChooseAbility, new RandomDecider<AttackState>(
+                AttackState.TelegraphSwipe,
+                AttackState.TelegraphMaul,
+                AttackState.TelegraphCleave
             ));
 
         return new StateMachine<State>(State.Idle)
@@ -61,7 +61,8 @@ public class BearAi : Ai
             .WithComponent(State.Watch, new WatchTarget(bear, player))
             .WithTransition(State.Idle, State.Advance, new DistanceLessThan(bear, player, aggroDistance) | new TakesDamage(bear))
             .WithTransition(State.Advance, State.Attack, new DistanceLessThan(bear, player, minAdvanceRange) & new Facing(bear, player, maxAttackAngle))
-            .WithTransition(State.Attack, State.Advance, new DistanceGreaterThan(bear, player, maxAttackRange) & !new IsTelegraphing(bear))
+            .WithTransition(State.Attack, State.Advance, new DistanceGreaterThan(bear, player, maxAttackRange) & !new IsTelegraphing(bear) & !new SubjectEmitted(bear.CleaveSubject))
+            .WithTransition(State.Attack, State.TelegraphCharge, new SubjectEmitted(bear.CleaveSubject))
             .WithTransition(State.Advance, State.TelegraphCharge, new DistanceLessThan(bear, player, maxChargeRange) & new RandomTimeElapsed(chargeMinInterval, chargeMaxInterval))
             .WithTransition(State.TelegraphCharge, State.Charge, new CastableTimeElapsed(bear, chargeDelay))
             .WithTransition(State.Charge, State.Watch, new ChannelComplete(bear))
