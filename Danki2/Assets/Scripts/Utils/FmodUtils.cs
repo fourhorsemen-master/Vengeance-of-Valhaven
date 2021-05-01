@@ -11,4 +11,13 @@ public static class FmodUtils
 
         return eventInstance;
     }
+
+    public static float GetDuration(string fmodEvent)
+    {
+        EventDescription description = RuntimeManager.GetEventDescription(fmodEvent);
+
+        description.getLength(out int durationMilliseconds);
+
+        return (float)durationMilliseconds / 1000;
+    }
 }
