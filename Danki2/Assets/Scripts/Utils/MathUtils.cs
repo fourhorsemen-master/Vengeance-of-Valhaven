@@ -4,6 +4,7 @@ public static class MathUtils
 {
     public static float GetDeltaTimeLerpAmount(float smoothFactor)
     {
-        return 1 - Mathf.Exp(-Time.deltaTime / smoothFactor);
+        float power = -Time.deltaTime / smoothFactor;
+        return float.IsNaN(power) ? 0 : 1 - Mathf.Exp(power);
     }
 }
