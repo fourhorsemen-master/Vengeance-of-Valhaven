@@ -16,7 +16,8 @@ public class DevPersistenceManager : PersistenceManager
     [SerializeField] public AbilityReference leftAbility = AbilityReference.Slash;
     [SerializeField] public AbilityReference rightAbility = AbilityReference.Slash;
     [SerializeField] public int playerHealth = 0;
-    [SerializeField] public List<Rune> runes = new List<Rune>();
+    [SerializeField] public List<RuneSocket> runeSockets = new List<RuneSocket>();
+    [SerializeField] public List<Rune> runeOrder = new List<Rune>();
     [SerializeField] public Pole cameraOrientation = Pole.North;
     [SerializeField] public bool enemiesCleared = false;
     [SerializeField] public List<SpawnedEnemy> spawnedEnemies = new List<SpawnedEnemy>();
@@ -44,14 +45,6 @@ public class DevPersistenceManager : PersistenceManager
 
     private SaveData GenerateNewSaveData()
     {
-        List<RuneSocket> runeSockets = new List<RuneSocket>();
-        Utils.Repeat(MapGenerationLookup.Instance.RuneSockets, () => runeSockets.Add(new RuneSocket()));
-        for (int i = 0; i < runes.Count; i++)
-        {
-            runeSockets[i].HasRune = true;
-            runeSockets[i].Rune = runes[i];
-        }
-
         return new SaveData
         {
             PlayerHealth = playerHealth,
@@ -61,13 +54,14 @@ public class DevPersistenceManager : PersistenceManager
                 AbilityTreeFactory.CreateNode(rightAbility)
             ).Serialize(),
             RuneSockets = runeSockets,
-            RuneOrder = ListUtils.Singleton(Rune.DeepWounds),
-            NextRuneIndex = 0,
+            RuneOrder = runeOrder,
             CurrentRoomId = 0,
             RoomSaveDataLookup = new Dictionary<int, RoomSaveData>
             {
                 [0] = new RoomSaveData
                 {
+                    Id = 0,
+                    ParentRoomId = -1,
                     Depth = depth,
                     RoomType = roomType,
                     CombatRoomSaveData = new CombatRoomSaveData

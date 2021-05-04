@@ -14,7 +14,8 @@ public class DevPersistenceManagerEditor : Editor
         EditorGUI.indentLevel++;
         devPersistenceManager.playerSpawnerId = EditorGUILayout.IntField("Player Spawner ID", devPersistenceManager.playerSpawnerId);
         devPersistenceManager.playerHealth = EditorGUILayout.IntField("Player Health", devPersistenceManager.playerHealth);
-        EditRunes(devPersistenceManager);
+        EditRuneSockets(devPersistenceManager);
+        EditRuneOrder(devPersistenceManager);
         EditorGUI.indentLevel--;
         EditorUtils.VerticalSpace();
         
@@ -54,14 +55,34 @@ public class DevPersistenceManagerEditor : Editor
         }
     }
 
-    private void EditRunes(DevPersistenceManager devPersistenceManager)
+    private void EditRuneSockets(DevPersistenceManager devPersistenceManager)
     {
-        EditorUtils.Header("Runes");
+        EditorUtils.Header("Rune Sockets");
         EditorGUI.indentLevel++;
 
         EditorUtils.ResizeableList(
-            devPersistenceManager.runes,
-            r => (Rune) EditorGUILayout.EnumPopup("Rune", r),
+            devPersistenceManager.runeSockets,
+            runeSocket =>
+            {
+                runeSocket.HasRune = EditorGUILayout.Toggle("Has Rune", runeSocket.HasRune);
+                if (!runeSocket.HasRune) EditorGUI.BeginDisabledGroup(true);
+                runeSocket.Rune = (Rune) EditorGUILayout.EnumPopup("Rune", runeSocket.Rune);
+                if (!runeSocket.HasRune) EditorGUI.EndDisabledGroup();
+            },
+            () => new RuneSocket()
+        );
+
+        EditorGUI.indentLevel--;
+    }
+
+    private void EditRuneOrder(DevPersistenceManager devPersistenceManager)
+    {
+        EditorUtils.Header("Rune Order");
+        EditorGUI.indentLevel++;
+
+        EditorUtils.ResizeableList(
+            devPersistenceManager.runeOrder,
+            rune => (Rune) EditorGUILayout.EnumPopup("Rune", rune),
             Rune.DeepWounds
         );
 

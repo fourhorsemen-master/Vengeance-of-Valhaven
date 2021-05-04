@@ -36,7 +36,6 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
             ).Serialize(),
             RuneSockets = GenerateRuneSockets(),
             RuneOrder = GenerateRuneOrder(),
-            NextRuneIndex = 0,
             CurrentRoomId = 0,
             DefeatRoomId = defeatRoomId,
             RoomSaveDataLookup = GenerateRoomSaveDataLookup(rootNode, defeatRoomId)
@@ -125,7 +124,6 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
         RoomSaveData roomSaveData = GenerateCommonRoomSaveData(node);
         roomSaveData.RuneRoomSaveData = new RuneRoomSaveData
         {
-            HasIncrementedRuneIndex = false,
             RunesViewed = false,
             RuneSelected = false
         };
@@ -138,6 +136,7 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
         return new RoomSaveData
         {
             Id = node.Id,
+            ParentRoomId = node.IsRootNode ? -1 : node.Parent.Id,
             Depth = node.Depth,
             Scene = node.Scene,
             RoomType = node.RoomType,

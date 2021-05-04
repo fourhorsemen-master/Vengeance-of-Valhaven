@@ -1,6 +1,5 @@
 ﻿public class RuneRoomManager : Singleton<RuneRoomManager>
 {
-    public bool HasIncrementedRuneIndex { get; private set; } = false;
     public bool RunesViewed { get; private set; } = false;
     public bool RuneSelected { get; private set; } = false;
 
@@ -15,7 +14,6 @@
         RoomSaveData roomSaveData = PersistenceManager.Instance.SaveData.CurrentRoomSaveData;
         if (roomSaveData.RoomType != RoomType.Rune) return;
 
-        HasIncrementedRuneIndex = roomSaveData.RuneRoomSaveData.HasIncrementedRuneIndex;
         RunesViewed = roomSaveData.RuneRoomSaveData.RunesViewed;
         RuneSelected = roomSaveData.RuneRoomSaveData.RuneSelected;
     }
@@ -23,12 +21,6 @@
     private void Start()
     {
         if (PersistenceManager.Instance.SaveData.CurrentRoomSaveData.RoomType != RoomType.Rune) return;
-
-        if (!HasIncrementedRuneIndex)
-        {
-            ActorCache.Instance.Player.RuneManager.IncrementRuneIndex();
-            HasIncrementedRuneIndex = true;
-        }
         
         GameplayRoomTransitionManager.Instance.RegisterCanTransitionSubject(runesViewedSubject);
 

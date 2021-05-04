@@ -7,6 +7,7 @@ using UnityEngine;
 public class SerializableRoomSaveData
 {
     [SerializeField] private int id;
+    [SerializeField] private int parentRoomId;
     [SerializeField] private int depth;
     [SerializeField] private Scene scene;
     [SerializeField] private RoomType roomType;
@@ -21,6 +22,7 @@ public class SerializableRoomSaveData
     [SerializeField] private int playerSpawnerId;
 
     public int Id { get => id; set => id = value; }
+    public int ParentRoomId { get => parentRoomId; set => parentRoomId = value; }
     public int Depth { get => depth; set => depth = value; }
     public RoomType RoomType { get => roomType; set => roomType = value; }
     public Scene Scene { get => scene; set => scene = value; }
@@ -39,6 +41,7 @@ public class SerializableRoomSaveData
         return new RoomSaveData
         {
             Id = Id,
+            ParentRoomId = ParentRoomId,
             Depth = Depth,
             Scene = Scene,
             RoomType = RoomType,

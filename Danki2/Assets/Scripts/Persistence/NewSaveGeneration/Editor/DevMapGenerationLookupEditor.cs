@@ -10,7 +10,6 @@ public class DevMapGenerationLookupEditor : Editor
 
         EditorUtils.ShowScriptLink(devMapGenerationLookup);
 
-        devMapGenerationLookup.RuneSockets = EditorGUILayout.IntField("Rune Sockets", devMapGenerationLookup.RuneSockets);
         devMapGenerationLookup.MaxRoomDepth = EditorGUILayout.IntField("Max Room Depth", devMapGenerationLookup.MaxRoomDepth);
         
         if (GUI.changed)

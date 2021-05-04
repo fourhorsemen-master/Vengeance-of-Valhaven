@@ -12,7 +12,6 @@ public class SerializableSaveData
     [SerializeField] private SerializableAbilityTree serializableAbilityTree;
     [SerializeField] private List<RuneSocket> runeSockets;
     [SerializeField] private List<Rune> runeOrder;
-    [SerializeField] private int nextRuneIndex;
     [SerializeField] private int currentRoomId;
     [SerializeField] private int defeatRoomId;
     [SerializeField] private List<SerializableRoomSaveData> serializableRoomSaveDataList;
@@ -23,7 +22,6 @@ public class SerializableSaveData
     public SerializableAbilityTree SerializableAbilityTree { get => serializableAbilityTree; set => serializableAbilityTree = value; }
     public List<RuneSocket> RuneSockets { get => runeSockets; set => runeSockets = value; }
     public List<Rune> RuneOrder { get => runeOrder; set => runeOrder = value; }
-    public int NextRuneIndex { get => nextRuneIndex; set => nextRuneIndex = value; }
     public int CurrentRoomId { get => currentRoomId; set => currentRoomId = value; }
     public int DefeatRoomId { get => defeatRoomId; set => defeatRoomId = value; }
     public List<SerializableRoomSaveData> SerializableRoomSaveDataList { get => serializableRoomSaveDataList; set => serializableRoomSaveDataList = value; }
@@ -38,7 +36,6 @@ public class SerializableSaveData
             SerializableAbilityTree = SerializableAbilityTree,
             RuneSockets = RuneSockets,
             RuneOrder = RuneOrder,
-            NextRuneIndex = NextRuneIndex,
             CurrentRoomId = CurrentRoomId,
             DefeatRoomId = DefeatRoomId,
             RoomSaveDataLookup = SerializableRoomSaveDataList.ToDictionary(

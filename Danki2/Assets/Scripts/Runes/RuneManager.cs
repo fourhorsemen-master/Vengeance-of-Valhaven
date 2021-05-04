@@ -4,14 +4,12 @@ using System.Linq;
 public class RuneManager
 {
     public List<RuneSocket> RuneSockets { get; }
-    public int NextRuneIndex { get; private set; }
     public Subject<Rune> RuneAddedSubject { get; } = new Subject<Rune>();
     public Subject<Rune> RuneRemovedSubject { get; } = new Subject<Rune>();
 
     public RuneManager(Player player)
     {
         RuneSockets = PersistenceManager.Instance.SaveData.RuneSockets;
-        NextRuneIndex = PersistenceManager.Instance.SaveData.NextRuneIndex;
 
         player.StatsManager.RegisterPipe(new IronSkinHandler(this, player));
         player.StatsManager.RegisterPipe(new FleetOfFootHandler(this, player));
@@ -36,28 +34,44 @@ public class RuneManager
         RuneRemovedSubject.Next(previousRune);
     }
 
-    public void IncrementRuneIndex()
-    {
-        NextRuneIndex = (NextRuneIndex + 1) % PersistenceManager.Instance.SaveData.RuneOrder.Count;
-    }
-
     public Rune GetNextRune()
     {
-        int index = NextRuneIndex;
-        Rune rune = default;
+        List<Rune> runeOrder = PersistenceManager.Instance.SaveData.RuneOrder;
+
+        int index = GetRunesViewed() % runeOrder.Count;
         bool hasFoundRune = false;
+        
         while (!hasFoundRune)
         {
-            rune = PersistenceManager.Instance.SaveData.RuneOrder[index];
-            if (RuneSockets.Any(s => s.HasRune && s.Rune == rune))
+            if (RuneSockets.Any(s => s.HasRune && s.Rune == runeOrder[index]))
             {
-                index = (index + 1) % PersistenceManager.Instance.SaveData.RuneOrder.Count;
+                index = (index + 1) % runeOrder.Count;
                 continue;
             }
-            
+
             hasFoundRune = true;
         }
 
-        return rune;
+        return runeOrder[index];
+    }
+
+    //TODO: Include runes from shops here.
+    private int GetRunesViewed()
+    {
+        Dictionary<int, RoomSaveData> roomSaveDataLookup = PersistenceManager.Instance.SaveData.RoomSaveDataLookup;
+
+        int runesViewed = 0;
+        int parentNodeId = PersistenceManager.Instance.SaveData.CurrentRoomSaveData.ParentRoomId;
+
+        while (parentNodeId != -1)
+        {
+            RoomSaveData parentRoomSaveData = roomSaveDataLookup[parentNodeId];
+
+            if (parentRoomSaveData.RoomType == RoomType.Rune) runesViewed++;
+            
+            parentNodeId = parentRoomSaveData.ParentRoomId;
+        }
+
+        return runesViewed;
     }
 }
