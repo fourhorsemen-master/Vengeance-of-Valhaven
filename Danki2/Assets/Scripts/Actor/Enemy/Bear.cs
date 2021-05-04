@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Bear : Enemy
 {
-    [EventRef]
-    [SerializeField]
+    [EventRef, SerializeField]
     private string roarEvent = null;
 
     private bool canRoar = true;
@@ -13,9 +12,7 @@ public class Bear : Enemy
 
     public override ActorType Type => ActorType.Bear;
 
-    public Subject MaulAndSwipeSubject { get; set; } = new Subject();
-
-    public Subject CleaveSubject { get; set; } = new Subject();
+    public Subject CleaveSubject { get; } = new Subject();
 
     protected override void Start()
     {
@@ -46,8 +43,6 @@ public class Bear : Enemy
             GetMeleeTargetPosition(transform.position),
             GetMeleeTargetPosition(Centre)
         );
-
-        MaulAndSwipeSubject.Next();
     }
 
     public void Charge()
@@ -62,8 +57,6 @@ public class Bear : Enemy
             GetMeleeTargetPosition(transform.position),
             GetMeleeTargetPosition(Centre)
         );
-
-        MaulAndSwipeSubject.Next();
     }
 
     public void Cleave()
