@@ -10,7 +10,11 @@
 
         runeManager.RuneAddedSubject
             .Where(rune => rune == Rune.FleetOfFoot)
-            .Subscribe(rune => player.StatsManager.ClearCache());
+            .Subscribe(_ => player.StatsManager.ClearCache());
+        
+        runeManager.RuneRemovedSubject
+            .Where(rune => rune == Rune.FleetOfFoot)
+            .Subscribe(_ => player.StatsManager.ClearCache());
     }
 
     public float ProcessStat(Stat stat, float value)
