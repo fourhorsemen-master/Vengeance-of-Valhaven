@@ -102,6 +102,7 @@ public class MapGenerationLookupEditor : Editor
         for (int i = 0; i < spawnedEnemies.Count; i++)
         {
             EditActorList(spawnedEnemies[i], i);
+            EditorUtils.VerticalSpace();
         }
         
         EditorGUI.indentLevel--;
