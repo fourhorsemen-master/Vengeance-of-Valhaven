@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class GuidedOrbObject : MonoBehaviour
 {
+    [SerializeField]
+    private GuidedOrbExplosion guidedOrbExplosionPrefab = null;
+    
     private float requiredExplosionDistance;
     private float speed;
     private float rotationSpeed;
@@ -30,14 +33,14 @@ public class GuidedOrbObject : MonoBehaviour
         guidedOrbObject.target = target;
         guidedOrbObject.explosionCallback = explosionCallback;
 
-        guidedOrbObject.WaitAndAct(maxDuration, guidedOrbObject.Explode);
+        guidedOrbObject.WaitAndAct(maxDuration, () => guidedOrbObject.Explode(guidedOrbObject.transform.position));
     }
 
     private void Update()
     {
         if (Vector3.Distance(transform.position, target.transform.position) <= requiredExplosionDistance)
         {
-            Explode();
+            Explode(target.transform.position);
             return;
         }
 
@@ -50,8 +53,9 @@ public class GuidedOrbObject : MonoBehaviour
         transform.position += speed * Time.deltaTime * transform.forward;
     }
 
-    private void Explode()
+    private void Explode(Vector3 position)
     {
+        GuidedOrbExplosion.Create(guidedOrbExplosionPrefab, position);
         explosionCallback(transform.position);
         Destroy(gameObject);
     }
