@@ -227,7 +227,11 @@ public class MapGenerator : Singleton<MapGenerator>
         switch (node.RoomType)
         {
             case RoomType.Combat:
-                node.SpawnerIdToSpawnedActor[0] = ActorType.Wolf;
+                List<ActorType> spawnedEnemies = MapGenerationLookup.Instance.SpawnedEnemies[node.Depth - 1].SpawnedEnemies;
+                for (int i = 0; i < spawnedEnemies.Count; i++)
+                {
+                    node.SpawnerIdToSpawnedActor[i] = spawnedEnemies[i];
+                }
                 break;
             case RoomType.Boss:
                 node.SpawnerIdToSpawnedActor[0] = ActorType.Bear;
