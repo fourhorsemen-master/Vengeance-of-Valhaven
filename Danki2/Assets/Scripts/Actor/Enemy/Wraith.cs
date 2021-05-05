@@ -1,7 +1,11 @@
 ﻿using UnityEngine;
+using UnityEngine.VFX;
 
 public class Wraith : Enemy
 {
+    [SerializeField, Header("Blink")]
+    private VisualEffect blinkVisualEffect = null;
+    
     public Subject SwipeSubject { get; } = new Subject();
 
     public override ActorType Type => ActorType.Wraith;
@@ -36,6 +40,12 @@ public class Wraith : Enemy
         SwipeSubject.Next();
     }
 
+    public void TelegraphBlink()
+    {
+        blinkVisualEffect.Reinit();
+        blinkVisualEffect.Play();
+    }
+    
     public void Blink(Vector3 target)
     {
         InstantCastService.TryCast(
