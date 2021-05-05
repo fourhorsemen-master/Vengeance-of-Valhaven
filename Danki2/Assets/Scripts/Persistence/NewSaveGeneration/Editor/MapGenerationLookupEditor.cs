@@ -8,6 +8,7 @@ public class MapGenerationLookupEditor : Editor
     private MapGenerationLookup mapGenerationLookup;
     
     private readonly EnumDictionary<RoomType, bool> foldoutStatus = new EnumDictionary<RoomType, bool>(false);
+    private bool spawnedEnemiesFoldoutStatus = false;
     
     public override void OnInspectorGUI()
     {
@@ -18,6 +19,8 @@ public class MapGenerationLookupEditor : Editor
         EditLayoutData();
         EditorUtils.VerticalSpace();
         EditRoomDataLookup();
+        EditorUtils.VerticalSpace();
+        EditSpawnedEnemies();
         
         if (GUI.changed)
         {
@@ -85,5 +88,36 @@ public class MapGenerationLookupEditor : Editor
         EditorGUI.indentLevel--;
         
         EditorGUI.EndDisabledGroup();
+    }
+
+    private void EditSpawnedEnemies()
+    {
+        spawnedEnemiesFoldoutStatus = EditorGUILayout.Foldout(spawnedEnemiesFoldoutStatus, "Spawned Enemies");
+        if (!spawnedEnemiesFoldoutStatus) return;
+        
+        EditorGUI.indentLevel++;
+
+        List<SpawnedEnemiesWrapper> spawnedEnemies = mapGenerationLookup.SpawnedEnemies;
+        spawnedEnemies.Resize(mapGenerationLookup.MaxRoomDepth - 1, () => new SpawnedEnemiesWrapper());
+        for (int i = 0; i < spawnedEnemies.Count; i++)
+        {
+            EditActorList(spawnedEnemies[i], i);
+        }
+        
+        EditorGUI.indentLevel--;
+    }
+
+    private void EditActorList(SpawnedEnemiesWrapper spawnedEnemiesWrapper, int index)
+    {
+        EditorUtils.Header($"Room {index + 1}");
+        EditorGUI.indentLevel++;
+        
+        EditorUtils.ResizeableList(
+            spawnedEnemiesWrapper.SpawnedEnemies,
+            actorType => (ActorType) EditorGUILayout.EnumPopup("Actor Type", actorType),
+            ActorType.Wolf
+        );
+        
+        EditorGUI.indentLevel--;
     }
 }

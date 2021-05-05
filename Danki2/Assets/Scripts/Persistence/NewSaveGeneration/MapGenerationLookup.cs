@@ -19,6 +19,14 @@ public class RoomDataLookup : SerializableEnumDictionary<RoomType, RoomData>
     public RoomDataLookup(Func<RoomData> defaultValueProvider) : base(defaultValueProvider) {}
 }
 
+[Serializable]
+public class SpawnedEnemiesWrapper
+{
+    [SerializeField] private List<ActorType> spawnedEnemies = new List<ActorType>();
+
+    public List<ActorType> SpawnedEnemies => spawnedEnemies;
+}
+
 public class MapGenerationLookup : Singleton<MapGenerationLookup>
 {
     [SerializeField] private int abilityChoices = 0;
@@ -31,6 +39,8 @@ public class MapGenerationLookup : Singleton<MapGenerationLookup>
 
     [SerializeField] private RoomDataLookup roomDataLookup = new RoomDataLookup(() => new RoomData());
 
+    [SerializeField] private List<SpawnedEnemiesWrapper> spawnedEnemies = new List<SpawnedEnemiesWrapper>();
+
     public int AbilityChoices { get => abilityChoices; set => abilityChoices = value; }
 
     public virtual int MaxRoomDepth { get => maxRoomDepth; set => maxRoomDepth = value; }
@@ -40,6 +50,8 @@ public class MapGenerationLookup : Singleton<MapGenerationLookup>
     public float ChanceIndicatesGrandchildRoomType { get => chanceIndicatesGrandchildRoomType; set => chanceIndicatesGrandchildRoomType = value; }
 
     public RoomDataLookup RoomDataLookup => roomDataLookup;
+
+    public List<SpawnedEnemiesWrapper> SpawnedEnemies => spawnedEnemies;
 
     protected override bool DestroyOnLoad => false;
 
