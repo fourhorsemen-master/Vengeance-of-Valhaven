@@ -227,7 +227,7 @@ public class MapGenerator : Singleton<MapGenerator>
         switch (node.RoomType)
         {
             case RoomType.Combat:
-                List<ActorType> spawnedEnemies = MapGenerationLookup.Instance.SpawnedEnemies[node.Depth - 1].SpawnedEnemies;
+                List<ActorType> spawnedEnemies = MapGenerationLookup.Instance.SpawnedEnemiesPerDepth[node.Depth - 1].SpawnedEnemies;
                 for (int i = 0; i < spawnedEnemies.Count; i++)
                 {
                     node.SpawnerIdToSpawnedActor[i] = spawnedEnemies[i];

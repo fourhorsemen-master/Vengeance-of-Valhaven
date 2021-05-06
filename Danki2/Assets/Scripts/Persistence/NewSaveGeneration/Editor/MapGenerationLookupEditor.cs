@@ -8,7 +8,7 @@ public class MapGenerationLookupEditor : Editor
     private MapGenerationLookup mapGenerationLookup;
     
     private readonly EnumDictionary<RoomType, bool> foldoutStatus = new EnumDictionary<RoomType, bool>(false);
-    private bool spawnedEnemiesFoldoutStatus = false;
+    private bool spawnedEnemiesPerDepthFoldoutStatus = false;
     
     public override void OnInspectorGUI()
     {
@@ -20,7 +20,7 @@ public class MapGenerationLookupEditor : Editor
         EditorUtils.VerticalSpace();
         EditRoomDataLookup();
         EditorUtils.VerticalSpace();
-        EditSpawnedEnemies();
+        EditSpawnedEnemiesPerDepth();
         
         if (GUI.changed)
         {
@@ -91,18 +91,18 @@ public class MapGenerationLookupEditor : Editor
         EditorGUI.EndDisabledGroup();
     }
 
-    private void EditSpawnedEnemies()
+    private void EditSpawnedEnemiesPerDepth()
     {
-        spawnedEnemiesFoldoutStatus = EditorGUILayout.Foldout(spawnedEnemiesFoldoutStatus, "Spawned Enemies");
-        if (!spawnedEnemiesFoldoutStatus) return;
+        spawnedEnemiesPerDepthFoldoutStatus = EditorGUILayout.Foldout(spawnedEnemiesPerDepthFoldoutStatus, "Spawned Enemies Per Depth");
+        if (!spawnedEnemiesPerDepthFoldoutStatus) return;
         
         EditorGUI.indentLevel++;
 
-        List<SpawnedEnemiesWrapper> spawnedEnemies = mapGenerationLookup.SpawnedEnemies;
-        spawnedEnemies.Resize(mapGenerationLookup.MaxRoomDepth - 1, () => new SpawnedEnemiesWrapper());
-        for (int i = 0; i < spawnedEnemies.Count; i++)
+        List<SpawnedEnemiesWrapper> spawnedEnemiesPerDepth = mapGenerationLookup.SpawnedEnemiesPerDepth;
+        spawnedEnemiesPerDepth.Resize(mapGenerationLookup.MaxRoomDepth - 1, () => new SpawnedEnemiesWrapper());
+        for (int i = 0; i < spawnedEnemiesPerDepth.Count; i++)
         {
-            EditActorList(spawnedEnemies[i], i);
+            EditActorList(spawnedEnemiesPerDepth[i], i);
             EditorUtils.VerticalSpace();
         }
         

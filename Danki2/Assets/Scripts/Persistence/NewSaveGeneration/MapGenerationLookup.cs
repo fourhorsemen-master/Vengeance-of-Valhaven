@@ -40,7 +40,7 @@ public class MapGenerationLookup : Singleton<MapGenerationLookup>
 
     [SerializeField] private RoomDataLookup roomDataLookup = new RoomDataLookup(() => new RoomData());
 
-    [SerializeField] private List<SpawnedEnemiesWrapper> spawnedEnemies = new List<SpawnedEnemiesWrapper>();
+    [SerializeField] private List<SpawnedEnemiesWrapper> spawnedEnemiesPerDepth = new List<SpawnedEnemiesWrapper>();
 
     public int AbilityChoices { get => abilityChoices; set => abilityChoices = value; }
 
@@ -53,7 +53,7 @@ public class MapGenerationLookup : Singleton<MapGenerationLookup>
 
     public RoomDataLookup RoomDataLookup => roomDataLookup;
 
-    public List<SpawnedEnemiesWrapper> SpawnedEnemies => spawnedEnemies;
+    public List<SpawnedEnemiesWrapper> SpawnedEnemiesPerDepth => spawnedEnemiesPerDepth;
 
     protected override bool DestroyOnLoad => false;
 
