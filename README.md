@@ -4,7 +4,7 @@
 
 ### Unity
 
-The unity verion that should be used is: `2019.4.14f1`.
+The unity verion that should be used is: `2020.3.3f1`.
 
 ### Requirements
 
