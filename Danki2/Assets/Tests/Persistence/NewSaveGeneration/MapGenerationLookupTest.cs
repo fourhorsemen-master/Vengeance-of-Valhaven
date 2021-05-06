@@ -46,7 +46,7 @@ public class MapGenerationLookupTest
     private int GetRequiredSpawners()
     {
         TestUtils.InstantiatePrefab<MapGenerationLookup>();
-        int requiredSpawners = MapGenerationLookup.Instance.MaxSpawners;
+        int requiredSpawners = MapGenerationLookup.Instance.RequiredSpawners;
         MapGenerationLookup.Instance.Destroy();
         return requiredSpawners;
     }

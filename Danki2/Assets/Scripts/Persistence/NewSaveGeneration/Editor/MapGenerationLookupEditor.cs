@@ -35,7 +35,7 @@ public class MapGenerationLookupEditor : Editor
 
         mapGenerationLookup.AbilityChoices = EditorGUILayout.IntField("Ability Choices", mapGenerationLookup.AbilityChoices);
         mapGenerationLookup.MaxRoomDepth = EditorGUILayout.IntField("Max Room Depth", mapGenerationLookup.MaxRoomDepth);
-        mapGenerationLookup.MaxSpawners = EditorGUILayout.IntField("Max Spawners", mapGenerationLookup.MaxSpawners);
+        mapGenerationLookup.RequiredSpawners = EditorGUILayout.IntField("Required Spawners", mapGenerationLookup.RequiredSpawners);
         mapGenerationLookup.MinRoomExits = EditorGUILayout.IntField("Min Room Exits", mapGenerationLookup.MinRoomExits);
         mapGenerationLookup.MaxRoomExits = EditorGUILayout.IntField("Max Room Exits", mapGenerationLookup.MaxRoomExits);
         mapGenerationLookup.ChanceIndicatesChildRoomType = EditorGUILayout.FloatField(
@@ -118,7 +118,7 @@ public class MapGenerationLookupEditor : Editor
             spawnedEnemiesWrapper.SpawnedEnemies,
             actorType => (ActorType) EditorGUILayout.EnumPopup("Actor Type", actorType),
             ActorType.Wolf,
-            maxSize: mapGenerationLookup.MaxSpawners
+            maxSize: mapGenerationLookup.RequiredSpawners
         );
         
         EditorGUI.indentLevel--;
