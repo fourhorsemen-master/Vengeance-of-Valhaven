@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
@@ -11,19 +12,21 @@ public class MapGenerationLookupTest
     public IEnumerator TestScenesAllHaveRequiredSpawners()
     {
         List<string> combatScenes = GetCombatScenes();
+        int requiredSpawners = GetRequiredSpawners();
         
         TestUtils.InstantiatePrefab<DevPersistenceManager>();
-        Object.DontDestroyOnLoad(DevPersistenceManager.Instance);
+        DevPersistenceManager.Instance.DontDestroyOnLoad();
         
-        combatScenes.ForEach(combatScene =>
+        foreach (string combatScene in combatScenes)
         {
             SceneManager.LoadScene(combatScene);
-        });
+            yield return null;
+            AssertCorrectSpawners(requiredSpawners, combatScene);
+        }
 
         TestUtils.LoadEmptyScene();
-        Object.Destroy(DevPersistenceManager.Instance.gameObject);
-
         yield return null;
+        DevPersistenceManager.Instance.Destroy();
     }
 
     private List<string> GetCombatScenes()
@@ -38,5 +41,32 @@ public class MapGenerationLookupTest
         
         SceneLookup.Instance.Destroy();
         return combatScenes;
+    }
+
+    private int GetRequiredSpawners()
+    {
+        TestUtils.InstantiatePrefab<MapGenerationLookup>();
+        int requiredSpawners = MapGenerationLookup.Instance.MaxSpawners;
+        MapGenerationLookup.Instance.Destroy();
+        return requiredSpawners;
+    }
+
+    private void AssertCorrectSpawners(int requiredSpawners, string scene)
+    {
+        EnemySpawner[] enemySpawners = Object.FindObjectsOfType<EnemySpawner>();
+
+        Assert.AreEqual(
+            enemySpawners.Length,
+            requiredSpawners,
+            $"{scene} does not have exactly {requiredSpawners} spawners."
+        );
+
+        for (int i = 0; i < requiredSpawners; i++)
+        {
+            Assert.True(
+                enemySpawners.Any(s => s.Id == i),
+                $"{scene} does not have the correct IDs set on its spawners."
+            );
+        }
     }
 }
