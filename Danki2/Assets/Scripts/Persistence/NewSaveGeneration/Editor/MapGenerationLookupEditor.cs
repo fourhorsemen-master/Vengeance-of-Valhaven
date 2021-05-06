@@ -114,6 +114,7 @@ public class MapGenerationLookupEditor : Editor
         EditorUtils.Header($"Room {index + 1}");
         EditorGUI.indentLevel++;
         
+        spawnedEnemiesWrapper.SpawnedEnemies.Trim(mapGenerationLookup.RequiredSpawners);
         EditorUtils.ResizeableList(
             spawnedEnemiesWrapper.SpawnedEnemies,
             actorType => (ActorType) EditorGUILayout.EnumPopup("Actor Type", actorType),

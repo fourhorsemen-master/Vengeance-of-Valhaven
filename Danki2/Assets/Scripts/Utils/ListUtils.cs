@@ -79,4 +79,19 @@ public static class ListUtils
             list.AddRange(listToAdd);
         }
     }
+
+    /// <summary>
+    /// Trims the list down to the given size if it has more elements that the given size.
+    /// </summary>
+    public static void Trim<T>(this List<T> list, int size)
+    {
+        if (size <= 0)
+        {
+            list.Clear();
+        }
+        else if (size < list.Count)
+        {
+            list.RemoveRange(size, list.Count - size);
+        }
+    }
 }
