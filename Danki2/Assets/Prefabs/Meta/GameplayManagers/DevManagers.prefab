@@ -20,7 +20,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &918857200436086427
 Transform:
   m_ObjectHideFlags: 0
@@ -106,6 +106,7 @@ MonoBehaviour:
   maxRoomDepth: 0
   minRoomExits: 0
   maxRoomExits: 0
+  maxSpawners: 0
   chanceIndicatesChildRoomType: 0
   chanceIndicatesGrandchildRoomType: 0
   roomDataLookup:
@@ -132,6 +133,7 @@ MonoBehaviour:
       weights: 
     - availableInPool: 1
       weights: 
+  spawnedEnemies: []
   maxRoomDepthOverride: 10
 --- !u!114 &70334590722672776
 MonoBehaviour:
@@ -159,6 +161,7 @@ MonoBehaviour:
     - ForestCliffScene
     - HealingScene
     - ForestValleyScene
+    - ForestClearingScene
     _values:
     - fileName: 
       sceneType: 0
@@ -167,7 +170,6 @@ MonoBehaviour:
         cameraOrientations: 
         entranceData: []
         exitData: []
-        enemyEnemySpawnerIds: 
     - fileName: 
       sceneType: 0
       gameplaySceneData:
@@ -175,7 +177,6 @@ MonoBehaviour:
         cameraOrientations: 
         entranceData: []
         exitData: []
-        enemyEnemySpawnerIds: 
     - fileName: 
       sceneType: 0
       gameplaySceneData:
@@ -183,7 +184,6 @@ MonoBehaviour:
         cameraOrientations: 
         entranceData: []
         exitData: []
-        enemyEnemySpawnerIds: 
     - fileName: 
       sceneType: 0
       gameplaySceneData:
@@ -191,7 +191,6 @@ MonoBehaviour:
         cameraOrientations: 
         entranceData: []
         exitData: []
-        enemyEnemySpawnerIds: 
     - fileName: 
       sceneType: 0
       gameplaySceneData:
@@ -199,7 +198,6 @@ MonoBehaviour:
         cameraOrientations: 
         entranceData: []
         exitData: []
-        enemyEnemySpawnerIds: 
     - fileName: 
       sceneType: 0
       gameplaySceneData:
@@ -207,7 +205,6 @@ MonoBehaviour:
         cameraOrientations: 
         entranceData: []
         exitData: []
-        enemyEnemySpawnerIds: 
     - fileName: 
       sceneType: 0
       gameplaySceneData:
@@ -215,7 +212,6 @@ MonoBehaviour:
         cameraOrientations: 
         entranceData: []
         exitData: []
-        enemyEnemySpawnerIds: 
     - fileName: 
       sceneType: 0
       gameplaySceneData:
@@ -223,7 +219,6 @@ MonoBehaviour:
         cameraOrientations: 
         entranceData: []
         exitData: []
-        enemyEnemySpawnerIds: 
     - fileName: 
       sceneType: 0
       gameplaySceneData:
@@ -231,7 +226,6 @@ MonoBehaviour:
         cameraOrientations: 
         entranceData: []
         exitData: []
-        enemyEnemySpawnerIds: 
     - fileName: 
       sceneType: 0
       gameplaySceneData:
@@ -239,7 +233,6 @@ MonoBehaviour:
         cameraOrientations: 
         entranceData: []
         exitData: []
-        enemyEnemySpawnerIds: 
     - fileName: 
       sceneType: 0
       gameplaySceneData:
@@ -247,7 +240,6 @@ MonoBehaviour:
         cameraOrientations: 
         entranceData: []
         exitData: []
-        enemyEnemySpawnerIds: 
     - fileName: 
       sceneType: 0
       gameplaySceneData:
@@ -255,5 +247,11 @@ MonoBehaviour:
         cameraOrientations: 
         entranceData: []
         exitData: []
-        enemyEnemySpawnerIds: 
+    - fileName: 
+      sceneType: 0
+      gameplaySceneData:
+        roomTypes: 
+        cameraOrientations: 
+        entranceData: []
+        exitData: []
   entranceSide: 2
