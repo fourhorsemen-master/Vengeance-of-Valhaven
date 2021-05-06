@@ -1,6 +1,40 @@
-﻿public class Bear : Enemy
+﻿using FMOD.Studio;
+using FMODUnity;
+using UnityEngine;
+
+public class Bear : Enemy
 {
+    [EventRef, SerializeField]
+    private string roarEvent = null;
+
+    private bool canRoar = true;
+    private float roarDuration;
+
     public override ActorType Type => ActorType.Bear;
+
+    public Subject CleaveSubject { get; } = new Subject();
+
+    protected override void Start()
+    {
+        base.Start();
+
+        roarDuration = FmodUtils.GetDuration(roarEvent);
+
+        HealthManager.ModifiedDamageSubject.Subscribe(_ => Roar());
+    }
+
+    public void Roar()
+    {
+        if (!canRoar) return;
+
+        canRoar = false;
+
+        this.WaitAndAct(roarDuration, () => canRoar = true);
+
+        EventInstance fmodEvent = FmodUtils.CreatePositionedInstance(roarEvent, transform.position);
+        fmodEvent.start();
+        fmodEvent.release();
+    }
 
     public void Swipe()
     {
@@ -32,5 +66,7 @@
             GetMeleeTargetPosition(transform.position),
             GetMeleeTargetPosition(Centre)
         );
+
+        CleaveSubject.Next();
     }
 }
