@@ -27,22 +27,31 @@ public static class KeywordUtils
 
     public static List<Keyword> GetKeywords(AbilityReference abilityReference)
     {
-        List<Keyword> Keywords = new List<Keyword>();
+        List<Keyword> keywords = new List<Keyword>();
 
-        if (AbilityLookup.Instance.IsFinisher(abilityReference)) Keywords.Add(Keyword.Finisher);
+        if (AbilityLookup.Instance.IsFinisher(abilityReference)) keywords.Add(Keyword.Finisher);
 
-        Keywords.Add(GetAbilityType(abilityReference));
+        keywords.Add(GetAbilityType(abilityReference));
 
-        Keywords.AddRange(
+        keywords.AddRange(
             GetFromTemplatedTooltipSegments(AbilityLookup.Instance.GetTemplatedTooltipSegments(abilityReference))
         );
 
         foreach (AbilityBonusData abilityBonusData in AbilityLookup.Instance.GetAbilityBonusDataLookup(abilityReference).Values)
         {
-            Keywords.AddRange(GetFromTemplatedTooltipSegments(abilityBonusData.TemplatedTooltipSegments));
+            keywords.AddRange(GetFromTemplatedTooltipSegments(abilityBonusData.TemplatedTooltipSegments));
         }
 
-        return Keywords.Distinct().ToList();
+        return keywords.Distinct().ToList();
+    }
+
+    public static List<Keyword> GetKeywords(Rune rune)
+    {
+        List<Keyword> keywords = new List<Keyword>();
+
+        keywords.AddRange(GetFromTemplatedTooltipSegments(RuneLookup.Instance.GetTemplatedTooltipSegments(rune)));
+
+        return keywords.Distinct().ToList();
     }
 
     private static Keyword GetAbilityType(AbilityReference abilityReference)

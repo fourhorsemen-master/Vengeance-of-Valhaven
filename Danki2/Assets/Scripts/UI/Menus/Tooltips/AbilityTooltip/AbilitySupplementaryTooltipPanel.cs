@@ -46,16 +46,26 @@ public class AbilitySupplementaryTooltipPanel : MonoBehaviour
 
     public void Activate(AbilityReference ability)
     {
-        currentScreenQuadrant = InputHelpers.GetMouseScreenQuadrant();
-        rectTransform.pivot = pivotPoints[currentScreenQuadrant];
+        Activate();
 
-        displayCoroutine = this.WaitAndAct(displayDelay, () => Display(ability));
+        displayCoroutine = this.WaitAndAct(displayDelay, () => Display(KeywordUtils.GetKeywords(ability)));
     }
 
-    private void Display(AbilityReference ability)
+    public void Activate(Rune rune)
     {
-        var keywords = KeywordUtils.GetKeywords(ability);
+        Activate();
 
+        displayCoroutine = this.WaitAndAct(displayDelay, () => Display(KeywordUtils.GetKeywords(rune)));
+    }
+
+    private void Activate()
+    {
+        currentScreenQuadrant = InputHelpers.GetMouseScreenQuadrant();
+        rectTransform.pivot = pivotPoints[currentScreenQuadrant];
+    }
+
+    private void Display(List<Keyword> keywords)
+    {
         keywords.ForEach(k =>
         {
             Instantiate(abilitySupplementaryTooltipPrefab, transform)
