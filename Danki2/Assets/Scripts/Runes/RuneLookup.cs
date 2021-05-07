@@ -31,9 +31,8 @@ public class RuneLookup : Singleton<RuneLookup>
     private readonly Lexer lexer = new Lexer();
     private readonly Parser parser = new Parser();
 
-    protected override void Awake()
+    private void Start()
     {
-        base.Awake();
         EnumUtils.ForEach<Rune>(rune =>
         {
             templatedTooltipSegmentsMap[rune] = BuildTooltip(runeDataLookup[rune].Tooltip);
