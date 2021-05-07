@@ -48,6 +48,7 @@ MonoBehaviour:
   maxRoomDepth: 14
   minRoomExits: 1
   maxRoomExits: 3
+  requiredSpawners: 3
   chanceIndicatesChildRoomType: 0.5
   chanceIndicatesGrandchildRoomType: 0.5
   roomDataLookup:
@@ -77,3 +78,17 @@ MonoBehaviour:
       weights: 00000000000000000100000002000000
     - availableInPool: 1
       weights: 0000000000000000000000000100000002000000
+  spawnedEnemiesPerDepth:
+  - spawnedEnemies: 01000000
+  - spawnedEnemies: 01000000
+  - spawnedEnemies: 01000000
+  - spawnedEnemies: 01000000
+  - spawnedEnemies: 03000000
+  - spawnedEnemies: 03000000
+  - spawnedEnemies: 03000000
+  - spawnedEnemies: 03000000
+  - spawnedEnemies: 0100000001000000
+  - spawnedEnemies: 0100000001000000
+  - spawnedEnemies: 0100000001000000
+  - spawnedEnemies: 0300000003000000
+  - spawnedEnemies: 0300000003000000

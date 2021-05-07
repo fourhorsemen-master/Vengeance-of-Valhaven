@@ -115,17 +115,6 @@ public class SceneLookupTest
         yield return null;
     }
 
-    [UnityTest]
-    public IEnumerator TestGameplayScenesHaveDistinctEnemySpawnerIds()
-    {
-        AssertDistinctGameplayDataElement(
-            d => d.EnemySpawnerIds.IsDistinct(),
-            s => $"Scene: {s} has enemy spawner IDs that are not distinct.",
-            "Found scenes with enemy spawner IDs that are not distinct, see console for more info."
-        );
-        yield return null;
-    }
-
     private void AssertDistinctGameplayDataElement(
         Func<GameplaySceneData, bool> uniqueCheck,
         Func<Scene, string> sceneErrorMessageProvider,

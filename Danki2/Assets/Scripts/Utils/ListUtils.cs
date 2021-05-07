@@ -66,4 +66,47 @@ public static class ListUtils
             list[i] = temp;
         }
     }
+    
+    /// <inheritdoc cref="Resize{T}(System.Collections.Generic.List{T},int,System.Func{T})"/>
+    public static void Resize<T>(this List<T> list, int size, T @default = default)
+    {
+        Resize(list, size, () => @default);
+    }
+    
+    /// <summary>
+    /// Resizes the list to the given size. If the list is growing in size then the default value provider
+    /// is used for new elements of the list.
+    /// </summary>
+    public static void Resize<T>(this List<T> list, int size, Func<T> defaultValueProvider)
+    {
+        if (size <= 0)
+        {
+            list.Clear();
+        }
+        else if (size < list.Count)
+        {
+            list.RemoveRange(size, list.Count - size);
+        }
+        else if (size > list.Count)
+        {
+            List<T> listToAdd = new List<T>();
+            Utils.Repeat(size - list.Count, () => listToAdd.Add(defaultValueProvider()));
+            list.AddRange(listToAdd);
+        }
+    }
+
+    /// <summary>
+    /// Trims the list down to the given size if it has more elements that the given size.
+    /// </summary>
+    public static void Trim<T>(this List<T> list, int size)
+    {
+        if (size <= 0)
+        {
+            list.Clear();
+        }
+        else if (size < list.Count)
+        {
+            list.RemoveRange(size, list.Count - size);
+        }
+    }
 }
