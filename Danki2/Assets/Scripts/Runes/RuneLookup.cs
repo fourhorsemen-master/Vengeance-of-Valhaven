@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
@@ -24,7 +25,29 @@ public class RuneLookup : Singleton<RuneLookup>
 {
     [SerializeField] public RuneDataLookup runeDataLookup = new RuneDataLookup(() => new RuneData());
 
+    private EnumDictionary<Rune, List<TemplatedTooltipSegment>> templatedTooltipSegmentsMap = 
+        new EnumDictionary<Rune, List<TemplatedTooltipSegment>>(defaultValue: null);
+
+    private readonly Lexer lexer = new Lexer();
+    private readonly Parser parser = new Parser();
+
+    protected override void Awake()
+    {
+        base.Awake();
+        EnumUtils.ForEach<Rune>(rune =>
+        {
+            templatedTooltipSegmentsMap[rune] = BuildTooltip(runeDataLookup[rune].Tooltip);
+        });
+    }
+
     public string GetDisplayName(Rune rune) => runeDataLookup[rune].DisplayName;
     public string GetTooltip(Rune rune) => runeDataLookup[rune].Tooltip;
     public Sprite GetSprite(Rune rune) => runeDataLookup[rune].Sprite;
+    public List<TemplatedTooltipSegment> GetTemplatedTooltipSegments(Rune rune) => templatedTooltipSegmentsMap[rune];
+
+    private List<TemplatedTooltipSegment> BuildTooltip(string tooltip)
+    {
+        List<Token> tokens = lexer.Lex(tooltip);
+        return parser.Parse(tokens);
+    }
 }
