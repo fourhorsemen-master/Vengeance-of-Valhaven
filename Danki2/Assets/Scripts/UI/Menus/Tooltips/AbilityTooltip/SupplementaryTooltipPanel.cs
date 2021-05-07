@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI.Extensions;
 
-public class AbilitySupplementaryTooltipPanel : MonoBehaviour
+public class SupplementaryTooltipPanel : MonoBehaviour
 {
     [SerializeField]
     private float displayDelay = 0f;
@@ -11,10 +11,10 @@ public class AbilitySupplementaryTooltipPanel : MonoBehaviour
     private RectTransform rectTransform = null;
 
     [SerializeField]
-    private RectTransform abilityTooltipRectTransform = null;
+    private RectTransform tooltipRectTransform = null;
 
     [SerializeField]
-    private AbilitySupplementaryTooltip abilitySupplementaryTooltipPrefab = null;
+    private SupplementaryTooltip supplementaryTooltipPrefab = null;
 
     private Dictionary<ScreenQuadrant, Vector2> pivotPoints = new Dictionary<ScreenQuadrant, Vector2>
     {
@@ -40,8 +40,8 @@ public class AbilitySupplementaryTooltipPanel : MonoBehaviour
     private void Update()
     {
         bool isLeftQuadrant = leftQuadrants.Contains(currentScreenQuadrant);
-        float horizontalOffset = abilityTooltipRectTransform.sizeDelta.x * abilityTooltipRectTransform.GetParentCanvas().scaleFactor * (isLeftQuadrant ? 1 : -1);
-        transform.position = abilityTooltipRectTransform.position + new Vector3(horizontalOffset, 0);
+        float horizontalOffset = tooltipRectTransform.sizeDelta.x * tooltipRectTransform.GetParentCanvas().scaleFactor * (isLeftQuadrant ? 1 : -1);
+        transform.position = tooltipRectTransform.position + new Vector3(horizontalOffset, 0);
     }
 
     public void Activate(AbilityReference ability)
@@ -68,7 +68,7 @@ public class AbilitySupplementaryTooltipPanel : MonoBehaviour
     {
         keywords.ForEach(k =>
         {
-            Instantiate(abilitySupplementaryTooltipPrefab, transform)
+            Instantiate(supplementaryTooltipPrefab, transform)
                 .Setup(k);
         });
     }

@@ -61,6 +61,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -144,6 +145,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.078431375, g: 0.078431375, b: 0.078431375, a: 1}
   m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -183,6 +185,7 @@ MonoBehaviour:
   m_ChildControlHeight: 1
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!114 &2003970975181364277
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -270,6 +273,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -348,6 +352,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -429,6 +434,7 @@ MonoBehaviour:
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!114 &5047211428027740419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -443,8 +449,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayDelay: 0.7
   rectTransform: {fileID: 3050305313239380974}
-  abilityTooltipRectTransform: {fileID: 1178105531026763120}
-  abilitySupplementaryTooltipPrefab: {fileID: 4002273806927399769, guid: 1d70dac379a00c14dbca05ebca78cd93,
+  tooltipRectTransform: {fileID: 1178105531026763120}
+  supplementaryTooltipPrefab: {fileID: 4002273806927399769, guid: 1d70dac379a00c14dbca05ebca78cd93,
     type: 3}
 --- !u!114 &3478932072532520962
 MonoBehaviour:

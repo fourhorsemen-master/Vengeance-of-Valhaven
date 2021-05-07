@@ -7,7 +7,7 @@ public class RuneTooltip : Tooltip
     [SerializeField] private Text titleText = null;
     [SerializeField] private Text descriptionText = null;
 
-    [SerializeField] private AbilitySupplementaryTooltipPanel abilitySupplementaryTooltipPanel = null;
+    [SerializeField] private SupplementaryTooltipPanel abilitySupplementaryTooltipPanel = null;
 
     public static RuneTooltip Create(Rune rune, Transform transform)
     {
