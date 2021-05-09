@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 public static class RuneTooltipBuilder
 {
@@ -6,12 +7,8 @@ public static class RuneTooltipBuilder
     {
         List<TemplatedTooltipSegment> templatedTooltipSegments = RuneLookup.Instance.GetTemplatedTooltipSegments(rune);
 
-        List<TooltipSegment> tooltipSegments = new List<TooltipSegment>();
-        templatedTooltipSegments.ForEach(templatedTooltipSegment =>
-        {
-            tooltipSegments.Add(TooltipBuilderUtils.GetTooltipSegment(templatedTooltipSegment));
-        });
-
-        return tooltipSegments;
+        return templatedTooltipSegments.Select(templatedSegment =>
+            TooltipBuilderUtils.GetTooltipSegment(templatedSegment)
+        ).ToList();
     }
 }
