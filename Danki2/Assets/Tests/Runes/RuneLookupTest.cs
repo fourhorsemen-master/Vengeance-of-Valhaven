@@ -5,7 +5,6 @@ using UnityEngine.TestTools;
 
 public class RuneLookupTest
 {
-    private readonly Lexer lexer = new Lexer();
     private readonly TokenValidator tokenValidator = new TokenValidator();
 
     [UnityTest]
@@ -15,7 +14,7 @@ public class RuneLookupTest
 
         EnumUtils.ForEach<Rune>(rune =>
         {
-            List<Token> tokens = lexer.Lex(RuneLookup.Instance.GetTooltip(rune));
+            List<Token> tokens = Lexer.Lex(RuneLookup.Instance.GetTooltip(rune));
             Assert.True(tokenValidator.HasValidSyntax(tokens), $"{rune} has invalid syntax.");
         });
 

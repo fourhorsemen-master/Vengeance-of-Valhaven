@@ -28,9 +28,6 @@ public class RuneLookup : Singleton<RuneLookup>
     private EnumDictionary<Rune, List<TemplatedTooltipSegment>> templatedTooltipSegmentsMap = 
         new EnumDictionary<Rune, List<TemplatedTooltipSegment>>(defaultValue: null);
 
-    private readonly Lexer lexer = new Lexer();
-    private readonly Parser parser = new Parser();
-
     private void Start()
     {
         EnumUtils.ForEach<Rune>(rune =>
@@ -46,7 +43,7 @@ public class RuneLookup : Singleton<RuneLookup>
 
     private List<TemplatedTooltipSegment> BuildTooltip(string tooltip)
     {
-        List<Token> tokens = lexer.Lex(tooltip);
-        return parser.Parse(tokens);
+        List<Token> tokens = Lexer.Lex(tooltip);
+        return Parser.Parse(tokens);
     }
 }
