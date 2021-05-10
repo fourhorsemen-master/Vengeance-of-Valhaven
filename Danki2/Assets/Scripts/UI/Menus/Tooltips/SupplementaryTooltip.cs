@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class AbilitySupplementaryTooltip : MonoBehaviour
+public class SupplementaryTooltip : MonoBehaviour
 {
     [SerializeField]
     private Text description = null;

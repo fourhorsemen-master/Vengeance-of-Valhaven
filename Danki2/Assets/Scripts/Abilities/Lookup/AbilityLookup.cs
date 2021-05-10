@@ -29,9 +29,6 @@ public class AbilityLookup : Singleton<AbilityLookup>
     private readonly AbilityMap<AbilityType> abilityTypeMap = new AbilityMap<AbilityType>();
     private readonly AbilityMap<ChannelType> channelTypeMap = new AbilityMap<ChannelType>();
 
-    private readonly Lexer lexer = new Lexer();
-    private readonly Parser parser = new Parser();
-
     private List<AttributeData<AbilityAttribute>> abilityAttributeData;
     private Dictionary<AbilityReference, AttributeData<AbilityAttribute>> abilityAttributeDataLookup;
 
@@ -193,8 +190,8 @@ public class AbilityLookup : Singleton<AbilityLookup>
 
     private List<TemplatedTooltipSegment> BuildTooltip(string tooltip)
     {
-        List<Token> tokens = lexer.Lex(tooltip);
-        return parser.Parse(tokens);
+        List<Token> tokens = Lexer.Lex(tooltip);
+        return Parser.Parse(tokens);
     }
 
     /// <summary>
