@@ -34,6 +34,7 @@ public class MapGenerationLookupEditor : Editor
         EditorGUI.indentLevel++;
 
         mapGenerationLookup.AbilityChoices = EditorGUILayout.IntField("Ability Choices", mapGenerationLookup.AbilityChoices);
+        mapGenerationLookup.GeneratedRoomDepth = EditorGUILayout.IntField("Generated Room Depth", mapGenerationLookup.GeneratedRoomDepth);
         mapGenerationLookup.MaxRoomDepth = EditorGUILayout.IntField("Max Room Depth", mapGenerationLookup.MaxRoomDepth);
         mapGenerationLookup.RequiredSpawners = EditorGUILayout.IntField("Required Spawners", mapGenerationLookup.RequiredSpawners);
         mapGenerationLookup.MinRoomExits = EditorGUILayout.IntField("Min Room Exits", mapGenerationLookup.MinRoomExits);

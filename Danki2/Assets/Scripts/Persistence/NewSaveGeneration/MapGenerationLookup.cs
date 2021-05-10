@@ -30,7 +30,8 @@ public class SpawnedEnemiesWrapper
 public class MapGenerationLookup : Singleton<MapGenerationLookup>
 {
     [SerializeField] private int abilityChoices = 0;
-    
+
+    [SerializeField] private int generatedRoomDepth = 0;
     [SerializeField] private int maxRoomDepth = 0;
     [SerializeField] private int minRoomExits = 0;
     [SerializeField] private int maxRoomExits = 0;
@@ -44,6 +45,7 @@ public class MapGenerationLookup : Singleton<MapGenerationLookup>
 
     public int AbilityChoices { get => abilityChoices; set => abilityChoices = value; }
 
+    public virtual int GeneratedRoomDepth { get => generatedRoomDepth; set => generatedRoomDepth = value; }
     public virtual int MaxRoomDepth { get => maxRoomDepth; set => maxRoomDepth = value; }
     public int MinRoomExits { get => minRoomExits; set => minRoomExits = value; }
     public int MaxRoomExits { get => maxRoomExits; set => maxRoomExits = value; }
