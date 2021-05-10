@@ -5,16 +5,16 @@ using UnityEngine.UI.Extensions;
 public class SupplementaryTooltipPanel : MonoBehaviour
 {
     [SerializeField]
-    private float displayDelay = 0f;
+    public float displayDelay = 0f;
 
     [SerializeField]
-    private RectTransform rectTransform = null;
+    public RectTransform rectTransform = null;
 
     [SerializeField]
-    private RectTransform tooltipRectTransform = null;
+    public RectTransform tooltipRectTransform = null;
 
     [SerializeField]
-    private SupplementaryTooltip supplementaryTooltipPrefab = null;
+    public SupplementaryTooltip supplementaryTooltipPrefab = null;
 
     private Dictionary<ScreenQuadrant, Vector2> pivotPoints = new Dictionary<ScreenQuadrant, Vector2>
     {
