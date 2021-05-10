@@ -68,7 +68,7 @@ public class CollisionTemplate : MonoBehaviour
     }
 
     private CollisionTemplate Initialise(Actor owner, Vector3 scale)
-    {        
+    {
         this.owner = owner;
 
         Vector3 localScale = meshCollider.transform.localScale;
