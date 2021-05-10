@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 public class RuneManager
 {
@@ -38,21 +39,16 @@ public class RuneManager
     {
         List<Rune> runeOrder = PersistenceManager.Instance.SaveData.RuneOrder;
 
-        int index = GetRunesViewed() % runeOrder.Count;
-        bool hasFoundRune = false;
+        int runesViewed = GetRunesViewed();
         
-        while (!hasFoundRune)
+        for (int i = 0; i < runeOrder.Count; i ++)
         {
-            if (RuneSockets.Any(s => s.HasRune && s.Rune == runeOrder[index]))
-            {
-                index = (index + 1) % runeOrder.Count;
-                continue;
-            }
-
-            hasFoundRune = true;
+            Rune rune = runeOrder[(runesViewed + i) % runeOrder.Count];
+            if (!RuneSockets.Any(s => s.HasRune && s.Rune == rune)) return rune;
         }
 
-        return runeOrder[index];
+        Debug.LogError("No suitable Runes found");
+        return default;
     }
 
     //TODO: Include runes from shops here.

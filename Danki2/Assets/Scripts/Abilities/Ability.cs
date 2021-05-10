@@ -12,6 +12,8 @@ public abstract class Ability
     public const float MaxMeleeVerticalAngle = 30f;
     public const float MinMeleeVerticalAngle = -30f;
 
+    private const float DefaultCollisionTemplateHeight = 2f;
+
     private readonly string fmodVocalisationEvent;
     private readonly string fmodStartEvent;
     private readonly string fmodEndEvent;
@@ -78,7 +80,7 @@ public abstract class Ability
 
     protected void TemplateCollision(CollisionTemplateShape shape, float scale, Vector3 position, Quaternion rotation, Action<Actor> offensiveAction, CollisionSoundLevel? soundLevel = null)
     {
-        TemplateCollision(shape, scale * Vector3.one, position, rotation, offensiveAction, soundLevel);
+        TemplateCollision(shape, new Vector3(scale, DefaultCollisionTemplateHeight, scale), position, rotation, offensiveAction, soundLevel);
     }
 
     protected void TemplateCollision(CollisionTemplateShape shape, Vector3 scale, Vector3 position, Quaternion rotation, Action<Actor> offensiveAction, CollisionSoundLevel? soundLevel = null)

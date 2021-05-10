@@ -37,12 +37,13 @@ public class RunePanel : MonoBehaviour
             frame.sprite = filledBorder;
             image.sprite = RuneLookup.Instance.GetSprite(this.rune.Value);
             text.text = RuneLookup.Instance.GetDisplayName(this.rune.Value);
-            return;
         }
-
-        frame.sprite = emptyBorder;
-        Destroy(image.gameObject);
-        Destroy(text.gameObject);
+        else
+        {
+            frame.sprite = emptyBorder;
+            Destroy(image.gameObject);
+            Destroy(text.gameObject);
+        }
     }
 
     private void TryDestroyTooltip()

@@ -33,7 +33,7 @@ public class MenuStateMachine : StateMachineMonoBehaviour
             .WithTransition(
                 GameplayState.Playing,
                 GameplayState.InAbilitySelection,
-                new ButtonDown(InteractButtonName) & new AbilityShrineExists() & new CanInteractWithShrine(AbilityShrine.Instance)
+                new ButtonDown(InteractButtonName) & new CanInteractWithShrine<AbilityShrine>(AbilityShrine.Instance)
             )
             .WithTransition(
                 GameplayState.Playing,
@@ -43,7 +43,7 @@ public class MenuStateMachine : StateMachineMonoBehaviour
             .WithTransition(
                 GameplayState.Playing,
                 GameplayState.InRuneSelectionMenu,
-                new ButtonDown(InteractButtonName) & new RuneShrineExists() & new CanInteractWithShrine(RuneShrine.Instance)
+                new ButtonDown(InteractButtonName) & new CanInteractWithShrine<RuneShrine>(RuneShrine.Instance)
             )
             .WithTransition(
                 GameplayState.InPauseMenu,

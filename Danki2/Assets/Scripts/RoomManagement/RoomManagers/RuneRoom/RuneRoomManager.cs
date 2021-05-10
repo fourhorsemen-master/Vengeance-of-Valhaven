@@ -5,22 +5,24 @@
 
     private readonly Subject runesViewedSubject = new Subject();
 
+    private RoomSaveData currentRoomSaveData;
+
     public Subject RuneSelectedSubject { get; } = new Subject();
 
     protected override void Awake()
     {
         base.Awake();
 
-        RoomSaveData roomSaveData = PersistenceManager.Instance.SaveData.CurrentRoomSaveData;
-        if (roomSaveData.RoomType != RoomType.Rune) return;
+        currentRoomSaveData = PersistenceManager.Instance.SaveData.CurrentRoomSaveData;
+        if (currentRoomSaveData.RoomType != RoomType.Rune) return;
 
-        RunesViewed = roomSaveData.RuneRoomSaveData.RunesViewed;
-        RuneSelected = roomSaveData.RuneRoomSaveData.RuneSelected;
+        RunesViewed = currentRoomSaveData.RuneRoomSaveData.RunesViewed;
+        RuneSelected = currentRoomSaveData.RuneRoomSaveData.RuneSelected;
     }
 
     private void Start()
     {
-        if (PersistenceManager.Instance.SaveData.CurrentRoomSaveData.RoomType != RoomType.Rune) return;
+        if (currentRoomSaveData.RoomType != RoomType.Rune) return;
         
         GameplayRoomTransitionManager.Instance.RegisterCanTransitionSubject(runesViewedSubject);
 
