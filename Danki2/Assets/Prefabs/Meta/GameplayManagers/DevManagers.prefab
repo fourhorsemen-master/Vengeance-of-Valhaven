@@ -64,6 +64,14 @@ MonoBehaviour:
   leftAbility: 8
   rightAbility: 5
   playerHealth: 20
+  runeSockets:
+  - hasRune: 0
+    rune: 0
+  - hasRune: 0
+    rune: 0
+  - hasRune: 0
+    rune: 0
+  runeOrder: 
   cameraOrientation: 0
   enemiesCleared: 0
   spawnedEnemies:
@@ -103,10 +111,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   abilityChoices: 0
+  runeSockets: 0
   maxRoomDepth: 0
   minRoomExits: 0
   maxRoomExits: 0
-  maxSpawners: 0
+  requiredSpawners: 0
   chanceIndicatesChildRoomType: 0
   chanceIndicatesGrandchildRoomType: 0
   roomDataLookup:
@@ -118,6 +127,7 @@ MonoBehaviour:
     - Defeat
     - Ability
     - Healing
+    - Rune
     _values:
     - availableInPool: 1
       weights: 
@@ -133,7 +143,9 @@ MonoBehaviour:
       weights: 
     - availableInPool: 1
       weights: 
-  spawnedEnemies: []
+    - availableInPool: 1
+      weights: 
+  spawnedEnemiesPerDepth: []
   maxRoomDepthOverride: 10
 --- !u!114 &70334590722672776
 MonoBehaviour:
@@ -162,7 +174,15 @@ MonoBehaviour:
     - HealingScene
     - ForestValleyScene
     - ForestClearingScene
+    - RuneScene
     _values:
+    - fileName: 
+      sceneType: 0
+      gameplaySceneData:
+        roomTypes: 
+        cameraOrientations: 
+        entranceData: []
+        exitData: []
     - fileName: 
       sceneType: 0
       gameplaySceneData:

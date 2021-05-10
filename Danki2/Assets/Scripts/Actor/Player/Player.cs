@@ -30,6 +30,7 @@ public class Player : Actor
     public AbilityTree AbilityTree { get; private set; }
     public ComboManager ComboManager { get; private set; }
     public PlayerTargetFinder TargetFinder { get; private set; }
+    public RuneManager RuneManager { get; private set; }
     
     // Subjects
     public Subject RollSubject { get; } = new Subject();
@@ -46,6 +47,7 @@ public class Player : Actor
         AbilityTree = PersistenceManager.Instance.SaveData.SerializableAbilityTree.Deserialize();
         ComboManager = new ComboManager(this, updateSubject, rollResetsCombo);
         TargetFinder = new PlayerTargetFinder(this, updateSubject);
+        RuneManager = new RuneManager(this);
 
         InstantCastService.SetFeedbackTimeout(feedbackTimeout);
         ChannelService.SetFeedbackTimeout(feedbackTimeout);

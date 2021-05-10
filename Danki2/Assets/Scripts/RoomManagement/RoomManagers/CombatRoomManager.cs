@@ -8,6 +8,8 @@ using System.Linq;
 /// </summary>
 public class CombatRoomManager : Singleton<CombatRoomManager>
 {
+    private const int FirstAidHealAmount = 3;
+    
     public bool EnemiesCleared { get; private set; } = false;
     public Subject EnemiesClearedSubject { get; }  = new Subject();
     public bool InCombatRoom { get; private set; }
@@ -67,6 +69,11 @@ public class CombatRoomManager : Singleton<CombatRoomManager>
             deadEnemyCount++;
             if (deadEnemyCount != enemyCount) return;
 
+            if (ActorCache.Instance.Player.RuneManager.HasRune(Rune.FirstAid))
+            {
+                ActorCache.Instance.Player.HealthManager.ReceiveHeal(FirstAidHealAmount);
+            }
+            
             EnemiesCleared = true;
             EnemiesClearedSubject.Next();
             PersistenceManager.Instance.Save();
