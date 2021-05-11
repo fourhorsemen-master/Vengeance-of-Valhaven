@@ -5,10 +5,19 @@ public class MapGenerator : Singleton<MapGenerator>
 {
     protected override bool DestroyOnLoad => false;
 
+    public void Generate(MapNode currentNode)
+    {
+        GenerateChildren(currentNode, currentNode.Depth, currentNode.Depth + MapGenerationLookup.Instance.GeneratedRoomDepth);
+        SetIds(currentNode);
+        SetParentReferences(currentNode);
+        SetRoomTypes(currentNode);
+        AddVictoryNode(currentNode);
+    }
+    
     public MapNode Generate()
     {
         MapNode rootNode = new MapNode();
-        GenerateChildren(rootNode, 1);
+        GenerateChildren(rootNode, 1, 1 + MapGenerationLookup.Instance.GeneratedRoomDepth);
         SetIds(rootNode);
         SetParentReferences(rootNode);
         SetRoomTypes(rootNode);
@@ -18,9 +27,15 @@ public class MapGenerator : Singleton<MapGenerator>
         return rootNode;
     }
 
-    private void GenerateChildren(MapNode node, int currentDepth)
+    private void GenerateChildren(MapNode node, int currentDepth, int requiredRoomDepth)
     {
-        if (currentDepth == MapGenerationLookup.Instance.MaxRoomDepth) return;
+        if (currentDepth == MapGenerationLookup.Instance.MaxRoomDepth || currentDepth == requiredRoomDepth) return;
+
+        if (node.HasData)
+        {
+            node.Children.ForEach(c => GenerateChildren(c, currentDepth + 1, requiredRoomDepth));
+            return;
+        }
 
         int numberOfChildren = Random.Range(
             MapGenerationLookup.Instance.MinRoomExits,
@@ -29,10 +44,13 @@ public class MapGenerator : Singleton<MapGenerator>
 
         for (int i = 0; i < numberOfChildren; i++)
         {
-            MapNode childNode = new MapNode();
+            MapNode childNode = new MapNode
+            {
+                Depth = currentDepth + 1
+            };
             node.Children.Add(childNode);
 
-            GenerateChildren(childNode, currentDepth + 1);
+            GenerateChildren(childNode, currentDepth + 1, requiredRoomDepth);
         }
     }
 
@@ -41,6 +59,8 @@ public class MapGenerator : Singleton<MapGenerator>
         int currentId = 0;
         rootNode.IterateDown(n =>
         {
+            if (n.HasData) return;
+
             n.Id = currentId;
             currentId++;
         });
@@ -55,7 +75,9 @@ public class MapGenerator : Singleton<MapGenerator>
     {
         rootNode.IterateDown(node =>
         {
-            if (node.IsLeafNode)
+            if (node.HasData) return;
+
+            if (node.Depth == MapGenerationLookup.Instance.MaxRoomDepth)
             {
                 node.RoomType = RoomType.Boss;
                 return;
@@ -81,7 +103,7 @@ public class MapGenerator : Singleton<MapGenerator>
         Dictionary<RoomType, int> distancesFromPreviousRoomTypes = new Dictionary<RoomType, int>();
         MapGenerationLookup.Instance.ForEachRoomTypeInPool(roomType =>
         {
-            int distance = node.GetDistanceFromPreviousRoomType(roomType);
+            int distance = node.GetDistanceFromPreviousNodeOfRoomType(roomType);
             distancesFromPreviousRoomTypes[roomType] = distance == -1 ? node.Depth : distance;
         });
 
@@ -109,6 +131,15 @@ public class MapGenerator : Singleton<MapGenerator>
 
     private void AddVictoryNode(MapNode rootNode)
     {
+        bool hasVictoryNode = false;
+        
+        rootNode.IterateDown(n =>
+        {
+            if (n.RoomType == RoomType.Victory) hasVictoryNode = true;
+        });
+
+        if (hasVictoryNode) return;
+        
         MapNode victoryNode = new MapNode
         {
             Id = rootNode.FindMaxId() + 1,
@@ -116,23 +147,25 @@ public class MapGenerator : Singleton<MapGenerator>
             Scene = Scene.GameplayVictoryScene
         };
 
-        List<MapNode> leafNodes = new List<MapNode>();
+        List<MapNode> bossNodes = new List<MapNode>();
 
         rootNode.IterateDown(n =>
         {
-            if (n.IsLeafNode) leafNodes.Add(n);
+            if (n.RoomType == RoomType.Boss) bossNodes.Add(n);
         });
 
-        leafNodes.ForEach(n => n.Children.Add(victoryNode));
+        bossNodes.ForEach(n => n.Children.Add(victoryNode));
     }
 
     private void SetSceneData(MapNode rootNode)
     {
-        SetSceneData(rootNode, Pole.South);
+        if (!rootNode.HasData) SetSceneData(rootNode, Pole.South);
 
         rootNode.IterateDown(
             node =>
             {
+                if (node.HasData) return;
+                
                 Pole trueParentExitDirection = SceneLookup.Instance.GetTrueExitDirection(
                     node.Parent.Scene,
                     node.Parent.CameraOrientation,
@@ -162,41 +195,48 @@ public class MapGenerator : Singleton<MapGenerator>
 
     private void SetCommonData(MapNode node, Pole trueEntranceDirection)
     {
-        node.Scene = RandomUtils.Choice(SceneLookup.Instance.GetValidScenes(
-            node.RoomType,
-            trueEntranceDirection,
-            node.Children.Count
-        ));
-        node.CameraOrientation = RandomUtils.Choice(SceneLookup.Instance.GetValidCameraOrientations(
-            node.Scene,
-            trueEntranceDirection,
-            node.Children.Count
-        ));
-        node.EntranceId = RandomUtils.Choice(SceneLookup.Instance.GetValidEntranceIds(
-            node.Scene,
-            trueEntranceDirection,
-            node.CameraOrientation
-        ));
+        if (node.HasChildren)
+        {
+            node.Scene = RandomUtils.Choice(SceneLookup.Instance.GetValidScenes(
+                node.RoomType,
+                trueEntranceDirection,
+                node.Children.Count
+            ));
+            node.CameraOrientation = RandomUtils.Choice(SceneLookup.Instance.GetValidCameraOrientations(
+                node.Scene,
+                trueEntranceDirection,
+                node.Children.Count
+            ));
+            node.EntranceId = RandomUtils.Choice(SceneLookup.Instance.GetValidEntranceIds(
+                node.Scene,
+                trueEntranceDirection,
+                node.CameraOrientation
+            ));
+        }
 
         SetTransitionData(node);
     }
 
     private void SetTransitionData(MapNode node)
     {
-        List<int> validExitIds = SceneLookup.Instance.GetValidExitIds(
-            node.Scene,
-            node.CameraOrientation,
-            node.EntranceId
-        );
-        node.Children.ForEach(child =>
+        if (node.HasChildren)
         {
-            int exitId = RandomUtils.Choice(validExitIds);
-            node.ExitIdToChildLookup[exitId] = child;
-            node.ChildToExitIdLookup[child] = exitId;
-            node.ExitIdToIndicatesNextRoomType[exitId] = false;
-            node.ExitIdToFurtherIndicatedRoomTypes[exitId] = new List<RoomType>();
-            validExitIds.Remove(exitId);
-        });
+            List<int> validExitIds = SceneLookup.Instance.GetValidExitIds(
+                node.Scene,
+                node.CameraOrientation,
+                node.EntranceId
+            );
+
+            node.Children.ForEach(child =>
+            {
+                int exitId = RandomUtils.Choice(validExitIds);
+                node.ExitIdToChildLookup[exitId] = child;
+                node.ChildToExitIdLookup[child] = exitId;
+                node.ExitIdToIndicatesNextRoomType[exitId] = false;
+                node.ExitIdToFurtherIndicatedRoomTypes[exitId] = new List<RoomType>();
+                validExitIds.Remove(exitId);
+            });
+        }
 
         SetTransitionIndicationData(node);
     }

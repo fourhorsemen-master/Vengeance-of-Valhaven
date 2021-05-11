@@ -6,7 +6,9 @@ public class MapNode
     public MapNode Parent { get; set; }
     public List<MapNode> Children { get; } = new List<MapNode>();
 
+    public bool HasData { get; set; } = false;
     public int Id { get; set; }
+    public int Depth { get; set; }
     public RoomType RoomType { get; set; }
     public Scene Scene { get; set; }
     public Pole CameraOrientation { get; set; }
@@ -19,9 +21,7 @@ public class MapNode
     public List<AbilityReference> AbilityChoices { get; } = new List<AbilityReference>();
 
     public bool IsRootNode => Parent == null;
-    public bool IsLeafNode => Children.Count == 0;
-
-    public int Depth => IsRootNode ? 1 : Parent.Depth + 1;
+    public bool HasChildren => Children.Count > 0;
 
     public void IterateDown(Action<MapNode> action, Func<MapNode, bool> filter = null)
     {
@@ -45,7 +45,7 @@ public class MapNode
     /// <summary>
     /// Returns the distance from the nearest parent that has given room type. If no such parent exists then -1 is returned.
     /// </summary>
-    public int GetDistanceFromPreviousRoomType(RoomType roomType)
+    public int GetDistanceFromPreviousNodeOfRoomType(RoomType roomType)
     {
         bool foundSameRoomType = false;
         int distance = 0;
