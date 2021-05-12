@@ -51,7 +51,7 @@ public class TransitionPointer : MonoBehaviour
         float pointerY = Mathf.Clamp(clampedPosition.y * Screen.height, edgeOffset, Screen.height - edgeOffset);
 
         rectTransform.position = new Vector3(pointerX, pointerY);
-        rectTransform.rotation = Quaternion.FromToRotation(Vector3.down, new Vector3(clampedPosition.x - 0.5f, clampedPosition.y - 0.5f, 0f));
+        rectTransform.rotation = Quaternion.FromToRotation(Vector3.up, new Vector3(clampedPosition.x - 0.5f, clampedPosition.y - 0.5f, 0f));
     }
 
     private Vector3 ClampToScreenEdge(Vector3 viewportPosition)
