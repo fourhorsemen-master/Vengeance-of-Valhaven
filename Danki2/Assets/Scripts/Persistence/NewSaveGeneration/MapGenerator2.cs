@@ -152,6 +152,9 @@ public class MapGenerator2 : Singleton<MapGenerator2>
             node.CameraOrientation
         ));
 
+        node.ModuleSeed = RandomUtils.Seed();
+        node.TransitionModuleSeed = RandomUtils.Seed();
+
         SetTransitionData(node);
     }
     
