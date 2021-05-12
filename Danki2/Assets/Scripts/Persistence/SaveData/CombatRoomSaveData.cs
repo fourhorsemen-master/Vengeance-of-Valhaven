@@ -4,7 +4,7 @@ using System.Linq;
 public class CombatRoomSaveData
 {
     public bool EnemiesCleared { get; set; }
-    public Dictionary<int, ActorType> SpawnerIdToSpawnedActor { get; set; }
+    public Dictionary<int, ActorType> SpawnerIdToSpawnedActor { get; set; } = new Dictionary<int, ActorType>();
 
     public SerializableCombatRoomSaveData Serialize()
     {
