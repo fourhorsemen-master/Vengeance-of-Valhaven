@@ -43,6 +43,7 @@ public class PersistenceManager : Singleton<PersistenceManager>
     {
         UpdateSaveData();
         SaveData.CurrentRoomId = nextRoomId;
+        // TODO: Call through to generate new layer... (or maybe just do that logic all here?)
         SaveDataManager.Instance.Save(SaveData);
         SceneUtils.LoadScene(SaveData.CurrentRoomSaveData.Scene);
     }

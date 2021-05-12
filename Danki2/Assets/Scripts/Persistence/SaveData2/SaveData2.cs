@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class SaveData2
 {
     public int Version { get; set; }
     public int Seed { get; set; }
+    public Random.State RandomState { get; set; }
 
     public int PlayerHealth { get; set; }
     public SerializableAbilityTree SerializableAbilityTree { get; set; }

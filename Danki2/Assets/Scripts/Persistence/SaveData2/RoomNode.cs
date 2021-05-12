@@ -15,7 +15,6 @@ public class RoomNode
     public Dictionary<RoomNode, int> ChildToExitIdLookup { get; } = new Dictionary<RoomNode, int>();
     public Dictionary<int, bool> ExitIdToIndicatesNextRoomType { get; } = new Dictionary<int, bool>();
     public Dictionary<int, List<RoomType>> ExitIdToFurtherIndicatedRoomTypes { get; } = new Dictionary<int, List<RoomType>>();
-    public Dictionary<int, TransitionData> RoomTransitionerIdToTransitionData { get; set; }
     public int ModuleSeed { get; set; }
     public int TransitionModuleSeed { get; set; }
     public Pole CameraOrientation { get; set; }
