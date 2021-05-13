@@ -67,7 +67,7 @@ public class CameraVolume : MonoBehaviour
     {
         meshRenderer.enabled = false;
 
-        cameraOrientation = PersistenceManager.Instance.SaveData.CurrentRoomSaveData.CameraOrientation;
+        cameraOrientation = PersistenceManager.Instance.SaveData.CurrentRoomNode.CameraOrientation;
 
         if (CombatRoomManager.Instance.InCombatRoom && !CombatRoomManager.Instance.EnemiesCleared)
         {

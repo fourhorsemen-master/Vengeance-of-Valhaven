@@ -39,70 +39,71 @@ public class DevPersistenceManager : PersistenceManager
 
     public override void Save() {}
 
-    public override void TransitionToNextRoom(int nextRoomId) {}
+    public override void TransitionToNextRoom(RoomNode nextRoomNode) {}
 
     public override void TransitionToDefeatRoom() {}
 
     private SaveData GenerateNewSaveData()
     {
-        return new SaveData
-        {
-            PlayerHealth = playerHealth,
-            SerializableAbilityTree = AbilityTreeFactory.CreateTree(
-                new EnumDictionary<AbilityReference, int>(ownedAbilityCount),
-                AbilityTreeFactory.CreateNode(leftAbility),
-                AbilityTreeFactory.CreateNode(rightAbility)
-            ).Serialize(),
-            RuneSockets = runeSockets,
-            RuneOrder = runeOrder,
-            CurrentRoomId = 0,
-            RoomSaveDataLookup = new Dictionary<int, RoomSaveData>
-            {
-                [0] = new RoomSaveData
-                {
-                    Id = 0,
-                    ParentRoomId = -1,
-                    Depth = depth,
-                    RoomType = roomType,
-                    CombatRoomSaveData = new CombatRoomSaveData
-                    {
-                        EnemiesCleared = enemiesCleared,
-                        SpawnerIdToSpawnedActor = spawnedEnemies.ToDictionary(
-                            spawnedEnemy => spawnedEnemy.SpawnerId,
-                            spawnedEnemy => spawnedEnemy.ActorType
-                        )
-                    },
-                    AbilityRoomSaveData = new AbilityRoomSaveData
-                    {
-                        AbilityChoices = abilityChoices,
-                        AbilitiesViewed = false,
-                        AbilitySelected = false
-                    },
-                    HealingRoomSaveData = new HealingRoomSaveData
-                    {
-                        HasHealed = hasHealed
-                    },
-                    RuneRoomSaveData = new RuneRoomSaveData
-                    {
-                        RunesViewed = false,
-                        RuneSelected = false
-                    },
-                    RoomTransitionerIdToTransitionData = activeTransitions.ToDictionary(
-                        t => t,
-                        _ => new TransitionData
-                        {
-                            NextRoomId = 0,
-                            IndicatesNextRoomType = false,
-                            FurtherIndicatedRoomTypes = new List<RoomType>()
-                        }
-                    ),
-                    ModuleSeed = useRandomSeeds ? RandomUtils.Seed() : moduleSeed,
-                    TransitionModuleSeed = useRandomSeeds ? RandomUtils.Seed() : transitionModuleSeed,
-                    CameraOrientation = cameraOrientation,
-                    PlayerSpawnerId = playerSpawnerId
-                }
-            }
-        };
+        return new SaveData();
+        // return new SaveData
+        // {
+        //     PlayerHealth = playerHealth,
+        //     SerializableAbilityTree = AbilityTreeFactory.CreateTree(
+        //         new EnumDictionary<AbilityReference, int>(ownedAbilityCount),
+        //         AbilityTreeFactory.CreateNode(leftAbility),
+        //         AbilityTreeFactory.CreateNode(rightAbility)
+        //     ).Serialize(),
+        //     RuneSockets = runeSockets,
+        //     RuneOrder = runeOrder,
+        //     CurrentRoomId = 0,
+        //     RoomSaveDataLookup = new Dictionary<int, RoomSaveData>
+        //     {
+        //         [0] = new RoomSaveData
+        //         {
+        //             Id = 0,
+        //             ParentRoomId = -1,
+        //             Depth = depth,
+        //             RoomType = roomType,
+        //             CombatRoomSaveData = new CombatRoomSaveData
+        //             {
+        //                 EnemiesCleared = enemiesCleared,
+        //                 SpawnerIdToSpawnedActor = spawnedEnemies.ToDictionary(
+        //                     spawnedEnemy => spawnedEnemy.SpawnerId,
+        //                     spawnedEnemy => spawnedEnemy.ActorType
+        //                 )
+        //             },
+        //             AbilityRoomSaveData = new AbilityRoomSaveData
+        //             {
+        //                 AbilityChoices = abilityChoices,
+        //                 AbilitiesViewed = false,
+        //                 AbilitySelected = false
+        //             },
+        //             HealingRoomSaveData = new HealingRoomSaveData
+        //             {
+        //                 HasHealed = hasHealed
+        //             },
+        //             RuneRoomSaveData = new RuneRoomSaveData
+        //             {
+        //                 RunesViewed = false,
+        //                 RuneSelected = false
+        //             },
+        //             RoomTransitionerIdToTransitionData = activeTransitions.ToDictionary(
+        //                 t => t,
+        //                 _ => new TransitionData
+        //                 {
+        //                     NextRoomId = 0,
+        //                     IndicatesNextRoomType = false,
+        //                     FurtherIndicatedRoomTypes = new List<RoomType>()
+        //                 }
+        //             ),
+        //             ModuleSeed = useRandomSeeds ? RandomUtils.Seed() : moduleSeed,
+        //             TransitionModuleSeed = useRandomSeeds ? RandomUtils.Seed() : transitionModuleSeed,
+        //             CameraOrientation = cameraOrientation,
+        //             PlayerSpawnerId = playerSpawnerId
+        //         }
+        //     }
+        // };
     }
 
     [Serializable]

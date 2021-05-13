@@ -28,9 +28,9 @@ public class DynamicLighting : Singleton<DynamicLighting>
     
     private void Start()
     {
-        RoomSaveData currentRoomSaveData = PersistenceManager.Instance.SaveData.CurrentRoomSaveData;
+        RoomNode currentRoomNode = PersistenceManager.Instance.SaveData.CurrentRoomNode;
 
-        InitialiseLights(GetDepthProportion(currentRoomSaveData.Depth, MapGenerationLookup.Instance.MaxRoomDepth), currentRoomSaveData.CameraOrientation);
+        InitialiseLights(GetDepthProportion(currentRoomNode.Depth, MapGenerationLookup.Instance.MaxRoomDepth), currentRoomNode.CameraOrientation);
     }
 
     public void InitialiseLights(float depthProportion, Pole pole)

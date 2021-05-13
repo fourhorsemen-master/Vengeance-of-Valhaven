@@ -29,9 +29,9 @@ public class SerializableSaveData
     public List<SerializableRoomNode> SerializableRoomNodes { get => serializableRoomNodes; set => serializableRoomNodes = value; }
     public SerializableRoomNode SerializableDefeatRoom { get => serializableDefeatRoom; set => serializableDefeatRoom = value; }
 
-    public SaveData2 Deserialize()
+    public SaveData Deserialize()
     {
-        SaveData2 saveData = new SaveData2
+        SaveData saveData = new SaveData
         {
             Version = Version,
             Seed = Seed,
@@ -47,7 +47,7 @@ public class SerializableSaveData
         return saveData;
     }
 
-    private void AddGraphData(SaveData2 saveData)
+    private void AddGraphData(SaveData saveData)
     {
         Dictionary<int, SerializableRoomNode> idToSerializableRoomNode = SerializableRoomNodes.ToDictionary(
             serializableRoomNode => serializableRoomNode.Id

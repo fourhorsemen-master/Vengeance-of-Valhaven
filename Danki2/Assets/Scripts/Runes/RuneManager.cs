@@ -54,20 +54,14 @@ public class RuneManager
     //TODO: Include runes from shops here.
     private int GetRunesViewed()
     {
-        Dictionary<int, RoomSaveData> roomSaveDataLookup = PersistenceManager.Instance.SaveData.RoomSaveDataLookup;
-
+        RoomNode currentRoomNode = PersistenceManager.Instance.SaveData.CurrentRoomNode;
         int runesViewed = 0;
-        int parentNodeId = PersistenceManager.Instance.SaveData.CurrentRoomSaveData.ParentRoomId;
-
-        while (parentNodeId != -1)
-        {
-            RoomSaveData parentRoomSaveData = roomSaveDataLookup[parentNodeId];
-
-            if (parentRoomSaveData.RoomType == RoomType.Rune) runesViewed++;
-            
-            parentNodeId = parentRoomSaveData.ParentRoomId;
-        }
-
+        
+        currentRoomNode.IterateUp(
+            node => runesViewed += node.RoomType == RoomType.Rune ? 1 : 0,
+            node => node != currentRoomNode
+        );
+        
         return runesViewed;
     }
 }
