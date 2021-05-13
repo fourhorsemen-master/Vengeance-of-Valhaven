@@ -4,6 +4,19 @@ using UnityEngine;
 public class MapGenerator : Singleton<MapGenerator>
 {
     protected override bool DestroyOnLoad => false;
+    
+    public RoomNode Generate()
+    {
+        RoomNode rootNode = new RoomNode {Depth = 1};
+
+        rootNode.IterateDown(GenerateChildren, node => node.Depth <= MapGenerationLookup.Instance.GeneratedRoomDepth);
+        rootNode.IterateDown(SetRoomType);
+        SetRoomData(rootNode, Pole.South);
+        rootNode.IterateDown(SetRoomData, node => !node.IsRootNode && !node.IsLeafNode);
+        rootNode.IterateDown(SetIndicatorData);
+
+        return rootNode;
+    }
 
     public void GenerateNextLayer(RoomNode currentRoomNode)
     {
@@ -26,19 +39,6 @@ public class MapGenerator : Singleton<MapGenerator>
         leafNodes.ForEach(SetRoomData);
         
         if (!currentRoomNode.HasVictoryRoom()) leafNodes.ForEach(node => node.Children.ForEach(SetIndicatorData));
-    }
-    
-    public RoomNode Generate()
-    {
-        RoomNode rootNode = new RoomNode {Depth = 1};
-
-        rootNode.IterateDown(GenerateChildren, node => node.Depth <= MapGenerationLookup.Instance.GeneratedRoomDepth);
-        rootNode.IterateDown(SetRoomType);
-        SetRoomData(rootNode, Pole.South);
-        rootNode.IterateDown(SetRoomData, node => !node.IsRootNode && !node.IsLeafNode);
-        rootNode.IterateDown(SetIndicatorData);
-
-        return rootNode;
     }
 
     private void GenerateChildren(RoomNode node)
@@ -105,20 +105,6 @@ public class MapGenerator : Singleton<MapGenerator>
         });
 
         node.RoomType = RandomUtils.Choice(choices);
-    }
-    
-    private void TryGenerateVictoryNode(RoomNode node)
-    {
-        if (node.Depth != MapGenerationLookup.Instance.MaxRoomDepth) return;
-
-        RoomNode victoryNode = new RoomNode
-        {
-            Parent = node,
-            RoomType = RoomType.Victory,
-            Scene = Scene.GameplayVictoryScene
-        };
-
-        node.Children.Add(victoryNode);
     }
 
     private void SetRoomData(RoomNode node)
@@ -245,5 +231,19 @@ public class MapGenerator : Singleton<MapGenerator>
 
         RoomNode grandparent = parent.Parent;
         grandparent.ExitIdToFurtherIndicatedRoomTypes[grandparent.ChildToExitIdLookup[parent]].Add(node.RoomType);
+    }
+    
+    private void TryGenerateVictoryNode(RoomNode node)
+    {
+        if (node.Depth != MapGenerationLookup.Instance.MaxRoomDepth) return;
+
+        RoomNode victoryNode = new RoomNode
+        {
+            Parent = node,
+            RoomType = RoomType.Victory,
+            Scene = Scene.GameplayVictoryScene
+        };
+
+        node.Children.Add(victoryNode);
     }
 }
