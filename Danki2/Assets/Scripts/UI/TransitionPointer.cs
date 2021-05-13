@@ -10,27 +10,23 @@ public class TransitionPointer : MonoBehaviour
     [SerializeField]
     private Image image = null;
 
-    private const float edgeOffset = 20f;
+    [SerializeField]
+    private float edgeOffset = 0f;
 
-    private Vector3 transitionPosition;
+    public Vector3 TransitionPosition { get; set; }
 
     public static void Create(TransitionPointer prefab, Vector3 transitionPosition)
     {
-        Instantiate(prefab).SetTransitionPosition(transitionPosition);
+        Instantiate(prefab).TransitionPosition = transitionPosition;
     }
 
     private void Start() => SetPosition();
 
     private void Update() => SetPosition();
 
-    public void SetTransitionPosition(Vector3 transitionPosition)
-    {
-        this.transitionPosition = transitionPosition;
-    }
-
     private void SetPosition()
     {
-        if (CustomCamera.Instance.PointInViewport(transitionPosition))
+        if (CustomCamera.Instance.PointInViewport(TransitionPosition))
         {
             image.enabled = false;
         }
@@ -43,7 +39,7 @@ public class TransitionPointer : MonoBehaviour
 
     private void Point()
     {
-        Vector3 viewportPosition = CustomCamera.Instance.WorldToViewportPoint(transitionPosition);
+        Vector3 viewportPosition = CustomCamera.Instance.WorldToViewportPoint(TransitionPosition);
 
         Vector3 clampedPosition = ClampToScreenEdge(viewportPosition);
 
@@ -59,7 +55,7 @@ public class TransitionPointer : MonoBehaviour
         if (viewportPosition.z < 0) viewportPosition = -viewportPosition;
 
         // Get the position relative to the centre of the screen
-        var adjustedPosition = viewportPosition - Vector3.one * 0.5f;
+        Vector3 adjustedPosition = viewportPosition - Vector3.one * 0.5f;
 
         float x, y;
 
