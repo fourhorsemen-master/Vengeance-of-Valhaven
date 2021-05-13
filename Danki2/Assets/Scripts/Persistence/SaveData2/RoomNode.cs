@@ -68,7 +68,15 @@ public class RoomNode
     public RoomNode GetRootNode()
     {
         RoomNode rootNode = null;
-        IterateUp(node => rootNode = node, node => node.IsRootNode);
+        IterateUp(node =>
+        {
+            if (node.IsRootNode) rootNode = node;
+        });
         return rootNode;
+    }
+
+    public SerializableRoomNode Serialize()
+    {
+        return null;
     }
 }
