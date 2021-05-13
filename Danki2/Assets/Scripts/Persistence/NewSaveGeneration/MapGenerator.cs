@@ -29,8 +29,9 @@ public class MapGenerator : Singleton<MapGenerator>
         );
 
         leafNodes.ForEach(TryGenerateVictoryNode);
+        bool hasVictoryRoom = currentRoomNode.HasVictoryRoom();
 
-        if (!currentRoomNode.HasVictoryRoom())
+        if (!hasVictoryRoom)
         {
             leafNodes.ForEach(GenerateChildren);
             leafNodes.ForEach(node => node.Children.ForEach(SetRoomType));
@@ -38,7 +39,7 @@ public class MapGenerator : Singleton<MapGenerator>
         
         leafNodes.ForEach(SetRoomData);
         
-        if (!currentRoomNode.HasVictoryRoom()) leafNodes.ForEach(node => node.Children.ForEach(SetIndicatorData));
+        if (!hasVictoryRoom) leafNodes.ForEach(node => node.Children.ForEach(SetIndicatorData));
     }
 
     private void GenerateChildren(RoomNode node)
