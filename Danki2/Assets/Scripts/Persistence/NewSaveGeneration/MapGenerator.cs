@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class MapGenerator : Singleton<MapGenerator>
 {
-    private const int GeneratedRoomDepth = 2;
-    
     protected override bool DestroyOnLoad => false;
 
     public void GenerateNextLayer(RoomNode currentRoomNode)
@@ -34,7 +32,7 @@ public class MapGenerator : Singleton<MapGenerator>
     {
         RoomNode rootNode = new RoomNode {Depth = 1};
 
-        rootNode.IterateDown(GenerateChildren, node => node.Depth <= GeneratedRoomDepth);
+        rootNode.IterateDown(GenerateChildren, node => node.Depth <= MapGenerationLookup.Instance.GeneratedRoomDepth);
         rootNode.IterateDown(SetRoomType);
         SetRoomData(rootNode, Pole.South);
         rootNode.IterateDown(SetRoomData, node => !node.IsRootNode && !node.IsLeafNode);
