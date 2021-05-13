@@ -12,10 +12,10 @@ public class RoomNode
     public AbilityRoomSaveData AbilityRoomSaveData { get; set; }  = new AbilityRoomSaveData();
     public HealingRoomSaveData HealingRoomSaveData { get; set; }  = new HealingRoomSaveData();
     public RuneRoomSaveData RuneRoomSaveData { get; set; }  = new RuneRoomSaveData();
-    public Dictionary<int, RoomNode> ExitIdToChildLookup { get; } = new Dictionary<int, RoomNode>();
-    public Dictionary<RoomNode, int> ChildToExitIdLookup { get; } = new Dictionary<RoomNode, int>();
-    public Dictionary<int, bool> ExitIdToIndicatesNextRoomType { get; } = new Dictionary<int, bool>();
-    public Dictionary<int, List<RoomType>> ExitIdToFurtherIndicatedRoomTypes { get; } = new Dictionary<int, List<RoomType>>();
+    public Dictionary<int, RoomNode> ExitIdToChildLookup { get; set; } = new Dictionary<int, RoomNode>();
+    public Dictionary<RoomNode, int> ChildToExitIdLookup { get; set; } = new Dictionary<RoomNode, int>();
+    public Dictionary<int, bool> ExitIdToIndicatesNextRoomType { get; set; } = new Dictionary<int, bool>();
+    public Dictionary<int, List<RoomType>> ExitIdToFurtherIndicatedRoomTypes { get; set; } = new Dictionary<int, List<RoomType>>();
     public int ModuleSeed { get; set; }
     public int TransitionModuleSeed { get; set; }
     public Pole CameraOrientation { get; set; }
