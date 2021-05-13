@@ -17,11 +17,17 @@ public class MapGenerator : Singleton<MapGenerator>
             node => node.IsLeafNode
         );
 
-        leafNodes.ForEach(GenerateChildren);
-        leafNodes.ForEach(node => node.Children.ForEach(SetRoomType));
         leafNodes.ForEach(TryGenerateVictoryNode);
+
+        if (!currentRoomNode.HasVictoryRoom())
+        {
+            leafNodes.ForEach(GenerateChildren);
+            leafNodes.ForEach(node => node.Children.ForEach(SetRoomType));
+        }
+        
         leafNodes.ForEach(SetRoomData);
-        leafNodes.ForEach(node => node.Children.ForEach(SetIndicatorData));
+        
+        if (!currentRoomNode.HasVictoryRoom()) leafNodes.ForEach(node => node.Children.ForEach(SetIndicatorData));
     }
     
     public RoomNode Generate()
@@ -49,6 +55,7 @@ public class MapGenerator : Singleton<MapGenerator>
 
     /// <summary>
     /// Sets the room type according to the following strategy:
+    ///  - If the room is at the required depth, then set its room type to boss.
     ///  - For each room type, find the distance from the node to the nearest parent with that room type,
     ///  - If no such parent exists, assume that the node before the root node was of that room type. That is to
     ///    assume that the node before the root node is a special node of every room type,
@@ -60,6 +67,12 @@ public class MapGenerator : Singleton<MapGenerator>
     /// </summary>
     private void SetRoomType(RoomNode node)
     {
+        if (node.Depth == MapGenerationLookup.Instance.MaxRoomDepth)
+        {
+            node.RoomType = RoomType.Boss;
+            return;
+        }
+
         Dictionary<RoomType, int> distancesFromPreviousRoomTypes = new Dictionary<RoomType, int>();
         MapGenerationLookup.Instance.ForEachRoomTypeInPool(roomType =>
         {
