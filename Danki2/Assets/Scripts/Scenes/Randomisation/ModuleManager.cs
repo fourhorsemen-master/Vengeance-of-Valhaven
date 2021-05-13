@@ -5,8 +5,6 @@ using Random = UnityEngine.Random;
 
 public class ModuleManager : Singleton<ModuleManager>
 {
-    private readonly Dictionary<ModuleData, int> moduleUses = new Dictionary<ModuleData, int>();
-
     private void Start()
     {
         RoomSaveData currentRoomSaveData = PersistenceManager.Instance.SaveData.CurrentRoomSaveData;
@@ -26,6 +24,8 @@ public class ModuleManager : Singleton<ModuleManager>
 
     private void InstantiateModules(List<ModuleSocket> sockets)
     {
+        Dictionary<ModuleData, int> moduleUses = new Dictionary<ModuleData, int>();
+
         sockets.ForEach(socket =>
         {
             List<ModuleData> moduleDataList = ModuleLookup.Instance.GetModuleDataWithMatchingTags(
