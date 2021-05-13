@@ -6,6 +6,7 @@ public class RoomTransitioner : MonoBehaviour
 
     [SerializeField] private int id = 0;
     [SerializeField] private Light pointLight = null;
+    [SerializeField] private TransitionPointer transitionPointerPrefab = null;
 
     private bool active = false;
     
@@ -30,6 +31,10 @@ public class RoomTransitioner : MonoBehaviour
 
     private void HandleCanTransitionSubject(bool canTransition)
     {
-        if (canTransition) pointLight.enabled = true;
+        if (canTransition)
+        {
+            pointLight.enabled = true;
+            TransitionPointer.Create(transitionPointerPrefab, transform.position);
+        }
     }
 }

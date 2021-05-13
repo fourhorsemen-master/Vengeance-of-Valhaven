@@ -4,39 +4,25 @@ using UnityEngine;
 public class CustomCamera : Singleton<CustomCamera>
 {
     [Header("Camera settings")]
+
+    [SerializeField]
+    private new Camera camera = null; // new is needed because camera is hiding the obselete camera property
+
     [SerializeField]
     private StudioListener listener = null;
 
-    [SerializeField, Range(0, 50)]
-    private float height = 10;
-
-    [SerializeField, Range(10, 80)]
-    private float angle = 40;
-
-    [SerializeField, Range(0f, 1f)]
-    private float mouseFollowFactor = 0f;
-
-    [SerializeField, Range(0f, 1f)]
-    private float smoothFactor = 0.1f;
+    [SerializeField, Range(0, 50)] private float height = 10;
+    [SerializeField, Range(10, 80)] private float angle = 40;
+    [SerializeField, Range(0f, 1f)] private float mouseFollowFactor = 0f;
+    [SerializeField, Range(0f, 1f)] private float smoothFactor = 0.1f;
 
     [Header("Shake levels")]
-    [SerializeField, Range(0, 50)]
-    private float smallShakeStrength = 10;
-
-    [SerializeField, Range(0, 1)]
-    private float smallShakeDuration = 10;
-
-    [SerializeField, Range(0, 50)]
-    private float mediumShakeStrength = 10;
-
-    [SerializeField, Range(0, 1)]
-    private float mediumShakeDuration = 10;
-
-    [SerializeField, Range(0, 50)]
-    private float bigShakeStrength = 10;
-
-    [SerializeField, Range(0, 1)]
-    private float bigShakeDuration = 10;
+    [SerializeField, Range(0, 50)] private float smallShakeStrength = 10;
+    [SerializeField, Range(0, 1)] private float smallShakeDuration = 10;
+    [SerializeField, Range(0, 50)] private float mediumShakeStrength = 10;
+    [SerializeField, Range(0, 1)] private float mediumShakeDuration = 10;
+    [SerializeField, Range(0, 50)] private float bigShakeStrength = 10;
+    [SerializeField, Range(0, 1)] private float bigShakeDuration = 10;
 
     private GameObject target;
 
@@ -106,6 +92,19 @@ public class CustomCamera : Singleton<CustomCamera>
         transformOverride = null;
         smoothFactorOverride = null;
     }
+
+    public bool PointInViewport(Vector3 point)
+    {
+        Vector3 viewPortPoint = camera.WorldToViewportPoint(point);
+
+        return viewPortPoint.x > 0
+            && viewPortPoint.x < 1
+            && viewPortPoint.y > 0
+            && viewPortPoint.y < 1
+            && viewPortPoint.z > 0;
+    }
+
+    public Vector3 WorldToViewportPoint(Vector3 point) => camera.WorldToViewportPoint(point);
 
     private void FollowTarget(bool snap)
     {
