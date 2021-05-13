@@ -8,6 +8,7 @@ public class SerializableRoomNode
     [SerializeField] private int id;
     [SerializeField] private int parentId;
     [SerializeField] private List<int> childIds;
+    [SerializeField] private int depth;
     [SerializeField] private RoomType roomType;
     [SerializeField] private Scene scene;
     [SerializeField] private SerializableCombatRoomSaveData serializableCombatRoomSaveData;
@@ -23,6 +24,7 @@ public class SerializableRoomNode
     public int Id { get => id; set => id = value; }
     public int ParentId { get => parentId; set => parentId = value; }
     public List<int> ChildIds { get => childIds; set => childIds = value; }
+    public int Depth { get => depth; set => depth = value; }
     public RoomType RoomType { get => roomType; set => roomType = value; }
     public Scene Scene { get => scene; set => scene = value; }
     public SerializableCombatRoomSaveData SerializableCombatRoomSaveData { get => serializableCombatRoomSaveData; set => serializableCombatRoomSaveData = value; }
@@ -39,6 +41,7 @@ public class SerializableRoomNode
     {
         return new RoomNode
         {
+            Depth = Depth,
             RoomType = RoomType,
             Scene = Scene,
             CombatRoomSaveData = SerializableCombatRoomSaveData.Deserialize(),

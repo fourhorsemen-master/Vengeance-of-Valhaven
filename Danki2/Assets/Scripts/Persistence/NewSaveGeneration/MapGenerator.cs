@@ -32,7 +32,7 @@ public class MapGenerator : Singleton<MapGenerator>
     
     public RoomNode Generate()
     {
-        RoomNode rootNode = new RoomNode();
+        RoomNode rootNode = new RoomNode {Depth = 1};
 
         rootNode.IterateDown(GenerateChildren, node => node.Depth <= GeneratedRoomDepth);
         rootNode.IterateDown(SetRoomType);
@@ -50,7 +50,11 @@ public class MapGenerator : Singleton<MapGenerator>
             MapGenerationLookup.Instance.MaxRoomExits + 1
         );
 
-        Utils.Repeat(numberOfChildren, () => node.Children.Add(new RoomNode {Parent = node}));
+        Utils.Repeat(numberOfChildren, () => node.Children.Add(new RoomNode
+        {
+            Parent = node,
+            Depth = node.Depth + 1
+        }));
     }
 
     /// <summary>

@@ -5,6 +5,7 @@ public class RoomNode
 {
     public RoomNode Parent { get; set; }
     public List<RoomNode> Children { get; } = new List<RoomNode>();
+    public int Depth { get; set; }
     public RoomType RoomType { get; set; }
     public Scene Scene { get; set; }
     public CombatRoomSaveData CombatRoomSaveData { get; set; }  = new CombatRoomSaveData();
@@ -22,8 +23,6 @@ public class RoomNode
     
     public bool IsRootNode => Parent == null;
     public bool IsLeafNode => Children.Count == 0;
-
-    public int Depth => IsRootNode ? 1 : Parent.Depth + 1;
     
     public void IterateDown(Action<RoomNode> action, Func<RoomNode, bool> filter = null)
     {
@@ -79,6 +78,7 @@ public class RoomNode
     {
         return new SerializableRoomNode
         {
+            Depth = Depth,
             RoomType = RoomType,
             Scene = Scene,
             SerializableCombatRoomSaveData = CombatRoomSaveData?.Serialize(),
