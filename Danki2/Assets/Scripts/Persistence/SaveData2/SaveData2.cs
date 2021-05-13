@@ -29,12 +29,12 @@ public class SaveData2
             RuneOrder = RuneOrder
         };
         
-        AddRoomData(serializableSaveData);
+        AddGraphData(serializableSaveData);
         
         return serializableSaveData;
     }
 
-    private void AddRoomData(SerializableSaveData serializableSaveData)
+    private void AddGraphData(SerializableSaveData serializableSaveData)
     {
         RoomNode rootNode = CurrentRoomNode.GetRootNode();
 
@@ -53,8 +53,17 @@ public class SaveData2
             SerializableRoomNode serializableRoomNode = node.Serialize();
             serializableRoomNode.Id = roomNodeToId[node];
             serializableRoomNode.ParentId = node.IsRootNode ? -1 : roomNodeToId[node.Parent];
-            serializableRoomNode.ChildrenIds = node.Children
+            serializableRoomNode.ChildIds = node.Children
                 .Select(c => roomNodeToId[c])
+                .ToList();
+            serializableRoomNode.SerializableTransitionData = node.ExitIdToChildLookup.Keys
+                .Select(exitId => new SerializableTransitionData
+                {
+                    RoomTransitionerId = exitId,
+                    NextRoomId = roomNodeToId[node.ExitIdToChildLookup[exitId]],
+                    IndicatesNextRoomType = node.ExitIdToIndicatesNextRoomType[exitId],
+                    FurtherIndicatedRoomTypes = node.ExitIdToFurtherIndicatedRoomTypes[exitId]
+                })
                 .ToList();
             serializableRoomNodes.Add(serializableRoomNode);
         });

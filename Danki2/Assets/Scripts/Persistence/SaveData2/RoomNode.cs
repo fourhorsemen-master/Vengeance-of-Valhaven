@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class RoomNode
 {
     public RoomNode Parent { get; set; }
-    public List<RoomNode> Children { get; set; } = new List<RoomNode>();
+    public List<RoomNode> Children { get; } = new List<RoomNode>();
     public RoomType RoomType { get; set; }
     public Scene Scene { get; set; }
     public CombatRoomSaveData CombatRoomSaveData { get; set; }  = new CombatRoomSaveData();
@@ -77,6 +77,18 @@ public class RoomNode
 
     public SerializableRoomNode Serialize()
     {
-        return null;
+        return new SerializableRoomNode
+        {
+            RoomType = RoomType,
+            Scene = Scene,
+            SerializableCombatRoomSaveData = CombatRoomSaveData?.Serialize(),
+            SerializableAbilityRoomSaveData = AbilityRoomSaveData?.Serialize(),
+            SerializableHealingRoomSaveData = HealingRoomSaveData?.Serialize(),
+            SerializableRuneRoomSaveData = RuneRoomSaveData?.Serialize(),
+            ModuleSeed = ModuleSeed,
+            TransitionModuleSeed = TransitionModuleSeed,
+            CameraOrientation = CameraOrientation,
+            PlayerSpawnerId = PlayerSpawnerId
+        };
     }
 }

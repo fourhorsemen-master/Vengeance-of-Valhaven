@@ -42,35 +42,55 @@ public class SerializableSaveData
             RuneOrder = RuneOrder,
         };
 
-        AddRoomData(saveData);
+        AddGraphData(saveData);
 
         return saveData;
     }
 
-    private void AddRoomData(SaveData2 saveData)
+    private void AddGraphData(SaveData2 saveData)
     {
-        Dictionary<int, SerializableRoomNode> idToSerializableRoomNode = new Dictionary<int, SerializableRoomNode>();
-        serializableRoomNodes.ForEach(s => idToSerializableRoomNode[s.Id] = s);
+        Dictionary<int, SerializableRoomNode> idToSerializableRoomNode = SerializableRoomNodes.ToDictionary(
+            serializableRoomNode => serializableRoomNode.Id
+        );
+        Dictionary<int, RoomNode> idToRoomNode = idToSerializableRoomNode.ToDictionary(
+            kvp => kvp.Key,
+            kvp => kvp.Value.Deserialize()
+        );
         
-        DeserializeRoomNodes(idToSerializableRoomNode[0], null, idToSerializableRoomNode, saveData);
-
+        DeserializeRoomNodeGraphData(0, idToRoomNode, idToSerializableRoomNode);
+        saveData.CurrentRoomNode = idToRoomNode[CurrentRoomId];
         saveData.DefeatRoom = serializableDefeatRoom.Deserialize();
     }
 
-    private RoomNode DeserializeRoomNodes(
-        SerializableRoomNode serializableNode,
-        RoomNode parent,
-        Dictionary<int, SerializableRoomNode> idToSerializableRoomNode,
-        SaveData2 saveData
+    private RoomNode DeserializeRoomNodeGraphData(
+        int id,
+        Dictionary<int, RoomNode> idToRoomNode,
+        Dictionary<int, SerializableRoomNode> idToSerializableRoomNode
     )
     {
-        RoomNode roomNode = serializableNode.Deserialize();
-        roomNode.Parent = parent;
-        roomNode.Children = serializableNode.ChildrenIds
-            .Select(id => DeserializeRoomNodes(idToSerializableRoomNode[id], roomNode, idToSerializableRoomNode, saveData))
-            .ToList();
+        RoomNode roomNode = idToRoomNode[id];
+        SerializableRoomNode serializableRoomNode = idToSerializableRoomNode[id];
+        
+        roomNode.Parent = serializableRoomNode.ParentId == -1
+            ? null
+            : idToRoomNode[serializableRoomNode.ParentId];
 
-        if (serializableNode.Id == currentRoomId) saveData.CurrentRoomNode = roomNode;
+        idToSerializableRoomNode[id].ChildIds.ForEach(childId =>
+        {
+            roomNode.Children.Add(idToRoomNode[childId]);
+            DeserializeRoomNodeGraphData(childId, idToRoomNode, idToSerializableRoomNode);
+        });
+
+        serializableRoomNode.SerializableTransitionData.ForEach(serializableTransitionData =>
+            {
+                int exitId = serializableTransitionData.RoomTransitionerId;
+                RoomNode child = idToRoomNode[serializableTransitionData.NextRoomId];
+
+                roomNode.ExitIdToChildLookup[exitId] = child;
+                roomNode.ChildToExitIdLookup[child] = exitId;
+                roomNode.ExitIdToIndicatesNextRoomType[exitId] = serializableTransitionData.IndicatesNextRoomType;
+                roomNode.ExitIdToFurtherIndicatedRoomTypes[exitId] = serializableTransitionData.FurtherIndicatedRoomTypes;
+            });
         
         return roomNode;
     }
