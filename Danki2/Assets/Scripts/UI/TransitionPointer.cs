@@ -1,5 +1,4 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class TransitionPointer : MonoBehaviour
@@ -13,11 +12,11 @@ public class TransitionPointer : MonoBehaviour
     [SerializeField]
     private float edgeOffset = 0f;
 
-    public Vector3 TransitionPosition { get; set; }
+    private Vector3 transitionPosition;
 
     public static void Create(TransitionPointer prefab, Vector3 transitionPosition)
     {
-        Instantiate(prefab).TransitionPosition = transitionPosition;
+        Instantiate(prefab).transitionPosition = transitionPosition;
     }
 
     private void Start() => SetPosition();
@@ -26,7 +25,7 @@ public class TransitionPointer : MonoBehaviour
 
     private void SetPosition()
     {
-        if (CustomCamera.Instance.PointInViewport(TransitionPosition))
+        if (CustomCamera.Instance.PointInViewport(transitionPosition))
         {
             image.enabled = false;
         }
@@ -39,7 +38,7 @@ public class TransitionPointer : MonoBehaviour
 
     private void Point()
     {
-        Vector3 viewportPosition = CustomCamera.Instance.WorldToViewportPoint(TransitionPosition);
+        Vector3 viewportPosition = CustomCamera.Instance.WorldToViewportPoint(transitionPosition);
 
         Vector3 clampedPosition = ClampToScreenEdge(viewportPosition);
 
