@@ -5,6 +5,8 @@ using Random = UnityEngine.Random;
 
 public class ModuleManager : Singleton<ModuleManager>
 {
+    private readonly Dictionary<ModuleData, int> moduleUses = new Dictionary<ModuleData, int>();
+
     private void Start()
     {
         RoomSaveData currentRoomSaveData = PersistenceManager.Instance.SaveData.CurrentRoomSaveData;
@@ -38,7 +40,17 @@ public class ModuleManager : Singleton<ModuleManager>
                 return;
             }
 
+            moduleDataList.Where(d => !moduleUses.ContainsKey(d))
+                .ForEach(d => moduleUses[d] = 0);
+
+            int minUses = moduleDataList.Select(d => moduleUses[d]).Min();
+
+            moduleDataList = moduleDataList.Where(d => moduleUses[d] <= minUses);
+
             ModuleData moduleData = RandomUtils.Choice(moduleDataList);
+
+            moduleUses[moduleData]++;
+
             GameObject module = Instantiate(moduleData.Prefab, socket.transform);
             AddRandomRotation(module, moduleData, ModuleLookup.Instance.GetSocketRotationType(socket.SocketType));
         });
