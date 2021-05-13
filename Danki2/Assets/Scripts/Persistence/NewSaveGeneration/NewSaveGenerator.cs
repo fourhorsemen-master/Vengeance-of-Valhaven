@@ -17,48 +17,46 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
             Version = SaveDataVersion,
             Seed = seed,
             PlayerHealth = 20,
-            SerializableAbilityTree = GenerateAbilityTree().Serialize(),
-            RuneSockets = GenerateRuneSockets(),
-            RuneOrder = GenerateRuneOrder(),
-            CurrentRoomNode = MapGenerator.Instance.Generate(),
-            DefeatRoom = GenerateDefeatRoom()
+            CurrentRoomNode = MapGenerator.Instance.Generate()
         };
+
+        SetAbilityTree(saveData);
+        SetRuneSockets(saveData);
+        SetRuneOrder(saveData);
+        SetDefeatRoom(saveData);
 
         saveData.RandomState = Random.state;
 
         return saveData;
     }
 
-    private AbilityTree GenerateAbilityTree()
+    private void SetAbilityTree(SaveData saveData)
     {
         EnumDictionary<AbilityReference, int> ownedAbilities = new EnumDictionary<AbilityReference, int>(0);
         ownedAbilities[AbilityReference.Slash] = 1;
         ownedAbilities[AbilityReference.Lunge] = 1;
 
-        return AbilityTreeFactory.CreateTree(
+        saveData.SerializableAbilityTree = AbilityTreeFactory.CreateTree(
             ownedAbilities,
             AbilityTreeFactory.CreateNode(AbilityReference.Slash),
             AbilityTreeFactory.CreateNode(AbilityReference.Lunge)
-        );
+        ).Serialize();
     }
 
-    private List<RuneSocket> GenerateRuneSockets()
+    private void SetRuneSockets(SaveData saveData)
     {
-        List<RuneSocket> runeSockets = new List<RuneSocket>();
-        Utils.Repeat(MapGenerationLookup.Instance.RuneSockets, () => runeSockets.Add(new RuneSocket()));
-        return runeSockets;
+        Utils.Repeat(MapGenerationLookup.Instance.RuneSockets, () => saveData.RuneSockets.Add(new RuneSocket()));
     }
 
-    private List<Rune> GenerateRuneOrder()
+    private void SetRuneOrder(SaveData saveData)
     {
-        List<Rune> runes = EnumUtils.ToList<Rune>();
-        runes.Shuffle();
-        return runes;
+        EnumUtils.ForEach<Rune>(rune => saveData.RuneOrder.Add(rune));
+        saveData.RuneOrder.Shuffle();
     }
 
-    private RoomNode GenerateDefeatRoom()
+    private void SetDefeatRoom(SaveData saveData)
     {
-        return new RoomNode
+        saveData.DefeatRoom = new RoomNode
         {
             Scene = Scene.GameplayDefeatScene,
             RoomType = RoomType.Defeat

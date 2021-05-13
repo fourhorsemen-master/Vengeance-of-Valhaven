@@ -4,7 +4,7 @@ using UnityEngine;
 [Serializable]
 public class SerializableHealingRoomSaveData
 {
-    [SerializeField] private bool hasHealed = false;
+    [SerializeField] private bool hasHealed;
 
     public bool HasHealed { get => hasHealed; set => hasHealed = value; }
 
