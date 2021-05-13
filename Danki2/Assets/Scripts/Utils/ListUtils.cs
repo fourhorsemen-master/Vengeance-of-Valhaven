@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Random = UnityEngine.Random;
 
 public static class ListUtils
 {
@@ -50,5 +51,62 @@ public static class ListUtils
     public static void Add<T>(this List<T> list, params T[] items)
     {
         list.AddRange(items);
+    }
+
+    /// <summary>
+    /// Shuffles the list using Fisher–Yates shuffle.
+    /// </summary>
+    public static void Shuffle<T>(this List<T> list)
+    {
+        for (int i = 0; i < list.Count; i++)
+        {
+            int swapIndex = Random.Range(i, list.Count);
+            T temp = list[swapIndex];
+            list[swapIndex] = list[i];
+            list[i] = temp;
+        }
+    }
+    
+    /// <inheritdoc cref="Resize{T}(System.Collections.Generic.List{T},int,System.Func{T})"/>
+    public static void Resize<T>(this List<T> list, int size, T @default = default)
+    {
+        Resize(list, size, () => @default);
+    }
+    
+    /// <summary>
+    /// Resizes the list to the given size. If the list is growing in size then the default value provider
+    /// is used for new elements of the list.
+    /// </summary>
+    public static void Resize<T>(this List<T> list, int size, Func<T> defaultValueProvider)
+    {
+        if (size <= 0)
+        {
+            list.Clear();
+        }
+        else if (size < list.Count)
+        {
+            list.RemoveRange(size, list.Count - size);
+        }
+        else if (size > list.Count)
+        {
+            List<T> listToAdd = new List<T>();
+            Utils.Repeat(size - list.Count, () => listToAdd.Add(defaultValueProvider()));
+            list.AddRange(listToAdd);
+        }
+    }
+
+    /// <summary>
+    /// Trims the list down to the given size if it has more elements that the given size.
+    /// </summary>
+    public static void Trim<T>(this List<T> list, int size)
+    {
+        if (size <= 0)
+        {
+            list.Clear();
+        }
+        else if (size < list.Count)
+        {
+            list.RemoveRange(size, list.Count - size);
+        }
     }
 }

@@ -4,47 +4,63 @@ using UnityEngine;
 [CustomEditor(typeof(DevPersistenceManager))]
 public class DevPersistenceManagerEditor : Editor
 {
+    private readonly EnumDictionary<Section, bool> foldoutStatus = new EnumDictionary<Section, bool>(false);
+    
     public override void OnInspectorGUI()
     {
         DevPersistenceManager devPersistenceManager = (DevPersistenceManager) target;
 
         EditorUtils.ShowScriptLink(devPersistenceManager);
 
-        EditorUtils.Header("Player");
-        EditorGUI.indentLevel++;
-        devPersistenceManager.playerSpawnerId = EditorGUILayout.IntField("Player Spawner ID", devPersistenceManager.playerSpawnerId);
-        devPersistenceManager.playerHealth = EditorGUILayout.IntField("Player Health", devPersistenceManager.playerHealth);
-        EditorGUI.indentLevel--;
-        EditorUtils.VerticalSpace();
+        foldoutStatus[Section.Player] = EditorGUILayout.Foldout(foldoutStatus[Section.Player], "Player");
+        if (foldoutStatus[Section.Player])
+        {
+            EditorGUI.indentLevel++;
+            devPersistenceManager.playerSpawnerId = EditorGUILayout.IntField("Player Spawner ID", devPersistenceManager.playerSpawnerId);
+            devPersistenceManager.playerHealth = EditorGUILayout.IntField("Player Health", devPersistenceManager.playerHealth);
+            EditRuneSockets(devPersistenceManager);
+            EditRuneOrder(devPersistenceManager);
+            EditorGUI.indentLevel--;
+            EditorUtils.VerticalSpace();
+        }
         
-        EditorUtils.Header("Ability Tree");
-        EditorGUI.indentLevel++;
-        devPersistenceManager.ownedAbilityCount = EditorGUILayout.IntField("Owned Ability Count", devPersistenceManager.ownedAbilityCount);
-        devPersistenceManager.leftAbility = (AbilityReference) EditorGUILayout.EnumPopup("Left Ability", devPersistenceManager.leftAbility);
-        devPersistenceManager.rightAbility = (AbilityReference) EditorGUILayout.EnumPopup("Left Ability", devPersistenceManager.rightAbility);
-        EditorGUI.indentLevel--;
-        EditorUtils.VerticalSpace();
+        foldoutStatus[Section.AbilityTree] = EditorGUILayout.Foldout(foldoutStatus[Section.AbilityTree], "Ability Tree");
+        if (foldoutStatus[Section.AbilityTree])
+        {
+            EditorGUI.indentLevel++;
+            devPersistenceManager.ownedAbilityCount = EditorGUILayout.IntField("Owned Ability Count", devPersistenceManager.ownedAbilityCount);
+            devPersistenceManager.leftAbility = (AbilityReference) EditorGUILayout.EnumPopup("Left Ability", devPersistenceManager.leftAbility);
+            devPersistenceManager.rightAbility = (AbilityReference) EditorGUILayout.EnumPopup("Left Ability", devPersistenceManager.rightAbility);
+            EditorGUI.indentLevel--;
+            EditorUtils.VerticalSpace();
+        }
         
-        EditorUtils.Header("Scene");
-        EditorGUI.indentLevel++;
-        devPersistenceManager.cameraOrientation = (Pole) EditorGUILayout.EnumPopup("Camera Orientation", devPersistenceManager.cameraOrientation);
-        devPersistenceManager.useRandomSeeds = EditorGUILayout.Toggle("Use Random Seeds", devPersistenceManager.useRandomSeeds);
-        if (devPersistenceManager.useRandomSeeds) EditorGUI.BeginDisabledGroup(true);
-        devPersistenceManager.moduleSeed = EditorGUILayout.IntField("Module Seed", devPersistenceManager.moduleSeed);
-        devPersistenceManager.transitionModuleSeed = EditorGUILayout.IntField("Transitions Module Seed", devPersistenceManager.transitionModuleSeed);
-        if (devPersistenceManager.useRandomSeeds) EditorGUI.EndDisabledGroup();
-        EditTransitions(devPersistenceManager);
-        EditorGUI.indentLevel--;
-        EditorUtils.VerticalSpace();
+        foldoutStatus[Section.Scene] = EditorGUILayout.Foldout(foldoutStatus[Section.Scene], "Scene");
+        if (foldoutStatus[Section.Scene])
+        {
+            EditorGUI.indentLevel++;
+            devPersistenceManager.cameraOrientation = (Pole) EditorGUILayout.EnumPopup("Camera Orientation", devPersistenceManager.cameraOrientation);
+            devPersistenceManager.useRandomSeeds = EditorGUILayout.Toggle("Use Random Seeds", devPersistenceManager.useRandomSeeds);
+            if (devPersistenceManager.useRandomSeeds) EditorGUI.BeginDisabledGroup(true);
+            devPersistenceManager.moduleSeed = EditorGUILayout.IntField("Module Seed", devPersistenceManager.moduleSeed);
+            devPersistenceManager.transitionModuleSeed = EditorGUILayout.IntField("Transitions Module Seed", devPersistenceManager.transitionModuleSeed);
+            if (devPersistenceManager.useRandomSeeds) EditorGUI.EndDisabledGroup();
+            EditTransitions(devPersistenceManager);
+            EditorGUI.indentLevel--;
+            EditorUtils.VerticalSpace();
+        }
         
-        EditorUtils.Header("Room");
-        EditorGUI.indentLevel++;
-        devPersistenceManager.depth = EditorGUILayout.IntField("Depth", devPersistenceManager.depth);
-        devPersistenceManager.roomType = (RoomType) EditorGUILayout.EnumPopup("Room Type", devPersistenceManager.roomType);
-        if (devPersistenceManager.roomType == RoomType.Combat) EditCombatRoomData(devPersistenceManager);
-        if (devPersistenceManager.roomType == RoomType.Ability) EditAbilityRoomData(devPersistenceManager);
-        if (devPersistenceManager.roomType == RoomType.Healing) EditHealingRoomData(devPersistenceManager);
-        EditorGUI.indentLevel--;
+        foldoutStatus[Section.Room] = EditorGUILayout.Foldout(foldoutStatus[Section.Room], "Room");
+        if (foldoutStatus[Section.Room])
+        {
+            EditorGUI.indentLevel++;
+            devPersistenceManager.depth = EditorGUILayout.IntField("Depth", devPersistenceManager.depth);
+            devPersistenceManager.roomType = (RoomType) EditorGUILayout.EnumPopup("Room Type", devPersistenceManager.roomType);
+            if (devPersistenceManager.roomType == RoomType.Combat) EditCombatRoomData(devPersistenceManager);
+            if (devPersistenceManager.roomType == RoomType.Ability) EditAbilityRoomData(devPersistenceManager);
+            if (devPersistenceManager.roomType == RoomType.Healing) EditHealingRoomData(devPersistenceManager);
+            EditorGUI.indentLevel--;
+        }
 
         if (GUI.changed)
         {
@@ -52,6 +68,40 @@ public class DevPersistenceManagerEditor : Editor
         }
     }
 
+    private void EditRuneSockets(DevPersistenceManager devPersistenceManager)
+    {
+        EditorUtils.Header("Rune Sockets");
+        EditorGUI.indentLevel++;
+
+        EditorUtils.ResizeableList(
+            devPersistenceManager.runeSockets,
+            runeSocket =>
+            {
+                runeSocket.HasRune = EditorGUILayout.Toggle("Has Rune", runeSocket.HasRune);
+                if (!runeSocket.HasRune) EditorGUI.BeginDisabledGroup(true);
+                runeSocket.Rune = (Rune) EditorGUILayout.EnumPopup("Rune", runeSocket.Rune);
+                if (!runeSocket.HasRune) EditorGUI.EndDisabledGroup();
+            },
+            () => new RuneSocket()
+        );
+
+        EditorGUI.indentLevel--;
+    }
+
+    private void EditRuneOrder(DevPersistenceManager devPersistenceManager)
+    {
+        EditorUtils.Header("Rune Order");
+        EditorGUI.indentLevel++;
+
+        EditorUtils.ResizeableList(
+            devPersistenceManager.runeOrder,
+            rune => (Rune) EditorGUILayout.EnumPopup("Rune", rune),
+            Rune.DeepWounds
+        );
+
+        EditorGUI.indentLevel--;
+    }
+    
     private void EditTransitions(DevPersistenceManager devPersistenceManager)
     {
         EditorUtils.Header("Active Transitions");
@@ -104,5 +154,13 @@ public class DevPersistenceManagerEditor : Editor
     private void EditHealingRoomData(DevPersistenceManager devPersistenceManager)
     {
         devPersistenceManager.hasHealed = EditorGUILayout.Toggle("Has Healed", devPersistenceManager.hasHealed);
+    }
+
+    private enum Section
+    {
+        Player,
+        AbilityTree,
+        Scene,
+        Room
     }
 }

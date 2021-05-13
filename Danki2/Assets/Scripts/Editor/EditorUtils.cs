@@ -84,10 +84,11 @@ public static class EditorUtils
         Func<T, T> editItem,
         T defaultValue,
         Action<T> itemAddedCallback = null,
-        Action<T> itemRemovedCallback = null
+        Action<T> itemRemovedCallback = null,
+        int maxSize = -1
     )
     {
-        ResizeableList(items, editItem, () => defaultValue, itemAddedCallback, itemRemovedCallback);
+        ResizeableList(items, editItem, () => defaultValue, itemAddedCallback, itemRemovedCallback, maxSize);
     }
 
     /// <inheritdoc cref="ResizeableList{T}(System.Collections.Generic.List{T},System.Func{T,T},T,System.Action{T},System.Action{T})"/>
@@ -96,7 +97,8 @@ public static class EditorUtils
         Func<T, T> editItem,
         Func<T> defaultValueProvider,
         Action<T> itemAddedCallback = null,
-        Action<T> itemRemovedCallback = null
+        Action<T> itemRemovedCallback = null,
+        int maxSize = -1
     )
     {
         for (int i = 0; i < items.Count; i++)
@@ -104,7 +106,7 @@ public static class EditorUtils
             items[i] = editItem(items[i]);
         }
 
-        EditListSize(items, defaultValueProvider, itemAddedCallback, itemRemovedCallback);
+        EditListSize(items, defaultValueProvider, itemAddedCallback, itemRemovedCallback, maxSize);
     }
 
     /// <inheritdoc cref="ResizeableList{T}(System.Collections.Generic.List{T},System.Func{T,T},T,System.Action{T},System.Action{T})"/>
@@ -113,10 +115,11 @@ public static class EditorUtils
         Action<T> editItem,
         T defaultValue,
         Action<T> itemAddedCallback = null,
-        Action<T> itemRemovedCallback = null
+        Action<T> itemRemovedCallback = null,
+        int maxSize = -1
     )
     {
-        ResizeableList(items, editItem, () => defaultValue, itemAddedCallback, itemRemovedCallback);
+        ResizeableList(items, editItem, () => defaultValue, itemAddedCallback, itemRemovedCallback, maxSize);
     }
 
     /// <inheritdoc cref="ResizeableList{T}(System.Collections.Generic.List{T},System.Func{T,T},T,System.Action{T},System.Action{T})"/>
@@ -125,12 +128,13 @@ public static class EditorUtils
         Action<T> editItem,
         Func<T> defaultValueProvider,
         Action<T> itemAddedCallback = null,
-        Action<T> itemRemovedCallback = null
+        Action<T> itemRemovedCallback = null,
+        int maxSize = -1
     )
     {
         items.ForEach(editItem);
 
-        EditListSize(items, defaultValueProvider, itemAddedCallback, itemRemovedCallback);
+        EditListSize(items, defaultValueProvider, itemAddedCallback, itemRemovedCallback, maxSize);
     }
 
     /// <summary>
@@ -141,10 +145,11 @@ public static class EditorUtils
         List<T> list,
         T defaultValue,
         Action<T> itemAddedCallback = null,
-        Action<T> itemRemovedCallback = null
+        Action<T> itemRemovedCallback = null,
+        int maxSize = -1
     )
     {
-        EditListSize(list, () => defaultValue, itemAddedCallback, itemRemovedCallback);
+        EditListSize(list, () => defaultValue, itemAddedCallback, itemRemovedCallback, maxSize);
     }
 
     /// <inheritdoc cref="EditListSize{T}(System.Collections.Generic.List{T},T,System.Action{T},System.Action{T})" />
@@ -152,18 +157,21 @@ public static class EditorUtils
         List<T> list,
         Func<T> defaultValueProvider,
         Action<T> itemAddedCallback = null,
-        Action<T> itemRemovedCallback = null
+        Action<T> itemRemovedCallback = null,
+        int maxSize = -1
     )
     {
         GUILayout.BeginHorizontal();
         GUILayout.Space(EditorGUI.indentLevel * LineHeight);
 
+        EditorGUI.BeginDisabledGroup(list.Count == maxSize);
         if (GUILayout.Button("Add Item"))
         {
             T newItem = defaultValueProvider();
             list.Add(newItem);
             itemAddedCallback?.Invoke(newItem);
         }
+        EditorGUI.EndDisabledGroup();
 
         EditorGUI.BeginDisabledGroup(list.Count == 0);
         if (GUILayout.Button("Remove Item"))

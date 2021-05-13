@@ -34,12 +34,28 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
                 AbilityTreeFactory.CreateNode(AbilityReference.Slash),
                 AbilityTreeFactory.CreateNode(AbilityReference.Lunge)
             ).Serialize(),
+            RuneSockets = GenerateRuneSockets(),
+            RuneOrder = GenerateRuneOrder(),
             CurrentRoomId = 0,
             DefeatRoomId = defeatRoomId,
             RoomSaveDataLookup = GenerateRoomSaveDataLookup(rootNode, defeatRoomId)
         };
     }
 
+    private List<RuneSocket> GenerateRuneSockets()
+    {
+        List<RuneSocket> runeSockets = new List<RuneSocket>();
+        Utils.Repeat(MapGenerationLookup.Instance.RuneSockets, () => runeSockets.Add(new RuneSocket()));
+        return runeSockets;
+    }
+
+    private List<Rune> GenerateRuneOrder()
+    {
+        List<Rune> runes = EnumUtils.ToList<Rune>();
+        runes.Shuffle();
+        return runes;
+    }
+    
     private Dictionary<int, RoomSaveData> GenerateRoomSaveDataLookup(MapNode rootNode, int defeatRoomId)
     {
         Dictionary<int, RoomSaveData> roomSaveDataLookup = new Dictionary<int, RoomSaveData>();
@@ -57,6 +73,9 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
                     break;
                 case RoomType.Healing:
                     roomSaveDataLookup[node.Id] = GenerateHealingRoomSaveData(node);
+                    break;
+                case RoomType.Rune:
+                    roomSaveDataLookup[node.Id] = GenerateRuneRoomSaveData(node);
                     break;
                 case RoomType.Victory:
                     roomSaveDataLookup[node.Id] = GenerateVictoryRoomSaveData(node);
@@ -100,11 +119,24 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
         return roomSaveData;
     }
 
+    private RoomSaveData GenerateRuneRoomSaveData(MapNode node)
+    {
+        RoomSaveData roomSaveData = GenerateCommonRoomSaveData(node);
+        roomSaveData.RuneRoomSaveData = new RuneRoomSaveData
+        {
+            RunesViewed = false,
+            RuneSelected = false
+        };
+
+        return roomSaveData;
+    }
+
     private RoomSaveData GenerateCommonRoomSaveData(MapNode node)
     {
         return new RoomSaveData
         {
             Id = node.Id,
+            ParentRoomId = node.IsRootNode ? -1 : node.Parent.Id,
             Depth = node.Depth,
             Scene = node.Scene,
             RoomType = node.RoomType,

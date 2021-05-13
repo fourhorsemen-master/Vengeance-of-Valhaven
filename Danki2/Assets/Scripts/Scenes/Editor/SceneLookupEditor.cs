@@ -52,7 +52,6 @@ public class SceneLookupEditor : Editor
         EditCameraOrientations(gameplaySceneData, specificFoldoutStatus);
         EditEntranceData(gameplaySceneData.EntranceData, specificFoldoutStatus);
         EditExitData(gameplaySceneData.ExitData, specificFoldoutStatus);
-        EditEnemySpawnerIds(gameplaySceneData.EnemySpawnerIds, specificFoldoutStatus);
     }
 
     private void EditRoomTypes(
@@ -91,7 +90,7 @@ public class SceneLookupEditor : Editor
 
         EditorUtils.ResizeableList(
             gameplaySceneData.CameraOrientations,
-            cameraOrientation => (Pole) EditorGUILayout.EnumPopup("Room Type", cameraOrientation),
+            cameraOrientation => (Pole) EditorGUILayout.EnumPopup("Orientation", cameraOrientation),
             Pole.North
         );
 
@@ -143,27 +142,6 @@ public class SceneLookupEditor : Editor
                 d.Side = (Pole) EditorGUILayout.EnumPopup("Side", d.Side);
             },
             () => new ExitData()
-        );
-
-        EditorGUI.indentLevel--;
-    }
-
-    private void EditEnemySpawnerIds(
-        List<int> enemySpawnerIds,
-        EnumDictionary<SceneSpecificFoldoutStatus, bool> specificFoldoutStatus
-    )
-    {
-        specificFoldoutStatus[SceneSpecificFoldoutStatus.EnemySpawnerIds] = EditorGUILayout.Foldout(
-            specificFoldoutStatus[SceneSpecificFoldoutStatus.EnemySpawnerIds],
-            "Enemy Spawner IDs"
-        );
-        if (!specificFoldoutStatus[SceneSpecificFoldoutStatus.EnemySpawnerIds]) return;
-        EditorGUI.indentLevel++;
-
-        EditorUtils.ResizeableList(
-            enemySpawnerIds,
-            id => EditorGUILayout.IntField("ID", id),
-            0
         );
 
         EditorGUI.indentLevel--;

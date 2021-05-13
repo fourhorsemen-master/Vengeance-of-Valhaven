@@ -7,12 +7,14 @@ using UnityEngine;
 public class SerializableRoomSaveData
 {
     [SerializeField] private int id;
+    [SerializeField] private int parentRoomId;
     [SerializeField] private int depth;
     [SerializeField] private Scene scene;
     [SerializeField] private RoomType roomType;
     [SerializeField] private SerializableCombatRoomSaveData serializableCombatRoomSaveData;
     [SerializeField] private SerializableAbilityRoomSaveData serializableAbilityRoomSaveData;
     [SerializeField] private SerializableHealingRoomSaveData serializableHealingRoomSaveData;
+    [SerializeField] private SerializableRuneRoomSaveData serializableRuneRoomSaveData;
     [SerializeField] private List<SerializableTransitionData> serializableTransitionData;
     [SerializeField] private int moduleSeed;
     [SerializeField] private int transitionModuleSeed;
@@ -20,12 +22,14 @@ public class SerializableRoomSaveData
     [SerializeField] private int playerSpawnerId;
 
     public int Id { get => id; set => id = value; }
+    public int ParentRoomId { get => parentRoomId; set => parentRoomId = value; }
     public int Depth { get => depth; set => depth = value; }
     public RoomType RoomType { get => roomType; set => roomType = value; }
     public Scene Scene { get => scene; set => scene = value; }
     public SerializableCombatRoomSaveData SerializableCombatRoomSaveData { get => serializableCombatRoomSaveData; set => serializableCombatRoomSaveData = value; }
     public SerializableAbilityRoomSaveData SerializableAbilityRoomSaveData { get => serializableAbilityRoomSaveData; set => serializableAbilityRoomSaveData = value; }
     public SerializableHealingRoomSaveData SerializableHealingRoomSaveData { get => serializableHealingRoomSaveData; set => serializableHealingRoomSaveData = value; }
+    public SerializableRuneRoomSaveData SerializableRuneRoomSaveData { get => serializableRuneRoomSaveData; set => serializableRuneRoomSaveData = value; }
     public List<SerializableTransitionData> SerializableTransitionData { get => serializableTransitionData; set => serializableTransitionData = value; }
     public int ModuleSeed { get => moduleSeed; set => moduleSeed = value; }
     public int TransitionModuleSeed { get => transitionModuleSeed; set => transitionModuleSeed = value; }
@@ -37,12 +41,14 @@ public class SerializableRoomSaveData
         return new RoomSaveData
         {
             Id = Id,
+            ParentRoomId = ParentRoomId,
             Depth = Depth,
             Scene = Scene,
             RoomType = RoomType,
             CombatRoomSaveData = SerializableCombatRoomSaveData.Deserialize(),
             AbilityRoomSaveData = SerializableAbilityRoomSaveData.Deserialize(),
             HealingRoomSaveData = SerializableHealingRoomSaveData.Deserialize(),
+            RuneRoomSaveData = SerializableRuneRoomSaveData.Deserialize(),
             RoomTransitionerIdToTransitionData = SerializableTransitionData.ToDictionary(
                 d => d.RoomTransitionerId,
                 d => new TransitionData

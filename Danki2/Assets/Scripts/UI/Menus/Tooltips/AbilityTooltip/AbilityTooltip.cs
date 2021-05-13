@@ -25,7 +25,7 @@ public class AbilityTooltip : Tooltip
     private Color deBuffedNumericColour = default;
 
     [SerializeField]
-    private AbilitySupplementaryTooltipPanel abilitySupplementaryTooltipPanel = null;
+    private SupplementaryTooltipPanel abilitySupplementaryTooltipPanel = null;
 
     [SerializeField]
     private RectTransform tooltipRectTransform = null;

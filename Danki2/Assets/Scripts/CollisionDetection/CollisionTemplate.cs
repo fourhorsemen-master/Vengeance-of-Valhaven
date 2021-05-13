@@ -71,12 +71,13 @@ public class CollisionTemplate : MonoBehaviour
     {
         this.owner = owner;
 
-        Vector3 currentScale = meshCollider.transform.localScale;
-        if (currentScale != scale)
-        {
-            meshCollider.transform.localScale = scale;
-            ResetMesh(meshCollider);
-        }
+        Vector3 localScale = meshCollider.transform.localScale;
+        localScale.x *= scale.x;
+        localScale.y *= scale.y;
+        localScale.z *= scale.z;
+        meshCollider.transform.localScale = localScale;
+
+        ResetMesh(meshCollider);
 
         return this;
     }

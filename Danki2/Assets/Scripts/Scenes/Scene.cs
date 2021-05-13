@@ -12,4 +12,6 @@
     ForestCliffScene,
     HealingScene,
     ForestValleyScene,
+    ForestClearingScene,
+    RuneScene,
 }

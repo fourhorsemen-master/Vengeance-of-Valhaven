@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-public class Parser
+public static class Parser
 {
     /// <summary>
     /// Parses a list of tokens into a list of templated tooltip segments. This list is a representation of the
@@ -10,7 +10,7 @@ public class Parser
     /// </summary>
     /// <param name="tokens"> The tokens to parse. </param>
     /// <returns> The list of templated tooltip segments. </returns>
-    public List<TemplatedTooltipSegment> Parse(List<Token> tokens)
+    public static List<TemplatedTooltipSegment> Parse(List<Token> tokens)
     {
         List<TemplatedTooltipSegment> templatedTooltipSegments = new List<TemplatedTooltipSegment>();
 
