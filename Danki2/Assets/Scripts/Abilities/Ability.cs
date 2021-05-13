@@ -12,7 +12,7 @@ public abstract class Ability
     public const float MaxMeleeVerticalAngle = 30f;
     public const float MinMeleeVerticalAngle = -30f;
 
-    private const float DefaultCollisionTemplateHeight = 2f;
+    private const float DefaultCollisionTemplateHeight = 1.5f;
 
     private readonly string fmodVocalisationEvent;
     private readonly string fmodStartEvent;
