@@ -24,6 +24,8 @@ public class ModuleManager : Singleton<ModuleManager>
 
     private void InstantiateModules(List<ModuleSocket> sockets)
     {
+        Dictionary<ModuleData, int> moduleUses = new Dictionary<ModuleData, int>();
+
         sockets.ForEach(socket =>
         {
             List<ModuleData> moduleDataList = ModuleLookup.Instance.GetModuleDataWithMatchingTags(
@@ -38,7 +40,17 @@ public class ModuleManager : Singleton<ModuleManager>
                 return;
             }
 
+            moduleDataList.Where(d => !moduleUses.ContainsKey(d))
+                .ForEach(d => moduleUses[d] = 0);
+
+            int minUses = moduleDataList.Select(d => moduleUses[d]).Min();
+
+            moduleDataList = moduleDataList.Where(d => moduleUses[d] <= minUses);
+
             ModuleData moduleData = RandomUtils.Choice(moduleDataList);
+
+            moduleUses[moduleData]++;
+
             GameObject module = Instantiate(moduleData.Prefab, socket.transform);
             AddRandomRotation(module, moduleData, ModuleLookup.Instance.GetSocketRotationType(socket.SocketType));
         });
