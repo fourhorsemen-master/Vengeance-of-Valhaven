@@ -56,6 +56,8 @@ public class TransitionPointer : MonoBehaviour
 
     private Vector3 ClampToScreenEdge(Vector3 viewportPosition)
     {
+        if (viewportPosition.z < 0) viewportPosition = -viewportPosition;
+
         // Get the position relative to the centre of the screen
         var adjustedPosition = viewportPosition - Vector3.one * 0.5f;
 
