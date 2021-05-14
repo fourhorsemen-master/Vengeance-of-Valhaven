@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
@@ -41,5 +42,8 @@ public static class TestUtils
         Assert.AreNotEqual(expectedJson, actualJson);
     }
     
-    public static void LoadEmptyScene() => SceneManager.LoadScene("EmptyScene");
+    public static void LoadEmptyScene() => EditorSceneManager.LoadSceneInPlayMode(
+        "Assets/Tests/EmptyScene.unity",
+        new LoadSceneParameters(LoadSceneMode.Single)
+    );
 }
