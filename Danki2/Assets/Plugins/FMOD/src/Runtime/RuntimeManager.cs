@@ -33,7 +33,9 @@ namespace FMODUnity
             
             if (flags == FMOD.DEBUG_FLAGS.ERROR)
             {
+#if UNITY_EDITOR
                 Debug.LogError(string.Format(("[FMOD] {0} : {1}"), (string)func, (string)message));
+#endif
             }
             else if (flags == FMOD.DEBUG_FLAGS.WARNING)
             {

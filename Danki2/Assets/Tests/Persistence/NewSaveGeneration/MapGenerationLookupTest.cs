@@ -11,8 +11,6 @@ public class MapGenerationLookupTest : PlayModeTestBase
     [UnityTest]
     public IEnumerator TestScenesAllHaveRequiredSpawners()
     {
-        LogAssert.ignoreFailingMessages = true;
-        
         List<string> combatScenes = GetCombatScenes();
         yield return null;
         int requiredSpawners = GetRequiredSpawners();
@@ -23,10 +21,8 @@ public class MapGenerationLookupTest : PlayModeTestBase
         
         foreach (string combatScene in combatScenes)
         {
-            LogAssert.ignoreFailingMessages = true;
             SceneManager.LoadScene(combatScene);
             yield return null;
-            LogAssert.ignoreFailingMessages = true;
             AssertCorrectSpawners(requiredSpawners, combatScene);
         }
 
@@ -60,7 +56,6 @@ public class MapGenerationLookupTest : PlayModeTestBase
     {
         EnemySpawner[] enemySpawners = Object.FindObjectsOfType<EnemySpawner>();
 
-        LogAssert.ignoreFailingMessages = true;
         Assert.AreEqual(
             enemySpawners.Length,
             requiredSpawners,
@@ -69,7 +64,6 @@ public class MapGenerationLookupTest : PlayModeTestBase
 
         for (int i = 0; i < requiredSpawners; i++)
         {
-            LogAssert.ignoreFailingMessages = true;
             Assert.True(
                 enemySpawners.Any(s => s.Id == i),
                 $"{scene} does not have the correct IDs set on its spawners."
