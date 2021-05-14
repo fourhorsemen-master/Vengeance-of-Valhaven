@@ -45,13 +45,7 @@ public class PersistenceManager : Singleton<PersistenceManager>
     {
         UpdateSaveData();
         SaveData.CurrentRoomNode = nextRoomNode;
-        
-        Random.State currentRandomState = Random.state;
-        Random.state = SaveData.RandomState;
-        MapGenerator.Instance.GenerateNextLayer(SaveData.CurrentRoomNode);
-        SaveData.RandomState = Random.state;
-        Random.state = currentRandomState;
-        
+        NewSaveGenerator.Instance.GenerateNextLayer(SaveData);
         SaveDataManager.Instance.Save(SaveData);
         SceneUtils.LoadScene(SaveData.CurrentRoomNode.Scene);
     }

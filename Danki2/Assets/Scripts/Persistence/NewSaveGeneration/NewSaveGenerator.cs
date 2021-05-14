@@ -6,6 +6,10 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
 
     protected override bool DestroyOnLoad => false;
 
+    /// <summary>
+    /// Generates a new save data object which can be used to start a new game.
+    /// </summary>
+    /// <param name="seed"> An optional seed to generate the save with </param>
     public SaveData Generate(int seed = -1)
     {
         if (seed == -1) seed = RandomUtils.Seed();
@@ -29,6 +33,13 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
         return saveData;
     }
 
+    public void GenerateNextLayer(SaveData saveData)
+    {
+        Random.state = saveData.RandomState;
+        MapGenerator.Instance.GenerateNextLayer(saveData.CurrentRoomNode);
+        saveData.RandomState = Random.state;
+    }
+    
     private void SetAbilityTree(SaveData saveData)
     {
         EnumDictionary<AbilityReference, int> ownedAbilities = new EnumDictionary<AbilityReference, int>(0);

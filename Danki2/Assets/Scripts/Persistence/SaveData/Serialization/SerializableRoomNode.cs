@@ -20,7 +20,7 @@ public class SerializableRoomNode
     [SerializeField] private int transitionModuleSeed;
     [SerializeField] private Pole cameraOrientation;
     [SerializeField] private int playerSpawnerId;
-    
+
     public int Id { get => id; set => id = value; }
     public int ParentId { get => parentId; set => parentId = value; }
     public List<int> ChildIds { get => childIds; set => childIds = value; }
