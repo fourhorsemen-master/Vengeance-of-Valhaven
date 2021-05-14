@@ -3,7 +3,7 @@
 public class FloatingHealthBar : HealthBar
 {
     [SerializeField]
-    private Actor actor = null;
+    private Diegetic diegetic = null;
 
-    protected override Actor Actor => actor;
+    protected override Actor Actor => diegetic.Actor;
 }
