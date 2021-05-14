@@ -12,7 +12,9 @@ public class MapGenerationLookupTest
     public IEnumerator TestScenesAllHaveRequiredSpawners()
     {
         List<string> combatScenes = GetCombatScenes();
+        yield return null;
         int requiredSpawners = GetRequiredSpawners();
+        yield return null;
         
         TestUtils.InstantiatePrefab<DevPersistenceManager>();
         DevPersistenceManager.Instance.DontDestroyOnLoad();
@@ -24,9 +26,10 @@ public class MapGenerationLookupTest
             AssertCorrectSpawners(requiredSpawners, combatScene);
         }
 
+        DevPersistenceManager.Instance.Destroy();
+        yield return null;
         TestUtils.LoadEmptyScene();
         yield return null;
-        DevPersistenceManager.Instance.Destroy();
     }
 
     private List<string> GetCombatScenes()
