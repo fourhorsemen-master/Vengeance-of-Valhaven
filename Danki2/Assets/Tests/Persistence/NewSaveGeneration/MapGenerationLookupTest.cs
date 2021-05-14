@@ -18,6 +18,8 @@ public class MapGenerationLookupTest
     [UnityTest]
     public IEnumerator TestScenesAllHaveRequiredSpawners()
     {
+        LogAssert.ignoreFailingMessages = true;
+        
         List<string> combatScenes = GetCombatScenes();
         yield return null;
         int requiredSpawners = GetRequiredSpawners();
