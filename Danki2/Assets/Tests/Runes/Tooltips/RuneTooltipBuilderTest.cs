@@ -2,15 +2,8 @@ using NUnit.Framework;
 using System.Collections;
 using UnityEngine.TestTools;
 
-public class RuneTooltipBuilderTest
+public class RuneTooltipBuilderTest : PlayModeTestBase
 {
-    [UnitySetUp]
-    public IEnumerator SetUp()
-    {
-        TestUtils.LoadEmptyScene();
-        yield return null;
-    }
-    
     [UnityTest]
     public IEnumerator TestRuneToolTipsCanAllBeBuilt()
     {

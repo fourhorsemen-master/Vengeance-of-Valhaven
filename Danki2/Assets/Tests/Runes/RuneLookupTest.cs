@@ -3,15 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.TestTools;
 
-public class RuneLookupTest
+public class RuneLookupTest : PlayModeTestBase
 {
-    [UnitySetUp]
-    public IEnumerator SetUp()
-    {
-        TestUtils.LoadEmptyScene();
-        yield return null;
-    }
-    
     private readonly TokenValidator tokenValidator = new TokenValidator();
 
     [UnityTest]

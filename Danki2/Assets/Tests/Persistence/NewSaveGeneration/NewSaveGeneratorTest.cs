@@ -1,13 +1,11 @@
 ﻿using System.Collections;
 using UnityEngine.TestTools;
 
-public class NewSaveGeneratorTest
+public class NewSaveGeneratorTest : PlayModeTestBase
 {
-    [UnitySetUp]
-    public IEnumerator SetUp()
+    protected override IEnumerator SetUp()
     {
-        TestUtils.LoadEmptyScene();
-        yield return null;
+        yield return base.SetUp();
         TestUtils.InstantiatePrefab<AbilityLookup>();
         TestUtils.InstantiatePrefab<RarityLookup>();
         TestUtils.InstantiatePrefab<MapGenerationLookup>();
@@ -17,8 +15,7 @@ public class NewSaveGeneratorTest
         yield return null;
     }
 
-    [UnityTearDown]
-    public IEnumerator TearDown()
+    protected override IEnumerator TearDown()
     {
         AbilityLookup.Instance.Destroy();
         RarityLookup.Instance.Destroy();

@@ -6,15 +6,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 
-public class MapGenerationLookupTest
+public class MapGenerationLookupTest : PlayModeTestBase
 {
-    [UnitySetUp]
-    public IEnumerator SetUp()
-    {
-        TestUtils.LoadEmptyScene();
-        yield return null;
-    }
-    
     [UnityTest]
     public IEnumerator TestScenesAllHaveRequiredSpawners()
     {
