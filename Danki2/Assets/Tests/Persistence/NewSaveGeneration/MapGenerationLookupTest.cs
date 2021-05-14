@@ -8,6 +8,13 @@ using UnityEngine.TestTools;
 
 public class MapGenerationLookupTest
 {
+    [UnitySetUp]
+    public IEnumerator SetUp()
+    {
+        TestUtils.LoadEmptyScene();
+        yield return null;
+    }
+    
     [UnityTest]
     public IEnumerator TestScenesAllHaveRequiredSpawners()
     {
@@ -27,8 +34,6 @@ public class MapGenerationLookupTest
         }
 
         DevPersistenceManager.Instance.Destroy();
-        yield return null;
-        TestUtils.LoadEmptyScene();
         yield return null;
     }
 

@@ -5,6 +5,13 @@ using UnityEngine.TestTools;
 
 public class RuneLookupTest
 {
+    [UnitySetUp]
+    public IEnumerator SetUp()
+    {
+        TestUtils.LoadEmptyScene();
+        yield return null;
+    }
+    
     private readonly TokenValidator tokenValidator = new TokenValidator();
 
     [UnityTest]

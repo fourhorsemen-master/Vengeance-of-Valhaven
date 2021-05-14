@@ -4,6 +4,13 @@ using UnityEngine.TestTools;
 
 public class RuneTooltipBuilderTest
 {
+    [UnitySetUp]
+    public IEnumerator SetUp()
+    {
+        TestUtils.LoadEmptyScene();
+        yield return null;
+    }
+    
     [UnityTest]
     public IEnumerator TestRuneToolTipsCanAllBeBuilt()
     {

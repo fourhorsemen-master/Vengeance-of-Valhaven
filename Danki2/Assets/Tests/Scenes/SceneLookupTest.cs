@@ -19,18 +19,22 @@ public class SceneLookupTest
         Pole.North,
     };
 
-    [OneTimeSetUp]
-    public void SetUp()
+    [UnitySetUp]
+    public IEnumerator SetUp()
     {
+        TestUtils.LoadEmptyScene();
+        yield return null;
         TestUtils.InstantiatePrefab<MapGenerationLookup>();
         TestUtils.InstantiatePrefab<SceneLookup>();
+        yield return null;
     }
 
-    [OneTimeTearDown]
-    public void TearDown()
+    [UnityTearDown]
+    public IEnumerator TearDown()
     {
         MapGenerationLookup.Instance.Destroy();
         SceneLookup.Instance.Destroy();
+        yield return null;
     }
 
     [UnityTest]

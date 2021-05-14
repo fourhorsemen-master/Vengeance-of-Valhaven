@@ -1,22 +1,24 @@
 ﻿using System.Collections;
-using NUnit.Framework;
 using UnityEngine.TestTools;
 
 public class NewSaveGeneratorTest
 {
-    [OneTimeSetUp]
-    public void SetUp()
+    [UnitySetUp]
+    public IEnumerator SetUp()
     {
+        TestUtils.LoadEmptyScene();
+        yield return null;
         TestUtils.InstantiatePrefab<AbilityLookup>();
         TestUtils.InstantiatePrefab<RarityLookup>();
         TestUtils.InstantiatePrefab<MapGenerationLookup>();
         TestUtils.InstantiatePrefab<SceneLookup>();
         TestUtils.InstantiatePrefab<MapGenerator>();
         TestUtils.InstantiatePrefab<NewSaveGenerator>();
+        yield return null;
     }
 
-    [OneTimeTearDown]
-    public void TearDown()
+    [UnityTearDown]
+    public IEnumerator TearDown()
     {
         AbilityLookup.Instance.Destroy();
         RarityLookup.Instance.Destroy();
@@ -24,6 +26,7 @@ public class NewSaveGeneratorTest
         SceneLookup.Instance.Destroy();
         MapGenerator.Instance.Destroy();
         NewSaveGenerator.Instance.Destroy();
+        yield return null;
     }
     
     [UnityTest]
