@@ -57,7 +57,7 @@ public class SerializableSaveData
             kvp => kvp.Value.Deserialize()
         );
         
-        DeserializeRoomNodeGraphData(0, idToRoomNode, idToSerializableRoomNode);
+        DeserializeRoomNodeGraphData(SaveData.RootNodeId, idToRoomNode, idToSerializableRoomNode);
         saveData.CurrentRoomNode = idToRoomNode[CurrentRoomId];
         saveData.DefeatRoom = serializableDefeatRoom.Deserialize();
     }
@@ -71,11 +71,11 @@ public class SerializableSaveData
         RoomNode roomNode = idToRoomNode[id];
         SerializableRoomNode serializableRoomNode = idToSerializableRoomNode[id];
         
-        roomNode.Parent = serializableRoomNode.ParentId == -1
+        roomNode.Parent = serializableRoomNode.ParentId == SaveData.RootNodeParentId
             ? null
             : idToRoomNode[serializableRoomNode.ParentId];
 
-        idToSerializableRoomNode[id].ChildIds.ForEach(childId =>
+        serializableRoomNode.ChildIds.ForEach(childId =>
         {
             roomNode.Children.Add(idToRoomNode[childId]);
             DeserializeRoomNodeGraphData(childId, idToRoomNode, idToSerializableRoomNode);

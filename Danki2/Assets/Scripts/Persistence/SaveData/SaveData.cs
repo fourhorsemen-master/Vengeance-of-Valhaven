@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class SaveData : ISerializable<SerializableSaveData>
 {
+    public const int RootNodeId = 0;
+    public const int RootNodeParentId = -1;
+    
     public int Version { get; set; }
     public int Seed { get; set; }
     public Random.State RandomState { get; set; }
@@ -38,7 +41,7 @@ public class SaveData : ISerializable<SerializableSaveData>
     {
         RoomNode rootNode = CurrentRoomNode.GetRootNode();
 
-        int id = 0;
+        int id = RootNodeId;
         Dictionary<RoomNode, int> roomNodeToId = new Dictionary<RoomNode, int>();
         rootNode.IterateDown(node =>
         {
@@ -52,7 +55,7 @@ public class SaveData : ISerializable<SerializableSaveData>
         {
             SerializableRoomNode serializableRoomNode = node.Serialize();
             serializableRoomNode.Id = roomNodeToId[node];
-            serializableRoomNode.ParentId = node.IsRootNode ? -1 : roomNodeToId[node.Parent];
+            serializableRoomNode.ParentId = node.IsRootNode ? RootNodeParentId : roomNodeToId[node.Parent];
             serializableRoomNode.ChildIds = node.Children
                 .Select(c => roomNodeToId[c])
                 .ToList();
