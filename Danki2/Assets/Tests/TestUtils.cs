@@ -42,8 +42,4 @@ public static class TestUtils
     }
     
     public static void LoadEmptyScene() => SceneManager.LoadScene("EmptyScene");
-    // public static void LoadEmptyScene() => EditorSceneManager.LoadSceneInPlayMode(
-    //     "Assets/Tests/EmptyScene.unity",
-    //     new LoadSceneParameters(LoadSceneMode.Single)
-    // );
 }
