@@ -3,12 +3,12 @@
 public class WorldSpaceEffectList : EffectList
 {
     [SerializeField]
-    private Actor actor = null;
+    private Diegetic diegetic = null;
 
     [SerializeField]
     private EffectListItem worldSpaceEffectListItemPrefab = null;
 
-    protected override Actor Actor => actor;
+    protected override Actor Actor => diegetic.Actor;
 
     protected override EffectListItem EffectListItemPrefab => worldSpaceEffectListItemPrefab;
 }
