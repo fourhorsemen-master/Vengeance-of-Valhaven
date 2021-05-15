@@ -234,7 +234,8 @@ public class MapGenerator : Singleton<MapGenerator>
                 }
                 break;
             case RoomType.Boss:
-                node.SpawnerIdToSpawnedActor[0] = ActorType.Bear;
+                node.SpawnerIdToSpawnedActor[0] = ActorType.Wraith;
+                node.SpawnerIdToSpawnedActor[1] = ActorType.Wraith;
                 break;
         }
     }
