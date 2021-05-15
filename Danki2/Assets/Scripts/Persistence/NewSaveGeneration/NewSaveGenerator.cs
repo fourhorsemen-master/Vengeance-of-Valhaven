@@ -22,7 +22,7 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
 
         EnumDictionary<AbilityReference, int> ownedAbilities = new EnumDictionary<AbilityReference, int>(0);
         ownedAbilities[AbilityReference.Slash] = 1;
-        ownedAbilities[AbilityReference.Lunge] = 1;
+        ownedAbilities[AbilityReference.Bash] = 1;
 
         return new SaveData
         {
@@ -32,7 +32,7 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
             SerializableAbilityTree = AbilityTreeFactory.CreateTree(
                 ownedAbilities,
                 AbilityTreeFactory.CreateNode(AbilityReference.Slash),
-                AbilityTreeFactory.CreateNode(AbilityReference.Lunge)
+                AbilityTreeFactory.CreateNode(AbilityReference.Bash)
             ).Serialize(),
             RuneSockets = GenerateRuneSockets(),
             RuneOrder = GenerateRuneOrder(),
