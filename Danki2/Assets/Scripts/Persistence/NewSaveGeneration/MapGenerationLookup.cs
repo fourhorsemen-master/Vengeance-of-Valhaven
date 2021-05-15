@@ -31,6 +31,8 @@ public class MapGenerationLookup : Singleton<MapGenerationLookup>
 {
     [SerializeField] private int abilityChoices = 0;
     [SerializeField] private int runeSockets = 0;
+    [SerializeField] private AbilityReference leftStartingAbility;
+    [SerializeField] private AbilityReference rightStartingAbility;
     
     [SerializeField] private int maxRoomDepth = 0;
     [SerializeField] private int minRoomExits = 0;
@@ -45,6 +47,8 @@ public class MapGenerationLookup : Singleton<MapGenerationLookup>
 
     public int AbilityChoices { get => abilityChoices; set => abilityChoices = value; }
     public virtual int RuneSockets { get => runeSockets; set => runeSockets = value; }
+    public AbilityReference LeftStartingAbility { get => leftStartingAbility; set => leftStartingAbility = value; }
+    public AbilityReference RightStartingAbility { get => rightStartingAbility; set => rightStartingAbility = value; }
 
     public virtual int MaxRoomDepth { get => maxRoomDepth; set => maxRoomDepth = value; }
     public int MinRoomExits { get => minRoomExits; set => minRoomExits = value; }
