@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 [Ability(AbilityReference.Bash)]
-public class Bash : InstantCast
+public class Bash : Cast
 {
     private const float StunDuration = 1f;
     private const float Range = 1.8f;
@@ -10,7 +10,7 @@ public class Bash : InstantCast
 
     public Bash(AbilityConstructionArgs arguments) : base(arguments) { }
 
-    public override void Cast(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
+    public override void End(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
         Owner.MovementManager.LookAt(floorTargetPosition);
         Owner.MovementManager.Pause(PauseDuration);
