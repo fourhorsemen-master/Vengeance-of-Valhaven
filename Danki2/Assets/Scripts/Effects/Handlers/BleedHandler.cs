@@ -1,6 +1,6 @@
 ﻿public class BleedHandler : StackingEffectHandler
 {
-    private const float TickInterval = 1f;
+    private const float TickInterval = 5/3f;
     private const float TickStartDelay = 1f;
     private const int DamagePerStack = 1;
 

@@ -21,8 +21,8 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
         int defeatRoomId = rootNode.FindMaxId() + 1;
 
         EnumDictionary<AbilityReference, int> ownedAbilities = new EnumDictionary<AbilityReference, int>(0);
-        ownedAbilities[AbilityReference.Slash] = 1;
-        ownedAbilities[AbilityReference.Lunge] = 1;
+        ownedAbilities[MapGenerationLookup.Instance.LeftStartingAbility] = 1;
+        ownedAbilities[MapGenerationLookup.Instance.RightStartingAbility] = 1;
 
         return new SaveData
         {
@@ -31,8 +31,8 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
             PlayerHealth = 20,
             SerializableAbilityTree = AbilityTreeFactory.CreateTree(
                 ownedAbilities,
-                AbilityTreeFactory.CreateNode(AbilityReference.Slash),
-                AbilityTreeFactory.CreateNode(AbilityReference.Lunge)
+                AbilityTreeFactory.CreateNode(MapGenerationLookup.Instance.LeftStartingAbility),
+                AbilityTreeFactory.CreateNode(MapGenerationLookup.Instance.RightStartingAbility)
             ).Serialize(),
             RuneSockets = GenerateRuneSockets(),
             RuneOrder = GenerateRuneOrder(),
