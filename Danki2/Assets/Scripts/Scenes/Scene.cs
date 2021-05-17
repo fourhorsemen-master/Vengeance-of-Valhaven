@@ -12,5 +12,6 @@
     ForestCliffScene,
     HealingScene,
     ForestValleyScene,
-    ForestClearingScene
+    ForestClearingScene,
+    ForestDensScene
 }
