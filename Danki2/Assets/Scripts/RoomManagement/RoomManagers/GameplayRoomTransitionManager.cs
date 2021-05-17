@@ -13,13 +13,15 @@ public class GameplayRoomTransitionManager : Singleton<GameplayRoomTransitionMan
 
     private readonly Dictionary<Subject, bool> canTransitionSubjects = new Dictionary<Subject, bool>();
 
+    private void Update()
+    {
+        if (CanTransition) return;
+        if (canTransitionSubjects.Values.All(c => c)) CanTransitionSubject.Next(true);
+    }
+
     public void RegisterCanTransitionSubject(Subject canTransitionSubject)
     {
         canTransitionSubjects[canTransitionSubject] = false;
-        canTransitionSubject.Subscribe(() =>
-        {
-            canTransitionSubjects[canTransitionSubject] = true;
-            if (canTransitionSubjects.Values.All(c => c)) CanTransitionSubject.Next(true);
-        });
+        canTransitionSubject.Subscribe(() => canTransitionSubjects[canTransitionSubject] = true);
     }
 }

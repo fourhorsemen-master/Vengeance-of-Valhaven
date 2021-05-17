@@ -90,7 +90,7 @@ public class SceneLookupEditor : Editor
 
         EditorUtils.ResizeableList(
             gameplaySceneData.CameraOrientations,
-            cameraOrientation => (Pole) EditorGUILayout.EnumPopup("Room Type", cameraOrientation),
+            cameraOrientation => (Pole) EditorGUILayout.EnumPopup("Orientation", cameraOrientation),
             Pole.North
         );
 

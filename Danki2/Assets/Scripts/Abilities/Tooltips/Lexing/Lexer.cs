@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-public class Lexer
+public static class Lexer
 {
     private const char OpenBrace = '{';
     private const char CloseBrace = '}';
@@ -13,7 +13,7 @@ public class Lexer
     /// </summary>
     /// <param name="tooltip"> The tooltip to lex. </param>
     /// <returns> The list of tokens. </returns>
-    public List<Token> Lex(string tooltip)
+    public static List<Token> Lex(string tooltip)
     {
         List<Token> tokens = new List<Token>();
 
@@ -51,22 +51,22 @@ public class Lexer
         return tokens;
     }
 
-    private bool IsString(char c)
+    private static bool IsString(char c)
     {
         return !IsBrace(c) && !IsPipe(c);
     }
 
-    private bool IsBrace(char c)
+    private static bool IsBrace(char c)
     {
         return c.Equals(OpenBrace) || c.Equals(CloseBrace);
     }
 
-    private TokenType GetBraceType(char brace)
+    private static TokenType GetBraceType(char brace)
     {
         return brace.Equals(OpenBrace) ? TokenType.OpenBrace : TokenType.CloseBrace;
     }
 
-    private bool IsPipe(char c)
+    private static bool IsPipe(char c)
     {
         return c.Equals(Pipe);
     }

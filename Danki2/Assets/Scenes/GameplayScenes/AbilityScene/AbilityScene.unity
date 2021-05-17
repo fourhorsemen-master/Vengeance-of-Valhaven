@@ -11927,6 +11927,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rock_Small7 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4916821130090672697, guid: 9bc42ed9534222048b8baecf63c4557f,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9bc42ed9534222048b8baecf63c4557f, type: 3}
 --- !u!1001 &790049720
@@ -26122,6 +26127,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rock_Small8 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4916821130090672697, guid: b5bb12901fcdf4c4db61b45c508f47df,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b5bb12901fcdf4c4db61b45c508f47df, type: 3}
 --- !u!4 &1806962437 stripped
@@ -28207,6 +28217,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Pillar2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8571331540424614380, guid: 114245e04ec8d694ca01fdf12398e14a,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 114245e04ec8d694ca01fdf12398e14a, type: 3}
@@ -30424,7 +30439,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Press <color=#f00>R</color>
+  m_Text: Press <color=#f00>E</color>
 --- !u!1 &8070117248689561701
 GameObject:
   m_ObjectHideFlags: 0

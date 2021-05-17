@@ -2,19 +2,19 @@
 using UnityEngine;
 using UnityEngine.UI.Extensions;
 
-public class AbilitySupplementaryTooltipPanel : MonoBehaviour
+public class SupplementaryTooltipPanel : MonoBehaviour
 {
     [SerializeField]
-    private float displayDelay = 0f;
+    public float displayDelay = 0f;
 
     [SerializeField]
-    private RectTransform rectTransform = null;
+    public RectTransform rectTransform = null;
 
     [SerializeField]
-    private RectTransform abilityTooltipRectTransform = null;
+    public RectTransform tooltipRectTransform = null;
 
     [SerializeField]
-    private AbilitySupplementaryTooltip abilitySupplementaryTooltipPrefab = null;
+    public SupplementaryTooltip supplementaryTooltipPrefab = null;
 
     private Dictionary<ScreenQuadrant, Vector2> pivotPoints = new Dictionary<ScreenQuadrant, Vector2>
     {
@@ -40,25 +40,35 @@ public class AbilitySupplementaryTooltipPanel : MonoBehaviour
     private void Update()
     {
         bool isLeftQuadrant = leftQuadrants.Contains(currentScreenQuadrant);
-        float horizontalOffset = abilityTooltipRectTransform.sizeDelta.x * abilityTooltipRectTransform.GetParentCanvas().scaleFactor * (isLeftQuadrant ? 1 : -1);
-        transform.position = abilityTooltipRectTransform.position + new Vector3(horizontalOffset, 0);
+        float horizontalOffset = tooltipRectTransform.sizeDelta.x * tooltipRectTransform.GetParentCanvas().scaleFactor * (isLeftQuadrant ? 1 : -1);
+        transform.position = tooltipRectTransform.position + new Vector3(horizontalOffset, 0);
     }
 
     public void Activate(AbilityReference ability)
     {
-        currentScreenQuadrant = InputHelpers.GetMouseScreenQuadrant();
-        rectTransform.pivot = pivotPoints[currentScreenQuadrant];
+        Activate();
 
-        displayCoroutine = this.WaitAndAct(displayDelay, () => Display(ability));
+        displayCoroutine = this.WaitAndAct(displayDelay, () => Display(KeywordUtils.GetKeywords(ability)));
     }
 
-    private void Display(AbilityReference ability)
+    public void Activate(Rune rune)
     {
-        var keywords = KeywordUtils.GetKeywords(ability);
+        Activate();
 
+        displayCoroutine = this.WaitAndAct(displayDelay, () => Display(KeywordUtils.GetKeywords(rune)));
+    }
+
+    private void Activate()
+    {
+        currentScreenQuadrant = InputHelpers.GetMouseScreenQuadrant();
+        rectTransform.pivot = pivotPoints[currentScreenQuadrant];
+    }
+
+    private void Display(List<Keyword> keywords)
+    {
         keywords.ForEach(k =>
         {
-            Instantiate(abilitySupplementaryTooltipPrefab, transform)
+            Instantiate(supplementaryTooltipPrefab, transform)
                 .Setup(k);
         });
     }

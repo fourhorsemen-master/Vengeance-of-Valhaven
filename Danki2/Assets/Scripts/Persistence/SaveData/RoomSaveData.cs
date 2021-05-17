@@ -4,12 +4,14 @@ using System.Linq;
 public class RoomSaveData
 {
     public int Id { get; set; }
+    public int ParentRoomId { get; set; }
     public int Depth { get; set; }
     public Scene Scene { get; set; }
     public RoomType RoomType { get; set; }
     public CombatRoomSaveData CombatRoomSaveData { get; set; }
     public AbilityRoomSaveData AbilityRoomSaveData { get; set; }
     public HealingRoomSaveData HealingRoomSaveData { get; set; }
+    public RuneRoomSaveData RuneRoomSaveData { get; set; }
     public Dictionary<int, TransitionData> RoomTransitionerIdToTransitionData { get; set; }
     public int ModuleSeed { get; set; }
     public int TransitionModuleSeed { get; set; }
@@ -21,12 +23,14 @@ public class RoomSaveData
         return new SerializableRoomSaveData
         {
             Id = Id,
+            ParentRoomId = ParentRoomId,
             Depth = Depth,
             Scene = Scene,
             RoomType = RoomType,
             SerializableCombatRoomSaveData = CombatRoomSaveData?.Serialize(),
             SerializableAbilityRoomSaveData = AbilityRoomSaveData?.Serialize(),
             SerializableHealingRoomSaveData = HealingRoomSaveData?.Serialize(),
+            SerializableRuneRoomSaveData = RuneRoomSaveData?.Serialize(),
             SerializableTransitionData = RoomTransitionerIdToTransitionData?.Keys
                 .Select(transitionerId => new SerializableTransitionData
                 {

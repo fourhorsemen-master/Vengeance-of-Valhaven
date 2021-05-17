@@ -8,8 +8,7 @@ public class SerializableMetadataLookupValidator
     private SerializableMetadataLookup serializableMetadataLookup;
     private List<AttributeData<AbilityAttribute>> abilityAttributeData;
     private Dictionary<AbilityReference, AttributeData<AbilityAttribute>> abilityAttributeDataLookup;
-    
-    private readonly Lexer lexer = new Lexer();
+
     private readonly TokenValidator tokenValidator = new TokenValidator();
 
     public bool HasErrors { get; private set; } = false;
@@ -128,7 +127,7 @@ public class SerializableMetadataLookupValidator
         }
         else
         {
-            List<Token> tokens = lexer.Lex(tooltip);
+            List<Token> tokens = Lexer.Lex(tooltip);
             if (!tokenValidator.HasValidSyntax(tokens))
             {
                 LogError($"Tooltip for {abilityReference.ToString()} does not have valid syntax, value was: \"{tooltip}\".");

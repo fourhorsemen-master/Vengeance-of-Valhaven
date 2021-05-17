@@ -62,6 +62,7 @@ public class PersistenceManager : Singleton<PersistenceManager>
     {
         SaveData.PlayerHealth = ActorCache.Instance.Player.HealthManager.Health;
         SaveData.SerializableAbilityTree = ActorCache.Instance.Player.AbilityTree.Serialize();
+        SaveData.RuneSockets = ActorCache.Instance.Player.RuneManager.RuneSockets;
 
         RoomSaveData currentRoomSaveData = SaveData.CurrentRoomSaveData;
         switch (currentRoomSaveData.RoomType)
@@ -78,6 +79,11 @@ public class PersistenceManager : Singleton<PersistenceManager>
                 break;
             case RoomType.Healing:
                 currentRoomSaveData.HealingRoomSaveData.HasHealed = HealingRoomManager.Instance.HasHealed;
+                break;
+            case RoomType.Rune:
+                RuneRoomSaveData runeRoomSaveData = currentRoomSaveData.RuneRoomSaveData;
+                runeRoomSaveData.RunesViewed = RuneRoomManager.Instance.RunesViewed;
+                runeRoomSaveData.RuneSelected = RuneRoomManager.Instance.RuneSelected;
                 break;
         }
     }

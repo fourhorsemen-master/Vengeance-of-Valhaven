@@ -13,5 +13,6 @@
     HealingScene,
     ForestValleyScene,
     ForestClearingScene,
-    ForestDensScene
+    ForestDensScene,
+    RuneScene,
 }

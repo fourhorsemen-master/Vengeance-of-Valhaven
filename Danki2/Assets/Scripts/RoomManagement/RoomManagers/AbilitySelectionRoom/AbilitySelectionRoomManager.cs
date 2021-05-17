@@ -5,22 +5,24 @@
 
     private readonly Subject abilitiesViewedSubject = new Subject();
 
+    private RoomSaveData currentRoomSaveData;
+
     public Subject AbilitySelectedSubject { get; } = new Subject();
 
     protected override void Awake()
     {
         base.Awake();
 
-        RoomSaveData roomSaveData = PersistenceManager.Instance.SaveData.CurrentRoomSaveData;
-        if (roomSaveData.RoomType != RoomType.Ability) return;
+        currentRoomSaveData = PersistenceManager.Instance.SaveData.CurrentRoomSaveData;
+        if (currentRoomSaveData.RoomType != RoomType.Ability) return;
 
-        AbilitiesViewed = roomSaveData.AbilityRoomSaveData.AbilitiesViewed;
-        AbilitySelected = roomSaveData.AbilityRoomSaveData.AbilitySelected;
+        AbilitiesViewed = currentRoomSaveData.AbilityRoomSaveData.AbilitiesViewed;
+        AbilitySelected = currentRoomSaveData.AbilityRoomSaveData.AbilitySelected;
     }
 
     private void Start()
     {
-        if (PersistenceManager.Instance.SaveData.CurrentRoomSaveData.RoomType != RoomType.Ability) return;
+        if (currentRoomSaveData.RoomType != RoomType.Ability) return;
 
         GameplayRoomTransitionManager.Instance.RegisterCanTransitionSubject(abilitiesViewedSubject);
 

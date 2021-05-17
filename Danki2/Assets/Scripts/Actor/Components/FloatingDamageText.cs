@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class FloatingDamageText : MonoBehaviour
 {
     [SerializeField]
-    private Actor actor = null;
+    private Diegetic diegetic = null;
 
     [SerializeField]
     private Text floatingDamageNumberPrefab = null;
@@ -24,7 +24,7 @@ public class FloatingDamageText : MonoBehaviour
 
     private void Start()
     {
-        HealthManager healthManager = actor.HealthManager;
+        HealthManager healthManager = diegetic.Actor.HealthManager;
         SubscribeToNumberSource(healthManager.ModifiedDamageSubject.Map(d => d.Damage), damageColour);
         SubscribeToNumberSource(healthManager.ModifiedTickDamageSubject, damageColour);
         SubscribeToNumberSource(healthManager.HealSubject, healingColour);

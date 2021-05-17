@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class AbilityShrine : Singleton<AbilityShrine>
+public class AbilityShrine : Singleton<AbilityShrine>, IShrine
 {
     [SerializeField] private Text interactionText = null;
     [SerializeField] private float interactionDistance = 0;
