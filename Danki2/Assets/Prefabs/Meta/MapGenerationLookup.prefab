@@ -62,6 +62,7 @@ MonoBehaviour:
     - Ability
     - Healing
     - Rune
+    - ZoneIntroduction
     _values:
     - availableInPool: 1
       weights: 010000000200000004000000060000000a000000
@@ -79,6 +80,8 @@ MonoBehaviour:
       weights: 00000000000000000100000002000000
     - availableInPool: 1
       weights: 0000000000000000000000000100000002000000
+    - availableInPool: 0
+      weights: 
   spawnedEnemiesPerDepth:
   - spawnedEnemies: 01000000
   - spawnedEnemies: 01000000

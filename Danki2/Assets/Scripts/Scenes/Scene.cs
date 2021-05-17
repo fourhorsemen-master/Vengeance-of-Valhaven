@@ -14,5 +14,5 @@
     ForestValleyScene,
     ForestClearingScene,
     RuneScene,
-    Zone1Introduction
+    Zone1IntroductionScene
 }

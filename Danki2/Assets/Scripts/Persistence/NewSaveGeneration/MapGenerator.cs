@@ -70,6 +70,12 @@ public class MapGenerator : Singleton<MapGenerator>
     /// </summary>
     private void SetRoomType(RoomNode node)
     {
+        if (node.Depth == 1)
+        {
+            node.RoomType = RoomType.ZoneIntroduction;
+            return;
+        }
+        
         if (node.Depth == MapGenerationLookup.Instance.MaxRoomDepth)
         {
             node.RoomType = RoomType.Boss;
