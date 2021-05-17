@@ -59,10 +59,12 @@ MonoBehaviour:
     - ForestValleyScene
     - ForestClearingScene
     - RuneScene
+    - Zone1Introduction
     _values:
     - fileName: EntryScene
       sceneType: 0
       gameplaySceneData:
+        zone: 0
         roomTypes: 
         cameraOrientations: 
         entranceData: []
@@ -70,6 +72,7 @@ MonoBehaviour:
     - fileName: MainMenu
       sceneType: 0
       gameplaySceneData:
+        zone: 0
         roomTypes: 
         cameraOrientations: 
         entranceData: []
@@ -77,6 +80,7 @@ MonoBehaviour:
     - fileName: GameplayEntryScene
       sceneType: 0
       gameplaySceneData:
+        zone: 0
         roomTypes: 
         cameraOrientations: 
         entranceData: []
@@ -84,6 +88,7 @@ MonoBehaviour:
     - fileName: GameplayExitScene
       sceneType: 0
       gameplaySceneData:
+        zone: 0
         roomTypes: 
         cameraOrientations: 
         entranceData: []
@@ -91,6 +96,7 @@ MonoBehaviour:
     - fileName: GameplayVictoryScene
       sceneType: 0
       gameplaySceneData:
+        zone: 0
         roomTypes: 
         cameraOrientations: 
         entranceData: []
@@ -98,6 +104,7 @@ MonoBehaviour:
     - fileName: GameplayDefeatScene
       sceneType: 0
       gameplaySceneData:
+        zone: 0
         roomTypes: 
         cameraOrientations: 
         entranceData: []
@@ -105,6 +112,7 @@ MonoBehaviour:
     - fileName: RandomisedScene
       sceneType: 1
       gameplaySceneData:
+        zone: 0
         roomTypes: 0000000001000000
         cameraOrientations: 00000000010000000200000003000000
         entranceData:
@@ -122,6 +130,7 @@ MonoBehaviour:
     - fileName: CatchAllScene
       sceneType: 1
       gameplaySceneData:
+        zone: 0
         roomTypes: 0000000001000000
         cameraOrientations: 00000000010000000200000003000000
         entranceData:
@@ -143,6 +152,7 @@ MonoBehaviour:
     - fileName: AbilityScene
       sceneType: 1
       gameplaySceneData:
+        zone: 0
         roomTypes: 05000000
         cameraOrientations: 00000000
         entranceData:
@@ -164,6 +174,7 @@ MonoBehaviour:
     - fileName: ForestCliffScene
       sceneType: 1
       gameplaySceneData:
+        zone: 0
         roomTypes: 00000000
         cameraOrientations: 000000000100000003000000
         entranceData:
@@ -185,6 +196,7 @@ MonoBehaviour:
     - fileName: HealingScene
       sceneType: 1
       gameplaySceneData:
+        zone: 0
         roomTypes: 06000000
         cameraOrientations: 00000000
         entranceData:
@@ -204,6 +216,7 @@ MonoBehaviour:
     - fileName: ForestValleyScene
       sceneType: 1
       gameplaySceneData:
+        zone: 0
         roomTypes: 0000000001000000
         cameraOrientations: 0000000002000000
         entranceData:
@@ -223,6 +236,7 @@ MonoBehaviour:
     - fileName: ForestClearingScene
       sceneType: 1
       gameplaySceneData:
+        zone: 0
         roomTypes: 0000000001000000
         cameraOrientations: 0000000003000000
         entranceData:
@@ -246,6 +260,7 @@ MonoBehaviour:
     - fileName: RuneScene
       sceneType: 1
       gameplaySceneData:
+        zone: 0
         roomTypes: 07000000
         cameraOrientations: 00000000
         entranceData:
@@ -255,6 +270,22 @@ MonoBehaviour:
           side: 1
         - id: 2
           side: 3
+        exitData:
+        - id: 0
+          side: 0
+        - id: 1
+          side: 0
+        - id: 2
+          side: 0
+    - fileName: Zone1Introduction
+      sceneType: 1
+      gameplaySceneData:
+        zone: 0
+        roomTypes: 08000000
+        cameraOrientations: 00000000
+        entranceData:
+        - id: 0
+          side: 2
         exitData:
         - id: 0
           side: 0

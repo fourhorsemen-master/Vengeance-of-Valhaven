@@ -48,6 +48,8 @@ public class SceneLookupEditor : Editor
         EnumDictionary<SceneSpecificFoldoutStatus, bool> specificFoldoutStatus
     )
     {
+        gameplaySceneData.Zone = (Zone) EditorGUILayout.EnumPopup("Zone", gameplaySceneData.Zone);
+        
         EditRoomTypes(gameplaySceneData, specificFoldoutStatus);
         EditCameraOrientations(gameplaySceneData, specificFoldoutStatus);
         EditEntranceData(gameplaySceneData.EntranceData, specificFoldoutStatus);
