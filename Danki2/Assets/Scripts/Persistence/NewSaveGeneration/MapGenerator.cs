@@ -86,10 +86,10 @@ public class MapGenerator : Singleton<MapGenerator>
     
     /// <summary>
     /// Sets the room type according to the following strategy:
-    ///  - If the room is at the required depth, then set its room type to boss.
-    ///  - For each room type, find the distance from the node to the nearest parent with that room type,
-    ///  - If no such parent exists, assume that the node before the root node was of that room type. That is to
-    ///    assume that the node before the root node is a special node of every room type,
+    ///  - If the room is at the required depth, then set its room type to either zone introduction or boss accordingly.
+    ///  - For each room type, find the distance from the node to the nearest parent in the same zone with that room type,
+    ///  - If no such parent exists, assume that the introduction node to the zone was of that room type. That is to
+    ///    assume that the introduction nodes are special nodes of every room type,
     ///  - If there is no weight available for a room type (i.e. it's weight array does not have a value for that
     ///    room type's distance), then mark that room type as required,
     ///  - If there are any required room types, then select one randomly,
