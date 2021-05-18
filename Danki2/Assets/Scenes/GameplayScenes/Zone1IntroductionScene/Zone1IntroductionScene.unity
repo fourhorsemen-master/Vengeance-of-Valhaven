@@ -1689,8 +1689,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1873322766099463150, guid: 937a2be9f9a5f3b40aedafb045404f48,
         type: 3}
+      propertyPath: roomType
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1873322766099463150, guid: 937a2be9f9a5f3b40aedafb045404f48,
+        type: 3}
+      propertyPath: depthInZone
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1873322766099463150, guid: 937a2be9f9a5f3b40aedafb045404f48,
+        type: 3}
       propertyPath: enemiesCleared
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1873322766099463151, guid: 937a2be9f9a5f3b40aedafb045404f48,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4149834750418942864, guid: 937a2be9f9a5f3b40aedafb045404f48,
         type: 3}

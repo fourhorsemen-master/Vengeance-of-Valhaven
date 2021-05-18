@@ -83,6 +83,8 @@ MonoBehaviour:
   transitionModuleSeed: 0
   playerSpawnerId: 0
   depth: 1
+  zone: 0
+  depthInZone: 1
   roomType: 0
   abilityChoices: 
   hasHealed: 0
@@ -112,12 +114,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityChoices: 0
   runeSockets: 0
-  maxRoomDepth: 0
+  generatedRoomDepth: 0
   minRoomExits: 0
   maxRoomExits: 0
   requiredSpawners: 0
   chanceIndicatesChildRoomType: 0
   chanceIndicatesGrandchildRoomType: 0
+  roomsPerZoneLookup:
+    _keys:
+    - Zone1
+    - Zone2
+    - Zone3
+    _values: 000000000000000000000000
   roomDataLookup:
     _keys:
     - Combat
@@ -128,6 +136,7 @@ MonoBehaviour:
     - Ability
     - Healing
     - Rune
+    - ZoneIntroduction
     _values:
     - availableInPool: 1
       weights: 
@@ -145,8 +154,17 @@ MonoBehaviour:
       weights: 
     - availableInPool: 1
       weights: 
-  spawnedEnemiesPerDepth: []
-  maxRoomDepthOverride: 10
+    - availableInPool: 1
+      weights: 
+  spawnedEnemiesPerDepthLookup:
+    _keys: 
+    _values: []
+  roomsPerZoneLookupOverride:
+    _keys:
+    - Zone1
+    - Zone2
+    - Zone3
+    _values: 0a0000000a0000000a000000
 --- !u!114 &70334590722672776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,10 +193,12 @@ MonoBehaviour:
     - ForestValleyScene
     - ForestClearingScene
     - RuneScene
+    - Zone1IntroductionScene
     _values:
     - fileName: 
       sceneType: 0
       gameplaySceneData:
+        zones: 
         roomTypes: 
         cameraOrientations: 
         entranceData: []
@@ -186,6 +206,7 @@ MonoBehaviour:
     - fileName: 
       sceneType: 0
       gameplaySceneData:
+        zones: 
         roomTypes: 
         cameraOrientations: 
         entranceData: []
@@ -193,6 +214,7 @@ MonoBehaviour:
     - fileName: 
       sceneType: 0
       gameplaySceneData:
+        zones: 
         roomTypes: 
         cameraOrientations: 
         entranceData: []
@@ -200,6 +222,7 @@ MonoBehaviour:
     - fileName: 
       sceneType: 0
       gameplaySceneData:
+        zones: 
         roomTypes: 
         cameraOrientations: 
         entranceData: []
@@ -207,6 +230,7 @@ MonoBehaviour:
     - fileName: 
       sceneType: 0
       gameplaySceneData:
+        zones: 
         roomTypes: 
         cameraOrientations: 
         entranceData: []
@@ -214,6 +238,7 @@ MonoBehaviour:
     - fileName: 
       sceneType: 0
       gameplaySceneData:
+        zones: 
         roomTypes: 
         cameraOrientations: 
         entranceData: []
@@ -221,6 +246,7 @@ MonoBehaviour:
     - fileName: 
       sceneType: 0
       gameplaySceneData:
+        zones: 
         roomTypes: 
         cameraOrientations: 
         entranceData: []
@@ -228,6 +254,7 @@ MonoBehaviour:
     - fileName: 
       sceneType: 0
       gameplaySceneData:
+        zones: 
         roomTypes: 
         cameraOrientations: 
         entranceData: []
@@ -235,6 +262,7 @@ MonoBehaviour:
     - fileName: 
       sceneType: 0
       gameplaySceneData:
+        zones: 
         roomTypes: 
         cameraOrientations: 
         entranceData: []
@@ -242,6 +270,7 @@ MonoBehaviour:
     - fileName: 
       sceneType: 0
       gameplaySceneData:
+        zones: 
         roomTypes: 
         cameraOrientations: 
         entranceData: []
@@ -249,6 +278,7 @@ MonoBehaviour:
     - fileName: 
       sceneType: 0
       gameplaySceneData:
+        zones: 
         roomTypes: 
         cameraOrientations: 
         entranceData: []
@@ -256,6 +286,7 @@ MonoBehaviour:
     - fileName: 
       sceneType: 0
       gameplaySceneData:
+        zones: 
         roomTypes: 
         cameraOrientations: 
         entranceData: []
@@ -263,6 +294,7 @@ MonoBehaviour:
     - fileName: 
       sceneType: 0
       gameplaySceneData:
+        zones: 
         roomTypes: 
         cameraOrientations: 
         entranceData: []
@@ -270,6 +302,15 @@ MonoBehaviour:
     - fileName: 
       sceneType: 0
       gameplaySceneData:
+        zones: 
+        roomTypes: 
+        cameraOrientations: 
+        entranceData: []
+        exitData: []
+    - fileName: 
+      sceneType: 0
+      gameplaySceneData:
+        zones: 
         roomTypes: 
         cameraOrientations: 
         entranceData: []

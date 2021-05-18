@@ -63,7 +63,7 @@ public class MapGenerationLookup : Singleton<MapGenerationLookup>
     public int RequiredSpawners { get => requiredSpawners; set => requiredSpawners = value; }
     public float ChanceIndicatesChildRoomType { get => chanceIndicatesChildRoomType; set => chanceIndicatesChildRoomType = value; }
     public float ChanceIndicatesGrandchildRoomType { get => chanceIndicatesGrandchildRoomType; set => chanceIndicatesGrandchildRoomType = value; }
-    public RoomsPerZoneLookup RoomsPerZoneLookup { get => roomsPerZoneLookup; set => roomsPerZoneLookup = value; }
+    public virtual RoomsPerZoneLookup RoomsPerZoneLookup { get => roomsPerZoneLookup; set => roomsPerZoneLookup = value; }
 
     public RoomDataLookup RoomDataLookup => roomDataLookup;
 

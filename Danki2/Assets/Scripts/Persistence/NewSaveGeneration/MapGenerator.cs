@@ -114,7 +114,7 @@ public class MapGenerator : Singleton<MapGenerator>
         MapGenerationLookup.Instance.ForEachRoomTypeInPool(roomType =>
         {
             int distance = node.GetDistanceFromPreviousRoomTypes(roomType, RoomType.ZoneIntroduction);
-            distancesFromPreviousRoomTypes[roomType] = distance == -1 ? node.Depth : distance;
+            distancesFromPreviousRoomTypes[roomType] = distance;
         });
 
         List<RoomType> requiredRoomTypes = new List<RoomType>();

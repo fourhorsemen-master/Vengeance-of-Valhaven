@@ -55,6 +55,8 @@ public class DevPersistenceManagerEditor : Editor
         {
             EditorGUI.indentLevel++;
             devPersistenceManager.depth = EditorGUILayout.IntField("Depth", devPersistenceManager.depth);
+            devPersistenceManager.zone = (Zone) EditorGUILayout.EnumPopup("Zone", devPersistenceManager.zone);
+            devPersistenceManager.depthInZone = EditorGUILayout.IntField("Depth In Zone", devPersistenceManager.depthInZone);
             devPersistenceManager.roomType = (RoomType) EditorGUILayout.EnumPopup("Room Type", devPersistenceManager.roomType);
             if (devPersistenceManager.roomType == RoomType.Combat) EditCombatRoomData(devPersistenceManager);
             if (devPersistenceManager.roomType == RoomType.Ability) EditAbilityRoomData(devPersistenceManager);

@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(DevMapGenerationLookup))]
@@ -10,7 +11,9 @@ public class DevMapGenerationLookupEditor : Editor
 
         EditorUtils.ShowScriptLink(devMapGenerationLookup);
 
-        // devMapGenerationLookup.RandomisedRoomsPerZone = EditorGUILayout.IntField("Max Room Depth", devMapGenerationLookup.RandomisedRoomsPerZone);
+        int roomsPerZone = devMapGenerationLookup.RoomsPerZoneLookup.Values.First();
+        roomsPerZone = EditorGUILayout.IntField("Rooms Per Zone", roomsPerZone);
+        EnumUtils.ForEach<Zone>(z => devMapGenerationLookup.RoomsPerZoneLookup[z] = roomsPerZone);
         
         if (GUI.changed)
         {
