@@ -45,7 +45,7 @@ public class CustomCamera : Singleton<CustomCamera>
     protected override void Awake()
     {
         base.Awake();
-        orientation = PersistenceManager.Instance.SaveData.CurrentRoomSaveData.CameraOrientation;
+        orientation = PersistenceManager.Instance.SaveData.CurrentRoomNode.CameraOrientation;
     }
 
     private void Start()

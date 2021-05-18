@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Random = UnityEngine.Random;
+﻿using UnityEngine;
 
 public class NewSaveGenerator : Singleton<NewSaveGenerator>
 {
@@ -16,161 +14,60 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
     {
         if (seed == -1) seed = RandomUtils.Seed();
         Random.InitState(seed);
-
-        MapNode rootNode = MapGenerator.Instance.Generate();
-        int defeatRoomId = rootNode.FindMaxId() + 1;
-
-        EnumDictionary<AbilityReference, int> ownedAbilities = new EnumDictionary<AbilityReference, int>(0);
-        ownedAbilities[AbilityReference.Slash] = 1;
-        ownedAbilities[AbilityReference.Lunge] = 1;
-
-        return new SaveData
+        
+        SaveData saveData = new SaveData
         {
             Version = SaveDataVersion,
             Seed = seed,
             PlayerHealth = 20,
-            SerializableAbilityTree = AbilityTreeFactory.CreateTree(
-                ownedAbilities,
-                AbilityTreeFactory.CreateNode(AbilityReference.Slash),
-                AbilityTreeFactory.CreateNode(AbilityReference.Lunge)
-            ).Serialize(),
-            RuneSockets = GenerateRuneSockets(),
-            RuneOrder = GenerateRuneOrder(),
-            CurrentRoomId = 0,
-            DefeatRoomId = defeatRoomId,
-            RoomSaveDataLookup = GenerateRoomSaveDataLookup(rootNode, defeatRoomId)
+            CurrentRoomNode = MapGenerator.Instance.Generate()
         };
+
+        SetAbilityTree(saveData);
+        SetRuneSockets(saveData);
+        SetRuneOrder(saveData);
+        SetDefeatRoom(saveData);
+
+        saveData.RandomState = Random.state;
+
+        return saveData;
     }
 
-    private List<RuneSocket> GenerateRuneSockets()
+    public void GenerateNextLayer(SaveData saveData)
     {
-        List<RuneSocket> runeSockets = new List<RuneSocket>();
-        Utils.Repeat(MapGenerationLookup.Instance.RuneSockets, () => runeSockets.Add(new RuneSocket()));
-        return runeSockets;
-    }
-
-    private List<Rune> GenerateRuneOrder()
-    {
-        List<Rune> runes = EnumUtils.ToList<Rune>();
-        runes.Shuffle();
-        return runes;
+        Random.state = saveData.RandomState;
+        MapGenerator.Instance.GenerateNextLayer(saveData.CurrentRoomNode);
+        saveData.RandomState = Random.state;
     }
     
-    private Dictionary<int, RoomSaveData> GenerateRoomSaveDataLookup(MapNode rootNode, int defeatRoomId)
+    private void SetAbilityTree(SaveData saveData)
     {
-        Dictionary<int, RoomSaveData> roomSaveDataLookup = new Dictionary<int, RoomSaveData>();
+        EnumDictionary<AbilityReference, int> ownedAbilities = new EnumDictionary<AbilityReference, int>(0);
+        ownedAbilities[AbilityReference.Slash] = 1;
+        ownedAbilities[AbilityReference.Lunge] = 1;
 
-        rootNode.IterateDown(node =>
-        {
-            switch (node.RoomType)
-            {
-                case RoomType.Combat:
-                case RoomType.Boss:
-                    roomSaveDataLookup[node.Id] = GenerateCombatRoomSaveData(node);
-                    break;
-                case RoomType.Ability:
-                    roomSaveDataLookup[node.Id] = GenerateAbilityRoomSaveData(node);
-                    break;
-                case RoomType.Healing:
-                    roomSaveDataLookup[node.Id] = GenerateHealingRoomSaveData(node);
-                    break;
-                case RoomType.Rune:
-                    roomSaveDataLookup[node.Id] = GenerateRuneRoomSaveData(node);
-                    break;
-                case RoomType.Victory:
-                    roomSaveDataLookup[node.Id] = GenerateVictoryRoomSaveData(node);
-                    break;
-            }
-        });
-
-        roomSaveDataLookup[defeatRoomId] = GenerateDefeatRoomSaveData(defeatRoomId);
-
-        return roomSaveDataLookup;
+        saveData.SerializableAbilityTree = AbilityTreeFactory.CreateTree(
+            ownedAbilities,
+            AbilityTreeFactory.CreateNode(AbilityReference.Slash),
+            AbilityTreeFactory.CreateNode(AbilityReference.Lunge)
+        ).Serialize();
     }
 
-    private RoomSaveData GenerateCombatRoomSaveData(MapNode node)
+    private void SetRuneSockets(SaveData saveData)
     {
-        RoomSaveData roomSaveData = GenerateCommonRoomSaveData(node);
-        roomSaveData.CombatRoomSaveData = new CombatRoomSaveData
-        {
-            EnemiesCleared = false,
-            SpawnerIdToSpawnedActor = node.SpawnerIdToSpawnedActor
-        };
-
-        return roomSaveData;
+        Utils.Repeat(MapGenerationLookup.Instance.RuneSockets, () => saveData.RuneSockets.Add(new RuneSocket()));
     }
 
-    private RoomSaveData GenerateAbilityRoomSaveData(MapNode node)
+    private void SetRuneOrder(SaveData saveData)
     {
-        RoomSaveData roomSaveData = GenerateCommonRoomSaveData(node);
-        roomSaveData.AbilityRoomSaveData = new AbilityRoomSaveData
-        {
-            AbilityChoices = node.AbilityChoices
-        };
-
-        return roomSaveData;
+        EnumUtils.ForEach<Rune>(rune => saveData.RuneOrder.Add(rune));
+        saveData.RuneOrder.Shuffle();
     }
 
-    private RoomSaveData GenerateHealingRoomSaveData(MapNode node)
+    private void SetDefeatRoom(SaveData saveData)
     {
-        RoomSaveData roomSaveData = GenerateCommonRoomSaveData(node);
-        roomSaveData.HealingRoomSaveData = new HealingRoomSaveData();
-
-        return roomSaveData;
-    }
-
-    private RoomSaveData GenerateRuneRoomSaveData(MapNode node)
-    {
-        RoomSaveData roomSaveData = GenerateCommonRoomSaveData(node);
-        roomSaveData.RuneRoomSaveData = new RuneRoomSaveData
+        saveData.DefeatRoom = new RoomNode
         {
-            RunesViewed = false,
-            RuneSelected = false
-        };
-
-        return roomSaveData;
-    }
-
-    private RoomSaveData GenerateCommonRoomSaveData(MapNode node)
-    {
-        return new RoomSaveData
-        {
-            Id = node.Id,
-            ParentRoomId = node.IsRootNode ? -1 : node.Parent.Id,
-            Depth = node.Depth,
-            Scene = node.Scene,
-            RoomType = node.RoomType,
-            RoomTransitionerIdToTransitionData = node.ExitIdToChildLookup.ToDictionary(
-                kvp => kvp.Key,
-                kvp => new TransitionData
-                {
-                    NextRoomId = kvp.Value.Id,
-                    IndicatesNextRoomType = node.ExitIdToIndicatesNextRoomType[kvp.Key],
-                    FurtherIndicatedRoomTypes = node.ExitIdToFurtherIndicatedRoomTypes[kvp.Key]
-                }
-            ),
-            ModuleSeed = RandomUtils.Seed(),
-            TransitionModuleSeed = RandomUtils.Seed(),
-            CameraOrientation = node.CameraOrientation,
-            PlayerSpawnerId = node.EntranceId
-        };
-    }
-
-    private RoomSaveData GenerateVictoryRoomSaveData(MapNode node)
-    {
-        return new RoomSaveData
-        {
-            Id = node.Id,
-            Scene = node.Scene,
-            RoomType = node.RoomType
-        };
-    }
-
-    private RoomSaveData GenerateDefeatRoomSaveData(int defeatRoomId)
-    {
-        return new RoomSaveData
-        {
-            Id = defeatRoomId,
             Scene = Scene.GameplayDefeatScene,
             RoomType = RoomType.Defeat
         };

@@ -6,8 +6,8 @@ public class TransitionSocketManager : MonoBehaviour
 {
     private void Start()
     {
-        RoomSaveData currentRoomSaveData = PersistenceManager.Instance.SaveData.CurrentRoomSaveData;
-        Random.InitState(currentRoomSaveData.TransitionModuleSeed);
+        RoomNode currentRoomNode = PersistenceManager.Instance.SaveData.CurrentRoomNode;
+        Random.InitState(currentRoomNode.TransitionModuleSeed);
 
         List<TransitionSocket> sockets = FindObjectsOfType<TransitionSocket>().ToList();
         sockets.SortById();
@@ -18,31 +18,33 @@ public class TransitionSocketManager : MonoBehaviour
             return;
         }
 
-        InstantiateModules(sockets, currentRoomSaveData);
+        InstantiateModules(sockets, currentRoomNode);
     }
 
-    private void InstantiateModules(List<TransitionSocket> sockets, RoomSaveData roomSaveData)
+    private void InstantiateModules(List<TransitionSocket> sockets, RoomNode roomNode)
     {
         sockets.ForEach(socket =>
         {
-            if (roomSaveData.RoomTransitionerIdToTransitionData.TryGetValue(socket.AssociatedExitId, out TransitionData transitionData))
+            if (roomNode.ExitIdToChildLookup.ContainsKey(socket.AssociatedExitId))
             {
-                InstantiateModule(socket, transitionData);
+                InstantiateModule(socket, roomNode);
             }
         });
     }
 
-    private void InstantiateModule(TransitionSocket socket, TransitionData transitionData)
+    private void InstantiateModule(TransitionSocket socket, RoomNode roomNode)
     {
-        TransitionModule prefab = GetAppropriatePrefab(transitionData);
-        Instantiate(prefab, socket.transform).InstantiateIndicatedRoomTypes(transitionData.FurtherIndicatedRoomTypes);
+        TransitionModule prefab = GetAppropriatePrefab(roomNode, socket.AssociatedExitId);
+        Instantiate(prefab, socket.transform).InstantiateIndicatedRoomTypes(
+            roomNode.ExitIdToFurtherIndicatedRoomTypes[socket.AssociatedExitId]
+        );
     }
 
-    private TransitionModule GetAppropriatePrefab(TransitionData transitionData)
+    private TransitionModule GetAppropriatePrefab(RoomNode roomNode, int exitId)
     {
-        if (transitionData.IndicatesNextRoomType)
+        if (roomNode.ExitIdToIndicatesNextRoomType[exitId])
         {
-            RoomType nextRoomType = PersistenceManager.Instance.SaveData.RoomSaveDataLookup[transitionData.NextRoomId].RoomType;
+            RoomType nextRoomType = roomNode.ExitIdToChildLookup[exitId].RoomType;
             return RandomUtils.Choice(TransitionModuleLookup.Instance.TransitionModuleDictionary[nextRoomType].TransitionPrefabs);
         }
 

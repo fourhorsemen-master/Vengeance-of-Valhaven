@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 [Serializable]
-public class SerializableRoomSaveData
+public class SerializableRoomNode
 {
     [SerializeField] private int id;
-    [SerializeField] private int parentRoomId;
+    [SerializeField] private int parentId;
+    [SerializeField] private List<int> childIds;
     [SerializeField] private int depth;
-    [SerializeField] private Scene scene;
     [SerializeField] private RoomType roomType;
+    [SerializeField] private Scene scene;
     [SerializeField] private SerializableCombatRoomSaveData serializableCombatRoomSaveData;
     [SerializeField] private SerializableAbilityRoomSaveData serializableAbilityRoomSaveData;
     [SerializeField] private SerializableHealingRoomSaveData serializableHealingRoomSaveData;
@@ -22,7 +22,8 @@ public class SerializableRoomSaveData
     [SerializeField] private int playerSpawnerId;
 
     public int Id { get => id; set => id = value; }
-    public int ParentRoomId { get => parentRoomId; set => parentRoomId = value; }
+    public int ParentId { get => parentId; set => parentId = value; }
+    public List<int> ChildIds { get => childIds; set => childIds = value; }
     public int Depth { get => depth; set => depth = value; }
     public RoomType RoomType { get => roomType; set => roomType = value; }
     public Scene Scene { get => scene; set => scene = value; }
@@ -36,32 +37,21 @@ public class SerializableRoomSaveData
     public Pole CameraOrientation { get => cameraOrientation; set => cameraOrientation = value; }
     public int PlayerSpawnerId { get => playerSpawnerId; set => playerSpawnerId = value; }
 
-    public RoomSaveData Deserialize()
+    public RoomNode Deserialize()
     {
-        return new RoomSaveData
+        return new RoomNode
         {
-            Id = Id,
-            ParentRoomId = ParentRoomId,
             Depth = Depth,
-            Scene = Scene,
             RoomType = RoomType,
+            Scene = Scene,
             CombatRoomSaveData = SerializableCombatRoomSaveData.Deserialize(),
             AbilityRoomSaveData = SerializableAbilityRoomSaveData.Deserialize(),
             HealingRoomSaveData = SerializableHealingRoomSaveData.Deserialize(),
             RuneRoomSaveData = SerializableRuneRoomSaveData.Deserialize(),
-            RoomTransitionerIdToTransitionData = SerializableTransitionData.ToDictionary(
-                d => d.RoomTransitionerId,
-                d => new TransitionData
-                {
-                    NextRoomId = d.NextRoomId,
-                    IndicatesNextRoomType = d.IndicatesNextRoomType,
-                    FurtherIndicatedRoomTypes = d.FurtherIndicatedRoomTypes
-                }
-            ),
             ModuleSeed = ModuleSeed,
             TransitionModuleSeed = TransitionModuleSeed,
-            CameraOrientation =  CameraOrientation,
-            PlayerSpawnerId = PlayerSpawnerId
+            CameraOrientation = CameraOrientation,
+            PlayerSpawnerId = playerSpawnerId
         };
     }
 }

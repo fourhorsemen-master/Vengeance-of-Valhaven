@@ -39,7 +39,7 @@ public class DevPersistenceManager : PersistenceManager
 
     public override void Save() {}
 
-    public override void TransitionToNextRoom(int nextRoomId) {}
+    public override void TransitionToNextRoom(RoomNode nextRoomNode) {}
 
     public override void TransitionToDefeatRoom() {}
 
@@ -55,52 +55,49 @@ public class DevPersistenceManager : PersistenceManager
             ).Serialize(),
             RuneSockets = runeSockets,
             RuneOrder = runeOrder,
-            CurrentRoomId = 0,
-            RoomSaveDataLookup = new Dictionary<int, RoomSaveData>
+            CurrentRoomNode = new RoomNode
             {
-                [0] = new RoomSaveData
+                Depth = depth,
+                RoomType = roomType,
+                CombatRoomSaveData = new CombatRoomSaveData
                 {
-                    Id = 0,
-                    ParentRoomId = -1,
-                    Depth = depth,
-                    RoomType = roomType,
-                    CombatRoomSaveData = new CombatRoomSaveData
-                    {
-                        EnemiesCleared = enemiesCleared,
-                        SpawnerIdToSpawnedActor = spawnedEnemies.ToDictionary(
-                            spawnedEnemy => spawnedEnemy.SpawnerId,
-                            spawnedEnemy => spawnedEnemy.ActorType
-                        )
-                    },
-                    AbilityRoomSaveData = new AbilityRoomSaveData
-                    {
-                        AbilityChoices = abilityChoices,
-                        AbilitiesViewed = false,
-                        AbilitySelected = false
-                    },
-                    HealingRoomSaveData = new HealingRoomSaveData
-                    {
-                        HasHealed = hasHealed
-                    },
-                    RuneRoomSaveData = new RuneRoomSaveData
-                    {
-                        RunesViewed = false,
-                        RuneSelected = false
-                    },
-                    RoomTransitionerIdToTransitionData = activeTransitions.ToDictionary(
-                        t => t,
-                        _ => new TransitionData
-                        {
-                            NextRoomId = 0,
-                            IndicatesNextRoomType = false,
-                            FurtherIndicatedRoomTypes = new List<RoomType>()
-                        }
-                    ),
-                    ModuleSeed = useRandomSeeds ? RandomUtils.Seed() : moduleSeed,
-                    TransitionModuleSeed = useRandomSeeds ? RandomUtils.Seed() : transitionModuleSeed,
-                    CameraOrientation = cameraOrientation,
-                    PlayerSpawnerId = playerSpawnerId
-                }
+                    EnemiesCleared = enemiesCleared,
+                    SpawnerIdToSpawnedActor = spawnedEnemies.ToDictionary(
+                        spawnedEnemy => spawnedEnemy.SpawnerId,
+                        spawnedEnemy => spawnedEnemy.ActorType
+                    )
+                },
+                AbilityRoomSaveData = new AbilityRoomSaveData
+                {
+                    AbilityChoices = abilityChoices,
+                    AbilitiesViewed = false,
+                    AbilitySelected = false
+                },
+                HealingRoomSaveData = new HealingRoomSaveData
+                {
+                    HasHealed = hasHealed
+                },
+                RuneRoomSaveData = new RuneRoomSaveData
+                {
+                    RunesViewed = false,
+                    RuneSelected = false
+                },
+                ExitIdToChildLookup = activeTransitions.ToDictionary(
+                    id => id,
+                    id => (RoomNode) null
+                ),
+                ExitIdToIndicatesNextRoomType = activeTransitions.ToDictionary(
+                    id => id,
+                    id => false
+                ),
+                ExitIdToFurtherIndicatedRoomTypes = activeTransitions.ToDictionary(
+                    id => id,
+                    id => new List<RoomType>()
+                ),
+                ModuleSeed = useRandomSeeds ? RandomUtils.Seed() : moduleSeed,
+                TransitionModuleSeed = useRandomSeeds ? RandomUtils.Seed() : transitionModuleSeed,
+                CameraOrientation = cameraOrientation,
+                PlayerSpawnerId = playerSpawnerId
             }
         };
     }

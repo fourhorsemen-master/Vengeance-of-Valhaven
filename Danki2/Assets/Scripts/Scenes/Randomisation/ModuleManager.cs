@@ -7,8 +7,8 @@ public class ModuleManager : Singleton<ModuleManager>
 {
     private void Start()
     {
-        RoomSaveData currentRoomSaveData = PersistenceManager.Instance.SaveData.CurrentRoomSaveData;
-        Random.InitState(currentRoomSaveData.ModuleSeed);
+        RoomNode currentRoomNode = PersistenceManager.Instance.SaveData.CurrentRoomNode;
+        Random.InitState(currentRoomNode.ModuleSeed);
 
         List<ModuleSocket> sockets = FindObjectsOfType<ModuleSocket>().ToList();
         sockets.SortById();
