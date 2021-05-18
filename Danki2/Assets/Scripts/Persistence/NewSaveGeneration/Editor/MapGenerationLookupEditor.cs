@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(MapGenerationLookup))]
@@ -8,7 +7,7 @@ public class MapGenerationLookupEditor : Editor
     private MapGenerationLookup mapGenerationLookup;
     
     private readonly EnumDictionary<RoomType, bool> foldoutStatus = new EnumDictionary<RoomType, bool>(false);
-    private bool spawnedEnemiesPerDepthFoldoutStatus = false;
+    private readonly EnumDictionary<Zone, bool> spawnedEnemiesPerZoneFoldoutStatus = new EnumDictionary<Zone, bool>(false);
     
     public override void OnInspectorGUI()
     {
@@ -20,7 +19,7 @@ public class MapGenerationLookupEditor : Editor
         EditorUtils.VerticalSpace();
         EditRoomDataLookup();
         EditorUtils.VerticalSpace();
-        EditSpawnedEnemiesPerDepth();
+        EditSpawnedEnemiesPerZoneLookup();
         
         if (GUI.changed)
         {
@@ -36,7 +35,6 @@ public class MapGenerationLookupEditor : Editor
         mapGenerationLookup.AbilityChoices = EditorGUILayout.IntField("Ability Choices", mapGenerationLookup.AbilityChoices);
         mapGenerationLookup.RuneSockets = EditorGUILayout.IntField("Rune Sockets", mapGenerationLookup.RuneSockets);
         mapGenerationLookup.GeneratedRoomDepth = EditorGUILayout.IntField("Generated Room Depth", mapGenerationLookup.GeneratedRoomDepth);
-        mapGenerationLookup.MaxRoomDepth = EditorGUILayout.IntField("Max Room Depth", mapGenerationLookup.MaxRoomDepth);
         mapGenerationLookup.RequiredSpawners = EditorGUILayout.IntField("Required Spawners", mapGenerationLookup.RequiredSpawners);
         mapGenerationLookup.MinRoomExits = EditorGUILayout.IntField("Min Room Exits", mapGenerationLookup.MinRoomExits);
         mapGenerationLookup.MaxRoomExits = EditorGUILayout.IntField("Max Room Exits", mapGenerationLookup.MaxRoomExits);
@@ -48,7 +46,21 @@ public class MapGenerationLookupEditor : Editor
             "Chance Room Type Indicated By Grandparent",
             mapGenerationLookup.ChanceIndicatesGrandchildRoomType
         );
+        EditRoomsPerZoneLookup();
 
+        EditorGUI.indentLevel--;
+    }
+
+    private void EditRoomsPerZoneLookup()
+    {
+        EditorUtils.Header("Rooms Per Zone");
+        EditorGUI.indentLevel++;
+        
+        EnumUtils.ForEach<Zone>(zone => mapGenerationLookup.RoomsPerZoneLookup[zone] = EditorGUILayout.IntField(
+            zone.ToString(),
+            mapGenerationLookup.RoomsPerZoneLookup[zone]
+        ));
+        
         EditorGUI.indentLevel--;
     }
 
@@ -93,27 +105,44 @@ public class MapGenerationLookupEditor : Editor
         EditorGUI.EndDisabledGroup();
     }
 
-    private void EditSpawnedEnemiesPerDepth()
+    private void EditSpawnedEnemiesPerZoneLookup()
     {
-        spawnedEnemiesPerDepthFoldoutStatus = EditorGUILayout.Foldout(spawnedEnemiesPerDepthFoldoutStatus, "Spawned Enemies Per Depth");
-        if (!spawnedEnemiesPerDepthFoldoutStatus) return;
-        
+        EditorUtils.Header("Spawned Enemies Per Zone");
         EditorGUI.indentLevel++;
 
-        List<SpawnedEnemiesWrapper> spawnedEnemiesPerDepth = mapGenerationLookup.SpawnedEnemiesPerDepth;
-        spawnedEnemiesPerDepth.Resize(mapGenerationLookup.MaxRoomDepth - 1, () => new SpawnedEnemiesWrapper());
-        for (int i = 0; i < spawnedEnemiesPerDepth.Count; i++)
+        int startDepth = 2;
+        int endDepth = -1;
+        EnumUtils.ForEach<Zone>(zone =>
         {
-            EditActorList(spawnedEnemiesPerDepth[i], i);
-            EditorUtils.VerticalSpace();
-        }
-        
+            endDepth += mapGenerationLookup.RoomsPerZoneLookup[zone];
+            spawnedEnemiesPerZoneFoldoutStatus[zone] = EditorGUILayout.Foldout(spawnedEnemiesPerZoneFoldoutStatus[zone], zone.ToString());
+
+            if (spawnedEnemiesPerZoneFoldoutStatus[zone])
+            {
+                EditorGUI.indentLevel++;
+
+                for (int i = startDepth; i <= endDepth; i++)
+                {
+                    if (!mapGenerationLookup.SpawnedEnemiesPerDepthLookup.ContainsKey(i))
+                    {
+                        mapGenerationLookup.SpawnedEnemiesPerDepthLookup[i] = new SpawnedEnemiesWrapper();
+                    }
+                    SpawnedEnemiesWrapper spawnedEnemiesWrapper = mapGenerationLookup.SpawnedEnemiesPerDepthLookup[i];
+                    EditActorList(spawnedEnemiesWrapper, i);
+                }
+                
+                EditorGUI.indentLevel--;
+            }
+
+            startDepth += mapGenerationLookup.RoomsPerZoneLookup[zone];
+        });
+
         EditorGUI.indentLevel--;
     }
 
-    private void EditActorList(SpawnedEnemiesWrapper spawnedEnemiesWrapper, int index)
+    private void EditActorList(SpawnedEnemiesWrapper spawnedEnemiesWrapper, int depth)
     {
-        EditorUtils.Header($"Room {index + 1}");
+        EditorUtils.Header($"Room {depth}");
         EditorGUI.indentLevel++;
         
         spawnedEnemiesWrapper.SpawnedEnemies.Trim(mapGenerationLookup.RequiredSpawners);

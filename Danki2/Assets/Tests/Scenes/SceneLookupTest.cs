@@ -38,31 +38,39 @@ public class SceneLookupTest
     {
         bool hasInvalidConfigurations = false;
 
-        EnumUtils.ForEach<RoomType>(roomType =>
+        EnumUtils.ForEach<Zone>(zone =>
         {
-            if (roomTypesToIgnore.Contains(roomType)) return;
-            
-            EnumUtils.ForEach<Pole>(trueEntranceDirection =>
+            EnumUtils.ForEach<RoomType>(roomType =>
             {
-                if (trueEntranceDirectionsToIgnore.Contains(trueEntranceDirection)) return;
-
-                int minRoomExits = MapGenerationLookup.Instance.MinRoomExits;
-                int maxRoomExits = MapGenerationLookup.Instance.MaxRoomExits;
-                for (int numberOfExits = minRoomExits; numberOfExits <= maxRoomExits; numberOfExits++)
-                {
-                    List<Scene> validScenes = SceneLookup.Instance.GetValidScenes(roomType, trueEntranceDirection, numberOfExits);
-                    
-                    if (validScenes.Count > 0) continue;
-                    
-                    hasInvalidConfigurations = true;
-                    Debug.Log(
-                        $"RoomType: {roomType}, " +
-                        $"TrueEntranceDirection: {trueEntranceDirection}, " +
-                        $"NumberOfExits: {numberOfExits} " +
-                        "has no valid scenes. Ensure that there is a scene that accommodates this configuration."
-                    );
-                }
+                if (roomTypesToIgnore.Contains(roomType)) return;
                 
+                EnumUtils.ForEach<Pole>(trueEntranceDirection =>
+                {
+                    if (trueEntranceDirectionsToIgnore.Contains(trueEntranceDirection)) return;
+
+                    int minRoomExits = MapGenerationLookup.Instance.MinRoomExits;
+                    int maxRoomExits = MapGenerationLookup.Instance.MaxRoomExits;
+                    for (int numberOfExits = minRoomExits; numberOfExits <= maxRoomExits; numberOfExits++)
+                    {
+                        List<Scene> validScenes = SceneLookup.Instance.GetValidScenes(
+                            zone,
+                            roomType,
+                            trueEntranceDirection,
+                            numberOfExits
+                        );
+                        
+                        if (validScenes.Count > 0) continue;
+                        
+                        hasInvalidConfigurations = true;
+                        Debug.Log(
+                            $"Zone: {zone}, " +
+                            $"RoomType: {roomType}, " +
+                            $"TrueEntranceDirection: {trueEntranceDirection}, " +
+                            $"NumberOfExits: {numberOfExits} " +
+                            "has no valid scenes. Ensure that there is a scene that accommodates this configuration."
+                        );
+                    }
+                });
             });
         });
 

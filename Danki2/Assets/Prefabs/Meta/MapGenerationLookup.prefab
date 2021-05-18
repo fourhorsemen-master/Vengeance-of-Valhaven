@@ -46,12 +46,17 @@ MonoBehaviour:
   abilityChoices: 3
   runeSockets: 3
   generatedRoomDepth: 2
-  maxRoomDepth: 14
   minRoomExits: 1
   maxRoomExits: 3
   requiredSpawners: 3
   chanceIndicatesChildRoomType: 0.5
   chanceIndicatesGrandchildRoomType: 0.5
+  roomsPerZoneLookup:
+    _keys:
+    - Zone1
+    - Zone2
+    - Zone3
+    _values: 030000000300000003000000
   roomDataLookup:
     _keys:
     - Combat
@@ -82,17 +87,9 @@ MonoBehaviour:
       weights: 0000000000000000000000000100000002000000
     - availableInPool: 0
       weights: 
-  spawnedEnemiesPerDepth:
-  - spawnedEnemies: 01000000
-  - spawnedEnemies: 01000000
-  - spawnedEnemies: 01000000
-  - spawnedEnemies: 01000000
-  - spawnedEnemies: 03000000
-  - spawnedEnemies: 03000000
-  - spawnedEnemies: 03000000
-  - spawnedEnemies: 03000000
-  - spawnedEnemies: 0100000001000000
-  - spawnedEnemies: 0100000001000000
-  - spawnedEnemies: 0100000001000000
-  - spawnedEnemies: 0300000003000000
-  - spawnedEnemies: 0300000003000000
+  spawnedEnemiesPerDepthLookup:
+    _keys: 080000000500000002000000
+    _values:
+    - spawnedEnemies: 01000000
+    - spawnedEnemies: 01000000
+    - spawnedEnemies: 01000000

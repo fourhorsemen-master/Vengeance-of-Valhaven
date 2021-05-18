@@ -3,13 +3,35 @@ using UnityEngine;
 
 public class MapGenerator : Singleton<MapGenerator>
 {
-    protected override bool DestroyOnLoad => false;
+    private readonly Dictionary<int, Zone> depthToZoneLookup = new Dictionary<int, Zone>();
+    private readonly Dictionary<Zone, int> zoneIntroductionDepthsLookup = new Dictionary<Zone, int>();
+    private readonly Dictionary<Zone, int> bossDepthsLookup = new Dictionary<Zone, int>();
+    private int finalNodeDepth;
     
+    protected override bool DestroyOnLoad => false;
+
+    private void Start()
+    {
+        int zoneIntroductionDepth = 1;
+        EnumUtils.ForEach<Zone>(zone =>
+        {
+            zoneIntroductionDepthsLookup[zone] = zoneIntroductionDepth;
+            int newDepth = zoneIntroductionDepth + MapGenerationLookup.Instance.RoomsPerZoneLookup[zone];
+            for (int i = zoneIntroductionDepth; i < newDepth; i++) depthToZoneLookup[i] = zone;
+            zoneIntroductionDepth = newDepth;
+            bossDepthsLookup[zone] = zoneIntroductionDepth - 1;
+        });
+
+        finalNodeDepth = zoneIntroductionDepth - 1;
+    }
+
     public RoomNode Generate()
     {
         RoomNode rootNode = new RoomNode {Depth = 1};
 
         rootNode.IterateDown(GenerateChildren, node => node.Depth <= MapGenerationLookup.Instance.GeneratedRoomDepth);
+        rootNode.IterateDown(SetZone);
+        rootNode.IterateDown(SetDepthInZone);
         rootNode.IterateDown(SetRoomType);
         SetRoomData(rootNode, Pole.South);
         rootNode.IterateDown(SetRoomData, node => !node.IsRootNode && !node.IsLeafNode);
@@ -34,6 +56,8 @@ public class MapGenerator : Singleton<MapGenerator>
         if (!hasVictoryRoom)
         {
             leafNodes.ForEach(GenerateChildren);
+            leafNodes.ForEach(node => node.Children.ForEach(SetZone));
+            leafNodes.ForEach(node => node.Children.ForEach(SetDepthInZone));
             leafNodes.ForEach(node => node.Children.ForEach(SetRoomType));
         }
         
@@ -56,6 +80,10 @@ public class MapGenerator : Singleton<MapGenerator>
         }));
     }
 
+    private void SetZone(RoomNode node) => node.Zone = depthToZoneLookup[node.Depth];
+
+    private void SetDepthInZone(RoomNode node) => node.DepthInZone = node.Depth - zoneIntroductionDepthsLookup[node.Zone] + 1;
+    
     /// <summary>
     /// Sets the room type according to the following strategy:
     ///  - If the room is at the required depth, then set its room type to boss.
@@ -70,22 +98,22 @@ public class MapGenerator : Singleton<MapGenerator>
     /// </summary>
     private void SetRoomType(RoomNode node)
     {
-        if (node.Depth == 1)
+        if (zoneIntroductionDepthsLookup[node.Zone] == node.Depth)
         {
             node.RoomType = RoomType.ZoneIntroduction;
             return;
         }
         
-        if (node.Depth == MapGenerationLookup.Instance.MaxRoomDepth)
+        if (bossDepthsLookup[node.Zone] == node.Depth)
         {
             node.RoomType = RoomType.Boss;
             return;
         }
-
+        
         Dictionary<RoomType, int> distancesFromPreviousRoomTypes = new Dictionary<RoomType, int>();
         MapGenerationLookup.Instance.ForEachRoomTypeInPool(roomType =>
         {
-            int distance = node.GetDistanceFromPreviousRoomType(roomType);
+            int distance = node.GetDistanceFromPreviousRoomTypes(roomType, RoomType.ZoneIntroduction);
             distancesFromPreviousRoomTypes[roomType] = distance == -1 ? node.Depth : distance;
         });
 
@@ -145,6 +173,7 @@ public class MapGenerator : Singleton<MapGenerator>
     private void SetCommonData(RoomNode node, Pole trueEntranceDirection)
     {
         node.Scene = RandomUtils.Choice(SceneLookup.Instance.GetValidScenes(
+            node.Zone,
             node.RoomType,
             trueEntranceDirection,
             node.Children.Count
@@ -187,7 +216,7 @@ public class MapGenerator : Singleton<MapGenerator>
 
     private void SetCombatData(RoomNode node)
     {
-        List<ActorType> spawnedEnemies = MapGenerationLookup.Instance.SpawnedEnemiesPerDepth[node.Depth - 1].SpawnedEnemies;
+        List<ActorType> spawnedEnemies = MapGenerationLookup.Instance.SpawnedEnemiesPerDepthLookup[node.Depth].SpawnedEnemies;
         for (int i = 0; i < spawnedEnemies.Count; i++)
         {
             node.CombatRoomSaveData.SpawnerIdToSpawnedActor[i] = spawnedEnemies[i];
@@ -222,27 +251,33 @@ public class MapGenerator : Singleton<MapGenerator>
     private void SetIndicatorData(RoomNode node)
     {
         if (node.IsRootNode) return;
-
-        bool isIndicatedInParent =
-            node.RoomType == RoomType.Boss ||
-            Random.value <= MapGenerationLookup.Instance.ChanceIndicatesChildRoomType;
-        if (!isIndicatedInParent) return;
+        if (node.RoomType == RoomType.ZoneIntroduction) return;
 
         RoomNode parent = node.Parent;
+
+        bool isIndicatedInParent =
+            parent.RoomType != RoomType.Boss &&
+            (node.RoomType == RoomType.Boss ||
+            Random.value <= MapGenerationLookup.Instance.ChanceIndicatesChildRoomType);
+        if (!isIndicatedInParent) return;
+
         parent.ExitIdToIndicatesNextRoomType[parent.ChildToExitIdLookup[node]] = true;
 
         if (parent.IsRootNode) return;
+        
+        RoomNode grandparent = parent.Parent;
 
-        bool isIndicatedInGrandparent = Random.value <= MapGenerationLookup.Instance.ChanceIndicatesGrandchildRoomType;
+        bool isIndicatedInGrandparent =
+            grandparent.RoomType != RoomType.Boss &&
+            Random.value <= MapGenerationLookup.Instance.ChanceIndicatesGrandchildRoomType;
         if (!isIndicatedInGrandparent) return;
 
-        RoomNode grandparent = parent.Parent;
         grandparent.ExitIdToFurtherIndicatedRoomTypes[grandparent.ChildToExitIdLookup[parent]].Add(node.RoomType);
     }
     
     private void TryGenerateVictoryNode(RoomNode node)
     {
-        if (node.Depth != MapGenerationLookup.Instance.MaxRoomDepth) return;
+        if (node.Depth != finalNodeDepth) return;
 
         RoomNode victoryNode = new RoomNode
         {

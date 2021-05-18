@@ -48,12 +48,33 @@ public class SceneLookupEditor : Editor
         EnumDictionary<SceneSpecificFoldoutStatus, bool> specificFoldoutStatus
     )
     {
-        gameplaySceneData.Zone = (Zone) EditorGUILayout.EnumPopup("Zone", gameplaySceneData.Zone);
-        
+        EditZones(gameplaySceneData, specificFoldoutStatus);
         EditRoomTypes(gameplaySceneData, specificFoldoutStatus);
         EditCameraOrientations(gameplaySceneData, specificFoldoutStatus);
         EditEntranceData(gameplaySceneData.EntranceData, specificFoldoutStatus);
         EditExitData(gameplaySceneData.ExitData, specificFoldoutStatus);
+    }
+
+    private void EditZones(
+        GameplaySceneData gameplaySceneData,
+        EnumDictionary<SceneSpecificFoldoutStatus, bool> specificFoldoutStatus
+    )
+    {
+        specificFoldoutStatus[SceneSpecificFoldoutStatus.Zones] = EditorGUILayout.Foldout(
+            specificFoldoutStatus[SceneSpecificFoldoutStatus.Zones],
+            "Zones"
+        );
+        if (!specificFoldoutStatus[SceneSpecificFoldoutStatus.Zones]) return;
+        
+        EditorGUI.indentLevel++;
+
+        EditorUtils.ResizeableList(
+            gameplaySceneData.Zones,
+            zone => (Zone) EditorGUILayout.EnumPopup("Zone", zone),
+            Zone.Zone1
+        );
+
+        EditorGUI.indentLevel--;
     }
 
     private void EditRoomTypes(

@@ -10,7 +10,7 @@ public class DevMapGenerationLookupEditor : Editor
 
         EditorUtils.ShowScriptLink(devMapGenerationLookup);
 
-        devMapGenerationLookup.MaxRoomDepth = EditorGUILayout.IntField("Max Room Depth", devMapGenerationLookup.MaxRoomDepth);
+        // devMapGenerationLookup.RandomisedRoomsPerZone = EditorGUILayout.IntField("Max Room Depth", devMapGenerationLookup.RandomisedRoomsPerZone);
         
         if (GUI.changed)
         {
