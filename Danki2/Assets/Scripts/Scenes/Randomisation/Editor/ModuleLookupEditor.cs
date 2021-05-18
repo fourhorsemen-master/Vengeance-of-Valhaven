@@ -6,8 +6,9 @@ using UnityEngine;
 public class ModuleLookupEditor : Editor
 {
     private readonly EnumDictionary<SocketType, bool> socketFoldoutStatus = new EnumDictionary<SocketType, bool>(false);
-    private EnumDictionary<SocketType, Dictionary<ModuleData, bool>> tagFoldoutStatus;
+    private EnumDictionary<SocketType, Dictionary<ModuleData, bool>> zoneFoldoutStatus;
     private EnumDictionary<SocketType, Dictionary<ModuleData, bool>> rotationsFoldoutStatus;
+    private EnumDictionary<SocketType, Dictionary<ModuleData, bool>> tagFoldoutStatus;
 
     public override void OnInspectorGUI()
     {
@@ -15,7 +16,7 @@ public class ModuleLookupEditor : Editor
 
         EditorUtils.ShowScriptLink(moduleLookup);
 
-        if (tagFoldoutStatus == null) InitialiseFoldoutStatuses(moduleLookup);
+        if (zoneFoldoutStatus == null) InitialiseFoldoutStatuses(moduleLookup);
 
         EnumUtils.ForEach<SocketType>(socketType =>
         {
@@ -37,13 +38,15 @@ public class ModuleLookupEditor : Editor
                 () => new ModuleData(),
                 moduleData =>
                 {
-                    tagFoldoutStatus[socketType][moduleData] = false;
+                    zoneFoldoutStatus[socketType][moduleData] = false;
                     rotationsFoldoutStatus[socketType][moduleData] = false;
+                    tagFoldoutStatus[socketType][moduleData] = false;
                 },
                 moduleData =>
                 {
-                    tagFoldoutStatus[socketType].Remove(moduleData);
+                    zoneFoldoutStatus[socketType].Remove(moduleData);
                     rotationsFoldoutStatus[socketType].Remove(moduleData);
+                    tagFoldoutStatus[socketType].Remove(moduleData);
                 }
             );
         });
@@ -56,15 +59,17 @@ public class ModuleLookupEditor : Editor
 
     private void InitialiseFoldoutStatuses(ModuleLookup moduleLookup)
     {
-        tagFoldoutStatus = new EnumDictionary<SocketType, Dictionary<ModuleData, bool>>(() => new Dictionary<ModuleData, bool>());
+        zoneFoldoutStatus = new EnumDictionary<SocketType, Dictionary<ModuleData, bool>>(() => new Dictionary<ModuleData, bool>());
         rotationsFoldoutStatus = new EnumDictionary<SocketType, Dictionary<ModuleData, bool>>(() => new Dictionary<ModuleData, bool>());
+        tagFoldoutStatus = new EnumDictionary<SocketType, Dictionary<ModuleData, bool>>(() => new Dictionary<ModuleData, bool>());
 
         EnumUtils.ForEach<SocketType>(socketType =>
         {
             moduleLookup.moduleDataLookup[socketType].ModuleData.ForEach(d =>
             {
-                tagFoldoutStatus[socketType][d] = false;
+                zoneFoldoutStatus[socketType][d] = false;
                 rotationsFoldoutStatus[socketType][d] = false;
+                tagFoldoutStatus[socketType][d] = false;
             });
         });
     }
@@ -74,12 +79,31 @@ public class ModuleLookupEditor : Editor
         EditorGUI.indentLevel++;
 
         moduleData.Prefab = EditorUtils.PrefabField("Prefab", moduleData.Prefab);
+        EditZones(moduleData.Zones, socketType, moduleData);
         EditRotations(moduleData, socketType, socketRotationType);
         EditTags(moduleData.Tags, socketType, moduleData);
 
         EditorUtils.VerticalSpace();
 
         EditorGUI.indentLevel--;
+    }
+
+    private void EditZones(List<Zone> zones, SocketType socketType, ModuleData moduleData)
+    {
+        zoneFoldoutStatus[socketType][moduleData] = EditorGUILayout.Foldout(zoneFoldoutStatus[socketType][moduleData], "Zones");
+
+        if (zoneFoldoutStatus[socketType][moduleData])
+        {
+            EditorGUI.indentLevel++;
+            
+            EditorUtils.ResizeableList(
+                zones,
+                zone => (Zone) EditorGUILayout.EnumPopup("Zone", zone),
+                Zone.Zone1
+            );
+
+            EditorGUI.indentLevel--;
+        }
     }
 
     private void EditRotations(ModuleData moduleData, SocketType socketType, SocketRotationType socketRotationType)
