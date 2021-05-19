@@ -15,6 +15,7 @@ public class SaveData : ISerializable<SerializableSaveData>
     public SerializableAbilityTree SerializableAbilityTree { get; set; }
     public List<RuneSocket> RuneSockets { get; set; } = new List<RuneSocket>();
     public List<Rune> RuneOrder { get; set; } = new List<Rune>();
+    public int CurrencyAmount { get; set; }
 
     public RoomNode CurrentRoomNode { get; set; }
     public RoomNode DefeatRoom { get; set; }
@@ -29,7 +30,8 @@ public class SaveData : ISerializable<SerializableSaveData>
             PlayerHealth = PlayerHealth,
             SerializableAbilityTree = SerializableAbilityTree,
             RuneSockets = RuneSockets,
-            RuneOrder = RuneOrder
+            RuneOrder = RuneOrder,
+            CurrencyAmount = CurrencyAmount,
         };
         
         AddGraphData(serializableSaveData);

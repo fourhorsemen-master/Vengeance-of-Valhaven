@@ -31,6 +31,7 @@ public class Player : Actor
     public ComboManager ComboManager { get; private set; }
     public PlayerTargetFinder TargetFinder { get; private set; }
     public RuneManager RuneManager { get; private set; }
+    public CurrencyManager CurrencyManager { get; private set; }
     
     // Subjects
     public Subject RollSubject { get; } = new Subject();
@@ -48,6 +49,7 @@ public class Player : Actor
         ComboManager = new ComboManager(this, updateSubject, rollResetsCombo);
         TargetFinder = new PlayerTargetFinder(this, updateSubject);
         RuneManager = new RuneManager(this);
+        CurrencyManager = new CurrencyManager();
 
         InstantCastService.SetFeedbackTimeout(feedbackTimeout);
         ChannelService.SetFeedbackTimeout(feedbackTimeout);
