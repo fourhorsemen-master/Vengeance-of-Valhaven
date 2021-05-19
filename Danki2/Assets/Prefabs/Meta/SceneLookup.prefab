@@ -63,6 +63,9 @@ MonoBehaviour:
     - Zone1IntroductionScene
     - Zone2IntroductionScene
     - Zone3IntroductionScene
+    - Zone1BossScene
+    - Zone2BossScene
+    - Zone3BossScene
     _values:
     - fileName: EntryScene
       sceneType: 0
@@ -116,7 +119,7 @@ MonoBehaviour:
       sceneType: 1
       gameplaySceneData:
         zones: 000000000100000002000000
-        roomTypes: 0000000001000000
+        roomTypes: 00000000
         cameraOrientations: 00000000010000000200000003000000
         entranceData:
         - id: 0
@@ -134,7 +137,7 @@ MonoBehaviour:
       sceneType: 1
       gameplaySceneData:
         zones: 000000000100000002000000
-        roomTypes: 0000000001000000
+        roomTypes: 00000000
         cameraOrientations: 00000000010000000200000003000000
         entranceData:
         - id: 0
@@ -220,7 +223,7 @@ MonoBehaviour:
       sceneType: 1
       gameplaySceneData:
         zones: 000000000100000002000000
-        roomTypes: 0000000001000000
+        roomTypes: 00000000
         cameraOrientations: 0000000002000000
         entranceData:
         - id: 0
@@ -240,7 +243,7 @@ MonoBehaviour:
       sceneType: 1
       gameplaySceneData:
         zones: 000000000100000002000000
-        roomTypes: 0000000001000000
+        roomTypes: 00000000
         cameraOrientations: 0000000003000000
         entranceData:
         - id: 0
@@ -264,7 +267,7 @@ MonoBehaviour:
       sceneType: 1
       gameplaySceneData:
         zones: 
-        roomTypes: 0000000001000000
+        roomTypes: 00000000
         cameraOrientations: 00000000010000000200000003000000
         entranceData:
         - id: 0
@@ -351,4 +354,52 @@ MonoBehaviour:
         - id: 1
           side: 0
         - id: 2
+          side: 0
+    - fileName: Zone1BossScene
+      sceneType: 1
+      gameplaySceneData:
+        zones: 00000000
+        roomTypes: 01000000
+        cameraOrientations: 00000000
+        entranceData:
+        - id: 0
+          side: 3
+        - id: 1
+          side: 2
+        - id: 2
+          side: 1
+        exitData:
+        - id: 0
+          side: 0
+    - fileName: Zone2BossScene
+      sceneType: 1
+      gameplaySceneData:
+        zones: 01000000
+        roomTypes: 01000000
+        cameraOrientations: 00000000
+        entranceData:
+        - id: 0
+          side: 3
+        - id: 1
+          side: 2
+        - id: 2
+          side: 1
+        exitData:
+        - id: 0
+          side: 0
+    - fileName: Zone3BossScene
+      sceneType: 1
+      gameplaySceneData:
+        zones: 02000000
+        roomTypes: 01000000
+        cameraOrientations: 00000000
+        entranceData:
+        - id: 0
+          side: 3
+        - id: 1
+          side: 2
+        - id: 2
+          side: 1
+        exitData:
+        - id: 0
           side: 0
