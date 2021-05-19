@@ -13,6 +13,7 @@
     HealingScene,
     ForestValleyScene,
     ForestClearingScene,
+    ForestDensScene,
     RuneScene,
     Zone1IntroductionScene
 }

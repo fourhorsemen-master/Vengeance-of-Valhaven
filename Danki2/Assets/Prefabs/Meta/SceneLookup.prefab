@@ -58,6 +58,7 @@ MonoBehaviour:
     - HealingScene
     - ForestValleyScene
     - ForestClearingScene
+    - ForestDensScene
     - RuneScene
     - Zone1IntroductionScene
     _values:
@@ -255,6 +256,29 @@ MonoBehaviour:
           side: 1
         - id: 2
           side: 3
+        - id: 3
+          side: 0
+    - fileName: ForestDensScene
+      sceneType: 1
+      gameplaySceneData:
+        roomTypes: 0000000001000000
+        cameraOrientations: 00000000010000000200000003000000
+        entranceData:
+        - id: 0
+          side: 2
+        - id: 1
+          side: 3
+        - id: 2
+          side: 1
+        - id: 3
+          side: 0
+        exitData:
+        - id: 0
+          side: 2
+        - id: 1
+          side: 3
+        - id: 2
+          side: 1
         - id: 3
           side: 0
     - fileName: RuneScene
