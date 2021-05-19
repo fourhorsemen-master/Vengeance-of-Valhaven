@@ -61,6 +61,8 @@ MonoBehaviour:
     - ForestDensScene
     - RuneScene
     - Zone1IntroductionScene
+    - Zone2IntroductionScene
+    - Zone3IntroductionScene
     _values:
     - fileName: EntryScene
       sceneType: 0
@@ -261,6 +263,7 @@ MonoBehaviour:
     - fileName: ForestDensScene
       sceneType: 1
       gameplaySceneData:
+        zones: 
         roomTypes: 0000000001000000
         cameraOrientations: 00000000010000000200000003000000
         entranceData:
@@ -304,16 +307,44 @@ MonoBehaviour:
     - fileName: Zone1IntroductionScene
       sceneType: 1
       gameplaySceneData:
-        zones: 000000000100000002000000
+        zones: 00000000
         roomTypes: 08000000
         cameraOrientations: 00000000
         entranceData:
         - id: 0
-          side: 3
-        - id: 1
           side: 2
+        exitData:
+        - id: 0
+          side: 0
+        - id: 1
+          side: 0
         - id: 2
-          side: 1
+          side: 0
+    - fileName: Zone2IntroductionScene
+      sceneType: 1
+      gameplaySceneData:
+        zones: 01000000
+        roomTypes: 08000000
+        cameraOrientations: 00000000
+        entranceData:
+        - id: 0
+          side: 2
+        exitData:
+        - id: 0
+          side: 0
+        - id: 1
+          side: 0
+        - id: 2
+          side: 0
+    - fileName: Zone3IntroductionScene
+      sceneType: 1
+      gameplaySceneData:
+        zones: 02000000
+        roomTypes: 08000000
+        cameraOrientations: 00000000
+        entranceData:
+        - id: 0
+          side: 2
         exitData:
         - id: 0
           side: 0

@@ -5,7 +5,7 @@ using UnityEngine;
 [Serializable]
 public class GameplaySceneData
 {
-    [SerializeField] private List<Zone> zones;
+    [SerializeField] private List<Zone> zones = new List<Zone>();
     [SerializeField] private List<RoomType> roomTypes = new List<RoomType>();
     [SerializeField] private List<Pole> cameraOrientations = new List<Pole>();
     [SerializeField] private List<EntranceData> entranceData = new List<EntranceData>();
