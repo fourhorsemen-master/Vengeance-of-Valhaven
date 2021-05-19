@@ -29,7 +29,10 @@ public class MapGenerator : Singleton<MapGenerator>
     {
         RoomNode rootNode = new RoomNode {Depth = 1};
 
-        rootNode.IterateDown(GenerateChildren, node => node.Depth <= MapGenerationLookup.Instance.GeneratedRoomDepth);
+        rootNode.IterateDown(
+            node => GenerateChildren(node),
+            node => node.Depth <= MapGenerationLookup.Instance.GeneratedRoomDepth
+        );
         rootNode.IterateDown(SetZone);
         rootNode.IterateDown(SetDepthInZone);
         rootNode.IterateDown(SetRoomType);
@@ -55,7 +58,7 @@ public class MapGenerator : Singleton<MapGenerator>
 
         if (!hasVictoryRoom)
         {
-            leafNodes.ForEach(GenerateChildren);
+            leafNodes.ForEach(node => GenerateChildren(node, node.RoomType == RoomType.Boss ? 1 : -1));
             leafNodes.ForEach(node => node.Children.ForEach(SetZone));
             leafNodes.ForEach(node => node.Children.ForEach(SetDepthInZone));
             leafNodes.ForEach(node => node.Children.ForEach(SetRoomType));
@@ -66,12 +69,11 @@ public class MapGenerator : Singleton<MapGenerator>
         if (!hasVictoryRoom) leafNodes.ForEach(node => node.Children.ForEach(SetIndicatorData));
     }
 
-    private void GenerateChildren(RoomNode node)
+    private void GenerateChildren(RoomNode node, int numberOfChildren = -1)
     {
-        int numberOfChildren = Random.Range(
-            MapGenerationLookup.Instance.MinRoomExits,
-            MapGenerationLookup.Instance.MaxRoomExits + 1
-        );
+        numberOfChildren = numberOfChildren == -1
+            ? Random.Range(MapGenerationLookup.Instance.MinRoomExits, MapGenerationLookup.Instance.MaxRoomExits + 1)
+            : numberOfChildren;
 
         Utils.Repeat(numberOfChildren, () => node.Children.Add(new RoomNode
         {
