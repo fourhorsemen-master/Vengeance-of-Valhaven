@@ -111,7 +111,7 @@ public class MapGenerator : Singleton<MapGenerator>
             node.RoomType = RoomType.Boss;
             return;
         }
-        
+
         Dictionary<RoomType, int> distancesFromPreviousRoomTypes = new Dictionary<RoomType, int>();
         MapGenerationLookup.Instance.ForEachRoomTypeInPool(roomType =>
         {
