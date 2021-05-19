@@ -11,6 +11,8 @@ public class SceneLookupTest
     {
         RoomType.Victory,
         RoomType.Defeat,
+        RoomType.ZoneIntroduction,
+        RoomType.Boss,
         RoomType.Shop, // TODO: Remove this once we are supporting shop rooms.
     };
     
