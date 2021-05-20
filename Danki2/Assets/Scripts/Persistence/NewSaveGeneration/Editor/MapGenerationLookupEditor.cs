@@ -29,11 +29,25 @@ public class MapGenerationLookupEditor : Editor
 
     private void EditLayoutData()
     {
-        EditorUtils.Header("Layout Data");
+        EditorUtils.Header("Player Data");
         EditorGUI.indentLevel++;
 
         mapGenerationLookup.AbilityChoices = EditorGUILayout.IntField("Ability Choices", mapGenerationLookup.AbilityChoices);
         mapGenerationLookup.RuneSockets = EditorGUILayout.IntField("Rune Sockets", mapGenerationLookup.RuneSockets);
+        mapGenerationLookup.LeftStartingAbility = (AbilityReference) EditorGUILayout.EnumPopup(
+            "Left Starting Ability",
+            mapGenerationLookup.LeftStartingAbility
+        );
+        mapGenerationLookup.RightStartingAbility = (AbilityReference) EditorGUILayout.EnumPopup(
+            "Right Starting Ability",
+            mapGenerationLookup.RightStartingAbility
+        );
+        
+        EditorGUI.indentLevel--;
+        
+        EditorUtils.Header("Layout Data");
+        EditorGUI.indentLevel++;
+
         mapGenerationLookup.GeneratedRoomDepth = EditorGUILayout.IntField("Generated Room Depth", mapGenerationLookup.GeneratedRoomDepth);
         mapGenerationLookup.RequiredSpawners = EditorGUILayout.IntField("Required Spawners", mapGenerationLookup.RequiredSpawners);
         mapGenerationLookup.MinRoomExits = EditorGUILayout.IntField("Min Room Exits", mapGenerationLookup.MinRoomExits);

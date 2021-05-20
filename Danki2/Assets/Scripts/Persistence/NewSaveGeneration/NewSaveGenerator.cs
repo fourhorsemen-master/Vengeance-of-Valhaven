@@ -20,6 +20,7 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
             Version = SaveDataVersion,
             Seed = seed,
             PlayerHealth = 20,
+            CurrencyAmount = 0,
             CurrentRoomNode = MapGenerator.Instance.Generate()
         };
 
@@ -43,13 +44,13 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
     private void SetAbilityTree(SaveData saveData)
     {
         EnumDictionary<AbilityReference, int> ownedAbilities = new EnumDictionary<AbilityReference, int>(0);
-        ownedAbilities[AbilityReference.Slash] = 1;
-        ownedAbilities[AbilityReference.Lunge] = 1;
+        ownedAbilities[MapGenerationLookup.Instance.LeftStartingAbility] = 1;
+        ownedAbilities[MapGenerationLookup.Instance.RightStartingAbility] = 1;
 
         saveData.SerializableAbilityTree = AbilityTreeFactory.CreateTree(
             ownedAbilities,
-            AbilityTreeFactory.CreateNode(AbilityReference.Slash),
-            AbilityTreeFactory.CreateNode(AbilityReference.Lunge)
+            AbilityTreeFactory.CreateNode(MapGenerationLookup.Instance.LeftStartingAbility),
+            AbilityTreeFactory.CreateNode(MapGenerationLookup.Instance.RightStartingAbility)
         ).Serialize();
     }
 

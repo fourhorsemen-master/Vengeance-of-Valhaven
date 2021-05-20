@@ -66,6 +66,10 @@ public class CombatRoomManager : Singleton<CombatRoomManager>
         int deadEnemyCount = 0;
         enemies.ForEach(e => e.DeathSubject.Subscribe(() =>
         {
+            ActorCache.Instance.Player.CurrencyManager.AddCurrency(
+                CurrencyLookup.Instance.EnemyCurrencyValueLookup[e.Type]
+            );
+            
             deadEnemyCount++;
             if (deadEnemyCount != enemyCount) return;
 

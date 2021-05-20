@@ -14,6 +14,7 @@ public class SerializableSaveData
     [SerializeField] private SerializableAbilityTree serializableAbilityTree;
     [SerializeField] private List<RuneSocket> runeSockets;
     [SerializeField] private List<Rune> runeOrder;
+    [SerializeField] private int currencyAmount;
     [SerializeField] private int currentRoomId;
     [SerializeField] private List<SerializableRoomNode> serializableRoomNodes;
     [SerializeField] private SerializableRoomNode serializableDefeatRoom;
@@ -25,6 +26,7 @@ public class SerializableSaveData
     public SerializableAbilityTree SerializableAbilityTree { get => serializableAbilityTree; set => serializableAbilityTree = value; }
     public List<RuneSocket> RuneSockets { get => runeSockets; set => runeSockets = value; }
     public List<Rune> RuneOrder { get => runeOrder; set => runeOrder = value; }
+    public int CurrencyAmount { get => currencyAmount; set => currencyAmount = value; }
     public int CurrentRoomId { get => currentRoomId; set => currentRoomId = value; }
     public List<SerializableRoomNode> SerializableRoomNodes { get => serializableRoomNodes; set => serializableRoomNodes = value; }
     public SerializableRoomNode SerializableDefeatRoom { get => serializableDefeatRoom; set => serializableDefeatRoom = value; }
@@ -40,6 +42,7 @@ public class SerializableSaveData
             SerializableAbilityTree = SerializableAbilityTree,
             RuneSockets = RuneSockets,
             RuneOrder = RuneOrder,
+            CurrencyAmount = CurrencyAmount
         };
 
         AddGraphData(saveData);
