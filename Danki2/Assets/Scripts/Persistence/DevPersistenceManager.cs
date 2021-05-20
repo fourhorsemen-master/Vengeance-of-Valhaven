@@ -18,6 +18,7 @@ public class DevPersistenceManager : PersistenceManager
     [SerializeField] public int playerHealth = 0;
     [SerializeField] public List<RuneSocket> runeSockets = new List<RuneSocket>();
     [SerializeField] public List<Rune> runeOrder = new List<Rune>();
+    [SerializeField] public int currencyAmount = 0;
     [SerializeField] public Pole cameraOrientation = Pole.North;
     [SerializeField] public bool enemiesCleared = false;
     [SerializeField] public List<SpawnedEnemy> spawnedEnemies = new List<SpawnedEnemy>();
@@ -57,6 +58,7 @@ public class DevPersistenceManager : PersistenceManager
             ).Serialize(),
             RuneSockets = runeSockets,
             RuneOrder = runeOrder,
+            CurrencyAmount = currencyAmount,
             CurrentRoomNode = new RoomNode
             {
                 Depth = depth,

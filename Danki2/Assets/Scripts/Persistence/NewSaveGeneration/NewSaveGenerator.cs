@@ -20,6 +20,7 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
             Version = SaveDataVersion,
             Seed = seed,
             PlayerHealth = 20,
+            CurrencyAmount = 0,
             CurrentRoomNode = MapGenerator.Instance.Generate()
         };
 
