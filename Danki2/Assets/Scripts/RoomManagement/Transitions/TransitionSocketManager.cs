@@ -48,6 +48,6 @@ public class TransitionSocketManager : MonoBehaviour
             return RandomUtils.Choice(TransitionModuleLookup.Instance.TransitionModuleDictionary[nextRoomType].TransitionPrefabs);
         }
 
-        return RandomUtils.Choice(TransitionModuleLookup.Instance.GenericModules);
+        return TransitionModuleLookup.Instance.EmptyModule;
     }
 }

@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class RoomNode
 {
     public RoomNode Parent { get; set; }
     public List<RoomNode> Children { get; } = new List<RoomNode>();
     public int Depth { get; set; }
+    public Zone Zone { get; set; }
+    public int DepthInZone { get; set; }
     public RoomType RoomType { get; set; }
     public Scene Scene { get; set; }
     public CombatRoomSaveData CombatRoomSaveData { get; set; }  = new CombatRoomSaveData();
@@ -44,10 +47,10 @@ public class RoomNode
     }
 
     /// <summary>
-    /// Returns the distance from the nearest parent that has given room type.If no such parent
+    /// Returns the distance from the nearest parent that has one of the given room types. If no such parent
     /// exists then -1 is returned.
     /// </summary>
-    public int GetDistanceFromPreviousRoomType(RoomType roomType)
+    public int GetDistanceFromPreviousRoomTypes(params RoomType[] roomTypes)
     {
         bool foundSameRoomType = false;
         int distance = 0;
@@ -56,7 +59,7 @@ public class RoomNode
             node =>
             {
                 distance++;
-                if (node.RoomType == roomType) foundSameRoomType = true;
+                if (roomTypes.Contains(node.RoomType)) foundSameRoomType = true;
             },
             node => !foundSameRoomType && !node.Equals(this)
         );
@@ -79,6 +82,8 @@ public class RoomNode
         return new SerializableRoomNode
         {
             Depth = Depth,
+            Zone = Zone,
+            DepthInZone = DepthInZone,
             RoomType = RoomType,
             Scene = Scene,
             SerializableCombatRoomSaveData = CombatRoomSaveData?.Serialize(),
