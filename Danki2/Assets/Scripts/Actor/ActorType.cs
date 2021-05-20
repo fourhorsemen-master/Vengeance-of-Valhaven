@@ -4,4 +4,5 @@
     Wolf,
     Bear,
     Wraith,
+    ForestGolem,
 }
