@@ -1,11 +1,12 @@
 public class CurrencyManager
 {
-    public int CurrencyAmount { get; private set; }
+    public BehaviourSubject<int> CurrencyChangedSubject { get; }
+    public int CurrencyAmount => CurrencyChangedSubject.Value;
 
     public CurrencyManager()
     {
-        CurrencyAmount = PersistenceManager.Instance.SaveData.CurrencyAmount;
+        CurrencyChangedSubject = new BehaviourSubject<int>(PersistenceManager.Instance.SaveData.CurrencyAmount);
     }
 
-    public void AddCurrency(int amount) => CurrencyAmount += amount;
+    public void AddCurrency(int amount) => CurrencyChangedSubject.Next(CurrencyAmount + amount);
 }
