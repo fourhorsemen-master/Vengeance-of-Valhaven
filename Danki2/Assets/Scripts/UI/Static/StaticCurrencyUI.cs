@@ -9,7 +9,7 @@ public class StaticCurrencyUI : StaticUI<StaticCurrencyUI>
     {
         base.Start();
 
-        ActorCache.Instance.Player.CurrencyManager.CurrencyChangedSubject.Subscribe(amount =>
+        ActorCache.Instance.Player.CurrencyManager.CurrencySubject.Subscribe(amount =>
         {
             text.text = $"Currency: {amount.ToString()}";
         });
