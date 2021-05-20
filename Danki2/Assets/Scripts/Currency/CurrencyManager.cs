@@ -6,4 +6,6 @@ public class CurrencyManager
     {
         CurrencyAmount = PersistenceManager.Instance.SaveData.CurrencyAmount;
     }
+
+    public void AddCurrency(int amount) => CurrencyAmount += amount;
 }
