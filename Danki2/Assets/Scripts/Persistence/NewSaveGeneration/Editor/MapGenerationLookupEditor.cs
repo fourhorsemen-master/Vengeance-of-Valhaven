@@ -6,7 +6,7 @@ public class MapGenerationLookupEditor : Editor
 {
     private MapGenerationLookup mapGenerationLookup;
     
-    private readonly EnumDictionary<RoomType, bool> foldoutStatus = new EnumDictionary<RoomType, bool>(false);
+    private readonly EnumDictionary<RoomType, bool> roomTypeFoldoutStatus = new EnumDictionary<RoomType, bool>(false);
     private readonly EnumDictionary<Zone, bool> spawnedEnemiesPerZoneFoldoutStatus = new EnumDictionary<Zone, bool>(false);
     
     public override void OnInspectorGUI()
@@ -71,8 +71,8 @@ public class MapGenerationLookupEditor : Editor
 
         EnumUtils.ForEach<RoomType>(roomType =>
         {
-            foldoutStatus[roomType] = EditorGUILayout.Foldout(foldoutStatus[roomType], roomType.ToString());
-            if (!foldoutStatus[roomType]) return;
+            roomTypeFoldoutStatus[roomType] = EditorGUILayout.Foldout(roomTypeFoldoutStatus[roomType], roomType.ToString());
+            if (!roomTypeFoldoutStatus[roomType]) return;
 
             EditorGUI.indentLevel++;
             
