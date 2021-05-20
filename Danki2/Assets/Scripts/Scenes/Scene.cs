@@ -15,4 +15,10 @@
     ForestClearingScene,
     ForestDensScene,
     RuneScene,
+    Zone1IntroductionScene,
+    Zone2IntroductionScene,
+    Zone3IntroductionScene,
+    Zone1BossScene,
+    Zone2BossScene,
+    Zone3BossScene,
 }

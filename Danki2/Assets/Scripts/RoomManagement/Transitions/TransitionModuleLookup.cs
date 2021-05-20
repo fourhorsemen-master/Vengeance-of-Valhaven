@@ -22,8 +22,8 @@ public class TransitionModuleDictionary : SerializableEnumDictionary<RoomType, T
 public class TransitionModuleLookup : Singleton<TransitionModuleLookup>
 {
     [SerializeField]
-    private List<TransitionModule> genericModules = new List<TransitionModule>();
-    public List<TransitionModule> GenericModules => genericModules;
+    private TransitionModule emptyModule = null;
+    public TransitionModule EmptyModule { get => emptyModule; set => emptyModule = value; }
 
     [SerializeField]
     private TransitionModuleDictionary transitionModuleDictionary = new TransitionModuleDictionary(() => new TransitionModuleData());
