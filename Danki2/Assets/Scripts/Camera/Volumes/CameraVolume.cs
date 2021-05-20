@@ -91,7 +91,7 @@ public class CameraVolume : MonoBehaviour
 
         if (turnOffStaticAbilityUI) StaticAbilityUI.Instance.OverrideVisibility(0);
         if (turnOffStaticHealthBarUI) StaticHealthBarUI.Instance.OverrideVisibility(0);
-        if (turnOffStaticCurrencyUI) StaticCurrencyAmountUI.Instance.OverrideVisibility(0);
+        if (turnOffStaticCurrencyUI) StaticCurrencyUI.Instance.OverrideVisibility(0);
     }
 
     private void OnTriggerExit(Collider other)
@@ -102,7 +102,7 @@ public class CameraVolume : MonoBehaviour
 
         if (turnOffStaticAbilityUI) StaticAbilityUI.Instance.RemoveVisibilityOverride();
         if (turnOffStaticHealthBarUI) StaticHealthBarUI.Instance.RemoveVisibilityOverride();
-        if (turnOffStaticCurrencyUI) StaticCurrencyAmountUI.Instance.RemoveVisibilityOverride();
+        if (turnOffStaticCurrencyUI) StaticCurrencyUI.Instance.RemoveVisibilityOverride();
     }
 
     private void OnDestroy()

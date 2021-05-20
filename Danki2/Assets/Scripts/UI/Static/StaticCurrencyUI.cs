@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class StaticCurrencyAmountUI : StaticUI<StaticCurrencyAmountUI>
+public class StaticCurrencyUI : StaticUI<StaticCurrencyUI>
 {
     [SerializeField] private Text text = null;
 
