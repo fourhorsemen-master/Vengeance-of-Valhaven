@@ -18,6 +18,7 @@ public class DevPersistenceManagerEditor : Editor
             EditorGUI.indentLevel++;
             devPersistenceManager.playerSpawnerId = EditorGUILayout.IntField("Player Spawner ID", devPersistenceManager.playerSpawnerId);
             devPersistenceManager.playerHealth = EditorGUILayout.IntField("Player Health", devPersistenceManager.playerHealth);
+            devPersistenceManager.currencyAmount = EditorGUILayout.IntField("Currency Amount", devPersistenceManager.currencyAmount);
             EditRuneSockets(devPersistenceManager);
             EditRuneOrder(devPersistenceManager);
             EditorGUI.indentLevel--;
