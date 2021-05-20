@@ -6,7 +6,6 @@
     GameplayExitScene,
     GameplayVictoryScene,
     GameplayDefeatScene,
-    RandomisedScene,
     CatchAllScene,
     AbilityScene,
     ForestCliffScene,
