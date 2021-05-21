@@ -18,12 +18,12 @@ public class CombatRoomManager : Singleton<CombatRoomManager>
     {
         base.Awake();
 
-        RoomSaveData roomSaveData = PersistenceManager.Instance.SaveData.CurrentRoomSaveData;
-        InCombatRoom = roomSaveData.RoomType == RoomType.Combat || roomSaveData.RoomType == RoomType.Boss;
+        RoomNode roomNode = PersistenceManager.Instance.SaveData.CurrentRoomNode;
+        InCombatRoom = roomNode.RoomType == RoomType.Combat || roomNode.RoomType == RoomType.Boss;
 
         if (!InCombatRoom) return;
 
-        EnemiesCleared = roomSaveData.CombatRoomSaveData.EnemiesCleared;
+        EnemiesCleared = roomNode.CombatRoomSaveData.EnemiesCleared;
     }
 
     private void Start()
@@ -45,7 +45,7 @@ public class CombatRoomManager : Singleton<CombatRoomManager>
 
     private List<Enemy> SpawnEnemies()
     {
-        CombatRoomSaveData combatRoomSaveData = PersistenceManager.Instance.SaveData.CurrentRoomSaveData.CombatRoomSaveData;
+        CombatRoomSaveData combatRoomSaveData = PersistenceManager.Instance.SaveData.CurrentRoomNode.CombatRoomSaveData;
         
         Dictionary<int, EnemySpawner> spawnerLookup = FindObjectsOfType<EnemySpawner>().ToDictionary(s => s.Id);
 
@@ -66,6 +66,10 @@ public class CombatRoomManager : Singleton<CombatRoomManager>
         int deadEnemyCount = 0;
         enemies.ForEach(e => e.DeathSubject.Subscribe(() =>
         {
+            ActorCache.Instance.Player.CurrencyManager.AddCurrency(
+                CurrencyLookup.Instance.EnemyCurrencyValueLookup[e.Type]
+            );
+            
             deadEnemyCount++;
             if (deadEnemyCount != enemyCount) return;
 

@@ -15,27 +15,13 @@ public class TransitionModuleLookupEditor : Editor
 
         EditorUtils.ShowScriptLink(transitionModuleLookup);
         
-        EditGenericModules();
+        transitionModuleLookup.EmptyModule = EditorUtils.PrefabField("Empty Module", transitionModuleLookup.EmptyModule);
         EditTransitionModuleDictionary();
 
         if (GUI.changed)
         {
             EditorUtility.SetDirty(target);
         }
-    }
-
-    private void EditGenericModules()
-    {
-        EditorUtils.Header("Generic Modules");
-        EditorGUI.indentLevel++;
-        
-        EditorUtils.ResizeableList(
-            transitionModuleLookup.GenericModules,
-            transitionModule => EditorUtils.PrefabField("Prefab", transitionModule),
-            defaultValue: null
-        );
-
-        EditorGUI.indentLevel--;
     }
 
     private void EditTransitionModuleDictionary()

@@ -12,7 +12,7 @@ public class PlayerControls : Singleton<PlayerControls>
     protected override void Awake()
     {
         base.Awake();
-        yRotation = OrientationUtils.GetYRotation(PersistenceManager.Instance.SaveData.CurrentRoomSaveData.CameraOrientation);
+        yRotation = OrientationUtils.GetYRotation(PersistenceManager.Instance.SaveData.CurrentRoomNode.CameraOrientation);
     }
 
     private void Update()
