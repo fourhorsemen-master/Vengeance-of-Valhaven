@@ -2,8 +2,6 @@
 
 public abstract class Enemy : Actor
 {
-
-
     public BehaviourSubject<bool> PlayerTargeted { get; } = new BehaviourSubject<bool>(false);
 
     public Color? CurrentTelegraph { get; private set; } = null;
