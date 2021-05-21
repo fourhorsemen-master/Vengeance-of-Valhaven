@@ -13,11 +13,4 @@ public abstract class Enemy : Actor
     public void StopTelegraph() => CurrentTelegraph = null;
     
     protected Vector3 GetMeleeTargetPosition(Vector3 origin) => origin + transform.forward;
-
-    protected override void OnDeath()
-    {
-        base.OnDeath();
-
-        CurrencyCollectionVisual.Create(Centre, CurrencyLookup.Instance.EnemyCurrencyValueLookup[Type]);
-    }
 }
