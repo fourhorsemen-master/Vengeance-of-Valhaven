@@ -2,6 +2,8 @@
 
 public abstract class Enemy : Actor
 {
+
+
     public BehaviourSubject<bool> PlayerTargeted { get; } = new BehaviourSubject<bool>(false);
 
     public Color? CurrentTelegraph { get; private set; } = null;
@@ -13,4 +15,11 @@ public abstract class Enemy : Actor
     public void StopTelegraph() => CurrentTelegraph = null;
     
     protected Vector3 GetMeleeTargetPosition(Vector3 origin) => origin + transform.forward;
+
+    protected override void OnDeath()
+    {
+        base.OnDeath();
+
+        CurrencyCollectionVisual.Create(Centre, CurrencyLookup.Instance.EnemyCurrencyValueLookup[Type]);
+    }
 }

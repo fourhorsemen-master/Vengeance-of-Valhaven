@@ -11,7 +11,9 @@ public class CurrencyLookupEditor : Editor
         currencyLookup = (CurrencyLookup) target;
 
         EditorUtils.ShowScriptLink(currencyLookup);
-        
+
+        currencyLookup.CurrencyCollectionVisualPrefab = EditorUtils.PrefabField("Currency Collection Visual Prefab", currencyLookup.CurrencyCollectionVisualPrefab);
+
         EditEnemyCurrencyValueLookup();
         
         if (GUI.changed)
