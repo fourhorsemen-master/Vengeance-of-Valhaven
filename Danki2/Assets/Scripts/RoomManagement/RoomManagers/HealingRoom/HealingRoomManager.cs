@@ -4,7 +4,7 @@
     
     private readonly Subject hasHealedSubject = new Subject();
 
-    private RoomSaveData currentRoomSaveData;
+    private RoomNode currentRoomNode;
     
     public bool HasHealed { get; private set; } = false;
 
@@ -12,15 +12,15 @@
     {
         base.Awake();
 
-        currentRoomSaveData = PersistenceManager.Instance.SaveData.CurrentRoomSaveData;
-        if (currentRoomSaveData.RoomType != RoomType.Healing) return;
+        currentRoomNode = PersistenceManager.Instance.SaveData.CurrentRoomNode;
+        if (currentRoomNode.RoomType != RoomType.Healing) return;
 
-        HasHealed = currentRoomSaveData.HealingRoomSaveData.HasHealed;
+        HasHealed = currentRoomNode.HealingRoomSaveData.HasHealed;
     }
 
     private void Start()
     {
-        if (currentRoomSaveData.RoomType != RoomType.Healing) return;
+        if (currentRoomNode.RoomType != RoomType.Healing) return;
 
         GameplayRoomTransitionManager.Instance.RegisterCanTransitionSubject(hasHealedSubject);
         

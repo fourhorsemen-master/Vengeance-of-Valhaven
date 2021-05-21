@@ -37,6 +37,28 @@ public class NewSaveGeneratorTest
         
         yield return null;
     }
+    
+    [UnityTest]
+    public IEnumerator TestGenerateWithMultipleLayersProducesTheSameSaveDataWithTheSameSeed()
+    {
+        int seed = RandomUtils.Seed();
+        SaveData saveData1 = NewSaveGenerator.Instance.Generate(seed);
+        SaveData saveData2 = NewSaveGenerator.Instance.Generate(seed);
+
+        saveData1.CurrentRoomNode = saveData1.CurrentRoomNode.Children[0];
+        NewSaveGenerator.Instance.GenerateNextLayer(saveData1);
+        saveData2.CurrentRoomNode = saveData2.CurrentRoomNode.Children[0];
+        NewSaveGenerator.Instance.GenerateNextLayer(saveData2);
+
+        saveData1.CurrentRoomNode = saveData1.CurrentRoomNode.Children[0];
+        NewSaveGenerator.Instance.GenerateNextLayer(saveData1);
+        saveData2.CurrentRoomNode = saveData2.CurrentRoomNode.Children[0];
+        NewSaveGenerator.Instance.GenerateNextLayer(saveData2);
+        
+        TestUtils.AssertEqualByJson<SaveData, SerializableSaveData>(saveData1, saveData2);
+        
+        yield return null;
+    }
 
     [UnityTest]
     public IEnumerator TestGenerateProducesDifferentSaveDataWithDifferentSeeds()
@@ -44,6 +66,28 @@ public class NewSaveGeneratorTest
         int seed = RandomUtils.Seed();
         SaveData saveData1 = NewSaveGenerator.Instance.Generate(seed);
         SaveData saveData2 = NewSaveGenerator.Instance.Generate(seed + 1);
+        
+        TestUtils.AssertNotEqualByJson<SaveData, SerializableSaveData>(saveData1, saveData2);
+        
+        yield return null;
+    }
+
+    [UnityTest]
+    public IEnumerator TestGenerateWithMultipleLayersProducesDifferentSaveDataWithDifferentSeeds()
+    {
+        int seed = RandomUtils.Seed();
+        SaveData saveData1 = NewSaveGenerator.Instance.Generate(seed);
+        SaveData saveData2 = NewSaveGenerator.Instance.Generate(seed + 1);
+
+        saveData1.CurrentRoomNode = saveData1.CurrentRoomNode.Children[0];
+        NewSaveGenerator.Instance.GenerateNextLayer(saveData1);
+        saveData2.CurrentRoomNode = saveData2.CurrentRoomNode.Children[0];
+        NewSaveGenerator.Instance.GenerateNextLayer(saveData2);
+
+        saveData1.CurrentRoomNode = saveData1.CurrentRoomNode.Children[0];
+        NewSaveGenerator.Instance.GenerateNextLayer(saveData1);
+        saveData2.CurrentRoomNode = saveData2.CurrentRoomNode.Children[0];
+        NewSaveGenerator.Instance.GenerateNextLayer(saveData2);
         
         TestUtils.AssertNotEqualByJson<SaveData, SerializableSaveData>(saveData1, saveData2);
         

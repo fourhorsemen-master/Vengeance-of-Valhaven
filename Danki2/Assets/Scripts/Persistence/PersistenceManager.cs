@@ -39,12 +39,13 @@ public class PersistenceManager : Singleton<PersistenceManager>
     /// The save data is updated before we transition, then the reference to the current room is updated so that
     /// we can save as if we were right at the start of the next room.
     /// </summary>
-    public virtual void TransitionToNextRoom(int nextRoomId)
+    public virtual void TransitionToNextRoom(RoomNode nextRoomNode)
     {
         UpdateSaveData();
-        SaveData.CurrentRoomId = nextRoomId;
+        SaveData.CurrentRoomNode = nextRoomNode;
+        NewSaveGenerator.Instance.GenerateNextLayer(SaveData);
         SaveDataManager.Instance.Save(SaveData);
-        SceneUtils.LoadScene(SaveData.CurrentRoomSaveData.Scene);
+        SceneUtils.LoadScene(SaveData.CurrentRoomNode.Scene);
     }
 
     /// <summary>
@@ -53,9 +54,9 @@ public class PersistenceManager : Singleton<PersistenceManager>
     public virtual void TransitionToDefeatRoom()
     {
         UpdateSaveData();
-        SaveData.CurrentRoomId = SaveData.DefeatRoomId;
+        SaveData.CurrentRoomNode = SaveData.DefeatRoom;
         SaveDataManager.Instance.Save(SaveData);
-        SceneUtils.LoadScene(SaveData.DefeatRoomSaveData.Scene);
+        SceneUtils.LoadScene(SaveData.DefeatRoom.Scene);
     }
 
     private void UpdateSaveData()
@@ -63,25 +64,26 @@ public class PersistenceManager : Singleton<PersistenceManager>
         SaveData.PlayerHealth = ActorCache.Instance.Player.HealthManager.Health;
         SaveData.SerializableAbilityTree = ActorCache.Instance.Player.AbilityTree.Serialize();
         SaveData.RuneSockets = ActorCache.Instance.Player.RuneManager.RuneSockets;
+        SaveData.CurrencyAmount = ActorCache.Instance.Player.CurrencyManager.CurrencyAmount;
 
-        RoomSaveData currentRoomSaveData = SaveData.CurrentRoomSaveData;
-        switch (currentRoomSaveData.RoomType)
+        RoomNode currentRoomNode = SaveData.CurrentRoomNode;
+        switch (currentRoomNode.RoomType)
         {
             case RoomType.Combat:
             case RoomType.Boss:
-                CombatRoomSaveData combatRoomSaveData = currentRoomSaveData.CombatRoomSaveData;
+                CombatRoomSaveData combatRoomSaveData = currentRoomNode.CombatRoomSaveData;
                 combatRoomSaveData.EnemiesCleared = CombatRoomManager.Instance.EnemiesCleared;
                 break;
             case RoomType.Ability:
-                AbilityRoomSaveData abilityRoomSaveData = currentRoomSaveData.AbilityRoomSaveData;
+                AbilityRoomSaveData abilityRoomSaveData = currentRoomNode.AbilityRoomSaveData;
                 abilityRoomSaveData.AbilitiesViewed = AbilitySelectionRoomManager.Instance.AbilitiesViewed;
                 abilityRoomSaveData.AbilitySelected = AbilitySelectionRoomManager.Instance.AbilitySelected;
                 break;
             case RoomType.Healing:
-                currentRoomSaveData.HealingRoomSaveData.HasHealed = HealingRoomManager.Instance.HasHealed;
+                currentRoomNode.HealingRoomSaveData.HasHealed = HealingRoomManager.Instance.HasHealed;
                 break;
             case RoomType.Rune:
-                RuneRoomSaveData runeRoomSaveData = currentRoomSaveData.RuneRoomSaveData;
+                RuneRoomSaveData runeRoomSaveData = currentRoomNode.RuneRoomSaveData;
                 runeRoomSaveData.RunesViewed = RuneRoomManager.Instance.RunesViewed;
                 runeRoomSaveData.RuneSelected = RuneRoomManager.Instance.RuneSelected;
                 break;

@@ -18,12 +18,12 @@ public class CombatRoomManager : Singleton<CombatRoomManager>
     {
         base.Awake();
 
-        RoomSaveData roomSaveData = PersistenceManager.Instance.SaveData.CurrentRoomSaveData;
-        InCombatRoom = roomSaveData.RoomType == RoomType.Combat || roomSaveData.RoomType == RoomType.Boss;
+        RoomNode roomNode = PersistenceManager.Instance.SaveData.CurrentRoomNode;
+        InCombatRoom = roomNode.RoomType == RoomType.Combat || roomNode.RoomType == RoomType.Boss;
 
         if (!InCombatRoom) return;
 
-        EnemiesCleared = roomSaveData.CombatRoomSaveData.EnemiesCleared;
+        EnemiesCleared = roomNode.CombatRoomSaveData.EnemiesCleared;
     }
 
     private void Start()
@@ -45,7 +45,7 @@ public class CombatRoomManager : Singleton<CombatRoomManager>
 
     private List<Enemy> SpawnEnemies()
     {
-        CombatRoomSaveData combatRoomSaveData = PersistenceManager.Instance.SaveData.CurrentRoomSaveData.CombatRoomSaveData;
+        CombatRoomSaveData combatRoomSaveData = PersistenceManager.Instance.SaveData.CurrentRoomNode.CombatRoomSaveData;
         
         Dictionary<int, EnemySpawner> spawnerLookup = FindObjectsOfType<EnemySpawner>().ToDictionary(s => s.Id);
 
@@ -64,8 +64,10 @@ public class CombatRoomManager : Singleton<CombatRoomManager>
     {
         int enemyCount = enemies.Count;
         int deadEnemyCount = 0;
-        enemies.ForEach(e => e.DeathSubject.Subscribe(() =>
+        enemies.ForEach(enemy => enemy.DeathSubject.Subscribe(() =>
         {
+            YieldCurrency(enemy);
+
             deadEnemyCount++;
             if (deadEnemyCount != enemyCount) return;
 
@@ -78,5 +80,13 @@ public class CombatRoomManager : Singleton<CombatRoomManager>
             EnemiesClearedSubject.Next();
             PersistenceManager.Instance.Save();
         }));
+    }
+
+    private void YieldCurrency(Enemy enemy)
+    {
+        int currencyValue = CurrencyLookup.Instance.EnemyCurrencyValueLookup[enemy.Type];
+
+        ActorCache.Instance.Player.CurrencyManager.AddCurrency(currencyValue);
+        CurrencyCollectionVisual.Create(enemy.Centre, currencyValue);
     }
 }
