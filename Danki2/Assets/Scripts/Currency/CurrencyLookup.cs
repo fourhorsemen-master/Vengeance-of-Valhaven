@@ -10,6 +10,10 @@ public class EnemyCurrencyValueLookup : SerializableEnumDictionary<ActorType, in
 
 public class CurrencyLookup : Singleton<CurrencyLookup>
 {
+    [SerializeField] private CurrencyCollectionVisual currencyCollectionVisualPrefab = null;
+    public CurrencyCollectionVisual CurrencyCollectionVisualPrefab { get => currencyCollectionVisualPrefab; set => currencyCollectionVisualPrefab = value; }
+
+
     [SerializeField] private EnemyCurrencyValueLookup enemyCurrencyValueLookup = new EnemyCurrencyValueLookup(0);
     public EnemyCurrencyValueLookup EnemyCurrencyValueLookup { get => enemyCurrencyValueLookup; set => enemyCurrencyValueLookup = value; }
 }
