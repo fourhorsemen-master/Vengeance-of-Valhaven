@@ -14,8 +14,6 @@ public class EffectListItem : MonoBehaviour
 
     private float totalDuration;
 
-    private int stacks;
-
     public EffectListItem InitialiseActiveEffect(ActiveEffect effect, float totalDuration)
     {
         image.sprite = EffectLookup.Instance.GetSprite(effect);
@@ -49,7 +47,6 @@ public class EffectListItem : MonoBehaviour
     {
         if (stacksText == null) return;
 
-        this.stacks = stacks;
         stacksText.text = stacks.ToString();
     }
 
