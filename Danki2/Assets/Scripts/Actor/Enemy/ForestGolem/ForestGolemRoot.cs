@@ -9,9 +9,9 @@ public class ForestGolemRoot : MonoBehaviour
 
     private void Update()
     {
-        Vector3 position = root.transform.position;
-        position.y = height.Evaluate(timeTracker.Time);
-        root.transform.position = position;
+        Vector3 localPosition = root.transform.localPosition;
+        localPosition.y = height.Evaluate(timeTracker.Time);
+        root.transform.localPosition = localPosition;
         
         root.transform.Rotate(Vector3.up, rotation.Evaluate(timeTracker.Time));
     }

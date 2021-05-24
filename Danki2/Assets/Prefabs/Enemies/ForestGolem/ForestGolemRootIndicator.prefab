@@ -55,7 +55,7 @@ MonoBehaviour:
   m_DecalLayerMask: 1
   m_Offset: {x: 0, y: 0, z: 0.5}
   m_Size: {x: 1, y: 1, z: 1}
-  m_FadeFactor: 1
+  m_FadeFactor: 0
 --- !u!1 &8442699388731173859
 GameObject:
   m_ObjectHideFlags: 0
@@ -165,8 +165,17 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0.0418286
     - serializedVersion: 3
-      time: 5
+      time: 4.5
       value: 0.9
+      inSlope: 0.24848723
+      outSlope: 0.24848723
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 5
+      value: 0
       inSlope: 0.22296771
       outSlope: 0.22296771
       tangentMode: 0

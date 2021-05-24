@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3090825199352626150}
   - component: {fileID: 3090825199352626148}
-  - component: {fileID: 3090825199352626151}
   - component: {fileID: 3090825199352626149}
+  - component: {fileID: 3090825199352626151}
   m_Layer: 0
   m_Name: ForestGolemRoot
   m_TagString: Untagged
@@ -105,6 +105,18 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &3090825199352626149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3090825199352626169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e16ede4d7674b548ea3a19fb091c2db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &3090825199352626151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,18 +130,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   time: 2
---- !u!114 &3090825199352626149
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3090825199352626169}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e16ede4d7674b548ea3a19fb091c2db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &3090825200948507680
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -150,12 +150,12 @@ PrefabInstance:
     - target: {fileID: 7446423479895747805, guid: d56a6429a2fa5dc48845e6a7d182646d,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.3
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7446423479895747805, guid: d56a6429a2fa5dc48845e6a7d182646d,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.3
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7446423479895747805, guid: d56a6429a2fa5dc48845e6a7d182646d,
         type: 3}
@@ -165,7 +165,7 @@ PrefabInstance:
     - target: {fileID: 7446423479895747805, guid: d56a6429a2fa5dc48845e6a7d182646d,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 7446423479895747805, guid: d56a6429a2fa5dc48845e6a7d182646d,
         type: 3}

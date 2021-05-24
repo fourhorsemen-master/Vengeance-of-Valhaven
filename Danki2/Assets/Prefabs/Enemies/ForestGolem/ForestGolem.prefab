@@ -318,7 +318,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 257
+  m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 73c176f402d2c2f4d929aa5da7585d17, type: 2}
@@ -510,7 +510,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4828296177260448678}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d052f9a57d166394fb68b56ce96ec61d, type: 3}
+  m_Script: {fileID: 11500000, guid: 456b03ebc07344a469c3ee60a619d885, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   baseStats:
@@ -525,13 +525,21 @@ MonoBehaviour:
   trailRenderer: {fileID: 4564750321355086747}
   meshRenderers:
   - {fileID: 2465564384247126164}
-  weight: 3
+  weight: 5
   rotationSmoothing: 0.1
   animController: {fileID: 0}
-  colliders: []
+  colliders:
+  - {fileID: 41546268463245919}
   centre: {fileID: 7817277397840590268}
   abilitySource: {fileID: 2501541229603721505}
   collisionTemplateSource: {fileID: 7496201845270352354}
+  rootIndicatorPrefab: {fileID: 8442699388731173857, guid: d93680d88a21d4e4b8a7b8205ea466f2,
+    type: 3}
+  rootPrefab: {fileID: 3090825199352626148, guid: 7b08c4355a760454ba0be59592066915,
+    type: 3}
+  rootDelay: 5
+  rootRange: 2
+  rootDamage: 4
 --- !u!114 &8709911725352143315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -545,6 +553,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   forestGolem: {fileID: 990749912874947100}
+  minRootDistance: 2
+  maxRootDistance: 20
+  rootInterval: 0.1
 --- !u!114 &1064717821195209815
 MonoBehaviour:
   m_ObjectHideFlags: 0
