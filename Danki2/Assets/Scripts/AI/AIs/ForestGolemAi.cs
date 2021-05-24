@@ -8,6 +8,6 @@ public class ForestGolemAi : Ai
     
     protected override IStateMachineComponent BuildStateMachineComponent()
     {
-        return new MoveTowards(forestGolem, ActorCache.Instance.Player);
+        return new MoveTowardsAtDistance(forestGolem, ActorCache.Instance.Player, 3);
     }
 }
