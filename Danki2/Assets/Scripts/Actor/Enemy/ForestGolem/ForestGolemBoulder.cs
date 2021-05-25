@@ -5,6 +5,7 @@ public class ForestGolemBoulder : MonoBehaviour
 {
     [SerializeField] private TimeTracker timeTracker = null;
     [SerializeField] private AnimationCurve trajectory = null;
+    [SerializeField] private float smashScaleFactor = 0;
 
     private float animationEndTime;
     private Vector3 startPosition;
@@ -33,7 +34,7 @@ public class ForestGolemBoulder : MonoBehaviour
         if (timeTracker.Time > animationEndTime)
         {
             transform.position = endPosition;
-            SmashObject.Create(endPosition);
+            SmashObject.Create(endPosition, smashScaleFactor);
             callback();
             finished = true;
             return;

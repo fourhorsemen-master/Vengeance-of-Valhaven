@@ -13,6 +13,8 @@ public class ForestGolemAi : Ai
     
     protected override IStateMachineComponent BuildStateMachineComponent()
     {
+        Player player = ActorCache.Instance.Player;
+        
         // IStateMachineComponent rootStormStateMachine = new StateMachine<RootStormState>(RootStormState.Idle)
         //     .WithComponent(RootStormState.FireRoot, new ForestGolemFireRoot(forestGolem, minRootDistance, maxRootDistance))
         //     .WithTransition(RootStormState.Idle, RootStormState.FireRoot, new TimeElapsed(rootInterval))
@@ -24,6 +26,7 @@ public class ForestGolemAi : Ai
         //     .WithTransition(State.RootStorm, State.Idle, new TimeElapsed(10));
         
         return new StateMachine<State>(State.Idle)
+            .WithComponent(State.Idle, new WatchTarget(forestGolem, player))
             .WithComponent(State.ThrowBoulder, new ForestGolemThrowBoulder(forestGolem))
             .WithTransition(State.Idle, State.ThrowBoulder, new TimeElapsed(3))
             .WithTransition(State.ThrowBoulder, State.Idle, new AlwaysTrigger());

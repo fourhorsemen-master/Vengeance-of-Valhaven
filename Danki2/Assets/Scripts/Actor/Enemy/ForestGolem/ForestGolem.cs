@@ -42,12 +42,12 @@ public class ForestGolem : Enemy
         player.HealthManager.ReceiveDamage(rootDamage, this);
     }
 
-    public void ThrowBoulder(Vector3 position)
+    public void ThrowBoulder(Vector3 targetPosition)
     {
         Player player = ActorCache.Instance.Player;
-        ForestGolemBoulder.Create(boulderPrefab, transform.position, position, () =>
+        ForestGolemBoulder.Create(boulderPrefab, AbilitySource, targetPosition, () =>
         {
-            if (Vector3.Distance(player.transform.position, position) > boulderRange) return;
+            if (Vector3.Distance(player.transform.position, targetPosition) > boulderRange) return;
 
             player.HealthManager.ReceiveDamage(boulderDamage, this);
         });
