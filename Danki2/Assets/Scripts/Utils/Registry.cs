@@ -10,28 +10,18 @@ using UnityEngine;
 /// <typeparam name="TEntity"></typeparam>
 public class Registry<TEntity>
 {
-    private readonly Action<Guid, TEntity> onEntityAdded = (id, effect) => { };
-    private readonly Action<Guid, TEntity> onEntityRemoved = (id, effect) => { };
-
     private readonly Dictionary<Guid, TEntity> entities = new Dictionary<Guid, TEntity>();
 
     private readonly Dictionary<Guid, float> totalDurations = new Dictionary<Guid, float>();
 
     private readonly Dictionary<Guid, float> durations = new Dictionary<Guid, float>();
 
-    public Registry(Subject updateSubject, Action<Guid, TEntity> onEffectAdded = null, Action<Guid, TEntity> onEffectRemoved = null)
+    public Subject<Guid> OnEntityAdded { get; } = new Subject<Guid>();
+    public Subject<Guid> OnEntityRemoved { get; } = new Subject<Guid>();
+
+    public Registry(Subject updateSubject)
     {
         updateSubject.Subscribe(TickDurations);
-
-        if (onEffectAdded != null)
-        {
-            this.onEntityAdded = onEffectAdded;
-        }
-
-        if (onEffectRemoved != null)
-        {
-            this.onEntityRemoved = onEffectRemoved;
-        }
     }
 
     public bool TryGet(Guid id, out TEntity entity) => entities.TryGetValue(id, out entity);
@@ -63,7 +53,7 @@ public class Registry<TEntity>
             durations.Remove(id);
             totalDurations.Remove(id);
 
-            onEntityRemoved(id, entity);
+            OnEntityRemoved.Next(id);
         }
     }
 
@@ -88,7 +78,7 @@ public class Registry<TEntity>
             totalDurations.Add(id, duration.Value);
         }
 
-        onEntityAdded(id, entity);
+        OnEntityAdded.Next(id);
 
         return id;
     }
