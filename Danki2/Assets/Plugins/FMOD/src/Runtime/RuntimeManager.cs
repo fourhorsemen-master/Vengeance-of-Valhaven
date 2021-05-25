@@ -5,6 +5,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using UnityEngine;
+using System.Linq;
 
 #if UNITY_ADDRESSABLES_EXIST
 using UnityEngine.AddressableAssets;
@@ -859,6 +860,24 @@ retry:
                 #endif // (UNITY_ANDROID || UNITY_WEBGL) && !UNITY_EDITOR
                 {
                     LoadedBank loadedBank = new LoadedBank();
+
+                    /////////////
+                    // Debug code
+                    var currentDirectory = Directory.GetCurrentDirectory();
+                    Debug.Log("Current directory: " + currentDirectory);
+
+                    var parentDirectory = Directory.GetParent(currentDirectory);
+                    Debug.Log("Parent directory: " + parentDirectory.FullName);
+
+                    Debug.Log("Directories in parent: " + string.Join(",", parentDirectory.GetDirectories().Select(d => d.Name)));
+
+                    Debug.Log("Directories in Danki2_Fmod: " + string.Join(",", Directory.GetDirectories(parentDirectory.FullName + @"\Danki2_Fmod")));
+
+                    Debug.Log(@"Directories in Danki2_Fmod\Build: " + string.Join(",", Directory.GetDirectories(parentDirectory.FullName + @"\Danki2_Fmod\Build")));
+
+                    Debug.Log(@"Files in Danki2_Fmod\Build/Desktop: " + string.Join(",", Directory.GetFiles(parentDirectory.FullName + @"\Danki2_Fmod\Build/Desktop")));
+                    /////////////
+
                     FMOD.RESULT loadResult = Instance.studioSystem.loadBankFile(bankPath, FMOD.Studio.LOAD_BANK_FLAGS.NORMAL, out loadedBank.Bank);
                     Instance.loadedBankRegister(loadedBank, bankPath, bankName, loadSamples, loadResult);
                 }
