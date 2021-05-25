@@ -10,8 +10,8 @@ using UnityEngine;
 /// <typeparam name="TEntity"></typeparam>
 public class Registry<TEntity>
 {
-    private readonly Action<Guid, TEntity> onEntityAdded = (id, effect) => { };
-    private readonly Action<Guid, TEntity> onEntityRemoved = (id, effect) => { };
+    private readonly Action<Guid, TEntity> onEntityAdded = (id, entity) => { };
+    private readonly Action<Guid, TEntity> onEntityRemoved = (id, entity) => { };
 
     private readonly Dictionary<Guid, TEntity> entities = new Dictionary<Guid, TEntity>();
 
@@ -19,18 +19,18 @@ public class Registry<TEntity>
 
     private readonly Dictionary<Guid, float> durations = new Dictionary<Guid, float>();
 
-    public Registry(Subject updateSubject, Action<Guid, TEntity> onEffectAdded = null, Action<Guid, TEntity> onEffectRemoved = null)
+    public Registry(Subject updateSubject, Action<Guid, TEntity> onEntityAdded = null, Action<Guid, TEntity> onEntityRemoved = null)
     {
         updateSubject.Subscribe(TickDurations);
 
-        if (onEffectAdded != null)
+        if (onEntityAdded != null)
         {
-            this.onEntityAdded = onEffectAdded;
+            this.onEntityAdded = onEntityAdded;
         }
 
-        if (onEffectRemoved != null)
+        if (onEntityRemoved != null)
         {
-            this.onEntityRemoved = onEffectRemoved;
+            this.onEntityRemoved = onEntityRemoved;
         }
     }
 

@@ -1,21 +1,26 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class HighlightManager
 {
-    private readonly Renderer[] meshRenderers;
-
-    private float currentIntensity = 0;
-
     private readonly Registry<float> intensities;
 
-    public HighlightManager(Subject updateSubject, Renderer[] meshRenderers)
+    private readonly Dictionary<Material, Color> materialToInitialEmissiveColour;
+
+    public HighlightManager(Subject updateSubject, Renderer[] renderers)
     {
-        this.meshRenderers = meshRenderers;
+        intensities = new Registry<float>(updateSubject, UpdateHighlight, UpdateHighlight);
 
-        intensities = new Registry<float>(updateSubject);
+        materialToInitialEmissiveColour = new Dictionary<Material, Color>();
 
-        updateSubject.Subscribe(ApplyCurrentHighlight);
+        foreach (Renderer renderer in renderers)
+        {
+            foreach (Material material in renderer.materials)
+            {
+                materialToInitialEmissiveColour[material] = material.GetEmissiveColour();
+            }
+        }
     }
 
     public Guid AddIndefiniteHighlight(float intensity) => intensities.AddIndefinite(intensity);
@@ -24,22 +29,15 @@ public class HighlightManager
 
     public void RemoveHighlight(Guid id) => intensities.Remove(id);
 
-    private void ApplyCurrentHighlight()
+    private void UpdateHighlight(Guid _, float __)
     {
         float nextIntensity = 0f;
-
-        intensities.ForEach(i => {
-            nextIntensity = Mathf.Max(nextIntensity, i);
-        });
-
-        if (currentIntensity == nextIntensity) return;
-
-        currentIntensity = nextIntensity;
+        intensities.ForEach(i => nextIntensity = Mathf.Max(nextIntensity, i));
         Color highlight = new Color(nextIntensity, nextIntensity, nextIntensity);
 
-        foreach (Renderer meshRenderer in meshRenderers)
+        foreach (KeyValuePair<Material,Color> kvp in materialToInitialEmissiveColour)
         {
-            meshRenderer.material.SetEmissiveColour(highlight);
+            kvp.Key.SetEmissiveColour(highlight + kvp.Value);
         }
     }
 }
