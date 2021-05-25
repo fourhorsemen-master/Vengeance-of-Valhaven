@@ -11,6 +11,8 @@ public class ForestGolemBoulder : MonoBehaviour
     private Vector3 endPosition;
     private Action callback;
 
+    private bool finished = false;
+
     public static void Create(ForestGolemBoulder prefab, Vector3 startPosition, Vector3 endPosition, Action callback)
     {
         ForestGolemBoulder forestGolemBoulder = Instantiate(prefab, startPosition, Quaternion.identity);
@@ -26,10 +28,14 @@ public class ForestGolemBoulder : MonoBehaviour
 
     private void Update()
     {
+        if (finished) return;
+        
         if (timeTracker.Time > animationEndTime)
         {
+            transform.position = endPosition;
+            SmashObject.Create(endPosition);
             callback();
-            Destroy(gameObject);
+            finished = true;
             return;
         }
 
