@@ -10,7 +10,9 @@ public class HighlightManager
 
     public HighlightManager(Subject updateSubject, Renderer[] renderers)
     {
-        intensities = new Registry<float>(updateSubject, UpdateHighlight, UpdateHighlight);
+        intensities = new Registry<float>(updateSubject);
+        intensities.OnEntityAdded.Subscribe(UpdateHighlight);
+        intensities.OnEntityRemoved.Subscribe(UpdateHighlight);
 
         materialToInitialEmissiveColour = new Dictionary<Material, Color>();
 
@@ -29,7 +31,7 @@ public class HighlightManager
 
     public void RemoveHighlight(Guid id) => intensities.Remove(id);
 
-    private void UpdateHighlight(Guid _, float __)
+    private void UpdateHighlight(Guid _)
     {
         float nextIntensity = 0f;
         intensities.ForEach(i => nextIntensity = Mathf.Max(nextIntensity, i));
