@@ -64,12 +64,10 @@ public class CombatRoomManager : Singleton<CombatRoomManager>
     {
         int enemyCount = enemies.Count;
         int deadEnemyCount = 0;
-        enemies.ForEach(e => e.DeathSubject.Subscribe(() =>
+        enemies.ForEach(enemy => enemy.DeathSubject.Subscribe(() =>
         {
-            ActorCache.Instance.Player.CurrencyManager.AddCurrency(
-                CurrencyLookup.Instance.EnemyCurrencyValueLookup[e.Type]
-            );
-            
+            YieldCurrency(enemy);
+
             deadEnemyCount++;
             if (deadEnemyCount != enemyCount) return;
 
@@ -82,5 +80,13 @@ public class CombatRoomManager : Singleton<CombatRoomManager>
             EnemiesClearedSubject.Next();
             PersistenceManager.Instance.Save();
         }));
+    }
+
+    private void YieldCurrency(Enemy enemy)
+    {
+        int currencyValue = CurrencyLookup.Instance.EnemyCurrencyValueLookup[enemy.Type];
+
+        ActorCache.Instance.Player.CurrencyManager.AddCurrency(currencyValue);
+        CurrencyCollectionVisual.Create(enemy.Centre, currencyValue);
     }
 }
