@@ -13,21 +13,29 @@ public class ForestGolemAi : Ai
     
     protected override IStateMachineComponent BuildStateMachineComponent()
     {
-        IStateMachineComponent rootStormStateMachine = new StateMachine<RootStormState>(RootStormState.Idle)
-            .WithComponent(RootStormState.FireRoot, new ForestGolemFireRoot(forestGolem, minRootDistance, maxRootDistance))
-            .WithTransition(RootStormState.Idle, RootStormState.FireRoot, new TimeElapsed(rootInterval))
-            .WithTransition(RootStormState.FireRoot, RootStormState.Idle, new AlwaysTrigger());
-
-        return new StateMachine<State>(State.RootStorm)
-            .WithComponent(State.RootStorm, rootStormStateMachine)
-            .WithTransition(State.Idle, State.RootStorm, new TimeElapsed(5))
-            .WithTransition(State.RootStorm, State.Idle, new TimeElapsed(10));
+        // IStateMachineComponent rootStormStateMachine = new StateMachine<RootStormState>(RootStormState.Idle)
+        //     .WithComponent(RootStormState.FireRoot, new ForestGolemFireRoot(forestGolem, minRootDistance, maxRootDistance))
+        //     .WithTransition(RootStormState.Idle, RootStormState.FireRoot, new TimeElapsed(rootInterval))
+        //     .WithTransition(RootStormState.FireRoot, RootStormState.Idle, new AlwaysTrigger());
+        //
+        // return new StateMachine<State>(State.RootStorm)
+        //     .WithComponent(State.RootStorm, rootStormStateMachine)
+        //     .WithTransition(State.Idle, State.RootStorm, new TimeElapsed(5))
+        //     .WithTransition(State.RootStorm, State.Idle, new TimeElapsed(10));
+        
+        return new StateMachine<State>(State.Idle)
+            .WithComponent(State.ThrowBoulder, new ForestGolemThrowBoulder(forestGolem))
+            .WithTransition(State.Idle, State.ThrowBoulder, new TimeElapsed(3))
+            .WithTransition(State.ThrowBoulder, State.Idle, new AlwaysTrigger());
+        
+        // return new NoOpComponent();
     }
 
     private enum State
     {
         Idle,
-        RootStorm
+        RootStorm,
+        ThrowBoulder
     }
 
     private enum RootStormState
