@@ -18,7 +18,7 @@ public class ForestGolemAi : Ai
             .WithTransition(RootStormState.Idle, RootStormState.FireRoot, new TimeElapsed(rootInterval))
             .WithTransition(RootStormState.FireRoot, RootStormState.Idle, new AlwaysTrigger());
 
-        return new StateMachine<State>(State.Idle)
+        return new StateMachine<State>(State.RootStorm)
             .WithComponent(State.RootStorm, rootStormStateMachine)
             .WithTransition(State.Idle, State.RootStorm, new TimeElapsed(5))
             .WithTransition(State.RootStorm, State.Idle, new TimeElapsed(10));

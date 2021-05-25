@@ -8,6 +8,8 @@ public class ForestGolem : Enemy
     [SerializeField] private float rootDelay = 0;
     [SerializeField] private float rootRange = 0;
     [SerializeField] private int rootDamage = 0;
+    [SerializeField] private float rootDamageInterval = 0;
+    [SerializeField] private int rootDamageRepetitions = 0;
     
     public override ActorType Type => ActorType.ForestGolem;
 
@@ -17,7 +19,11 @@ public class ForestGolem : Enemy
         this.WaitAndAct(rootDelay, () =>
         {
             Instantiate(rootPrefab, position, Quaternion.identity);
-            HandleRootDamage(position);
+            this.ActOnInterval(
+                rootDamageInterval,
+                _ => HandleRootDamage(position),
+                numRepetitions: rootDamageRepetitions
+            );
         });
     }
 

@@ -538,8 +538,10 @@ MonoBehaviour:
   rootPrefab: {fileID: 3090825199352626148, guid: 7b08c4355a760454ba0be59592066915,
     type: 3}
   rootDelay: 5
-  rootRange: 2
+  rootRange: 1.5
   rootDamage: 4
+  rootDamageInterval: 0.5
+  rootDamageRepetitions: 4
 --- !u!114 &8709911725352143315
 MonoBehaviour:
   m_ObjectHideFlags: 0
