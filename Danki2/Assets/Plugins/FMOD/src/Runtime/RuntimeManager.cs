@@ -871,11 +871,11 @@ retry:
 
                     Debug.Log("Directories in parent: " + string.Join(",", parentDirectory.GetDirectories().Select(d => d.Name)));
 
-                    Debug.Log("Directories in Danki2_Fmod: " + string.Join(",", Directory.GetDirectories(parentDirectory.FullName + @"\Danki2_Fmod")));
+                    Debug.Log("Directories in Danki2_Fmod: " + string.Join(",", Directory.GetDirectories(parentDirectory.FullName + @"/Danki2_Fmod")));
 
-                    Debug.Log(@"Directories in Danki2_Fmod\Build: " + string.Join(",", Directory.GetDirectories(parentDirectory.FullName + @"\Danki2_Fmod\Build")));
+                    Debug.Log(@"Directories in Danki2_Fmod/Build: " + string.Join(",", Directory.GetDirectories(parentDirectory.FullName + @"/Danki2_Fmod/Build")));
 
-                    Debug.Log(@"Files in Danki2_Fmod\Build/Desktop: " + string.Join(",", Directory.GetFiles(parentDirectory.FullName + @"\Danki2_Fmod\Build/Desktop")));
+                    Debug.Log(@"Files in Danki2_Fmod/Build/Desktop: " + string.Join(",", Directory.GetFiles(parentDirectory.FullName + @"/Danki2_Fmod/Build/Desktop")));
                     /////////////
 
                     FMOD.RESULT loadResult = Instance.studioSystem.loadBankFile(bankPath, FMOD.Studio.LOAD_BANK_FLAGS.NORMAL, out loadedBank.Bank);
