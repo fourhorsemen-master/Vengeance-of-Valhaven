@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 public class ForestGolem : Enemy
@@ -15,6 +16,12 @@ public class ForestGolem : Enemy
     [SerializeField] private ForestGolemBoulder boulderPrefab = null;
     [SerializeField] private float boulderRange = 0;
     [SerializeField] private int boulderDamage = 0;
+
+    [Header("Stomp")]
+    [SerializeField] private float stompPositionOffset = 0;
+    [SerializeField] private float stompRange = 0;
+    [SerializeField] private int stompDamage = 0;
+    [SerializeField] private int stompEffectScaleFactor = 0;
     
     public override ActorType Type => ActorType.ForestGolem;
 
@@ -40,6 +47,7 @@ public class ForestGolem : Enemy
         if (Vector3.Distance(player.transform.position, position) > rootRange) return;
 
         player.HealthManager.ReceiveDamage(rootDamage, this);
+        CustomCamera.Instance.AddShake(ShakeIntensity.Low);
     }
 
     public void ThrowBoulder(Vector3 targetPosition)
@@ -50,6 +58,21 @@ public class ForestGolem : Enemy
             if (Vector3.Distance(player.transform.position, targetPosition) > boulderRange) return;
 
             player.HealthManager.ReceiveDamage(boulderDamage, this);
+            CustomCamera.Instance.AddShake(ShakeIntensity.High);
         });
+    }
+
+    public void Stomp()
+    {
+        Vector3 targetPosition = CollisionTemplateSource + transform.forward * stompPositionOffset;
+        
+        SmashObject.Create(targetPosition, stompEffectScaleFactor);
+
+        Player player = ActorCache.Instance.Player;
+        
+        if (Vector3.Distance(player.transform.position, targetPosition) > stompRange) return;
+
+        player.HealthManager.ReceiveDamage(stompDamage, this);
+        CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
     }
 }

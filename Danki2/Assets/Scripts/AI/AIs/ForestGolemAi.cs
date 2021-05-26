@@ -27,7 +27,7 @@ public class ForestGolemAi : Ai
         
         return new StateMachine<State>(State.Idle)
             .WithComponent(State.Idle, new WatchTarget(forestGolem, player))
-            .WithComponent(State.ThrowBoulder, new ForestGolemThrowBoulder(forestGolem))
+            .WithComponent(State.ThrowBoulder, new ForestGolemStomp(forestGolem))
             .WithTransition(State.Idle, State.ThrowBoulder, new TimeElapsed(3))
             .WithTransition(State.ThrowBoulder, State.Idle, new AlwaysTrigger());
         
