@@ -807,6 +807,10 @@ retry:
             else
             {
                 string bankFolder = Instance.currentPlatform.GetBankFolder();
+                Debug.Log($"bank folder: {bankFolder}");
+
+                bankFolder = bankFolder.Replace('\\', '/');
+                Debug.Log($"cleaned bank folder: {bankFolder}");
 
 #if !UNITY_EDITOR
                 if (!string.IsNullOrEmpty(Settings.Instance.TargetSubFolder))
@@ -860,27 +864,6 @@ retry:
                 #endif // (UNITY_ANDROID || UNITY_WEBGL) && !UNITY_EDITOR
                 {
                     LoadedBank loadedBank = new LoadedBank();
-
-                    /////////////
-                    // Debug code
-                    Debug.Log("Bank path: " + bankPath);
-                    Debug.Log("Bank name: " + bankName);
-                    Debug.Log("Bank folder: " + bankFolder);
-                    
-                    var currentDirectory = Directory.GetCurrentDirectory();
-                    Debug.Log("Current directory: " + currentDirectory);
-
-                    var parentDirectory = Directory.GetParent(currentDirectory);
-                    Debug.Log("Parent directory: " + parentDirectory.FullName);
-
-                    Debug.Log("Directories in parent: " + string.Join(",", parentDirectory.GetDirectories().Select(d => d.Name)));
-
-                    Debug.Log("Directories in Danki2_Fmod: " + string.Join(",", Directory.GetDirectories(parentDirectory.FullName + @"/Danki2_Fmod")));
-
-                    Debug.Log(@"Directories in Danki2_Fmod/Build: " + string.Join(",", Directory.GetDirectories(parentDirectory.FullName + @"/Danki2_Fmod/Build")));
-
-                    Debug.Log(@"Files in Danki2_Fmod/Build/Desktop: " + string.Join(",", Directory.GetFiles(parentDirectory.FullName + @"/Danki2_Fmod/Build/Desktop")));
-                    /////////////
 
                     FMOD.RESULT loadResult = Instance.studioSystem.loadBankFile(bankPath, FMOD.Studio.LOAD_BANK_FLAGS.NORMAL, out loadedBank.Bank);
                     Instance.loadedBankRegister(loadedBank, bankPath, bankName, loadSamples, loadResult);
