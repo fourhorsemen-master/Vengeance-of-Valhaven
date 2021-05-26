@@ -520,7 +520,7 @@ MonoBehaviour:
     - Power
     - Defence
     - Recovery
-    _values: 3c00000002000000000000000000000000000000
+    _values: 3c00000001000000000000000000000000000000
   navmeshAgent: {fileID: 1307004630582523634}
   trailRenderer: {fileID: 4564750321355086747}
   meshRenderers:
@@ -563,9 +563,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   forestGolem: {fileID: 990749912874947100}
-  minRootDistance: 2
-  maxRootDistance: 20
-  rootInterval: 0.1
+  aggroRange: 6
+  advanceDistance: 3
+  advanceDuration: 2
+  rootStormCooldown: 20
+  minRootStormDistance: 3
+  maxRootStormDistance: 20
+  rootStormInterval: 0.1
+  rootStormDuration: 10
+  boulderThrowTelegraphTime: 1
+  stompRange: 4
+  maxStompAngle: 10
+  stompTelegraphTime: 1
 --- !u!114 &1064717821195209815
 MonoBehaviour:
   m_ObjectHideFlags: 0

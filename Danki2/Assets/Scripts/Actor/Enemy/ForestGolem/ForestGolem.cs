@@ -1,4 +1,3 @@
-using System.Linq;
 using UnityEngine;
 
 public class ForestGolem : Enemy
@@ -23,6 +22,9 @@ public class ForestGolem : Enemy
     [SerializeField] private int stompDamage = 0;
     [SerializeField] private int stompEffectScaleFactor = 0;
     
+    public Subject BoulderThrowSubject { get; } = new Subject();
+    public Subject StompSubject { get; } = new Subject();
+
     public override ActorType Type => ActorType.ForestGolem;
 
     public void FireRoot(Vector3 position)
@@ -60,6 +62,8 @@ public class ForestGolem : Enemy
             player.HealthManager.ReceiveDamage(boulderDamage, this);
             CustomCamera.Instance.AddShake(ShakeIntensity.High);
         });
+        
+        BoulderThrowSubject.Next();
     }
 
     public void Stomp()
@@ -69,10 +73,13 @@ public class ForestGolem : Enemy
         SmashObject.Create(targetPosition, stompEffectScaleFactor);
 
         Player player = ActorCache.Instance.Player;
-        
-        if (Vector3.Distance(player.transform.position, targetPosition) > stompRange) return;
 
-        player.HealthManager.ReceiveDamage(stompDamage, this);
-        CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
+        if (Vector3.Distance(player.transform.position, targetPosition) <= stompRange)
+        {
+            player.HealthManager.ReceiveDamage(stompDamage, this);
+            CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
+        }
+        
+        StompSubject.Next();
     }
 }
