@@ -863,6 +863,10 @@ retry:
 
                     /////////////
                     // Debug code
+                    Debug.Log("Bank path: " + bankPath);
+                    Debug.Log("Bank name: " + bankName);
+                    Debug.Log("Bank folder: " + bankFolder);
+                    
                     var currentDirectory = Directory.GetCurrentDirectory();
                     Debug.Log("Current directory: " + currentDirectory);
 
