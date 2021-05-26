@@ -20,6 +20,8 @@ public class ForestGolem : Enemy
     [SerializeField] private float stompPositionOffset = 0;
     [SerializeField] private float stompRange = 0;
     [SerializeField] private int stompDamage = 0;
+    [SerializeField] private float stompKnockbackDuration = 0;
+    [SerializeField] private float stompKnockbackSpeed = 0;
     [SerializeField] private int stompEffectScaleFactor = 0;
     
     public Subject BoulderThrowSubject { get; } = new Subject();
@@ -77,6 +79,16 @@ public class ForestGolem : Enemy
         if (Vector3.Distance(player.transform.position, targetPosition) <= stompRange)
         {
             player.HealthManager.ReceiveDamage(stompDamage, this);
+
+            Vector3 knockbackDirection = player.transform.position - transform.position;
+            player.MovementManager.TryLockMovement(
+                MovementLockType.Knockback,
+                stompKnockbackDuration,
+                stompKnockbackSpeed,
+                knockbackDirection,
+                knockbackDirection
+            );
+
             CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
         }
         
