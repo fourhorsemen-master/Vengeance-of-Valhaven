@@ -5,7 +5,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-public class SceneLookupTest
+public class SceneLookupTest : PlayModeTestBase
 {
     private readonly ISet<RoomType> roomTypesToIgnore = new HashSet<RoomType>
     {
@@ -21,18 +21,19 @@ public class SceneLookupTest
         Pole.North,
     };
 
-    [OneTimeSetUp]
-    public void SetUp()
+    protected override IEnumerator SetUp()
     {
+        yield return base.SetUp();
         TestUtils.InstantiatePrefab<MapGenerationLookup>();
         TestUtils.InstantiatePrefab<SceneLookup>();
+        yield return null;
     }
 
-    [OneTimeTearDown]
-    public void TearDown()
+    protected override IEnumerator TearDown()
     {
         MapGenerationLookup.Instance.Destroy();
         SceneLookup.Instance.Destroy();
+        yield return null;
     }
 
     [UnityTest]
