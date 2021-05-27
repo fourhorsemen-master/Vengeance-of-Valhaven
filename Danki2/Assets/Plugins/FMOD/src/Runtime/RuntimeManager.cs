@@ -5,7 +5,6 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using UnityEngine;
-using System.Linq;
 
 #if UNITY_ADDRESSABLES_EXIST
 using UnityEngine.AddressableAssets;
@@ -34,8 +33,11 @@ namespace FMODUnity
             
             if (flags == FMOD.DEBUG_FLAGS.ERROR)
             {
-                // Debug.LogError(string.Format(("[FMOD] {0} : {1}"), (string)func, (string)message));
+                // **Added to original source code**
                 Debug.LogWarning(string.Format(("[FMOD] {0} : {1}"), (string)func, (string)message));
+
+                // **Removed from original source code**
+                // Debug.LogError(string.Format(("[FMOD] {0} : {1}"), (string)func, (string)message));
             }
             else if (flags == FMOD.DEBUG_FLAGS.WARNING)
             {
@@ -697,6 +699,10 @@ retry:
 
         void HandlePlayModeStateChange(PlayModeStateChange state)
         {
+            // **Removed from original source code**
+            // if (state == PlayModeStateChange.ExitingEditMode || state == PlayModeStateChange.EnteredEditMode)
+
+            // **Added to original source code**
             if (state == PlayModeStateChange.ExitingEditMode || state == PlayModeStateChange.EnteredEditMode || state == PlayModeStateChange.ExitingPlayMode)
             {
                 Destroy();
@@ -807,10 +813,9 @@ retry:
             else
             {
                 string bankFolder = Instance.currentPlatform.GetBankFolder();
-                Debug.Log($"bank folder: {bankFolder}");
 
+                // **Added to original Source code**
                 bankFolder = bankFolder.Replace('\\', '/');
-                Debug.Log($"cleaned bank folder: {bankFolder}");
 
 #if !UNITY_EDITOR
                 if (!string.IsNullOrEmpty(Settings.Instance.TargetSubFolder))
@@ -864,7 +869,6 @@ retry:
                 #endif // (UNITY_ANDROID || UNITY_WEBGL) && !UNITY_EDITOR
                 {
                     LoadedBank loadedBank = new LoadedBank();
-
                     FMOD.RESULT loadResult = Instance.studioSystem.loadBankFile(bankPath, FMOD.Studio.LOAD_BANK_FLAGS.NORMAL, out loadedBank.Bank);
                     Instance.loadedBankRegister(loadedBank, bankPath, bankName, loadSamples, loadResult);
                 }
