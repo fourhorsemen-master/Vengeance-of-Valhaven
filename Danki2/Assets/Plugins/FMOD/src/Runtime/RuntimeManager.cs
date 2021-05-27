@@ -33,11 +33,7 @@ namespace FMODUnity
             
             if (flags == FMOD.DEBUG_FLAGS.ERROR)
             {
-                // **Added to original source code**
-                Debug.LogWarning(string.Format(("[FMOD] {0} : {1}"), (string)func, (string)message));
-
-                // **Removed from original source code**
-                // Debug.LogError(string.Format(("[FMOD] {0} : {1}"), (string)func, (string)message));
+                Debug.LogError(string.Format(("[FMOD] {0} : {1}"), (string)func, (string)message));
             }
             else if (flags == FMOD.DEBUG_FLAGS.WARNING)
             {
