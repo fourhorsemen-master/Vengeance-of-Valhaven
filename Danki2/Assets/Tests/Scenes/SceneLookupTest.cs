@@ -5,12 +5,14 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-public class SceneLookupTest
+public class SceneLookupTest : PlayModeTestBase
 {
     private readonly ISet<RoomType> roomTypesToIgnore = new HashSet<RoomType>
     {
         RoomType.Victory,
         RoomType.Defeat,
+        RoomType.ZoneIntroduction,
+        RoomType.Boss,
         RoomType.Shop, // TODO: Remove this once we are supporting shop rooms.
     };
     
@@ -19,18 +21,19 @@ public class SceneLookupTest
         Pole.North,
     };
 
-    [OneTimeSetUp]
-    public void SetUp()
+    protected override IEnumerator SetUp()
     {
+        yield return base.SetUp();
         TestUtils.InstantiatePrefab<MapGenerationLookup>();
         TestUtils.InstantiatePrefab<SceneLookup>();
+        yield return null;
     }
 
-    [OneTimeTearDown]
-    public void TearDown()
+    protected override IEnumerator TearDown()
     {
         MapGenerationLookup.Instance.Destroy();
         SceneLookup.Instance.Destroy();
+        yield return null;
     }
 
     [UnityTest]
@@ -38,31 +41,39 @@ public class SceneLookupTest
     {
         bool hasInvalidConfigurations = false;
 
-        EnumUtils.ForEach<RoomType>(roomType =>
+        EnumUtils.ForEach<Zone>(zone =>
         {
-            if (roomTypesToIgnore.Contains(roomType)) return;
-            
-            EnumUtils.ForEach<Pole>(trueEntranceDirection =>
+            EnumUtils.ForEach<RoomType>(roomType =>
             {
-                if (trueEntranceDirectionsToIgnore.Contains(trueEntranceDirection)) return;
-
-                int minRoomExits = MapGenerationLookup.Instance.MinRoomExits;
-                int maxRoomExits = MapGenerationLookup.Instance.MaxRoomExits;
-                for (int numberOfExits = minRoomExits; numberOfExits <= maxRoomExits; numberOfExits++)
-                {
-                    List<Scene> validScenes = SceneLookup.Instance.GetValidScenes(roomType, trueEntranceDirection, numberOfExits);
-                    
-                    if (validScenes.Count > 0) continue;
-                    
-                    hasInvalidConfigurations = true;
-                    Debug.Log(
-                        $"RoomType: {roomType}, " +
-                        $"TrueEntranceDirection: {trueEntranceDirection}, " +
-                        $"NumberOfExits: {numberOfExits} " +
-                        "has no valid scenes. Ensure that there is a scene that accommodates this configuration."
-                    );
-                }
+                if (roomTypesToIgnore.Contains(roomType)) return;
                 
+                EnumUtils.ForEach<Pole>(trueEntranceDirection =>
+                {
+                    if (trueEntranceDirectionsToIgnore.Contains(trueEntranceDirection)) return;
+
+                    int minRoomExits = MapGenerationLookup.Instance.MinRoomExits;
+                    int maxRoomExits = MapGenerationLookup.Instance.MaxRoomExits;
+                    for (int numberOfExits = minRoomExits; numberOfExits <= maxRoomExits; numberOfExits++)
+                    {
+                        List<Scene> validScenes = SceneLookup.Instance.GetValidScenes(
+                            zone,
+                            roomType,
+                            trueEntranceDirection,
+                            numberOfExits
+                        );
+                        
+                        if (validScenes.Count > 0) continue;
+                        
+                        hasInvalidConfigurations = true;
+                        Debug.Log(
+                            $"Zone: {zone}, " +
+                            $"RoomType: {roomType}, " +
+                            $"TrueEntranceDirection: {trueEntranceDirection}, " +
+                            $"NumberOfExits: {numberOfExits} " +
+                            "has no valid scenes. Ensure that there is a scene that accommodates this configuration."
+                        );
+                    }
+                });
             });
         });
 

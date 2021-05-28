@@ -2,7 +2,7 @@ using NUnit.Framework;
 using System.Collections;
 using UnityEngine.TestTools;
 
-public class RuneTooltipBuilderTest
+public class RuneTooltipBuilderTest : PlayModeTestBase
 {
     [UnityTest]
     public IEnumerator TestRuneToolTipsCanAllBeBuilt()

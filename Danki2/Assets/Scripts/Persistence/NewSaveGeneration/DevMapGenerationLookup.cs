@@ -2,9 +2,10 @@
 
 public class DevMapGenerationLookup : MapGenerationLookup
 {
-    [SerializeField] private int maxRoomDepthOverride = 0;
-
-    public override int MaxRoomDepth { get => maxRoomDepthOverride; set => maxRoomDepthOverride = value; }
+    [SerializeField]
+    private RoomsPerZoneLookup roomsPerZoneLookupOverride = new RoomsPerZoneLookup(0);
+    
+    public override RoomsPerZoneLookup RoomsPerZoneLookup { get => roomsPerZoneLookupOverride; set => roomsPerZoneLookupOverride = value; }
 
     protected override bool DestroyOnLoad => true;
 }

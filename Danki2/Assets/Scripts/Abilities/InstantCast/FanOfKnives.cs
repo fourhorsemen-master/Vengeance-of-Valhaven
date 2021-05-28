@@ -7,7 +7,7 @@ public class FanOfKnives : InstantCast
     private const int SprayNumberOfKnives = 5;
     private const float KnifeArcAngle = 45f;
     private const float KnifeSpeed = 10f;
-    private const float DrawTime = 0.2f;
+    private const float DrawTime = 0.08f;
     private const float KnifeCastInterval = 0.1f;
 
     private int NumberOfKnives => HasBonus("Spray") ? SprayNumberOfKnives : BaseNumberOfKnives;

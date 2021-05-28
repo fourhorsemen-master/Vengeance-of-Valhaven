@@ -4,7 +4,7 @@
 public class BarbedDagger : InstantCast
 {
     private const float DaggerSpeed = 20f;
-    private const float DrawTime = 0.2f;
+    private const float DrawTime = 0.08f;
     private const float PauseTime = 0.2f;
 
     public BarbedDagger(AbilityConstructionArgs arguments) : base(arguments) { }
