@@ -8,7 +8,7 @@ public class RingOfDeath : InstantCast
     private const float KnifeArcAngle = 360f;
     private const float KnifeSpeed = 10f;
     private const float BaseKnifeCastInterval = 0.04f;
-    private const float DrawTime = 0.2f;
+    private const float DrawTime = 0.08f;
 
     private int NumberOfKnives => HasBonus("Double Down") ? DoubleDownNumberOfKnives : BaseNumberOfKnives;
     private float KnifeCastInterval => HasBonus("Double Down") ? BaseKnifeCastInterval / 2 : BaseKnifeCastInterval;

@@ -695,6 +695,10 @@ retry:
 
         void HandlePlayModeStateChange(PlayModeStateChange state)
         {
+            // **Removed from original source code**
+            // if (state == PlayModeStateChange.ExitingEditMode || state == PlayModeStateChange.EnteredEditMode)
+
+            // **Added to original source code**
             if (state == PlayModeStateChange.ExitingEditMode || state == PlayModeStateChange.EnteredEditMode || state == PlayModeStateChange.ExitingPlayMode)
             {
                 Destroy();
@@ -805,6 +809,9 @@ retry:
             else
             {
                 string bankFolder = Instance.currentPlatform.GetBankFolder();
+
+                // **Added to original Source code**
+                bankFolder = bankFolder.Replace('\\', '/');
 
 #if !UNITY_EDITOR
                 if (!string.IsNullOrEmpty(Settings.Instance.TargetSubFolder))

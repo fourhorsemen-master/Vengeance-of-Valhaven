@@ -8,4 +8,5 @@
     Ability,
     Healing,
     Rune,
+    ZoneIntroduction
 }
