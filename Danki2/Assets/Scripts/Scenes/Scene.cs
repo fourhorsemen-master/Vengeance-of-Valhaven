@@ -13,6 +13,7 @@
     ForestValleyScene,
     ForestClearingScene,
     ForestDensScene,
+    ForestFordScene,
     RuneScene,
     Zone1IntroductionScene,
     Zone2IntroductionScene,
