@@ -14,6 +14,5 @@ public enum TemplatedTooltipSegmentType
     Bleed,
     Poison,
     Vulnerable,
-    BleedInfo,
     // New templated tooltip segment types need a new entry adding in the templated tooltip segment type lookup
 }

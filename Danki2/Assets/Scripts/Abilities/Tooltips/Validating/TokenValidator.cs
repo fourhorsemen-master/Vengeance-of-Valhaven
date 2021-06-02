@@ -26,9 +26,7 @@ public class TokenValidator
 
                 if (!IsValidBindableProperty(nextToken)) return false;
 
-                BindableProperty bindableProperty = BindablePropertyLookup.FromString(nextToken.Value);
-
-                if (BindablePropertyLookup.RequiresArgument(bindableProperty))
+                if (!tokens[i + 2].Type.Equals(TokenType.CloseBrace))
                 {
                     if (i + 4 >= tokens.Count) return false;
                     if (!tokens[i + 2].Type.Equals(TokenType.Pipe)) return false;
