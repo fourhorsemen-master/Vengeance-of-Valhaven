@@ -23,9 +23,9 @@ public static class DankiMenu
     }
 
     [MenuItem("Danki/Toggle Dev Mode")]
-    private static void ToggleDevMode(MenuCommand menuCommand)
+    private static void ToggleDevMode()
     {
-        var metaObject = SceneManager.GetActiveScene()
+        GameObject metaObject = SceneManager.GetActiveScene()
             .GetRootGameObjects()
             .FirstOrDefault(o => o.name.ToLower() == "meta");
 
@@ -35,7 +35,7 @@ public static class DankiMenu
             return;
         }
 
-        var devManagerObject = metaObject.GetComponentsInChildren<DevPersistenceManager>(true)
+        GameObject devManagerObject = metaObject.GetComponentsInChildren<DevPersistenceManager>(true)
             .First().gameObject;
 
         devManagerObject.SetActive(!devManagerObject.activeInHierarchy);
