@@ -9,7 +9,7 @@ public abstract class HealthBar : MonoBehaviour
     private Image damageLagBar = null;
 
     private const float minLagDecrement = 0.2f;
-    private const float maxLagDecrement = 1f;
+    private const float maxLagDecrement = 0.5f;
 
     protected abstract Actor Actor { get; }
     private float previousHealthProportion;
