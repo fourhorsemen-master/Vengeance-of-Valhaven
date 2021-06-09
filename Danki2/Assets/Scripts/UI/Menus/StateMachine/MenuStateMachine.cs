@@ -53,7 +53,7 @@ public class MenuStateMachine : StateMachineMonoBehaviour
             .WithTransition(
                 GameplayState.InAbilityTreeEditor,
                 GameplayState.Playing,
-                new ButtonDown(AbilityTreeButtonName)
+                new ButtonDown(AbilityTreeButtonName) | new ButtonDown(PauseButtonName)
             )
             .WithTransition(
                 GameplayState.InAbilitySelection,
@@ -64,7 +64,7 @@ public class MenuStateMachine : StateMachineMonoBehaviour
             .WithTransition(
                 GameplayState.InRuneMenu,
                 GameplayState.Playing,
-                new ButtonDown(RuneMenuButtonName)
+                new ButtonDown(RuneMenuButtonName) | new ButtonDown(PauseButtonName)
             )
             .WithTransition(
                 GameplayState.InRuneSelectionMenu,
