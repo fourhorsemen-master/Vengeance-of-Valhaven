@@ -33,7 +33,8 @@ public class MenuStateMachine : StateMachineMonoBehaviour
             .WithTransition(
                 GameplayState.Playing,
                 GameplayState.InAbilitySelection,
-                new ButtonDown(InteractButtonName) & new CanInteractWithShrine<AbilityShrine>(AbilityShrine.Instance)
+                new ButtonDown(InteractButtonName) &
+                new CanInteractWithShrine<AbilityShrine>(AbilityShrine.Instance)
             )
             .WithTransition(
                 GameplayState.Playing,
@@ -43,34 +44,40 @@ public class MenuStateMachine : StateMachineMonoBehaviour
             .WithTransition(
                 GameplayState.Playing,
                 GameplayState.InRuneSelectionMenu,
-                new ButtonDown(InteractButtonName) & new CanInteractWithShrine<RuneShrine>(RuneShrine.Instance)
+                new ButtonDown(InteractButtonName) &
+                new CanInteractWithShrine<RuneShrine>(RuneShrine.Instance)
             )
             .WithTransition(
                 GameplayState.InPauseMenu,
                 GameplayState.Playing,
-                new ButtonDown(PauseButtonName) | new SubjectEmitted(pauseMenu.ContinueClickedSubject)
+                new ButtonDown(PauseButtonName) |
+                new SubjectEmitted(pauseMenu.ContinueClickedSubject)
             )
             .WithTransition(
                 GameplayState.InAbilityTreeEditor,
                 GameplayState.Playing,
-                new ButtonDown(AbilityTreeButtonName) | new ButtonDown(PauseButtonName)
+                new ButtonDown(AbilityTreeButtonName) |
+                new ButtonDown(PauseButtonName)
             )
             .WithTransition(
                 GameplayState.InAbilitySelection,
                 GameplayState.Playing,
                 new SubjectEmitted(abilitySelectionMenu.SkipClickedSubject) |
-                new SubjectEmitted(abilitySelectionMenu.ConfirmClickedSubject)
+                new SubjectEmitted(abilitySelectionMenu.ConfirmClickedSubject) |
+                new ButtonDown(PauseButtonName)
             )
             .WithTransition(
                 GameplayState.InRuneMenu,
                 GameplayState.Playing,
-                new ButtonDown(RuneMenuButtonName) | new ButtonDown(PauseButtonName)
+                new ButtonDown(RuneMenuButtonName) |
+                new ButtonDown(PauseButtonName)
             )
             .WithTransition(
                 GameplayState.InRuneSelectionMenu,
                 GameplayState.Playing,
                 new SubjectEmitted(runeSelectionMenu.SkipClickedSubject) |
-                new SubjectEmitted(runeSelectionMenu.RuneSelectedSubject)
+                new SubjectEmitted(runeSelectionMenu.RuneSelectedSubject) |
+                new ButtonDown(PauseButtonName)
             );
     }
 }
