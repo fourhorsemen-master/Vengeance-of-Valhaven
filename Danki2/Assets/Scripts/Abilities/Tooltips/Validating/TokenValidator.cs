@@ -20,30 +20,24 @@ public class TokenValidator
 
             if (token.Type.Equals(TokenType.OpenBrace))
             {
-                if (i + 1 >= tokens.Count) return false;
+                if (i + 2 >= tokens.Count) return false;
 
                 Token nextToken = tokens[i + 1];
-
                 if (!IsValidBindableProperty(nextToken)) return false;
 
-                if (!tokens[i + 2].Type.Equals(TokenType.CloseBrace))
+                if (tokens[i + 2].Type.Equals(TokenType.CloseBrace))
                 {
-                    if (i + 4 >= tokens.Count) return false;
-                    if (!tokens[i + 2].Type.Equals(TokenType.Pipe)) return false;
-                    if (!IsValidArgument(tokens[i + 3])) return false;
-                    if (!tokens[i + 4].Type.Equals(TokenType.CloseBrace)) return false;
-
-                    i += 4;
-                    continue;
-                }
-                else
-                {
-                    if (i + 2 >= tokens.Count ) return false;
-                    if (!tokens[i + 2].Type.Equals(TokenType.CloseBrace)) return false;
-
                     i += 2;
                     continue;
                 }
+
+                if (i + 4 >= tokens.Count) return false;
+                if (!tokens[i + 2].Type.Equals(TokenType.Pipe)) return false;
+                if (!IsValidArgument(tokens[i + 3])) return false;
+                if (!tokens[i + 4].Type.Equals(TokenType.CloseBrace)) return false;
+
+                i += 4;
+                continue;
             }
 
             return false;
