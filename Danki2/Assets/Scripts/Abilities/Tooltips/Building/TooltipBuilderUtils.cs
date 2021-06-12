@@ -6,7 +6,6 @@ public static class TooltipBuilderUtils
     private static readonly ISet<TemplatedTooltipSegmentType> HandleableTypes = new HashSet<TemplatedTooltipSegmentType>
     {
         TemplatedTooltipSegmentType.Text,
-        TemplatedTooltipSegmentType.Heal,
         TemplatedTooltipSegmentType.Stun,
         TemplatedTooltipSegmentType.Slow,
         TemplatedTooltipSegmentType.Block,
@@ -29,8 +28,6 @@ public static class TooltipBuilderUtils
     /// </summary>
     public static TooltipSegment GetTooltipSegment(TemplatedTooltipSegment templatedTooltipSegment)
     {
-        var hasArgument = !string.IsNullOrEmpty(templatedTooltipSegment.Value);
-
         return templatedTooltipSegment.Type switch
         {
             TemplatedTooltipSegmentType.Text => new TooltipSegment(TooltipSegmentType.Text, templatedTooltipSegment.Value),
