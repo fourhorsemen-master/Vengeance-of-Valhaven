@@ -33,7 +33,8 @@ public class MenuStateMachine : StateMachineMonoBehaviour
             .WithTransition(
                 GameplayState.Playing,
                 GameplayState.InAbilitySelection,
-                new ButtonDown(InteractButtonName) & new CanInteractWithShrine<AbilityShrine>(AbilityShrine.Instance)
+                new ButtonDown(InteractButtonName) &
+                new CanInteractWithShrine<AbilityShrine>(AbilityShrine.Instance)
             )
             .WithTransition(
                 GameplayState.Playing,
@@ -43,12 +44,13 @@ public class MenuStateMachine : StateMachineMonoBehaviour
             .WithTransition(
                 GameplayState.Playing,
                 GameplayState.InRuneSelectionMenu,
-                new ButtonDown(InteractButtonName) & new CanInteractWithShrine<RuneShrine>(RuneShrine.Instance)
+                new ButtonDown(InteractButtonName) &
+                new CanInteractWithShrine<RuneShrine>(RuneShrine.Instance)
             )
             .WithTransition(
                 GameplayState.InPauseMenu,
                 GameplayState.Playing,
-                new ButtonDown(PauseButtonName) | new SubjectEmitted(pauseMenu.ContinueClickedSubject)
+                new SubjectEmitted(pauseMenu.ContinueClickedSubject)
             )
             .WithTransition(
                 GameplayState.InAbilityTreeEditor,
@@ -71,6 +73,7 @@ public class MenuStateMachine : StateMachineMonoBehaviour
                 GameplayState.Playing,
                 new SubjectEmitted(runeSelectionMenu.SkipClickedSubject) |
                 new SubjectEmitted(runeSelectionMenu.RuneSelectedSubject)
-            );
+            )
+            .WithGlobalTransition(GameplayState.Playing, new ButtonDown(PauseButtonName));
     }
 }
