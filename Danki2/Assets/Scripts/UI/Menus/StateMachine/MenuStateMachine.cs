@@ -50,34 +50,30 @@ public class MenuStateMachine : StateMachineMonoBehaviour
             .WithTransition(
                 GameplayState.InPauseMenu,
                 GameplayState.Playing,
-                new ButtonDown(PauseButtonName) |
                 new SubjectEmitted(pauseMenu.ContinueClickedSubject)
             )
             .WithTransition(
                 GameplayState.InAbilityTreeEditor,
                 GameplayState.Playing,
-                new ButtonDown(AbilityTreeButtonName) |
-                new ButtonDown(PauseButtonName)
+                new ButtonDown(AbilityTreeButtonName)
             )
             .WithTransition(
                 GameplayState.InAbilitySelection,
                 GameplayState.Playing,
                 new SubjectEmitted(abilitySelectionMenu.SkipClickedSubject) |
-                new SubjectEmitted(abilitySelectionMenu.ConfirmClickedSubject) |
-                new ButtonDown(PauseButtonName)
+                new SubjectEmitted(abilitySelectionMenu.ConfirmClickedSubject)
             )
             .WithTransition(
                 GameplayState.InRuneMenu,
                 GameplayState.Playing,
-                new ButtonDown(RuneMenuButtonName) |
-                new ButtonDown(PauseButtonName)
+                new ButtonDown(RuneMenuButtonName)
             )
             .WithTransition(
                 GameplayState.InRuneSelectionMenu,
                 GameplayState.Playing,
                 new SubjectEmitted(runeSelectionMenu.SkipClickedSubject) |
-                new SubjectEmitted(runeSelectionMenu.RuneSelectedSubject) |
-                new ButtonDown(PauseButtonName)
-            );
+                new SubjectEmitted(runeSelectionMenu.RuneSelectedSubject)
+            )
+            .WithGlobalTransition(GameplayState.Playing, new ButtonDown(PauseButtonName));
     }
 }
