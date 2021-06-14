@@ -9,6 +9,8 @@ public static class DankiMenu
     [MenuItem("Danki/Entry Scene")]
     private static void RunEntryScene()
     {
+        EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
+
         EditorSceneManager.OpenScene("Assets/Scenes/MetaScenes/EntryScene/EntryScene.unity");
         
         EditorApplication.isPlaying = true;
