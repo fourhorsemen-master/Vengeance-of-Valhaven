@@ -8,8 +8,8 @@ public abstract class HealthBar : MonoBehaviour
     [SerializeField]
     private Image damageLagBar = null;
 
-    private const float minLagDecrement = 0.2f;
-    private const float maxLagDecrement = 0.4f;
+    private const float minLagDecrement = 0.1f;
+    private const float maxLagDecrement = 10f;
 
     protected abstract Actor Actor { get; }
     private float previousHealthProportion;
@@ -42,7 +42,7 @@ public abstract class HealthBar : MonoBehaviour
         healthBar.rectTransform.sizeDelta = new Vector2(healthProportion * barWidth, healthBar.rectTransform.sizeDelta.y);
 
         // Decrement recent damage if there is any.
-        float decrement = Mathf.Lerp(minLagDecrement, maxLagDecrement, recentDamage);
+        float decrement = Mathf.Lerp(minLagDecrement, maxLagDecrement, recentDamage / Actor.HealthManager.MaxHealth);
         recentDamage = Mathf.Max(0f, recentDamage - (Time.deltaTime * decrement));
         
         // Adjust the recent damage by any damage or healing in the current frame (cannot become less than 0). Note: -ve means healing.
