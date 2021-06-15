@@ -63,7 +63,7 @@ public class RoomNode
                 bool hasMatchingRoomType = roomTypes.Contains(node.RoomType);
                 bool indicatesMatchingRoomType = node.GetIndicatedRoomTypes().Intersect(roomTypes).Any();
 
-                if (hasMatchingRoomType || indicatesMatchingRoomType)
+                if (hasMatchingRoomType || (indicatesMatchingRoomType && !node.Equals(Parent)))
                 {
                     foundSameRoomType = true;
                 }
