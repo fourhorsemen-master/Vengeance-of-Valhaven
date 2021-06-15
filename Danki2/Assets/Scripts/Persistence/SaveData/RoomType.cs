@@ -1,5 +1,6 @@
 ﻿public enum RoomType
 {
+    Uninitialised,
     Combat,
     Boss,
     Shop,
