@@ -32,7 +32,7 @@ public static class Parser
                 BindableProperty bindableProperty = BindablePropertyLookup.FromString(tokens[i + 1].Value);
                 TemplatedTooltipSegmentType templatedTooltipSegmentType = TemplatedTooltipSegmentTypeLookup.FromBindableProperty(bindableProperty);
 
-                var hasArgument = tokens[i + 2].Type == TokenType.Pipe;
+                bool hasArgument = tokens[i + 2].Type == TokenType.Pipe;
 
                 if (hasArgument)
                 {
