@@ -64,7 +64,7 @@ public class WraithAi : Ai
             .WithComponent(BlinkState.Telegraph, new WraithTelegraphBlink(wraith))
             .WithComponent(BlinkState.Blink, new WraithCastBlink(wraith, player, minBlinkDistance, maxBlinkDistance))
             .WithComponent(BlinkState.PostBlinkPause, new WatchTarget(wraith, player))
-            .WithTransition(BlinkState.Telegraph, BlinkState.Blink, new TimeElapsed(blinkDelay))
+            .WithTransition(BlinkState.Telegraph, BlinkState.Blink, new CastableTimeElapsed(wraith, blinkDelay)) // TODO: Make blink castable through stun and knockback
             .WithTransition(BlinkState.Blink, BlinkState.PostBlinkPause);
 
         return new StateMachine<State>(State.Idle)

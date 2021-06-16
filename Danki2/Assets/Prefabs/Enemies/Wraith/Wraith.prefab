@@ -458,9 +458,9 @@ MonoBehaviour:
   forcedBlinkMinTime: 10
   forcedBlinkMaxTime: 15
   meleeAttacksBeforeBlinking: 3
-  blinkDelay: 2
+  blinkDelay: 3
   minBlinkDistance: 8
-  maxBlinkDistance: 10
+  maxBlinkDistance: 9
 --- !u!195 &1307004630582523634
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -570,7 +570,7 @@ VisualEffect:
       - m_Value: 0.5
         m_Name: Lifetime
         m_Overridden: 1
-      - m_Value: 1.5
+      - m_Value: 2.5
         m_Name: SpawnDuration
         m_Overridden: 1
       - m_Value: 3
