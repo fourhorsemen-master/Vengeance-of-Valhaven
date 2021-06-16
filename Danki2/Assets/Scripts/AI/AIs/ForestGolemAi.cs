@@ -31,9 +31,9 @@ public class ForestGolemAi : Ai
         Player player = ActorCache.Instance.Player;
         
         IStateMachineComponent rootStormStateMachine = new StateMachine<RootStormState>(RootStormState.Idle)
-        .WithComponent(RootStormState.FireRoot, new ForestGolemFireRoot(forestGolem, minRootStormDistance, maxRootStormDistance))
-        .WithTransition(RootStormState.Idle, RootStormState.FireRoot, new TimeElapsed(rootStormInterval))
-        .WithTransition(RootStormState.FireRoot, RootStormState.Idle, new AlwaysTrigger());
+            .WithComponent(RootStormState.FireRoot, new ForestGolemFireRoot(forestGolem, minRootStormDistance, maxRootStormDistance))
+            .WithTransition(RootStormState.Idle, RootStormState.FireRoot, new TimeElapsed(rootStormInterval))
+            .WithTransition(RootStormState.FireRoot, RootStormState.Idle, new AlwaysTrigger());
         
         IStateMachineComponent boulderThrowStateMachine = new StateMachine<BoulderThrowState>(BoulderThrowState.Telegraph)
             .WithComponent(BoulderThrowState.Telegraph, new TelegraphAttack(forestGolem, Color.blue))
