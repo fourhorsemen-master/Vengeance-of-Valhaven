@@ -24,6 +24,7 @@ public class WolfAi : Ai
 
     [Header("Attack")]
     [SerializeField] private float followDistance = 0;
+    [SerializeField] private float biteRotationSmoothingOverride;
     [SerializeField] private float biteRange = 0;
     [SerializeField] private float biteMaxAngle = 0;
     [SerializeField] private float biteDelay = 0;
@@ -52,6 +53,7 @@ public class WolfAi : Ai
         IStateMachineComponent attackStateMachine = new StateMachine<AttackState>(AttackState.InitialReposition)
             .WithComponent(AttackState.InitialReposition, new MoveTowardsAtDistance(wolf, player, followDistance))
             .WithComponent(AttackState.Reposition, new MoveTowardsAtDistance(wolf, player, followDistance))
+            .WithComponent(AttackState.WatchTarget, new WatchTarget(wolf, player, biteRotationSmoothingOverride))
             .WithComponent(AttackState.TelegraphBite, new TelegraphAttack(wolf, Color.red))
             .WithComponent(AttackState.Bite, new WolfBite(wolf))
             .WithComponent(AttackState.TelegraphPounce, new TelegraphAttack(wolf, Color.green))
@@ -70,6 +72,21 @@ public class WolfAi : Ai
                 AttackState.Reposition,
                 AttackState.TelegraphBite,
                 new DistanceLessThan(wolf, player, biteRange) & new TimeElapsed(biteCooldown) & new Facing(wolf, player, biteMaxAngle)
+            )
+            .WithTransition(
+                AttackState.Reposition,
+                AttackState.WatchTarget,
+                new DistanceLessThan(wolf, player, followDistance) & new TimeElapsed(biteCooldown)
+            )
+            .WithTransition(
+                AttackState.WatchTarget,
+                AttackState.Reposition,
+                new DistanceGreaterThan(wolf, player, followDistance)
+            )
+            .WithTransition(
+                AttackState.WatchTarget,
+                AttackState.TelegraphBite,
+                new DistanceLessThan(wolf, player, biteRange) & new Facing(wolf, player, biteMaxAngle)
             )
             .WithTransition(AttackState.TelegraphBite, AttackState.Reposition, new Interrupted(wolf, InterruptionType.Hard))
             .WithTransition(AttackState.TelegraphBite, AttackState.Bite, new TimeElapsed(biteDelay))
@@ -130,6 +147,7 @@ public class WolfAi : Ai
     {
         InitialReposition,
         Reposition,
+        WatchTarget,
         TelegraphBite,
         Bite,
         TelegraphPounce,
