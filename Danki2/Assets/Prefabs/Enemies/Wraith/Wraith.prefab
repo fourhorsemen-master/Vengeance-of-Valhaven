@@ -451,12 +451,12 @@ MonoBehaviour:
   guidedOrbDelay: 2
   swipeRotationSmoothingOverride: 0.2
   swipeRange: 3
-  maxSwipeAngle: 20
+  maxSwipeAngle: 25
   swipeDelay: 0.5
   forcedBlinkMinTime: 10
   forcedBlinkMaxTime: 15
   meleeAttacksBeforeBlinking: 3
-  blinkDelay: 3
+  blinkDelay: 2.5
   minBlinkDistance: 8
   maxBlinkDistance: 9
 --- !u!195 &1307004630582523634
@@ -568,7 +568,7 @@ VisualEffect:
       - m_Value: 0.5
         m_Name: Lifetime
         m_Overridden: 1
-      - m_Value: 2.5
+      - m_Value: 2
         m_Name: SpawnDuration
         m_Overridden: 1
       - m_Value: 3
