@@ -35,7 +35,7 @@ public class WraithCastBlink : IStateMachineComponent
         // Choose the position with the greatest (distanceFromWraith * distanceFromEdge)
         foreach (Vector3 position in potentialPositions)
         {
-            var test = NavMesh.FindClosestEdge(position, out var navMeshHit, NavMesh.AllAreas);
+            if (!NavMesh.FindClosestEdge(position, out NavMeshHit navMeshHit, NavMesh.AllAreas)) continue;
 
             float distanceFromWraith = Vector3.Distance(position, wraith.transform.position);
             float distanceFromEdge = Vector3.Distance(position, navMeshHit.position);
