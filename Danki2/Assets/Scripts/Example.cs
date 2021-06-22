@@ -17,7 +17,7 @@ public class Example : MonoBehaviour
     // Constructor
     public Example()
     {    
-        // Never use var keyword
+        // Never EVER use var keyword
         int exampleInt = 5;
 
         // Use 'this.' for clarity when using private fields
@@ -47,7 +47,7 @@ public class Example : MonoBehaviour
     }
 }
 
-// We only allow 1 thing (Class, Interface, Enum) per file, but make an exception for generics.
+// We only allow 1 thing (Class, Interface, Enum) per file, but make an exception for generics (and for some serialization specific classes).
 public class Example<T>
 {
 

@@ -447,20 +447,18 @@ MonoBehaviour:
   aggroRange: 12
   rangedAttackStateRange: 8
   rangedAttackStateTolerance: 2
-  meleeAttackStateRange: 3
-  meleeAttackStateTolerance: 2
   spineDelay: 2
   guidedOrbDelay: 2
-  swipeRotationSmoothingOverride: 0.03
-  swipeRange: 2
-  maxSwipeAngle: 10
+  swipeRotationSmoothingOverride: 0.2
+  swipeRange: 3
+  maxSwipeAngle: 25
   swipeDelay: 0.5
   forcedBlinkMinTime: 10
   forcedBlinkMaxTime: 15
   meleeAttacksBeforeBlinking: 3
-  blinkDelay: 2
+  blinkDelay: 2.5
   minBlinkDistance: 8
-  maxBlinkDistance: 10
+  maxBlinkDistance: 9
 --- !u!195 &1307004630582523634
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -570,7 +568,7 @@ VisualEffect:
       - m_Value: 0.5
         m_Name: Lifetime
         m_Overridden: 1
-      - m_Value: 1.5
+      - m_Value: 2
         m_Name: SpawnDuration
         m_Overridden: 1
       - m_Value: 3
