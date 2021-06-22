@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ForestGolemBoulder : MonoBehaviour
 {
-    [SerializeField] private TimeTracker timeTracker = null;
+    [SerializeField] private LifetimeTracker lifetimeTracker = null;
     [SerializeField] private AnimationCurve trajectory = null;
     [SerializeField] private float smashScaleFactor = 0;
 
@@ -31,7 +31,7 @@ public class ForestGolemBoulder : MonoBehaviour
     {
         if (finished) return;
         
-        if (timeTracker.Time > animationEndTime)
+        if (lifetimeTracker.Lifetime > animationEndTime)
         {
             transform.position = endPosition;
             SmashObject.Create(endPosition, smashScaleFactor);
@@ -40,9 +40,9 @@ public class ForestGolemBoulder : MonoBehaviour
             return;
         }
 
-        float animationProportion = timeTracker.Time / animationEndTime;
+        float animationProportion = lifetimeTracker.Lifetime / animationEndTime;
         Vector3 position = startPosition + (endPosition - startPosition) * animationProportion;
-        position.y += trajectory.Evaluate(timeTracker.Time);
+        position.y += trajectory.Evaluate(lifetimeTracker.Lifetime);
         transform.position = position;
     }
 }
