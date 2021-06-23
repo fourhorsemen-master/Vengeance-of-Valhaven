@@ -6,20 +6,20 @@ public class GuidedOrbObject : MonoBehaviour
     [SerializeField]
     private GuidedOrbExplosion guidedOrbExplosionPrefab = null;
     
-    private float requiredExplosionDistance;
     private float speed;
     private float rotationSpeed;
     private Transform target;
     private Action<Vector3> explosionCallback;
-    
+    private Subscription casterDeathSubscription;
+
     public static void Fire(
         float maxDuration,
-        float requiredExplosionDistance,
         float speed,
         float rotationSpeed,
         Transform target,
         Vector3 position,
-        Action<Vector3> explosionCallback
+        Action<Vector3> explosionCallback,
+        Subject casterDeathSubject
     )
     {
         GuidedOrbObject guidedOrbObject = Instantiate(
@@ -27,36 +27,52 @@ public class GuidedOrbObject : MonoBehaviour
             position,
             Quaternion.LookRotation(target.position - position)
         );
-        guidedOrbObject.requiredExplosionDistance = requiredExplosionDistance;
+
         guidedOrbObject.speed = speed;
         guidedOrbObject.rotationSpeed = rotationSpeed;
         guidedOrbObject.target = target;
         guidedOrbObject.explosionCallback = explosionCallback;
+        guidedOrbObject.casterDeathSubscription = casterDeathSubject.Subscribe(() => Destroy(guidedOrbObject.gameObject));
 
-        guidedOrbObject.WaitAndAct(maxDuration, () => guidedOrbObject.Explode(guidedOrbObject.transform.position));
+        guidedOrbObject.WaitAndAct(maxDuration, guidedOrbObject.Explode);
     }
+
+    private void OnTriggerEnter(Collider other) => Explode();
 
     private void Update()
     {
-        if (Vector3.Distance(transform.position, target.transform.position) <= requiredExplosionDistance)
-        {
-            Explode(target.transform.position);
-            return;
-        }
+        UpdateRotation();
+        UpdatePosition();
+    }
 
-        transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(
+    private void UpdateRotation()
+    {
+        Vector3 newRotation = Vector3.RotateTowards(
             transform.forward,
             target.position - transform.position,
             rotationSpeed * Time.deltaTime,
             Mathf.Infinity
-        ));
-        transform.position += speed * Time.deltaTime * transform.forward;
+        );
+
+        newRotation.y = 0;
+
+        transform.rotation = Quaternion.LookRotation(newRotation);
     }
 
-    private void Explode(Vector3 position)
+    private void UpdatePosition()
     {
-        GuidedOrbExplosion.Create(guidedOrbExplosionPrefab, position);
+        var newPosition = transform.position + speed * Time.deltaTime * transform.forward;
+
+        newPosition.y = Mathf.Lerp(transform.position.y, target.position.y, Time.deltaTime);
+
+        transform.position = newPosition;
+    }
+
+    private void Explode()
+    {
+        GuidedOrbExplosion.Create(guidedOrbExplosionPrefab, transform.position);
         explosionCallback(transform.position);
+        casterDeathSubscription.Unsubscribe();
         Destroy(gameObject);
     }
 }
