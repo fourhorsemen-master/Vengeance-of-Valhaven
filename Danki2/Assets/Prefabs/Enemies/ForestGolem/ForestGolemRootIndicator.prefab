@@ -104,7 +104,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   decalProjector: {fileID: 8442699387738890222}
   lifetimeTracker: {fileID: 8442699388731173856}
-  rotation:
+  rotationCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -128,7 +128,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  scale:
+  scaleCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -152,7 +152,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  fadeFactor:
+  fadeFactorCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3

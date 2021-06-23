@@ -4,7 +4,7 @@ using UnityEngine;
 public class ForestGolemBoulder : MonoBehaviour
 {
     [SerializeField] private LifetimeTracker lifetimeTracker = null;
-    [SerializeField] private AnimationCurve trajectory = null;
+    [SerializeField] private AnimationCurve trajectoryCurve = null;
     [SerializeField] private float smashScaleFactor = 0;
 
     private float animationEndTime;
@@ -24,7 +24,7 @@ public class ForestGolemBoulder : MonoBehaviour
 
     private void Start()
     {
-        animationEndTime = AnimationCurveUtils.GetEndTime(trajectory);
+        animationEndTime = AnimationCurveUtils.GetEndTime(trajectoryCurve);
     }
 
     private void Update()
@@ -42,7 +42,7 @@ public class ForestGolemBoulder : MonoBehaviour
 
         float animationProportion = lifetimeTracker.Lifetime / animationEndTime;
         Vector3 position = startPosition + (endPosition - startPosition) * animationProportion;
-        position.y += trajectory.Evaluate(lifetimeTracker.Lifetime);
+        position.y += trajectoryCurve.Evaluate(lifetimeTracker.Lifetime);
         transform.position = position;
     }
 }
