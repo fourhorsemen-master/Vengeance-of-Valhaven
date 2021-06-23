@@ -4,5 +4,6 @@
     Wolf,
     Bear,
     Wraith,
-    TargetDummy
+    ForestGolem,
+    TargetDummy,
 }
