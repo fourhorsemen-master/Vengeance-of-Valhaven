@@ -61,7 +61,7 @@ public class GuidedOrbObject : MonoBehaviour
 
     private void UpdatePosition()
     {
-        var newPosition = transform.position + speed * Time.deltaTime * transform.forward;
+        Vector3 newPosition = transform.position + speed * Time.deltaTime * transform.forward;
 
         newPosition.y = Mathf.Lerp(transform.position.y, target.position.y, Time.deltaTime);
 
