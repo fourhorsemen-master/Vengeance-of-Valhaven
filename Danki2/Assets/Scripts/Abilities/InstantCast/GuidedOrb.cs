@@ -4,7 +4,6 @@
 public class GuidedOrb : InstantCast
 {
     private const float MaxDuration = 8f;
-    private const float RequiredExplosionDistance = 1f;
     private const float Speed = 1.5f;
     private const float RotationSpeed = 1f;
     private const float Range = 2.5f;
@@ -22,12 +21,12 @@ public class GuidedOrb : InstantCast
 
         GuidedOrbObject.Fire(
             MaxDuration,
-            RequiredExplosionDistance,
             Speed,
             RotationSpeed,
             target.CentreTransform,
             Owner.AbilitySource,
-            HandleExplosion
+            HandleExplosion,
+            Owner.DeathSubject
         );
     }
 
