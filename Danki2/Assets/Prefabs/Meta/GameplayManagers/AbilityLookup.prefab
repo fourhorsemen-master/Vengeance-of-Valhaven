@@ -381,9 +381,9 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      fmodVocalisationEventRef: event:/CS_SoftAttack
-      fmodStartEventRef: event:/AS_FanOfKnives/AS_FanOfKnives_Draw
-      fmodEndEventRef: event:/AS_FanOfKnives/AS_FanOfKnives_Woosh
+      fmodVocalisationEventRef: event:/CS_CharacterSounds/CS_Dialog_Attack
+      fmodStartEventRef: event:/AS_AbilitySounds/AS_FanOfKnives/AS_FanOfKnives_Draw
+      fmodEndEventRef: event:/AS_AbilitySounds/AS_FanOfKnives/AS_FanOfKnives_Woosh
       animationType: 0
       abilityBonusLookup:
         _keys:
@@ -498,9 +498,9 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      fmodVocalisationEventRef: event:/CS_MedAttack
-      fmodStartEventRef: event:/AS_FanOfKnives/AS_FanOfKnives_Draw
-      fmodEndEventRef: event:/AS_FanOfKnives/AS_FanOfKnives_Woosh
+      fmodVocalisationEventRef: event:/CS_CharacterSounds/CS_Dialog_Attack
+      fmodStartEventRef: event:/AS_AbilitySounds/AS_FanOfKnives/AS_FanOfKnives_Draw
+      fmodEndEventRef: event:/AS_AbilitySounds/AS_FanOfKnives/AS_FanOfKnives_Woosh
       animationType: 0
       abilityBonusLookup:
         _keys:
