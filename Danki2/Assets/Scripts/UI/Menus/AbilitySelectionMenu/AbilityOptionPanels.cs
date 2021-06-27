@@ -16,7 +16,7 @@ public class AbilityOptionPanels : MonoBehaviour
 
     private void OnEnable()
     {
-        InitialisePanels(PersistenceManager.Instance.SaveData.CurrentRoomSaveData.AbilityRoomSaveData.AbilityChoices);
+        InitialisePanels(PersistenceManager.Instance.SaveData.CurrentRoomNode.AbilityRoomSaveData.AbilityChoices);
     }
 
     private void OnDisable()

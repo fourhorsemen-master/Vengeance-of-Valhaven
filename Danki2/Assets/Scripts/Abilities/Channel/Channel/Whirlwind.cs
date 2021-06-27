@@ -57,7 +57,7 @@ public class Whirlwind : Channel
         TemplateCollision(
             CollisionTemplateShape.Cylinder,
             radius,
-            Owner.transform.position,
+            Owner.CollisionTemplateSource,
             Quaternion.identity,
             actor =>
             {

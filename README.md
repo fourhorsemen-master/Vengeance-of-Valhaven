@@ -13,6 +13,12 @@ Blender must be installed for the project to load.
 ### Fmod
 Danki2 uses FMOD as audio middleware - this is the official user guide https://fmod.com/resources/documentation-unity?version=2.0&page=user-guide.html#using-source-control
 
+Any additions to fmod source code are preceeded by a comment:
+// \*\*Added to original source code\*\*
+
+Any removals to fmod source code are preceeded by a comment:
+// \*\*Removed from original source code\*\*
+
 Note - we have implemented a workaround for a bug where the sound wasn't stopping correctly when exiting play mode (this happened if and only if any text component in scene had a non-default font - it wasn't clear why this was happening). This involved adding a "state == PlayModeStateChange.ExitingPlayMode" case on line 698 of Danki2\Assets\Plugins\FMOD\src\Runtime\RuntimeManager.cs (ie. in the fmod source code).
 
 ### Smart Merge
@@ -65,7 +71,7 @@ To create a new scene:
   - Enemy spawners,
   - Props,
   - Etc...
-- Add a terrain as a child of Room and call it "Floor", you'll probably want to make it a lot smaller and raise it up using the "Set Height" tool so that you have room for sunken terrain. Be sure to set the layer to "Floor", if adding water then set the water's layer to "Water",
+- Add a terrain as a child of Room and call it "Floor", you'll probably want to make it a lot smaller and raise it up using the "Set Height" tool so that you have room for sunken terrain. Be sure to set the layer to "Floor", if adding water then set the water's layer to "Water". Make sure that the "Rendering Layer Mask" is set to include the "Light Layer Default" and the "Decal Layer Default", otherwise decals won't appear on the terrain,
 - Adding the terrain will have created a new terrain asset in the root of the "Assets" folder. Rename this to "\<your-scene-name\>_TerrainData" and move it into your scenes folder,
 - Bake the navmesh and save (Ctrl+S),
 - This is a good time to make a commit, as you have all of the new files required for a new scene,

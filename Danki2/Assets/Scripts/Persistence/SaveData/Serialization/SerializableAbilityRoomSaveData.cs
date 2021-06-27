@@ -5,7 +5,7 @@ using UnityEngine;
 [Serializable]
 public class SerializableAbilityRoomSaveData
 {
-    [SerializeField] private List<AbilityReference> abilityChoices = new List<AbilityReference>();
+    [SerializeField] private List<AbilityReference> abilityChoices;
     [SerializeField] private bool abilitiesViewed = false;
     [SerializeField] private bool abilitySelected = false;
 

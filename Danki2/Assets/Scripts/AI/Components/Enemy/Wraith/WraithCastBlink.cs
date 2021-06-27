@@ -1,9 +1,9 @@
-﻿using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.AI;
 
 public class WraithCastBlink : IStateMachineComponent
 {
-    private const int PositionsToSample = 5;
+    private const int PositionsToSample = 4;
     
     private readonly Wraith wraith;
     private readonly Actor actorToAvoid;
@@ -22,13 +22,36 @@ public class WraithCastBlink : IStateMachineComponent
     public void Exit() {}
     public void Update() {}
 
+    /// Samples random positions to find one that is:
+    ///  - A good distance from the player
+    ///  - As far from the edge of the navmesh AND the wraith's current position as possible
     private Vector3 GetNewPosition()
     {
-        return GetPotentialPositions()
-            .OrderBy(p => Vector3.Distance(p, wraith.transform.position))
-            .Last();
+        Vector3[] potentialPositions = GetPotentialPositions();
+
+        Vector3 bestPosition = potentialPositions[0];
+        float bestDistanceProduct = 0;
+
+        // Choose the position with the greatest (distanceFromWraith * distanceFromEdge)
+        foreach (Vector3 position in potentialPositions)
+        {
+            if (!NavMesh.FindClosestEdge(position, out NavMeshHit navMeshHit, NavMesh.AllAreas)) continue;
+
+            float distanceFromWraith = Vector3.Distance(position, wraith.transform.position);
+            float distanceFromEdge = Vector3.Distance(position, navMeshHit.position);
+
+            float distanceProduct = distanceFromWraith * distanceFromEdge;
+
+            if (distanceProduct <= bestDistanceProduct) continue;
+
+            bestPosition = position;
+            bestDistanceProduct = distanceProduct;
+        }
+
+        return bestPosition;
     }
 
+    /// Gets <see cref="PositionsToSample"/> random points on the navmesh that have distance from player between minDistance and maxDistance
     private Vector3[] GetPotentialPositions()
     {
         Vector3[] potentialPositions = new Vector3[PositionsToSample];

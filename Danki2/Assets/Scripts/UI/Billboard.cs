@@ -6,7 +6,7 @@ public class Billboard : MonoBehaviour
     
     private void Start()
     {
-        orientation = PersistenceManager.Instance.SaveData.CurrentRoomSaveData.CameraOrientation;
+        orientation = PersistenceManager.Instance.SaveData.CurrentRoomNode.CameraOrientation;
     }
 
     /// <summary>

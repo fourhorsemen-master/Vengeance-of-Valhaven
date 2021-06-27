@@ -141,7 +141,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 34e4c27b6aa27324e87ab7c3beb8a326, type: 2}
+  - {fileID: 2100000, guid: 5cdbe8f820e1fad459a80e126e7d58c9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -223,7 +223,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 34e4c27b6aa27324e87ab7c3beb8a326, type: 2}
+  - {fileID: 2100000, guid: 5cdbe8f820e1fad459a80e126e7d58c9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -610,7 +610,7 @@ MonoBehaviour:
   wolf: {fileID: -1347520900970919038}
   watchDistance: 12
   agroTime: 3
-  agroDistance: 10
+  agroDistance: 5
   howlHearingRange: 10
   minStillTime: 1
   maxStillTime: 3
@@ -621,14 +621,15 @@ MonoBehaviour:
   minEvadeTime: 4
   maxEvadeTime: 8
   followDistance: 2.5
+  biteRotationSmoothingOverride: 0.03
   biteRange: 3
   biteMaxAngle: 3
   biteDelay: 0.5
   biteCooldown: 2.5
-  pounceMinRange: 4
-  pounceMaxRange: 10
+  pounceMinRange: 3
+  pounceMaxRange: 12
   pounceDelay: 0.5
-  pounceCooldown: 5
+  pounceCooldown: 4
   minCircleDistance: 2
   maxCircleDistance: 9
 --- !u!195 &-7685572653157387656

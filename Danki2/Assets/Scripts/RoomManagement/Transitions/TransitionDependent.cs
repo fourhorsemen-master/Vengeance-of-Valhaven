@@ -26,13 +26,10 @@ public class TransitionDependent : MonoBehaviour
 
     private bool TransitionIsActive()
     {
-        RoomSaveData currentRoomSaveData = PersistenceManager.Instance.SaveData.CurrentRoomSaveData;
+        RoomNode currentRoomNode = PersistenceManager.Instance.SaveData.CurrentRoomNode;
 
-        if (hasAssociatedEntrance && associatedEntranceId == currentRoomSaveData.PlayerSpawnerId) return true;
+        if (hasAssociatedEntrance && associatedEntranceId == currentRoomNode.PlayerSpawnerId) return true;
 
-        List<int> activeExitIds = currentRoomSaveData.RoomTransitionerIdToTransitionData.Keys.ToList();
-        if (hasAssociatedExit && activeExitIds.Contains(associatedExitId)) return true;
-
-        return false;
+        return hasAssociatedExit && currentRoomNode.ExitIdToChildLookup.ContainsKey(associatedExitId);
     }
 }

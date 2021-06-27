@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1429074747083990127}
   - component: {fileID: 2746707430979112046}
   - component: {fileID: 3368335686777290129}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 225860399370484363}
   - component: {fileID: 5084001314221954628}
   - component: {fileID: 4842832167253299901}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: VFXGraph
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -260,7 +260,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5560398011391372175}
   - component: {fileID: 2736027787663588823}
-  m_Layer: 0
+  - component: {fileID: 2761110854732384880}
+  - component: {fileID: 7795318851218223497}
+  m_Layer: 12
   m_Name: GuidedOrbObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -297,3 +299,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   guidedOrbExplosionPrefab: {fileID: 8773174164764043830, guid: e92951170d3684f4aa908975189e8330,
     type: 3}
+--- !u!135 &2761110854732384880
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4032865229739014662}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &7795318851218223497
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4032865229739014662}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

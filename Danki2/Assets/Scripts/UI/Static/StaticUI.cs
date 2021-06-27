@@ -8,7 +8,7 @@ public abstract class StaticUI<T> : Singleton<T> where T : MonoBehaviour
     private float visibility = 1;
     private float? visibilityOverride = null;
 
-    private void Start()
+    protected virtual void Start()
     {
         GameplayStateController.Instance.GameStateTransitionSubject.Subscribe(gameState =>
         {

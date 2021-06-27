@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.TestTools;
 
-public class RuneLookupTest
+public class RuneLookupTest : PlayModeTestBase
 {
     private readonly TokenValidator tokenValidator = new TokenValidator();
 

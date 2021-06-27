@@ -45,12 +45,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityChoices: 3
   runeSockets: 3
-  maxRoomDepth: 14
+  leftStartingAbility: 0
+  rightStartingAbility: 7
+  generatedRoomDepth: 2
   minRoomExits: 1
   maxRoomExits: 3
   requiredSpawners: 3
   chanceIndicatesChildRoomType: 0.5
   chanceIndicatesGrandchildRoomType: 0.5
+  roomsPerZoneLookup:
+    _keys:
+    - Zone1
+    - Zone2
+    - Zone3
+    _values: 110000000300000003000000
   roomDataLookup:
     _keys:
     - Combat
@@ -61,9 +69,10 @@ MonoBehaviour:
     - Ability
     - Healing
     - Rune
+    - ZoneIntroduction
     _values:
     - availableInPool: 1
-      weights: 010000000200000004000000060000000a000000
+      weights: 0100000002000000030000000400000005000000
     - availableInPool: 0
       weights: 
     - availableInPool: 0
@@ -73,22 +82,34 @@ MonoBehaviour:
     - availableInPool: 0
       weights: 
     - availableInPool: 1
-      weights: 00000000000000000100000002000000
+      weights: 000000000100000002000000030000000400000005000000
     - availableInPool: 1
-      weights: 00000000000000000100000002000000
+      weights: 00000000010000000200000003000000030000000400000005000000
     - availableInPool: 1
-      weights: 0000000000000000000000000100000002000000
-  spawnedEnemiesPerDepth:
-  - spawnedEnemies: 01000000
-  - spawnedEnemies: 01000000
-  - spawnedEnemies: 01000000
-  - spawnedEnemies: 01000000
-  - spawnedEnemies: 03000000
-  - spawnedEnemies: 03000000
-  - spawnedEnemies: 03000000
-  - spawnedEnemies: 03000000
-  - spawnedEnemies: 0100000001000000
-  - spawnedEnemies: 0100000001000000
-  - spawnedEnemies: 0100000001000000
-  - spawnedEnemies: 0300000003000000
-  - spawnedEnemies: 0300000003000000
+      weights: 00000000000000000100000002000000030000000400000005000000
+    - availableInPool: 0
+      weights: 
+  spawnedEnemiesPerDepthLookup:
+    _keys: 08000000050000000200000003000000040000000600000007000000090000000a0000000b0000000c0000000d0000000e00000011000000140000000f0000001200000015000000100000001300000016000000
+    _values:
+    - spawnedEnemies: 03000000
+    - spawnedEnemies: 01000000
+    - spawnedEnemies: 01000000
+    - spawnedEnemies: 01000000
+    - spawnedEnemies: 01000000
+    - spawnedEnemies: 03000000
+    - spawnedEnemies: 03000000
+    - spawnedEnemies: 03000000
+    - spawnedEnemies: 02000000
+    - spawnedEnemies: 02000000
+    - spawnedEnemies: 02000000
+    - spawnedEnemies: 02000000
+    - spawnedEnemies: 0100000001000000
+    - spawnedEnemies: 02000000
+    - spawnedEnemies: 02000000
+    - spawnedEnemies: 0100000001000000
+    - spawnedEnemies: 
+    - spawnedEnemies: 
+    - spawnedEnemies: 0100000001000000
+    - spawnedEnemies: 02000000
+    - spawnedEnemies: 02000000

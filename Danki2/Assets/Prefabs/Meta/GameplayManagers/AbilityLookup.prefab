@@ -193,7 +193,7 @@ MonoBehaviour:
       finisher: 0
       channelDuration: 0
     - displayName: Smash
-      tooltip: Deal {PRIMARY_DAMAGE} damage in a small circle.
+      tooltip: Deal {PRIMARY_DAMAGE} damage in a circle.
       baseAbilityData:
         primaryDamage: 10
         secondaryDamage: 0
@@ -215,7 +215,7 @@ MonoBehaviour:
       finisher: 1
       channelDuration: 0.5
     - displayName: Bash
-      tooltip: Deal {PRIMARY_DAMAGE} to enemies in a cone, applies a 1s {STUN}.
+      tooltip: Deal {PRIMARY_DAMAGE} to enemies in a small circle, applies a 1s {STUN}.
       baseAbilityData:
         primaryDamage: 3
         secondaryDamage: 0
@@ -231,7 +231,7 @@ MonoBehaviour:
       rarity: 0
       playerCanCast: 1
       finisher: 0
-      channelDuration: 0
+      channelDuration: 0.5
     - displayName: Sweeping Strike
       tooltip: Deal {PRIMARY_DAMAGE} damage to enemies in a cone and knockback all
         enemies hit.
@@ -267,7 +267,7 @@ MonoBehaviour:
         _keys: []
         _values: []
       rarity: 0
-      playerCanCast: 1
+      playerCanCast: 0
       finisher: 0
       channelDuration: 0
     - displayName: Backstab
@@ -605,7 +605,7 @@ MonoBehaviour:
       finisher: 0
       channelDuration: 0
     - displayName: Consume
-      tooltip: Consumes all stacks of {BLEED_INFO} from all enemies. Each enemy receives
+      tooltip: Consumes all stacks of {BLEED} from all enemies. Each enemy receives
         3 damage per stack consumed from it.
       baseAbilityData:
         primaryDamage: 0
@@ -667,7 +667,7 @@ MonoBehaviour:
       tooltip: Projectile that deals {PRIMARY_DAMAGE} damage on impact and applies
         a {SLOW}.
       baseAbilityData:
-        primaryDamage: 4
+        primaryDamage: 2
         secondaryDamage: 0
         heal: 0
         shield: 0

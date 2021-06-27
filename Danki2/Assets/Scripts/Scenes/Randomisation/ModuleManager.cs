@@ -7,8 +7,8 @@ public class ModuleManager : Singleton<ModuleManager>
 {
     private void Start()
     {
-        RoomSaveData currentRoomSaveData = PersistenceManager.Instance.SaveData.CurrentRoomSaveData;
-        Random.InitState(currentRoomSaveData.ModuleSeed);
+        RoomNode currentRoomNode = PersistenceManager.Instance.SaveData.CurrentRoomNode;
+        Random.InitState(currentRoomNode.ModuleSeed);
 
         List<ModuleSocket> sockets = FindObjectsOfType<ModuleSocket>().ToList();
         sockets.SortById();
@@ -19,16 +19,17 @@ public class ModuleManager : Singleton<ModuleManager>
             return;
         }
 
-        InstantiateModules(sockets);
+        InstantiateModules(sockets, currentRoomNode.Zone);
     }
 
-    private void InstantiateModules(List<ModuleSocket> sockets)
+    private void InstantiateModules(List<ModuleSocket> sockets, Zone zone)
     {
         Dictionary<ModuleData, int> moduleUses = new Dictionary<ModuleData, int>();
 
         sockets.ForEach(socket =>
         {
             List<ModuleData> moduleDataList = ModuleLookup.Instance.GetModuleDataWithMatchingTags(
+                zone,
                 socket.SocketType,
                 socket.Tags,
                 socket.TagsToExclude

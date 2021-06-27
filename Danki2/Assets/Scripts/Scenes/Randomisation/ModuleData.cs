@@ -6,6 +6,7 @@ using UnityEngine;
 public class ModuleData
 {
     [SerializeField] private GameObject prefab = null;
+    [SerializeField] private List<Zone> zones = new List<Zone>();
     [SerializeField] private List<ModuleTag> tags = new List<ModuleTag>();
     [SerializeField] private bool allowAnyFreeRotation = false;
     [SerializeField] private float minFreeRotation = 0;
@@ -13,6 +14,7 @@ public class ModuleData
     [SerializeField] private List<float> distinctRotations = new List<float>();
 
     public GameObject Prefab { get => prefab; set => prefab = value; }
+    public List<Zone> Zones { get => zones; set => zones = value; }
     public List<ModuleTag> Tags { get => tags; set => tags = value; }
     public bool AllowAnyFreeRotation { get => allowAnyFreeRotation; set => allowAnyFreeRotation = value; }
     public float MinFreeRotation { get => minFreeRotation; set => minFreeRotation = value; }

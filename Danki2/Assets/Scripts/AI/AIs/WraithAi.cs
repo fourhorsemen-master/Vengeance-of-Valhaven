@@ -8,8 +8,6 @@ public class WraithAi : Ai
     [SerializeField] private float aggroRange = 0;
     [SerializeField] private float rangedAttackStateRange = 0;
     [SerializeField] private float rangedAttackStateTolerance = 0;
-    [SerializeField] private float meleeAttackStateRange = 0;
-    [SerializeField] private float meleeAttackStateTolerance = 0;
     
     [Header("Ranged Attacks")]
     [SerializeField] private float spineDelay = 0;
@@ -50,12 +48,10 @@ public class WraithAi : Ai
             .WithTransition(RangedAttackState.TelegraphGuidedOrb, RangedAttackState.GuidedOrb, new CastableTimeElapsed(wraith, guidedOrbDelay))
             .WithTransition(RangedAttackState.GuidedOrb, RangedAttackState.ChooseAttack);
 
-        IStateMachineComponent meleeAttackStateMachine = new StateMachine<MeleeAttackState>(MeleeAttackState.Advance)
-            .WithComponent(MeleeAttackState.Advance, new MoveTowards(wraith, player))
+        IStateMachineComponent meleeAttackStateMachine = new StateMachine<MeleeAttackState>(MeleeAttackState.WatchTarget)
             .WithComponent(MeleeAttackState.WatchTarget, new WatchTarget(wraith, player, swipeRotationSmoothingOverride))
             .WithComponent(MeleeAttackState.Telegraph, new TelegraphAttack(wraith, Color.yellow))
             .WithComponent(MeleeAttackState.Swipe, new WraithCastSwipe(wraith))
-            .WithTransition(MeleeAttackState.Advance, MeleeAttackState.WatchTarget, new DistanceLessThan(wraith, player, swipeRange))
             .WithTransition(MeleeAttackState.WatchTarget, MeleeAttackState.Telegraph, new Facing(wraith, player, maxSwipeAngle))
             .WithTransition(MeleeAttackState.Telegraph, MeleeAttackState.Swipe, new CastableTimeElapsed(wraith, swipeDelay))
             .WithTransition(MeleeAttackState.Swipe, MeleeAttackState.WatchTarget);
@@ -64,7 +60,7 @@ public class WraithAi : Ai
             .WithComponent(BlinkState.Telegraph, new WraithTelegraphBlink(wraith))
             .WithComponent(BlinkState.Blink, new WraithCastBlink(wraith, player, minBlinkDistance, maxBlinkDistance))
             .WithComponent(BlinkState.PostBlinkPause, new WatchTarget(wraith, player))
-            .WithTransition(BlinkState.Telegraph, BlinkState.Blink, new TimeElapsed(blinkDelay))
+            .WithTransition(BlinkState.Telegraph, BlinkState.Blink, new CastableTimeElapsed(wraith, blinkDelay)) // TODO: Make blink castable through stun and knockback
             .WithTransition(BlinkState.Blink, BlinkState.PostBlinkPause);
 
         return new StateMachine<State>(State.Idle)
@@ -75,9 +71,8 @@ public class WraithAi : Ai
             .WithTransition(State.Idle, State.Advance, new DistanceLessThan(wraith, player, aggroRange) | new TakesDamage(wraith))
             .WithTransition(State.Advance, State.RangedAttacks, new DistanceLessThan(wraith, player, rangedAttackStateRange))
             .WithTransition(State.RangedAttacks, State.Advance, new DistanceGreaterThan(wraith, player, rangedAttackStateRange + rangedAttackStateTolerance))
-            .WithTransition(State.RangedAttacks, State.MeleeAttacks, new DistanceLessThan(player, wraith, meleeAttackStateRange))
+            .WithTransition(State.RangedAttacks, State.MeleeAttacks, new DistanceLessThan(player, wraith, swipeRange))
             .WithTransition(State.RangedAttacks, State.Blink, new RandomTimeElapsed(forcedBlinkMinTime, forcedBlinkMaxTime))
-            .WithTransition(State.MeleeAttacks, State.RangedAttacks, new DistanceGreaterThan(wraith, player, meleeAttackStateRange + meleeAttackStateTolerance))
             .WithTransition(State.MeleeAttacks, State.Blink, new SubjectEmittedTimes(wraith.SwipeSubject, meleeAttacksBeforeBlinking))
             .WithTransition(State.Blink, State.Advance, new CastableTimeElapsed(wraith, blinkDelay));
     }
@@ -102,7 +97,6 @@ public class WraithAi : Ai
 
     private enum MeleeAttackState
     {
-        Advance,
         WatchTarget,
         Telegraph,
         Swipe

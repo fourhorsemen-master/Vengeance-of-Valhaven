@@ -6,13 +6,15 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 
-public class MapGenerationLookupTest
+public class MapGenerationLookupTest : PlayModeTestBase
 {
     [UnityTest]
     public IEnumerator TestScenesAllHaveRequiredSpawners()
     {
         List<string> combatScenes = GetCombatScenes();
+        yield return null;
         int requiredSpawners = GetRequiredSpawners();
+        yield return null;
         
         TestUtils.InstantiatePrefab<DevPersistenceManager>();
         DevPersistenceManager.Instance.DontDestroyOnLoad();
@@ -24,9 +26,8 @@ public class MapGenerationLookupTest
             AssertCorrectSpawners(requiredSpawners, combatScene);
         }
 
-        TestUtils.LoadEmptyScene();
-        yield return null;
         DevPersistenceManager.Instance.Destroy();
+        yield return null;
     }
 
     private List<string> GetCombatScenes()

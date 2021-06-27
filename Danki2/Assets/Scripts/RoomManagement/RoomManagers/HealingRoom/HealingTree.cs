@@ -3,43 +3,39 @@ using UnityEngine.UI;
 
 public class HealingTree : Singleton<HealingTree>
 {
-    [SerializeField] private Text interactionText = null;
+    [SerializeField] private InteractionText interactionText = null;
     [SerializeField] private float interactionDistance = 0;
 
     private void Start()
     {
-        HideInteractionText();
+        interactionText.Hide();
     }
 
     private void Update()
     {
         if (HealingRoomManager.Instance.HasHealed || GameplayStateController.Instance.GameplayState != GameplayState.Playing)
         {
-            HideInteractionText();
+            interactionText.Hide();
             return;
         }
 
         if (transform.DistanceFromPlayer() <= interactionDistance)
         {
-            ShowInteractionText();
+            interactionText.Show();
             ListenForInteraction();
         }
         else
         {
-            HideInteractionText();
+            interactionText.Hide();
         }
     }
-
-    private void ShowInteractionText() => interactionText.enabled = true;
-
-    private void HideInteractionText() => interactionText.enabled = false;
 
     private void ListenForInteraction()
     {
         if (Input.GetButtonDown("Interact"))
         {
             HealingRoomManager.Instance.Heal();
-            HideInteractionText();
+            interactionText.Hide();
         }
     }
 }

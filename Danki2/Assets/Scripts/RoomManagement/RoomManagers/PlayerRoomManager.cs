@@ -15,12 +15,12 @@ public class PlayerRoomManager : Singleton<PlayerRoomManager>
     
     private void Start()
     {
-        RoomSaveData roomSaveData = PersistenceManager.Instance.SaveData.CurrentRoomSaveData;
+        RoomNode roomNode = PersistenceManager.Instance.SaveData.CurrentRoomNode;
 
-        if (ignoredRoomTypes.Contains(roomSaveData.RoomType)) return;
+        if (ignoredRoomTypes.Contains(roomNode.RoomType)) return;
 
         Dictionary<int, PlayerSpawner> spawnerLookup = FindObjectsOfType<PlayerSpawner>().ToDictionary(s => s.Id);
 
-        spawnerLookup[roomSaveData.PlayerSpawnerId].Spawn();
+        spawnerLookup[roomNode.PlayerSpawnerId].Spawn();
     }
 }

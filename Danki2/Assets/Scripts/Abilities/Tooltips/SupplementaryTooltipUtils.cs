@@ -21,8 +21,7 @@ public static class KeywordUtils
             {TemplatedTooltipSegmentType.Block, Keyword.Block},
             {TemplatedTooltipSegmentType.Bleed, Keyword.Bleed},
             {TemplatedTooltipSegmentType.Poison, Keyword.Poison},
-            {TemplatedTooltipSegmentType.Vulnerable, Keyword.Vulnerable},
-            {TemplatedTooltipSegmentType.BleedInfo, Keyword.BleedInfo}
+            {TemplatedTooltipSegmentType.Vulnerable, Keyword.Vulnerable}
         };
 
     public static List<Keyword> GetKeywords(AbilityReference abilityReference)
