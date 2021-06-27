@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.01.00">
+	<object class="ParameterPreset" id="{5183e032-7b39-46ac-a67a-9fd0915bf5da}">
+		<property name="name">
+			<value>whiff</value>
+		</property>
+		<relationship name="folder">
+			<destination>{cd219845-d837-416f-8105-b5e4bb30ffef}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{89ac8928-fdaa-4e6a-958a-9742f3d72452}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{89ac8928-fdaa-4e6a-958a-9742f3d72452}">
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+	</object>
+</objects>

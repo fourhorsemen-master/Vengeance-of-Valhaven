@@ -8,7 +8,7 @@
 			<value>2</value>
 		</property>
 		<relationship name="folder">
-			<destination>{6d6854b6-e71c-49c3-8814-8c0ac752146b}</destination>
+			<destination>{fcc23a74-8abd-476e-b66f-8eb28da6ca6a}</destination>
 		</relationship>
 		<relationship name="mixer">
 			<destination>{a98e9514-bd91-49c9-ab75-ef4b346f8a3c}</destination>
@@ -271,7 +271,7 @@
 	</object>
 	<object class="EventMixerGroup" id="{2bf8ebb5-66b0-460b-b8d2-e0c5c4f48946}">
 		<property name="volume">
-			<value>-13</value>
+			<value>-19.5</value>
 		</property>
 		<property name="name">
 			<value>Dirt</value>
@@ -305,6 +305,9 @@
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{4170b021-22be-49ed-a329-8861ab76e800}">
+		<property name="volume">
+			<value>-10</value>
+		</property>
 		<property name="name">
 			<value>Water</value>
 		</property>
@@ -372,9 +375,6 @@
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{3cfab1d1-0531-482b-a7e2-6c0037436894}">
-		<property name="volume">
-			<value>-2.5</value>
-		</property>
 		<property name="name">
 			<value>Stab</value>
 		</property>
@@ -436,7 +436,7 @@
 			<value>volume</value>
 		</property>
 		<property name="amount">
-			<value>2.39999986</value>
+			<value>7.20000029</value>
 		</property>
 	</object>
 	<object class="RandomizerModulator" id="{02b7ec28-a693-48d0-97ab-9e068ddccdb6}">
@@ -941,7 +941,7 @@
 			<value>0.12466124661246612</value>
 		</property>
 		<property name="value">
-			<value>-30</value>
+			<value>-48</value>
 		</property>
 	</object>
 	<object class="AutomationPoint" id="{51285d67-3a71-4871-964a-1b73081e7271}">
@@ -965,7 +965,7 @@
 			<value>2.7913279132791327</value>
 		</property>
 		<property name="value">
-			<value>-23</value>
+			<value>-42</value>
 		</property>
 	</object>
 	<object class="AutomationPoint" id="{723fbf34-c586-4508-88d2-589818ebec0e}">
@@ -973,7 +973,7 @@
 			<value>3.2140921409214092</value>
 		</property>
 		<property name="value">
-			<value>-23</value>
+			<value>-36</value>
 		</property>
 	</object>
 	<object class="AutomationPoint" id="{7f6f1768-57cb-4639-8a07-b2e19422362f}">
@@ -981,7 +981,7 @@
 			<value>2.8401084010840107</value>
 		</property>
 		<property name="value">
-			<value>6</value>
+			<value>-9</value>
 		</property>
 	</object>
 	<object class="AutomationPoint" id="{0b550b47-6f4f-4b7f-a45f-7d58a5a90936}">
@@ -989,7 +989,7 @@
 			<value>3.1327913279132793</value>
 		</property>
 		<property name="value">
-			<value>6</value>
+			<value>-9</value>
 		</property>
 	</object>
 </objects>
