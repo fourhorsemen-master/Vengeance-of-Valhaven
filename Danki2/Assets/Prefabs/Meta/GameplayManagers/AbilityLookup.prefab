@@ -134,7 +134,7 @@ MonoBehaviour:
         _keys: []
         _values: []
       rarity: 1
-      playerCanCast: 1
+      playerCanCast: 0
       finisher: 0
       channelDuration: 0
     - displayName: Bite
@@ -393,7 +393,7 @@ MonoBehaviour:
           tooltip: Throw an additional 2 knives.
           requiredTreeDepth: 4
       rarity: 0
-      playerCanCast: 1
+      playerCanCast: 0
       finisher: 0
       channelDuration: 0
     - displayName: Hamstring
@@ -514,7 +514,7 @@ MonoBehaviour:
           tooltip: The knives are barbed, causing {BLEED|1}.
           requiredTreeDepth: 3
       rarity: 2
-      playerCanCast: 1
+      playerCanCast: 0
       finisher: 1
       channelDuration: 0
     - displayName: Execute
