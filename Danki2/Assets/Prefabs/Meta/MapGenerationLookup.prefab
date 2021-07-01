@@ -46,7 +46,7 @@ MonoBehaviour:
   abilityChoices: 3
   runeSockets: 3
   leftStartingAbility: 0
-  rightStartingAbility: 7
+  rightStartingAbility: 5
   generatedRoomDepth: 2
   minRoomExits: 1
   maxRoomExits: 3
@@ -72,7 +72,7 @@ MonoBehaviour:
     - ZoneIntroduction
     _values:
     - availableInPool: 1
-      weights: 010000000200000004000000060000000a000000
+      weights: 0100000002000000030000000400000005000000
     - availableInPool: 0
       weights: 
     - availableInPool: 0
@@ -82,11 +82,11 @@ MonoBehaviour:
     - availableInPool: 0
       weights: 
     - availableInPool: 1
-      weights: 00000000000000000100000002000000
+      weights: 000000000100000002000000030000000400000005000000
     - availableInPool: 1
-      weights: 00000000000000000100000002000000
+      weights: 00000000010000000200000003000000030000000400000005000000
     - availableInPool: 1
-      weights: 0000000000000000000000000100000002000000
+      weights: 00000000000000000100000002000000030000000400000005000000
     - availableInPool: 0
       weights: 
   spawnedEnemiesPerDepthLookup:

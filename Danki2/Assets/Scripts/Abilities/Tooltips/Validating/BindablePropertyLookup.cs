@@ -15,25 +15,8 @@ public static class BindablePropertyLookup
             {BindableProperty.Bleed, "BLEED"},
             {BindableProperty.Poison, "POISON"},
             {BindableProperty.Vulnerable, "VULNERABLE"},
-            {BindableProperty.BleedInfo, "BLEED_INFO"},
         };
     private static readonly Dictionary<string, BindableProperty> stringToBindableProperty = new Dictionary<string, BindableProperty>();
-
-    private static readonly Dictionary<BindableProperty, bool> argumentRequirementLookup =
-        new Dictionary<BindableProperty, bool>
-        {
-            {BindableProperty.PrimaryDamage, false},
-            {BindableProperty.SecondaryDamage, false},
-            {BindableProperty.Heal, false},
-            {BindableProperty.Shield, false},
-            {BindableProperty.Stun, false},
-            {BindableProperty.Slow, false},
-            {BindableProperty.Block, false},
-            {BindableProperty.Bleed, true},
-            {BindableProperty.Poison, false},
-            {BindableProperty.Vulnerable, true},
-            {BindableProperty.BleedInfo, false},
-        };
 
     static BindablePropertyLookup()
     {
@@ -51,10 +34,5 @@ public static class BindablePropertyLookup
     public static BindableProperty FromString(string value)
     {
         return stringToBindableProperty[value];
-    }
-
-    public static bool RequiresArgument(BindableProperty bindableProperty)
-    {
-        return argumentRequirementLookup[bindableProperty];
     }
 }

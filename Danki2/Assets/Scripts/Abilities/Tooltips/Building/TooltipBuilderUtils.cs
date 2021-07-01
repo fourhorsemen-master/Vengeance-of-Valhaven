@@ -11,8 +11,7 @@ public static class TooltipBuilderUtils
         TemplatedTooltipSegmentType.Block,
         TemplatedTooltipSegmentType.Bleed,
         TemplatedTooltipSegmentType.Poison,
-        TemplatedTooltipSegmentType.Vulnerable,
-        TemplatedTooltipSegmentType.BleedInfo,
+        TemplatedTooltipSegmentType.Vulnerable
     };
     
     /// <summary>
@@ -29,34 +28,24 @@ public static class TooltipBuilderUtils
     /// </summary>
     public static TooltipSegment GetTooltipSegment(TemplatedTooltipSegment templatedTooltipSegment)
     {
-        switch (templatedTooltipSegment.Type)
+        return templatedTooltipSegment.Type switch
         {
-            case TemplatedTooltipSegmentType.Text:
-                return new TooltipSegment(TooltipSegmentType.Text, templatedTooltipSegment.Value);
-            
-            case TemplatedTooltipSegmentType.Stun:
-                return new TooltipSegment(TooltipSegmentType.BoldText, "Stun");
+            TemplatedTooltipSegmentType.Text => new TooltipSegment(TooltipSegmentType.Text, templatedTooltipSegment.Value),
+            TemplatedTooltipSegmentType.Heal => new TooltipSegment(TooltipSegmentType.BoldText, "Heal"),
+            TemplatedTooltipSegmentType.Stun => new TooltipSegment(TooltipSegmentType.BoldText, "Stun"),
+            TemplatedTooltipSegmentType.Slow => new TooltipSegment(TooltipSegmentType.BoldText, "Slow"),
+            TemplatedTooltipSegmentType.Block => new TooltipSegment(TooltipSegmentType.BoldText, "Block"),
+            TemplatedTooltipSegmentType.Bleed => new TooltipSegment(TooltipSegmentType.BoldText, "Bleed" + ArgumentAsMultiplier(templatedTooltipSegment)),
+            TemplatedTooltipSegmentType.Poison => new TooltipSegment(TooltipSegmentType.BoldText, "Poison"),
+            TemplatedTooltipSegmentType.Vulnerable => new TooltipSegment(TooltipSegmentType.BoldText, "Vulnerable" + ArgumentAsMultiplier(templatedTooltipSegment)),
+            _ => throw new ArgumentOutOfRangeException()
+        };
+    }
 
-            case TemplatedTooltipSegmentType.Slow:
-                return new TooltipSegment(TooltipSegmentType.BoldText, "Slow");
-            
-            case TemplatedTooltipSegmentType.Block:
-                return new TooltipSegment(TooltipSegmentType.BoldText, "Block");
-            
-            case TemplatedTooltipSegmentType.Bleed:
-                return new TooltipSegment(TooltipSegmentType.BoldText, $"Bleed x{templatedTooltipSegment.Value}");
-            
-            case TemplatedTooltipSegmentType.Poison:
-                return new TooltipSegment(TooltipSegmentType.BoldText, "Poison");
-            
-            case TemplatedTooltipSegmentType.Vulnerable:
-                return new TooltipSegment(TooltipSegmentType.BoldText, $"Vulnerable x{templatedTooltipSegment.Value}");
-            
-            case TemplatedTooltipSegmentType.BleedInfo:
-                return new TooltipSegment(TooltipSegmentType.BoldText, "Bleed");
-
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
+    private static string ArgumentAsMultiplier(TemplatedTooltipSegment templatedTooltipSegment)
+    {
+        return string.IsNullOrEmpty(templatedTooltipSegment.Value)
+            ? ""
+            : $" x{ templatedTooltipSegment.Value }";
     }
 }

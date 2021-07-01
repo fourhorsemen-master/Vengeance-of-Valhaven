@@ -19,7 +19,7 @@ public class mpfxFade : MPFXBehaviour
 		MPFXContextFade castedContext = (MPFXContextFade)context;
 		castedContext.mpfxMat = castedContext.graphic.GetComponent<MeshRenderer>().material;
 		castedContext.originalColour = castedContext.mpfxMat.GetColor(ModularPFXComponent.ColourKeyString);
-		GetEndTimeFromCurve(curve, out castedContext.endTime);
+		castedContext.endTime = AnimationCurveUtils.GetEndTime(curve);
 		UpdateOpacity(castedContext);
 	}
 

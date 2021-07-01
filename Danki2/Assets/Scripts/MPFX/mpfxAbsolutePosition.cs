@@ -10,7 +10,7 @@ public class mpfxAbsolutePosition : MPFXBehaviour
     public override void SetUp(MPFXContext context, GameObject inGraphic)
     {
         base.SetUp(context, inGraphic);
-        GetEndTimeFromCurveArray(curves, out context.endTime);
+        context.endTime = AnimationCurveUtils.GetEndTime(curves);
     }
 
     protected override void UpdateInternal(MPFXContext context)

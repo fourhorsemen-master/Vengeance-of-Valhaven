@@ -3,7 +3,7 @@
 [Ability(AbilityReference.Cleave)]
 public class Cleave : InstantCast
 {
-    private const float Range = 4f;
+    private const float Range = 3f;
     private const float PauseDuration = 0.75f;
     private const float KnockBackDuration = 0.3f;
     private const float KnockBackSpeed = 8f;
