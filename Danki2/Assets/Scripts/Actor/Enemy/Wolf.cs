@@ -11,6 +11,14 @@ public class Wolf : Enemy
     [SerializeField] private float biteRange = 0f;
     [SerializeField] private float bitePauseDuration = 0f;
 
+    [Header("Pounce")]
+    [SerializeField] private int pounceDamage = 0;
+    [SerializeField] private float pounceMinMovementDuration = 0f;
+    [SerializeField] private float pounceMaxMovementDuration = 0f;
+    [SerializeField] private float pounceSpeedMultiplier = 0f;
+    [SerializeField] private float pounceDamageRage = 0f;
+    [SerializeField] private float pouncePauseDuration = 0f;
+
     public override ActorType Type => ActorType.Wolf;
 
     public Subject OnHowl { get; } = new Subject();
@@ -48,13 +56,41 @@ public class Wolf : Enemy
         OnBite.Next();
     }
 
-    public void Pounce(Actor target)
+    public void Pounce(Vector3 targetPosition)
     {
-        InstantCastService.TryCast(
-            AbilityReference.Pounce,
-            GetPounceTargetPosition(transform.position, target.transform.position),
-            GetPounceTargetPosition(Centre, target.Centre)
+        Vector3 position = transform.position;
+        Vector3 direction = targetPosition - position;
+
+        float distance = Vector3.Distance(targetPosition, position);
+        float pounceSpeed = StatsManager.Get(Stat.Speed) * pounceSpeedMultiplier;
+        float duration = Mathf.Clamp(distance / pounceSpeed, pounceMinMovementDuration, pounceMaxMovementDuration);
+
+        MovementManager.TryLockMovement(MovementLockType.Dash, duration, pounceSpeed, direction, direction);
+        StartTrail(duration);
+
+        InterruptibleAction(duration, InterruptionType.Hard, HandlePounceLand);
+    }
+
+    private void HandlePounceLand()
+    {
+        Quaternion castRotation = Quaternion.LookRotation(transform.forward);
+        
+        AbilityUtils.TemplateCollision(
+            this,
+            CollisionTemplateShape.Wedge90,
+            pounceDamageRage,
+            CollisionTemplateSource,
+            castRotation,
+            actor =>
+            {
+                actor.HealthManager.ReceiveDamage(pounceDamage, this);
+                CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
+            }
         );
+
+        BiteObject.Create(AbilitySource, castRotation);
+
+        MovementManager.Pause(pouncePauseDuration);
     }
 
     public void Howl()
@@ -62,6 +98,4 @@ public class Wolf : Enemy
         // FMOD_TODO: play howl event here
         OnHowl.Next();
     }
-
-    private Vector3 GetPounceTargetPosition(Vector3 origin, Vector3 target) => target + (origin - target).normalized;
 }
