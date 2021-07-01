@@ -47,7 +47,7 @@ public class RoomNode
     }
 
     /// <summary>
-    /// Returns the distance from the nearest parent that has one of the given room types. If no such parent
+    /// Returns the distance from the nearest parent that either has OR indicataes one of the given room types. If no such parent
     /// exists then -1 is returned.
     /// </summary>
     public int GetDistanceFromPreviousRoomTypes(params RoomType[] roomTypes)
@@ -59,12 +59,28 @@ public class RoomNode
             node =>
             {
                 distance++;
-                if (roomTypes.Contains(node.RoomType)) foundSameRoomType = true;
+
+                bool hasMatchingRoomType = roomTypes.Contains(node.RoomType);
+                bool indicatesMatchingRoomType = node.GetIndicatedRoomTypes().Intersect(roomTypes).Any();
+
+                if (hasMatchingRoomType || (indicatesMatchingRoomType && !node.Equals(Parent)))
+                {
+                    foundSameRoomType = true;
+                }
             },
             node => !foundSameRoomType && !node.Equals(this)
         );
 
         return foundSameRoomType ? distance : -1;
+    }
+
+    public RoomType[] GetIndicatedRoomTypes()
+    {
+        return ExitIdToIndicatesNextRoomType
+            .Where(kvp => kvp.Value)
+            .Select(kvp => ExitIdToChildLookup[kvp.Key].RoomType)
+            .Distinct()
+            .ToArray();
     }
 
     public RoomNode GetRootNode()

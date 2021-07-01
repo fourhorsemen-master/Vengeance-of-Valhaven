@@ -535,15 +535,15 @@ MonoBehaviour:
   centre: {fileID: 1799277828141391130}
   abilitySource: {fileID: 1765111089319286674}
   collisionTemplateSource: {fileID: 3913281348500960943}
-  shortCooldown: 0.7
-  longCooldown: 1.8
-  comboTimeout: 2
+  shortCooldown: 0.5
+  longCooldown: 1.5
+  comboTimeout: 0.35
   feedbackTimeout: 2
   rollResetsCombo: 0
   totalRollCooldown: 1
   rollDuration: 0.2
   rollSpeedMultiplier: 4
-  whiffEvent: event:/AS_Whiff
+  whiffEvent: event:/AS_AbilitySounds/AS_Whiff
 --- !u!114 &-7333941826244338973
 MonoBehaviour:
   m_ObjectHideFlags: 0

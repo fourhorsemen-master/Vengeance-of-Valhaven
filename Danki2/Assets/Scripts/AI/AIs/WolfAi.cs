@@ -24,6 +24,7 @@ public class WolfAi : Ai
 
     [Header("Attack")]
     [SerializeField] private float followDistance = 0;
+    [SerializeField] private float biteRotationSmoothingOverride;
     [SerializeField] private float biteRange = 0;
     [SerializeField] private float biteMaxAngle = 0;
     [SerializeField] private float biteDelay = 0;
@@ -50,8 +51,8 @@ public class WolfAi : Ai
             .WithTransition(PatrolState.RandomMovement, PatrolState.StandStill, new RandomTimeElapsed(minMovementTime, maxMovementTime));
 
         IStateMachineComponent attackStateMachine = new StateMachine<AttackState>(AttackState.InitialReposition)
-            .WithComponent(AttackState.InitialReposition, new MoveTowardsAtDistance(wolf, player, followDistance))
-            .WithComponent(AttackState.Reposition, new MoveTowardsAtDistance(wolf, player, followDistance))
+            .WithComponent(AttackState.InitialReposition, new MoveTowardsAtDistance(wolf, player, followDistance, biteRotationSmoothingOverride))
+            .WithComponent(AttackState.Reposition, new MoveTowardsAtDistance(wolf, player, followDistance, biteRotationSmoothingOverride))
             .WithComponent(AttackState.TelegraphBite, new TelegraphAttack(wolf, Color.red))
             .WithComponent(AttackState.Bite, new WolfBite(wolf))
             .WithComponent(AttackState.TelegraphPounce, new TelegraphAttack(wolf, Color.green))
