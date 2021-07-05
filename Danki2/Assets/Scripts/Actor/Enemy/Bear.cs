@@ -31,6 +31,7 @@ public class Bear : Enemy
     
     public override ActorType Type => ActorType.Bear;
 
+    public Subject ChargeSubject { get; } = new Subject();
     public Subject CleaveSubject { get; } = new Subject();
 
     protected override void Start()
@@ -111,6 +112,7 @@ public class Bear : Enemy
         {
             MovementManager.Pause(chargePauseDuration);
             charging = false;
+            ChargeSubject.Next();
         }
         
         Quaternion castRotation = Quaternion.LookRotation(transform.forward);

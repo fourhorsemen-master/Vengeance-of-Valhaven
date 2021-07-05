@@ -12,7 +12,7 @@
     public void Enter()
     {
         UpdateChannelTarget();
-        bear.Charge();
+        bear.Charge(target);
     }
     public void Exit() { }
     public void Update() => UpdateChannelTarget();
