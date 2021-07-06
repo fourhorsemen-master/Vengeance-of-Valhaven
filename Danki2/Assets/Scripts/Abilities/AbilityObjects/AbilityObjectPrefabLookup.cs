@@ -9,9 +9,6 @@ public class AbilityObjectPrefabLookup : Singleton<AbilityObjectPrefabLookup>
     private BiteObject _biteObjectPrefab = null;
 
     [SerializeField]
-    private PounceObject _pounceObjectPrefab = null;
-
-    [SerializeField]
     private LungeObject _lungeObjectPrefab = null;
 
     [SerializeField]
@@ -60,9 +57,6 @@ public class AbilityObjectPrefabLookup : Singleton<AbilityObjectPrefabLookup>
     private MaulObject _maulObjectPrefab = null;
 
     [SerializeField]
-    private BearChargeObject _bearChargeObjectPrefab = null;
-
-    [SerializeField]
     private CleaveObject _cleaveObjectPrefab = null;
 
     [SerializeField]
@@ -91,7 +85,6 @@ public class AbilityObjectPrefabLookup : Singleton<AbilityObjectPrefabLookup>
 
     public BarbedDaggerObject BarbedDaggerObjectPrefab => _barbedDaggerObjectPrefab;
     public BiteObject BiteObjectPrefab => _biteObjectPrefab;
-    public PounceObject PounceObjectPrefab => _pounceObjectPrefab;
     public LungeObject LungeObjectPrefab => _lungeObjectPrefab;
     public SmashObject SmashObjectPrefab => _smashObjectPrefab;
     public WhirlwindObject WhirlwindObjectPrefab => _whirlwindObjectPrefab;
@@ -108,7 +101,6 @@ public class AbilityObjectPrefabLookup : Singleton<AbilityObjectPrefabLookup>
     public HamstringObject HamstringObjectPrefab => _hamstringObjectPrefab;
     public SwipeObject SwipeObjectPrefab => _swipeObjectPrefab;
     public MaulObject MaulObjectPrefab => _maulObjectPrefab;
-    public BearChargeObject BearChargeObjectPrefab => _bearChargeObjectPrefab;
     public CleaveObject CleaveObjectPrefab => _cleaveObjectPrefab;
     public ExecuteObject ExecuteObjectPrefab => _executeObjectPrefab;
     public ReflectObject ReflectObjectPrefab => _reflectObjectPrefab;
