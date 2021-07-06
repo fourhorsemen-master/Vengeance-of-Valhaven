@@ -22,6 +22,13 @@ public class Wraith : Enemy
     [SerializeField] private float guidedOrbRotationSpeed = 0;
     [SerializeField] private float guidedOrbRange = 0;
     
+    [Header("Swipe")]
+    [SerializeField] private int swipeDamage = 0;
+    [SerializeField] private float swipeMovementSpeedMultiplier = 0;
+    [SerializeField] private float swipeMovementDuration = 0;
+    [SerializeField] private float swipePauseDuration = 0;
+    [SerializeField] private float swipeRange = 0;
+    
     public Subject SwipeSubject { get; } = new Subject();
 
     public override ActorType Type => ActorType.Wraith;
@@ -87,12 +94,45 @@ public class Wraith : Enemy
 
     public void Swipe()
     {
-        InstantCastService.TryCast(
-            AbilityReference.WraithSwipe,
-            GetMeleeTargetPosition(transform.position),
-            GetMeleeTargetPosition(Centre)
+        Vector3 castDirection = transform.forward;
+        float lungeSpeed = StatsManager.Get(Stat.Speed) * swipeMovementSpeedMultiplier;
+
+        MovementManager.TryLockMovement(
+            MovementLockType.Dash,
+            swipeMovementDuration,
+            lungeSpeed,
+            castDirection,
+            castDirection
         );
+
+        StartTrail(swipeMovementDuration + swipePauseDuration);
+
+        this.WaitAndAct(swipeMovementDuration, () => SwipeDamageOnLand(castDirection));
+
         SwipeSubject.Next();
+    }
+
+    private void SwipeDamageOnLand(Vector3 castDirection)
+    {
+        Quaternion castRotation = AbilityUtils.GetMeleeCastRotation(castDirection);
+
+        AbilityUtils.TemplateCollision(
+            this,
+            CollisionTemplateShape.Wedge90,
+            swipeRange,
+            CollisionTemplateSource,
+            castRotation,
+            actor =>
+            {
+                actor.HealthManager.ReceiveDamage(swipeDamage, this);
+                CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
+            },
+            CollisionSoundLevel.Low
+        );
+
+        WraithSwipeObject.Create(AbilitySource, castRotation);
+        
+        MovementManager.Pause(swipePauseDuration);
     }
 
     public void TelegraphBlink()
