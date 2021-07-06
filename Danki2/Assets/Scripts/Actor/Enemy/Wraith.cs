@@ -143,10 +143,6 @@ public class Wraith : Enemy
     
     public void Blink(Vector3 target)
     {
-        InstantCastService.TryCast(
-            AbilityReference.Blink,
-            target,
-            target + Height * Vector3.up
-        );
+        transform.position = target;
     }
 }
