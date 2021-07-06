@@ -32,6 +32,13 @@ public class Bear : Enemy
     [SerializeField] private float maulBiteRange = 0;
     [SerializeField] private float maulSlowDuration = 0;
     
+    [Header("Cleave")]
+    [SerializeField] private int cleaveDamage = 0;
+    [SerializeField] private float cleaveRange = 0;
+    [SerializeField] private float cleavePauseDuration = 0;
+    [SerializeField] private float cleaveKnockBackDuration = 0;
+    [SerializeField] private float cleaveKnockBackSpeed = 0;
+    
     private Actor chargeTarget = null;
     private Vector3 chargeDirection;
     private bool charging = false;
@@ -193,13 +200,49 @@ public class Bear : Enemy
 
     public void Cleave()
     {
-        InstantCastService.TryCast(
-            AbilityReference.Cleave,
-            GetMeleeTargetPosition(transform.position),
-            GetMeleeTargetPosition(Centre)
+        // InstantCastService.TryCast(
+        //     AbilityReference.Cleave,
+        //     GetMeleeTargetPosition(transform.position),
+        //     GetMeleeTargetPosition(Centre)
+        // );
+        Vector3 forward = transform.forward;
+        Vector3 castDirection = forward;
+        Quaternion castRotation = AbilityUtils.GetMeleeCastRotation(castDirection);
+
+        CleaveObject.Create(AbilitySource, castRotation);
+
+        AbilityUtils.TemplateCollision(
+            this,
+            CollisionTemplateShape.Wedge180,
+            cleaveRange,
+            CollisionTemplateSource,
+            castRotation,
+            actor =>
+            {
+                actor.HealthManager.ReceiveDamage(cleaveDamage, this);
+                MaulKnockBack(actor);
+                CustomCamera.Instance.AddShake(ShakeIntensity.High);
+            }
         );
 
+        MovementManager.LookAt(transform.position + forward);
+        MovementManager.Pause(cleavePauseDuration);
+
         CleaveSubject.Next();
+    }
+    
+    private void MaulKnockBack(Actor actor)
+    {
+        Vector3 knockBackDirection = actor.transform.position - transform.position;
+        Vector3 knockBackFaceDirection = actor.transform.forward;
+
+        actor.MovementManager.TryLockMovement(
+            MovementLockType.Knockback,
+            cleaveKnockBackDuration,
+            cleaveKnockBackSpeed,
+            knockBackDirection,
+            knockBackFaceDirection
+        );
     }
 
     private void Roar()
