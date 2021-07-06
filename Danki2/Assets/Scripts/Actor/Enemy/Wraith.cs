@@ -15,6 +15,13 @@ public class Wraith : Enemy
     [SerializeField] private float spineInterval = 0;
     [SerializeField] private float spinePauseDuration = 0;
     
+    [Header("Guided Orb")]
+    [SerializeField] private int guidedOrbDamage = 0;
+    [SerializeField] private float guidedOrbMaxDuration = 0;
+    [SerializeField] private float guidedOrbSpeed = 0;
+    [SerializeField] private float guidedOrbRotationSpeed = 0;
+    [SerializeField] private float guidedOrbRange = 0;
+    
     public Subject SwipeSubject { get; } = new Subject();
 
     public override ActorType Type => ActorType.Wraith;
@@ -50,12 +57,32 @@ public class Wraith : Enemy
 
     public void GuidedOrb(Actor target)
     {
-        InstantCastService.TryCast(
-            AbilityReference.GuidedOrb,
-            target.transform.position,
-            target.Centre,
-            target
+        GuidedOrbObject.Fire(
+            guidedOrbMaxDuration,
+            guidedOrbSpeed,
+            guidedOrbRotationSpeed,
+            target.CentreTransform,
+            AbilitySource,
+            HandleGuidedOrbExplosion,
+            DeathSubject
         );
+    }
+
+    private void HandleGuidedOrbExplosion(Vector3 position)
+    {
+        AbilityUtils.TemplateCollision(
+            this,
+            CollisionTemplateShape.Sphere,
+            guidedOrbRange,
+            position,
+            Quaternion.identity,
+            actor =>
+            {
+                actor.HealthManager.ReceiveDamage(guidedOrbDamage, this);
+            }
+        );
+
+        CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
     }
 
     public void Swipe()
