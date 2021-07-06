@@ -9,10 +9,10 @@ public class Bear : Enemy
 
     [Header("Swipe")]
     [SerializeField] private int swipeDamage = 0;
-    [SerializeField] private float swipeDashDuration = 0f;
-    [SerializeField] private float swipeDashSpeedMultiplier = 0f;
-    [SerializeField] private float swipePauseDuration = 0f;
-    [SerializeField] private float swipeDamageRange = 0f;
+    [SerializeField] private float swipeDashDuration = 0;
+    [SerializeField] private float swipeDashSpeedMultiplier = 0;
+    [SerializeField] private float swipePauseDuration = 0;
+    [SerializeField] private float swipeDamageRange = 0;
 
     [Header("Charge")]
     [SerializeField] private int chargeDamage = 0;
@@ -25,6 +25,13 @@ public class Bear : Enemy
     [SerializeField] private float chargeKnockBackDuration = 0;
     [SerializeField] private float chargeKnockBackSpeed = 0;
 
+    [Header("Maul")]
+    [SerializeField] private int maulDamage = 0;
+    [SerializeField] private int maulBiteCount = 0;
+    [SerializeField] private float maulBiteInterval = 0;
+    [SerializeField] private float maulBiteRange = 0;
+    [SerializeField] private float maulSlowDuration = 0;
+    
     private Actor chargeTarget = null;
     private Vector3 chargeDirection;
     private bool charging = false;
@@ -150,11 +157,38 @@ public class Bear : Enemy
 
     public void Maul()
     {
-        InstantCastService.TryCast(
-            AbilityReference.Maul,
-            GetMeleeTargetPosition(transform.position),
-            GetMeleeTargetPosition(Centre)
+        Vector3 floorTargetPosition = transform.position + transform.forward;
+        MovementManager.LookAt(floorTargetPosition);
+        MaulObject maulObject = MaulObject.Create(AbilitySource);
+        this.ActOnInterval(maulBiteInterval, index => HandleMaulBite(index, maulObject), 0, maulBiteCount);
+    }
+
+    private void HandleMaulBite(int index, MaulObject maulObject)
+    {
+        Vector3 forward = transform.forward;
+        Vector3 horizontalDirection = Vector3.Cross(forward, Vector3.up).normalized;
+        int directionMultiplier = index % 2 == 1 ? 1 : -1;
+        Vector3 randomisedCastDirection = forward.normalized + 0.25f * directionMultiplier * horizontalDirection;
+
+        Quaternion castRotation = AbilityUtils.GetMeleeCastRotation(randomisedCastDirection);
+
+        maulObject.Bite(castRotation);
+
+        AbilityUtils.TemplateCollision(
+            this,
+            CollisionTemplateShape.Wedge45,
+            maulBiteRange,
+            CollisionTemplateSource,
+            castRotation,
+            actor =>
+            {
+                actor.HealthManager.ReceiveDamage(maulDamage, this);
+                actor.EffectManager.AddActiveEffect(ActiveEffect.Slow, maulSlowDuration);
+                CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
+            }
         );
+
+        MovementManager.Pause(maulBiteInterval);
     }
 
     public void Cleave()
