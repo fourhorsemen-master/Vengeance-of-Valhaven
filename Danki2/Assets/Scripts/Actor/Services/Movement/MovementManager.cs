@@ -60,12 +60,17 @@ public class MovementManager : IMovementStatusProvider
 
         updateSubject.Subscribe(UpdateMovement);
         movementStatusManager = new MovementStatusManager(updateSubject);
-        movementStatusManager.RegisterProviders(this, actor.ChannelService, new StunHandler(actor));
+        movementStatusManager.RegisterProviders(this, new StunHandler(actor));
     }
 
     public bool Stuns() => movementPaused;
 
     public bool Roots() => false;
+
+    public void RegisterMovementStatusProviders(params IMovementStatusProvider[] providers)
+    {
+        movementStatusManager.RegisterProviders(providers);
+    }
 
     /// <summary>
     /// Path towards the destination using navmesh pathfinding unless rooted, stunned or movement locked.
