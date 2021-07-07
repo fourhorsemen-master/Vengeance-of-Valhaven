@@ -22,6 +22,8 @@ public class Player : Actor
 
     private bool readyToRoll = true;
 
+    private const float MovementMultiplier = 0.01f;
+
     public float ShortCooldown => shortCooldown;
     public float LongCooldown => longCooldown;
     public float ComboTimeout => comboTimeout;
@@ -71,7 +73,7 @@ public class Player : Actor
         bool rolled = MovementManager.TryLockMovement(
             MovementLockType.Dash,
             rollDuration,
-            StatsManager.Get(Stat.Speed) * rollSpeedMultiplier,
+            StatsManager.Get(Stat.Speed) * rollSpeedMultiplier * MovementMultiplier,
             direction,
             direction
         );

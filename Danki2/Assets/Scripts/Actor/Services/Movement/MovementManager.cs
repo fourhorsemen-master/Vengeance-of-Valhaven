@@ -19,6 +19,8 @@ public class MovementManager : IMovementStatusProvider
     private readonly Actor actor;
     private readonly NavMeshAgent navMeshAgent;
 
+    private const float MovementSpeedMultiplier = 0.01f;
+
     private const float WalkSpeedMultiplier = 0.3f;
     private const float DestinationTolerance = 0.5f;
 
@@ -271,7 +273,7 @@ public class MovementManager : IMovementStatusProvider
 
     private float GetMoveSpeed()
     {
-        float moveSpeed = actor.StatsManager.Get(Stat.Speed);
+        float moveSpeed = actor.StatsManager.Get(Stat.Speed) * MovementSpeedMultiplier;
 
         return MotionType == MotionType.Run
             ? moveSpeed
