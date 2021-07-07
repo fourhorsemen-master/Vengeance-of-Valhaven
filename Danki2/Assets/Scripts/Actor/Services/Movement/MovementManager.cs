@@ -216,7 +216,7 @@ public class MovementManager : IMovementStatusProvider
         if (overrideLock) actor.InterruptionManager.Interrupt(InterruptionType.Hard);
 
         StopPathfinding();
-        movementLockSpeed = speed *MovementSpeedMultiplier;
+        movementLockSpeed = speed * MovementSpeedMultiplier;
         movementLockDirection = direction.normalized;
 
         if (rotation != Vector3.zero) Look(rotation);
