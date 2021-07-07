@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.01.00">
+	<object class="ParameterPreset" id="{d86b1d93-b541-4e0c-af73-b6a222535c73}">
+		<property name="name">
+			<value>genericAttackDialog</value>
+		</property>
+		<relationship name="folder">
+			<destination>{cd219845-d837-416f-8105-b5e4bb30ffef}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{8bf0e228-17d1-45ba-bae1-342624a59d6f}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{8bf0e228-17d1-45ba-bae1-342624a59d6f}">
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+	</object>
+</objects>

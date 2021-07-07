@@ -84,8 +84,8 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      fmodVocalisationEventRef: event:/CS_MedAttack
-      fmodStartEventRef: event:/AS_Slash
+      fmodVocalisationEventRef: event:/CS_CharacterSounds/CS_Dialog_Attack
+      fmodStartEventRef: event:/AS_AbilitySounds/AS_Slash
       fmodEndEventRef: 
       animationType: 1
       abilityBonusLookup:
@@ -126,15 +126,15 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      fmodVocalisationEventRef: event:/CS_SoftAttack
-      fmodStartEventRef: event:/AS_FanOfKnives/AS_FanOfKnives_Draw
-      fmodEndEventRef: event:/AS_FanOfKnives/AS_FanOfKnives_Woosh
+      fmodVocalisationEventRef: event:/CS_CharacterSounds/CS_Dialog_Attack
+      fmodStartEventRef: event:/AS_AbilitySounds/AS_FanOfKnives/AS_FanOfKnives_Draw
+      fmodEndEventRef: event:/AS_AbilitySounds/AS_FanOfKnives/AS_FanOfKnives_Woosh
       animationType: 0
       abilityBonusLookup:
         _keys: []
         _values: []
       rarity: 1
-      playerCanCast: 1
+      playerCanCast: 0
       finisher: 0
       channelDuration: 0
     - displayName: Bite
@@ -199,9 +199,9 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      fmodVocalisationEventRef: event:/CS_MedAttack
-      fmodStartEventRef: event:/AS_Smash/AS_Smash_Draw
-      fmodEndEventRef: event:/AS_Smash/AS_Smash_Impact
+      fmodVocalisationEventRef: event:/CS_CharacterSounds/CS_Dialog_Attack
+      fmodStartEventRef: event:/AS_AbilitySounds/AS_Smash/AS_Smash_Draw
+      fmodEndEventRef: event:/AS_AbilitySounds/AS_Smash/AS_Smash_Impact
       animationType: 4
       abilityBonusLookup:
         _keys:
@@ -229,7 +229,7 @@ MonoBehaviour:
         _keys: []
         _values: []
       rarity: 0
-      playerCanCast: 1
+      playerCanCast: 0
       finisher: 0
       channelDuration: 0.5
     - displayName: Sweeping Strike
@@ -248,7 +248,7 @@ MonoBehaviour:
         _keys: []
         _values: []
       rarity: 1
-      playerCanCast: 1
+      playerCanCast: 0
       finisher: 0
       channelDuration: 0
     - displayName: Grappling Hook
@@ -334,7 +334,7 @@ MonoBehaviour:
         _keys: []
         _values: []
       rarity: 2
-      playerCanCast: 1
+      playerCanCast: 0
       finisher: 0
       channelDuration: 1
     - displayName: Rend
@@ -354,7 +354,7 @@ MonoBehaviour:
       rarity: 0
       playerCanCast: 1
       finisher: 0
-      channelDuration: 1
+      channelDuration: 0.5
     - displayName: Disengage
       tooltip: Deal {PRIMARY_DAMAGE} damage then leap backwards.
       baseAbilityData:
@@ -381,9 +381,9 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      fmodVocalisationEventRef: event:/CS_SoftAttack
-      fmodStartEventRef: event:/AS_FanOfKnives/AS_FanOfKnives_Draw
-      fmodEndEventRef: event:/AS_FanOfKnives/AS_FanOfKnives_Woosh
+      fmodVocalisationEventRef: event:/CS_CharacterSounds/CS_Dialog_Attack
+      fmodStartEventRef: event:/AS_AbilitySounds/AS_FanOfKnives/AS_FanOfKnives_Draw
+      fmodEndEventRef: event:/AS_AbilitySounds/AS_FanOfKnives/AS_FanOfKnives_Woosh
       animationType: 0
       abilityBonusLookup:
         _keys:
@@ -393,7 +393,7 @@ MonoBehaviour:
           tooltip: Throw an additional 2 knives.
           requiredTreeDepth: 4
       rarity: 0
-      playerCanCast: 1
+      playerCanCast: 0
       finisher: 0
       channelDuration: 0
     - displayName: Hamstring
@@ -498,9 +498,9 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      fmodVocalisationEventRef: event:/CS_MedAttack
-      fmodStartEventRef: event:/AS_FanOfKnives/AS_FanOfKnives_Draw
-      fmodEndEventRef: event:/AS_FanOfKnives/AS_FanOfKnives_Woosh
+      fmodVocalisationEventRef: event:/CS_CharacterSounds/CS_Dialog_Attack
+      fmodStartEventRef: event:/AS_AbilitySounds/AS_FanOfKnives/AS_FanOfKnives_Draw
+      fmodEndEventRef: event:/AS_AbilitySounds/AS_FanOfKnives/AS_FanOfKnives_Woosh
       animationType: 0
       abilityBonusLookup:
         _keys:
@@ -514,7 +514,7 @@ MonoBehaviour:
           tooltip: The knives are barbed, causing {BLEED|1}.
           requiredTreeDepth: 3
       rarity: 2
-      playerCanCast: 1
+      playerCanCast: 0
       finisher: 1
       channelDuration: 0
     - displayName: Execute
@@ -560,7 +560,7 @@ MonoBehaviour:
         _keys: []
         _values: []
       rarity: 1
-      playerCanCast: 1
+      playerCanCast: 0
       finisher: 0
       channelDuration: 2
     - displayName: Poison Stab
@@ -667,7 +667,7 @@ MonoBehaviour:
       tooltip: Projectile that deals {PRIMARY_DAMAGE} damage on impact and applies
         a {SLOW}.
       baseAbilityData:
-        primaryDamage: 4
+        primaryDamage: 2
         secondaryDamage: 0
         heal: 0
         shield: 0

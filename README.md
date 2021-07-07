@@ -71,7 +71,7 @@ To create a new scene:
   - Enemy spawners,
   - Props,
   - Etc...
-- Add a terrain as a child of Room and call it "Floor", you'll probably want to make it a lot smaller and raise it up using the "Set Height" tool so that you have room for sunken terrain. Be sure to set the layer to "Floor", if adding water then set the water's layer to "Water",
+- Add a terrain as a child of Room and call it "Floor", you'll probably want to make it a lot smaller and raise it up using the "Set Height" tool so that you have room for sunken terrain. Be sure to set the layer to "Floor", if adding water then set the water's layer to "Water". Make sure that the "Rendering Layer Mask" is set to include the "Light Layer Default" and the "Decal Layer Default", otherwise decals won't appear on the terrain,
 - Adding the terrain will have created a new terrain asset in the root of the "Assets" folder. Rename this to "\<your-scene-name\>_TerrainData" and move it into your scenes folder,
 - Bake the navmesh and save (Ctrl+S),
 - This is a good time to make a commit, as you have all of the new files required for a new scene,

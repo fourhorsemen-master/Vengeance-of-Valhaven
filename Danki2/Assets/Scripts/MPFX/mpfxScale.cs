@@ -10,7 +10,7 @@ public class mpfxScale : MPFXBehaviour
 	public override void SetUp(MPFXContext context, GameObject inGraphic)
 	{
 		base.SetUp(context, inGraphic);
-		GetEndTimeFromCurve(curve, out context.endTime);
+		context.endTime = AnimationCurveUtils.GetEndTime(curve);
 		context.graphic.transform.localScale = Vector3.one * curve.Evaluate(0f);
 	}
 

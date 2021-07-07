@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 244325425120833063}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.5, z: 1}
+  m_LocalPosition: {x: 0, y: 2.5, z: 1.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4556151783360530995}
@@ -417,7 +417,7 @@ MonoBehaviour:
     - Power
     - Defence
     - Recovery
-    _values: 2300000001000000000000000000000000000000
+    _values: 5000000001000000000000000000000000000000
   navmeshAgent: {fileID: 1307004630582523634}
   trailRenderer: {fileID: 4564750321355086747}
   meshRenderers:
@@ -447,20 +447,18 @@ MonoBehaviour:
   aggroRange: 12
   rangedAttackStateRange: 8
   rangedAttackStateTolerance: 2
-  meleeAttackStateRange: 3
-  meleeAttackStateTolerance: 2
   spineDelay: 2
   guidedOrbDelay: 2
-  swipeRotationSmoothingOverride: 0.03
-  swipeRange: 2
-  maxSwipeAngle: 10
+  swipeRotationSmoothingOverride: 0.2
+  swipeRange: 3
+  maxSwipeAngle: 25
   swipeDelay: 0.5
   forcedBlinkMinTime: 10
   forcedBlinkMaxTime: 15
   meleeAttacksBeforeBlinking: 3
-  blinkDelay: 2
+  blinkDelay: 2.5
   minBlinkDistance: 8
-  maxBlinkDistance: 10
+  maxBlinkDistance: 9
 --- !u!195 &1307004630582523634
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -570,7 +568,7 @@ VisualEffect:
       - m_Value: 0.5
         m_Name: Lifetime
         m_Overridden: 1
-      - m_Value: 1.5
+      - m_Value: 2
         m_Name: SpawnDuration
         m_Overridden: 1
       - m_Value: 3
