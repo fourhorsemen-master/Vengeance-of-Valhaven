@@ -126,7 +126,14 @@ public class MovementManager : IMovementStatusProvider
 
         if (Rooted) return;
 
-        if (speed == null) speed = GetMoveSpeed();
+        if (speed == null)
+        {
+            speed = GetMoveSpeed();
+        }
+        else
+        {
+            speed *= MovementSpeedMultiplier;
+        }
 
         navMeshAgent.Move(direction.normalized * (Time.deltaTime * speed.Value));
         movedThisFrame = true;
@@ -209,7 +216,7 @@ public class MovementManager : IMovementStatusProvider
         if (overrideLock) actor.InterruptionManager.Interrupt(InterruptionType.Hard);
 
         StopPathfinding();
-        movementLockSpeed = speed;
+        movementLockSpeed = speed *MovementSpeedMultiplier;
         movementLockDirection = direction.normalized;
 
         if (rotation != Vector3.zero) Look(rotation);
