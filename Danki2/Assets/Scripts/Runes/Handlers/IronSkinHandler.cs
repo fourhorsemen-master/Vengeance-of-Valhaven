@@ -1,6 +1,6 @@
 ﻿public class IronSkinHandler : IStatPipe
 {
-    private const int HealthBonus = 20;
+    private const int HealthBonus = 10;
 
     private readonly RuneManager runeManager;
     
