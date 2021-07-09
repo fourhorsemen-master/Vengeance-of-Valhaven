@@ -19,8 +19,6 @@ public class MovementManager : IMovementStatusProvider
     private readonly Actor actor;
     private readonly NavMeshAgent navMeshAgent;
 
-    private const float MovementSpeedMultiplier = 0.01f;
-
     private const float WalkSpeedMultiplier = 0.3f;
     private const float DestinationTolerance = 0.5f;
 
@@ -126,14 +124,7 @@ public class MovementManager : IMovementStatusProvider
 
         if (Rooted) return;
 
-        if (speed == null)
-        {
-            speed = GetMoveSpeed();
-        }
-        else
-        {
-            speed *= MovementSpeedMultiplier;
-        }
+        if (speed == null) speed = GetMoveSpeed();
 
         navMeshAgent.Move(direction.normalized * (Time.deltaTime * speed.Value));
         movedThisFrame = true;
@@ -216,7 +207,7 @@ public class MovementManager : IMovementStatusProvider
         if (overrideLock) actor.InterruptionManager.Interrupt(InterruptionType.Hard);
 
         StopPathfinding();
-        movementLockSpeed = speed * MovementSpeedMultiplier;
+        movementLockSpeed = speed;
         movementLockDirection = direction.normalized;
 
         if (rotation != Vector3.zero) Look(rotation);
@@ -280,7 +271,7 @@ public class MovementManager : IMovementStatusProvider
 
     private float GetMoveSpeed()
     {
-        float moveSpeed = actor.StatsManager.Get(Stat.Speed) * MovementSpeedMultiplier;
+        float moveSpeed = actor.StatsManager.Get(Stat.Speed);
 
         return MotionType == MotionType.Run
             ? moveSpeed
