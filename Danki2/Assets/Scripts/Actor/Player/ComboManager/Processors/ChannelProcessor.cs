@@ -27,7 +27,7 @@
         // Check if the channel has ended naturally
         if (!player.ChannelService.Active)
         {
-            nextState = ComboState.ContinueCombo;
+            nextState = ComboState.FinishAbility;
             return true;
         }
 
@@ -44,7 +44,7 @@
         if (castingCommand == CastingCommand.CancelChannel)
         {
             player.ChannelService.CancelChannel();
-            nextState = ComboState.ContinueCombo;
+            nextState = ComboState.FinishAbility;
             return true;
         }
 

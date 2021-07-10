@@ -47,8 +47,6 @@ public class Reflect : Channel
 
         if (damageSourceInRange)
         {
-            SuccessFeedbackSubject.Next(true);
-
             onReflect.Next();
             DealPrimaryDamage(damageData.Source, damageData.Damage);
         }
@@ -60,6 +58,5 @@ public class Reflect : Channel
     {
         reflectObject.Destroy();
         Owner.HealthManager.DeregisterDamagePipe(damagePipeId);
-        SuccessFeedbackSubject.Next(false);
     }
 }

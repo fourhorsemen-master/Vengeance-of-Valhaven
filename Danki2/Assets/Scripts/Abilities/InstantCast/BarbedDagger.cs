@@ -39,17 +39,11 @@ public class BarbedDagger : InstantCast
         {
             if (!actor.Opposes(Owner))
             {
-                SuccessFeedbackSubject.Next(false);
                 return;
             }
 
             DealPrimaryDamage(actor);
             actor.EffectManager.AddStack(StackingEffect.Bleed);
-            SuccessFeedbackSubject.Next(true);
-        }
-        else
-        {
-            SuccessFeedbackSubject.Next(false);
         }
     }
 }

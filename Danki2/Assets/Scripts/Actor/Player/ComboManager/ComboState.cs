@@ -3,10 +3,10 @@
     ReadyAtRoot,
     ReadyInCombo,
     Channeling,
-    Whiff,
-    CompleteCombo,
-    FailCombo,
+    FinishAbility,
     ContinueCombo,
+    ShortCooldown,
+    CompleteCombo,
     LongCooldown,
-    ShortCooldown
+    Whiff
 }

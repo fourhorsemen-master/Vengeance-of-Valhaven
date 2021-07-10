@@ -18,23 +18,14 @@ public class GrapplingHook : InstantCast
         Owner.MovementManager.LookAt(offsetTargetPosition);
         Owner.MovementManager.Pause(range / hookSpeed);
 
-        GrapplingHookObject.Fire(Owner, OnCollision, MissCallback, hookSpeed, Owner.AbilitySource, rotation, range);
-    }
-
-    private void MissCallback()
-    {
-        SuccessFeedbackSubject.Next(false);
+        GrapplingHookObject.Fire(Owner, OnCollision, hookSpeed, Owner.AbilitySource, rotation, range);
     }
 
     private void OnCollision(GameObject gameObject)
     {
         if (ActorCache.Instance.TryGetActor(gameObject, out Actor actor))
         {
-            if (!actor.Opposes(Owner))
-            {
-                SuccessFeedbackSubject.Next(false);
-                return;
-            }
+            if (!actor.Opposes(Owner)) return;
             
             float distanceFromOwner = Vector3.Distance(actor.transform.position, Owner.transform.position);
 
@@ -54,13 +45,7 @@ public class GrapplingHook : InstantCast
 
             actor.WaitAndAct(pullDuration, () => actor.EffectManager.AddActiveEffect(ActiveEffect.Stun, stunDuration));
 
-            SuccessFeedbackSubject.Next(true);
-
             CustomCamera.Instance.AddShake(ShakeIntensity.Low);
-        }
-        else
-        {
-            SuccessFeedbackSubject.Next(false);
         }
 
     }

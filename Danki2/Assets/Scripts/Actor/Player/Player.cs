@@ -51,16 +51,6 @@ public class Player : Actor
         ChannelService = new ChannelService(this, startSubject, lateUpdateSubject);
         InstantCastService = new InstantCastService(this);
 
-        InstantCastService.SetFeedbackTimeout(feedbackTimeout);
-        ChannelService.SetFeedbackTimeout(feedbackTimeout);
-
-        InstantCastService.FeedbackSubject.Subscribe(feedback => AbilityFeedbackSubject.Next(feedback));
-        ChannelService.FeedbackSubject.Subscribe(feedback => AbilityFeedbackSubject.Next(feedback));
-
-        AbilityFeedbackSubject.Subscribe(feedback => FeedbackSinceLastCast = feedback ? FeedbackStatus.Succeeded : FeedbackStatus.Failed);
-        ComboManager.SubscribeToStateEntry(ComboState.ReadyAtRoot, () => FeedbackSinceLastCast = FeedbackStatus.Waiting);
-        ComboManager.SubscribeToStateEntry(ComboState.ReadyInCombo, () => FeedbackSinceLastCast = FeedbackStatus.Waiting);
-
         AbilityDataStatsDiffer abilityDataStatsDiffer = new AbilityDataStatsDiffer(this);
         RegisterAbilityDataDiffer(abilityDataStatsDiffer);
 

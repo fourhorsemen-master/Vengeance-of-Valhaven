@@ -29,8 +29,6 @@ public class Eviscerate : InstantCast
             CollisionSoundLevel.Low
         );
 
-        SuccessFeedbackSubject.Next(hasDealtDamage);
-
         EviscerateObject.Create(Owner.AbilitySource, castRotation);
 
         Owner.MovementManager.LookAt(floorTargetPosition);
