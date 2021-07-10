@@ -595,6 +595,15 @@ MonoBehaviour:
   collisionTemplateSource: {fileID: 3126725177292564709}
   dashDuration: 0.4
   dashSpeed: 9
+  biteDamage: 5
+  biteRange: 2
+  bitePauseDuration: 0.3
+  pounceDamage: 4
+  pounceMinMovementDuration: 0.25
+  pounceMaxMovementDuration: 0.5
+  pounceSpeedMultiplier: 3
+  pounceDamageRage: 2
+  pouncePauseDuration: 0.3
 --- !u!114 &471336020241693269
 MonoBehaviour:
   m_ObjectHideFlags: 0

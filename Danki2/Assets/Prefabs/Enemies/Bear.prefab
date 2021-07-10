@@ -350,6 +350,30 @@ MonoBehaviour:
   abilitySource: {fileID: 2501541229603721505}
   collisionTemplateSource: {fileID: 7496201845270352354}
   roarEvent: event:/SX_InWorldSoundEffects/SX_NPC/SX_NPC_Bear/SX_NPC_Bear_Roar
+  swipeDamage: 6
+  swipeDashDuration: 0.2
+  swipeDashSpeedMultiplier: 1.5
+  swipePauseDuration: 0.3
+  swipeDamageRange: 3
+  chargeDamage: 3
+  chargeSpeed: 5
+  chargeEffectInterval: 0.5
+  chargeEffectRepetitions: 4
+  chargeRotationRate: 0.6
+  chargeDamageRange: 2.5
+  chargePauseDuration: 0.5
+  chargeKnockBackDuration: 0.1
+  chargeKnockBackSpeed: 8
+  maulDamage: 3
+  maulBiteCount: 3
+  maulBiteInterval: 0.5
+  maulBiteRange: 2.5
+  maulSlowDuration: 2
+  cleaveDamage: 10
+  cleaveRange: 3
+  cleavePauseDuration: 0.75
+  cleaveKnockBackDuration: 0.3
+  cleaveKnockBackSpeed: 8
 --- !u!114 &3495619026043065561
 MonoBehaviour:
   m_ObjectHideFlags: 0

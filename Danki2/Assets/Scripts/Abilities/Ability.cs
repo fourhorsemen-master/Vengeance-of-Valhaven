@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using FMODUnity;
 using System.Linq;
 using FMOD.Studio;
 using UnityEngine;
@@ -8,12 +7,6 @@ using System;
 
 public abstract class Ability
 {
-    // Max angle and min vertical angles you can target with melee attacks
-    public const float MaxMeleeVerticalAngle = 30f;
-    public const float MinMeleeVerticalAngle = -30f;
-
-    private const float DefaultCollisionTemplateHeight = 1.5f;
-
     private readonly string fmodVocalisationEvent;
     private readonly string fmodStartEvent;
     private readonly string fmodEndEvent;
@@ -65,30 +58,31 @@ public abstract class Ability
 
     protected Quaternion GetMeleeCastRotation(Vector3 castDirection)
     {
-        Quaternion castRotation = Quaternion.LookRotation(castDirection);
-        float castAngleX = castRotation.eulerAngles.x;
-
-        if (castAngleX > 180f) castAngleX -= 360f;
-
-        float newAngleX = Mathf.Clamp(castAngleX, MinMeleeVerticalAngle, MaxMeleeVerticalAngle);
-
-        return Quaternion.Euler(newAngleX, castRotation.eulerAngles.y, castRotation.eulerAngles.z);
+        return AbilityUtils.GetMeleeCastRotation(castDirection);
     }
 
-    protected void TemplateCollision(CollisionTemplateShape shape, float scale, Vector3 position, Quaternion rotation, Action<Actor> offensiveAction, CollisionSoundLevel? soundLevel = null)
+    protected void TemplateCollision(
+        CollisionTemplateShape shape,
+        float scale,
+        Vector3 position,
+        Quaternion rotation,
+        Action<Actor> offensiveAction,
+        CollisionSoundLevel? soundLevel = null
+    )
     {
-        TemplateCollision(shape, new Vector3(scale, DefaultCollisionTemplateHeight, scale), position, rotation, offensiveAction, soundLevel);
+        AbilityUtils.TemplateCollision(Owner, shape, scale, position, rotation, offensiveAction, soundLevel);
     }
 
-    protected void TemplateCollision(CollisionTemplateShape shape, Vector3 scale, Vector3 position, Quaternion rotation, Action<Actor> offensiveAction, CollisionSoundLevel? soundLevel = null)
+    protected void TemplateCollision(
+        CollisionTemplateShape shape,
+        Vector3 scale,
+        Vector3 position,
+        Quaternion rotation,
+        Action<Actor> offensiveAction,
+        CollisionSoundLevel? soundLevel = null
+    )
     {
-        CollisionTemplate template = CollisionTemplateManager.Instance.Create(Owner, shape, scale, position, rotation);
-
-        template.GetCollidingActors()
-            .Where(actor => Owner.Opposes(actor))
-            .ForEach(offensiveAction);
-
-        if (soundLevel.HasValue) template.PlayCollisionSound(soundLevel.Value);
+        AbilityUtils.TemplateCollision(Owner, shape, scale, position, rotation, offensiveAction, soundLevel);
     }
 
     protected void PlayVocalisationEvent(Vector3? position = null)

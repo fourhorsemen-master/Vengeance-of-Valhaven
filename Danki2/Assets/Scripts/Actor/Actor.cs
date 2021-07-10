@@ -50,8 +50,6 @@ public abstract class Actor : MonoBehaviour
     // Services
     public StatsManager StatsManager { get; private set; }
     public HealthManager HealthManager { get; private set; }
-    public ChannelService ChannelService { get; private set; }
-    public InstantCastService InstantCastService { get; private set; }
     public EffectManager EffectManager { get; private set; }
     public MovementManager MovementManager { get; private set; }
     public InterruptionManager InterruptionManager { get; private set; }
@@ -78,13 +76,8 @@ public abstract class Actor : MonoBehaviour
         EffectManager = new EffectManager(this, updateSubject);
         HealthManager = new HealthManager(this, updateSubject);
         InterruptionManager = new InterruptionManager(this, startSubject, updateSubject);
-        ChannelService = new ChannelService(this, startSubject, lateUpdateSubject);
-        InstantCastService = new InstantCastService(this);
         MovementManager = new MovementManager(this, updateSubject, navmeshAgent);
         HighlightManager = new HighlightManager(updateSubject, meshRenderers);
-
-        AbilityDataStatsDiffer abilityDataStatsDiffer = new AbilityDataStatsDiffer(this);
-        RegisterAbilityDataDiffer(abilityDataStatsDiffer);
 
         Dead = false;
     }
@@ -157,17 +150,5 @@ public abstract class Actor : MonoBehaviour
     {
         DeathSubject.Next();
         Dead = true;
-    }
-
-    protected void RegisterAbilityDataDiffer(IAbilityDataDiffer abilityDataDiffer)
-    {
-        ChannelService.RegisterAbilityDataDiffer(abilityDataDiffer);
-        InstantCastService.RegisterAbilityDataDiffer(abilityDataDiffer);
-    }
-
-    protected void SetAbilityBonusCalculator(IAbilityBonusCalculator abilityBonusCalculator)
-    {
-        ChannelService.SetAbilityBonusCalculator(abilityBonusCalculator);
-        InstantCastService.SetAbilityBonusCalculator(abilityBonusCalculator);
     }
 }

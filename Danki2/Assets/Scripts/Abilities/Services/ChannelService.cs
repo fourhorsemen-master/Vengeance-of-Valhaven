@@ -16,9 +16,9 @@ public class ChannelService : AbilityService, IMovementStatusProvider
 
     private bool HasTarget => Target != null;
 
-    public ChannelService(Actor actor, Subject startSubject, Subject lateUpdateSubject) : base(actor)
+    public ChannelService(Player player, Subject startSubject, Subject lateUpdateSubject) : base(player)
     {
-        startSubject.Subscribe(() => Setup(actor.IsPlayer));
+        startSubject.Subscribe(Setup);
         lateUpdateSubject.Subscribe(TickChannel);
     }
 
@@ -26,10 +26,10 @@ public class ChannelService : AbilityService, IMovementStatusProvider
 
     public bool Roots() => Active && _currentChannel.EffectOnMovement == ChannelEffectOnMovement.Root;
 
-    private void Setup(bool isPlayer)
+    private void Setup()
     {
-        actor.InterruptionManager.Register(
-            isPlayer ? InterruptionType.Soft : InterruptionType.Hard,
+        player.InterruptionManager.Register(
+            InterruptionType.Soft,
             CancelChannel,
             InterruptibleFeature.InterruptOnDeath,
             InterruptibleFeature.Repeat
@@ -38,11 +38,11 @@ public class ChannelService : AbilityService, IMovementStatusProvider
 
     public bool TryStartChannel(AbilityReference abilityReference)
     {
-        if (!actor.CanCast) return false;
+        if (!player.CanCast) return false;
 
         if (!AbilityLookup.Instance.TryGetChannel(
             abilityReference,
-            actor,
+            player,
             GetAbilityDataDiff(abilityReference),
             GetActiveBonuses(abilityReference),
             out Channel channel
@@ -70,7 +70,7 @@ public class ChannelService : AbilityService, IMovementStatusProvider
 
     public void CancelChannel()
     {
-        if (!Active || actor.Dead) return;
+        if (!Active || player.Dead) return;
 
         RemainingDuration = 0f;
         Active = false;
@@ -89,7 +89,7 @@ public class ChannelService : AbilityService, IMovementStatusProvider
 
     private void TickChannel()
     {
-        if (actor.Dead) return;
+        if (player.Dead) return;
 
         if (!Active)
         {
@@ -136,10 +136,10 @@ public class ChannelService : AbilityService, IMovementStatusProvider
 
         if (AbilityLookup.Instance.TryGetAnimationType(_currentAbilityReference, out AbilityAnimationType animationType))
         {
-            if(animationType != AbilityAnimationType.None && actor.AnimController)
+            if(animationType != AbilityAnimationType.None && player.AnimController)
             {
                 string animationState = AnimationStringLookup.LookupTable[animationType];
-                actor.AnimController.Play(animationState);
+                player.AnimController.Play(animationState);
             }
         }
 
