@@ -9,15 +9,15 @@
         this.castDirection = castDirection;
     }
 
-    public virtual void Enter()
+    public void Enter()
     {
     }
 
-    public virtual void Exit()
+    public void Exit()
     {
     }
 
-    public virtual bool TryCompleteProcess(out ComboState nextState)
+    public bool TryCompleteProcess(out ComboState nextState)
     {
         AbilityReference abilityReference = player.AbilityTree.GetAbility(castDirection);
         AbilityType abilityType = AbilityLookup.Instance.GetAbilityType(abilityReference);
