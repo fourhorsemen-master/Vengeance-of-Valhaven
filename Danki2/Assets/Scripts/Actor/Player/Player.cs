@@ -9,7 +9,6 @@ public class Player : Actor
     [SerializeField] private float shortCooldown = 0.75f;
     [SerializeField] private float longCooldown = 1.5f;
     [SerializeField] private float comboTimeout = 2f;
-    [SerializeField] private float feedbackTimeout = 1f;
     [SerializeField] private bool rollResetsCombo = false;
 
     [Header("Roll")]
@@ -35,9 +34,6 @@ public class Player : Actor
     
     // Subjects
     public Subject RollSubject { get; } = new Subject();
-    public Subject<bool> AbilityFeedbackSubject { get; } = new Subject<bool>();
-
-    public FeedbackStatus FeedbackSinceLastCast { get; private set; } = FeedbackStatus.Waiting;
 
     protected override Tag Tag => Tag.Player;
 
@@ -50,16 +46,6 @@ public class Player : Actor
         TargetFinder = new PlayerTargetFinder(this, updateSubject);
         RuneManager = new RuneManager(this);
         CurrencyManager = new CurrencyManager();
-
-        InstantCastService.SetFeedbackTimeout(feedbackTimeout);
-        ChannelService.SetFeedbackTimeout(feedbackTimeout);
-
-        InstantCastService.FeedbackSubject.Subscribe(feedback => AbilityFeedbackSubject.Next(feedback));
-        ChannelService.FeedbackSubject.Subscribe(feedback => AbilityFeedbackSubject.Next(feedback));
-
-        AbilityFeedbackSubject.Subscribe(feedback => FeedbackSinceLastCast = feedback ? FeedbackStatus.Succeeded : FeedbackStatus.Failed);
-        ComboManager.SubscribeToStateEntry(ComboState.ReadyAtRoot, () => FeedbackSinceLastCast = FeedbackStatus.Waiting);
-        ComboManager.SubscribeToStateEntry(ComboState.ReadyInCombo, () => FeedbackSinceLastCast = FeedbackStatus.Waiting);
 
         SetAbilityBonusCalculator(new AbilityBonusTreeDepthCalculator(AbilityTree));
     }

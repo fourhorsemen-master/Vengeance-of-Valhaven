@@ -64,7 +64,7 @@
                     player.TargetFinder.OffsetTargetPosition,
                     player.TargetFinder.Target
                 );
-                nextState = ComboState.AwaitingFeedback;
+                nextState = ComboState.ContinueCombo;
                 return true;
             case AbilityType.Channel:
                 if (!player.CanCast) break;

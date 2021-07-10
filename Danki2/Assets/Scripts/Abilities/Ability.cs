@@ -23,8 +23,6 @@ public abstract class Ability
     private readonly List<EventInstance> vocalisationEventInstances = new List<EventInstance>();
     private readonly List<EventInstance> startEventInstances = new List<EventInstance>();
     private readonly List<EventInstance> endEventInstances = new List<EventInstance>();
-    
-    public Subject<bool> SuccessFeedbackSubject { get; }
 
     protected Actor Owner { get; }
     
@@ -41,7 +39,6 @@ public abstract class Ability
         fmodEndEvent = arguments.FmodEndEvent;
         ActiveBonuses = arguments.ActiveBonuses;
         animationType = arguments.Animation;
-        SuccessFeedbackSubject = new Subject<bool>();
     }
 
     protected void DealPrimaryDamage(Actor target, int linearDamageModifier = 0, int multiplicativeDamageModifier = 1)

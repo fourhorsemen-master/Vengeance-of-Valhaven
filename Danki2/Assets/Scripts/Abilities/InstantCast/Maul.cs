@@ -49,11 +49,6 @@ public class Maul : InstantCast
         if (hasDealtDamage)
         {
             CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
-            SuccessFeedbackSubject.Next(true);
-        }
-        else if (index == TotalBiteCount)
-        {
-            SuccessFeedbackSubject.Next(false);
         }
 
         Owner.MovementManager.Pause(BiteInterval);

@@ -11,7 +11,6 @@ public class ComboManager
 			.WithProcessor(ComboState.ReadyAtRoot, new ReadyAtRootProcessor(player))
 			.WithProcessor(ComboState.ReadyInCombo, new ReadyInComboProcessor(player, player.ComboTimeout))
 			.WithProcessor(ComboState.Channeling, new ChannelProcessor(player))
-			.WithProcessor(ComboState.AwaitingFeedback, new AwaitFeedbackProcessor(player))
 			.WithProcessor(ComboState.CompleteCombo, new CompleteComboProcessor(player))
 			.WithProcessor(ComboState.FailCombo, new FailComboProcessor(player))
 			.WithProcessor(ComboState.ContinueCombo, new PassthroughProcessor<ComboState>(ComboState.ShortCooldown))

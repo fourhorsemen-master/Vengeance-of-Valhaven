@@ -15,8 +15,6 @@ public class BearCharge : Channel
 
     private Vector3 direction;
 
-    private bool dealtAnyDamage = false;
-
     private BearChargeObject chargeObject;
     
     public override ChannelEffectOnMovement EffectOnMovement => ChannelEffectOnMovement.None;
@@ -52,7 +50,6 @@ public class BearCharge : Channel
 
     private void End()
     {
-        SuccessFeedbackSubject.Next(dealtAnyDamage);
         Owner.MovementManager.Pause(PauseDuration);
         chargeObject.Destroy();
     }
@@ -79,8 +76,6 @@ public class BearCharge : Channel
             GetMeleeCastRotation(Owner.transform.forward),
             hasDealtDamage
         );
-
-        SuccessFeedbackSubject.Next(hasDealtDamage);
 
         if (hasDealtDamage)
         {

@@ -29,8 +29,6 @@ public class Smash : Cast
             : (floorTargetPosition - position).normalized;
         Vector3 center = position + (directionToTarget * DistanceFromCaster);
 
-        bool hasDealtDamage = false;
-
         TemplateCollision(
             CollisionTemplateShape.Cylinder,
             Radius,
@@ -39,7 +37,6 @@ public class Smash : Cast
             actor =>
             {
                 DealPrimaryDamage(actor);
-                hasDealtDamage = true;
 
                 if (HasBonus("PerfectSmash")) actor.EffectManager.AddActiveEffect(ActiveEffect.Stun, PerfectSmashStunDuration);
             },
@@ -48,7 +45,5 @@ public class Smash : Cast
 
         CustomCamera.Instance.AddShake(ShakeIntensity.High);
         SmashObject.Create(center);
-
-        SuccessFeedbackSubject.Next(hasDealtDamage);
     }
 }

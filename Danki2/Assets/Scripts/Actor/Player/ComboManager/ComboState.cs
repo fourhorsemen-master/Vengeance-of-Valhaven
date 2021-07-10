@@ -3,7 +3,6 @@
     ReadyAtRoot,
     ReadyInCombo,
     Channeling,
-    AwaitingFeedback,
     Whiff,
     CompleteCombo,
     FailCombo,

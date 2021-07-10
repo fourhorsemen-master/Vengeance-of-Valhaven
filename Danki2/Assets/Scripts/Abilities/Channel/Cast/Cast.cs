@@ -16,13 +16,11 @@ public abstract class Cast : Channel
 
     public sealed override void Cancel(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
-        SuccessFeedbackSubject.Next(false);
         Cancel();
     }
 
     public sealed override void Cancel(Actor actor)
     {
-        SuccessFeedbackSubject.Next(false);
         Cancel();
     }
     
