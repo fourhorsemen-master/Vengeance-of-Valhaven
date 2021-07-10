@@ -51,8 +51,6 @@ public class Player : Actor
         ChannelService = new ChannelService(this, startSubject, lateUpdateSubject);
         InstantCastService = new InstantCastService(this);
 
-<<<<<<< HEAD
-=======
         InstantCastService.SetFeedbackTimeout(feedbackTimeout);
         ChannelService.SetFeedbackTimeout(feedbackTimeout);
 
@@ -66,7 +64,6 @@ public class Player : Actor
         AbilityDataStatsDiffer abilityDataStatsDiffer = new AbilityDataStatsDiffer(this);
         RegisterAbilityDataDiffer(abilityDataStatsDiffer);
 
->>>>>>> split-enemy-and-player-abilities
         SetAbilityBonusCalculator(new AbilityBonusTreeDepthCalculator(AbilityTree));
 
         MovementManager.RegisterMovementStatusProviders(ChannelService);
