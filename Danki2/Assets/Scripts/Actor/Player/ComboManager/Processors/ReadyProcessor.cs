@@ -44,37 +44,19 @@
                 return false;
         }
 
-        if (!player.AbilityTree.CanWalkDirection(castDirection))
+        if (!player.AbilityTree.CanWalkDirection(castDirection) || !player.CanCast)
         {
             nextState = default;
             return false;
         }
 
-        AbilityReference abilityReference = player.AbilityTree.GetAbility(castDirection);
-        AbilityType abilityType = AbilityLookup.Instance.GetAbilityType(abilityReference);
-
-        switch (abilityType)
+        nextState = castDirection switch
         {
-            case AbilityType.InstantCast:
-                if (!player.CanCast) break;
-                player.AbilityTree.Walk(castDirection);
-                player.InstantCastService.TryCast(
-                    abilityReference,
-                    player.TargetFinder.FloorTargetPosition,
-                    player.TargetFinder.OffsetTargetPosition,
-                    player.TargetFinder.Target
-                );
-                nextState = ComboState.FinishAbility;
-                return true;
-            case AbilityType.Channel:
-                if (!player.CanCast) break;
-                player.AbilityTree.Walk(castDirection);
-                player.ChannelService.TryStartChannel(abilityReference);
-                nextState =  ComboState.Channeling;
-                return true;
-        }
+            Direction.Left => ComboState.CastLeft,
+            Direction.Right => ComboState.CastRight,
+            _ => default
+        };
 
-        nextState = default;
-        return false;
+        return true;
     }
 }

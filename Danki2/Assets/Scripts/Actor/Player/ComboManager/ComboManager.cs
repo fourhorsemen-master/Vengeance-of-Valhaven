@@ -10,6 +10,8 @@ public class ComboManager
 		workflow = new ObservableWorkflow<ComboState>(ComboState.ReadyAtRoot, updateSubject)
 			.WithProcessor(ComboState.ReadyAtRoot, new ReadyAtRootProcessor(player))
 			.WithProcessor(ComboState.ReadyInCombo, new ReadyInComboProcessor(player, player.ComboTimeout))
+			.WithProcessor(ComboState.CastLeft, new CastProcessor(player, Direction.Left))
+			.WithProcessor(ComboState.CastRight, new CastProcessor(player, Direction.Right))
 			.WithProcessor(ComboState.Channeling, new ChannelProcessor(player))
 			.WithProcessor(ComboState.FinishAbility, new FinishAbilityProcessor(player))
 			.WithProcessor(ComboState.ContinueCombo, new PassthroughProcessor<ComboState>(ComboState.ShortCooldown))
