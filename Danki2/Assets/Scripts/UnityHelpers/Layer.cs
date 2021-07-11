@@ -9,5 +9,7 @@
     Floor = 9,
     Actors = 10,
     Props = 11,
-    Abilities = 12
+    Abilities = 12,
+    Volumes = 13,
+    ClothSim = 14
 }

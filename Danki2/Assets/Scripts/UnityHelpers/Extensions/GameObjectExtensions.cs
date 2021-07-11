@@ -2,11 +2,19 @@
 
 public static class GameObjectExtensions
 {
+    /// <summary>
+    /// Sets the layer of the gameobject and all it's decendents to <param name="layer">. Ignores anything that already has a non-default layer set.
+    /// </summary>
+    /// <param name="object"></param>
+    /// <param name="layer"></param>
     public static void SetLayerRecursively(this GameObject @object, Layer layer)
     {
         foreach (Transform trans in @object.GetComponentsInChildren<Transform>(true))
         {
-            trans.gameObject.layer = (int)layer;
+            if (trans.gameObject.layer == (int)Layer.Default)
+            {
+                trans.gameObject.layer = (int)layer;
+            }
         }
     }
 
