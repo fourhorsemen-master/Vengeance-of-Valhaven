@@ -3,7 +3,7 @@ using UnityEngine;
 
 public abstract class AbilityService
 {
-    protected readonly Actor actor;
+    protected readonly Player player;
     private float feedbackTimeout = 1f;
     private readonly List<IAbilityDataDiffer> differs = new List<IAbilityDataDiffer>();
     private bool subscribedToFeedback;
@@ -12,9 +12,9 @@ public abstract class AbilityService
     private IAbilityBonusCalculator abilityBonusCalculator = new AbilityBonusNoOpCalculator();
     public Subject<bool> FeedbackSubject { get; } = new Subject<bool>();
 
-    protected AbilityService(Actor actor)
+    protected AbilityService(Player player)
     {
-        this.actor = actor;        
+        this.player = player;        
     }
 
     public void SetFeedbackTimeout(float feedbackTimeout)
@@ -59,7 +59,7 @@ public abstract class AbilityService
     {
         if (!subscribedToFeedback) return;
 
-        feedbackTimer = actor.WaitAndAct(feedbackTimeout, () =>
+        feedbackTimer = player.WaitAndAct(feedbackTimeout, () =>
         {
             feedbackSubscription.Unsubscribe();
             StopFeedbackTimer();
@@ -72,7 +72,7 @@ public abstract class AbilityService
     {
         if (feedbackTimer == null) return;
 
-        actor.StopCoroutine(feedbackTimer);
+        player.StopCoroutine(feedbackTimer);
         feedbackTimer = null;
     }
 }

@@ -65,7 +65,7 @@ public class BearAi : Ai
             .WithTransition(State.Attack, State.TelegraphCharge, new SubjectEmitted(bear.CleaveSubject))
             .WithTransition(State.Advance, State.TelegraphCharge, new DistanceLessThan(bear, player, maxChargeRange) & new RandomTimeElapsed(chargeMinInterval, chargeMaxInterval))
             .WithTransition(State.TelegraphCharge, State.Charge, new CastableTimeElapsed(bear, chargeDelay))
-            .WithTransition(State.Charge, State.Watch, new ChannelComplete(bear))
+            .WithTransition(State.Charge, State.Watch, new SubjectEmitted(bear.ChargeSubject))
             .WithTransition(State.Watch, State.Advance, new TimeElapsed(chargeRecoveryTime));
     }
 

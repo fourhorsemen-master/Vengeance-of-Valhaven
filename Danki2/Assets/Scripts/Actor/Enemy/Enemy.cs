@@ -11,6 +11,4 @@ public abstract class Enemy : Actor
     public void StartTelegraph(Color colour) => CurrentTelegraph = colour;
 
     public void StopTelegraph() => CurrentTelegraph = null;
-    
-    protected Vector3 GetMeleeTargetPosition(Vector3 origin) => origin + transform.forward;
 }

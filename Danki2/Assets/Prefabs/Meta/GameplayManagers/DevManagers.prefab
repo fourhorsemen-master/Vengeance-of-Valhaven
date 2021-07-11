@@ -61,8 +61,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ownedAbilityCount: 3
-  leftAbility: 8
-  rightAbility: 5
+  leftAbility: 0
+  rightAbility: 3
   playerHealth: 20
   runeSockets:
   - hasRune: 0
@@ -72,6 +72,7 @@ MonoBehaviour:
   - hasRune: 0
     rune: 0
   runeOrder: 
+  currencyAmount: 0
   cameraOrientation: 0
   enemiesCleared: 0
   spawnedEnemies:
@@ -114,6 +115,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityChoices: 0
   runeSockets: 0
+  leftStartingAbility: 0
+  rightStartingAbility: 0
   generatedRoomDepth: 0
   minRoomExits: 0
   maxRoomExits: 0
@@ -185,7 +188,6 @@ MonoBehaviour:
     - GameplayExitScene
     - GameplayVictoryScene
     - GameplayDefeatScene
-    - RandomisedScene
     - CatchAllScene
     - AbilityScene
     - ForestCliffScene
@@ -201,14 +203,6 @@ MonoBehaviour:
     - Zone2BossScene
     - Zone3BossScene
     _values:
-    - fileName: 
-      sceneType: 0
-      gameplaySceneData:
-        zones: 
-        roomTypes: 
-        cameraOrientations: 
-        entranceData: []
-        exitData: []
     - fileName: 
       sceneType: 0
       gameplaySceneData:
