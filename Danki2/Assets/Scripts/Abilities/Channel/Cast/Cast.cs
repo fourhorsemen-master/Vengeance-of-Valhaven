@@ -14,15 +14,9 @@ public abstract class Cast : Channel
 
     public sealed override void Continue(Actor actor) => Continue();
 
-    public sealed override void Cancel(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
-    {
-        Cancel();
-    }
+    public sealed override void Cancel(Vector3 floorTargetPosition, Vector3 offsetTargetPosition) => Cancel();
 
-    public sealed override void Cancel(Actor actor)
-    {
-        Cancel();
-    }
+    public sealed override void Cancel(Actor actor) => Cancel();
     
     protected virtual void Start() { }
     
