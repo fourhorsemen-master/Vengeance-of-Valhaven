@@ -6,7 +6,6 @@ public abstract class AbilityService
     
     private readonly List<IAbilityDataDiffer> differs = new List<IAbilityDataDiffer>();
     private IAbilityBonusCalculator abilityBonusCalculator = new AbilityBonusNoOpCalculator();
-    public Subject<bool> FeedbackSubject { get; } = new Subject<bool>();
 
     protected AbilityService(Player player)
     {
