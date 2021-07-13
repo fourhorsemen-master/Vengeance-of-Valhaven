@@ -1,6 +1,6 @@
 ﻿public class FleetOfFootHandler : IStatPipe
 {
-    private const int SpeedBonus = 2;
+    private const float SpeedMultiplierBonus = 1.25f;
 
     private readonly RuneManager runeManager;
     
@@ -20,7 +20,7 @@
     public float ProcessStat(Stat stat, float value)
     {
         return stat == Stat.Speed && runeManager.HasRune(Rune.FleetOfFoot)
-            ? value + SpeedBonus
+            ? value * SpeedMultiplierBonus
             : value;
     }
 }

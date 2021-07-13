@@ -2,7 +2,7 @@
 
 public class InstantCastService : AbilityService
 {
-    public InstantCastService(Actor actor) : base(actor) {}
+    public InstantCastService(Player player) : base(player) {}
 
     public bool TryCast(
         AbilityReference abilityReference,
@@ -11,11 +11,11 @@ public class InstantCastService : AbilityService
         Actor target = null
     )
     {
-        if (!actor.CanCast) return false;
+        if (!player.CanCast) return false;
 
         if (!AbilityLookup.Instance.TryGetInstantCast(
             abilityReference,
-            actor,
+            player,
             GetAbilityDataDiff(abilityReference),
             GetActiveBonuses(abilityReference),
             out InstantCast instantCast
@@ -35,10 +35,10 @@ public class InstantCastService : AbilityService
 
         if(AbilityLookup.Instance.TryGetAnimationType(abilityReference, out AbilityAnimationType animationType))
         {
-            if(animationType != AbilityAnimationType.None && actor.AnimController)
+            if(animationType != AbilityAnimationType.None && player.AnimController)
             {
                 string animationState = AnimationStringLookup.LookupTable[animationType];
-                actor.AnimController.Play(animationState);
+                player.AnimController.Play(animationState);
             }
         }
 
