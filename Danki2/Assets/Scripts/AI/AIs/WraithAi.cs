@@ -60,7 +60,7 @@ public class WraithAi : Ai
         IStateMachineComponent blinkStateMachine = new StateMachine<BlinkState>(BlinkState.Telegraph)
             .WithComponent(BlinkState.Telegraph, new WraithTelegraphBlink(wraith))
             .WithComponent(BlinkState.Blink, new WraithCastBlink(wraith, player, minBlinkDistance, maxBlinkDistance))
-            .WithComponent(BlinkState.PostBlinkAttack, new WraithCastSpine(wraith, player))
+            .WithComponent(BlinkState.PostBlinkAttack, new WraithCastRapidSpine(wraith, player))
             .WithComponent(BlinkState.PostBlinkPause, new WatchTarget(wraith, player))
             .WithTransition(BlinkState.Telegraph, BlinkState.Blink, new CastableTimeElapsed(wraith, blinkDelay)) // TODO: Make blink castable through stun and knockback
             .WithTransition(BlinkState.Blink, BlinkState.PostBlinkAttack)
