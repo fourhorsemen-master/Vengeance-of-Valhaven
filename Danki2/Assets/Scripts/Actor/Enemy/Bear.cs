@@ -200,11 +200,6 @@ public class Bear : Enemy
 
     public void Cleave()
     {
-        // InstantCastService.TryCast(
-        //     AbilityReference.Cleave,
-        //     GetMeleeTargetPosition(transform.position),
-        //     GetMeleeTargetPosition(Centre)
-        // );
         Vector3 forward = transform.forward;
         Vector3 castDirection = forward;
         Quaternion castRotation = AbilityUtils.GetMeleeCastRotation(castDirection);
