@@ -37,8 +37,6 @@ public class Bash : Cast
             },
             CollisionSoundLevel.High
         );
-
-        SuccessFeedbackSubject.Next(hasDealtDamage);
         
         BashObject.Create(center, hasDealtDamage);
         

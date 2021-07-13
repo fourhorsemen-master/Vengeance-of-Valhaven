@@ -11,20 +11,13 @@ public class Backstab : InstantCast
     public override void Cast(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
         Swing(offsetTargetPosition);
-        SuccessFeedbackSubject.Next(false);
     }
 
     public override void Cast(Actor target)
     {
-        BackstabObject backstabObject = Swing(target.Centre);
+        Swing(target.Centre);
 
-        if (!InRange(target))
-        {
-            SuccessFeedbackSubject.Next(false);
-            return;
-        }
-
-        SuccessFeedbackSubject.Next(true);
+        if (!InRange(target)) return;
 
         bool backTurned = Vector3.Dot(target.transform.forward, Owner.transform.position - target.transform.position) < 0;
 

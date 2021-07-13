@@ -76,7 +76,6 @@ public class PoisonStab : Cast
             CollisionSoundLevel.Low
         );
 
-        SuccessFeedbackSubject.Next(hasAppliedPoison);
         Owner.MovementManager.Pause(PauseDuration);
 
         if (hasAppliedPoison)

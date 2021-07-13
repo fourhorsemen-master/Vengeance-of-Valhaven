@@ -71,8 +71,6 @@ public class PiercingRush : Cast
         // Jetstream.
         if (HasBonus("Jetstream")) Owner.WaitAndAct(dashDuration + jetstreamCastDelay, () => Jetstream());
 
-        SuccessFeedbackSubject.Next(hasDealtDamage);
-
         Owner.WaitAndAct(dashDuration, () => Owner.MovementManager.Pause(postDashPauseDuration));
     }
 

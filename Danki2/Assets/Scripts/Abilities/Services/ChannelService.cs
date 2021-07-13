@@ -53,8 +53,6 @@ public class ChannelService : AbilityService, IMovementStatusProvider
         RemainingDuration = _currentChannel.Duration;
         Active = true;
 
-        SubscribeToFeedback(channel);
-
         if (HasTarget)
         {
             _currentChannel.Start(Target);
@@ -87,8 +85,6 @@ public class ChannelService : AbilityService, IMovementStatusProvider
         }
 
         ChannelEndSubject.Next();
-
-        StartFeedbackTimer();
     }
 
     private void TickChannel()
@@ -148,7 +144,5 @@ public class ChannelService : AbilityService, IMovementStatusProvider
         }
 
         ChannelEndSubject.Next();
-
-        StartFeedbackTimer();
     }
 }

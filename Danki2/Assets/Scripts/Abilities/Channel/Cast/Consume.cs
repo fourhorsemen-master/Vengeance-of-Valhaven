@@ -36,12 +36,10 @@ public class Consume : Cast
 
         if (stacksConsumed <= 0)
         {
-            SuccessFeedbackSubject.Next(false);
             onCastFailed.Next();
             return;
         }
 
-        SuccessFeedbackSubject.Next(true);
         onCastSuccessful.Next();
         CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
 

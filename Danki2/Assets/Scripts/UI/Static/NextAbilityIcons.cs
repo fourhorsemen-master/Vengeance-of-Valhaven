@@ -45,8 +45,8 @@ public class NextAbilityIcons : MonoBehaviour
         player.ComboManager.SubscribeToStateEntry(ComboState.LongCooldown, () => ResetCooldown(player.LongCooldown));
         player.ComboManager.SubscribeToStateEntry(ComboState.ShortCooldown, () => ResetCooldown(player.ShortCooldown));
         player.ComboManager.SubscribeToStateEntry(ComboState.Whiff, ShowWhiff);
-
-        player.AbilityFeedbackSubject.Subscribe(ShowFeedback);
+        player.ComboManager.SubscribeToStateEntry(ComboState.ContinueCombo, ShowSuccess);
+        player.ComboManager.SubscribeToStateEntry(ComboState.CompleteCombo, ShowSuccess);
         player.AbilityTree.ChangeSubject.Subscribe(RefreshAbilityIcons);
     }
 
@@ -80,11 +80,11 @@ public class NextAbilityIcons : MonoBehaviour
         rightAbilityCooldown.transform.localScale = newScale;
     }
 
-    private void ShowFeedback(bool result)
+    private void ShowSuccess()
     {
         if (!hasWhiffed)
         {
-            IndicateAbilityCompletion(player.AbilityTree.DirectionLastWalked, result);
+            IndicateAbilityCompletion(player.AbilityTree.DirectionLastWalked, true);
         }
     }
 

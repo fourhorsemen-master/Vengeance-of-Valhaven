@@ -32,8 +32,6 @@ public class SweepingStrike : InstantCast
             CollisionSoundLevel.Low
         );
 
-        SuccessFeedbackSubject.Next(hasDealtDamage);
-
         SweepingStrikeObject sweepingStrikeObject = SweepingStrikeObject.Create(Owner.AbilitySource, castRotation);
 
         Owner.MovementManager.LookAt(floorTargetPosition);

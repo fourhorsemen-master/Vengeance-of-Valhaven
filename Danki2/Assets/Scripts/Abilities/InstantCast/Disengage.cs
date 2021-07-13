@@ -31,8 +31,6 @@ public class Disengage : InstantCast
 
         SmashObject.Create(position, smashObjectScaleFactor);
 
-        bool dealtDamage = false;
-
         TemplateCollision(
             CollisionTemplateShape.Cylinder,
             partingShotRange,
@@ -41,11 +39,8 @@ public class Disengage : InstantCast
             actor =>
             {
                 DealPrimaryDamage(actor);
-                dealtDamage = true;
             },
             CollisionSoundLevel.Low
         );
-
-        SuccessFeedbackSubject.Next(dealtDamage);
     }
 }

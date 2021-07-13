@@ -12,8 +12,6 @@ public class FanOfKnives : InstantCast
 
     private int NumberOfKnives => HasBonus("Spray") ? SprayNumberOfKnives : BaseNumberOfKnives;
 
-    private int collisionCounter = 0;
-
     public FanOfKnives(AbilityConstructionArgs arguments) : base(arguments) { }
 
     public override void Cast(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
@@ -48,22 +46,14 @@ public class FanOfKnives : InstantCast
 
     private void OnCollision(GameObject gameObject)
     {
-        collisionCounter++; // counter to provide failure feedback early if all knives miss.
-
         if (ActorCache.Instance.TryGetActor(gameObject, out Actor actor))
         {
             if (actor.Opposes(Owner))
             {
                 CustomCamera.Instance.AddShake(ShakeIntensity.Low);
                 DealPrimaryDamage(actor);
-                SuccessFeedbackSubject.Next(true);
                 return;
             }
-        }
-
-        if (collisionCounter == NumberOfKnives)
-        {
-            SuccessFeedbackSubject.Next(false);
         }
     }
 }

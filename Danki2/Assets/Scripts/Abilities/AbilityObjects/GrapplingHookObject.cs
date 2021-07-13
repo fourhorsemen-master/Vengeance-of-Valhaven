@@ -6,13 +6,13 @@ public class GrapplingHookObject : ProjectileObject
     [SerializeField]
     private TrailRenderer trailRenderer = null;
 
-    public static GrapplingHookObject Fire(Actor caster, Action<GameObject> collisionCallback, Action missCallback, float speed, Vector3 position, Quaternion rotation, float maxRange)
+    public static GrapplingHookObject Fire(Actor caster, Action<GameObject> collisionCallback, float speed, Vector3 position, Quaternion rotation, float maxRange)
     {
         float stickTime = maxRange / speed;
 
         GrapplingHookObject grapplingHookObject = Instantiate(AbilityObjectPrefabLookup.Instance.GrapplingHookObjectPrefab, position, rotation);
         grapplingHookObject.InitialiseProjectile(caster, collisionCallback, speed)
-            .DestroyAfterTime(stickTime, missCallback);
+            .DestroyAfterTime(stickTime);
 
         grapplingHookObject.SetSticky(1f);
 

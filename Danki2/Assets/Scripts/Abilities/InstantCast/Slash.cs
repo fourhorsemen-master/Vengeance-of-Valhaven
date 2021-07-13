@@ -28,8 +28,6 @@ public class Slash : InstantCast
             CollisionSoundLevel.Low
         );
 
-        SuccessFeedbackSubject.Next(hasDealtDamage);
-
         PlayVocalisationEvent();
         PlayStartEvent();
         SlashObject.Create(Owner.AbilitySource, castRotation);
