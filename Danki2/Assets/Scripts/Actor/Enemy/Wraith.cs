@@ -37,15 +37,9 @@ public class Wraith : Enemy
 
     public override ActorType Type => ActorType.Wraith;
 
-    public void Spine(Actor target)
-    {
-        FireSpines(target, spineCount, spineInterval, spineMaxAngle);
-    }
+    public void Spine(Actor target) => FireSpines(target, spineCount, spineInterval, spineMaxAngle);
 
-    public void RapidSpine(Actor target)
-    {
-        FireSpines(target, rapidSpineCount, rapidSpineInterval, rapidSpineMaxAngle);
-    }
+    public void RapidSpine(Actor target) => FireSpines(target, rapidSpineCount, rapidSpineInterval, rapidSpineMaxAngle);
 
     private void FireSpines(Actor target, int spineCount, float spineInterval, float spineMaxAngle)
     {
