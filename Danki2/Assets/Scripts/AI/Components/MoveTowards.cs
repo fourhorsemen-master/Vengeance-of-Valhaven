@@ -1,11 +1,11 @@
 ﻿public class MoveTowards : IStateMachineComponent
 {
-    private readonly Actor actor;
+    private readonly Enemy enemy;
     private readonly Actor target;
 
-    public MoveTowards(Actor actor, Actor target)
+    public MoveTowards(Enemy enemy, Actor target)
     {
-        this.actor = actor;
+        this.enemy = enemy;
         this.target = target;
     }
 
@@ -13,11 +13,11 @@
 
     public void Exit()
     {
-        actor.MovementManager.StopPathfinding();
+        enemy.MovementManager.StopPathfinding();
     }
 
     public void Update()
     {
-        actor.MovementManager.StartPathfinding(target.transform.position);
+        enemy.MovementManager.StartPathfinding(target.transform.position);
     }
 }

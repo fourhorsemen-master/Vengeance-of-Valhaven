@@ -26,6 +26,8 @@ public class Player : Actor
     public float LongCooldown => longCooldown;
     public float ComboTimeout => comboTimeout;
 
+    public bool CanCast => !Dead && !MovementManager.Stunned && !MovementManager.MovementLocked;
+
     // Services
     public AbilityTree AbilityTree { get; private set; }
     public ComboManager ComboManager { get; private set; }
@@ -34,6 +36,7 @@ public class Player : Actor
     public CurrencyManager CurrencyManager { get; private set; }
     public ChannelService ChannelService { get; private set; }
     public InstantCastService InstantCastService { get; private set; }
+    public PlayerMovementManager MovementManager { get; private set; }
     
     // Subjects
     public Subject RollSubject { get; } = new Subject();
@@ -51,6 +54,7 @@ public class Player : Actor
         CurrencyManager = new CurrencyManager();
         ChannelService = new ChannelService(this, startSubject, lateUpdateSubject);
         InstantCastService = new InstantCastService(this);
+        MovementManager = new PlayerMovementManager(this, updateSubject, navmeshAgent);
 
         AbilityDataStatsDiffer abilityDataStatsDiffer = new AbilityDataStatsDiffer(this);
         RegisterAbilityDataDiffer(abilityDataStatsDiffer);

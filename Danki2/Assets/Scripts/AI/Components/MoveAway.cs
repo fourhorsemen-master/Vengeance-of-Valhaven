@@ -1,11 +1,11 @@
 ﻿public class MoveAway : IStateMachineComponent
 {
-    private readonly Actor actor;
+    private readonly Enemy enemy;
     private readonly Actor target;
 
-    public MoveAway(Actor actor, Actor target)
+    public MoveAway(Enemy enemy, Actor target)
     {
-        this.actor = actor;
+        this.enemy = enemy;
         this.target = target;
     }
 
@@ -13,11 +13,11 @@
 
     public void Exit()
     {
-        actor.MovementManager.StopPathfinding();
+        enemy.MovementManager.StopPathfinding();
     }
 
     public void Update()
     {
-        actor.MovementManager.StartPathfinding(2 * actor.transform.position - target.transform.position);
+        enemy.MovementManager.StartPathfinding(2 * enemy.transform.position - target.transform.position);
     }
 }

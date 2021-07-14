@@ -27,7 +27,7 @@ public class Wolf : Enemy
 
     public void Dash(Vector3 direction)
     {
-        MovementManager.TryLockMovement(MovementLockType.Dash, dashDuration, dashSpeed, direction, direction);
+        MovementManager.LockMovement(dashDuration, dashSpeed, direction, direction);
     }
 
     public void Bite()
@@ -65,7 +65,7 @@ public class Wolf : Enemy
         float pounceSpeed = StatsManager.Get(Stat.Speed) * pounceSpeedMultiplier;
         float duration = Mathf.Clamp(distance / pounceSpeed, pounceMinMovementDuration, pounceMaxMovementDuration);
 
-        MovementManager.TryLockMovement(MovementLockType.Dash, duration, pounceSpeed, direction, direction);
+        MovementManager.LockMovement(duration, pounceSpeed, direction, direction);
         StartTrail(duration);
 
         InterruptibleAction(duration, InterruptionType.Hard, HandlePounceLand);

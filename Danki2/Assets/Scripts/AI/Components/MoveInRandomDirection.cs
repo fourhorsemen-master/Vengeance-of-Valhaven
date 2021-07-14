@@ -2,13 +2,13 @@
 
 public class MoveInRandomDirection : IStateMachineComponent
 {
-    private readonly Actor actor;
+    private readonly Enemy enemy;
 
     private Vector3 direction;
 
-    public MoveInRandomDirection(Actor actor)
+    public MoveInRandomDirection(Enemy enemy)
     {
-        this.actor = actor;
+        this.enemy = enemy;
     }
 
     public void Enter()
@@ -19,11 +19,11 @@ public class MoveInRandomDirection : IStateMachineComponent
 
     public void Exit()
     {
-        actor.MovementManager.StopPathfinding();
+        enemy.MovementManager.StopPathfinding();
     }
 
     public void Update()
     {
-        actor.MovementManager.StartPathfinding(actor.transform.position + direction);
+        enemy.MovementManager.StartPathfinding(enemy.transform.position + direction);
     }
 }
