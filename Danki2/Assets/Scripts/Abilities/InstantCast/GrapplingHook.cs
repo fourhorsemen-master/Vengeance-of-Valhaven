@@ -35,13 +35,14 @@ public class GrapplingHook : InstantCast
 
             Owner.MovementManager.Pause(pullDuration);
 
-            actor.MovementManager.TryLockMovement(
-                MovementLockType.Pull,
-                pullDuration,
-                pullSpeed,
-                pullDirection,
-                pullFaceDirection
-            );
+            //TODO: decide whether we want to get rid of this ability
+            //actor.MovementManager.TryLockMovement(
+            //    MovementLockType.Pull,
+            //    pullDuration,
+            //    pullSpeed,
+            //    pullDirection,
+            //    pullFaceDirection
+            //);
 
             actor.WaitAndAct(pullDuration, () => actor.EffectManager.AddActiveEffect(ActiveEffect.Stun, stunDuration));
 

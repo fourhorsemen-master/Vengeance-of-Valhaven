@@ -1,27 +1,27 @@
 ﻿public class WalkTowards : IStateMachineComponent
 {
-    private readonly Actor actor;
+    private readonly Enemy enemy;
     private readonly Actor target;
 
-    public WalkTowards(Actor actor, Actor target)
+    public WalkTowards(Enemy enemy, Actor target)
     {
-        this.actor = actor;
+        this.enemy = enemy;
         this.target = target;
     }
 
     public void Enter()
     {
-        actor.MovementManager.MotionType = MotionType.Walk;
+        enemy.MovementManager.MotionType = MotionType.Walk;
     }
 
     public void Exit()
     {
-        actor.MovementManager.MotionType = MotionType.Run;
-        actor.MovementManager.StopPathfinding();
+        enemy.MovementManager.MotionType = MotionType.Run;
+        enemy.MovementManager.StopPathfinding();
     }
 
     public void Update()
     {
-        actor.MovementManager.StartPathfinding(target.transform.position);
+        enemy.MovementManager.StartPathfinding(target.transform.position);
     }
 }

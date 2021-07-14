@@ -55,10 +55,8 @@ public class Bear : Enemy
         HealthManager.ModifiedDamageSubject.Subscribe(_ => Roar());
     }
 
-    protected override void Update()
-    {
-        base.Update();
-        
+    protected void Update()
+    {        
         if (charging) ContinueCharge();
     }
 
@@ -67,13 +65,7 @@ public class Bear : Enemy
         Vector3 forward = transform.forward;
         MovementManager.LookAt(transform.position + forward);
 
-        MovementManager.TryLockMovement(
-            MovementLockType.Dash,
-            swipeDashDuration,
-            StatsManager.Get(Stat.Speed) * swipeDashSpeedMultiplier,
-            forward,
-            forward
-        );
+        MovementManager.LockMovement(swipeDashDuration, StatsManager.Get(Stat.Speed) * swipeDashSpeedMultiplier, forward, forward);
         
         InterruptibleAction(swipeDashDuration, InterruptionType.Hard, HandleSwipeLand);
     }
@@ -139,7 +131,7 @@ public class Bear : Enemy
             castRotation,
             actor =>
             {
-                ChargeKnockBack(actor);
+                ChargeKnockBack(ActorCache.Instance.Player); // TODO: Template collision should be returning a player here somehow
                 actor.HealthManager.ReceiveDamage(chargeDamage, this);
                 CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
             }
@@ -148,12 +140,12 @@ public class Bear : Enemy
         SwipeObject.Create(AbilitySource, castRotation);
     }
 
-    private void ChargeKnockBack(Actor actor)
+    private void ChargeKnockBack(Player player)
     {
-        Vector3 knockBackDirection = actor.transform.position - transform.position;
-        Vector3 knockBackFaceDirection = actor.transform.forward;
+        Vector3 knockBackDirection = player.transform.position - transform.position;
+        Vector3 knockBackFaceDirection = player.transform.forward;
 
-        actor.MovementManager.TryLockMovement(
+        player.MovementManager.TryLockMovement(
             MovementLockType.Knockback,
             chargeKnockBackDuration,
             chargeKnockBackSpeed,
@@ -215,7 +207,7 @@ public class Bear : Enemy
             actor =>
             {
                 actor.HealthManager.ReceiveDamage(cleaveDamage, this);
-                MaulKnockBack(actor);
+                MaulKnockBack(ActorCache.Instance.Player); // TODO: Template collision should be returning a player here somehow
                 CustomCamera.Instance.AddShake(ShakeIntensity.High);
             }
         );
@@ -226,12 +218,12 @@ public class Bear : Enemy
         CleaveSubject.Next();
     }
     
-    private void MaulKnockBack(Actor actor)
+    private void MaulKnockBack(Player player)
     {
-        Vector3 knockBackDirection = actor.transform.position - transform.position;
-        Vector3 knockBackFaceDirection = actor.transform.forward;
+        Vector3 knockBackDirection = player.transform.position - transform.position;
+        Vector3 knockBackFaceDirection = player.transform.forward;
 
-        actor.MovementManager.TryLockMovement(
+        player.MovementManager.TryLockMovement(
             MovementLockType.Knockback,
             cleaveKnockBackDuration,
             cleaveKnockBackSpeed,

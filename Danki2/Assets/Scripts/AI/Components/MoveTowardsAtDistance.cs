@@ -2,19 +2,19 @@
 
 public class MoveTowardsAtDistance : IStateMachineComponent
 {
-    private readonly Actor actor;
+    private readonly Enemy enemy;
     private readonly Actor target;
     private readonly float distance;
     private readonly float? rotationSmoothingOverride;
 
     public MoveTowardsAtDistance(
-        Actor actor,
+        Enemy enemy,
         Actor target,
         float distance,
         float? rotationSmoothingOverride = null
     )
     {
-        this.actor = actor;
+        this.enemy = enemy;
         this.target = target;
         this.distance = distance;
         this.rotationSmoothingOverride = rotationSmoothingOverride;
@@ -24,21 +24,21 @@ public class MoveTowardsAtDistance : IStateMachineComponent
 
     public void Exit()
     {
-        actor.MovementManager.StopPathfinding();
-        actor.MovementManager.ClearWatch();
+        enemy.MovementManager.StopPathfinding();
+        enemy.MovementManager.ClearWatch();
     }
 
     public void Update()
     {
-        if (Vector3.Distance(actor.transform.position, target.transform.position) > distance)
+        if (Vector3.Distance(enemy.transform.position, target.transform.position) > distance)
         {
-            actor.MovementManager.ClearWatch();
-            actor.MovementManager.StartPathfinding(target.transform.position);
+            enemy.MovementManager.ClearWatch();
+            enemy.MovementManager.StartPathfinding(target.transform.position);
         }
         else
         {
-            actor.MovementManager.StopPathfinding();
-            actor.MovementManager.Watch(target.transform, rotationSmoothingOverride);
+            enemy.MovementManager.StopPathfinding();
+            enemy.MovementManager.Watch(target.transform, rotationSmoothingOverride);
         }
     }
 }

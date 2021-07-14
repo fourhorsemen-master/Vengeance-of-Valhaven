@@ -22,6 +22,10 @@ public class CastableTimeElapsed : StateMachineTrigger
 
     public override bool Triggers()
     {
-        return Time.time >= requiredTime && actor.CastableTimeElapsed >= timePeriod;
+        // TODO: Bring in stunlocks for enemies. Until then all time is castable time.
+        return Time.time >= requiredTime;
+
+        //For reference we did this before:
+        //  return Time.time >= requiredTime && actor.CastableTimeElapsed >= timePeriod;
     }
 }
