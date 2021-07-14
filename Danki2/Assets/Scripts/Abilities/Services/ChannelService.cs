@@ -36,17 +36,15 @@ public class ChannelService : AbilityService, IMovementStatusProvider
         );
     }
 
-    public bool TryStartChannel(AbilityReference abilityReference)
+    public void StartChannel(AbilityReference abilityReference)
     {
-        if (!player.CanCast) return false;
-
-        if (!AbilityLookup.Instance.TryGetChannel(
+        AbilityLookup.Instance.TryGetChannel(
             abilityReference,
             player,
             GetAbilityDataDiff(abilityReference),
             GetActiveBonuses(abilityReference),
             out Channel channel
-        )) return false;
+        );
 
         _currentChannel = channel;
         _currentAbilityReference = abilityReference;
@@ -65,7 +63,6 @@ public class ChannelService : AbilityService, IMovementStatusProvider
         }
 
         ChannelStartSubject.Next(channel.ChannelType);
-        return true;
     }
 
     public void CancelChannel()

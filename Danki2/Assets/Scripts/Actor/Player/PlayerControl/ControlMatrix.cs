@@ -53,10 +53,27 @@ public class ControlMatrix
         {
             CastingStatus.Cooldown,
             new Layer(
-                new Row(CastingCommand.None),
-                new Row(CastingCommand.None),
-                new Row(CastingCommand.None),
-                new Row(CastingCommand.None)
+                new Row(
+                    CastingCommand.PrecastLeft,
+                    CastingCommand.None,
+                    CastingCommand.None,
+                    CastingCommand.None
+                ),
+                new Row(
+                    CastingCommand.None,
+                    CastingCommand.PrecastRight,
+                    CastingCommand.None,
+                    CastingCommand.None
+                ),
+                new Row(
+                    CastingCommand.None
+                ),
+                new Row(
+                    CastingCommand.PrecastLeft,
+                    CastingCommand.PrecastRight,
+                    CastingCommand.None,
+                    CastingCommand.None
+                )
             )
         },
         {

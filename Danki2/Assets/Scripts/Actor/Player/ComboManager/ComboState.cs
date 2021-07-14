@@ -2,6 +2,8 @@
 {
     ReadyAtRoot,
     ReadyInCombo,
+    CastLeft,
+    CastRight,
     Channeling,
     FinishAbility,
     ContinueCombo,
