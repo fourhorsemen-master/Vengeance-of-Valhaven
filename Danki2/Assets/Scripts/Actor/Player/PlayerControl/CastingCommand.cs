@@ -4,5 +4,7 @@
     CancelChannel,
     CastLeft,
     CastRight,
+    PrecastLeft,
+    PrecastRight,
     None
 }

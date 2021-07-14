@@ -4,22 +4,20 @@ public class InstantCastService : AbilityService
 {
     public InstantCastService(Player player) : base(player) {}
 
-    public bool TryCast(
+    public void Cast(
         AbilityReference abilityReference,
         Vector3 floorTargetPosition,
         Vector3 offsetTargetPosition,
         Actor target = null
     )
     {
-        if (!player.CanCast) return false;
-
-        if (!AbilityLookup.Instance.TryGetInstantCast(
+        AbilityLookup.Instance.TryGetInstantCast(
             abilityReference,
             player,
             GetAbilityDataDiff(abilityReference),
             GetActiveBonuses(abilityReference),
             out InstantCast instantCast
-        )) return false;
+        );
 
         if (target != null)
         {
@@ -38,7 +36,5 @@ public class InstantCastService : AbilityService
                 player.AnimController.Play(animationState);
             }
         }
-
-        return true;
     }
 }

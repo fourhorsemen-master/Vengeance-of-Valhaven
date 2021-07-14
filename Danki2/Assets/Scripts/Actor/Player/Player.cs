@@ -10,6 +10,7 @@ public class Player : Actor
     [SerializeField] private float longCooldown = 1.5f;
     [SerializeField] private float comboTimeout = 2f;
     [SerializeField] private bool rollResetsCombo = false;
+    [SerializeField] private bool continuousCombo = false;
 
     [Header("Roll")]
     [SerializeField] private float totalRollCooldown = 1f;
@@ -44,7 +45,7 @@ public class Player : Actor
         base.Awake();
 
         AbilityTree = PersistenceManager.Instance.SaveData.SerializableAbilityTree.Deserialize();
-        ComboManager = new ComboManager(this, updateSubject, rollResetsCombo);
+        ComboManager = new ComboManager(this, updateSubject, rollResetsCombo, continuousCombo);
         TargetFinder = new PlayerTargetFinder(this, updateSubject);
         RuneManager = new RuneManager(this);
         CurrencyManager = new CurrencyManager();
