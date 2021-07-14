@@ -43,5 +43,7 @@ public static class DankiMenu
         devManagerObject.SetActive(!devManagerObject.activeInHierarchy);
 
         Selection.activeGameObject = devManagerObject;
+        
+        EditorUtility.SetDirty(devManagerObject);
     }
 }

@@ -29,8 +29,6 @@ public class Rend : Cast
 
         RendObject.Create(Owner.transform, Owner.AbilitySource);
 
-        SuccessFeedbackSubject.Next(enemiesHit);
-
         if (enemiesHit) CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
     }
 }

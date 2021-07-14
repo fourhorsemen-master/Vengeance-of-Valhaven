@@ -2,7 +2,6 @@
 {
     ChannelingLeft,
     ChannelingRight,
-    AwaitingFeedback,
     Cooldown,
     Ready
 }

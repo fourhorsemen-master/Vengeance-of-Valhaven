@@ -24,7 +24,6 @@ public class Execute : Cast
     public override void End(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
         Owner.MovementManager.LookAt(floorTargetPosition);
-        SuccessFeedbackSubject.Next(false);
         onCastFail.Next();
     }
 
@@ -36,7 +35,6 @@ public class Execute : Cast
 
         if (distance > CastRange)
         {
-            SuccessFeedbackSubject.Next(false);
             onCastFail.Next();
             return;
         }
@@ -53,6 +51,5 @@ public class Execute : Cast
         CustomCamera.Instance.AddShake(ShakeIntensity.High);
 
         Owner.MovementManager.Pause(PauseDuration);
-        SuccessFeedbackSubject.Next(true);
     }
 }

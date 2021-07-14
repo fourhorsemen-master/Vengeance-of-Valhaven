@@ -25,8 +25,6 @@ public class Parry : Channel
     private bool DamagePipe(DamageData damageData)
     {
         onParry.Next();
-        
-        SuccessFeedbackSubject.Next(true);
 
         int damage = Mathf.FloorToInt(damageData.Damage * reflectedDamageProportion);
         DealPrimaryDamage(damageData.Source, damage);
@@ -37,6 +35,5 @@ public class Parry : Channel
     private void Finish()
     {
         Owner.HealthManager.DeregisterDamagePipe(damagePipeId);
-        SuccessFeedbackSubject.Next(false);
     }
 }

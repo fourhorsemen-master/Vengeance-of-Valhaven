@@ -13,8 +13,6 @@ public class RingOfDeath : InstantCast
     private int NumberOfKnives => HasBonus("Double Down") ? DoubleDownNumberOfKnives : BaseNumberOfKnives;
     private float KnifeCastInterval => HasBonus("Double Down") ? BaseKnifeCastInterval / 2 : BaseKnifeCastInterval;
 
-    private int collisionCounter = 0;
-
     public RingOfDeath(AbilityConstructionArgs arguments) : base(arguments) { }
 
     public override void Cast(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
@@ -57,8 +55,6 @@ public class RingOfDeath : InstantCast
 
     private void OnCollision(GameObject gameObject)
     {
-        collisionCounter++; // counter to provide failure feedback early if all knives miss.
-
         if (ActorCache.Instance.TryGetActor(gameObject, out Actor actor))
         {
             if (actor.Opposes(Owner))
@@ -66,14 +62,7 @@ public class RingOfDeath : InstantCast
                 CustomCamera.Instance.AddShake(ShakeIntensity.Low);
                 DealPrimaryDamage(actor);
                 if (HasBonus("Barbed Daggers")) actor.EffectManager.AddStack(StackingEffect.Bleed);
-                SuccessFeedbackSubject.Next(true);
-                return;
             }
-        }
-
-        if (collisionCounter == NumberOfKnives)
-        {
-            SuccessFeedbackSubject.Next(false);
         }
     }
 }

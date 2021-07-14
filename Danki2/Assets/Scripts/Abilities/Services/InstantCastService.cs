@@ -21,9 +21,6 @@ public class InstantCastService : AbilityService
             out InstantCast instantCast
         )) return false;
 
-        SubscribeToFeedback(instantCast);
-        StartFeedbackTimer();
-
         if (target != null)
         {
             instantCast.Cast(target);

@@ -57,7 +57,6 @@ public class Lunge : InstantCast
             CollisionSoundLevel.Low
         );
 
-        SuccessFeedbackSubject.Next(hasDealtDamage);
         Owner.MovementManager.Pause(PauseDuration);
 
         if (hasDealtDamage)

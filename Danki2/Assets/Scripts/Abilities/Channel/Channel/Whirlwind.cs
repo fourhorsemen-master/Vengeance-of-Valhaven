@@ -8,7 +8,6 @@ public class Whirlwind : Channel
     private const float spinDamageInterval = 0.35f;
     private const float spinDamageStartDelay = 0.1f;
 
-    private bool hasHitActor = false;
     private WhirlwindObject whirlwindObject;
 
     private bool slowEffectAdded = false;
@@ -43,8 +42,6 @@ public class Whirlwind : Channel
 
     private void End()
     {
-        if (!hasHitActor) SuccessFeedbackSubject.Next(false);
-
         if(slowEffectAdded) Owner.EffectManager.RemovePassiveEffect(slowEffectId);
 
         whirlwindObject.DissipateAndDestroy();
@@ -70,8 +67,6 @@ public class Whirlwind : Channel
         if (actorsHit)
         {
             CustomCamera.Instance.AddShake(ShakeIntensity.Low);
-            hasHitActor = true;
-            SuccessFeedbackSubject.Next(true);
         }
     }
 }
