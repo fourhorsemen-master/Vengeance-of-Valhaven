@@ -22,7 +22,7 @@ public class ReadyInComboProcessor : ReadyProcessor
 
         if (Time.time >= feedbackExpiry)
         {
-            newState = ComboState.Whiff;
+            newState = ComboState.Timeout;
             return true;
         }
 

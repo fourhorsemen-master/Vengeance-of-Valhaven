@@ -2662,8 +2662,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 0}
   m_AABB:
-    m_Center: {x: 0.000030621886, y: 0.9071244, z: 0.3471423}
-    m_Extent: {x: 0.11476151, y: 0.32031813, z: 0.23298535}
+    m_Center: {x: 0.000009343028, y: 0.90692294, z: 0.34392422}
+    m_Extent: {x: 0.11474442, y: 0.32051954, z: 0.22976726}
   m_DirtyAABB: 0
 --- !u!183 &5250604633547756724
 Cloth:
@@ -2883,10 +2883,9 @@ MonoBehaviour:
   centre: {fileID: 1799277828141391130}
   abilitySource: {fileID: 1765111089319286674}
   collisionTemplateSource: {fileID: 3913281348500960943}
-  shortCooldown: 0.5
-  longCooldown: 1.5
+  shortCooldown: 0.4
+  longCooldown: 1.4
   comboTimeout: 0.35
-  feedbackTimeout: 2
   rollResetsCombo: 0
   totalRollCooldown: 1
   rollDuration: 0.2
@@ -5106,8 +5105,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 0}
   m_AABB:
-    m_Center: {x: -0.023546278, y: 1.2844739, z: -0.32684773}
-    m_Extent: {x: 0.5386177, y: 0.7835851, z: 0.5202783}
+    m_Center: {x: -0.023551643, y: 1.2844737, z: -0.3268479}
+    m_Extent: {x: 0.53859586, y: 0.7835853, z: 0.5202784}
   m_DirtyAABB: 0
 --- !u!183 &4472611446018268676
 Cloth:
