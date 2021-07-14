@@ -10,5 +10,7 @@
     ShortCooldown,
     CompleteCombo,
     LongCooldown,
-    Whiff
+    Timeout,
+    TimeoutCooldown,
+    Interrupted
 }

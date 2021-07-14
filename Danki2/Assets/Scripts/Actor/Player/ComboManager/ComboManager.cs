@@ -17,20 +17,22 @@ public class ComboManager
 			.WithProcessor(ComboState.ContinueCombo, new PassthroughProcessor<ComboState>(ComboState.ShortCooldown))
 			.WithProcessor(ComboState.ShortCooldown, new ShortCooldownProcessor(player, player.ShortCooldown, continousCombo))
 			.WithProcessor(ComboState.CompleteCombo, new CompleteComboProcessor(player))
+			.WithProcessor(ComboState.Interrupted, new InterruptedProcessor(player))
 			.WithProcessor(ComboState.LongCooldown, new TimeElapsedProcessor<ComboState>(ComboState.ReadyAtRoot, player.LongCooldown))
-			.WithProcessor(ComboState.Whiff, new FailComboProcessor(player));
+			.WithProcessor(ComboState.Timeout, new TimeoutProcessor(player))
+			.WithProcessor(ComboState.TimeoutCooldown, new TimeElapsedProcessor<ComboState>(ComboState.ReadyAtRoot, player.LongCooldown - player.ComboTimeout));
 
 		player.InterruptionManager.Register(
 			InterruptionType.Soft,
-			() => workflow.ForceTransition(ComboState.Whiff),
+			() => workflow.ForceTransition(ComboState.Interrupted),
 			InterruptibleFeature.Repeat
 		);
 
-		ForceTransitionOnEvent(player.AbilityTree.ChangeSubject, ComboState.Whiff, ComboState.ReadyAtRoot, ComboState.LongCooldown);
+		ForceTransitionOnEvent(player.AbilityTree.ChangeSubject, ComboState.Interrupted, ComboState.ReadyAtRoot, ComboState.LongCooldown);
 
 		if (rollResetsCombo)
 		{
-			ForceTransitionOnEvent(player.RollSubject, ComboState.Whiff);
+			ForceTransitionOnEvent(player.RollSubject, ComboState.Interrupted);
 		}
 	}
 

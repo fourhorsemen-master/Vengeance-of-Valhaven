@@ -1,8 +1,8 @@
-﻿public class InterruptedProcessor : Processor<ComboState>
+﻿public class TimeoutProcessor : Processor<ComboState>
 {
     private readonly Player player;
 
-    public InterruptedProcessor(Player player)
+    public TimeoutProcessor(Player player)
     {
         this.player = player;
     }
@@ -18,7 +18,7 @@
 
     public bool TryCompleteProcess(out ComboState newState)
     {
-        newState = ComboState.LongCooldown;
+        newState = ComboState.TimeoutCooldown;
         return true;
     }
 }
