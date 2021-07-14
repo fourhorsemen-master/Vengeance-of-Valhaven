@@ -435,9 +435,13 @@ MonoBehaviour:
   spineSpeed: 7
   spineSlowDuration: 2
   spineCount: 3
+  rapidSpineCount: 9
   spineMaxAngle: 20
+  rapidSpineMaxAngle: 30
   spineInterval: 0.1
+  rapidSpineInterval: 0.25
   spinePauseDuration: 0.5
+  rapidSpinePauseDuration: 2
   guidedOrbDamage: 8
   guidedOrbMaxDuration: 8
   guidedOrbSpeed: 1.5
@@ -474,6 +478,7 @@ MonoBehaviour:
   forcedBlinkMaxTime: 15
   meleeAttacksBeforeBlinking: 3
   blinkDelay: 2.5
+  postBlinkAttackDelay: 0.7
   minBlinkDistance: 8
   maxBlinkDistance: 9
 --- !u!195 &1307004630582523634

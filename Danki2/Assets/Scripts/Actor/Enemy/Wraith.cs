@@ -13,8 +13,12 @@ public class Wraith : Enemy
     [SerializeField] private int spineCount = 0;
     [SerializeField] private float spineMaxAngle = 0;
     [SerializeField] private float spineInterval = 0;
-    [SerializeField] private float spinePauseDuration = 0;
-    
+
+    [Header("Rapid Spine")]
+    [SerializeField] private int rapidSpineCount = 0;
+    [SerializeField] private float rapidSpineMaxAngle = 0;
+    [SerializeField] private float rapidSpineInterval = 0;
+
     [Header("Guided Orb")]
     [SerializeField] private int guidedOrbDamage = 0;
     [SerializeField] private float guidedOrbMaxDuration = 0;
@@ -33,10 +37,14 @@ public class Wraith : Enemy
 
     public override ActorType Type => ActorType.Wraith;
 
-    public void Spine(Actor target)
+    public void Spine(Actor target) => FireSpines(target, spineCount, spineInterval, spineMaxAngle);
+
+    public void RapidSpine(Actor target) => FireSpines(target, rapidSpineCount, rapidSpineInterval, rapidSpineMaxAngle);
+
+    private void FireSpines(Actor target, int spineCount, float spineInterval, float spineMaxAngle)
     {
         MovementManager.LookAt(target.Centre);
-        MovementManager.Pause(spinePauseDuration);
+        MovementManager.Pause((spineCount + 1) * spineInterval);
 
         for (int i = 0; i < spineCount; i++)
         {

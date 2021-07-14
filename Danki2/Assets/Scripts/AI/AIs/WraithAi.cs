@@ -24,6 +24,7 @@ public class WraithAi : Ai
     [SerializeField] private float forcedBlinkMaxTime = 0;
     [SerializeField] private int meleeAttacksBeforeBlinking = 0;
     [SerializeField] private float blinkDelay = 0;
+    [SerializeField] private float postBlinkAttackDelay = 0;
     [SerializeField] private float minBlinkDistance = 0;
     [SerializeField] private float maxBlinkDistance = 0;
     
@@ -59,9 +60,11 @@ public class WraithAi : Ai
         IStateMachineComponent blinkStateMachine = new StateMachine<BlinkState>(BlinkState.Telegraph)
             .WithComponent(BlinkState.Telegraph, new WraithTelegraphBlink(wraith))
             .WithComponent(BlinkState.Blink, new WraithCastBlink(wraith, player, minBlinkDistance, maxBlinkDistance))
+            .WithComponent(BlinkState.PostBlinkAttack, new WraithCastRapidSpine(wraith, player))
             .WithComponent(BlinkState.PostBlinkPause, new WatchTarget(wraith, player))
             .WithTransition(BlinkState.Telegraph, BlinkState.Blink, new CastableTimeElapsed(wraith, blinkDelay)) // TODO: Make blink castable through stun and knockback
-            .WithTransition(BlinkState.Blink, BlinkState.PostBlinkPause);
+            .WithTransition(BlinkState.Blink, BlinkState.PostBlinkAttack)
+            .WithTransition(BlinkState.PostBlinkAttack, BlinkState.PostBlinkPause);
 
         return new StateMachine<State>(State.Idle)
             .WithComponent(State.Advance, new MoveTowards(wraith, player))
@@ -74,7 +77,7 @@ public class WraithAi : Ai
             .WithTransition(State.RangedAttacks, State.MeleeAttacks, new DistanceLessThan(player, wraith, swipeRange))
             .WithTransition(State.RangedAttacks, State.Blink, new RandomTimeElapsed(forcedBlinkMinTime, forcedBlinkMaxTime))
             .WithTransition(State.MeleeAttacks, State.Blink, new SubjectEmittedTimes(wraith.SwipeSubject, meleeAttacksBeforeBlinking))
-            .WithTransition(State.Blink, State.Advance, new CastableTimeElapsed(wraith, blinkDelay));
+            .WithTransition(State.Blink, State.Advance, new CastableTimeElapsed(wraith, blinkDelay + postBlinkAttackDelay));
     }
 
     private enum State
@@ -106,6 +109,7 @@ public class WraithAi : Ai
     {
         Telegraph,
         Blink,
+        PostBlinkAttack,
         PostBlinkPause
     }
 }
