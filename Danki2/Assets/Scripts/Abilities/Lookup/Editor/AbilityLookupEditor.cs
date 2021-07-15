@@ -77,7 +77,7 @@ public class AbilityLookupEditor : Editor
         serializableAbilityMetadata.Finisher = EditorGUILayout.Toggle("Finisher", serializableAbilityMetadata.Finisher);
         serializableAbilityMetadata.AnimationType = (AbilityAnimationType)EditorGUILayout.EnumPopup("Animation", serializableAbilityMetadata.AnimationType);
         EditChannelDuration(abilityReference, serializableAbilityMetadata);
-        EditFmodEvents(abilityReference);
+        EditFmodEvents(abilityReference, serializableAbilityMetadata);
         EditBaseAbilityData(abilityReference, serializableAbilityMetadata);
         EditAbilityBonusData(abilityReference, serializableAbilityMetadata);
 
@@ -93,7 +93,7 @@ public class AbilityLookupEditor : Editor
             serializableAbilityMetadata.ChannelDuration);
     }
 
-    private void EditFmodEvents(AbilityReference abilityReference)
+    private void EditFmodEvents(AbilityReference abilityReference, SerializableAbilityMetadata serializableAbilityMetadata)
     {
         foldoutStatus[abilityReference][AbilityDataDropdownGroup.FmodEvents] = EditorGUILayout.Foldout(
             foldoutStatus[abilityReference][AbilityDataDropdownGroup.FmodEvents],
@@ -102,10 +102,10 @@ public class AbilityLookupEditor : Editor
 
         if (!foldoutStatus[abilityReference][AbilityDataDropdownGroup.FmodEvents]) return;
 
-        SerializedProperty serializableAbilityMetadata = serializedObject.FindProperty("serializableMetadataLookup._values").GetArrayElementAtIndex((int)abilityReference);
-        EditorGUILayout.PropertyField(serializableAbilityMetadata.FindPropertyRelative("fmodVocalisationEventRef"), new GUIContent("Vocalisation"));
-        EditorGUILayout.PropertyField(serializableAbilityMetadata.FindPropertyRelative("fmodStartEventRef"), new GUIContent("Start"));
-        EditorGUILayout.PropertyField(serializableAbilityMetadata.FindPropertyRelative("fmodEndEventRef"), new GUIContent("End"));
+        serializableAbilityMetadata.AbilityVocalisationType = (AbilityVocalisationType)EditorGUILayout.EnumPopup("Vocalisation", serializableAbilityMetadata.AbilityVocalisationType);
+        SerializedProperty serializableAbilityFMODMetadata = serializedObject.FindProperty("serializableMetadataLookup._values").GetArrayElementAtIndex((int)abilityReference);
+        EditorGUILayout.PropertyField(serializableAbilityFMODMetadata.FindPropertyRelative("fmodStartEventRef"), new GUIContent("Start"));
+        EditorGUILayout.PropertyField(serializableAbilityFMODMetadata.FindPropertyRelative("fmodEndEventRef"), new GUIContent("End"));
     }
 
     private bool IsChannel(AbilityReference abilityReference)
