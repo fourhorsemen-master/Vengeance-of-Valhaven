@@ -104,6 +104,7 @@ public class EnemyMovementManager : MovementManager
     public void LockMovement(float duration, float speed, Vector3 direction, Vector3 rotation)
     {
         StopPathfinding();
+        ClearWatch();
         movementLocked = true;
         movementLockSpeed = speed;
         movementLockDirection = direction.normalized;
@@ -138,7 +139,7 @@ public class EnemyMovementManager : MovementManager
 
         navMeshAgent.speed = GetMoveSpeed();
 
-        if (watching && !movementPaused)
+        if (watching && !movementPaused && !movementLocked)
         {
             RotateTowards(watchTarget.position - enemy.transform.position);
         }

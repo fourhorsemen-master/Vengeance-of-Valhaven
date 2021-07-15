@@ -83,6 +83,11 @@ public abstract class Actor : MonoBehaviour
         startSubject.Next();
     }
 
+    protected virtual void Update()
+    {
+        updateSubject.Next();
+    }
+
     protected virtual void LateUpdate()
     {
         lateUpdateSubject.Next();
