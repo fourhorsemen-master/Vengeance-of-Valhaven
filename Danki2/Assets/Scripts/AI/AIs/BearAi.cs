@@ -41,9 +41,9 @@ public class BearAi : Ai
             .WithComponent(AttackState.Maul, new BearMaul(bear))
             .WithComponent(AttackState.Cleave, new BearCleave(bear))
             .WithTransition(AttackState.WatchTarget, AttackState.ChooseAbility, new TimeElapsed(abilityInterval) & new Facing(bear, player, maxAttackAngle))
-            .WithTransition(AttackState.TelegraphSwipe, AttackState.Swipe, new CastableTimeElapsed(bear, swipeDelay))
-            .WithTransition(AttackState.TelegraphMaul, AttackState.Maul, new CastableTimeElapsed(bear, maulDelay))
-            .WithTransition(AttackState.TelegraphCleave, AttackState.Cleave, new CastableTimeElapsed(bear, cleaveDelay))
+            .WithTransition(AttackState.TelegraphSwipe, AttackState.Swipe, new TimeElapsed(swipeDelay))
+            .WithTransition(AttackState.TelegraphMaul, AttackState.Maul, new TimeElapsed(maulDelay))
+            .WithTransition(AttackState.TelegraphCleave, AttackState.Cleave, new TimeElapsed(cleaveDelay))
             .WithTransition(AttackState.Swipe, AttackState.WatchTarget)
             .WithTransition(AttackState.Maul, AttackState.WatchTarget)
             .WithTransition(AttackState.Cleave, AttackState.WatchTarget)
@@ -68,7 +68,7 @@ public class BearAi : Ai
                 State.TelegraphCharge,
                 new DistanceLessThan(bear, player, maxChargeRange) & new RandomTimeElapsed(chargeMinInterval, chargeMaxInterval) & new HasLineOfSight(bear.CentreTransform, player.CentreTransform)
             )
-            .WithTransition(State.TelegraphCharge, State.Charge, new CastableTimeElapsed(bear, chargeDelay))
+            .WithTransition(State.TelegraphCharge, State.Charge, new TimeElapsed(chargeDelay))
             .WithTransition(State.Charge, State.Watch, new SubjectEmitted(bear.ChargeSubject))
             .WithTransition(State.Watch, State.Advance, new TimeElapsed(chargeRecoveryTime));
     }

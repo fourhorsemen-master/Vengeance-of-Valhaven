@@ -24,7 +24,7 @@ public class WolfAi : Ai
 
     [Header("Attack")]
     [SerializeField] private float followDistance = 0;
-    [SerializeField] private float biteRotationSmoothingOverride;
+    [SerializeField] private float biteRotationSmoothingOverride = 0;
     [SerializeField] private float biteRange = 0;
     [SerializeField] private float biteMaxAngle = 0;
     [SerializeField] private float biteDelay = 0;

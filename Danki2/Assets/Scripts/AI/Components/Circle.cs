@@ -2,14 +2,14 @@
 
 public class Circle : IStateMachineComponent
 {
-    private readonly Actor actor;
+    private readonly Enemy enemy;
     private readonly Actor target;
 
     private CircleDirection circleDirection;
 
-    public Circle(Actor actor, Actor target)
+    public Circle(Enemy enemy, Actor target)
     {
-        this.actor = actor;
+        this.enemy = enemy;
         this.target = target;
     }
 
@@ -20,12 +20,12 @@ public class Circle : IStateMachineComponent
 
     public void Exit()
     {
-        actor.MovementManager.StopPathfinding();
+        enemy.MovementManager.StopPathfinding();
     }
 
     public void Update()
     {
-        Vector3 position = actor.transform.position;
+        Vector3 position = enemy.transform.position;
 
         Vector3 clockwiseDirection = Vector3.Cross(Vector3.up, target.transform.position - position).normalized;
         Vector3 movementDirection = circleDirection == CircleDirection.Clockwise
@@ -34,7 +34,7 @@ public class Circle : IStateMachineComponent
 
         Vector3 destination = position + movementDirection;
 
-        if (actor.MovementManager.TryStartPathfinding(destination)) return;
+        if (enemy.MovementManager.TryStartPathfinding(destination)) return;
 
         circleDirection = circleDirection == CircleDirection.Clockwise
             ? CircleDirection.Anticlockwise
