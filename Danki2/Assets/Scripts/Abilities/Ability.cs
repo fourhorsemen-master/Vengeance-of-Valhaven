@@ -10,7 +10,7 @@ public abstract class Ability
     private readonly string fmodStartEvent;
     private readonly string fmodEndEvent;
 
-    private readonly AbilityVocalisationType fmodVocalisationEvent;
+    private readonly AbilityVocalisationType fmodVocalisationType;
     private readonly AbilityAnimationType animationType;
 
     private readonly List<EventInstance> vocalisationEventInstances = new List<EventInstance>();
@@ -86,13 +86,13 @@ public abstract class Ability
 
     protected void PlayVocalisationEvent(Vector3? position = null)
     {
-        Debug.Log(fmodVocalisationEvent);
-        if (fmodVocalisationEvent.Equals(AbilityVocalisationType.None)) return;
+        Debug.Log(fmodVocalisationType);
+        if (fmodVocalisationType.Equals(AbilityVocalisationType.None)) return;
         if (!position.HasValue) position = Owner.AbilitySource;
 
         float fmodParameterValue = 0f;
 
-        if (fmodVocalisationEvent.Equals(AbilityVocalisationType.Medium))
+        if (fmodVocalisationType.Equals(AbilityVocalisationType.Medium))
         {
             fmodParameterValue = 1f;
         }
