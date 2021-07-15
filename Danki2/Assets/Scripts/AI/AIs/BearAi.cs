@@ -63,7 +63,11 @@ public class BearAi : Ai
             .WithTransition(State.Advance, State.Attack, new DistanceLessThan(bear, player, minAdvanceRange) & new Facing(bear, player, maxAttackAngle))
             .WithTransition(State.Attack, State.Advance, new DistanceGreaterThan(bear, player, maxAttackRange) & !new IsTelegraphing(bear) & !new SubjectEmitted(bear.CleaveSubject))
             .WithTransition(State.Attack, State.TelegraphCharge, new SubjectEmitted(bear.CleaveSubject))
-            .WithTransition(State.Advance, State.TelegraphCharge, new DistanceLessThan(bear, player, maxChargeRange) & new RandomTimeElapsed(chargeMinInterval, chargeMaxInterval))
+            .WithTransition(
+                State.Advance,
+                State.TelegraphCharge,
+                new DistanceLessThan(bear, player, maxChargeRange) & new RandomTimeElapsed(chargeMinInterval, chargeMaxInterval) & new HasLineOfSight(bear.CentreTransform, player.CentreTransform)
+            )
             .WithTransition(State.TelegraphCharge, State.Charge, new CastableTimeElapsed(bear, chargeDelay))
             .WithTransition(State.Charge, State.Watch, new SubjectEmitted(bear.ChargeSubject))
             .WithTransition(State.Watch, State.Advance, new TimeElapsed(chargeRecoveryTime));
