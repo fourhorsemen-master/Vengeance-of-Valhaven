@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 
 public static class LayerUtils
 {
@@ -9,7 +8,7 @@ public static class LayerUtils
     /// </summary>
     /// <param name="layers"> The layers to include in the mask </param>
     /// <returns> The layer mask </returns>
-    public static int GetLayerMask(IEnumerable<Layer> layers)
+    public static int GetLayerMask(params Layer[] layers)
     {
         return layers.Aggregate(0, (current, layer) => current | 1 << (int)layer);
     }

@@ -72,8 +72,16 @@ public class WraithAi : Ai
             .WithComponent(State.MeleeAttacks, meleeAttackStateMachine)
             .WithComponent(State.Blink, blinkStateMachine)
             .WithTransition(State.Idle, State.Advance, new DistanceLessThan(wraith, player, aggroRange) | new TakesDamage(wraith))
-            .WithTransition(State.Advance, State.RangedAttacks, new DistanceLessThan(wraith, player, rangedAttackStateRange))
-            .WithTransition(State.RangedAttacks, State.Advance, new DistanceGreaterThan(wraith, player, rangedAttackStateRange + rangedAttackStateTolerance))
+            .WithTransition(
+                State.Advance,
+                State.RangedAttacks,
+                new DistanceLessThan(wraith, player, rangedAttackStateRange) & new HasLineOfSight(wraith.AbilitySourceTransform, player.CentreTransform)
+            )
+            .WithTransition(
+                State.RangedAttacks,
+                State.Advance,
+                new DistanceGreaterThan(wraith, player, rangedAttackStateRange + rangedAttackStateTolerance) | !new HasLineOfSight(wraith.AbilitySourceTransform, player.CentreTransform)
+            )
             .WithTransition(State.RangedAttacks, State.MeleeAttacks, new DistanceLessThan(player, wraith, swipeRange))
             .WithTransition(State.RangedAttacks, State.Blink, new RandomTimeElapsed(forcedBlinkMinTime, forcedBlinkMaxTime))
             .WithTransition(State.MeleeAttacks, State.Blink, new SubjectEmittedTimes(wraith.SwipeSubject, meleeAttacksBeforeBlinking))
