@@ -6,6 +6,7 @@
 	public string FmodEndEvent { get; }
 	public string[] ActiveBonuses { get; }
 	public AbilityAnimationType Animation { get; }
+	public AbilityVocalisationType AbilityVocalisationType { get; }
 	public float ChannelDuration { get; }
 
 	public AbilityConstructionArgs
@@ -16,6 +17,7 @@
 		string fmodEndEvent,
 		string[] activeBonuses,
 		AbilityAnimationType animationType,
+		AbilityVocalisationType abilityVocalisationType,
 		float channelDuration = -1f
 	)
 	{
@@ -25,6 +27,7 @@
 		FmodEndEvent = fmodEndEvent;
 		ActiveBonuses = activeBonuses;
 		Animation = animationType;
+		AbilityVocalisationType = abilityVocalisationType;
 		ChannelDuration = channelDuration;
 	}
 }

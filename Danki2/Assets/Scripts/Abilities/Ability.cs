@@ -7,17 +7,17 @@ using System;
 
 public abstract class Ability
 {
-    private readonly string fmodVocalisationEvent;
     private readonly string fmodStartEvent;
     private readonly string fmodEndEvent;
 
+    private readonly AbilityVocalisationType fmodVocalisationEvent;
     private readonly AbilityAnimationType animationType;
 
     private readonly List<EventInstance> vocalisationEventInstances = new List<EventInstance>();
     private readonly List<EventInstance> startEventInstances = new List<EventInstance>();
     private readonly List<EventInstance> endEventInstances = new List<EventInstance>();
 
-    protected Actor Owner { get; }
+    protected Player Owner { get; }
     
     private AbilityData AbilityData { get; }
 
@@ -25,7 +25,7 @@ public abstract class Ability
 
     protected Ability( AbilityConstructionArgs arguments )
     {
-        Owner = arguments.Owner;
+        Owner = (Player) arguments.Owner;
         AbilityData = arguments.AbilityDataObject;
         fmodStartEvent = arguments.FmodStartEvent;
         fmodEndEvent = arguments.FmodEndEvent;
@@ -86,10 +86,19 @@ public abstract class Ability
 
     protected void PlayVocalisationEvent(Vector3? position = null)
     {
-        if (string.IsNullOrEmpty(fmodVocalisationEvent)) return;
+        Debug.Log(fmodVocalisationEvent);
+        if (fmodVocalisationEvent.Equals(AbilityVocalisationType.None)) return;
         if (!position.HasValue) position = Owner.AbilitySource;
 
-        EventInstance eventInstance = FmodUtils.CreatePositionedInstance(fmodVocalisationEvent, position.Value);
+        float fmodParameterValue = 0f;
+
+        if (fmodVocalisationEvent.Equals(AbilityVocalisationType.Medium))
+        {
+            fmodParameterValue = 1f;
+        }
+        // create these as a dictionary from type to value
+
+        EventInstance eventInstance = FmodUtils.CreatePositionedInstance(Owner.VocalisationEvent, position.Value, new FmodParameter("size", fmodParameterValue));
         vocalisationEventInstances.Add(eventInstance);
         eventInstance.start();
         eventInstance.release();

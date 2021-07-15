@@ -19,6 +19,7 @@ public class Player : Actor
 
     [Header("Fmod events")]
     [EventRef] [SerializeField] private string whiffEvent = null;
+    [EventRef] [SerializeField] private string vocalisationEvent = null;
 
     private bool readyToRoll = true;
 
@@ -37,6 +38,8 @@ public class Player : Actor
     
     // Subjects
     public Subject RollSubject { get; } = new Subject();
+
+    public string VocalisationEvent { get => vocalisationEvent; }
 
     protected override Tag Tag => Tag.Player;
 

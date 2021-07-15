@@ -1,6 +1,6 @@
 public enum AbilityVocalisationType
 {
 	None,
-	Low,
-	High
+	Small,
+	Medium
 }
