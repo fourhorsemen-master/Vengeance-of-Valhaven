@@ -5,7 +5,7 @@ public class ComboManager
 {
 	private readonly ObservableWorkflow<ComboState> workflow;
 
-	public ComboManager(Player player, Subject updateSubject, bool rollResetsCombo, bool continousCombo)
+	public ComboManager(Player player, Subject updateSubject, bool continousCombo)
 	{
 		workflow = new ObservableWorkflow<ComboState>(ComboState.ReadyAtRoot, updateSubject)
 			.WithProcessor(ComboState.ReadyAtRoot, new ReadyAtRootProcessor(player))
@@ -29,11 +29,6 @@ public class ComboManager
 		);
 
 		ForceTransitionOnEvent(player.AbilityTree.ChangeSubject, ComboState.Interrupted, ComboState.ReadyAtRoot, ComboState.LongCooldown);
-
-		if (rollResetsCombo)
-		{
-			ForceTransitionOnEvent(player.RollSubject, ComboState.Interrupted);
-		}
 	}
 
 	public void SubscribeToStateEntry(ComboState state, Action action) => workflow.SubscribeToStateEntry(state, action);
