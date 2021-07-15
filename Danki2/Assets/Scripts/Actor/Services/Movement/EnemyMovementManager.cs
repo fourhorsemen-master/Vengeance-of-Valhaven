@@ -7,7 +7,7 @@ public class EnemyMovementManager : MovementManager
 
     private const float DestinationTolerance = 0.5f;
 
-    protected float? rotationSmoothingOverride = null;
+    private float? rotationSmoothingOverride = null;
 
     private Transform watchTarget = null;
     private bool watching = false;
@@ -15,11 +15,11 @@ public class EnemyMovementManager : MovementManager
     private bool movementLocked = false;
     private float movementLockSpeed;
     private Vector3 movementLockDirection;
-    private Coroutine endMovelockCoroutine;
+    private Coroutine endMoveLockCoroutine;
 
     protected override float RotationSmoothing => rotationSmoothingOverride ?? enemy.RotationSmoothing;
 
-    public override bool CanMove => !enemy.Dead && !movementPaused && !movementLocked;
+    public bool CanMove => !enemy.Dead && !movementPaused && !movementLocked;
 
     public EnemyMovementManager(Enemy enemy, Subject updateSubject, NavMeshAgent navMeshAgent)
         : base(enemy, navMeshAgent)
@@ -33,7 +33,6 @@ public class EnemyMovementManager : MovementManager
     /// <summary>
     /// Path towards the destination using navmesh pathfinding unless rooted, stunned or movement locked.
     /// </summary>
-    /// <param name="destination"></param>
     public void StartPathfinding(Vector3 destination)
     {
         navMeshAgent.isStopped = false;
@@ -48,7 +47,6 @@ public class EnemyMovementManager : MovementManager
     /// <summary>
     /// Starts pathing to navmesh point closest to given destination IF those points are within <see cref="DefaultBar"/> of eachother.
     /// </summary>
-    /// <param name="destination"></param>
     /// <returns>True if started pathfinding</returns>
     public bool TryStartPathfinding(Vector3 destination, float tolerance = DestinationTolerance)
     {
@@ -65,7 +63,6 @@ public class EnemyMovementManager : MovementManager
     /// <summary>
     /// Move along the navmesh in the given direction unless rooted, stunned or movement locked.
     /// </summary>
-    /// <param name="direction"></param>
     /// <param name="speed"> Defaults to the actors speed stat. </param>
     public void Move(Vector3 direction, float? speed = null)
     {
@@ -111,12 +108,12 @@ public class EnemyMovementManager : MovementManager
 
         if (rotation != Vector3.zero) Look(rotation);
 
-        if (endMovelockCoroutine != null)
+        if (endMoveLockCoroutine != null)
         {
-            enemy.StopCoroutine(endMovelockCoroutine);
+            enemy.StopCoroutine(endMoveLockCoroutine);
         }
 
-        endMovelockCoroutine = enemy.WaitAndAct(duration, () => movementLocked = false);
+        endMoveLockCoroutine = enemy.WaitAndAct(duration, () => movementLocked = false);
     }
 
     public void StopPathfinding()

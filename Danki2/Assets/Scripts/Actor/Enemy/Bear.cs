@@ -55,8 +55,10 @@ public class Bear : Enemy
         HealthManager.ModifiedDamageSubject.Subscribe(_ => Roar());
     }
 
-    protected void Update()
-    {        
+    protected override void Update()
+    {
+        base.Update();
+
         if (charging) ContinueCharge();
     }
 

@@ -14,7 +14,6 @@ public abstract class MovementManager
     public MotionType MotionType { get; set; } = MotionType.Run;
 
     protected abstract float RotationSmoothing { get; }
-    public abstract bool CanMove { get; }
 
     public MovementManager(Actor actor, NavMeshAgent navMeshAgent)
     {
@@ -26,7 +25,6 @@ public abstract class MovementManager
     /// <summary>
     /// Snap rotate the actor to face the position.
     /// </summary>
-    /// <param name="position"></param>
     public void LookAt(Vector3 position)
     {
         Look(position - actor.transform.position);
@@ -35,7 +33,6 @@ public abstract class MovementManager
     /// <summary>
     /// Lock the position and rotation for the given duration.
     /// </summary>
-    /// <param name="duration"></param>
     public void Pause(float duration)
     {
         movementPaused = true;
@@ -56,12 +53,11 @@ public abstract class MovementManager
 
     protected void RotateTowards(Vector3 direction)
     {
-        if (!direction.Equals(Vector3.zero))
-        {
-            Quaternion desiredRotation = Quaternion.LookRotation(direction);
-            float lerpAmount = MathUtils.GetDeltaTimeLerpAmount(RotationSmoothing);
-            actor.transform.rotation = Quaternion.Lerp(actor.transform.rotation, desiredRotation, lerpAmount);
-        }
+        if (direction.Equals(Vector3.zero)) return;
+        
+        Quaternion desiredRotation = Quaternion.LookRotation(direction);
+        float lerpAmount = MathUtils.GetDeltaTimeLerpAmount(RotationSmoothing);
+        actor.transform.rotation = Quaternion.Lerp(actor.transform.rotation, desiredRotation, lerpAmount);
     }
 
     protected float GetMoveSpeed()

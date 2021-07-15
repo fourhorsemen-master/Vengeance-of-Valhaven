@@ -29,11 +29,9 @@ public class PlayerMovementManager : MovementManager, IMovementStatusProvider
 
     private bool movedThisFrame = false;
 
-    public Subject MoveLockSubject { get; } = new Subject();
-
     protected override float RotationSmoothing => player.RotationSmoothing;
 
-    public override bool CanMove => !player.Dead
+    public bool CanMove => !player.Dead
         && !movementStatusManager.Stunned
         && !movementStatusManager.Rooted
         && !movementStatusManager.MovementLocked;
@@ -60,7 +58,6 @@ public class PlayerMovementManager : MovementManager, IMovementStatusProvider
     /// <summary>
     /// Move along the navmesh in the given direction unless rooted, stunned or movement locked.
     /// </summary>
-    /// <param name="direction"></param>
     /// <param name="speed"> Defaults to the actors speed stat. </param>
     public void Move(Vector3 direction, float? speed = null)
     {
@@ -92,10 +89,6 @@ public class PlayerMovementManager : MovementManager, IMovementStatusProvider
     /// <summary>
     /// Lock movement velocity for a given duration with a fixed rotation.
     /// </summary>
-    /// <param name="overrideLock"></param>
-    /// <param name="duration"></param>
-    /// <param name="speed"></param>
-    /// <param name="direction"></param>
     /// <param name="rotation">The rotation to maintain for the duration.</param>
     private bool TryLockMovement(bool overrideLock, float duration, float speed, Vector3 direction, Vector3 rotation)
     {
@@ -108,7 +101,6 @@ public class PlayerMovementManager : MovementManager, IMovementStatusProvider
 
         if (rotation != Vector3.zero) Look(rotation);
 
-        MoveLockSubject.Next();
         return true;
     }
 
