@@ -7,7 +7,7 @@ public abstract class Actor : MonoBehaviour
     [HideInInspector]
     public StatsDictionary baseStats = new StatsDictionary(0);
 
-    [SerializeField] private NavMeshAgent navmeshAgent = null;
+    [SerializeField] protected NavMeshAgent navmeshAgent = null;
 
     [SerializeField] private TrailRenderer trailRenderer = null;
 
@@ -19,7 +19,7 @@ public abstract class Actor : MonoBehaviour
 
     [SerializeField] private float rotationSmoothing = 0;
     public float RotationSmoothing => rotationSmoothing;
-    
+
     [SerializeField] private Animator animController = null;
     public Animator AnimController => animController;
 
@@ -51,7 +51,6 @@ public abstract class Actor : MonoBehaviour
     public StatsManager StatsManager { get; private set; }
     public HealthManager HealthManager { get; private set; }
     public EffectManager EffectManager { get; private set; }
-    public MovementManager MovementManager { get; private set; }
     public InterruptionManager InterruptionManager { get; private set; }
     public HighlightManager HighlightManager { get; private set; }
 
@@ -61,8 +60,6 @@ public abstract class Actor : MonoBehaviour
     protected abstract Tag Tag { get; }
 
     public bool IsPlayer => Tag == Tag.Player;
-    public bool CanCast => !Dead && !MovementManager.Stunned && !MovementManager.MovementLocked;
-    public float CastableTimeElapsed { get; private set; } = 0f;
 
     protected virtual void Awake()
     {
@@ -76,7 +73,6 @@ public abstract class Actor : MonoBehaviour
         EffectManager = new EffectManager(this, updateSubject);
         HealthManager = new HealthManager(this, updateSubject);
         InterruptionManager = new InterruptionManager(this, startSubject, updateSubject);
-        MovementManager = new MovementManager(this, updateSubject, navmeshAgent);
         HighlightManager = new HighlightManager(updateSubject, meshRenderers);
 
         Dead = false;
@@ -90,9 +86,6 @@ public abstract class Actor : MonoBehaviour
     protected virtual void Update()
     {
         updateSubject.Next();
-
-        if (CanCast) CastableTimeElapsed += Time.deltaTime;
-        else CastableTimeElapsed = 0f;
     }
 
     protected virtual void LateUpdate()

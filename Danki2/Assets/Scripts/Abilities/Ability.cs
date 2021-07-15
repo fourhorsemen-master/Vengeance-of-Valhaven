@@ -17,7 +17,7 @@ public abstract class Ability
     private readonly List<EventInstance> startEventInstances = new List<EventInstance>();
     private readonly List<EventInstance> endEventInstances = new List<EventInstance>();
 
-    protected Actor Owner { get; }
+    protected Player Owner { get; }
     
     private AbilityData AbilityData { get; }
 

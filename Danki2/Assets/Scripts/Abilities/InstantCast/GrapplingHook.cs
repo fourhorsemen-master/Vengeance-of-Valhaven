@@ -13,6 +13,8 @@ public class GrapplingHook : InstantCast
 
     public override void Cast(Vector3 floorTargetPosition, Vector3 offsetTargetPosition)
     {
+        // Note that grappling hook is broken.
+
         Quaternion rotation = Quaternion.LookRotation(offsetTargetPosition - Owner.Centre);
 
         Owner.MovementManager.LookAt(offsetTargetPosition);
@@ -34,14 +36,6 @@ public class GrapplingHook : InstantCast
             Vector3 pullFaceDirection = actor.transform.forward;
 
             Owner.MovementManager.Pause(pullDuration);
-
-            actor.MovementManager.TryLockMovement(
-                MovementLockType.Pull,
-                pullDuration,
-                pullSpeed,
-                pullDirection,
-                pullFaceDirection
-            );
 
             actor.WaitAndAct(pullDuration, () => actor.EffectManager.AddActiveEffect(ActiveEffect.Stun, stunDuration));
 

@@ -105,13 +105,7 @@ public class Wraith : Enemy
         Vector3 castDirection = transform.forward;
         float lungeSpeed = StatsManager.Get(Stat.Speed) * swipeMovementSpeedMultiplier;
 
-        MovementManager.TryLockMovement(
-            MovementLockType.Dash,
-            swipeMovementDuration,
-            lungeSpeed,
-            castDirection,
-            castDirection
-        );
+        MovementManager.LockMovement(swipeMovementDuration, lungeSpeed, castDirection, castDirection );
 
         StartTrail(swipeMovementDuration + swipePauseDuration);
 
