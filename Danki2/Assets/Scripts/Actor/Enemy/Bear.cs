@@ -133,7 +133,7 @@ public class Bear : Enemy
             castRotation,
             actor =>
             {
-                ChargeKnockBack(ActorCache.Instance.Player); // TODO: Template collision should be returning a player here somehow
+                ChargeKnockBack(ActorCache.Instance.Player);
                 actor.HealthManager.ReceiveDamage(chargeDamage, this);
                 CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
             }
@@ -209,7 +209,7 @@ public class Bear : Enemy
             actor =>
             {
                 actor.HealthManager.ReceiveDamage(cleaveDamage, this);
-                MaulKnockBack(ActorCache.Instance.Player); // TODO: Template collision should be returning a player here somehow
+                MaulKnockBack(ActorCache.Instance.Player);
                 CustomCamera.Instance.AddShake(ShakeIntensity.High);
             }
         );
