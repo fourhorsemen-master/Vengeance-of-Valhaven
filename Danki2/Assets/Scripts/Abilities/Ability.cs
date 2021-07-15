@@ -27,7 +27,6 @@ public abstract class Ability
     {
         Owner = arguments.Owner;
         AbilityData = arguments.AbilityDataObject;
-        fmodVocalisationEvent = arguments.FmodVocalisationEvent;
         fmodStartEvent = arguments.FmodStartEvent;
         fmodEndEvent = arguments.FmodEndEvent;
         ActiveBonuses = arguments.ActiveBonuses;

@@ -19,7 +19,6 @@ public class AbilityLookup : Singleton<AbilityLookup>
     private readonly AbilityMap<bool> playerCanCastLookup = new AbilityMap<bool>();
     private readonly AbilityMap<bool> finisherLookup = new AbilityMap<bool>();
     private readonly AbilityMap<float> channelDurationMap = new AbilityMap<float>();
-    private readonly AbilityMap<string> fmodVocalisationsEventRefs = new AbilityMap<string>();
     private readonly AbilityMap<string> fmodStartEventRefs = new AbilityMap<string>();
     private readonly AbilityMap<string> fmodEndEventRefs = new AbilityMap<string>();
     private readonly AbilityMap<AbilityAnimationType> animationTypes = new AbilityMap<AbilityAnimationType>();
@@ -69,7 +68,6 @@ public class AbilityLookup : Singleton<AbilityLookup>
             AbilityConstructionArgs args = new AbilityConstructionArgs(
                 owner,
                 abilityData,
-                fmodVocalisationsEventRefs[abilityReference],
                 fmodStartEventRefs[abilityReference],
                 fmodEndEventRefs[abilityReference],
                 activeBonuses,
@@ -99,7 +97,6 @@ public class AbilityLookup : Singleton<AbilityLookup>
             AbilityConstructionArgs args = new AbilityConstructionArgs(
                 owner,
                 abilityData,
-                fmodVocalisationsEventRefs[abilityReference],
                 fmodStartEventRefs[abilityReference],
                 fmodEndEventRefs[abilityReference],
                 activeBonuses,
@@ -147,7 +144,6 @@ public class AbilityLookup : Singleton<AbilityLookup>
             SerializableAbilityMetadata serializableAbilityMetadata = serializableMetadataLookup[ability];
 
             displayNameMap[ability] = serializableAbilityMetadata.DisplayName;
-            fmodVocalisationsEventRefs[ability] = serializableAbilityMetadata.FmodVocalisationEventRef;
             fmodStartEventRefs[ability] = serializableAbilityMetadata.FmodStartEventRef;
             fmodEndEventRefs[ability] = serializableAbilityMetadata.FmodEndEventRef;
             baseAbilityDataMap[ability] = serializableAbilityMetadata.BaseAbilityData;
