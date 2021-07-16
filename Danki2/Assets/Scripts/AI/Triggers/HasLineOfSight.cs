@@ -2,10 +2,12 @@ using UnityEngine;
 
 public class HasLineOfSight : StateMachineTrigger
 {
+    private static readonly Layer[] layersToIgnore = {Layer.Actors, Layer.ClothSim, Layer.Abilities};
+    
     private readonly Transform fromTransform;
     private readonly Transform toTransform;
 
-    private readonly int layerMask = LayerUtils.GetInvertedLayerMask(LayerUtils.GetLayerMask(Layer.Actors, Layer.ClothSim));
+    private readonly int layerMask = LayerUtils.GetInvertedLayerMask(LayerUtils.GetLayerMask(layersToIgnore));
 
     public HasLineOfSight(Transform fromTransform, Transform toTransform)
     {
