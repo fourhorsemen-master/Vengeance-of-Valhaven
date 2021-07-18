@@ -74,7 +74,7 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      fmodVocalisationEventRef: event:/CS_CharacterSounds/CS_Dialog_Attack
+      abilityVocalisationType: 1
       fmodStartEventRef: event:/AS_AbilitySounds/AS_Slash
       fmodEndEventRef: 
       animationType: 1
@@ -85,7 +85,6 @@ MonoBehaviour:
       playerCanCast: 1
       finisher: 0
       channelDuration: 0
-      abilityVocalisationType: 1
     - displayName: Whirlwind
       tooltip: Deals {PRIMARY_DAMAGE} damage 3 times per second to all nearby enemies.
         Caster has {SLOW} during channel.
@@ -94,7 +93,7 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      fmodVocalisationEventRef: 
+      abilityVocalisationType: 0
       fmodStartEventRef: 
       fmodEndEventRef: 
       animationType: 0
@@ -109,7 +108,6 @@ MonoBehaviour:
       playerCanCast: 1
       finisher: 0
       channelDuration: 2
-      abilityVocalisationType: 0
     - displayName: Barbed Dagger
       tooltip: Throw a dagger which deals {PRIMARY_DAMAGE} damage on impact and applies
         {BLEED|1}.
@@ -118,7 +116,7 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      fmodVocalisationEventRef: event:/CS_CharacterSounds/CS_Dialog_Attack
+      abilityVocalisationType: 0
       fmodStartEventRef: event:/AS_AbilitySounds/AS_FanOfKnives/AS_FanOfKnives_Draw
       fmodEndEventRef: event:/AS_AbilitySounds/AS_FanOfKnives/AS_FanOfKnives_Woosh
       animationType: 0
@@ -129,7 +127,6 @@ MonoBehaviour:
       playerCanCast: 0
       finisher: 0
       channelDuration: 0
-      abilityVocalisationType: 0
     - displayName: Lunge
       tooltip: Lunge up to 5m and deal {PRIMARY_DAMAGE} damage to enemies in a small
         cone. Applies a 0.5s {STUN} on impact.
@@ -138,7 +135,7 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      fmodVocalisationEventRef: 
+      abilityVocalisationType: 0
       fmodStartEventRef: 
       fmodEndEventRef: 
       animationType: 2
@@ -149,7 +146,6 @@ MonoBehaviour:
       playerCanCast: 1
       finisher: 0
       channelDuration: 0
-      abilityVocalisationType: 0
     - displayName: Smash
       tooltip: Deal {PRIMARY_DAMAGE} damage in a circle.
       baseAbilityData:
@@ -157,7 +153,7 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      fmodVocalisationEventRef: event:/CS_CharacterSounds/CS_Dialog_Attack
+      abilityVocalisationType: 0
       fmodStartEventRef: event:/AS_AbilitySounds/AS_Smash/AS_Smash_Draw
       fmodEndEventRef: event:/AS_AbilitySounds/AS_Smash/AS_Smash_Impact
       animationType: 4
@@ -172,7 +168,6 @@ MonoBehaviour:
       playerCanCast: 1
       finisher: 1
       channelDuration: 0.5
-      abilityVocalisationType: 0
     - displayName: Bash
       tooltip: Deal {PRIMARY_DAMAGE} to enemies in a small circle, applies a 1s {STUN}.
       baseAbilityData:
@@ -180,7 +175,7 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      fmodVocalisationEventRef: 
+      abilityVocalisationType: 0
       fmodStartEventRef: 
       fmodEndEventRef: 
       animationType: 4
@@ -191,7 +186,6 @@ MonoBehaviour:
       playerCanCast: 0
       finisher: 0
       channelDuration: 0.5
-      abilityVocalisationType: 0
     - displayName: Sweeping Strike
       tooltip: Deal {PRIMARY_DAMAGE} damage to enemies in a cone and knockback all
         enemies hit.
@@ -200,7 +194,7 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      fmodVocalisationEventRef: 
+      abilityVocalisationType: 0
       fmodStartEventRef: 
       fmodEndEventRef: 
       animationType: 1
@@ -211,7 +205,6 @@ MonoBehaviour:
       playerCanCast: 0
       finisher: 0
       channelDuration: 0
-      abilityVocalisationType: 0
     - displayName: Grappling Hook
       tooltip: Throw a hook at an enemy and pull them towards the player. The hook
         is coated in a serum which applies a 2s {STUN} to the target.
@@ -220,7 +213,7 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      fmodVocalisationEventRef: 
+      abilityVocalisationType: 0
       fmodStartEventRef: 
       fmodEndEventRef: 
       animationType: 0
@@ -231,7 +224,6 @@ MonoBehaviour:
       playerCanCast: 0
       finisher: 0
       channelDuration: 0
-      abilityVocalisationType: 0
     - displayName: Backstab
       tooltip: With an unexpected stab from behind, deal {PRIMARY_DAMAGE} damage
         to a target. However if the opponent is facing you the stab will only do
@@ -241,7 +233,7 @@ MonoBehaviour:
         secondaryDamage: 2
         heal: 0
         shield: 0
-      fmodVocalisationEventRef: 
+      abilityVocalisationType: 0
       fmodStartEventRef: 
       fmodEndEventRef: 
       animationType: 3
@@ -252,7 +244,6 @@ MonoBehaviour:
       playerCanCast: 1
       finisher: 0
       channelDuration: 0
-      abilityVocalisationType: 0
     - displayName: Piercing Rush
       tooltip: Dash for up to 10m dealing {PRIMARY_DAMAGE} damage to all enemies
         you pass.
@@ -261,7 +252,7 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      fmodVocalisationEventRef: 
+      abilityVocalisationType: 0
       fmodStartEventRef: 
       fmodEndEventRef: 
       animationType: 2
@@ -281,7 +272,6 @@ MonoBehaviour:
       playerCanCast: 1
       finisher: 1
       channelDuration: 1
-      abilityVocalisationType: 0
     - displayName: Parry
       tooltip: Caster has {BLOCK} during channel, 50% of damage blocked is dealt
         back to attackers.
@@ -290,7 +280,7 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      fmodVocalisationEventRef: 
+      abilityVocalisationType: 0
       fmodStartEventRef: 
       fmodEndEventRef: 
       animationType: 1
@@ -301,7 +291,6 @@ MonoBehaviour:
       playerCanCast: 0
       finisher: 0
       channelDuration: 1
-      abilityVocalisationType: 0
     - displayName: Rend
       tooltip: Applies {BLEED|2} to all surrounding enemies.
       baseAbilityData:
@@ -309,7 +298,7 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      fmodVocalisationEventRef: 
+      abilityVocalisationType: 0
       fmodStartEventRef: 
       fmodEndEventRef: 
       animationType: 1
@@ -320,7 +309,6 @@ MonoBehaviour:
       playerCanCast: 1
       finisher: 0
       channelDuration: 0.5
-      abilityVocalisationType: 0
     - displayName: Disengage
       tooltip: Deal {PRIMARY_DAMAGE} damage then leap backwards.
       baseAbilityData:
@@ -328,7 +316,7 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      fmodVocalisationEventRef: 
+      abilityVocalisationType: 0
       fmodStartEventRef: 
       fmodEndEventRef: 
       animationType: 2
@@ -339,7 +327,6 @@ MonoBehaviour:
       playerCanCast: 1
       finisher: 0
       channelDuration: 0
-      abilityVocalisationType: 0
     - displayName: Fan of Knives
       tooltip: Throw a fan of 3 knives in an arc, which deal {PRIMARY_DAMAGE} damage
         on impact.
@@ -348,7 +335,7 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      fmodVocalisationEventRef: event:/CS_CharacterSounds/CS_Dialog_Attack
+      abilityVocalisationType: 0
       fmodStartEventRef: event:/AS_AbilitySounds/AS_FanOfKnives/AS_FanOfKnives_Draw
       fmodEndEventRef: event:/AS_AbilitySounds/AS_FanOfKnives/AS_FanOfKnives_Woosh
       animationType: 0
@@ -363,7 +350,6 @@ MonoBehaviour:
       playerCanCast: 0
       finisher: 0
       channelDuration: 0
-      abilityVocalisationType: 0
     - displayName: Hamstring
       tooltip: Deals {PRIMARY_DAMAGE} damage to the target applies {VULNERABLE|2}.
       baseAbilityData:
@@ -371,7 +357,7 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      fmodVocalisationEventRef: 
+      abilityVocalisationType: 0
       fmodStartEventRef: 
       fmodEndEventRef: 
       animationType: 2
@@ -386,7 +372,6 @@ MonoBehaviour:
       playerCanCast: 1
       finisher: 0
       channelDuration: 0
-      abilityVocalisationType: 0
     - displayName: Ring of Death
       tooltip: Throw a ring of knives dealing {PRIMARY_DAMAGE} damage.
       baseAbilityData:
@@ -394,7 +379,7 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      fmodVocalisationEventRef: event:/CS_CharacterSounds/CS_Dialog_Attack
+      abilityVocalisationType: 0
       fmodStartEventRef: event:/AS_AbilitySounds/AS_FanOfKnives/AS_FanOfKnives_Draw
       fmodEndEventRef: event:/AS_AbilitySounds/AS_FanOfKnives/AS_FanOfKnives_Woosh
       animationType: 0
@@ -413,7 +398,6 @@ MonoBehaviour:
       playerCanCast: 0
       finisher: 1
       channelDuration: 0
-      abilityVocalisationType: 0
     - displayName: Execute
       tooltip: Deal {PRIMARY_DAMAGE} to target enemy. Do double damage when the enemy
         is below 20% health.
@@ -422,7 +406,7 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      fmodVocalisationEventRef: 
+      abilityVocalisationType: 0
       fmodStartEventRef: 
       fmodEndEventRef: 
       animationType: 4
@@ -441,7 +425,6 @@ MonoBehaviour:
       playerCanCast: 1
       finisher: 1
       channelDuration: 0.5
-      abilityVocalisationType: 0
     - displayName: Reflect
       tooltip: Caster has {BLOCK} during channel and all damage recieved in front
         of the caster is reflected back.
@@ -450,7 +433,7 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      fmodVocalisationEventRef: 
+      abilityVocalisationType: 0
       fmodStartEventRef: 
       fmodEndEventRef: 
       animationType: 2
@@ -461,7 +444,6 @@ MonoBehaviour:
       playerCanCast: 0
       finisher: 0
       channelDuration: 2
-      abilityVocalisationType: 0
     - displayName: Poison Stab
       tooltip: Deals {PRIMARY_DAMAGE} damage on impact and applies {POISON} for 10s.
       baseAbilityData:
@@ -469,7 +451,7 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      fmodVocalisationEventRef: 
+      abilityVocalisationType: 0
       fmodStartEventRef: 
       fmodEndEventRef: 
       animationType: 2
@@ -484,7 +466,6 @@ MonoBehaviour:
       playerCanCast: 1
       finisher: 1
       channelDuration: 0.4
-      abilityVocalisationType: 0
     - displayName: Eviscerate
       tooltip: Deals {PRIMARY_DAMAGE} damage and applies {BLEED|1} to enemies in
         a cone.
@@ -493,7 +474,7 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      fmodVocalisationEventRef: 
+      abilityVocalisationType: 0
       fmodStartEventRef: 
       fmodEndEventRef: 
       animationType: 1
@@ -504,7 +485,6 @@ MonoBehaviour:
       playerCanCast: 1
       finisher: 0
       channelDuration: 0
-      abilityVocalisationType: 0
     - displayName: Consume
       tooltip: Consumes all stacks of {BLEED} from all enemies. Each enemy receives
         3 damage per stack consumed from it.
@@ -513,7 +493,7 @@ MonoBehaviour:
         secondaryDamage: 0
         heal: 0
         shield: 0
-      fmodVocalisationEventRef: 
+      abilityVocalisationType: 0
       fmodStartEventRef: 
       fmodEndEventRef: 
       animationType: 0
@@ -528,4 +508,3 @@ MonoBehaviour:
       playerCanCast: 1
       finisher: 1
       channelDuration: 1
-      abilityVocalisationType: 0

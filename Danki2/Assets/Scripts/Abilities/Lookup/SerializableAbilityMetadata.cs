@@ -13,7 +13,7 @@ public class SerializableAbilityMetadata
     private AbilityData baseAbilityData = AbilityData.Zero;
 
     [SerializeField, EventRef]
-    private string fmodVocalisationEventRef = "";
+    private AbilityVocalisationType abilityVocalisationType = AbilityVocalisationType.None;
     [SerializeField, EventRef]
     private string fmodStartEventRef = "";
     [SerializeField, EventRef]
@@ -32,13 +32,11 @@ public class SerializableAbilityMetadata
     private bool finisher = false;
     [SerializeField]
     private float channelDuration = 0f;
-    [SerializeField]
-    private AbilityVocalisationType abilityVocalisationType = AbilityVocalisationType.None;
 
     public string DisplayName { get => displayName; set => displayName = value; }
     public string Tooltip { get => tooltip; set => tooltip = value; }
     public AbilityData BaseAbilityData { get => baseAbilityData; set => baseAbilityData = value; }
-    public string FmodVocalisationEventRef { get => fmodVocalisationEventRef; set => fmodVocalisationEventRef = value; }
+    public AbilityVocalisationType AbilityVocalisationType { get => abilityVocalisationType; set => abilityVocalisationType = value; }
     public string FmodStartEventRef { get => fmodStartEventRef; set => fmodStartEventRef = value; }
     public string FmodEndEventRef { get => fmodEndEventRef; set => fmodEndEventRef = value; }
     public AbilityAnimationType AnimationType { get => animationType; set => animationType = value; }
@@ -47,7 +45,6 @@ public class SerializableAbilityMetadata
     public bool PlayerCanCast { get => playerCanCast; set => playerCanCast = value; }
     public bool Finisher { get => finisher; set => finisher = value; }
     public float ChannelDuration { get => channelDuration; set => channelDuration = value; }
-    public AbilityVocalisationType AbilityVocalisationType { get => abilityVocalisationType; set => abilityVocalisationType = value; }
 
     public bool MissingData => string.IsNullOrWhiteSpace(displayName) ||
                                string.IsNullOrWhiteSpace(tooltip) ||
