@@ -435,13 +435,11 @@ MonoBehaviour:
   spineSpeed: 7
   spineSlowDuration: 2
   spineCount: 3
-  rapidSpineCount: 9
   spineMaxAngle: 20
-  rapidSpineMaxAngle: 30
   spineInterval: 0.1
+  rapidSpineCount: 9
+  rapidSpineMaxAngle: 30
   rapidSpineInterval: 0.25
-  spinePauseDuration: 0.5
-  rapidSpinePauseDuration: 2
   guidedOrbDamage: 8
   guidedOrbMaxDuration: 8
   guidedOrbSpeed: 1.5
@@ -468,6 +466,7 @@ MonoBehaviour:
   aggroRange: 12
   rangedAttackStateRange: 8
   rangedAttackStateTolerance: 2
+  minRangedAttacksDuration: 3
   spineDelay: 2
   guidedOrbDelay: 2
   swipeRotationSmoothingOverride: 0.2

@@ -1,15 +1,15 @@
 ﻿public class CanMove : StateMachineTrigger
 {
-    private readonly Actor actor;
+    private readonly Enemy enemy;
 
-    public CanMove(Actor actor)
+    public CanMove(Enemy enemy)
     {
-        this.actor = actor;
+        this.enemy = enemy;
     }
 
     public override void Activate() { }
 
     public override void Deactivate() { }
 
-    public override bool Triggers() => actor.MovementManager.CanMove;
+    public override bool Triggers() => enemy.MovementManager.CanMove;
 }

@@ -1,15 +1,15 @@
 ﻿public class StandStill : IStateMachineComponent
 {
-    private readonly Actor actor;
+    private readonly Enemy enemy;
 
-    public StandStill(Actor actor)
+    public StandStill(Enemy enemy)
     {
-        this.actor = actor;
+        this.enemy = enemy;
     }
 
     public void Enter()
     {
-        actor.MovementManager.StopPathfinding();
+        enemy.MovementManager.StopPathfinding();
     }
 
     public void Exit() {}

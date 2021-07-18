@@ -1,6 +1,6 @@
 ﻿public class AbilityConstructionArgs
 {
-	public Actor Owner { get; }
+	public Player Owner { get; }
 	public AbilityData AbilityDataObject { get; }
 	public AbilityVocalisationType AbilityVocalisationType { get; }
 	public string FmodStartEvent { get; }
@@ -11,7 +11,7 @@
 
 	public AbilityConstructionArgs
 	(
-		Actor owner,
+		Player owner,
 		AbilityData abilityData,
 		AbilityVocalisationType abilityVocalisationType,
 		string fmodStartEvent,

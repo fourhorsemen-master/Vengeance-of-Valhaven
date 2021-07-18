@@ -56,7 +56,7 @@ public class AbilityLookup : Singleton<AbilityLookup>
 
     public bool TryGetInstantCast(
         AbilityReference abilityReference,
-        Actor owner,
+        Player owner,
         AbilityData abilityDataDiff,
         string[] activeBonuses,
         out InstantCast ability
@@ -86,7 +86,7 @@ public class AbilityLookup : Singleton<AbilityLookup>
 
     public bool TryGetChannel(
         AbilityReference abilityReference,
-        Actor owner,
+        Player owner,
         AbilityData abilityDataDiff,
         string[] activeBonuses,
         out Channel ability

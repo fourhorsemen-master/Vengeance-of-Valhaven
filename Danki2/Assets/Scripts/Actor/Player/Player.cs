@@ -9,7 +9,6 @@ public class Player : Actor
     [SerializeField] private float shortCooldown = 0.75f;
     [SerializeField] private float longCooldown = 1.5f;
     [SerializeField] private float comboTimeout = 2f;
-    [SerializeField] private bool rollResetsCombo = false;
     [SerializeField] private bool continuousCombo = false;
 
     [Header("Roll")]
@@ -27,6 +26,8 @@ public class Player : Actor
     public float LongCooldown => longCooldown;
     public float ComboTimeout => comboTimeout;
 
+    public bool CanCast => !Dead && !MovementManager.Stunned && !MovementManager.MovementLocked;
+
     // Services
     public AbilityTree AbilityTree { get; private set; }
     public ComboManager ComboManager { get; private set; }
@@ -35,6 +36,7 @@ public class Player : Actor
     public CurrencyManager CurrencyManager { get; private set; }
     public ChannelService ChannelService { get; private set; }
     public InstantCastService InstantCastService { get; private set; }
+    public PlayerMovementManager MovementManager { get; private set; }
     
     // Subjects
     public Subject RollSubject { get; } = new Subject();
@@ -48,12 +50,13 @@ public class Player : Actor
         base.Awake();
 
         AbilityTree = PersistenceManager.Instance.SaveData.SerializableAbilityTree.Deserialize();
-        ComboManager = new ComboManager(this, updateSubject, rollResetsCombo, continuousCombo);
+        ComboManager = new ComboManager(this, updateSubject, continuousCombo);
         TargetFinder = new PlayerTargetFinder(this, updateSubject);
         RuneManager = new RuneManager(this);
         CurrencyManager = new CurrencyManager();
         ChannelService = new ChannelService(this, startSubject, lateUpdateSubject);
         InstantCastService = new InstantCastService(this);
+        MovementManager = new PlayerMovementManager(this, updateSubject, navmeshAgent);
 
         AbilityDataStatsDiffer abilityDataStatsDiffer = new AbilityDataStatsDiffer(this);
         RegisterAbilityDataDiffer(abilityDataStatsDiffer);
