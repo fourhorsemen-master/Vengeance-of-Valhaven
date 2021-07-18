@@ -53,7 +53,7 @@ public class MouseGamePositionFinder : Singleton<MouseGamePositionFinder>
         floorPosition = default;
         offsetPosition = default;
 
-        int layerMask = LayerUtils.GetInvertedLayerMask(LayerUtils.GetLayerMask(new[] { Layer.Actors }));
+        int layerMask = LayerUtils.GetInvertedLayerMask(LayerUtils.GetLayerMask(Layer.Actors));
         if (!Physics.Raycast(GetCameraToMouseRay(), out RaycastHit raycastHit, Mathf.Infinity, layerMask)) return false;
 
         if (!NavMesh.SamplePosition(raycastHit.point, out _, navmeshClearance, NavMesh.AllAreas)) return false;

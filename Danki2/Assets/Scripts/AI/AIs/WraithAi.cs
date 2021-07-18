@@ -10,6 +10,7 @@ public class WraithAi : Ai
     [SerializeField] private float rangedAttackStateTolerance = 0;
     
     [Header("Ranged Attacks")]
+    [SerializeField] private float minRangedAttacksDuration = 0;
     [SerializeField] private float spineDelay = 0;
     [SerializeField] private float guidedOrbDelay = 0;
     
@@ -72,9 +73,21 @@ public class WraithAi : Ai
             .WithComponent(State.MeleeAttacks, meleeAttackStateMachine)
             .WithComponent(State.Blink, blinkStateMachine)
             .WithTransition(State.Idle, State.Advance, new DistanceLessThan(wraith, player, aggroRange) | new TakesDamage(wraith))
-            .WithTransition(State.Advance, State.RangedAttacks, new DistanceLessThan(wraith, player, rangedAttackStateRange))
-            .WithTransition(State.RangedAttacks, State.Advance, new DistanceGreaterThan(wraith, player, rangedAttackStateRange + rangedAttackStateTolerance))
-            .WithTransition(State.RangedAttacks, State.MeleeAttacks, new DistanceLessThan(player, wraith, swipeRange))
+            .WithTransition(
+                State.Advance,
+                State.RangedAttacks,
+                new DistanceLessThan(wraith, player, rangedAttackStateRange) & new HasLineOfSight(wraith.AbilitySourceTransform, player.CentreTransform)
+            )
+            .WithTransition(
+                State.RangedAttacks,
+                State.Advance,
+                new TimeElapsed(minRangedAttacksDuration) &
+                    (
+                        new DistanceGreaterThan(wraith, player, rangedAttackStateRange + rangedAttackStateTolerance) |
+                        !new HasLineOfSight(wraith.AbilitySourceTransform, player.CentreTransform)
+                    )
+            )
+            .WithTransition(State.RangedAttacks, State.MeleeAttacks, new TimeElapsed(minRangedAttacksDuration) & new DistanceLessThan(player, wraith, swipeRange))
             .WithTransition(State.RangedAttacks, State.Blink, new RandomTimeElapsed(forcedBlinkMinTime, forcedBlinkMaxTime))
             .WithTransition(State.MeleeAttacks, State.Blink, new SubjectEmittedTimes(wraith.SwipeSubject, meleeAttacksBeforeBlinking))
             .WithTransition(State.Blink, State.Advance, new TimeElapsed(blinkDelay + postBlinkAttackDelay));
