@@ -87,17 +87,10 @@ public abstract class Ability
 
     protected void PlayVocalisationEvent(Vector3? position = null)
     {
-        Debug.Log(fmodVocalisationType);
         if (fmodVocalisationType.Equals(AbilityVocalisationType.None)) return;
         if (!position.HasValue) position = Owner.AbilitySource;
 
-        float fmodParameterValue = 0f;
-
-        if (fmodVocalisationType.Equals(AbilityVocalisationType.Medium))
-        {
-            fmodParameterValue = 1f;
-        }
-        // create these as a dictionary from type to value
+        float fmodParameterValue = AbilityVocalisationValueLookup.LookupTable[fmodVocalisationType];
 
         EventInstance eventInstance = FmodUtils.CreatePositionedInstance(Owner.VocalisationEvent, position.Value, new FmodParameter("size", fmodParameterValue));
         vocalisationEventInstances.Add(eventInstance);
