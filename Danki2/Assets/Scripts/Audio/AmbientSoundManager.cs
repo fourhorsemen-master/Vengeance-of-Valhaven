@@ -10,11 +10,15 @@ public class AmbientSoundManager : Singleton<AmbientSoundManager>
         [AmbientSoundType.Night] = 0,
     };
 
-    [SerializeField]
-    private StudioEventEmitter eventEmitter = null;
+    [SerializeField] private StudioEventEmitter eventEmitter = null;
+    [SerializeField] private AnimationCurve dayNightCurve = null;
 
     private void Start()
     {
-        eventEmitter.SetParameter("dayNight", parameterLookup[AmbientSoundType.Day]);
+        float depthProportion = DepthUtils.GetDepthProportion(PersistenceManager.Instance.SaveData.CurrentRoomNode);
+        float dayNightCurveValue = dayNightCurve.Evaluate(depthProportion);
+        AmbientSoundType ambientSoundType = dayNightCurveValue > 0 ? AmbientSoundType.Day : AmbientSoundType.Night;
+
+        eventEmitter.SetParameter("dayNight", parameterLookup[ambientSoundType]);
     }
 }

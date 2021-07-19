@@ -31,10 +31,7 @@ public class DynamicLighting : Singleton<DynamicLighting>
         RoomNode currentRoomNode = PersistenceManager.Instance.SaveData.CurrentRoomNode;
 
         InitialiseLights(
-            GetDepthProportion(
-                currentRoomNode.DepthInZone,
-                MapGenerationLookup.Instance.RoomsPerZoneLookup[currentRoomNode.Zone]
-            ),
+            DepthUtils.GetDepthProportion(currentRoomNode),
             currentRoomNode.CameraOrientation
         );
     }
@@ -57,10 +54,5 @@ public class DynamicLighting : Singleton<DynamicLighting>
             data.YAngle.Evaluate(depthProportion) + yRotation,
             0
         );
-    }
-
-    private float GetDepthProportion(int currentDepth, int maxDepth)
-    {
-        return (float) (currentDepth - 1) / (maxDepth - 1);
     }
 }
