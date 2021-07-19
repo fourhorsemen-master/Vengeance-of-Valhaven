@@ -7,20 +7,16 @@ using UnityEngine.SceneManagement;
 public static class DankiMenu
 {
     [MenuItem("Danki/Entry Scene")]
-    private static void RunEntryScene()
-    {
-        EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
-
-        EditorSceneManager.OpenScene("Assets/Scenes/MetaScenes/EntryScene/EntryScene.unity");
-        
-        EditorApplication.isPlaying = true;
-    }
+    private static void RunEntryScene() => RunScene("Assets/Scenes/MetaScenes/EntryScene/EntryScene.unity");
 
     [MenuItem("Danki/Asset Showcase")]
-    private static void RunAssetShowcase()
-    {
-        EditorSceneManager.OpenScene("Assets/Scenes/AssetShowcase/AssetShowcase.unity");
+    private static void RunAssetShowcase() => RunScene("Assets/Scenes/AssetShowcase/AssetShowcase.unity");
 
+    private static void RunScene(string scenePath)
+    {
+        if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
+
+        EditorSceneManager.OpenScene(scenePath);
         EditorApplication.isPlaying = true;
     }
 
