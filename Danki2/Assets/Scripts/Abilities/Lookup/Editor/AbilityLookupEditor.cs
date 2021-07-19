@@ -103,9 +103,9 @@ public class AbilityLookupEditor : Editor
         if (!foldoutStatus[abilityReference][AbilityDataDropdownGroup.FmodEvents]) return;
 
         serializableAbilityMetadata.AbilityVocalisationType = (AbilityVocalisationType)EditorGUILayout.EnumPopup("Vocalisation", serializableAbilityMetadata.AbilityVocalisationType);
-        SerializedProperty serializableAbilityFMODMetadata = serializedObject.FindProperty("serializableMetadataLookup._values").GetArrayElementAtIndex((int)abilityReference);
-        EditorGUILayout.PropertyField(serializableAbilityFMODMetadata.FindPropertyRelative("fmodStartEventRef"), new GUIContent("Start"));
-        EditorGUILayout.PropertyField(serializableAbilityFMODMetadata.FindPropertyRelative("fmodEndEventRef"), new GUIContent("End"));
+        SerializedProperty serializableAbilityFmodMetadata = serializedObject.FindProperty("serializableMetadataLookup._values").GetArrayElementAtIndex((int)abilityReference);
+        EditorGUILayout.PropertyField(serializableAbilityFmodMetadata.FindPropertyRelative("fmodStartEventRef"), new GUIContent("Start"));
+        EditorGUILayout.PropertyField(serializableAbilityFmodMetadata.FindPropertyRelative("fmodEndEventRef"), new GUIContent("End"));
     }
 
     private bool IsChannel(AbilityReference abilityReference)

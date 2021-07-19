@@ -25,7 +25,7 @@ public abstract class Ability
 
     protected Ability( AbilityConstructionArgs arguments )
     {
-        Owner = (Player) arguments.Owner;
+        Owner = arguments.Owner;
         AbilityData = arguments.AbilityDataObject;
         fmodVocalisationType = arguments.AbilityVocalisationType;
         fmodStartEvent = arguments.FmodStartEvent;

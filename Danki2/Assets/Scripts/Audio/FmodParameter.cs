@@ -1,7 +1,7 @@
 public class FmodParameter
 {
-    public string Name { get; private set; }
-    public float Value { get; private set; }
+    public string Name { get; }
+    public float Value { get; }
 
     public FmodParameter(string name, float value)
     {
