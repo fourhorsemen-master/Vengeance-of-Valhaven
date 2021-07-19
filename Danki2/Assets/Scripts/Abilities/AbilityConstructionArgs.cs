@@ -2,7 +2,7 @@
 {
 	public Player Owner { get; }
 	public AbilityData AbilityDataObject { get; }
-	public string FmodVocalisationEvent { get; }
+	public AbilityVocalisationType AbilityVocalisationType { get; }
 	public string FmodStartEvent { get; }
 	public string FmodEndEvent { get; }
 	public string[] ActiveBonuses { get; }
@@ -13,7 +13,7 @@
 	(
 		Player owner,
 		AbilityData abilityData,
-		string fmodVocalisationEvent,
+		AbilityVocalisationType abilityVocalisationType,
 		string fmodStartEvent,
 		string fmodEndEvent,
 		string[] activeBonuses,
@@ -23,7 +23,7 @@
 	{
 		Owner = owner;
 		AbilityDataObject = abilityData;
-		FmodVocalisationEvent = fmodVocalisationEvent;
+		AbilityVocalisationType = abilityVocalisationType;
 		FmodStartEvent = fmodStartEvent;
 		FmodEndEvent = fmodEndEvent;
 		ActiveBonuses = activeBonuses;

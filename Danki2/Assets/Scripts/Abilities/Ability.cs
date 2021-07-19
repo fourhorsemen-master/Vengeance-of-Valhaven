@@ -7,10 +7,10 @@ using System;
 
 public abstract class Ability
 {
-    private readonly string fmodVocalisationEvent;
     private readonly string fmodStartEvent;
     private readonly string fmodEndEvent;
 
+    private readonly AbilityVocalisationType fmodVocalisationType;
     private readonly AbilityAnimationType animationType;
 
     private readonly List<EventInstance> vocalisationEventInstances = new List<EventInstance>();
@@ -27,7 +27,7 @@ public abstract class Ability
     {
         Owner = arguments.Owner;
         AbilityData = arguments.AbilityDataObject;
-        fmodVocalisationEvent = arguments.FmodVocalisationEvent;
+        fmodVocalisationType = arguments.AbilityVocalisationType;
         fmodStartEvent = arguments.FmodStartEvent;
         fmodEndEvent = arguments.FmodEndEvent;
         ActiveBonuses = arguments.ActiveBonuses;
@@ -87,10 +87,12 @@ public abstract class Ability
 
     protected void PlayVocalisationEvent(Vector3? position = null)
     {
-        if (string.IsNullOrEmpty(fmodVocalisationEvent)) return;
+        if (fmodVocalisationType.Equals(AbilityVocalisationType.None)) return;
         if (!position.HasValue) position = Owner.AbilitySource;
 
-        EventInstance eventInstance = FmodUtils.CreatePositionedInstance(fmodVocalisationEvent, position.Value);
+        float fmodParameterValue = AbilityVocalisationValueLookup.LookupTable[fmodVocalisationType];
+
+        EventInstance eventInstance = FmodUtils.CreatePositionedInstance(Owner.VocalisationEvent, position.Value, new FmodParameter("size", fmodParameterValue));
         vocalisationEventInstances.Add(eventInstance);
         eventInstance.start();
         eventInstance.release();
