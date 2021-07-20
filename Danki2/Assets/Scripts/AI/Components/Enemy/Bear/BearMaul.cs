@@ -7,7 +7,12 @@
         this.bear = bear;
     }
 
-    public void Enter() => bear.Maul();
+    public void Enter()
+    {
+        bear.Maul();
+        bear.Idle = false;
+    }
+
     public void Exit() { }
     public void Update() { }
 }
