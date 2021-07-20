@@ -36,6 +36,7 @@ public class Player : Actor
     public CurrencyManager CurrencyManager { get; private set; }
     public ChannelService ChannelService { get; private set; }
     public InstantCastService InstantCastService { get; private set; }
+    public AbilityService2 AbilityService { get; private set; }
     public PlayerMovementManager MovementManager { get; private set; }
     
     // Subjects
@@ -56,6 +57,7 @@ public class Player : Actor
         CurrencyManager = new CurrencyManager();
         ChannelService = new ChannelService(this, startSubject, lateUpdateSubject);
         InstantCastService = new InstantCastService(this);
+        AbilityService = new AbilityService2(this);
         MovementManager = new PlayerMovementManager(this, updateSubject, navmeshAgent);
 
         AbilityDataStatsDiffer abilityDataStatsDiffer = new AbilityDataStatsDiffer(this);

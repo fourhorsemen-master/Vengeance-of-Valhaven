@@ -1,4 +1,6 @@
-﻿public class CastProcessor : Processor<ComboState>
+﻿using System.Collections.Generic;
+
+public class CastProcessor : Processor<ComboState>
 {
     private readonly Player player;
     private readonly Direction castDirection;
@@ -19,32 +21,43 @@
 
     public bool TryCompleteProcess(out ComboState nextState)
     {
-        AbilityReference abilityReference = player.AbilityTree.GetAbility(castDirection);
-        AbilityType abilityType = AbilityLookup.Instance.GetAbilityType(abilityReference);
+        Ability2 ability = new Ability2(
+            4,
+            new List<AbilityEmpowerment>(),
+            CollisionSoundLevel.Low,
+            AbilityIconManager.Instance.GetIcon(AbilityReference.Slash)
+        );
+        player.AbilityService.Cast(ability, player.TargetFinder.FloorTargetPosition);
 
-        switch (abilityType)
-        {
-            case AbilityType.InstantCast:
-                player.AbilityTree.Walk(castDirection);
-                player.InstantCastService.Cast(
-                    abilityReference,
-                    player.TargetFinder.FloorTargetPosition,
-                    player.TargetFinder.OffsetTargetPosition,
-                    player.TargetFinder.Target
-                );
-                nextState = ComboState.FinishAbility;
-                return true;
+        nextState = ComboState.FinishAbility;
 
-            case AbilityType.Channel:
-                player.AbilityTree.Walk(castDirection);
-                player.ChannelService.StartChannel(abilityReference);
-                nextState =  ComboState.Channeling;
-                return true;
-
-            default:
-                // This can never happen
-                nextState = default;
-                return false;
-        }
+        return true;
+        // AbilityReference abilityReference = player.AbilityTree.GetAbility(castDirection);
+        // AbilityType abilityType = AbilityLookup.Instance.GetAbilityType(abilityReference);
+        //
+        // switch (abilityType)
+        // {
+        //     case AbilityType.InstantCast:
+        //         player.AbilityTree.Walk(castDirection);
+        //         player.InstantCastService.Cast(
+        //             abilityReference,
+        //             player.TargetFinder.FloorTargetPosition,
+        //             player.TargetFinder.OffsetTargetPosition,
+        //             player.TargetFinder.Target
+        //         );
+        //         nextState = ComboState.FinishAbility;
+        //         return true;
+        //
+        //     case AbilityType.Channel:
+        //         player.AbilityTree.Walk(castDirection);
+        //         player.ChannelService.StartChannel(abilityReference);
+        //         nextState =  ComboState.Channeling;
+        //         return true;
+        //
+        //     default:
+        //         // This can never happen
+        //         nextState = default;
+        //         return false;
+        // }
     }
 }
