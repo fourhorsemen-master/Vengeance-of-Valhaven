@@ -35,7 +35,7 @@ public class AbilityService2
                 hasDealtDamage = true;
                 HandleCollision(ability, actor);
             },
-            ability.CollisionSoundLevel
+            AbilityLookup2.Instance.GetCollisionSoundLevel(ability)
         );
         
         HandleCameraShake(hasDealtDamage);
@@ -45,7 +45,7 @@ public class AbilityService2
 
     private void HandleCollision(Ability2 ability, Actor actor)
     {
-        actor.HealthManager.ReceiveDamage(ability.Damage, player);
+        actor.HealthManager.ReceiveDamage(AbilityLookup2.Instance.GetDamage(ability), player);
     }
 
     private void HandleCameraShake(bool hasDealtDamage)
