@@ -12,6 +12,8 @@ public class BearAi : Ai
     [SerializeField] private float chargeMinInterval = 0;
     [SerializeField] private float chargeMaxInterval = 0;
     [SerializeField] private float chargeRecoveryTime = 0;
+    [SerializeField] private float minIdleSoundTimer = 0;
+    [SerializeField] private float maxIdleSoundTimer = 0;
 
     [Header("Attack")]
     [SerializeField] private float swipeDelay = 0;
@@ -59,6 +61,7 @@ public class BearAi : Ai
             .WithComponent(State.TelegraphCharge, new TelegraphAttack(bear, Color.blue))
             .WithComponent(State.Charge, new BearChannelCharge(bear, player))
             .WithComponent(State.Watch, new WatchTarget(bear, player))
+            .WithComponent(State.Idle, new BearIdle(bear, minIdleSoundTimer, maxIdleSoundTimer))
             .WithTransition(State.Idle, State.Advance, new DistanceLessThan(bear, player, aggroDistance) | new TakesDamage(bear))
             .WithTransition(State.Advance, State.Attack, new DistanceLessThan(bear, player, minAdvanceRange) & new Facing(bear, player, maxAttackAngle))
             .WithTransition(State.Attack, State.Advance, new DistanceGreaterThan(bear, player, maxAttackRange) & !new IsTelegraphing(bear) & !new SubjectEmitted(bear.CleaveSubject))

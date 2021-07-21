@@ -8,6 +8,7 @@
     }
 
     public void Enter() => bear.Maul();
+
     public void Exit() { }
     public void Update() { }
 }

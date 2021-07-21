@@ -6,6 +6,8 @@ public class Bear : Enemy
 {
     [Header("FMOD Events"), EventRef, SerializeField]
     private string roarEvent = null;
+    [EventRef, SerializeField]
+    private string idleEvent = null;
 
     [Header("Swipe")]
     [SerializeField] private int swipeDamage = 0;
@@ -219,7 +221,14 @@ public class Bear : Enemy
 
         CleaveSubject.Next();
     }
-    
+
+    public void PlayIdleSound()
+    {
+        EventInstance fmodEvent = FmodUtils.CreatePositionedInstance(idleEvent, transform.position);
+        fmodEvent.start();
+        fmodEvent.release();
+    }
+
     private void MaulKnockBack(Player player)
     {
         Vector3 knockBackDirection = player.transform.position - transform.position;

@@ -8,6 +8,7 @@
     }
 
     public void Enter() => bear.Cleave();
+
     public void Exit() { }
     public void Update() { }
 }
