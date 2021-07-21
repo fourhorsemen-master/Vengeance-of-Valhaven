@@ -44,11 +44,6 @@ public class Bear : Enemy
     private Actor chargeTarget = null;
     private Vector3 chargeDirection;
     private bool charging = false;
-    private float idleSoundTimer;
-    private float minIdleSoundTimer = 3.5f;
-    private float maxIdleSoundTimer = 5f;
-
-    public bool Idle = true;
     
     public override ActorType Type => ActorType.Bear;
 
@@ -65,8 +60,6 @@ public class Bear : Enemy
     protected override void Update()
     {
         base.Update();
-
-        if (Idle) PlayPeriodicIdleSound();
 
         if (charging) ContinueCharge();
     }
@@ -228,7 +221,14 @@ public class Bear : Enemy
 
         CleaveSubject.Next();
     }
-    
+
+    public void PlayIdleSound()
+    {
+        EventInstance fmodEvent = FmodUtils.CreatePositionedInstance(idleEvent, transform.position);
+        fmodEvent.start();
+        fmodEvent.release();
+    }
+
     private void MaulKnockBack(Player player)
     {
         Vector3 knockBackDirection = player.transform.position - transform.position;
@@ -246,24 +246,6 @@ public class Bear : Enemy
     private void Roar()
     {
         EventInstance fmodEvent = FmodUtils.CreatePositionedInstance(roarEvent, transform.position);
-        fmodEvent.start();
-        fmodEvent.release();
-    }
-
-    private void PlayPeriodicIdleSound()
-    {
-        idleSoundTimer -= Time.deltaTime;
-
-        if (idleSoundTimer <= 0f)
-        {
-            idleSoundTimer += Random.Range(minIdleSoundTimer, maxIdleSoundTimer);
-            PlayIdleSound();
-        }
-    }
-
-    private void PlayIdleSound()
-    {
-        EventInstance fmodEvent = FmodUtils.CreatePositionedInstance(idleEvent, transform.position);
         fmodEvent.start();
         fmodEvent.release();
     }

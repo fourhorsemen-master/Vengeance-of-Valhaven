@@ -7,11 +7,7 @@
         this.bear = bear;
     }
 
-    public void Enter()
-    {
-        bear.Swipe();
-        bear.Idle = false;
-    }
+    public void Enter() => bear.Swipe();
 
     public void Exit() { }
     public void Update() { }

@@ -9,11 +9,7 @@
         this.target = target;
     }
 
-    public void Enter()
-    {
-        bear.Charge(target);
-        bear.Idle = false;
-    }
+    public void Enter() => bear.Charge(target);
 
     public void Exit() {}
     public void Update() {}
