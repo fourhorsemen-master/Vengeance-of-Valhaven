@@ -14,7 +14,7 @@ public class BearIdle : IStateMachineComponent
         this.maxIdleSoundTimer = maxIdleSoundTimer;
     }
 
-    public void Enter() => ResetIdleSoundTimer();
+    public void Enter() => idleSoundTimer = minIdleSoundTimer;
 
     public void Exit() {}
 
