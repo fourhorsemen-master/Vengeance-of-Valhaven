@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
+public class AbilityDisplayNameDictionary : SerializableEnumDictionary<Ability2, string>
+{
+    public AbilityDisplayNameDictionary(string defaultValue) : base(defaultValue) {}
+    public AbilityDisplayNameDictionary(Func<string> defaultValueProvider) : base(defaultValueProvider) {}
+}
+
+[Serializable]
 public class AbilityDamageDictionary : SerializableEnumDictionary<Ability2, int>
 {
     public AbilityDamageDictionary(int defaultValue) : base(defaultValue) {}
@@ -35,11 +42,13 @@ public class AbilityIconDictionary2 : SerializableEnumDictionary<Ability2, Sprit
 
 public class AbilityLookup2 : Singleton<AbilityLookup2>
 {
+    public AbilityDisplayNameDictionary abilityDisplayNameDictionary = new AbilityDisplayNameDictionary("");
     public AbilityDamageDictionary abilityDamageDictionary = new AbilityDamageDictionary(0);
     public AbilityEmpowermentsDictionary abilityEmpowermentsDictionary = new AbilityEmpowermentsDictionary(() => new EmpowermentsList());
     public AbilityCollisionSoundLevelDictionary abilityCollisionSoundLevelDictionary = new AbilityCollisionSoundLevelDictionary(CollisionSoundLevel.Low);
     public AbilityIconDictionary2 abilityIconDictionary = new AbilityIconDictionary2(defaultValue: null);
 
+    public string GetDisplayName(Ability2 ability) => abilityDisplayNameDictionary[ability];
     public int GetDamage(Ability2 ability) => abilityDamageDictionary[ability];
     public List<Empowerment> GetEmpowerments(Ability2 ability) => abilityEmpowermentsDictionary[ability];
     public CollisionSoundLevel GetCollisionSoundLevel(Ability2 ability) => abilityCollisionSoundLevelDictionary[ability];
