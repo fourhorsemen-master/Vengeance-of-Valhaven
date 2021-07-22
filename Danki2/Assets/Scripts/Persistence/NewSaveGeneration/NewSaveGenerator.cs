@@ -44,8 +44,8 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
     private void SetAbilityTree(SaveData saveData)
     {
         EnumDictionary<Ability2, int> ownedAbilities = new EnumDictionary<Ability2, int>(0);
-        ownedAbilities[MapGenerationLookup.Instance.LeftStartingAbility] = 1;
-        ownedAbilities[MapGenerationLookup.Instance.RightStartingAbility] = 1;
+        ownedAbilities[MapGenerationLookup.Instance.LeftStartingAbility]++;
+        ownedAbilities[MapGenerationLookup.Instance.RightStartingAbility]++;
 
         saveData.SerializableAbilityTree = AbilityTreeFactory.CreateTree(
             ownedAbilities,
