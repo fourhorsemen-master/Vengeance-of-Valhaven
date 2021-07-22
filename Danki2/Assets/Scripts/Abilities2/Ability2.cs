@@ -1,10 +1,8 @@
-using System.Collections.Generic;
-using UnityEngine;
-
 public enum Ability2
 {
-    Slash,
-    DeepSlash
+    Slash1,
+    Slash2,
+    Slash3,
 }
 
 public enum Empowerment

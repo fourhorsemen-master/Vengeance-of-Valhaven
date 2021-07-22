@@ -53,8 +53,6 @@ public class PiercingRush : Cast
         Vector3 collisionDetectionPosition = position;
         collisionDetectionPosition += Owner.transform.forward.normalized * distance / 2;
 
-        bool hasDealtDamage = false;
-
         TemplateCollision(
             CollisionTemplateShape.Cuboid,
             collisionDetectionScale,
@@ -63,7 +61,6 @@ public class PiercingRush : Cast
             actor =>
             {
                 DealDamageDuringRush(actor, direction, dashSpeed);                
-                hasDealtDamage = true;
             },
             CollisionSoundLevel.Low
         );

@@ -27,6 +27,13 @@ public class AbilityEmpowermentsDictionary : SerializableEnumDictionary<Ability2
 }
 
 [Serializable]
+public class AbilityRarityDictionary : SerializableEnumDictionary<Ability2, Rarity>
+{
+    public AbilityRarityDictionary(Rarity defaultValue) : base(defaultValue) {}
+    public AbilityRarityDictionary(Func<Rarity> defaultValueProvider) : base(defaultValueProvider) {}
+}
+
+[Serializable]
 public class AbilityCollisionSoundLevelDictionary : SerializableEnumDictionary<Ability2, CollisionSoundLevel>
 {
     public AbilityCollisionSoundLevelDictionary(CollisionSoundLevel defaultValue) : base(defaultValue) {}
@@ -45,12 +52,14 @@ public class AbilityLookup2 : Singleton<AbilityLookup2>
     public AbilityDisplayNameDictionary abilityDisplayNameDictionary = new AbilityDisplayNameDictionary("");
     public AbilityDamageDictionary abilityDamageDictionary = new AbilityDamageDictionary(0);
     public AbilityEmpowermentsDictionary abilityEmpowermentsDictionary = new AbilityEmpowermentsDictionary(() => new EmpowermentsList());
+    public AbilityRarityDictionary abilityRarityDictionary = new AbilityRarityDictionary(Rarity.Common);
     public AbilityCollisionSoundLevelDictionary abilityCollisionSoundLevelDictionary = new AbilityCollisionSoundLevelDictionary(CollisionSoundLevel.Low);
     public AbilityIconDictionary2 abilityIconDictionary = new AbilityIconDictionary2(defaultValue: null);
 
     public string GetDisplayName(Ability2 ability) => abilityDisplayNameDictionary[ability];
     public int GetDamage(Ability2 ability) => abilityDamageDictionary[ability];
     public List<Empowerment> GetEmpowerments(Ability2 ability) => abilityEmpowermentsDictionary[ability];
+    public Rarity GetRarity(Ability2 ability) => abilityRarityDictionary[ability];
     public CollisionSoundLevel GetCollisionSoundLevel(Ability2 ability) => abilityCollisionSoundLevelDictionary[ability];
     public Sprite GetIcon(Ability2 ability) => abilityIconDictionary[ability];
 }

@@ -45,30 +45,43 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityDisplayNameDictionary:
     _keys:
-    - Slash
-    - DeepSlash
+    - Slash1
+    - Slash2
+    - Slash3
     _values:
-    - 
-    - 
+    - Slash 1
+    - Slash 2
+    - Slash 3
   abilityDamageDictionary:
     _keys:
-    - Slash
-    - DeepSlash
-    _values: 0900000000000000
+    - Slash1
+    - Slash2
+    - Slash3
+    _values: 05000000070000000a000000
   abilityEmpowermentsDictionary:
     _keys:
-    - Slash
-    - DeepSlash
+    - Slash1
+    - Slash2
+    - Slash3
     _values: []
+  abilityRarityDictionary:
+    _keys:
+    - Slash1
+    - Slash2
+    - Slash3
+    _values: 000000000000000001000000
   abilityCollisionSoundLevelDictionary:
     _keys:
-    - Slash
-    - DeepSlash
-    _values: 0000000000000000
+    - Slash1
+    - Slash2
+    - Slash3
+    _values: 000000000000000000000000
   abilityIconDictionary:
     _keys:
-    - Slash
-    - DeepSlash
+    - Slash1
+    - Slash2
+    - Slash3
     _values:
-    - {fileID: 0}
-    - {fileID: 0}
+    - {fileID: 21300000, guid: 545702d9040f5024e9eed6cf8ac19a16, type: 3}
+    - {fileID: 21300000, guid: f0c21a5b30e908f44af96613d510ad94, type: 3}
+    - {fileID: 21300000, guid: 46dffb3410840a646800a6a02fbda4f3, type: 3}

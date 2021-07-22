@@ -8,7 +8,7 @@ public class AbilitySelectionMenu : MonoBehaviour
 
     private readonly List<ISubscription> subscriptions = new List<ISubscription>();
 
-    private AbilityReference selectedAbility = default;
+    private Ability2 selectedAbility = default;
 
     public Subject SkipClickedSubject { get; } = new Subject();
     public Subject ConfirmClickedSubject { get; } = new Subject();
@@ -31,7 +31,7 @@ public class AbilitySelectionMenu : MonoBehaviour
         subscriptions.Clear();
     }
 
-    private void HandleAbilitySelection(AbilityReference abilityReference)
+    private void HandleAbilitySelection(Ability2 abilityReference)
     {
         selectedAbility = abilityReference;
         abilityOptionButtons.CanConfirm = true;
@@ -45,7 +45,7 @@ public class AbilitySelectionMenu : MonoBehaviour
 
     private void HandleSkip() => SkipClickedSubject.Next();
 
-    private void HandleConfirm(AbilityReference abilityReference)
+    private void HandleConfirm(Ability2 abilityReference)
     {
         AbilitySelectionRoomManager.Instance.SelectAbility(abilityReference);
         ConfirmClickedSubject.Next();

@@ -38,7 +38,7 @@
         PersistenceManager.Instance.Save();
     }
 
-    public void SelectAbility(AbilityReference abilityReference)
+    public void SelectAbility(Ability2 abilityReference)
     {
         ActorCache.Instance.Player.AbilityTree.AddToInventory(abilityReference);
         AbilitySelected = true;

@@ -19,13 +19,13 @@ public abstract class AbilityTree
 
     public Subject ChangeSubject { get; } = new Subject();
 
-    public EnumDictionary<AbilityReference, int> OwnedAbilities { get; }
+    public EnumDictionary<Ability2, int> OwnedAbilities { get; }
 
-    public EnumDictionary<AbilityReference, int> Inventory { get; private set; }
+    public EnumDictionary<Ability2, int> Inventory { get; private set; }
 
     public Direction DirectionLastWalked { get; private set; }
 
-    protected AbilityTree(EnumDictionary<AbilityReference, int> ownedAbilities, Node rootNode)
+    protected AbilityTree(EnumDictionary<Ability2, int> ownedAbilities, Node rootNode)
     {
         OwnedAbilities = ownedAbilities;
 
@@ -54,12 +54,12 @@ public abstract class AbilityTree
         return _currentNode.HasChild(Direction.Left) || _currentNode.HasChild(Direction.Right);
     }
 
-    public AbilityReference GetAbility(Direction direction)
+    public Ability2 GetAbility(Direction direction)
     {
         return _currentNode.GetChild(direction).Ability;
     }
 
-    public AbilityReference Walk(Direction direction)
+    public Ability2 Walk(Direction direction)
     {
         _currentNode = _currentNode.GetChild(direction);
         TreeWalkSubject.Next(_currentNode);
@@ -86,7 +86,7 @@ public abstract class AbilityTree
         CurrentDepthSubject.Next(CurrentDepth);
     }
 
-    public void AddToInventory(AbilityReference abilityReference)
+    public void AddToInventory(Ability2 abilityReference)
     {
         OwnedAbilities[abilityReference]++;
         UpdateInventory();
@@ -99,7 +99,7 @@ public abstract class AbilityTree
 
     private void UpdateInventory()
     {
-        Inventory = new EnumDictionary<AbilityReference, int>(OwnedAbilities);
+        Inventory = new EnumDictionary<Ability2, int>(OwnedAbilities);
 
         RootNode.IterateDown(
             n =>

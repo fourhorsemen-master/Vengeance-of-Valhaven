@@ -4,17 +4,17 @@ using UnityEngine;
 [Serializable]
 public class SerializableNode
 {
-    [SerializeField] private AbilityReference abilityReference;
+    [SerializeField] private Ability2 abilityReference;
     [SerializeField] private int id;
     [SerializeField] private int leftChildId;
     [SerializeField] private int rightChildId;
     
-    public AbilityReference AbilityReference => abilityReference;
+    public Ability2 AbilityReference => abilityReference;
     public int Id => id;
     public int LeftChildId => leftChildId;
     public int RightChildId => rightChildId;
     
-    public SerializableNode(AbilityReference abilityReference, int id, int leftChildId, int rightChildId)
+    public SerializableNode(Ability2 abilityReference, int id, int leftChildId, int rightChildId)
     {
         this.abilityReference = abilityReference;
         this.id = id;

@@ -23,8 +23,8 @@ public class DevPersistenceManagerEditor : Editor
         EditorUtils.Header("Ability Tree");
         EditorGUI.indentLevel++;
         devPersistenceManager.ownedAbilityCount = EditorGUILayout.IntField("Owned Ability Count", devPersistenceManager.ownedAbilityCount);
-        devPersistenceManager.leftAbility = (AbilityReference) EditorGUILayout.EnumPopup("Left Ability", devPersistenceManager.leftAbility);
-        devPersistenceManager.rightAbility = (AbilityReference) EditorGUILayout.EnumPopup("Left Ability", devPersistenceManager.rightAbility);
+        devPersistenceManager.leftAbility = (Ability2) EditorGUILayout.EnumPopup("Left Ability", devPersistenceManager.leftAbility);
+        devPersistenceManager.rightAbility = (Ability2) EditorGUILayout.EnumPopup("Left Ability", devPersistenceManager.rightAbility);
         EditorGUI.indentLevel--;
         EditorUtils.VerticalSpace();
         
@@ -133,8 +133,8 @@ public class DevPersistenceManagerEditor : Editor
 
         EditorUtils.ResizeableList(
             devPersistenceManager.abilityChoices,
-            abilityChoice => (AbilityReference) EditorGUILayout.EnumPopup("Ability Choice", abilityChoice),
-            AbilityReference.Slash
+            abilityChoice => (Ability2) EditorGUILayout.EnumPopup("Ability Choice", abilityChoice),
+            Ability2.Slash1
         );
 
         EditorGUI.indentLevel--;

@@ -44,11 +44,12 @@ public class SupplementaryTooltipPanel : MonoBehaviour
         transform.position = tooltipRectTransform.position + new Vector3(horizontalOffset, 0);
     }
 
-    public void Activate(AbilityReference ability)
+    public void Activate(Ability2 ability)
     {
         Activate();
 
-        displayCoroutine = this.WaitAndAct(displayDelay, () => Display(KeywordUtils.GetKeywords(ability)));
+        // displayCoroutine = this.WaitAndAct(displayDelay, () => Display(KeywordUtils.GetKeywords(ability)));
+        displayCoroutine = this.WaitAndAct(displayDelay, () => Display(ListUtils.Singleton(Keyword.Bleed)));
     }
 
     public void Activate(Rune rune)

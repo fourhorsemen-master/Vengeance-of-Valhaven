@@ -4,13 +4,13 @@ using UnityEngine;
 [Serializable]
 public class SerializableOwnedAbility
 {
-    [SerializeField] private AbilityReference abilityReference;
+    [SerializeField] private Ability2 abilityReference;
     [SerializeField] private int count;
 
-    public AbilityReference AbilityReference => abilityReference;
+    public Ability2 AbilityReference => abilityReference;
     public int Count => count;
 
-    public SerializableOwnedAbility(AbilityReference abilityReference, int count)
+    public SerializableOwnedAbility(Ability2 abilityReference, int count)
     {
         this.abilityReference = abilityReference;
         this.count = count;

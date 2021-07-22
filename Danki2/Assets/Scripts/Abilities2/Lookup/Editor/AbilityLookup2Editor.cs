@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -11,6 +12,10 @@ public class AbilityLookup2Editor : Editor
     public override void OnInspectorGUI()
     {
         abilityLookup = (AbilityLookup2) target;
+
+        EditorUtils.ShowScriptLink(abilityLookup);
+
+        ExpandAndCollapseAll();
         
         EnumUtils.ForEach<Ability2>(EditAbilityData);
         
@@ -18,6 +23,25 @@ public class AbilityLookup2Editor : Editor
         {
             EditorUtility.SetDirty(target);
         }
+    }
+
+    private void ExpandAndCollapseAll()
+    {
+        GUILayout.BeginHorizontal();
+        if (foldoutStatus.Values.All(value => value))
+        {
+            if (GUILayout.Button("Collapse All")) SetAllFoldoutStatuses(false);
+        }
+        else
+        {
+            if (GUILayout.Button("Expand All")) SetAllFoldoutStatuses(true);
+        }
+        GUILayout.EndHorizontal();
+    }
+
+    private void SetAllFoldoutStatuses(bool value)
+    {
+        EnumUtils.ForEach<Ability2>(ability => foldoutStatus[ability] = value);
     }
 
     private void EditAbilityData(Ability2 ability)
@@ -30,6 +54,7 @@ public class AbilityLookup2Editor : Editor
         EditDisplayName(ability);
         EditDamage(ability);
         EditEmpowerments(ability);
+        EditRarity(ability);
         EditCollisionSoundLevel(ability);
         EditIcon(ability);
 
@@ -62,6 +87,14 @@ public class AbilityLookup2Editor : Editor
             defaultValue: default
         );
         EditorGUI.indentLevel--;
+    }
+
+    private void EditRarity(Ability2 ability)
+    {
+        abilityLookup.abilityRarityDictionary[ability] = (Rarity) EditorGUILayout.EnumPopup(
+            "Rarity",
+            abilityLookup.abilityRarityDictionary[ability]
+        );
     }
 
     private void EditCollisionSoundLevel(Ability2 ability)

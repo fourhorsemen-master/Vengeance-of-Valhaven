@@ -21,7 +21,7 @@ public class CastProcessor : Processor<ComboState>
 
     public bool TryCompleteProcess(out ComboState nextState)
     {
-        player.AbilityService.Cast(Ability2.Slash, player.TargetFinder.FloorTargetPosition);
+        player.AbilityService.Cast(Ability2.Slash1, player.TargetFinder.FloorTargetPosition);
 
         nextState = ComboState.FinishAbility;
 
