@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-public class CastProcessor : Processor<ComboState>
+﻿public class CastProcessor : Processor<ComboState>
 {
     private readonly Player player;
     private readonly Direction castDirection;
@@ -21,10 +19,7 @@ public class CastProcessor : Processor<ComboState>
 
     public bool TryCompleteProcess(out ComboState nextState)
     {
-        Ability2 ability = player.AbilityTree.GetAbility(castDirection);
-        player.AbilityTree.Walk(castDirection);
-        player.AbilityService.Cast(ability, player.TargetFinder.FloorTargetPosition);
-
+        player.AbilityService.Cast(castDirection, player.TargetFinder.FloorTargetPosition);
         nextState = ComboState.FinishAbility;
         return true;
     }

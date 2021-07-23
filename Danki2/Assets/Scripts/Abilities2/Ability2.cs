@@ -9,5 +9,5 @@ public enum Empowerment
 {
     DoubleDamage,
     Rupture,
-    Explode
+    DoubleRange
 }

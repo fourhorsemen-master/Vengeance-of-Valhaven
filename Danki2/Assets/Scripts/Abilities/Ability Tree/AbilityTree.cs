@@ -4,7 +4,9 @@ public abstract class AbilityTree
 {
     public Node RootNode { get; }
 
-    private Node _currentNode;
+    private Node currentNode;
+
+    public Node CurrentNode => currentNode;
 
     public int CurrentDepth { get; private set; }
 
@@ -30,10 +32,10 @@ public abstract class AbilityTree
         OwnedAbilities = ownedAbilities;
 
         RootNode = rootNode;
-        _currentNode = RootNode;
+        currentNode = RootNode;
         CurrentDepth = 0;
 
-        TreeWalkSubject = new BehaviourSubject<Node>(_currentNode);
+        TreeWalkSubject = new BehaviourSubject<Node>(currentNode);
         CurrentDepthSubject = new BehaviourSubject<int>(CurrentDepth);
 
         UpdateInventory();
@@ -46,41 +48,41 @@ public abstract class AbilityTree
 
     public bool CanWalkDirection(Direction direction)
     {
-        return _currentNode.HasChild(direction);
+        return currentNode.HasChild(direction);
     }
 
     public bool CanWalk()
     {
-        return _currentNode.HasChild(Direction.Left) || _currentNode.HasChild(Direction.Right);
+        return currentNode.HasChild(Direction.Left) || currentNode.HasChild(Direction.Right);
     }
 
     public Ability2 GetAbility(Direction direction)
     {
-        return _currentNode.GetChild(direction).Ability;
+        return currentNode.GetChild(direction).Ability;
     }
 
     public Ability2 Walk(Direction direction)
     {
-        _currentNode = _currentNode.GetChild(direction);
-        TreeWalkSubject.Next(_currentNode);
+        currentNode = currentNode.GetChild(direction);
+        TreeWalkSubject.Next(currentNode);
 
         CurrentDepth++;
         CurrentDepthSubject.Next(CurrentDepth);
 
         DirectionLastWalked = direction;
 
-        return _currentNode.Ability;
+        return currentNode.Ability;
     }
 
     public bool WalkingEndsCombo(Direction direction)
     {
-        return _currentNode.HasChild(direction) && !_currentNode.GetChild(direction).IsParent;
+        return currentNode.HasChild(direction) && !currentNode.GetChild(direction).IsParent;
     }
 
     public void Reset()
     {
-        _currentNode = RootNode;
-        TreeWalkSubject.Next(_currentNode);
+        currentNode = RootNode;
+        TreeWalkSubject.Next(currentNode);
 
         CurrentDepth = 0;
         CurrentDepthSubject.Next(CurrentDepth);

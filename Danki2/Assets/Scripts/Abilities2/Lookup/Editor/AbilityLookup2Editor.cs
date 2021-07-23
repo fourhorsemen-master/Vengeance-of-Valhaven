@@ -82,7 +82,7 @@ public class AbilityLookup2Editor : Editor
         EditorUtils.Header("Empowerments");
         EditorGUI.indentLevel++;
         EditorUtils.ResizeableList(
-            abilityLookup.abilityEmpowermentsDictionary[ability],
+            abilityLookup.abilityEmpowermentsDictionary[ability].Empowerments,
             empowerment => (Empowerment) EditorGUILayout.EnumPopup("Empowerment", empowerment),
             defaultValue: default
         );
