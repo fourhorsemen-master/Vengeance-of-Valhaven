@@ -1,10 +1,7 @@
 ﻿public enum ModuleTag
 {
-    Short,
-    Tall,
-    Leafy,
-    Rocky,
-    Rune,
-    Floating,
-    Ruins
+    Short = 0,
+    Tall = 1,
+    OnGrass = 2,
+    OnWater = 5
 }
