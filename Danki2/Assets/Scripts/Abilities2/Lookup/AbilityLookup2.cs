@@ -10,6 +10,13 @@ public class AbilityDisplayNameDictionary : SerializableEnumDictionary<Ability2,
 }
 
 [Serializable]
+public class AbilityTypeDictionary : SerializableEnumDictionary<Ability2, AbilityType2>
+{
+    public AbilityTypeDictionary(AbilityType2 defaultValue) : base(defaultValue) {}
+    public AbilityTypeDictionary(Func<AbilityType2> defaultValueProvider) : base(defaultValueProvider) {}
+}
+
+[Serializable]
 public class AbilityDamageDictionary : SerializableEnumDictionary<Ability2, int>
 {
     public AbilityDamageDictionary(int defaultValue) : base(defaultValue) {}
@@ -54,6 +61,7 @@ public class AbilityIconDictionary2 : SerializableEnumDictionary<Ability2, Sprit
 public class AbilityLookup2 : Singleton<AbilityLookup2>
 {
     public AbilityDisplayNameDictionary abilityDisplayNameDictionary = new AbilityDisplayNameDictionary("");
+    public AbilityTypeDictionary abilityTypeDictionary = new AbilityTypeDictionary(AbilityType2.Slash);
     public AbilityDamageDictionary abilityDamageDictionary = new AbilityDamageDictionary(0);
     public AbilityEmpowermentsDictionary abilityEmpowermentsDictionary = new AbilityEmpowermentsDictionary(() => new EmpowermentsWrapper());
     public AbilityRarityDictionary abilityRarityDictionary = new AbilityRarityDictionary(Rarity.Common);
@@ -61,6 +69,7 @@ public class AbilityLookup2 : Singleton<AbilityLookup2>
     public AbilityIconDictionary2 abilityIconDictionary = new AbilityIconDictionary2(defaultValue: null);
 
     public string GetDisplayName(Ability2 ability) => abilityDisplayNameDictionary[ability];
+    public AbilityType2 GetAbilityType(Ability2 ability) => abilityTypeDictionary[ability];
     public int GetDamage(Ability2 ability) => abilityDamageDictionary[ability];
     public List<Empowerment> GetEmpowerments(Ability2 ability) => abilityEmpowermentsDictionary[ability].Empowerments;
     public Rarity GetRarity(Ability2 ability) => abilityRarityDictionary[ability];

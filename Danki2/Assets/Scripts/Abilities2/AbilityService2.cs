@@ -1,6 +1,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public class AbilityCastInformation
+{
+    public AbilityType2 Type { get; }
+    public bool HasDealtDamage { get; }
+    public List<Empowerment> Empowerments { get; }
+
+    public AbilityCastInformation(AbilityType2 type, bool hasDealtDamage, List<Empowerment> empowerments)
+    {
+        Type = type;
+        HasDealtDamage = hasDealtDamage;
+        Empowerments = empowerments;
+    }
+}
+
 public class AbilityService2
 {
     private const float AbilityRange = 3;
@@ -8,7 +22,7 @@ public class AbilityService2
     
     private readonly Player player;
     
-    public Subject AbilityCastSubject { get; } = new Subject();
+    public Subject<AbilityCastInformation> AbilityCastSubject { get; } = new Subject<AbilityCastInformation>();
 
     public AbilityService2(Player player)
     {
@@ -42,10 +56,12 @@ public class AbilityService2
             AbilityLookup2.Instance.GetCollisionSoundLevel(ability)
         );
         
-        HandleCameraShake(hasDealtDamage);
-        
         player.AbilityTree.Walk(direction);
-        AbilityCastSubject.Next();
+        AbilityCastSubject.Next(new AbilityCastInformation(
+            AbilityLookup2.Instance.GetAbilityType(ability),
+            hasDealtDamage,
+            empowerments
+        ));
     }
 
     private List<Empowerment> GetActiveEmpowerments(Ability2 ability)
@@ -87,10 +103,5 @@ public class AbilityService2
         int bleedStacks = 0;
         empowerments.ForEach(e => bleedStacks += e == Empowerment.Rupture ? 1 : 0);
         return bleedStacks;
-    }
-
-    private void HandleCameraShake(bool hasDealtDamage)
-    {
-        CustomCamera.Instance.AddShake(hasDealtDamage ? ShakeIntensity.Medium : ShakeIntensity.Low);
     }
 }

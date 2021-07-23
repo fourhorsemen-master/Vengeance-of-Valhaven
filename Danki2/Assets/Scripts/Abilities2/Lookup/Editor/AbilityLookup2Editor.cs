@@ -52,6 +52,7 @@ public class AbilityLookup2Editor : Editor
         EditorGUI.indentLevel++;
 
         EditDisplayName(ability);
+        EditType(ability);
         EditDamage(ability);
         EditEmpowerments(ability);
         EditRarity(ability);
@@ -66,6 +67,14 @@ public class AbilityLookup2Editor : Editor
         abilityLookup.abilityDisplayNameDictionary[ability] = EditorGUILayout.TextField(
             "Display Name",
             abilityLookup.abilityDisplayNameDictionary[ability]
+        );
+    }
+
+    private void EditType(Ability2 ability)
+    {
+        abilityLookup.abilityTypeDictionary[ability] = (AbilityType2) EditorGUILayout.EnumPopup(
+            "Type",
+            abilityLookup.abilityTypeDictionary[ability]
         );
     }
 
