@@ -70,7 +70,7 @@ public abstract class Ability
         CollisionSoundLevel? soundLevel = null
     )
     {
-        AbilityUtils.TemplateCollision(Owner, shape, scale, position, rotation, offensiveAction, soundLevel);
+        AbilityUtils.TemplateCollision(Owner, shape, scale, position, rotation, soundLevel, enemyCallback: offensiveAction);
     }
 
     protected void TemplateCollision(
@@ -78,11 +78,11 @@ public abstract class Ability
         Vector3 scale,
         Vector3 position,
         Quaternion rotation,
-        Action<Actor> offensiveAction,
+        Action<Enemy> offensiveAction,
         CollisionSoundLevel? soundLevel = null
     )
     {
-        AbilityUtils.TemplateCollision(Owner, shape, scale, position, rotation, offensiveAction, soundLevel);
+        AbilityUtils.TemplateCollision(Owner, shape, scale, position, rotation, soundLevel, enemyCallback: offensiveAction);
     }
 
     protected void PlayVocalisationEvent(Vector3? position = null)

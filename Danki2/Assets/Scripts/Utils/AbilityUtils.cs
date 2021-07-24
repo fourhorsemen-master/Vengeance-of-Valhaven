@@ -27,11 +27,12 @@ public static class AbilityUtils
         float scale,
         Vector3 position,
         Quaternion rotation,
-        Action<Actor> offensiveAction,
-        CollisionSoundLevel? soundLevel = null
+        CollisionSoundLevel? soundLevel = null,
+        Action<Player> playerCallback = null,
+        Action<Enemy> enemyCallback = null
     )
     {
-        TemplateCollision(owner, shape, new Vector3(scale, DefaultCollisionTemplateHeight, scale), position, rotation, offensiveAction, soundLevel);
+        TemplateCollision(owner, shape, new Vector3(scale, DefaultCollisionTemplateHeight, scale), position, rotation, soundLevel, playerCallback, enemyCallback);
     }
 
     public static void TemplateCollision(
@@ -40,15 +41,18 @@ public static class AbilityUtils
         Vector3 scale,
         Vector3 position,
         Quaternion rotation,
-        Action<Actor> offensiveAction,
-        CollisionSoundLevel? soundLevel = null
+        CollisionSoundLevel? soundLevel = null,
+        Action<Player> playerCallback = null,
+        Action<Enemy> enemyCallback = null
     )
     {
         CollisionTemplate template = CollisionTemplateManager.Instance.Create(owner, shape, scale, position, rotation);
 
-        template.GetCollidingActors()
-            .Where(owner.Opposes)
-            .ForEach(offensiveAction);
+        template.GetCollidingActors().ForEach(actor =>
+        {
+            if (actor.CompareTag(Tag.Player)) playerCallback(actor as Player);
+            if (actor.CompareTag(Tag.Enemy)) enemyCallback(actor as Enemy);
+        });
 
         if (soundLevel.HasValue) template.PlayCollisionSound(soundLevel.Value);
     }

@@ -46,9 +46,9 @@ public class Wolf : Enemy
             biteRange,
             CollisionTemplateSource,
             castRotation,
-            actor =>
+            playerCallback: player =>
             {
-                actor.HealthManager.ReceiveDamage(biteDamage, this);
+                player.HealthManager.ReceiveDamage(biteDamage, this);
                 CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
             }
         );
@@ -81,9 +81,9 @@ public class Wolf : Enemy
             pounceDamageRage,
             CollisionTemplateSource,
             castRotation,
-            actor =>
+            playerCallback: player =>
             {
-                actor.HealthManager.ReceiveDamage(pounceDamage, this);
+                player.HealthManager.ReceiveDamage(pounceDamage, this);
                 CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
             }
         );
