@@ -105,6 +105,7 @@ public class EnemyMovementManager : MovementManager
         movementLocked = true;
         movementLockSpeed = speed;
         movementLockDirection = direction.normalized;
+        navMeshAgent.updateRotation = false;
 
         if (rotation != Vector3.zero) Look(rotation);
 
@@ -113,7 +114,10 @@ public class EnemyMovementManager : MovementManager
             enemy.StopCoroutine(endMoveLockCoroutine);
         }
 
-        endMoveLockCoroutine = enemy.WaitAndAct(duration, () => movementLocked = false);
+        endMoveLockCoroutine = enemy.WaitAndAct(duration, () => {
+            movementLocked = false;
+            navMeshAgent.updateRotation = true;
+        });
     }
 
     public void StopPathfinding()
