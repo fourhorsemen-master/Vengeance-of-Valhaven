@@ -50,8 +50,8 @@ public static class AbilityUtils
 
         template.GetCollidingActors().ForEach(actor =>
         {
-            if (actor.CompareTag(Tag.Player)) playerCallback(actor as Player);
-            if (actor.CompareTag(Tag.Enemy)) enemyCallback(actor as Enemy);
+            if (actor.CompareTag(Tag.Player)) playerCallback?.Invoke(actor as Player);
+            if (actor.CompareTag(Tag.Enemy)) enemyCallback?.Invoke(actor as Enemy);
         });
 
         if (soundLevel.HasValue) template.PlayCollisionSound(soundLevel.Value);
