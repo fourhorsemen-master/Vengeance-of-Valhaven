@@ -10,6 +10,7 @@
     }
 
     public void Enter() => bear.Charge(target);
+
     public void Exit() {}
     public void Update() {}
 }

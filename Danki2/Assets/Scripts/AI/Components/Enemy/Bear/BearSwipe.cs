@@ -8,6 +8,7 @@
     }
 
     public void Enter() => bear.Swipe();
+
     public void Exit() { }
     public void Update() { }
 }
