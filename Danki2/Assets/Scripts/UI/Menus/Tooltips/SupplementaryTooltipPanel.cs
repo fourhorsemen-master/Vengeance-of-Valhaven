@@ -48,8 +48,7 @@ public class SupplementaryTooltipPanel : MonoBehaviour
     {
         Activate();
 
-        // displayCoroutine = this.WaitAndAct(displayDelay, () => Display(KeywordUtils.GetKeywords(ability)));
-        displayCoroutine = this.WaitAndAct(displayDelay, () => Display(ListUtils.Singleton(Keyword.Bleed)));
+        displayCoroutine = this.WaitAndAct(displayDelay, () => Display(KeywordUtils.GetKeywords(ability)));
     }
 
     public void Activate(Rune rune)

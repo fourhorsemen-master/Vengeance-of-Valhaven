@@ -12,5 +12,8 @@
     Block,
     Bleed,
     Poison,
-    Vulnerable
+    Vulnerable,
+    DoubleDamage,
+    Rupture,
+    DoubleRange,
 }
