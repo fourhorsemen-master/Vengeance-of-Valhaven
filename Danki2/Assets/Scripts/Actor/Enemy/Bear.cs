@@ -84,9 +84,9 @@ public class Bear : Enemy
             swipeDamageRange,
             CollisionTemplateSource,
             castRotation,
-            actor =>
+            playerCallback: player =>
             {
-                actor.HealthManager.ReceiveDamage(swipeDamage, this);
+                player.HealthManager.ReceiveDamage(swipeDamage, this);
                 CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
             }
         );
@@ -133,10 +133,10 @@ public class Bear : Enemy
             chargeDamageRange,
             CollisionTemplateSource,
             castRotation,
-            actor =>
+            playerCallback: player =>
             {
-                ChargeKnockBack(ActorCache.Instance.Player);
-                actor.HealthManager.ReceiveDamage(chargeDamage, this);
+                ChargeKnockBack(player);
+                player.HealthManager.ReceiveDamage(chargeDamage, this);
                 CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
             }
         );
@@ -183,10 +183,10 @@ public class Bear : Enemy
             maulBiteRange,
             CollisionTemplateSource,
             castRotation,
-            actor =>
+            playerCallback: player =>
             {
-                actor.HealthManager.ReceiveDamage(maulDamage, this);
-                actor.EffectManager.AddActiveEffect(ActiveEffect.Slow, maulSlowDuration);
+                player.HealthManager.ReceiveDamage(maulDamage, this);
+                player.EffectManager.AddActiveEffect(ActiveEffect.Slow, maulSlowDuration);
                 CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
             }
         );
@@ -208,10 +208,10 @@ public class Bear : Enemy
             cleaveRange,
             CollisionTemplateSource,
             castRotation,
-            actor =>
+            playerCallback: player =>
             {
-                actor.HealthManager.ReceiveDamage(cleaveDamage, this);
-                MaulKnockBack(ActorCache.Instance.Player);
+                player.HealthManager.ReceiveDamage(cleaveDamage, this);
+                MaulKnockBack(player);
                 CustomCamera.Instance.AddShake(ShakeIntensity.High);
             }
         );
