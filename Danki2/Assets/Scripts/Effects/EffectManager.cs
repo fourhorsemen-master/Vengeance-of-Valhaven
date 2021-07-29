@@ -142,6 +142,7 @@ public class EffectManager
     public void AddStacks(StackingEffect effect, int stackCount)
     {
         if (actor.Dead) return;
+        if (stackCount <= 0) return;
 
         stacks[effect] = EffectLookup.Instance.HasMaxStackSize(effect)
             ? Math.Min(EffectLookup.Instance.GetMaxStackSize(effect), stacks[effect] + stackCount)
