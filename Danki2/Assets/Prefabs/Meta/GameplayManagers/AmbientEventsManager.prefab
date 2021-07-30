@@ -43,5 +43,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de46d7b4931fef14abe61812789f2041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ambientEvents: []
-  Event: event:/AM_Ambience/AM_Forest/AM_Forest_Trees
+  AmbientEvents:
+  - event:/AM_Ambience/AM_Forest/AM_Forest_Birds
+  - event:/AM_Ambience/AM_Forest/AM_Forest_Trees
+  AmbientEventMinFrequency: 3
+  AmbientEventMaxFrequency: 6
+  MinAmbientEventDistanceFromPlayer: 7
+  MaxAmbientEventDistanceFromPlayer: 15

@@ -11,13 +11,11 @@ public class AmbientEventsManagerEditor : Editor
 
         EditorUtils.ShowScriptLink(ambientEventsManager);
 
-        EditorUtils.Header("Ambient Events");
+        SetupGeneralOptions(ambientEventsManager);
 
-        EditorUtils.ResizeableList(
-            ambientEventsManager.ambientEvents,
-            _ => EditAmbientEventData(),
-            ""
-            );
+        EditorUtils.VerticalSpace();
+
+        SetupAmbientEventsList(ambientEventsManager);
 
         if (GUI.changed)
         {
@@ -25,9 +23,35 @@ public class AmbientEventsManagerEditor : Editor
         }
     }
 
-    private void EditAmbientEventData()
+    private void SetupGeneralOptions(AmbientEventsManager ambientEventsManager)
     {
-        SerializedProperty ambientEvent = serializedObject.FindProperty("Event");
-        EditorGUILayout.PropertyField(ambientEvent, new GUIContent("Event"));
+        EditorUtils.Header("General Options");
+
+        EditorUtils.VerticalSpace();
+
+        ambientEventsManager.AmbientEventMinFrequency = EditorGUILayout.FloatField(new GUIContent("Play Events Min Frequency"), ambientEventsManager.AmbientEventMinFrequency);
+        ambientEventsManager.AmbientEventMaxFrequency = EditorGUILayout.FloatField(new GUIContent("Play Events Max Frequency"), ambientEventsManager.AmbientEventMaxFrequency);
+        ambientEventsManager.MinAmbientEventDistanceFromPlayer = EditorGUILayout.FloatField(new GUIContent("Minimum Distance"), ambientEventsManager.MinAmbientEventDistanceFromPlayer);
+        ambientEventsManager.MaxAmbientEventDistanceFromPlayer = EditorGUILayout.FloatField(new GUIContent("Maximum Distance"), ambientEventsManager.MaxAmbientEventDistanceFromPlayer);
+    }
+
+    private void SetupAmbientEventsList(AmbientEventsManager ambientEventsManager)
+    {
+        EditorUtils.Header("Ambient Events");
+
+        EditorUtils.ResizeableList(
+            ambientEventsManager.AmbientEvents,
+            ambientEvent => EditAmbientEventData(ambientEventsManager.AmbientEvents, ambientEvent),
+            ""
+            );
+    }
+
+    private void EditAmbientEventData(List<string> items, string item)
+    {
+        EditorUtils.VerticalSpace();
+
+        int index = items.IndexOf(item);
+        SerializedProperty ambientEvents = serializedObject.FindProperty("AmbientEvents").GetArrayElementAtIndex(index);
+        EditorGUILayout.PropertyField(ambientEvents, new GUIContent("Event Audio File"));
     }
 }

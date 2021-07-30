@@ -4,8 +4,22 @@ using UnityEngine;
 
 public class AmbientEventsManager : Singleton<AmbientEventsManager>
 {
-    public List<string> ambientEvents = new List<string>();
-
     [SerializeField, EventRef]
-    public string Event = "";
+    public List<string> AmbientEvents = new List<string>();
+
+    [SerializeField]
+    public float AmbientEventMinFrequency;
+    [SerializeField]
+    public float AmbientEventMaxFrequency;
+    [SerializeField]
+    public float MinAmbientEventDistanceFromPlayer;
+    [SerializeField]
+    public float MaxAmbientEventDistanceFromPlayer;
+
+    private AmbientSoundType dayNightType => AmbientSoundManager.Instance.AmbientSoundType;
+
+    private void Update()
+    {
+        
+    }
 }
