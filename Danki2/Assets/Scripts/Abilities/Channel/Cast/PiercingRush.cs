@@ -58,10 +58,7 @@ public class PiercingRush : Cast
             collisionDetectionScale,
             collisionDetectionPosition,
             Quaternion.LookRotation(direction),
-            actor =>
-            {
-                DealDamageDuringRush(actor, direction, dashSpeed);                
-            },
+            actor => DealDamageDuringRush(actor, direction, dashSpeed),
             CollisionSoundLevel.Low
         );
 
