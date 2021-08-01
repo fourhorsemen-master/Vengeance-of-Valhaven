@@ -55,12 +55,12 @@ public class AbilityService2
             CalculateRange(empowerments),
             player.CollisionTemplateSource,
             castRotation,
-            actor =>
+            AbilityLookup2.Instance.GetCollisionSoundLevel(ability),
+            enemyCallback: enemy =>
             {
                 hasDealtDamage = true;
-                HandleCollision(ability, actor, empowerments);
-            },
-            AbilityLookup2.Instance.GetCollisionSoundLevel(ability)
+                HandleCollision(ability, enemy, empowerments);
+            }
         );
         
         player.AbilityTree.Walk(direction);
@@ -93,10 +93,10 @@ public class AbilityService2
         return range;
     }
 
-    private void HandleCollision(Ability2 ability, Actor actor, List<Empowerment> empowerments)
+    private void HandleCollision(Ability2 ability, Enemy enemy, List<Empowerment> empowerments)
     {
-        actor.HealthManager.ReceiveDamage(CalculateDamage(ability, empowerments), player);
-        actor.EffectManager.AddStacks(StackingEffect.Bleed, CalculateBleedStacks(empowerments));
+        enemy.HealthManager.ReceiveDamage(CalculateDamage(ability, empowerments), player);
+        enemy.EffectManager.AddStacks(StackingEffect.Bleed, CalculateBleedStacks(empowerments));
     }
 
     private int CalculateDamage(Ability2 ability, List<Empowerment> empowerments)
