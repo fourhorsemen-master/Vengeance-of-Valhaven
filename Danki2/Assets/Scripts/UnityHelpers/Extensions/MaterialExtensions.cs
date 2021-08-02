@@ -4,7 +4,7 @@ public static class MaterialExtensions
 {
     private static readonly int emissiveColorId = Shader.PropertyToID("_EmissiveColor");
     private static readonly int unlitColorId = Shader.PropertyToID("_UnlitColor");
-    private static readonly int colorId = Shader.PropertyToID("Color");
+    private static readonly int colorId = Shader.PropertyToID("_BaseColor");
 
     public static Color GetEmissiveColour(this Material material)
     {

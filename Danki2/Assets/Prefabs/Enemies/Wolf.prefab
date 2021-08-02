@@ -583,8 +583,6 @@ MonoBehaviour:
   navmeshAgent: {fileID: -7685572653157387656}
   trailRenderer: {fileID: 1836045994299074019}
   meshRenderers:
-  - {fileID: 3221910092372264692}
-  - {fileID: 2657111828653746043}
   - {fileID: 7327917836514509559}
   weight: 1
   rotationSmoothing: 0.1
@@ -705,7 +703,8 @@ MonoBehaviour:
   meshes:
   - {fileID: 3221910092372264692}
   - {fileID: 2657111828653746043}
-  intensity: 6
+  intensity: 1
+  updateBaseColour: 1
 --- !u!1 &9082533613867621145
 GameObject:
   m_ObjectHideFlags: 0
