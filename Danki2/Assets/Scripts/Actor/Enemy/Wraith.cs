@@ -91,9 +91,9 @@ public class Wraith : Enemy
             guidedOrbRange,
             position,
             Quaternion.identity,
-            actor =>
+            playerCallback: player =>
             {
-                actor.HealthManager.ReceiveDamage(guidedOrbDamage, this);
+                player.HealthManager.ReceiveDamage(guidedOrbDamage, this);
             }
         );
 
@@ -124,12 +124,12 @@ public class Wraith : Enemy
             swipeRange,
             CollisionTemplateSource,
             castRotation,
-            actor =>
+            CollisionSoundLevel.Low,
+            player =>
             {
-                actor.HealthManager.ReceiveDamage(swipeDamage, this);
+                player.HealthManager.ReceiveDamage(swipeDamage, this);
                 CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
-            },
-            CollisionSoundLevel.Low
+            }
         );
 
         WraithSwipeObject.Create(AbilitySource, castRotation);
