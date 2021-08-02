@@ -7,7 +7,7 @@ public class EmitEnergy : MonoBehaviour
     private List<MeshRenderer> meshes = null;
 
     [SerializeField]
-    private int intensity = 0;
+    private float intensity = 0;
 
     [SerializeField]
     private bool updateBaseColour = false;
