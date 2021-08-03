@@ -22,6 +22,6 @@ public class AmbientSoundManager : Singleton<AmbientSoundManager>
         float dayNightCurveValue = dayNightCurve.Evaluate(depthProportion);
         ambientSoundType = dayNightCurveValue > 0 ? AmbientSoundType.Day : AmbientSoundType.Night;
 
-        eventEmitter.SetParameter("dayNight", parameterLookup[ambientSoundType]);
+        eventEmitter.SetParameter("dayNight", AmbientSoundTypeLookup);
     }
 }
