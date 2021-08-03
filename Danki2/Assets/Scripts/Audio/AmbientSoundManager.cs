@@ -14,7 +14,7 @@ public class AmbientSoundManager : Singleton<AmbientSoundManager>
     [SerializeField] private AnimationCurve dayNightCurve = null;
 
     private AmbientSoundType ambientSoundType;
-    public AmbientSoundType AmbientSoundType { get => ambientSoundType; }
+    public float AmbientSoundTypeLookup { get => parameterLookup[ambientSoundType]; }
 
     private void Start()
     {

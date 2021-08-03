@@ -16,7 +16,7 @@ public class AmbientEventsManager : Singleton<AmbientEventsManager>
     [SerializeField]
     public float MaxAmbientEventDistanceFromPlayer;
 
-    private AmbientSoundType dayNightType => AmbientSoundManager.Instance.AmbientSoundType;
+    private float dayNightType => AmbientSoundManager.Instance.AmbientSoundTypeLookup;
 
     private bool audioPlayed = true;
 
@@ -46,6 +46,6 @@ public class AmbientEventsManager : Singleton<AmbientEventsManager>
         position.x += distance * Mathf.Sin(angle);
         position.z += distance * Mathf.Cos(angle);
 
-        RuntimeManager.PlayOneShot(ambientEvent, position);
+        RuntimeManager.PlayOneShot(ambientEvent, "dayNight", dayNightType, position);
     }
 }
