@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class AbilityVfxManager : MonoBehaviour
@@ -19,13 +20,30 @@ public class AbilityVfxManager : MonoBehaviour
         
         abilityCastInformation.Empowerments.ForEach(empowerment =>
         {
-            SlashObject.Create(
-                player.AbilitySource,
-                abilityCastInformation.CastRotation * Quaternion.Euler(0, offset, 0),
-                EmpowermentLookup.Instance.GetColour(empowerment)
-            );
-
+            CreateVFX(abilityCastInformation, empowerment, offset);
             offset += offsetIncrement;
         });
+    }
+
+    private void CreateVFX(AbilityCastInformation abilityCastInformation, Empowerment empowerment, float offset)
+    {
+        switch (abilityCastInformation.Type)
+        {
+            case AbilityType2.Slash:
+            case AbilityType2.Thrust:
+                SlashObject.Create(
+                    player.AbilitySource,
+                    abilityCastInformation.CastRotation * Quaternion.Euler(0, offset, 0),
+                    EmpowermentLookup.Instance.GetColour(empowerment)
+                );
+                break;
+            case AbilityType2.Smash:
+                SmashObject.Create(
+                    player.transform.position,
+                    rotation: Quaternion.Euler(0, offset, 0),
+                    colour: EmpowermentLookup.Instance.GetColour(empowerment)
+                );
+                break;
+        }
     }
 }
