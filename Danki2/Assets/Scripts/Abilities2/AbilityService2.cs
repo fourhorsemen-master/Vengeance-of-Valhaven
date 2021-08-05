@@ -1,31 +1,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AbilityCastInformation
-{
-    public AbilityType2 Type { get; }
-    public bool HasDealtDamage { get; }
-    public List<Empowerment> Empowerments { get; }
-    public Quaternion CastRotation { get; }
-
-    public AbilityCastInformation(
-        AbilityType2 type,
-        bool hasDealtDamage,
-        List<Empowerment> empowerments,
-        Quaternion castRotation
-    )
-    {
-        Type = type;
-        HasDealtDamage = hasDealtDamage;
-        Empowerments = empowerments;
-        CastRotation = castRotation;
-    }
-}
-
 public class AbilityService2
 {
     private const float AbilityRange = 3;
     private const float AbilityPauseDuration = 0.3f;
+
+    private static readonly Dictionary<AbilityType2, CollisionTemplateShape> collisionTemplateLookup =
+        new Dictionary<AbilityType2, CollisionTemplateShape>
+        {
+            [AbilityType2.Slash] = CollisionTemplateShape.Wedge90,
+            [AbilityType2.Smash] = CollisionTemplateShape.Cylinder,
+            [AbilityType2.Thrust] = CollisionTemplateShape.Wedge45,
+        };
     
     private readonly Player player;
     
@@ -51,7 +38,7 @@ public class AbilityService2
         
         AbilityUtils.TemplateCollision(
             player,
-            CollisionTemplateShape.Wedge90,
+            collisionTemplateLookup[AbilityLookup2.Instance.GetAbilityType(ability)],
             CalculateRange(empowerments),
             player.CollisionTemplateSource,
             castRotation,
