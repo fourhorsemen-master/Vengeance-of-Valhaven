@@ -134,7 +134,7 @@ public class DevPersistenceManagerEditor : Editor
         EditorUtils.ResizeableList(
             devPersistenceManager.abilityChoices,
             abilityChoice => (Ability2) EditorGUILayout.EnumPopup("Ability Choice", abilityChoice),
-            Ability2.Slash1
+            Ability2.Slash
         );
 
         EditorGUI.indentLevel--;

@@ -1,6 +1,10 @@
 public enum Ability2
 {
-    Slash1,
-    Slash2,
-    Slash3,
+    Slash,
+    Smash,
+    Thrust,
+    Hack,
+    ThunderousSmash,
+    Skewer,
+    Calamity,
 }

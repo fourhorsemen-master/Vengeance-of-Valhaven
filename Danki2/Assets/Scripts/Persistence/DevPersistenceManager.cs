@@ -13,8 +13,8 @@ using UnityEngine;
 public class DevPersistenceManager : PersistenceManager
 {
     [SerializeField] public int ownedAbilityCount = 0;
-    [SerializeField] public Ability2 leftAbility = Ability2.Slash1;
-    [SerializeField] public Ability2 rightAbility = Ability2.Slash1;
+    [SerializeField] public Ability2 leftAbility = Ability2.Slash;
+    [SerializeField] public Ability2 rightAbility = Ability2.Slash;
     [SerializeField] public int playerHealth = 0;
     [SerializeField] public List<RuneSocket> runeSockets = new List<RuneSocket>();
     [SerializeField] public List<Rune> runeOrder = new List<Rune>();
