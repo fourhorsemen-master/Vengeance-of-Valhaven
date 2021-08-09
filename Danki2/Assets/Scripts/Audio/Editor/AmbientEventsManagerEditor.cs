@@ -29,10 +29,10 @@ public class AmbientEventsManagerEditor : Editor
 
         EditorUtils.VerticalSpace();
 
-        ambientEventsManager.AmbientEventMinFrequency = EditorGUILayout.FloatField(new GUIContent("Play Events Min Frequency"), ambientEventsManager.AmbientEventMinFrequency);
-        ambientEventsManager.AmbientEventMaxFrequency = EditorGUILayout.FloatField(new GUIContent("Play Events Max Frequency"), ambientEventsManager.AmbientEventMaxFrequency);
-        ambientEventsManager.MinAmbientEventDistanceFromPlayer = EditorGUILayout.FloatField(new GUIContent("Minimum Distance"), ambientEventsManager.MinAmbientEventDistanceFromPlayer);
-        ambientEventsManager.MaxAmbientEventDistanceFromPlayer = EditorGUILayout.FloatField(new GUIContent("Maximum Distance"), ambientEventsManager.MaxAmbientEventDistanceFromPlayer);
+        ambientEventsManager.MinInterval = EditorGUILayout.FloatField(new GUIContent("Min Interval"), ambientEventsManager.MinInterval);
+        ambientEventsManager.MaxInterval = EditorGUILayout.FloatField(new GUIContent("Max Interval"), ambientEventsManager.MaxInterval);
+        ambientEventsManager.MinDistanceFromPlayer = EditorGUILayout.FloatField(new GUIContent("Minimum Distance"), ambientEventsManager.MinDistanceFromPlayer);
+        ambientEventsManager.MaxDistanceFromPlayer = EditorGUILayout.FloatField(new GUIContent("Maximum Distance"), ambientEventsManager.MaxDistanceFromPlayer);
     }
 
     private void SetupAmbientEventsList(AmbientEventsManager ambientEventsManager)
@@ -43,7 +43,7 @@ public class AmbientEventsManagerEditor : Editor
             ambientEventsManager.AmbientEvents,
             ambientEvent => EditAmbientEventData(ambientEventsManager.AmbientEvents, ambientEvent),
             ""
-            );
+        );
     }
 
     private void EditAmbientEventData(List<string> items, string item)

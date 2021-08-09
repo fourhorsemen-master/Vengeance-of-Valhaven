@@ -46,7 +46,7 @@ MonoBehaviour:
   AmbientEvents:
   - event:/AM_Ambience/AM_Forest/AM_Forest_Birds
   - event:/AM_Ambience/AM_Forest/AM_Forest_Trees
-  AmbientEventMinFrequency: 4
-  AmbientEventMaxFrequency: 8
-  MinAmbientEventDistanceFromPlayer: 6
-  MaxAmbientEventDistanceFromPlayer: 10
+  MinInterval: 4
+  MaxInterval: 8
+  MinDistanceFromPlayer: 6
+  MaxDistanceFromPlayer: 10

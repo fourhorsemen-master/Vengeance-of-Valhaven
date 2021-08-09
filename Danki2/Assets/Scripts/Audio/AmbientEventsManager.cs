@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using FMOD.Studio;
 using FMODUnity;
 using UnityEngine;
 
@@ -8,13 +9,13 @@ public class AmbientEventsManager : Singleton<AmbientEventsManager>
     public List<string> AmbientEvents = new List<string>();
 
     [SerializeField]
-    public float AmbientEventMinFrequency;
+    public float MinInterval;
     [SerializeField]
-    public float AmbientEventMaxFrequency;
+    public float MaxInterval;
     [SerializeField]
-    public float MinAmbientEventDistanceFromPlayer;
+    public float MinDistanceFromPlayer;
     [SerializeField]
-    public float MaxAmbientEventDistanceFromPlayer;
+    public float MaxDistanceFromPlayer;
 
     private float dayNightType => AmbientSoundManager.Instance.AmbientSoundTypeLookup;
 
@@ -22,7 +23,7 @@ public class AmbientEventsManager : Singleton<AmbientEventsManager>
 
     private void Start()
     {
-        this.WaitAndAct(Random.Range(AmbientEventMinFrequency, AmbientEventMaxFrequency), () => audioPlayed = false);
+        this.WaitAndAct(Random.Range(MinInterval, MaxInterval), () => audioPlayed = false);
     }
 
     private void Update()
@@ -31,7 +32,7 @@ public class AmbientEventsManager : Singleton<AmbientEventsManager>
         {
             PlayRandomAmbientEvent();
             audioPlayed = true;
-            this.WaitAndAct(Random.Range(AmbientEventMinFrequency, AmbientEventMaxFrequency), () => audioPlayed = false);
+            this.WaitAndAct(Random.Range(MinInterval, MaxInterval), () => audioPlayed = false);
         }        
     }
 
@@ -39,13 +40,15 @@ public class AmbientEventsManager : Singleton<AmbientEventsManager>
     {
         string ambientEvent = AmbientEvents[Random.Range(0, AmbientEvents.Count)];
 
-        float distance = Random.Range(MinAmbientEventDistanceFromPlayer, MaxAmbientEventDistanceFromPlayer);
+        float distance = Random.Range(MinDistanceFromPlayer, MaxDistanceFromPlayer);
         float angle = Random.Range(0f, 2 * Mathf.PI);
 
         Vector3 position = ActorCache.Instance.Player.transform.position;
         position.x += distance * Mathf.Sin(angle);
         position.z += distance * Mathf.Cos(angle);
 
-        RuntimeManager.PlayOneShot(ambientEvent, "dayNight", dayNightType, position);
+        EventInstance eventInstance = FmodUtils.CreatePositionedInstance(ambientEvent, position, new FmodParameter("dayNight", dayNightType));
+        eventInstance.start();
+        eventInstance.release();
     }
 }
