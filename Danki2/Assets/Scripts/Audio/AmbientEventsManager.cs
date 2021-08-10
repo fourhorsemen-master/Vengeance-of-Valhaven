@@ -23,23 +23,25 @@ public class AmbientEventsManager : Singleton<AmbientEventsManager>
 
     private void Start()
     {
-        this.WaitAndAct(Random.Range(MinInterval, MaxInterval), () => audioPlayed = false);
-    }
-
-    private void Update()
-    {
-        if (!audioPlayed)
+        foreach(string ambientEvent in AmbientEvents)
         {
-            PlayRandomAmbientEvent();
-            audioPlayed = true;
-            this.WaitAndAct(Random.Range(MinInterval, MaxInterval), () => audioPlayed = false);
-        }        
+            this.ActOnRandomisedInterval(MinInterval, MaxInterval, _ => PlayAmbientEvent(ambientEvent), Random.Range(MinInterval, MaxInterval));
+        }
+        //this.WaitAndAct(Random.Range(MinInterval, MaxInterval), () => audioPlayed = false);
     }
 
-    private void PlayRandomAmbientEvent()
-    {
-        string ambientEvent = AmbientEvents[Random.Range(0, AmbientEvents.Count)];
+    //private void Update()
+    //{
+        //if (!audioPlayed)
+        //{
+            //PlayRandomAmbientEvent();
+            //audioPlayed = true;
+           // this.WaitAndAct(Random.Range(MinInterval, MaxInterval), () => audioPlayed = false);
+       // }        
+   // }
 
+    private void PlayAmbientEvent(string ambientEvent)
+    {
         float distance = Random.Range(MinDistanceFromPlayer, MaxDistanceFromPlayer);
         float angle = Random.Range(0f, 2 * Mathf.PI);
 

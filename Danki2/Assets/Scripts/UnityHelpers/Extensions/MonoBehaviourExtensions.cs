@@ -16,13 +16,18 @@ public static class MonoBehaviourExtensions
 
     public static Coroutine ActOnInterval(this MonoBehaviour monoBehaviour, float interval, Action<int> action, float startDelay = 0f, int? numRepetitions = null)
     {
+        return ActOnRandomisedInterval(monoBehaviour, interval, interval, action, startDelay, numRepetitions);
+    }
+
+    public static Coroutine ActOnRandomisedInterval(this MonoBehaviour monoBehaviour, float minInterval, float maxInterval, Action<int> action, float startDelay = 0f, int? numRepetitions = null)
+    {
         if (numRepetitions == null)
         {
-            return monoBehaviour.StartCoroutine(IntervalAction(interval, action, startDelay));
+            return monoBehaviour.StartCoroutine(IntervalAction(minInterval, maxInterval, action, startDelay));
         }
         else
         {
-            return monoBehaviour.StartCoroutine(IntervalAction(interval, action, startDelay, numRepetitions.Value));
+            return monoBehaviour.StartCoroutine(IntervalAction(minInterval, maxInterval, action, startDelay, numRepetitions.Value));
         }
     }
 
@@ -41,12 +46,13 @@ public static class MonoBehaviourExtensions
     /// <summary>
     /// Invokes an action on an interval.
     /// </summary>
-    /// <param name="interval">Time between each invocation.</param>
+    /// <param name="minInterval">Minimum time between each invocation.</param>
+    /// <param name="maxInterval">Maximum time between each invocation.</param>
     /// <param name="action">The action to perform. Takes it's 0-based index as a parameter.</param>
     /// <param name="startDelay">Delay before first invocation.</param>
     /// <param name="numRepetitions">Optional. Limits the number of repetitions.</param>
     /// <returns></returns>
-    private static IEnumerator IntervalAction(float interval, Action<int> action, float startDelay, int? numRepetitions = null)
+    private static IEnumerator IntervalAction(float minInterval, float maxInterval, Action<int> action, float startDelay, int? numRepetitions = null)
     {
         yield return new WaitForSeconds(startDelay);
 
@@ -55,6 +61,7 @@ public static class MonoBehaviourExtensions
         while(true)
         {
             action(counter);
+            float interval = UnityEngine.Random.Range(minInterval, maxInterval);
             yield return new WaitForSeconds(interval);
 
             counter ++;
