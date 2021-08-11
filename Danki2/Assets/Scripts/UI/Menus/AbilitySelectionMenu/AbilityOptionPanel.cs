@@ -9,7 +9,7 @@ public class AbilityOptionPanel : MonoBehaviour
     [SerializeField] private Image frame = null;
     [SerializeField] private Text text = null;
 
-    public Ability2 AbilityReference { get; private set; }
+    public Ability2 Ability { get; private set; }
 
     public Subject OnClickSubject { get; } = new Subject();
 
@@ -34,16 +34,16 @@ public class AbilityOptionPanel : MonoBehaviour
         Highlighted = false;
     }
 
-    public void Initialise(Ability2 abilityReference)
+    public void Initialise(Ability2 ability)
     {
-        AbilityReference = abilityReference;
+        Ability = ability;
 
-        RarityData rarityData = RarityLookup.Instance.Lookup[AbilityLookup2.Instance.GetRarity(abilityReference)];
+        RarityData rarityData = RarityLookup.Instance.Lookup[AbilityLookup2.Instance.GetRarity(ability)];
 
-        image.sprite = AbilityLookup2.Instance.GetIcon(abilityReference);
+        image.sprite = AbilityLookup2.Instance.GetIcon(ability);
         frame.sprite = rarityData.Frame;
         frame.color = rarityData.Colour;
-        text.text = AbilityLookup2.Instance.GetDisplayName(abilityReference);
+        text.text = AbilityLookup2.Instance.GetDisplayName(ability);
         text.color = rarityData.Colour;
     }
 

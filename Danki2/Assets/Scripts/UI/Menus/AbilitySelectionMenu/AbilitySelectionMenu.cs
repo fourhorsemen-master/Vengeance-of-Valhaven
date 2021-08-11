@@ -31,9 +31,9 @@ public class AbilitySelectionMenu : MonoBehaviour
         subscriptions.Clear();
     }
 
-    private void HandleAbilitySelection(Ability2 abilityReference)
+    private void HandleAbilitySelection(Ability2 ability)
     {
-        selectedAbility = abilityReference;
+        selectedAbility = ability;
         abilityOptionButtons.CanConfirm = true;
     }
 
@@ -45,9 +45,9 @@ public class AbilitySelectionMenu : MonoBehaviour
 
     private void HandleSkip() => SkipClickedSubject.Next();
 
-    private void HandleConfirm(Ability2 abilityReference)
+    private void HandleConfirm(Ability2 ability)
     {
-        AbilitySelectionRoomManager.Instance.SelectAbility(abilityReference);
+        AbilitySelectionRoomManager.Instance.SelectAbility(ability);
         ConfirmClickedSubject.Next();
     }
 }

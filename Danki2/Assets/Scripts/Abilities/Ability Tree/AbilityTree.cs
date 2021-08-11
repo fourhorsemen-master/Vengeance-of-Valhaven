@@ -88,9 +88,9 @@ public abstract class AbilityTree
         CurrentDepthSubject.Next(CurrentDepth);
     }
 
-    public void AddToInventory(Ability2 abilityReference)
+    public void AddToInventory(Ability2 ability)
     {
-        OwnedAbilities[abilityReference]++;
+        OwnedAbilities[ability]++;
         UpdateInventory();
     }
 

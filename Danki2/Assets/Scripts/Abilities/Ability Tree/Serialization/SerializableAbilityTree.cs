@@ -67,7 +67,7 @@ public class SerializableAbilityTree
             ? DeserializeNode(idToSerializableNodeLookup[serializableNode.RightChildId], idToSerializableNodeLookup)
             : null;
 
-        return AbilityTreeFactory.CreateNode(serializableNode.AbilityReference, leftChild, rightChild);
+        return AbilityTreeFactory.CreateNode(serializableNode.Ability, leftChild, rightChild);
     }
 
     private EnumDictionary<Ability2, int> DeserializeOwnedAbilities()
@@ -75,7 +75,7 @@ public class SerializableAbilityTree
         EnumDictionary<Ability2, int> ownedAbilities = new EnumDictionary<Ability2, int>(0);
         serializableOwnedAbilities.ForEach(serializableOwnedAbility =>
         {
-            ownedAbilities[serializableOwnedAbility.AbilityReference] = serializableOwnedAbility.Count;
+            ownedAbilities[serializableOwnedAbility.Ability] = serializableOwnedAbility.Count;
         });
         return ownedAbilities;
     }

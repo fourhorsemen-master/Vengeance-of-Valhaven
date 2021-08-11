@@ -51,14 +51,14 @@ public class AbilityOptionPanels : MonoBehaviour
             else panel.Selected = false;
         });
 
-        if (abilityOptionPanel.Selected) AbilitySelectedSubject.Next(abilityOptionPanel.AbilityReference);
+        if (abilityOptionPanel.Selected) AbilitySelectedSubject.Next(abilityOptionPanel.Ability);
         else AbilityDeselectedSubject.Next();
     }
 
     private void OnPointerEnter(AbilityOptionPanel abilityOptionPanel)
     {
         TryDestroyTooltip();
-        abilityTooltip = AbilityTooltip.Create(transform, abilityOptionPanel.AbilityReference);
+        abilityTooltip = AbilityTooltip.Create(transform, abilityOptionPanel.Ability);
         abilityOptionPanel.Highlighted = true;
     }
 
