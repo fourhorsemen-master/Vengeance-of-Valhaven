@@ -236,8 +236,6 @@ public class MapGenerator : Singleton<MapGenerator>
         List<Ability2> choices = new List<Ability2>();
         EnumUtils.ForEach<Ability2>(abilityReference =>
         {
-            // if (!AbilityLookup.Instance.PlayerCanCast(abilityReference)) return;
-
             Rarity rarity = AbilityLookup2.Instance.GetRarity(abilityReference);
             int weighting = RarityLookup.Instance.Lookup[rarity].Weighting;
             Utils.Repeat(weighting, () => choices.Add(abilityReference));
