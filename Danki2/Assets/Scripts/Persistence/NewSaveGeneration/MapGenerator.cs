@@ -234,11 +234,11 @@ public class MapGenerator : Singleton<MapGenerator>
     private void SetAbilityData(RoomNode node)
     {
         List<Ability2> choices = new List<Ability2>();
-        EnumUtils.ForEach<Ability2>(abilityReference =>
+        EnumUtils.ForEach<Ability2>(ability =>
         {
-            Rarity rarity = AbilityLookup2.Instance.GetRarity(abilityReference);
+            Rarity rarity = AbilityLookup2.Instance.GetRarity(ability);
             int weighting = RarityLookup.Instance.Lookup[rarity].Weighting;
-            Utils.Repeat(weighting, () => choices.Add(abilityReference));
+            Utils.Repeat(weighting, () => choices.Add(ability));
         });
 
         Utils.Repeat(MapGenerationLookup.Instance.AbilityChoices, () =>
