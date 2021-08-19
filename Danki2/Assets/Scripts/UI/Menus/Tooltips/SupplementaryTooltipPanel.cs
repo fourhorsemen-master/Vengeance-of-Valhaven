@@ -44,7 +44,7 @@ public class SupplementaryTooltipPanel : MonoBehaviour
         transform.position = tooltipRectTransform.position + new Vector3(horizontalOffset, 0);
     }
 
-    public void Activate(AbilityReference ability)
+    public void Activate(Ability2 ability)
     {
         Activate();
 

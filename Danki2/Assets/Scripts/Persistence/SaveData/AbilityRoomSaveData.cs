@@ -2,7 +2,7 @@
 
 public class AbilityRoomSaveData
 {
-    public List<AbilityReference> AbilityChoices { get; set; } = new List<AbilityReference>();
+    public List<Ability2> AbilityChoices { get; set; } = new List<Ability2>();
     public bool AbilitiesViewed { get; set; } = false;
     public bool AbilitySelected { get; set; } = false;
 

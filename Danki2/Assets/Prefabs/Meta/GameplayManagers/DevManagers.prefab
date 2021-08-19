@@ -62,7 +62,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ownedAbilityCount: 3
   leftAbility: 0
-  rightAbility: 3
+  rightAbility: 0
   playerHealth: 20
   runeSockets:
   - hasRune: 0
@@ -195,6 +195,7 @@ MonoBehaviour:
     - ForestValleyScene
     - ForestClearingScene
     - ForestDensScene
+    - ForestFordScene
     - RuneScene
     - Zone1IntroductionScene
     - Zone2IntroductionScene
@@ -203,6 +204,14 @@ MonoBehaviour:
     - Zone2BossScene
     - Zone3BossScene
     _values:
+    - fileName: 
+      sceneType: 0
+      gameplaySceneData:
+        zones: 
+        roomTypes: 
+        cameraOrientations: 
+        entranceData: []
+        exitData: []
     - fileName: 
       sceneType: 0
       gameplaySceneData:

@@ -11,7 +11,7 @@ public abstract class Node
 
     public Node Parent { get; set; }
 
-    public AbilityReference Ability { get; private set; }
+    public Ability2 Ability { get; private set; }
 
     public int Depth => IsRootNode ? 0 : Parent.Depth + 1;
 
@@ -22,7 +22,7 @@ public abstract class Node
     {
     }
 
-    protected Node(AbilityReference ability)
+    protected Node(Ability2 ability)
     {
         Ability = ability;
     }
@@ -85,7 +85,7 @@ public abstract class Node
         return Mathf.Max(maxLeftDepth, maxRightDepth) + 1;
     }
 
-    public void Insert(AbilityReference ability, InsertArea area)
+    public void Insert(Ability2 ability, InsertArea area)
     {
         Node newNode = AbilityTreeFactory.CreateNode(ability);
 
@@ -131,17 +131,18 @@ public abstract class Node
 
     public bool CanSwapAbilitiesWith(Node otherNode)
     {
-        return
-            this != otherNode
-            && !(otherNode.IsParent && AbilityLookup.Instance.IsFinisher(Ability))
-            && !(IsParent && AbilityLookup.Instance.IsFinisher(otherNode.Ability));
+        return true;
+        // return
+        //     this != otherNode
+        //     && !(otherNode.IsParent && AbilityLookup.Instance.IsFinisher(Ability))
+        //     && !(IsParent && AbilityLookup.Instance.IsFinisher(otherNode.Ability));
     }
 
     public void SwapAbilitiesWith(Node node)
     {
         if (!CanSwapAbilitiesWith(node)) return;
 
-        AbilityReference otherAbility = node.Ability;
+        Ability2 otherAbility = node.Ability;
         node.Ability = Ability;
         Ability = otherAbility;
 

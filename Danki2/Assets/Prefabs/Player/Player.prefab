@@ -2806,6 +2806,9 @@ GameObject:
   - component: {fileID: -7333941826244338973}
   - component: {fileID: 6918691881617835041}
   - component: {fileID: 8010275905982216902}
+  - component: {fileID: 2156678289039720177}
+  - component: {fileID: 5218322822190265577}
+  - component: {fileID: 360675822465966502}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2939,6 +2942,52 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actor: {fileID: -5201030127241623248}
+--- !u!114 &2156678289039720177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4777388720977389772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17d5dc65ecf749f1b4c7d6f2fd80e4ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: -5201030127241623248}
+  abilityTypeToAnimationTypeDictionary:
+    _keys:
+    - Slash
+    - Smash
+    - Thrust
+    _values: 010000000400000002000000
+--- !u!114 &5218322822190265577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4777388720977389772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f1721d8331ba534387aa94c21836390, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: -5201030127241623248}
+--- !u!114 &360675822465966502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4777388720977389772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e158a6bc839bbf34b9acfaecb102dca2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: -5201030127241623248}
+  offsetIncrement: 16.83
 --- !u!1 &4982574413130908855
 GameObject:
   m_ObjectHideFlags: 0
