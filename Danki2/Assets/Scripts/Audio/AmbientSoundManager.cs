@@ -12,43 +12,43 @@ public class AmbientSoundManager : Singleton<AmbientSoundManager>
     };
 
     [SerializeField, EventRef]
-    public List<string> AmbientEvents = new List<string>();
+    public List<string> ambientEvents = new List<string>();
 
     [SerializeField, EventRef]
-    public StudioEventEmitter EventEmitter;
+    public StudioEventEmitter eventEmitter;
     [SerializeField]
-    public AnimationCurve DayNightCurve;
+    public AnimationCurve dayNightCurve;
     [SerializeField]
-    public float MinInterval;
+    public float minInterval;
     [SerializeField]
-    public float MaxInterval;
+    public float maxInterval;
     [SerializeField]
-    public float MinDistanceFromPlayer;
+    public float minDistanceFromPlayer;
     [SerializeField]
-    public float MaxDistanceFromPlayer;
+    public float maxDistanceFromPlayer;
 
     private void Start()
     {
         float depthProportion = DepthUtils.GetDepthProportion(PersistenceManager.Instance.SaveData.CurrentRoomNode);
-        float dayNightCurveValue = DayNightCurve.Evaluate(depthProportion);
+        float dayNightCurveValue = dayNightCurve.Evaluate(depthProportion);
         AmbientSoundType ambientSoundType = dayNightCurveValue > 0 ? AmbientSoundType.Day : AmbientSoundType.Night;
 
-        EventEmitter.SetParameter("dayNight", parameterLookup[ambientSoundType]);
+        eventEmitter.SetParameter("dayNight", parameterLookup[ambientSoundType]);
 
-        foreach (string ambientEvent in AmbientEvents)
+        foreach (string ambientEvent in ambientEvents)
         {
             this.ActOnRandomisedInterval(
-                MinInterval,
-                MaxInterval,
+                minInterval,
+                maxInterval,
                 _ => PlayAmbientEvent(ambientEvent, ambientSoundType),
-                Random.Range(MinInterval, MaxInterval)
+                Random.Range(minInterval, maxInterval)
             );
         }
     }
 
     private void PlayAmbientEvent(string ambientEvent, AmbientSoundType ambientSoundType)
     {
-        float distance = Random.Range(MinDistanceFromPlayer, MaxDistanceFromPlayer);
+        float distance = Random.Range(minDistanceFromPlayer, maxDistanceFromPlayer);
         float angle = Random.Range(0f, 2 * Mathf.PI);
 
         Vector3 position = ActorCache.Instance.Player.transform.position;

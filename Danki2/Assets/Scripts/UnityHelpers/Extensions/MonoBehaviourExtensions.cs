@@ -21,14 +21,7 @@ public static class MonoBehaviourExtensions
 
     public static Coroutine ActOnRandomisedInterval(this MonoBehaviour monoBehaviour, float minInterval, float maxInterval, Action<int> action, float startDelay = 0f, int? numRepetitions = null)
     {
-        if (numRepetitions == null)
-        {
-            return monoBehaviour.StartCoroutine(IntervalAction(minInterval, maxInterval, action, startDelay));
-        }
-        else
-        {
-            return monoBehaviour.StartCoroutine(IntervalAction(minInterval, maxInterval, action, startDelay, numRepetitions.Value));
-        }
+        return monoBehaviour.StartCoroutine(IntervalAction(minInterval, maxInterval, action, startDelay, numRepetitions));
     }
 
     public static Coroutine WaitForFixedUpdateAndAct(this MonoBehaviour monoBehaviour, Action action)

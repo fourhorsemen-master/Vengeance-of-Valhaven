@@ -30,8 +30,8 @@ public class AmbientSoundManagerEditor : Editor
 
     private void SetupAmbientSounds(AmbientSoundManager ambientSoundManager)
     {
-        ambientSoundManager.EventEmitter = (StudioEventEmitter)EditorGUILayout.ObjectField("Event Emitter", ambientSoundManager.EventEmitter, typeof(StudioEventEmitter), false);
-        ambientSoundManager.DayNightCurve = EditorGUILayout.CurveField(new GUIContent("DayNight Curve"), ambientSoundManager.DayNightCurve);
+        ambientSoundManager.eventEmitter = (StudioEventEmitter)EditorGUILayout.ObjectField("Event Emitter", ambientSoundManager.eventEmitter, typeof(StudioEventEmitter), false);
+        ambientSoundManager.dayNightCurve = EditorGUILayout.CurveField(new GUIContent("DayNight Curve"), ambientSoundManager.dayNightCurve);
     }
 
     private void SetupGeneralOptions(AmbientSoundManager ambientSoundManager)
@@ -40,10 +40,10 @@ public class AmbientSoundManagerEditor : Editor
 
         EditorUtils.VerticalSpace();
 
-        ambientSoundManager.MinInterval = EditorGUILayout.FloatField(new GUIContent("Min Interval"), ambientSoundManager.MinInterval);
-        ambientSoundManager.MaxInterval = EditorGUILayout.FloatField(new GUIContent("Max Interval"), ambientSoundManager.MaxInterval);
-        ambientSoundManager.MinDistanceFromPlayer = EditorGUILayout.FloatField(new GUIContent("Minimum Distance"), ambientSoundManager.MinDistanceFromPlayer);
-        ambientSoundManager.MaxDistanceFromPlayer = EditorGUILayout.FloatField(new GUIContent("Maximum Distance"), ambientSoundManager.MaxDistanceFromPlayer);
+        ambientSoundManager.minInterval = EditorGUILayout.FloatField(new GUIContent("Min Interval"), ambientSoundManager.minInterval);
+        ambientSoundManager.maxInterval = EditorGUILayout.FloatField(new GUIContent("Max Interval"), ambientSoundManager.maxInterval);
+        ambientSoundManager.minDistanceFromPlayer = EditorGUILayout.FloatField(new GUIContent("Minimum Distance"), ambientSoundManager.minDistanceFromPlayer);
+        ambientSoundManager.maxDistanceFromPlayer = EditorGUILayout.FloatField(new GUIContent("Maximum Distance"), ambientSoundManager.maxDistanceFromPlayer);
     }
 
     private void SetupAmbientEventsList(AmbientSoundManager ambientSoundManager)
@@ -51,8 +51,8 @@ public class AmbientSoundManagerEditor : Editor
         EditorUtils.Header("Ambient Events");
 
         EditorUtils.ResizeableList(
-            ambientSoundManager.AmbientEvents,
-            ambientEvent => EditAmbientEventData(ambientSoundManager.AmbientEvents, ambientEvent),
+            ambientSoundManager.ambientEvents,
+            ambientEvent => EditAmbientEventData(ambientSoundManager.ambientEvents, ambientEvent),
             ""
         );
     }
@@ -62,7 +62,7 @@ public class AmbientSoundManagerEditor : Editor
         EditorUtils.VerticalSpace();
 
         int index = items.IndexOf(item);
-        SerializedProperty ambientEvents = serializedObject.FindProperty("AmbientEvents").GetArrayElementAtIndex(index);
+        SerializedProperty ambientEvents = serializedObject.FindProperty("ambientEvents").GetArrayElementAtIndex(index);
         EditorGUILayout.PropertyField(ambientEvents, new GUIContent("Event Audio File"));
     }
 }
