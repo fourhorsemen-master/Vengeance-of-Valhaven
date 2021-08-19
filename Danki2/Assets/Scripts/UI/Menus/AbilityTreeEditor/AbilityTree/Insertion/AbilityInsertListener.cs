@@ -28,10 +28,12 @@ public class AbilityInsertListener : MonoBehaviour
         );
     }
 
-    internal void Activate(Node node, AbilityReference ability)
+    internal void Activate(Node node, Ability2 ability)
     {
-        bool abilityIsFinisher = AbilityLookup.Instance.IsFinisher(ability);
-        bool nodeAbilityIsFinisher = AbilityLookup.Instance.IsFinisher(node.Ability);
+        // bool abilityIsFinisher = AbilityLookup.Instance.IsFinisher(ability);
+        bool abilityIsFinisher = false;
+        // bool nodeAbilityIsFinisher = AbilityLookup.Instance.IsFinisher(node.Ability);
+        bool nodeAbilityIsFinisher = false;
 
         // Set Central area
         if (

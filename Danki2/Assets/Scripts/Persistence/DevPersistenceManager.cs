@@ -13,8 +13,8 @@ using UnityEngine;
 public class DevPersistenceManager : PersistenceManager
 {
     [SerializeField] public int ownedAbilityCount = 0;
-    [SerializeField] public AbilityReference leftAbility = AbilityReference.Slash;
-    [SerializeField] public AbilityReference rightAbility = AbilityReference.Slash;
+    [SerializeField] public Ability2 leftAbility = Ability2.Slash;
+    [SerializeField] public Ability2 rightAbility = Ability2.Slash;
     [SerializeField] public int playerHealth = 0;
     [SerializeField] public List<RuneSocket> runeSockets = new List<RuneSocket>();
     [SerializeField] public List<Rune> runeOrder = new List<Rune>();
@@ -31,7 +31,7 @@ public class DevPersistenceManager : PersistenceManager
     [SerializeField] public Zone zone = Zone.Zone1;
     [SerializeField] public int depthInZone = 0;
     [SerializeField] public RoomType roomType = RoomType.Combat;
-    [SerializeField] public List<AbilityReference> abilityChoices = new List<AbilityReference>();
+    [SerializeField] public List<Ability2> abilityChoices = new List<Ability2>();
     [SerializeField] public bool hasHealed = false;
 
     public override SaveData SaveData => GenerateNewSaveData();
@@ -52,7 +52,7 @@ public class DevPersistenceManager : PersistenceManager
         {
             PlayerHealth = playerHealth,
             SerializableAbilityTree = AbilityTreeFactory.CreateTree(
-                new EnumDictionary<AbilityReference, int>(ownedAbilityCount),
+                new EnumDictionary<Ability2, int>(ownedAbilityCount),
                 AbilityTreeFactory.CreateNode(leftAbility),
                 AbilityTreeFactory.CreateNode(rightAbility)
             ).Serialize(),

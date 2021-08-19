@@ -34,7 +34,7 @@ public class AbilityTooltip : Tooltip
 
     private PlayerTreeTooltipBuilder PlayerTreeTooltipBuilder => new PlayerTreeTooltipBuilder(ActorCache.Instance.Player);
     
-    public static AbilityTooltip Create(Transform transform, AbilityReference ability)
+    public static AbilityTooltip Create(Transform transform, Ability2 ability)
     {
         AbilityTooltip abilityTooltip = Instantiate(TooltipLookup.Instance.AbilityTooltipPrefab, transform);
         abilityTooltip.Activate(
@@ -60,7 +60,7 @@ public class AbilityTooltip : Tooltip
     }
 
     private void Activate(
-        AbilityReference ability,
+        Ability2 ability,
         List<TooltipSegment> tooltipSegments,
         Func<string, List<TooltipSegment>> bonusSegmenter,
         int? treeDepth = null
@@ -68,16 +68,38 @@ public class AbilityTooltip : Tooltip
     {
         ActivateTooltip();
 
-        string titleText = AbilityLookup.Instance.GetAbilityDisplayName(ability);
-        Color color = RarityLookup.Instance.Lookup[AbilityLookup.Instance.GetRarity(ability)].Colour;
-        bool isFinisher = AbilityLookup.Instance.IsFinisher(ability);
-        string descriptionText = GenerateDescription(tooltipSegments);
+        string titleText = AbilityLookup2.Instance.GetDisplayName(ability);
+        Color color = RarityLookup.Instance.Lookup[AbilityLookup2.Instance.GetRarity(ability)].Colour;
+        // bool isFinisher = AbilityLookup.Instance.IsFinisher(ability);
+        bool isFinisher = false;
+        string descriptionText = GenerateDescription(ability);
 
-        Dictionary<string, AbilityBonusData> bonuses = AbilityLookup.Instance.GetAbilityBonusDataLookup(ability);
+        // Dictionary<string, AbilityBonusData> bonuses = AbilityLookup.Instance.GetAbilityBonusDataLookup(ability);
+        Dictionary<string, AbilityBonusData> bonuses = new Dictionary<string, AbilityBonusData>();
 
         SetContents(titleText, color, isFinisher, descriptionText, bonuses, bonusSegmenter, treeDepth);
 
         abilitySupplementaryTooltipPanel.Activate(ability);
+    }
+
+    private string GenerateDescription(Ability2 ability)
+    {
+        string description = "";
+
+        AbilityType2 abilityType = AbilityLookup2.Instance.GetAbilityType(ability);
+        description += $"Type: {abilityType.ToString()}\n";
+        
+        int damage = AbilityLookup2.Instance.GetDamage(ability);
+        description += $"Damage: {damage.ToString()}\n";
+        
+        List<Empowerment> empowerments = AbilityLookup2.Instance.GetEmpowerments(ability);
+        if (empowerments.Count > 0)
+        {
+            description += "Empowerments:\n";
+            empowerments.ForEach(empowerment => description += $"    {empowerment.ToString()}");
+        }
+
+        return description;
     }
 
     private string GenerateDescription(List<TooltipSegment> segments)

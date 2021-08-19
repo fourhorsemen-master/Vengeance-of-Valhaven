@@ -30,8 +30,8 @@ public class TreeAbility : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     private AbilityInsertListener abilityInsertListener = null;
 
     private Node node;
-    private Subscription<AbilityReference> dragStartSubscription;
-    private Subscription<AbilityReference> dragStopSubscription;
+    private Subscription<Ability2> dragStartSubscription;
+    private Subscription<Ability2> dragStopSubscription;
 
     private AbilityTooltip tooltip;
     
@@ -127,7 +127,7 @@ public class TreeAbility : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         }
         else
         {
-            abilityImage.sprite = AbilityIconManager.Instance.GetIcon(node.Ability);            
+            abilityImage.sprite = AbilityLookup2.Instance.GetIcon(node.Ability);            
         }
     }
 
