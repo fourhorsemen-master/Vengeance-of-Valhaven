@@ -17,7 +17,6 @@ public class Player : Actor
     [SerializeField] private float rollSpeedMultiplier = 2f;
 
     [Header("Fmod events")]
-    [EventRef] [SerializeField] private string whiffEvent = null;
     [EventRef] [SerializeField] private string vocalisationEvent = null;
 
     private bool readyToRoll = true;
@@ -90,8 +89,6 @@ public class Player : Actor
             AnimController.Play("Dash_OneShot");
         }
     }
-
-    public void PlayWhiffSound() => RuntimeManager.PlayOneShot(whiffEvent);
 
     protected override void OnDeath()
     {

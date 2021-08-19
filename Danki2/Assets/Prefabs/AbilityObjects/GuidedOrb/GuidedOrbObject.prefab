@@ -262,6 +262,7 @@ GameObject:
   - component: {fileID: 2736027787663588823}
   - component: {fileID: 2761110854732384880}
   - component: {fileID: 7795318851218223497}
+  - component: {fileID: 483756864867072600}
   m_Layer: 12
   m_Name: GuidedOrbObject
   m_TagString: Untagged
@@ -299,6 +300,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   guidedOrbExplosionPrefab: {fileID: 8773174164764043830, guid: e92951170d3684f4aa908975189e8330,
     type: 3}
+  visualEffect: {fileID: 5084001314221954628}
 --- !u!135 &2761110854732384880
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -328,3 +330,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &483756864867072600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4032865229739014662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7030f67251662c54b91ee19663206275, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meshes:
+  - {fileID: 3368335686777290129}
+  intensity: 0
+  updateBaseColour: 0
