@@ -140,6 +140,7 @@ public class Wraith : Enemy
     public void TelegraphBlink()
     {
         blinkVisualEffect.Reinit();
+        blinkVisualEffect.SetVector4("Colour", VisualSettings.Instance.EnergyColour);
         blinkVisualEffect.Play();
     }
     

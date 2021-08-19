@@ -8,7 +8,7 @@ public class ModuleSocket : MonoBehaviour, IIdentifiable
     [SerializeField] private GameObject directionIndicator = null;
     [SerializeField] private SocketType socketType = default;
     [SerializeField] private List<ModuleTag> tags = new List<ModuleTag>();
-    [SerializeField] private List<ModuleTag> tagsToExclude = new List<ModuleTag> {ModuleTag.Floating};
+    [SerializeField] private List<ModuleTag> tagsToExclude = new List<ModuleTag>();
 
     public int Id { get => id; set => id = value; }
     public GameObject NavBlocker { get => navBlocker; set => navBlocker = value; }

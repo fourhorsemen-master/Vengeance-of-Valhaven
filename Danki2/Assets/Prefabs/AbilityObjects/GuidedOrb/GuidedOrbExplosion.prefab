@@ -111,7 +111,10 @@ VisualEffect:
         m_Name: MaxInitialPosition
         m_Overridden: 1
     m_Vector4f:
-      m_Array: []
+      m_Array:
+      - m_Value: {x: 1, y: 1, z: 1, w: 0}
+        m_Name: Colour
+        m_Overridden: 1
     m_Uint:
       m_Array: []
     m_Int:
@@ -213,3 +216,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a7e5e6a5b094dfb919a6ee7d0683dcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  visualEffect: {fileID: 2314263860666998117}
