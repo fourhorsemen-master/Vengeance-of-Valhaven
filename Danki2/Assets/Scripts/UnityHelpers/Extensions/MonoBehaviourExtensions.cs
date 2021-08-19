@@ -14,14 +14,14 @@ public static class MonoBehaviourExtensions
         return monoBehaviour.StartCoroutine(DelayedAction(waitTime, action));
     }
 
-    public static Coroutine ActOnInterval(this MonoBehaviour monoBehaviour, float interval, Action<int> action, float startDelay = 0f, int? numRepetitions = null)
+    public static Coroutine ActOnInterval(this MonoBehaviour monoBehaviour, float interval, Action<int> action, float? initialInterval = null, int? numRepetitions = null)
     {
-        return ActOnRandomisedInterval(monoBehaviour, interval, interval, action, startDelay, numRepetitions);
+        return monoBehaviour.StartCoroutine(IntervalAction(() => interval, action, initialInterval, numRepetitions));
     }
 
-    public static Coroutine ActOnRandomisedInterval(this MonoBehaviour monoBehaviour, float minInterval, float maxInterval, Action<int> action, float startDelay = 0f, int? numRepetitions = null)
+    public static Coroutine ActOnRandomisedInterval(this MonoBehaviour monoBehaviour, float minInterval, float maxInterval, Action<int> action, float? initialInterval = null, int? numRepetitions = null)
     {
-        return monoBehaviour.StartCoroutine(IntervalAction(minInterval, maxInterval, action, startDelay, numRepetitions));
+        return monoBehaviour.StartCoroutine(IntervalAction(() => UnityEngine.Random.Range(minInterval, maxInterval), action, initialInterval, numRepetitions));
     }
 
     public static Coroutine WaitForFixedUpdateAndAct(this MonoBehaviour monoBehaviour, Action action)
@@ -42,19 +42,19 @@ public static class MonoBehaviourExtensions
     /// <param name="minInterval">Minimum time between each invocation.</param>
     /// <param name="maxInterval">Maximum time between each invocation.</param>
     /// <param name="action">The action to perform. Takes it's 0-based index as a parameter.</param>
-    /// <param name="startDelay">Delay before first invocation.</param>
+    /// <param name="initialInterval">Delay before first invocation.</param>
     /// <param name="numRepetitions">Optional. Limits the number of repetitions.</param>
     /// <returns></returns>
-    private static IEnumerator IntervalAction(float minInterval, float maxInterval, Action<int> action, float startDelay, int? numRepetitions = null)
+    private static IEnumerator IntervalAction(Func<float> intervalCalculator, Action<int> action, float? initialInterval, int? numRepetitions)
     {
-        yield return new WaitForSeconds(startDelay);
+        yield return new WaitForSeconds(initialInterval ?? intervalCalculator());
 
         int counter = 0;
 
         while(true)
         {
             action(counter);
-            float interval = UnityEngine.Random.Range(minInterval, maxInterval);
+            float interval = intervalCalculator();
             yield return new WaitForSeconds(interval);
 
             counter ++;

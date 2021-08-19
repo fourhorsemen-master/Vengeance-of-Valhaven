@@ -40,8 +40,7 @@ public class AmbientSoundManager : Singleton<AmbientSoundManager>
             this.ActOnRandomisedInterval(
                 minInterval,
                 maxInterval,
-                _ => PlayAmbientEvent(ambientEvent, ambientSoundType),
-                Random.Range(minInterval, maxInterval)
+                _ => PlayAmbientEvent(ambientEvent, ambientSoundType)
             );
         }
     }
