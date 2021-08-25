@@ -432,14 +432,14 @@ MonoBehaviour:
   collisionTemplateSource: {fileID: 7496201845270352354}
   blinkVisualEffect: {fileID: 6921725586172320483}
   spineDamage: 2
-  spineSpeed: 7
+  spineSpeed: 6
   spineSlowDuration: 2
   spineCount: 3
   spineMaxAngle: 20
-  spineInterval: 0.1
+  spineInterval: 0.25
   rapidSpineCount: 9
   rapidSpineMaxAngle: 30
-  rapidSpineInterval: 0.25
+  rapidSpineInterval: 0.35
   guidedOrbDamage: 8
   guidedOrbMaxDuration: 8
   guidedOrbSpeed: 1.5
@@ -473,6 +473,8 @@ MonoBehaviour:
   swipeRange: 3
   maxSwipeAngle: 25
   swipeDelay: 0.5
+  engageDistance: 4
+  disengageDistance: 6
   forcedBlinkMinTime: 10
   forcedBlinkMaxTime: 15
   meleeAttacksBeforeBlinking: 3
