@@ -52,7 +52,6 @@ public class Wraith : Enemy
                 i * spineInterval,
                 () =>
                 {
-                    MovementManager.LookAt(target.Centre);
                     Quaternion rotation = Quaternion.LookRotation(target.Centre - Centre);
                     rotation *= Quaternion.Euler(0f, Random.Range(-spineMaxAngle, spineMaxAngle), 0f);
                     SpineObject.Fire(this, OnSpineCollision, spineSpeed, AbilitySource, rotation);
