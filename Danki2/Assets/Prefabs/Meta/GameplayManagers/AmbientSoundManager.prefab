@@ -67,6 +67,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aabb4cac7d93654695cfa040a275c79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ambientEvents:
+  - event:/AM_Ambience/AM_Forest/AM_Forest_Birds
+  - event:/AM_Ambience/AM_Forest/AM_Forest_Trees
   eventEmitter: {fileID: 7126066241767367734}
   dayNightCurve:
     serializedVersion: 2
@@ -119,3 +122,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  minInterval: 6
+  maxInterval: 10
+  minDistanceFromPlayer: 8
+  maxDistanceFromPlayer: 12

@@ -23,25 +23,40 @@ public static class KeywordUtils
             {TemplatedTooltipSegmentType.Poison, Keyword.Poison},
             {TemplatedTooltipSegmentType.Vulnerable, Keyword.Vulnerable}
         };
+    
+    private static readonly Dictionary<Empowerment, Keyword> empowermentLookup =
+        new Dictionary<Empowerment, Keyword>
+        {
+            [Empowerment.DoubleDamage] = Keyword.DoubleDamage,
+            [Empowerment.Rupture] = Keyword.Rupture,
+            [Empowerment.DoubleRange] = Keyword.DoubleRange,
+        };
 
-    public static List<Keyword> GetKeywords(AbilityReference abilityReference)
+    public static List<Keyword> GetKeywords(Ability2 ability)
     {
+        // List<Keyword> keywords = new List<Keyword>();
+        //
+        // if (AbilityLookup.Instance.IsFinisher(abilityReference)) keywords.Add(Keyword.Finisher);
+        //
+        // keywords.Add(GetAbilityType(abilityReference));
+        //
+        // keywords.AddRange(
+        //     GetFromTemplatedTooltipSegments(AbilityLookup.Instance.GetTemplatedTooltipSegments(abilityReference))
+        // );
+        //
+        // foreach (AbilityBonusData abilityBonusData in AbilityLookup.Instance.GetAbilityBonusDataLookup(abilityReference).Values)
+        // {
+        //     keywords.AddRange(GetFromTemplatedTooltipSegments(abilityBonusData.TemplatedTooltipSegments));
+        // }
+        //
+        // return keywords.Distinct().ToList();
+
         List<Keyword> keywords = new List<Keyword>();
 
-        if (AbilityLookup.Instance.IsFinisher(abilityReference)) keywords.Add(Keyword.Finisher);
+        List<Empowerment> empowerments = AbilityLookup2.Instance.GetEmpowerments(ability);
+        empowerments.ForEach(empowerment => keywords.Add(empowermentLookup[empowerment]));
 
-        keywords.Add(GetAbilityType(abilityReference));
-
-        keywords.AddRange(
-            GetFromTemplatedTooltipSegments(AbilityLookup.Instance.GetTemplatedTooltipSegments(abilityReference))
-        );
-
-        foreach (AbilityBonusData abilityBonusData in AbilityLookup.Instance.GetAbilityBonusDataLookup(abilityReference).Values)
-        {
-            keywords.AddRange(GetFromTemplatedTooltipSegments(abilityBonusData.TemplatedTooltipSegments));
-        }
-
-        return keywords.Distinct().ToList();
+        return keywords;
     }
 
     public static List<Keyword> GetKeywords(Rune rune)

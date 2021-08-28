@@ -19,8 +19,8 @@ public class CurrencyCollectionVisual : MonoBehaviour
 
     public static void Create(Vector3 position, int currencyAmount)
     {
-        Instantiate(CurrencyLookup.Instance.CurrencyCollectionVisualPrefab, position, Quaternion.identity)
-            .visualEffect
-            .SetInt("SpawnCount", currencyAmount);
+        VisualEffect vfx = Instantiate(CurrencyLookup.Instance.CurrencyCollectionVisualPrefab, position, Quaternion.identity).visualEffect;
+        vfx.SetInt("SpawnCount", currencyAmount);
+        vfx.SetVector4("Colour", VisualSettings.Instance.EnergyColour);
     }
 }

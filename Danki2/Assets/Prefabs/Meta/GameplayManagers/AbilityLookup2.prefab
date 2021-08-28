@@ -1,0 +1,136 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6256103281406501704
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6958155207594629179}
+  - component: {fileID: 7459602041579831955}
+  m_Layer: 0
+  m_Name: AbilityLookup2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6958155207594629179
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6256103281406501704}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7459602041579831955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6256103281406501704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ed29e13533f85e4b9f63bdd32eefec6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  abilityDisplayNameDictionary:
+    _keys:
+    - Slash
+    - Smash
+    - Thrust
+    - Hack
+    - ThunderousSmash
+    - Skewer
+    - Calamity
+    _values:
+    - Slash
+    - Smash
+    - Thrust
+    - Hack
+    - Thunderous Smash
+    - Skewer
+    - Calamity
+  abilityTypeDictionary:
+    _keys:
+    - Slash
+    - Smash
+    - Thrust
+    - Hack
+    - ThunderousSmash
+    - Skewer
+    - Calamity
+    _values: 00000000010000000200000000000000010000000200000001000000
+  abilityDamageDictionary:
+    _keys:
+    - Slash
+    - Smash
+    - Thrust
+    - Hack
+    - ThunderousSmash
+    - Skewer
+    - Calamity
+    _values: 0500000008000000060000000500000008000000050000000a000000
+  abilityEmpowermentsDictionary:
+    _keys:
+    - Slash
+    - Smash
+    - Thrust
+    - Hack
+    - ThunderousSmash
+    - Skewer
+    - Calamity
+    _values:
+    - empowerments: 
+    - empowerments: 
+    - empowerments: 
+    - empowerments: 01000000
+    - empowerments: 00000000
+    - empowerments: 02000000
+    - empowerments: 0100000002000000
+  abilityRarityDictionary:
+    _keys:
+    - Slash
+    - Smash
+    - Thrust
+    - Hack
+    - ThunderousSmash
+    - Skewer
+    - Calamity
+    _values: 00000000000000000000000001000000010000000100000002000000
+  abilityCollisionSoundLevelDictionary:
+    _keys:
+    - Slash
+    - Smash
+    - Thrust
+    - Hack
+    - ThunderousSmash
+    - Skewer
+    - Calamity
+    _values: 00000000010000000000000000000000010000000000000001000000
+  abilityIconDictionary:
+    _keys:
+    - Slash
+    - Smash
+    - Thrust
+    - Hack
+    - ThunderousSmash
+    - Skewer
+    - Calamity
+    _values:
+    - {fileID: 21300000, guid: 545702d9040f5024e9eed6cf8ac19a16, type: 3}
+    - {fileID: 21300000, guid: 77ca6265971ef524b8f098606670c3cf, type: 3}
+    - {fileID: 21300000, guid: ac04ca413322cf74c9d945688586923f, type: 3}
+    - {fileID: 21300000, guid: b6e6aa96fdf88654983c156e1dabe170, type: 3}
+    - {fileID: 21300000, guid: f38b8a88882a44649907521872d37df8, type: 3}
+    - {fileID: 21300000, guid: c6827bb6e30fc0142bdf085b7818719a, type: 3}
+    - {fileID: 21300000, guid: 46dffb3410840a646800a6a02fbda4f3, type: 3}

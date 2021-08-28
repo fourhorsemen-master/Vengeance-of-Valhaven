@@ -15,7 +15,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &3607690556235679673
 Transform:
@@ -56,7 +56,7 @@ MonoBehaviour:
       - prefab: {fileID: 4110214435533136738, guid: 83572ff6d6209ef42a090bfdad1b1c1e,
           type: 3}
         zones: 000000000100000002000000
-        tags: 0000000003000000
+        tags: 00000000020000000400000003000000
         allowAnyFreeRotation: 1
         minFreeRotation: 0
         maxFreeRotation: 360
@@ -80,7 +80,7 @@ MonoBehaviour:
       - prefab: {fileID: 4110214435533136738, guid: 0c60b7b04c03222408c745ff30fbd62a,
           type: 3}
         zones: 000000000100000002000000
-        tags: 0100000003000000
+        tags: 010000000200000004000000
         allowAnyFreeRotation: 1
         minFreeRotation: 0
         maxFreeRotation: 360
@@ -88,7 +88,7 @@ MonoBehaviour:
       - prefab: {fileID: 4110214435533136738, guid: 783af93464e823a4eaf5feae7a103f6a,
           type: 3}
         zones: 000000000100000002000000
-        tags: 000000000300000004000000
+        tags: 0000000002000000
         allowAnyFreeRotation: 0
         minFreeRotation: -40
         maxFreeRotation: 40
@@ -104,7 +104,7 @@ MonoBehaviour:
       - prefab: {fileID: 4110214435533136738, guid: e430818b07862094cb2e9e376b008519,
           type: 3}
         zones: 000000000100000002000000
-        tags: 0000000003000000
+        tags: 000000000200000004000000
         allowAnyFreeRotation: 1
         minFreeRotation: 0
         maxFreeRotation: 360
@@ -125,12 +125,20 @@ MonoBehaviour:
         minFreeRotation: 0
         maxFreeRotation: 360
         distinctRotations: []
+      - prefab: {fileID: 654518149139991388, guid: 7c44a486cf9b8e44b9e1c15f948ef9ee,
+          type: 3}
+        zones: 000000000100000002000000
+        tags: 0000000002000000
+        allowAnyFreeRotation: 1
+        minFreeRotation: 0
+        maxFreeRotation: 360
+        distinctRotations: []
     - socketRotationType: 0
       moduleData:
       - prefab: {fileID: 7152780536418578668, guid: 25585d8dd9c7b634b85f7d6d1859ebdb,
           type: 3}
         zones: 000000000100000002000000
-        tags: 06000000
+        tags: 02000000
         allowAnyFreeRotation: 0
         minFreeRotation: -10
         maxFreeRotation: 10
@@ -151,6 +159,14 @@ MonoBehaviour:
         minFreeRotation: 0
         maxFreeRotation: 360
         distinctRotations: []
+      - prefab: {fileID: 5369692728547218037, guid: 3b96a3d89dda35d4597280bf56d7f756,
+          type: 3}
+        zones: 000000000100000002000000
+        tags: 0100000002000000
+        allowAnyFreeRotation: 0
+        minFreeRotation: 10
+        maxFreeRotation: -10
+        distinctRotations: []
     - socketRotationType: 1
       moduleData:
       - prefab: {fileID: 7152780536418578668, guid: 1ff71a9b2262bf841903ffd031cace20,
@@ -166,7 +182,7 @@ MonoBehaviour:
       - prefab: {fileID: 7152780536418578668, guid: dcd11cea5639a074ba154cd554ba1add,
           type: 3}
         zones: 000000000100000002000000
-        tags: 000000000200000006000000
+        tags: 0000000002000000
         allowAnyFreeRotation: 0
         minFreeRotation: 0
         maxFreeRotation: 0
@@ -178,7 +194,7 @@ MonoBehaviour:
       - prefab: {fileID: 7152780536418578668, guid: d70288c6eed7fed4f8b7132ad8039828,
           type: 3}
         zones: 000000000100000002000000
-        tags: 00000000020000000600000003000000
+        tags: 0000000002000000
         allowAnyFreeRotation: 0
         minFreeRotation: 0
         maxFreeRotation: 0
@@ -200,6 +216,18 @@ MonoBehaviour:
         - 180
         - 270
       - prefab: {fileID: 7152780536418578668, guid: 483efe1b561ee4f48b3a4fef7262f032,
+          type: 3}
+        zones: 000000000100000002000000
+        tags: 0100000002000000
+        allowAnyFreeRotation: 0
+        minFreeRotation: 0
+        maxFreeRotation: 0
+        distinctRotations:
+        - 0
+        - 90
+        - 180
+        - 270
+      - prefab: {fileID: 6048429075595502284, guid: ab3b031d08dcff04299d7c11fb5a51d8,
           type: 3}
         zones: 000000000100000002000000
         tags: 0100000002000000

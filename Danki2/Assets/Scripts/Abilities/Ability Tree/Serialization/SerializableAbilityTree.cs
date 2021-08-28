@@ -32,7 +32,7 @@ public class SerializableAbilityTree
             serializableNodes.Add(new SerializableNode(node.Ability, nodeToIdLookup[node], leftChildId, rightChildId));
         });
 
-        EnumUtils.ForEach<AbilityReference>(abilityReference =>
+        EnumUtils.ForEach<Ability2>(abilityReference =>
         {
             serializableOwnedAbilities.Add(new SerializableOwnedAbility(
                 abilityReference,
@@ -67,15 +67,15 @@ public class SerializableAbilityTree
             ? DeserializeNode(idToSerializableNodeLookup[serializableNode.RightChildId], idToSerializableNodeLookup)
             : null;
 
-        return AbilityTreeFactory.CreateNode(serializableNode.AbilityReference, leftChild, rightChild);
+        return AbilityTreeFactory.CreateNode(serializableNode.Ability, leftChild, rightChild);
     }
 
-    private EnumDictionary<AbilityReference, int> DeserializeOwnedAbilities()
+    private EnumDictionary<Ability2, int> DeserializeOwnedAbilities()
     {
-        EnumDictionary<AbilityReference, int> ownedAbilities = new EnumDictionary<AbilityReference, int>(0);
+        EnumDictionary<Ability2, int> ownedAbilities = new EnumDictionary<Ability2, int>(0);
         serializableOwnedAbilities.ForEach(serializableOwnedAbility =>
         {
-            ownedAbilities[serializableOwnedAbility.AbilityReference] = serializableOwnedAbility.Count;
+            ownedAbilities[serializableOwnedAbility.Ability] = serializableOwnedAbility.Count;
         });
         return ownedAbilities;
     }

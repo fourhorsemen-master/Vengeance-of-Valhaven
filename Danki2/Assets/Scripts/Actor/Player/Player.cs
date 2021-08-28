@@ -17,7 +17,6 @@ public class Player : Actor
     [SerializeField] private float rollSpeedMultiplier = 2f;
 
     [Header("Fmod events")]
-    [EventRef] [SerializeField] private string whiffEvent = null;
     [EventRef] [SerializeField] private string vocalisationEvent = null;
 
     private bool readyToRoll = true;
@@ -36,6 +35,7 @@ public class Player : Actor
     public CurrencyManager CurrencyManager { get; private set; }
     public ChannelService ChannelService { get; private set; }
     public InstantCastService InstantCastService { get; private set; }
+    public AbilityService2 AbilityService { get; private set; }
     public PlayerMovementManager MovementManager { get; private set; }
     
     // Subjects
@@ -56,6 +56,7 @@ public class Player : Actor
         CurrencyManager = new CurrencyManager();
         ChannelService = new ChannelService(this, startSubject, lateUpdateSubject);
         InstantCastService = new InstantCastService(this);
+        AbilityService = new AbilityService2(this);
         MovementManager = new PlayerMovementManager(this, updateSubject, navmeshAgent);
 
         AbilityDataStatsDiffer abilityDataStatsDiffer = new AbilityDataStatsDiffer(this);
@@ -90,8 +91,6 @@ public class Player : Actor
             AnimController.Play("Dash_OneShot");
         }
     }
-
-    public void PlayWhiffSound() => RuntimeManager.PlayOneShot(whiffEvent);
 
     protected override void OnDeath()
     {

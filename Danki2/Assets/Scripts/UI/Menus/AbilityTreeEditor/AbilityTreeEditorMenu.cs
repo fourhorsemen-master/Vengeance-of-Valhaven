@@ -11,19 +11,19 @@ public class AbilityTreeEditorMenu : Singleton<AbilityTreeEditorMenu>
 
     public bool IsDraggingFromList { get; private set; }
 
-    public AbilityReference AbilityDraggingFromList { get; private set; }
+    public Ability2 AbilityDraggingFromList { get; private set; }
 
-    public Subject<AbilityReference> ListAbilityDragStartSubject { get; } = new Subject<AbilityReference>();
+    public Subject<Ability2> ListAbilityDragStartSubject { get; } = new Subject<Ability2>();
 
-    public Subject<AbilityReference> ListAbilityDragStopSubject { get; } = new Subject<AbilityReference>();
+    public Subject<Ability2> ListAbilityDragStopSubject { get; } = new Subject<Ability2>();
 
     public Subject TreeAbilityDragStopSubject { get; } = new Subject();
 
     public Node CurrentTreeNodeHover { get; set; } = null;
 
-    private readonly List<Subscription<AbilityReference>> subscriptions = new List<Subscription<AbilityReference>>();
+    private readonly List<Subscription<Ability2>> subscriptions = new List<Subscription<Ability2>>();
 
-    public AbilityTooltip CreateTooltip(AbilityReference ability)
+    public AbilityTooltip CreateTooltip(Ability2 ability)
     {
         return AbilityTooltip.Create(transform, ability);
     }

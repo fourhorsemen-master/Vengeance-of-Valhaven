@@ -1,11 +1,15 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class GuidedOrbObject : MonoBehaviour
 {
     [SerializeField]
     private GuidedOrbExplosion guidedOrbExplosionPrefab = null;
-    
+
+    [SerializeField]
+    private VisualEffect visualEffect = null;
+
     private float speed;
     private float rotationSpeed;
     private Transform target;
@@ -27,6 +31,8 @@ public class GuidedOrbObject : MonoBehaviour
             position,
             Quaternion.LookRotation(target.position - position)
         );
+
+        guidedOrbObject.visualEffect.SetVector4("Colour", VisualSettings.Instance.EnergyColour);
 
         guidedOrbObject.speed = speed;
         guidedOrbObject.rotationSpeed = rotationSpeed;

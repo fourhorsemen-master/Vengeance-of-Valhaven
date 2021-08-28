@@ -16,7 +16,7 @@ public class AbilityListingPanel : MonoBehaviour, IBeginDragHandler, IDragHandle
     [SerializeField]
     private DraggableHighlighter highlighter = null;
 
-    private AbilityReference ability;
+    private Ability2 ability;
     private int quantity;
 
     private AbilityTooltip tooltip;
@@ -62,17 +62,17 @@ public class AbilityListingPanel : MonoBehaviour, IBeginDragHandler, IDragHandle
         highlighter.HighlightState = DraggableHighlightState.Default;
     }
 
-    public void Initialise(AbilityReference ability, int quantity)
+    public void Initialise(Ability2 ability, int quantity)
     {
         this.ability = ability;
         this.quantity = quantity;
 
         highlighter.HighlightState = DraggableHighlightState.Default;
 
-        iconPanelImage.sprite = AbilityIconManager.Instance.GetIcon(ability);
+        iconPanelImage.sprite = AbilityLookup2.Instance.GetIcon(ability);
 
-        namePanelText.text = AbilityLookup.Instance.GetAbilityDisplayName(ability);
-        namePanelText.color = RarityLookup.Instance.Lookup[AbilityLookup.Instance.GetRarity(ability)].Colour;
+        namePanelText.text = AbilityLookup2.Instance.GetDisplayName(ability);
+        namePanelText.color = RarityLookup.Instance.Lookup[AbilityLookup2.Instance.GetRarity(ability)].Colour;
 
         UpdateQuantityText();
     }

@@ -2,9 +2,8 @@
 {
     Short,
     Tall,
-    Leafy,
-    Rocky,
-    Rune,
-    Floating,
-    Ruins
+    OnGrass,
+    OnRock,
+    OnDirt,
+    OnWater
 }
