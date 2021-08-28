@@ -24,7 +24,7 @@ public class AmbientSoundManager : Singleton<AmbientSoundManager>
     private void Start()
     {
         float depthProportion = DepthUtils.GetDepthProportion(PersistenceManager.Instance.SaveData.CurrentRoomNode);
-        var dayNightCurveValue = dayNightCurve.Evaluate(depthProportion);
+        float dayNightCurveValue = dayNightCurve.Evaluate(depthProportion);
 
         eventEmitter.SetParameter("dayNight", dayNightCurveValue);
 
