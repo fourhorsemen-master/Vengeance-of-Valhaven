@@ -5,19 +5,13 @@ using UnityEngine;
 
 public class AmbientSoundManager : Singleton<AmbientSoundManager>
 {
-    private static readonly Dictionary<AmbientSoundType, float> parameterLookup = new Dictionary<AmbientSoundType, float>
-    {
-        [AmbientSoundType.Day] = 1,
-        [AmbientSoundType.Night] = 0,
-    };
-
     [SerializeField, EventRef]
     public List<string> ambientEvents = new List<string>();
 
     [SerializeField, EventRef]
-    public StudioEventEmitter eventEmitter;
+    public StudioEventEmitter eventEmitter = null;
     [SerializeField]
-    public AnimationCurve dayNightCurve;
+    public AnimationCurve dayNightCurve = null;
     [SerializeField]
     public float minInterval;
     [SerializeField]
@@ -31,21 +25,20 @@ public class AmbientSoundManager : Singleton<AmbientSoundManager>
     {
         float depthProportion = DepthUtils.GetDepthProportion(PersistenceManager.Instance.SaveData.CurrentRoomNode);
         float dayNightCurveValue = dayNightCurve.Evaluate(depthProportion);
-        AmbientSoundType ambientSoundType = dayNightCurveValue > 0 ? AmbientSoundType.Day : AmbientSoundType.Night;
 
-        eventEmitter.SetParameter("dayNight", parameterLookup[ambientSoundType]);
+        eventEmitter.SetParameter("dayNight", dayNightCurveValue);
 
         foreach (string ambientEvent in ambientEvents)
         {
             this.ActOnRandomisedInterval(
                 minInterval,
                 maxInterval,
-                _ => PlayAmbientEvent(ambientEvent, ambientSoundType)
+                _ => PlayAmbientEvent(ambientEvent, dayNightCurveValue)
             );
         }
     }
 
-    private void PlayAmbientEvent(string ambientEvent, AmbientSoundType ambientSoundType)
+    private void PlayAmbientEvent(string ambientEvent, float dayNightCurveValue)
     {
         float distance = Random.Range(minDistanceFromPlayer, maxDistanceFromPlayer);
         float angle = Random.Range(0f, 2 * Mathf.PI);
@@ -54,7 +47,7 @@ public class AmbientSoundManager : Singleton<AmbientSoundManager>
         position.x += distance * Mathf.Sin(angle);
         position.z += distance * Mathf.Cos(angle);
 
-        EventInstance eventInstance = FmodUtils.CreatePositionedInstance(ambientEvent, position, new FmodParameter("dayNight", parameterLookup[ambientSoundType]));
+        EventInstance eventInstance = FmodUtils.CreatePositionedInstance(ambientEvent, position, new FmodParameter("dayNight", dayNightCurveValue));
         eventInstance.start();
         eventInstance.release();
     }
