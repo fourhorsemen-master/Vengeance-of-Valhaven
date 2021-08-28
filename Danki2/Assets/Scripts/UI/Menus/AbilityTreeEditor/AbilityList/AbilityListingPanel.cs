@@ -16,7 +16,7 @@ public class AbilityListingPanel : MonoBehaviour, IBeginDragHandler, IDragHandle
     [SerializeField]
     private DraggableHighlighter highlighter = null;
 
-    private Ability2 ability;
+    private SerializableGuid abilityId;
     private int quantity;
 
     private AbilityTooltip tooltip;
@@ -30,7 +30,7 @@ public class AbilityListingPanel : MonoBehaviour, IBeginDragHandler, IDragHandle
     {
         if (AbilityTreeEditorMenu.Instance.IsDraggingFromList) return;
 
-        tooltip = AbilityTreeEditorMenu.Instance.CreateTooltip(ability);
+        tooltip = AbilityTreeEditorMenu.Instance.CreateTooltip(abilityId);
         if (highlighter.HighlightState != DraggableHighlightState.Dragging)
             highlighter.HighlightState = DraggableHighlightState.Hover;
     }
@@ -46,7 +46,7 @@ public class AbilityListingPanel : MonoBehaviour, IBeginDragHandler, IDragHandle
     {
         quantity -= 1;
         UpdateQuantityText();
-        AbilityTreeEditorMenu.Instance.ListAbilityDragStartSubject.Next(ability);
+        AbilityTreeEditorMenu.Instance.ListAbilityDragStartSubject.Next(abilityId);
         highlighter.HighlightState = DraggableHighlightState.Dragging;
     }
 
@@ -58,21 +58,21 @@ public class AbilityListingPanel : MonoBehaviour, IBeginDragHandler, IDragHandle
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        AbilityTreeEditorMenu.Instance.ListAbilityDragStopSubject.Next(ability);
+        AbilityTreeEditorMenu.Instance.ListAbilityDragStopSubject.Next(abilityId);
         highlighter.HighlightState = DraggableHighlightState.Default;
     }
 
-    public void Initialise(Ability2 ability, int quantity)
+    public void Initialise(SerializableGuid abilityId, int quantity)
     {
-        this.ability = ability;
+        this.abilityId = abilityId;
         this.quantity = quantity;
 
         highlighter.HighlightState = DraggableHighlightState.Default;
 
-        iconPanelImage.sprite = AbilityLookup2.Instance.GetIcon(ability);
+        iconPanelImage.sprite = AbilityLookup2.Instance.GetIcon(abilityId);
 
-        namePanelText.text = AbilityLookup2.Instance.GetDisplayName(ability);
-        namePanelText.color = RarityLookup.Instance.Lookup[AbilityLookup2.Instance.GetRarity(ability)].Colour;
+        namePanelText.text = AbilityLookup2.Instance.GetDisplayName(abilityId);
+        namePanelText.color = RarityLookup.Instance.Lookup[AbilityLookup2.Instance.GetRarity(abilityId)].Colour;
 
         UpdateQuantityText();
     }

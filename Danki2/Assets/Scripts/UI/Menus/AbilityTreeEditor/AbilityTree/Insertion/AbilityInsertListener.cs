@@ -28,7 +28,7 @@ public class AbilityInsertListener : MonoBehaviour
         );
     }
 
-    internal void Activate(Node node, Ability2 ability)
+    internal void Activate(Node node, SerializableGuid abilityId)
     {
         // bool abilityIsFinisher = AbilityLookup.Instance.IsFinisher(ability);
         bool abilityIsFinisher = false;
@@ -39,7 +39,7 @@ public class AbilityInsertListener : MonoBehaviour
         if (
             !node.IsRootNode
             && !(abilityIsFinisher && node.IsParent)
-            && node.Ability != ability
+            && node.AbilityId != abilityId
         )
         {
             centralArea.gameObject.SetActive(true);

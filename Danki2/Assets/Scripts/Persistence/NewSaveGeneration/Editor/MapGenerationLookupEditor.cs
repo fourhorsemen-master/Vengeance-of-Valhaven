@@ -34,14 +34,14 @@ public class MapGenerationLookupEditor : Editor
 
         mapGenerationLookup.AbilityChoices = EditorGUILayout.IntField("Ability Choices", mapGenerationLookup.AbilityChoices);
         mapGenerationLookup.RuneSockets = EditorGUILayout.IntField("Rune Sockets", mapGenerationLookup.RuneSockets);
-        mapGenerationLookup.LeftStartingAbility = (Ability2) EditorGUILayout.EnumPopup(
-            "Left Starting Ability",
-            mapGenerationLookup.LeftStartingAbility
-        );
-        mapGenerationLookup.RightStartingAbility = (Ability2) EditorGUILayout.EnumPopup(
-            "Right Starting Ability",
-            mapGenerationLookup.RightStartingAbility
-        );
+        // mapGenerationLookup.LeftStartingAbility = (Ability2) EditorGUILayout.EnumPopup(
+        //     "Left Starting Ability",
+        //     mapGenerationLookup.LeftStartingAbility
+        // );
+        // mapGenerationLookup.RightStartingAbility = (Ability2) EditorGUILayout.EnumPopup(
+        //     "Right Starting Ability",
+        //     mapGenerationLookup.RightStartingAbility
+        // );
         
         EditorGUI.indentLevel--;
         

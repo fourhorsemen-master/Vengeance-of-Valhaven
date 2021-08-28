@@ -31,7 +31,7 @@ public class AbilityListDisplay : MonoBehaviour
             Destroy(child.gameObject);
         }
         
-        foreach (KeyValuePair<Ability2, int> item in player.AbilityTree.Inventory)
+        foreach (KeyValuePair<SerializableGuid, int> item in player.AbilityTree.Inventory)
         {
             if (item.Value > 0)
             {

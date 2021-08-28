@@ -3,25 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class AbilityDisplayNameDictionary : SerializableEnumDictionary<Ability2, string>
-{
-    public AbilityDisplayNameDictionary(string defaultValue) : base(defaultValue) {}
-    public AbilityDisplayNameDictionary(Func<string> defaultValueProvider) : base(defaultValueProvider) {}
-}
+public class AbilityDisplayNameDictionary : SerializableDictionary<SerializableGuid, string> {}
 
 [Serializable]
-public class AbilityTypeDictionary : SerializableEnumDictionary<Ability2, AbilityType2>
-{
-    public AbilityTypeDictionary(AbilityType2 defaultValue) : base(defaultValue) {}
-    public AbilityTypeDictionary(Func<AbilityType2> defaultValueProvider) : base(defaultValueProvider) {}
-}
+public class AbilityTypeDictionary : SerializableDictionary<SerializableGuid, AbilityType2> {}
 
 [Serializable]
-public class AbilityDamageDictionary : SerializableEnumDictionary<Ability2, int>
-{
-    public AbilityDamageDictionary(int defaultValue) : base(defaultValue) {}
-    public AbilityDamageDictionary(Func<int> defaultValueProvider) : base(defaultValueProvider) {}
-}
+public class AbilityDamageDictionary : SerializableDictionary<SerializableGuid, int> {}
 
 [Serializable]
 public class EmpowermentsWrapper
@@ -31,48 +19,36 @@ public class EmpowermentsWrapper
 }
 
 [Serializable]
-public class AbilityEmpowermentsDictionary : SerializableEnumDictionary<Ability2, EmpowermentsWrapper>
-{
-    public AbilityEmpowermentsDictionary(EmpowermentsWrapper defaultValue) : base(defaultValue) {}
-    public AbilityEmpowermentsDictionary(Func<EmpowermentsWrapper> defaultValueProvider) : base(defaultValueProvider) {}
-}
+public class AbilityEmpowermentsDictionary : SerializableDictionary<SerializableGuid, EmpowermentsWrapper> {}
 
 [Serializable]
-public class AbilityRarityDictionary : SerializableEnumDictionary<Ability2, Rarity>
-{
-    public AbilityRarityDictionary(Rarity defaultValue) : base(defaultValue) {}
-    public AbilityRarityDictionary(Func<Rarity> defaultValueProvider) : base(defaultValueProvider) {}
-}
+public class AbilityRarityDictionary : SerializableDictionary<SerializableGuid, Rarity> {}
 
 [Serializable]
-public class AbilityCollisionSoundLevelDictionary : SerializableEnumDictionary<Ability2, CollisionSoundLevel>
-{
-    public AbilityCollisionSoundLevelDictionary(CollisionSoundLevel defaultValue) : base(defaultValue) {}
-    public AbilityCollisionSoundLevelDictionary(Func<CollisionSoundLevel> defaultValueProvider) : base(defaultValueProvider) {}
-}
+public class AbilityCollisionSoundLevelDictionary : SerializableDictionary<SerializableGuid, CollisionSoundLevel> {}
 
 [Serializable]
-public class AbilityIconDictionary2 : SerializableEnumDictionary<Ability2, Sprite>
-{
-    public AbilityIconDictionary2(Sprite defaultValue) : base(defaultValue) {}
-    public AbilityIconDictionary2(Func<Sprite> defaultValueProvider) : base(defaultValueProvider) {}
-}
+public class AbilityIconDictionary2 : SerializableDictionary<SerializableGuid, Sprite> {}
 
 public class AbilityLookup2 : Singleton<AbilityLookup2>
 {
-    public AbilityDisplayNameDictionary abilityDisplayNameDictionary = new AbilityDisplayNameDictionary("");
-    public AbilityTypeDictionary abilityTypeDictionary = new AbilityTypeDictionary(AbilityType2.Slash);
-    public AbilityDamageDictionary abilityDamageDictionary = new AbilityDamageDictionary(0);
-    public AbilityEmpowermentsDictionary abilityEmpowermentsDictionary = new AbilityEmpowermentsDictionary(() => new EmpowermentsWrapper());
-    public AbilityRarityDictionary abilityRarityDictionary = new AbilityRarityDictionary(Rarity.Common);
-    public AbilityCollisionSoundLevelDictionary abilityCollisionSoundLevelDictionary = new AbilityCollisionSoundLevelDictionary(CollisionSoundLevel.Low);
-    public AbilityIconDictionary2 abilityIconDictionary = new AbilityIconDictionary2(defaultValue: null);
+    public List<SerializableGuid> abilityIds = new List<SerializableGuid>();
 
-    public string GetDisplayName(Ability2 ability) => abilityDisplayNameDictionary[ability];
-    public AbilityType2 GetAbilityType(Ability2 ability) => abilityTypeDictionary[ability];
-    public int GetDamage(Ability2 ability) => abilityDamageDictionary[ability];
-    public List<Empowerment> GetEmpowerments(Ability2 ability) => abilityEmpowermentsDictionary[ability].Empowerments;
-    public Rarity GetRarity(Ability2 ability) => abilityRarityDictionary[ability];
-    public CollisionSoundLevel GetCollisionSoundLevel(Ability2 ability) => abilityCollisionSoundLevelDictionary[ability];
-    public Sprite GetIcon(Ability2 ability) => abilityIconDictionary[ability];
+    public AbilityDisplayNameDictionary abilityDisplayNameDictionary = new AbilityDisplayNameDictionary();
+    public AbilityTypeDictionary abilityTypeDictionary = new AbilityTypeDictionary();
+    public AbilityDamageDictionary abilityDamageDictionary = new AbilityDamageDictionary();
+    public AbilityEmpowermentsDictionary abilityEmpowermentsDictionary = new AbilityEmpowermentsDictionary();
+    public AbilityRarityDictionary abilityRarityDictionary = new AbilityRarityDictionary();
+    public AbilityCollisionSoundLevelDictionary abilityCollisionSoundLevelDictionary = new AbilityCollisionSoundLevelDictionary();
+    public AbilityIconDictionary2 abilityIconDictionary = new AbilityIconDictionary2();
+
+    public string GetDisplayName(SerializableGuid abilityId) => abilityDisplayNameDictionary[abilityId];
+    public AbilityType2 GetAbilityType(SerializableGuid abilityId) => abilityTypeDictionary[abilityId];
+    public int GetDamage(SerializableGuid abilityId) => abilityDamageDictionary[abilityId];
+    public List<Empowerment> GetEmpowerments(SerializableGuid abilityId) => abilityEmpowermentsDictionary[abilityId].Empowerments;
+    public Rarity GetRarity(SerializableGuid abilityId) => abilityRarityDictionary[abilityId];
+    public CollisionSoundLevel GetCollisionSoundLevel(SerializableGuid abilityId) => abilityCollisionSoundLevelDictionary[abilityId];
+    public Sprite GetIcon(SerializableGuid abilityId) => abilityIconDictionary[abilityId];
+
+    public void ForEachAbilityId(Action<SerializableGuid> action) => abilityIds.ForEach(action);
 }

@@ -29,14 +29,14 @@ public class SerializableAbilityTree
         {
             int leftChildId = node.HasChild(Direction.Left) ? nodeToIdLookup[node.GetChild(Direction.Left)] : NoChildId;
             int rightChildId = node.HasChild(Direction.Right) ? nodeToIdLookup[node.GetChild(Direction.Right)] : NoChildId;
-            serializableNodes.Add(new SerializableNode(node.Ability, nodeToIdLookup[node], leftChildId, rightChildId));
+            serializableNodes.Add(new SerializableNode(node.AbilityId, nodeToIdLookup[node], leftChildId, rightChildId));
         });
 
-        EnumUtils.ForEach<Ability2>(abilityReference =>
+        AbilityLookup2.Instance.ForEachAbilityId(abilityId =>
         {
             serializableOwnedAbilities.Add(new SerializableOwnedAbility(
-                abilityReference,
-                abilityTree.OwnedAbilities[abilityReference]
+                abilityId,
+                abilityTree.OwnedAbilities[abilityId]
             ));
         });
     }
@@ -67,15 +67,15 @@ public class SerializableAbilityTree
             ? DeserializeNode(idToSerializableNodeLookup[serializableNode.RightChildId], idToSerializableNodeLookup)
             : null;
 
-        return AbilityTreeFactory.CreateNode(serializableNode.Ability, leftChild, rightChild);
+        return AbilityTreeFactory.CreateNode(serializableNode.AbilityId, leftChild, rightChild);
     }
 
-    private EnumDictionary<Ability2, int> DeserializeOwnedAbilities()
+    private Dictionary<SerializableGuid, int> DeserializeOwnedAbilities()
     {
-        EnumDictionary<Ability2, int> ownedAbilities = new EnumDictionary<Ability2, int>(0);
+        Dictionary<SerializableGuid, int> ownedAbilities = new Dictionary<SerializableGuid, int>();
         serializableOwnedAbilities.ForEach(serializableOwnedAbility =>
         {
-            ownedAbilities[serializableOwnedAbility.Ability] = serializableOwnedAbility.Count;
+            ownedAbilities[serializableOwnedAbility.AbilityId] = serializableOwnedAbility.Count;
         });
         return ownedAbilities;
     }

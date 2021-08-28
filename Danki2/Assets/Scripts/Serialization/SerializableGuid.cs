@@ -6,9 +6,16 @@ public class SerializableGuid
 {
     [SerializeField] private string value;
 
+    public SerializableGuid() {}
+    
+    public SerializableGuid(string value)
+    {
+        this.value = value;
+    }
+    
     public static SerializableGuid NewGuid()
     {
-        return new SerializableGuid { value = Guid.NewGuid().ToString() };
+        return new SerializableGuid(Guid.NewGuid().ToString());
     }
 
     public override string ToString()

@@ -32,7 +32,7 @@ public static class KeywordUtils
             [Empowerment.DoubleRange] = Keyword.DoubleRange,
         };
 
-    public static List<Keyword> GetKeywords(Ability2 ability)
+    public static List<Keyword> GetKeywords(SerializableGuid abilityId)
     {
         // List<Keyword> keywords = new List<Keyword>();
         //
@@ -53,7 +53,7 @@ public static class KeywordUtils
 
         List<Keyword> keywords = new List<Keyword>();
 
-        List<Empowerment> empowerments = AbilityLookup2.Instance.GetEmpowerments(ability);
+        List<Empowerment> empowerments = AbilityLookup2.Instance.GetEmpowerments(abilityId);
         empowerments.ForEach(empowerment => keywords.Add(empowermentLookup[empowerment]));
 
         return keywords;

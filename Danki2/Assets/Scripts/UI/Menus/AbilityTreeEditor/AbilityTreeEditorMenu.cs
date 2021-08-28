@@ -11,21 +11,21 @@ public class AbilityTreeEditorMenu : Singleton<AbilityTreeEditorMenu>
 
     public bool IsDraggingFromList { get; private set; }
 
-    public Ability2 AbilityDraggingFromList { get; private set; }
+    public SerializableGuid AbilityDraggingFromList { get; private set; }
 
-    public Subject<Ability2> ListAbilityDragStartSubject { get; } = new Subject<Ability2>();
+    public Subject<SerializableGuid> ListAbilityDragStartSubject { get; } = new Subject<SerializableGuid>();
 
-    public Subject<Ability2> ListAbilityDragStopSubject { get; } = new Subject<Ability2>();
+    public Subject<SerializableGuid> ListAbilityDragStopSubject { get; } = new Subject<SerializableGuid>();
 
     public Subject TreeAbilityDragStopSubject { get; } = new Subject();
 
     public Node CurrentTreeNodeHover { get; set; } = null;
 
-    private readonly List<Subscription<Ability2>> subscriptions = new List<Subscription<Ability2>>();
+    private readonly List<Subscription<SerializableGuid>> subscriptions = new List<Subscription<SerializableGuid>>();
 
-    public AbilityTooltip CreateTooltip(Ability2 ability)
+    public AbilityTooltip CreateTooltip(SerializableGuid abilityId)
     {
-        return AbilityTooltip.Create(transform, ability);
+        return AbilityTooltip.Create(transform, abilityId);
     }
 
     public AbilityTooltip CreateTooltip(Node node)
@@ -35,13 +35,13 @@ public class AbilityTreeEditorMenu : Singleton<AbilityTreeEditorMenu>
     
     private void OnEnable()
     {
-        subscriptions.Add(ListAbilityDragStartSubject.Subscribe(ability => {
-            AbilityDraggingFromList = ability;
+        subscriptions.Add(ListAbilityDragStartSubject.Subscribe(abilityId => {
+            AbilityDraggingFromList = abilityId;
             IsDraggingFromList = true;
         }));
 
-        subscriptions.Add(ListAbilityDragStopSubject.Subscribe(ability => {
-            AbilityDraggingFromList = ability;
+        subscriptions.Add(ListAbilityDragStopSubject.Subscribe(abilityId => {
+            AbilityDraggingFromList = abilityId;
             IsDraggingFromList = false;
         }));
 

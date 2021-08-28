@@ -30,18 +30,18 @@ public class TreeAbility : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     private AbilityInsertListener abilityInsertListener = null;
 
     private Node node;
-    private Subscription<Ability2> dragStartSubscription;
-    private Subscription<Ability2> dragStopSubscription;
+    private Subscription<SerializableGuid> dragStartSubscription;
+    private Subscription<SerializableGuid> dragStopSubscription;
 
     private AbilityTooltip tooltip;
     
     private void Start()
     {
         dragStartSubscription = AbilityTreeEditorMenu.Instance.ListAbilityDragStartSubject
-            .Subscribe(ability => abilityInsertListener.Activate(node, ability));
+            .Subscribe(abilityId => abilityInsertListener.Activate(node, abilityId));
 
         dragStopSubscription = AbilityTreeEditorMenu.Instance.ListAbilityDragStopSubject
-            .Subscribe(ability => abilityInsertListener.Deactivate());
+            .Subscribe(abilityId => abilityInsertListener.Deactivate());
 
         abilityInsertListener.AbilityInsertSubject.Subscribe(location =>
         {
@@ -127,7 +127,7 @@ public class TreeAbility : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         }
         else
         {
-            abilityImage.sprite = AbilityLookup2.Instance.GetIcon(node.Ability);            
+            abilityImage.sprite = AbilityLookup2.Instance.GetIcon(node.AbilityId);            
         }
     }
 

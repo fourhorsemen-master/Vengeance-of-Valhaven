@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class NewSaveGenerator : Singleton<NewSaveGenerator>
 {
@@ -43,14 +44,16 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
     
     private void SetAbilityTree(SaveData saveData)
     {
-        EnumDictionary<Ability2, int> ownedAbilities = new EnumDictionary<Ability2, int>(0);
-        ownedAbilities[MapGenerationLookup.Instance.LeftStartingAbility]++;
-        ownedAbilities[MapGenerationLookup.Instance.RightStartingAbility]++;
+        Dictionary<SerializableGuid, int> ownedAbilities = new Dictionary<SerializableGuid, int>();
+        AbilityLookup2.Instance.ForEachAbilityId(abilityId => ownedAbilities[abilityId] = 0);
+        // ownedAbilities[MapGenerationLookup.Instance.LeftStartingAbility]++;
+        // ownedAbilities[MapGenerationLookup.Instance.RightStartingAbility]++;
+        ownedAbilities[AbilityLookup2.Instance.abilityIds[0]] += 2;
 
         saveData.SerializableAbilityTree = AbilityTreeFactory.CreateTree(
             ownedAbilities,
-            AbilityTreeFactory.CreateNode(MapGenerationLookup.Instance.LeftStartingAbility),
-            AbilityTreeFactory.CreateNode(MapGenerationLookup.Instance.RightStartingAbility)
+            AbilityTreeFactory.CreateNode(AbilityLookup2.Instance.abilityIds[0]),
+            AbilityTreeFactory.CreateNode(AbilityLookup2.Instance.abilityIds[0])
         ).Serialize();
     }
 
