@@ -23,14 +23,17 @@ public class AmbientSoundManager : Singleton<AmbientSoundManager>
 
     private void Start()
     {
-        eventEmitter.SetParameter("dayNight", GetDayNightCurveValue());
+        float depthProportion = DepthUtils.GetDepthProportion(PersistenceManager.Instance.SaveData.CurrentRoomNode);
+        var dayNightCurveValue = dayNightCurve.Evaluate(depthProportion);
+
+        eventEmitter.SetParameter("dayNight", dayNightCurveValue);
 
         foreach (string ambientEvent in ambientEvents)
         {
             this.ActOnRandomisedInterval(
                 minInterval,
                 maxInterval,
-                _ => PlayAmbientEvent(ambientEvent, GetDayNightCurveValue())
+                _ => PlayAmbientEvent(ambientEvent, dayNightCurveValue)
             );
         }
     }
@@ -47,11 +50,5 @@ public class AmbientSoundManager : Singleton<AmbientSoundManager>
         EventInstance eventInstance = FmodUtils.CreatePositionedInstance(ambientEvent, position, new FmodParameter("dayNight", dayNightCurveValue));
         eventInstance.start();
         eventInstance.release();
-    }
-
-    private float GetDayNightCurveValue()
-    {
-        float depthProportion = DepthUtils.GetDepthProportion(PersistenceManager.Instance.SaveData.CurrentRoomNode);
-        return dayNightCurve.Evaluate(depthProportion);
     }
 }
