@@ -15,6 +15,8 @@ public class AbilityLookup2Editor : Editor
         abilityLookup = (AbilityLookup2) target;
 
         EditorUtils.ShowScriptLink(abilityLookup);
+
+        abilityLookup.abilityNameStore = AbilityNameStoreUtils.EditAbilityNameStore(abilityLookup.abilityNameStore);
         
         if (foldoutStatus == null) InitialiseFoldoutStatuses();
 
@@ -24,6 +26,11 @@ public class AbilityLookup2Editor : Editor
             EditorUtils.VerticalSpace();
         }
         AddAbilityButton();
+        
+        AbilityNameStoreUtils.SaveAbilityNames(
+            abilityLookup.abilityNameStore,
+            abilityLookup.abilityDisplayNameDictionary.Values.ToList()
+        );
         
         if (GUI.changed)
         {

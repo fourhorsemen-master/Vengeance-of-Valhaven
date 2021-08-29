@@ -10,6 +10,8 @@ public class DevPersistenceManagerEditor : Editor
 
         EditorUtils.ShowScriptLink(devPersistenceManager);
 
+        devPersistenceManager.abilityNameStore = AbilityNameStoreUtils.EditAbilityNameStore(devPersistenceManager.abilityNameStore);
+
         EditorUtils.Header("Player");
         EditorGUI.indentLevel++;
         devPersistenceManager.playerSpawnerId = EditorGUILayout.IntField("Player Spawner ID", devPersistenceManager.playerSpawnerId);
@@ -23,8 +25,16 @@ public class DevPersistenceManagerEditor : Editor
         EditorUtils.Header("Ability Tree");
         EditorGUI.indentLevel++;
         devPersistenceManager.ownedAbilityCount = EditorGUILayout.IntField("Owned Ability Count", devPersistenceManager.ownedAbilityCount);
-        devPersistenceManager.leftAbilityName = EditorGUILayout.TextField("Left Ability Name", devPersistenceManager.leftAbilityName);
-        devPersistenceManager.rightAbilityName = EditorGUILayout.TextField("Right Ability Name", devPersistenceManager.rightAbilityName);
+        devPersistenceManager.leftAbilityName = AbilityNameStoreUtils.EditAbilityName(
+            "Left Ability Name",
+            devPersistenceManager.leftAbilityName,
+            devPersistenceManager.abilityNameStore
+        );
+        devPersistenceManager.rightAbilityName = AbilityNameStoreUtils.EditAbilityName(
+            "Right Ability Name",
+            devPersistenceManager.rightAbilityName,
+            devPersistenceManager.abilityNameStore
+        );
         EditorGUI.indentLevel--;
         EditorUtils.VerticalSpace();
         
@@ -133,7 +143,8 @@ public class DevPersistenceManagerEditor : Editor
         
         EditorUtils.ResizeableList(
             devPersistenceManager.abilityChoiceNames,
-            abilityChoice => EditorGUILayout.TextField("Ability Choice", abilityChoice),
+            abilityChoice => AbilityNameStoreUtils.EditAbilityName("Ability Choice", abilityChoice, devPersistenceManager.abilityNameStore),
+            // abilityChoice => EditorGUILayout.TextField("Ability Choice", abilityChoice),
             ""
         );
         

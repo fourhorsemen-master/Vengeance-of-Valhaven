@@ -14,7 +14,8 @@ public class MapGenerationLookupEditor : Editor
         mapGenerationLookup = (MapGenerationLookup) target;
 
         EditorUtils.ShowScriptLink(mapGenerationLookup);
-        
+
+        mapGenerationLookup.AbilityNameStore = AbilityNameStoreUtils.EditAbilityNameStore(mapGenerationLookup.AbilityNameStore);
         EditLayoutData();
         EditorUtils.VerticalSpace();
         EditRoomDataLookup();
@@ -34,13 +35,15 @@ public class MapGenerationLookupEditor : Editor
 
         mapGenerationLookup.AbilityChoices = EditorGUILayout.IntField("Ability Choices", mapGenerationLookup.AbilityChoices);
         mapGenerationLookup.RuneSockets = EditorGUILayout.IntField("Rune Sockets", mapGenerationLookup.RuneSockets);
-        mapGenerationLookup.LeftStartingAbilityName = EditorGUILayout.TextField(
+        mapGenerationLookup.LeftStartingAbilityName = AbilityNameStoreUtils.EditAbilityName(
             "Left Starting Ability Name",
-            mapGenerationLookup.LeftStartingAbilityName
+            mapGenerationLookup.LeftStartingAbilityName,
+            mapGenerationLookup.AbilityNameStore
         );
-        mapGenerationLookup.RightStartingAbilityName = EditorGUILayout.TextField(
+        mapGenerationLookup.RightStartingAbilityName = AbilityNameStoreUtils.EditAbilityName(
             "Right Starting Ability Name",
-            mapGenerationLookup.RightStartingAbilityName
+            mapGenerationLookup.RightStartingAbilityName,
+            mapGenerationLookup.AbilityNameStore
         );
         
         EditorGUI.indentLevel--;

@@ -33,6 +33,7 @@ public class DevPersistenceManager : PersistenceManager
     [SerializeField] public RoomType roomType = RoomType.Combat;
     [SerializeField] public List<string> abilityChoiceNames = new List<string>();
     [SerializeField] public bool hasHealed = false;
+    [SerializeField] public TextAsset abilityNameStore = null;
 
     public override SaveData SaveData => GenerateNewSaveData();
 
