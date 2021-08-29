@@ -42,6 +42,8 @@ public class AbilityLookup2 : Singleton<AbilityLookup2>
     public AbilityCollisionSoundLevelDictionary abilityCollisionSoundLevelDictionary = new AbilityCollisionSoundLevelDictionary();
     public AbilityIconDictionary2 abilityIconDictionary = new AbilityIconDictionary2();
 
+    public TextAsset abilityNameStore = null;
+
     public string GetDisplayName(SerializableGuid abilityId) => abilityDisplayNameDictionary[abilityId];
     public AbilityType2 GetAbilityType(SerializableGuid abilityId) => abilityTypeDictionary[abilityId];
     public int GetDamage(SerializableGuid abilityId) => abilityDamageDictionary[abilityId];

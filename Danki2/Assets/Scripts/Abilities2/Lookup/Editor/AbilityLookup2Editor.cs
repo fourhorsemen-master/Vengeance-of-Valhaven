@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -15,7 +17,14 @@ public class AbilityLookup2Editor : Editor
         abilityLookup = (AbilityLookup2) target;
 
         EditorUtils.ShowScriptLink(abilityLookup);
-        
+
+        abilityLookup.abilityNameStore = (TextAsset)EditorGUILayout.ObjectField(
+            "Ability Name Store",
+            abilityLookup.abilityNameStore,
+            abilityLookup.abilityNameStore.GetType(),
+            true
+        );
+
         if (foldoutStatus == null) InitialiseFoldoutStatuses();
 
         for (int i = abilityLookup.abilityIds.Count - 1; i >= 0; i--)
@@ -24,11 +33,20 @@ public class AbilityLookup2Editor : Editor
             EditorUtils.VerticalSpace();
         }
         AddAbilityButton();
-        
+
+        SaveAbilityNames();
+
         if (GUI.changed)
         {
             EditorUtility.SetDirty(target);
         }
+    }
+
+    private void SaveAbilityNames()
+    {
+        string path = AssetDatabase.GetAssetPath(abilityLookup.abilityNameStore);
+        string text = string.Join(",", abilityLookup.abilityDisplayNameDictionary.Values.ToList());
+        File.WriteAllText(path, text);
     }
 
     private void InitialiseFoldoutStatuses()

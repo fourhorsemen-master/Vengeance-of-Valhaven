@@ -1,4 +1,6 @@
-﻿using UnityEditor;
+﻿using System;
+using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(DevPersistenceManager))]
@@ -9,6 +11,15 @@ public class DevPersistenceManagerEditor : Editor
         DevPersistenceManager devPersistenceManager = (DevPersistenceManager) target;
 
         EditorUtils.ShowScriptLink(devPersistenceManager);
+
+        devPersistenceManager.abilityNameStore = (TextAsset)EditorGUILayout.ObjectField(
+            "Ability Name Store",
+            devPersistenceManager.abilityNameStore,
+            devPersistenceManager.abilityNameStore.GetType(),
+            true
+        );
+
+        string[] abilityNames = devPersistenceManager.abilityNameStore.text.Split(',');
 
         EditorUtils.Header("Player");
         EditorGUI.indentLevel++;
@@ -47,7 +58,7 @@ public class DevPersistenceManagerEditor : Editor
         devPersistenceManager.depthInZone = EditorGUILayout.IntField("Depth In Zone", devPersistenceManager.depthInZone);
         devPersistenceManager.roomType = (RoomType) EditorGUILayout.EnumPopup("Room Type", devPersistenceManager.roomType);
         if (devPersistenceManager.roomType == RoomType.Combat) EditCombatRoomData(devPersistenceManager);
-        if (devPersistenceManager.roomType == RoomType.Ability) EditAbilityRoomData(devPersistenceManager);
+        if (devPersistenceManager.roomType == RoomType.Ability) EditAbilityRoomData(devPersistenceManager, abilityNames);
         if (devPersistenceManager.roomType == RoomType.Healing) EditHealingRoomData(devPersistenceManager);
         EditorGUI.indentLevel--;
 
@@ -125,7 +136,7 @@ public class DevPersistenceManagerEditor : Editor
         EditorGUI.indentLevel--;
     }
 
-    private void EditAbilityRoomData(DevPersistenceManager devPersistenceManager)
+    private void EditAbilityRoomData(DevPersistenceManager devPersistenceManager, string[] abilityNames)
     {
         EditorUtils.Header("Ability Choices");
         
@@ -133,7 +144,12 @@ public class DevPersistenceManagerEditor : Editor
         
         EditorUtils.ResizeableList(
             devPersistenceManager.abilityChoiceNames,
-            abilityChoice => EditorGUILayout.TextField("Ability Choice", abilityChoice),
+            abilityChoice => {
+                int currentIndex = Array.IndexOf(abilityNames, abilityChoice);
+                if (currentIndex == -1) currentIndex = 0;
+                int newIndex = EditorGUILayout.Popup(currentIndex, abilityNames);
+                return abilityNames[newIndex];
+            },
             ""
         );
         
