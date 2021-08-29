@@ -50,5 +50,20 @@ public class AbilityLookup2 : Singleton<AbilityLookup2>
     public CollisionSoundLevel GetCollisionSoundLevel(SerializableGuid abilityId) => abilityCollisionSoundLevelDictionary[abilityId];
     public Sprite GetIcon(SerializableGuid abilityId) => abilityIconDictionary[abilityId];
 
+    public bool TryGetAbilityId(string displayName, out SerializableGuid abilityId)
+    {
+        foreach (KeyValuePair<SerializableGuid,string> kvp in abilityDisplayNameDictionary)
+        {
+            if (kvp.Value == displayName)
+            {
+                abilityId = kvp.Key;
+                return true;
+            }
+        }
+
+        abilityId = null;
+        return false;
+    }
+
     public void ForEachAbilityId(Action<SerializableGuid> action) => abilityIds.ForEach(action);
 }

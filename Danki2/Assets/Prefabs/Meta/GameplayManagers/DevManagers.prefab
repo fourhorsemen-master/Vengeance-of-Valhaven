@@ -61,8 +61,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ownedAbilityCount: 3
-  leftAbility: 0
-  rightAbility: 0
+  leftAbilityName: Slash
+  rightAbilityName: Slash
   playerHealth: 20
   runeSockets:
   - hasRune: 0
@@ -87,7 +87,7 @@ MonoBehaviour:
   zone: 0
   depthInZone: 1
   roomType: 0
-  abilityChoices: 
+  abilityChoicesNames: []
   hasHealed: 0
 --- !u!114 &2149326593565702010
 MonoBehaviour:
@@ -115,8 +115,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityChoices: 0
   runeSockets: 0
-  leftStartingAbility: 0
-  rightStartingAbility: 0
+  leftStartingAbilityName: 
+  rightStartingAbilityName: 
   generatedRoomDepth: 0
   minRoomExits: 0
   maxRoomExits: 0

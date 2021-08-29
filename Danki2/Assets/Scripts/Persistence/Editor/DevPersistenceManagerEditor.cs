@@ -23,8 +23,8 @@ public class DevPersistenceManagerEditor : Editor
         EditorUtils.Header("Ability Tree");
         EditorGUI.indentLevel++;
         devPersistenceManager.ownedAbilityCount = EditorGUILayout.IntField("Owned Ability Count", devPersistenceManager.ownedAbilityCount);
-        // devPersistenceManager.leftAbility = (Ability2) EditorGUILayout.EnumPopup("Left Ability", devPersistenceManager.leftAbility);
-        // devPersistenceManager.rightAbility = (Ability2) EditorGUILayout.EnumPopup("Left Ability", devPersistenceManager.rightAbility);
+        devPersistenceManager.leftAbilityName = EditorGUILayout.TextField("Left Ability Name", devPersistenceManager.leftAbilityName);
+        devPersistenceManager.rightAbilityName = EditorGUILayout.TextField("Right Ability Name", devPersistenceManager.rightAbilityName);
         EditorGUI.indentLevel--;
         EditorUtils.VerticalSpace();
         
@@ -127,17 +127,17 @@ public class DevPersistenceManagerEditor : Editor
 
     private void EditAbilityRoomData(DevPersistenceManager devPersistenceManager)
     {
-        // EditorUtils.Header("Ability Choices");
-        //
-        // EditorGUI.indentLevel++;
-        //
-        // EditorUtils.ResizeableList(
-        //     devPersistenceManager.abilityChoices,
-        //     abilityChoice => (Ability2) EditorGUILayout.EnumPopup("Ability Choice", abilityChoice),
-        //     Ability2.Slash
-        // );
-        //
-        // EditorGUI.indentLevel--;
+        EditorUtils.Header("Ability Choices");
+        
+        EditorGUI.indentLevel++;
+        
+        EditorUtils.ResizeableList(
+            devPersistenceManager.abilityChoiceNames,
+            abilityChoice => EditorGUILayout.TextField("Ability Choice", abilityChoice),
+            ""
+        );
+        
+        EditorGUI.indentLevel--;
     }
 
     private void EditHealingRoomData(DevPersistenceManager devPersistenceManager)
