@@ -44,35 +44,57 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   abilityIds:
+  - value: 57be95ef-dee3-4e9c-8cb9-07a29eb34988
+  - value: 8447ea2b-3377-4b08-bae2-fc6a923183e4
   - value: db6dc6d8-1653-4868-a91f-cad7cb838cdf
   abilityDisplayNameDictionary:
     _keys:
     - value: db6dc6d8-1653-4868-a91f-cad7cb838cdf
+    - value: 8447ea2b-3377-4b08-bae2-fc6a923183e4
+    - value: 57be95ef-dee3-4e9c-8cb9-07a29eb34988
     _values:
-    - Slash
+    - 1
+    - 2
+    - 3
   abilityTypeDictionary:
     _keys:
     - value: db6dc6d8-1653-4868-a91f-cad7cb838cdf
-    _values: 00000000
+    - value: 8447ea2b-3377-4b08-bae2-fc6a923183e4
+    - value: 57be95ef-dee3-4e9c-8cb9-07a29eb34988
+    _values: 000000000000000000000000
   abilityDamageDictionary:
     _keys:
     - value: db6dc6d8-1653-4868-a91f-cad7cb838cdf
-    _values: 0c000000
+    - value: 8447ea2b-3377-4b08-bae2-fc6a923183e4
+    - value: 57be95ef-dee3-4e9c-8cb9-07a29eb34988
+    _values: 64000000c80000002c010000
   abilityEmpowermentsDictionary:
     _keys:
     - value: db6dc6d8-1653-4868-a91f-cad7cb838cdf
+    - value: 8447ea2b-3377-4b08-bae2-fc6a923183e4
+    - value: 57be95ef-dee3-4e9c-8cb9-07a29eb34988
     _values:
-    - empowerments: 01000000
+    - empowerments: 
+    - empowerments: 
+    - empowerments: 
   abilityRarityDictionary:
     _keys:
     - value: db6dc6d8-1653-4868-a91f-cad7cb838cdf
-    _values: 00000000
+    - value: 8447ea2b-3377-4b08-bae2-fc6a923183e4
+    - value: 57be95ef-dee3-4e9c-8cb9-07a29eb34988
+    _values: 000000000000000000000000
   abilityCollisionSoundLevelDictionary:
     _keys:
     - value: db6dc6d8-1653-4868-a91f-cad7cb838cdf
-    _values: 00000000
+    - value: 8447ea2b-3377-4b08-bae2-fc6a923183e4
+    - value: 57be95ef-dee3-4e9c-8cb9-07a29eb34988
+    _values: 000000000000000000000000
   abilityIconDictionary:
     _keys:
     - value: db6dc6d8-1653-4868-a91f-cad7cb838cdf
+    - value: 8447ea2b-3377-4b08-bae2-fc6a923183e4
+    - value: 57be95ef-dee3-4e9c-8cb9-07a29eb34988
     _values:
     - {fileID: 21300000, guid: 545702d9040f5024e9eed6cf8ac19a16, type: 3}
+    - {fileID: 21300000, guid: 29a5c1d203d44ec49b224854c7d334cb, type: 3}
+    - {fileID: 21300000, guid: d2102326123da544aae57d7be6549f45, type: 3}
