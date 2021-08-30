@@ -6,21 +6,10 @@ using UnityEngine.SceneManagement;
 
 public static class DankiMenu
 {
-    [MenuItem("Danki/Entry Scene")]
-    private static void RunEntryScene() => RunScene("Assets/Scenes/MetaScenes/EntryScene/EntryScene.unity");
+    [MenuItem("Danki/New Game", priority = 1)]
+    private static void NewGame() => RunScene("Assets/Scenes/MetaScenes/EntryScene/EntryScene.unity");
 
-    [MenuItem("Danki/Asset Showcase")]
-    private static void RunAssetShowcase() => RunScene("Assets/Scenes/AssetShowcase/AssetShowcase.unity");
-
-    private static void RunScene(string scenePath)
-    {
-        if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
-
-        EditorSceneManager.OpenScene(scenePath);
-        EditorApplication.isPlaying = true;
-    }
-
-    [MenuItem("Danki/Toggle Dev Mode")]
+    [MenuItem("Danki/Toggle Dev Mode", priority = 2)]
     private static void ToggleDevMode()
     {
         GameObject metaObject = SceneManager.GetActiveScene()
@@ -39,7 +28,29 @@ public static class DankiMenu
         devManagerObject.SetActive(!devManagerObject.activeInHierarchy);
 
         Selection.activeGameObject = devManagerObject;
-        
+
         EditorUtility.SetDirty(devManagerObject);
+    }
+
+    [MenuItem("Danki/Scenes/Asset Showcase", priority = 3)]
+    private static void OpenAssetShowcaseScene() => OpenScene("Assets/Scenes/AssetShowcase/AssetShowcase.unity");
+
+    [MenuItem("Danki/Scenes/Forest Dens", priority = 4)]
+    private static void OpenForestDensScene() => OpenScene("Assets/Scenes/GameplayScenes/Zone1/ForestDens/ForestDensScene.unity");
+
+    private static void RunScene(string scenePath)
+    {
+        if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
+
+        EditorSceneManager.OpenScene(scenePath);
+
+        EditorApplication.isPlaying = true;
+    }
+
+    private static void OpenScene(string scenePath)
+    {
+        if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
+
+        EditorSceneManager.OpenScene(scenePath);
     }
 }
