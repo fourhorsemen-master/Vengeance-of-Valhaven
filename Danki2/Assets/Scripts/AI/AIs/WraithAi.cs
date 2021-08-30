@@ -19,6 +19,8 @@ public class WraithAi : Ai
     [SerializeField] private float swipeRange = 0;
     [SerializeField] private float maxSwipeAngle = 0;
     [SerializeField] private float swipeDelay = 0;
+    [SerializeField] private float engageDistance = 0;
+    [SerializeField] private float disengageDistance = 0;
     
     [Header("Blink")]
     [SerializeField] private float forcedBlinkMinTime = 0;
@@ -70,6 +72,7 @@ public class WraithAi : Ai
         return new StateMachine<State>(State.Idle)
             .WithComponent(State.Advance, new MoveTowards(wraith, player))
             .WithComponent(State.RangedAttacks, rangedAttackStateMachine)
+            .WithComponent(State.MeleeEngage, new MoveTowards(wraith, player))
             .WithComponent(State.MeleeAttacks, meleeAttackStateMachine)
             .WithComponent(State.Blink, blinkStateMachine)
             .WithTransition(State.Idle, State.Advance, new DistanceLessThan(wraith, player, aggroRange) | new TakesDamage(wraith))
@@ -87,7 +90,9 @@ public class WraithAi : Ai
                         !new HasLineOfSight(wraith.AbilitySourceTransform, player.CentreTransform)
                     )
             )
-            .WithTransition(State.RangedAttacks, State.MeleeAttacks, new TimeElapsed(minRangedAttacksDuration) & new DistanceLessThan(player, wraith, swipeRange))
+            .WithTransition(State.RangedAttacks, State.MeleeEngage, new TimeElapsed(minRangedAttacksDuration) & new DistanceLessThan(player, wraith, engageDistance))
+            .WithTransition(State.MeleeEngage, State.MeleeAttacks, new DistanceLessThan(player, wraith, swipeRange))
+            .WithTransition(State.MeleeEngage, State.RangedAttacks, new DistanceGreaterThan(player, wraith, disengageDistance))
             .WithTransition(State.RangedAttacks, State.Blink, new RandomTimeElapsed(forcedBlinkMinTime, forcedBlinkMaxTime))
             .WithTransition(State.MeleeAttacks, State.Blink, new SubjectEmittedTimes(wraith.SwipeSubject, meleeAttacksBeforeBlinking))
             .WithTransition(State.Blink, State.Advance, new TimeElapsed(blinkDelay + postBlinkAttackDelay));
@@ -99,7 +104,8 @@ public class WraithAi : Ai
         Advance,
         RangedAttacks,
         MeleeAttacks,
-        Blink
+        Blink,
+        MeleeEngage
     }
 
     private enum RangedAttackState
