@@ -7,6 +7,7 @@ public class NewSaveGeneratorTest : PlayModeTestBase
     {
         yield return base.SetUp();
         TestUtils.InstantiatePrefab<AbilityLookup>();
+        TestUtils.InstantiatePrefab<AbilityLookup2>();
         TestUtils.InstantiatePrefab<RarityLookup>();
         TestUtils.InstantiatePrefab<MapGenerationLookup>();
         TestUtils.InstantiatePrefab<SceneLookup>();
@@ -18,6 +19,7 @@ public class NewSaveGeneratorTest : PlayModeTestBase
     protected override IEnumerator TearDown()
     {
         AbilityLookup.Instance.Destroy();
+        AbilityLookup2.Instance.Destroy();
         RarityLookup.Instance.Destroy();
         MapGenerationLookup.Instance.Destroy();
         SceneLookup.Instance.Destroy();
