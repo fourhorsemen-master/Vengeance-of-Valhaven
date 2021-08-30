@@ -133,6 +133,14 @@ MonoBehaviour:
         minFreeRotation: 0
         maxFreeRotation: 360
         distinctRotations: []
+      - prefab: {fileID: 4110214435533136738, guid: d76e1cbfbb7c9f64394be940f3146335,
+          type: 3}
+        zones: 000000000100000002000000
+        tags: 0000000002000000
+        allowAnyFreeRotation: 1
+        minFreeRotation: 0
+        maxFreeRotation: 360
+        distinctRotations: []
     - socketRotationType: 0
       moduleData:
       - prefab: {fileID: 7152780536418578668, guid: 25585d8dd9c7b634b85f7d6d1859ebdb,
@@ -182,6 +190,14 @@ MonoBehaviour:
         allowAnyFreeRotation: 0
         minFreeRotation: 45
         maxFreeRotation: 45
+        distinctRotations: []
+      - prefab: {fileID: 7152780536418578668, guid: 2fa8dd2bfaecd9d458ecf605722b7add,
+          type: 3}
+        zones: 000000000100000002000000
+        tags: 0200000000000000
+        allowAnyFreeRotation: 1
+        minFreeRotation: 0
+        maxFreeRotation: 360
         distinctRotations: []
     - socketRotationType: 1
       moduleData:
