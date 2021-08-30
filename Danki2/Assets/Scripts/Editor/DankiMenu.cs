@@ -38,16 +38,19 @@ public static class DankiMenu
     [MenuItem("Danki/Scenes/Forest Dens", priority = 4)]
     private static void OpenForestDensScene() => OpenScene("Assets/Scenes/GameplayScenes/Zone1/ForestDens/ForestDensScene.unity");
 
+    private static void RunScene(string scenePath)
+    {
+        if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
+
+        EditorSceneManager.OpenScene(scenePath);
+
+        EditorApplication.isPlaying = true;
+    }
+
     private static void OpenScene(string scenePath)
     {
         if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
 
         EditorSceneManager.OpenScene(scenePath);
-    }
-
-    private static void RunScene(string scenePath)
-    {
-        OpenScene(scenePath);
-        EditorApplication.isPlaying = true;
     }
 }
