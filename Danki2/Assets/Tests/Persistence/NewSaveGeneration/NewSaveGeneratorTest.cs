@@ -19,6 +19,7 @@ public class NewSaveGeneratorTest : PlayModeTestBase
     protected override IEnumerator TearDown()
     {
         AbilityLookup.Instance.Destroy();
+        AbilityLookup2.Instance.Destroy();
         RarityLookup.Instance.Destroy();
         MapGenerationLookup.Instance.Destroy();
         SceneLookup.Instance.Destroy();
