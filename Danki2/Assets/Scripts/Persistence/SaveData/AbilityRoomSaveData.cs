@@ -2,7 +2,7 @@
 
 public class AbilityRoomSaveData
 {
-    public List<Ability2> AbilityChoices { get; set; } = new List<Ability2>();
+    public List<SerializableGuid> AbilityChoices { get; set; } = new List<SerializableGuid>();
     public bool AbilitiesViewed { get; set; } = false;
     public bool AbilitySelected { get; set; } = false;
 

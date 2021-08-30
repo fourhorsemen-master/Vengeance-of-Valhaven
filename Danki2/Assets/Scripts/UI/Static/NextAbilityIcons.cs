@@ -122,8 +122,8 @@ public class NextAbilityIcons : MonoBehaviour
             return;
         }
 
-        Ability2 ability = player.AbilityTree.GetAbility(direction);
-        Sprite iconSprite = AbilityLookup2.Instance.GetIcon(ability);
+        SerializableGuid abilityId = player.AbilityTree.GetAbilityId(direction);
+        Sprite iconSprite = AbilityLookup2.Instance.GetIcon(abilityId);
         icon.sprite = iconSprite;
         icon.enabled = true;
         cooldown.enabled = true;

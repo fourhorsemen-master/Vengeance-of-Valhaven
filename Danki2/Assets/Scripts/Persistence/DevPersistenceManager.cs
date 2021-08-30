@@ -13,8 +13,8 @@ using UnityEngine;
 public class DevPersistenceManager : PersistenceManager
 {
     [SerializeField] public int ownedAbilityCount = 0;
-    [SerializeField] public Ability2 leftAbility = Ability2.Slash;
-    [SerializeField] public Ability2 rightAbility = Ability2.Slash;
+    [SerializeField] public string leftAbilityName = "";
+    [SerializeField] public string rightAbilityName = "";
     [SerializeField] public int playerHealth = 0;
     [SerializeField] public List<RuneSocket> runeSockets = new List<RuneSocket>();
     [SerializeField] public List<Rune> runeOrder = new List<Rune>();
@@ -31,8 +31,9 @@ public class DevPersistenceManager : PersistenceManager
     [SerializeField] public Zone zone = Zone.Zone1;
     [SerializeField] public int depthInZone = 0;
     [SerializeField] public RoomType roomType = RoomType.Combat;
-    [SerializeField] public List<Ability2> abilityChoices = new List<Ability2>();
+    [SerializeField] public List<string> abilityChoiceNames = new List<string>();
     [SerializeField] public bool hasHealed = false;
+    [SerializeField] public TextAsset abilityNameStore = null;
 
     public override SaveData SaveData => GenerateNewSaveData();
 
@@ -48,13 +49,38 @@ public class DevPersistenceManager : PersistenceManager
 
     private SaveData GenerateNewSaveData()
     {
+        Dictionary<SerializableGuid, int> ownedAbilities = new Dictionary<SerializableGuid, int>();
+        AbilityLookup2.Instance.ForEachAbilityId(abilityId => ownedAbilities[abilityId] = ownedAbilityCount);
+
+        if (!AbilityLookup2.Instance.TryGetAbilityId(leftAbilityName, out SerializableGuid leftAbilityId))
+        {
+            Debug.LogError($"Invalid left starting ability name: {leftAbilityName}.");
+        }
+
+        if (!AbilityLookup2.Instance.TryGetAbilityId(rightAbilityName, out SerializableGuid rightAbilityId))
+        {
+            Debug.LogError($"Invalid right starting ability name: {rightAbilityName}.");
+        }
+
+        List<SerializableGuid> abilityChoices = new List<SerializableGuid>();
+        abilityChoiceNames.ForEach(abilityName =>
+        {
+            if (!AbilityLookup2.Instance.TryGetAbilityId(abilityName, out SerializableGuid abilityId))
+            {
+                Debug.LogError($"Invalid ability name in ability choices: {abilityName}.");
+                return;
+            }
+
+            abilityChoices.Add(abilityId);
+        });
+        
         return new SaveData
         {
             PlayerHealth = playerHealth,
             SerializableAbilityTree = AbilityTreeFactory.CreateTree(
-                new EnumDictionary<Ability2, int>(ownedAbilityCount),
-                AbilityTreeFactory.CreateNode(leftAbility),
-                AbilityTreeFactory.CreateNode(rightAbility)
+                ownedAbilities,
+                AbilityTreeFactory.CreateNode(leftAbilityId),
+                AbilityTreeFactory.CreateNode(rightAbilityId)
             ).Serialize(),
             RuneSockets = runeSockets,
             RuneOrder = runeOrder,

@@ -34,13 +34,13 @@ public class AbilityTooltip : Tooltip
 
     private PlayerTreeTooltipBuilder PlayerTreeTooltipBuilder => new PlayerTreeTooltipBuilder(ActorCache.Instance.Player);
     
-    public static AbilityTooltip Create(Transform transform, Ability2 ability)
+    public static AbilityTooltip Create(Transform transform, SerializableGuid abilityId)
     {
         AbilityTooltip abilityTooltip = Instantiate(TooltipLookup.Instance.AbilityTooltipPrefab, transform);
         abilityTooltip.Activate(
-            ability,
-            PlayerListTooltipBuilder.Build(ability),
-            bonus => PlayerListTooltipBuilder.BuildBonus(ability, bonus)
+            abilityId,
+            PlayerListTooltipBuilder.Build(abilityId),
+            bonus => PlayerListTooltipBuilder.BuildBonus(abilityId, bonus)
         );
 
         return abilityTooltip;
@@ -50,7 +50,7 @@ public class AbilityTooltip : Tooltip
     {
         AbilityTooltip abilityTooltip = Instantiate(TooltipLookup.Instance.AbilityTooltipPrefab, transform);
         abilityTooltip.Activate(
-            node.Ability,
+            node.AbilityId,
             abilityTooltip.PlayerTreeTooltipBuilder.Build(node),
             bonus => abilityTooltip.PlayerTreeTooltipBuilder.BuildBonus(node, bonus),
             node.Depth
@@ -60,7 +60,7 @@ public class AbilityTooltip : Tooltip
     }
 
     private void Activate(
-        Ability2 ability,
+        SerializableGuid abilityId,
         List<TooltipSegment> tooltipSegments,
         Func<string, List<TooltipSegment>> bonusSegmenter,
         int? treeDepth = null
@@ -68,31 +68,31 @@ public class AbilityTooltip : Tooltip
     {
         ActivateTooltip();
 
-        string titleText = AbilityLookup2.Instance.GetDisplayName(ability);
-        Color color = RarityLookup.Instance.Lookup[AbilityLookup2.Instance.GetRarity(ability)].Colour;
+        string titleText = AbilityLookup2.Instance.GetDisplayName(abilityId);
+        Color color = RarityLookup.Instance.Lookup[AbilityLookup2.Instance.GetRarity(abilityId)].Colour;
         // bool isFinisher = AbilityLookup.Instance.IsFinisher(ability);
         bool isFinisher = false;
-        string descriptionText = GenerateDescription(ability);
+        string descriptionText = GenerateDescription(abilityId);
 
         // Dictionary<string, AbilityBonusData> bonuses = AbilityLookup.Instance.GetAbilityBonusDataLookup(ability);
         Dictionary<string, AbilityBonusData> bonuses = new Dictionary<string, AbilityBonusData>();
 
         SetContents(titleText, color, isFinisher, descriptionText, bonuses, bonusSegmenter, treeDepth);
 
-        abilitySupplementaryTooltipPanel.Activate(ability);
+        abilitySupplementaryTooltipPanel.Activate(abilityId);
     }
 
-    private string GenerateDescription(Ability2 ability)
+    private string GenerateDescription(SerializableGuid abilityId)
     {
         string description = "";
 
-        AbilityType2 abilityType = AbilityLookup2.Instance.GetAbilityType(ability);
+        AbilityType2 abilityType = AbilityLookup2.Instance.GetAbilityType(abilityId);
         description += $"Type: {abilityType.ToString()}\n";
         
-        int damage = AbilityLookup2.Instance.GetDamage(ability);
+        int damage = AbilityLookup2.Instance.GetDamage(abilityId);
         description += $"Damage: {damage.ToString()}\n";
         
-        List<Empowerment> empowerments = AbilityLookup2.Instance.GetEmpowerments(ability);
+        List<Empowerment> empowerments = AbilityLookup2.Instance.GetEmpowerments(abilityId);
         if (empowerments.Count > 0)
         {
             description += "Empowerments:\n";

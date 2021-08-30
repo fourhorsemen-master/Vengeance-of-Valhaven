@@ -5,11 +5,11 @@ using UnityEngine;
 [Serializable]
 public class SerializableAbilityRoomSaveData
 {
-    [SerializeField] private List<Ability2> abilityChoices;
+    [SerializeField] private List<SerializableGuid> abilityChoices;
     [SerializeField] private bool abilitiesViewed = false;
     [SerializeField] private bool abilitySelected = false;
 
-    public List<Ability2> AbilityChoices { get => abilityChoices; set => abilityChoices = value; }
+    public List<SerializableGuid> AbilityChoices { get => abilityChoices; set => abilityChoices = value; }
     public bool AbilitiesViewed { get => abilitiesViewed; set => abilitiesViewed = value; }
     public bool AbilitySelected { get => abilitySelected; set => abilitySelected = value; }
 

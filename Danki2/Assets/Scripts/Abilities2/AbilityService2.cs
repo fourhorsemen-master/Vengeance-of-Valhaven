@@ -25,8 +25,8 @@ public class AbilityService2
 
     public void Cast(Direction direction, Vector3 targetPosition)
     {
-        Ability2 ability = player.AbilityTree.GetAbility(direction);
-        List<Empowerment> empowerments = GetActiveEmpowerments(ability);
+        SerializableGuid abilityId = player.AbilityTree.GetAbilityId(direction);
+        List<Empowerment> empowerments = GetActiveEmpowerments(abilityId);
 
         player.MovementManager.LookAt(targetPosition);
         player.MovementManager.Pause(AbilityPauseDuration);
@@ -38,37 +38,37 @@ public class AbilityService2
         
         AbilityUtils.TemplateCollision(
             player,
-            collisionTemplateLookup[AbilityLookup2.Instance.GetAbilityType(ability)],
+            collisionTemplateLookup[AbilityLookup2.Instance.GetAbilityType(abilityId)],
             CalculateRange(empowerments),
             player.CollisionTemplateSource,
             castRotation,
-            AbilityLookup2.Instance.GetCollisionSoundLevel(ability),
+            AbilityLookup2.Instance.GetCollisionSoundLevel(abilityId),
             enemyCallback: enemy =>
             {
                 hasDealtDamage = true;
-                HandleCollision(ability, enemy, empowerments);
+                HandleCollision(abilityId, enemy, empowerments);
             }
         );
         
         player.AbilityTree.Walk(direction);
         AbilityCastSubject.Next(new AbilityCastInformation(
-            AbilityLookup2.Instance.GetAbilityType(ability),
+            AbilityLookup2.Instance.GetAbilityType(abilityId),
             hasDealtDamage,
             empowerments,
             castRotation
         ));
     }
 
-    private List<Empowerment> GetActiveEmpowerments(Ability2 ability)
+    private List<Empowerment> GetActiveEmpowerments(SerializableGuid abilityId)
     {
         List<Empowerment> empowerments = new List<Empowerment>();
 
         player.AbilityTree.CurrentNode.IterateUp(
-            node => empowerments.AddRange(AbilityLookup2.Instance.GetEmpowerments(node.Ability)),
+            node => empowerments.AddRange(AbilityLookup2.Instance.GetEmpowerments(node.AbilityId)),
             node => !node.IsRootNode
         );
 
-        empowerments.AddRange(AbilityLookup2.Instance.GetEmpowerments(ability));
+        empowerments.AddRange(AbilityLookup2.Instance.GetEmpowerments(abilityId));
 
         return empowerments;
     }
@@ -80,15 +80,15 @@ public class AbilityService2
         return range;
     }
 
-    private void HandleCollision(Ability2 ability, Enemy enemy, List<Empowerment> empowerments)
+    private void HandleCollision(SerializableGuid abilityId, Enemy enemy, List<Empowerment> empowerments)
     {
-        enemy.HealthManager.ReceiveDamage(CalculateDamage(ability, empowerments), player);
+        enemy.HealthManager.ReceiveDamage(CalculateDamage(abilityId, empowerments), player);
         enemy.EffectManager.AddStacks(StackingEffect.Bleed, CalculateBleedStacks(empowerments));
     }
 
-    private int CalculateDamage(Ability2 ability, List<Empowerment> empowerments)
+    private int CalculateDamage(SerializableGuid abilityId, List<Empowerment> empowerments)
     {
-        int damage = AbilityLookup2.Instance.GetDamage(ability);
+        int damage = AbilityLookup2.Instance.GetDamage(abilityId);
         empowerments.ForEach(e => damage *= e == Empowerment.DoubleDamage ? 2 : 1);
         return damage;
     }

@@ -4,7 +4,7 @@ using System.Linq;
 
 public static class PlayerListTooltipBuilder
 {
-    public static List<TooltipSegment> Build(Ability2 ability)
+    public static List<TooltipSegment> Build(SerializableGuid abilityId)
     {
         // List<TemplatedTooltipSegment> templatedTooltipSegments = AbilityLookup.Instance.GetTemplatedTooltipSegments(ability);
         //
@@ -15,7 +15,7 @@ public static class PlayerListTooltipBuilder
         return ListUtils.Singleton(new TooltipSegment(TooltipSegmentType.Text, "This is a tooltip"));
     }
 
-    public static List<TooltipSegment> BuildBonus(Ability2 ability, string bonus)
+    public static List<TooltipSegment> BuildBonus(SerializableGuid abilityId, string bonus)
     {
         // List<TemplatedTooltipSegment> templatedTooltipSegments = AbilityLookup.Instance
         //     .GetAbilityBonusDataLookup(ability)[bonus]

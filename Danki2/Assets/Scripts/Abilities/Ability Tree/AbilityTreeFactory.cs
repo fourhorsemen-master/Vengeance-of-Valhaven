@@ -1,7 +1,9 @@
-﻿public static class AbilityTreeFactory
+﻿using System.Collections.Generic;
+
+public static class AbilityTreeFactory
 {
     // Root node must have two children for ability tree to be functional.
-    public static AbilityTree CreateTree(EnumDictionary<Ability2, int> ownedAbilities, Node leftChild, Node rightChild)
+    public static AbilityTree CreateTree(Dictionary<SerializableGuid, int> ownedAbilities, Node leftChild, Node rightChild)
     {
         Node rootNode = new NodeImplementation();
         if (leftChild != null) rootNode.SetChild(Direction.Left, leftChild);
@@ -9,9 +11,9 @@
         return new AbilityTreeImplementation(ownedAbilities, rootNode);
     }
 
-    public static Node CreateNode(Ability2 ability, Node leftChild = null, Node rightChild = null)
+    public static Node CreateNode(SerializableGuid abilityId, Node leftChild = null, Node rightChild = null)
     {
-        Node node = new NodeImplementation(ability);
+        Node node = new NodeImplementation(abilityId);
         if (leftChild != null) node.SetChild(Direction.Left, leftChild);
         if (rightChild != null) node.SetChild(Direction.Right, rightChild);
         return node;
@@ -22,7 +24,7 @@
     // for more information
     private class AbilityTreeImplementation : AbilityTree
     {
-        public AbilityTreeImplementation(EnumDictionary<Ability2, int> ownedAbilities, Node rootNode) : base(ownedAbilities, rootNode)
+        public AbilityTreeImplementation(Dictionary<SerializableGuid, int> ownedAbilities, Node rootNode) : base(ownedAbilities, rootNode)
         {
         }
     }
@@ -33,7 +35,7 @@
         {
         }
 
-        public NodeImplementation(Ability2 ability) : base(ability)
+        public NodeImplementation(SerializableGuid abilityId) : base(abilityId)
         {
         }
     }

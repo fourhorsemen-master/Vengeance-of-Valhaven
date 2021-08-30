@@ -4,15 +4,15 @@ using UnityEngine;
 [Serializable]
 public class SerializableOwnedAbility
 {
-    [SerializeField] private Ability2 ability;
+    [SerializeField] private SerializableGuid abilityId;
     [SerializeField] private int count;
 
-    public Ability2 Ability => ability;
+    public SerializableGuid AbilityId => abilityId;
     public int Count => count;
 
-    public SerializableOwnedAbility(Ability2 ability, int count)
+    public SerializableOwnedAbility(SerializableGuid abilityId, int count)
     {
-        this.ability = ability;
+        this.abilityId = abilityId;
         this.count = count;
     }
 }

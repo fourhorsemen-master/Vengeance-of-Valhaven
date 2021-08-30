@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public abstract class AbilityTree
 {
@@ -21,13 +22,13 @@ public abstract class AbilityTree
 
     public Subject ChangeSubject { get; } = new Subject();
 
-    public EnumDictionary<Ability2, int> OwnedAbilities { get; }
+    public Dictionary<SerializableGuid, int> OwnedAbilities { get; }
 
-    public EnumDictionary<Ability2, int> Inventory { get; private set; }
+    public Dictionary<SerializableGuid, int> Inventory { get; private set; }
 
     public Direction DirectionLastWalked { get; private set; }
 
-    protected AbilityTree(EnumDictionary<Ability2, int> ownedAbilities, Node rootNode)
+    protected AbilityTree(Dictionary<SerializableGuid, int> ownedAbilities, Node rootNode)
     {
         OwnedAbilities = ownedAbilities;
 
@@ -56,12 +57,12 @@ public abstract class AbilityTree
         return currentNode.HasChild(Direction.Left) || currentNode.HasChild(Direction.Right);
     }
 
-    public Ability2 GetAbility(Direction direction)
+    public SerializableGuid GetAbilityId(Direction direction)
     {
-        return currentNode.GetChild(direction).Ability;
+        return currentNode.GetChild(direction).AbilityId;
     }
 
-    public Ability2 Walk(Direction direction)
+    public void Walk(Direction direction)
     {
         currentNode = currentNode.GetChild(direction);
         TreeWalkSubject.Next(currentNode);
@@ -70,8 +71,6 @@ public abstract class AbilityTree
         CurrentDepthSubject.Next(CurrentDepth);
 
         DirectionLastWalked = direction;
-
-        return currentNode.Ability;
     }
 
     public bool WalkingEndsCombo(Direction direction)
@@ -88,9 +87,9 @@ public abstract class AbilityTree
         CurrentDepthSubject.Next(CurrentDepth);
     }
 
-    public void AddToInventory(Ability2 ability)
+    public void AddToInventory(SerializableGuid abilityId)
     {
-        OwnedAbilities[ability]++;
+        OwnedAbilities[abilityId]++;
         UpdateInventory();
     }
 
@@ -101,13 +100,17 @@ public abstract class AbilityTree
 
     private void UpdateInventory()
     {
-        Inventory = new EnumDictionary<Ability2, int>(OwnedAbilities);
+        Inventory = new Dictionary<SerializableGuid, int>();
+        AbilityLookup2.Instance.ForEachAbilityId(abilityId =>
+        {
+            Inventory[abilityId] = OwnedAbilities[abilityId];
+        });
 
         RootNode.IterateDown(
             n =>
             {
-                Inventory[n.Ability] -= 1;
-                if (Inventory[n.Ability] < 0) Debug.LogError("Tree abilities not subset of owned abilities.");
+                Inventory[n.AbilityId] -= 1;
+                if (Inventory[n.AbilityId] < 0) Debug.LogError("Tree abilities not subset of owned abilities.");
             },
             n => !n.IsRootNode
         );

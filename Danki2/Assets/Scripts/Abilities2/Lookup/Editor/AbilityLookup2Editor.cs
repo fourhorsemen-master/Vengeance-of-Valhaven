@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -5,19 +6,31 @@ using UnityEngine;
 [CustomEditor(typeof(AbilityLookup2))]
 public class AbilityLookup2Editor : Editor
 {
-    private readonly EnumDictionary<Ability2, bool> foldoutStatus = new EnumDictionary<Ability2, bool>(false);
+    private Dictionary<SerializableGuid, bool> foldoutStatus;
     
     private AbilityLookup2 abilityLookup;
-    
+
     public override void OnInspectorGUI()
     {
         abilityLookup = (AbilityLookup2) target;
 
         EditorUtils.ShowScriptLink(abilityLookup);
 
-        ExpandAndCollapseAll();
+        abilityLookup.abilityNameStore = AbilityNameStoreUtils.EditAbilityNameStore(abilityLookup.abilityNameStore);
         
-        EnumUtils.ForEach<Ability2>(EditAbilityData);
+        if (foldoutStatus == null) InitialiseFoldoutStatuses();
+
+        for (int i = abilityLookup.abilityIds.Count - 1; i >= 0; i--)
+        {
+            EditAbilityData(abilityLookup.abilityIds[i]);
+            EditorUtils.VerticalSpace();
+        }
+        AddAbilityButton();
+        
+        AbilityNameStoreUtils.SaveAbilityNames(
+            abilityLookup.abilityNameStore,
+            abilityLookup.abilityDisplayNameDictionary.Values.ToList()
+        );
         
         if (GUI.changed)
         {
@@ -25,102 +38,128 @@ public class AbilityLookup2Editor : Editor
         }
     }
 
-    private void ExpandAndCollapseAll()
+    private void InitialiseFoldoutStatuses()
     {
-        GUILayout.BeginHorizontal();
-        if (foldoutStatus.Values.All(value => value))
-        {
-            if (GUILayout.Button("Collapse All")) SetAllFoldoutStatuses(false);
-        }
-        else
-        {
-            if (GUILayout.Button("Expand All")) SetAllFoldoutStatuses(true);
-        }
-        GUILayout.EndHorizontal();
+        foldoutStatus = abilityLookup.abilityIds.ToDictionary(abilityId => abilityId, abilityId => false);
     }
 
-    private void SetAllFoldoutStatuses(bool value)
+    private void EditAbilityData(SerializableGuid abilityId)
     {
-        EnumUtils.ForEach<Ability2>(ability => foldoutStatus[ability] = value);
-    }
-
-    private void EditAbilityData(Ability2 ability)
-    {
-        foldoutStatus[ability] = EditorGUILayout.Foldout(foldoutStatus[ability], ability.ToString());
-        if (!foldoutStatus[ability]) return;
+        foldoutStatus[abilityId] = EditorGUILayout.Foldout(
+            foldoutStatus[abilityId],
+            abilityLookup.abilityDisplayNameDictionary[abilityId]
+        );
+        if (!foldoutStatus[abilityId]) return;
 
         EditorGUI.indentLevel++;
 
-        EditDisplayName(ability);
-        EditType(ability);
-        EditDamage(ability);
-        EditEmpowerments(ability);
-        EditRarity(ability);
-        EditCollisionSoundLevel(ability);
-        EditIcon(ability);
+        EditorUtils.MultilineLabelField($"ID: \"{abilityId}\"");
+
+        EditDisplayName(abilityId);
+        EditType(abilityId);
+        EditDamage(abilityId);
+        EditEmpowerments(abilityId);
+        EditRarity(abilityId);
+        EditCollisionSoundLevel(abilityId);
+        EditIcon(abilityId);
+
+        RemoveAbilityButton(abilityId);
 
         EditorGUI.indentLevel--;
     }
 
-    private void EditDisplayName(Ability2 ability)
+    private void EditDisplayName(SerializableGuid abilityId)
     {
-        abilityLookup.abilityDisplayNameDictionary[ability] = EditorGUILayout.TextField(
+        abilityLookup.abilityDisplayNameDictionary[abilityId] = EditorGUILayout.TextField(
             "Display Name",
-            abilityLookup.abilityDisplayNameDictionary[ability]
+            abilityLookup.abilityDisplayNameDictionary[abilityId]
         );
     }
 
-    private void EditType(Ability2 ability)
+    private void EditType(SerializableGuid abilityId)
     {
-        abilityLookup.abilityTypeDictionary[ability] = (AbilityType2) EditorGUILayout.EnumPopup(
+        abilityLookup.abilityTypeDictionary[abilityId] = (AbilityType2) EditorGUILayout.EnumPopup(
             "Type",
-            abilityLookup.abilityTypeDictionary[ability]
+            abilityLookup.abilityTypeDictionary[abilityId]
         );
     }
 
-    private void EditDamage(Ability2 ability)
+    private void EditDamage(SerializableGuid abilityId)
     {
-        abilityLookup.abilityDamageDictionary[ability] = EditorGUILayout.IntField(
+        abilityLookup.abilityDamageDictionary[abilityId] = EditorGUILayout.IntField(
             "Damage",
-            abilityLookup.abilityDamageDictionary[ability]
+            abilityLookup.abilityDamageDictionary[abilityId]
         );
     }
 
-    private void EditEmpowerments(Ability2 ability)
+    private void EditEmpowerments(SerializableGuid abilityId)
     {
         EditorUtils.Header("Empowerments");
         EditorGUI.indentLevel++;
         EditorUtils.ResizeableList(
-            abilityLookup.abilityEmpowermentsDictionary[ability].Empowerments,
+            abilityLookup.abilityEmpowermentsDictionary[abilityId].Empowerments,
             empowerment => (Empowerment) EditorGUILayout.EnumPopup("Empowerment", empowerment),
             defaultValue: default
         );
         EditorGUI.indentLevel--;
     }
 
-    private void EditRarity(Ability2 ability)
+    private void EditRarity(SerializableGuid abilityId)
     {
-        abilityLookup.abilityRarityDictionary[ability] = (Rarity) EditorGUILayout.EnumPopup(
+        abilityLookup.abilityRarityDictionary[abilityId] = (Rarity) EditorGUILayout.EnumPopup(
             "Rarity",
-            abilityLookup.abilityRarityDictionary[ability]
+            abilityLookup.abilityRarityDictionary[abilityId]
         );
     }
 
-    private void EditCollisionSoundLevel(Ability2 ability)
+    private void EditCollisionSoundLevel(SerializableGuid abilityId)
     {
-        abilityLookup.abilityCollisionSoundLevelDictionary[ability] = (CollisionSoundLevel) EditorGUILayout.EnumPopup(
+        abilityLookup.abilityCollisionSoundLevelDictionary[abilityId] = (CollisionSoundLevel) EditorGUILayout.EnumPopup(
             "Collision Sound Level",
-            abilityLookup.abilityCollisionSoundLevelDictionary[ability]
+            abilityLookup.abilityCollisionSoundLevelDictionary[abilityId]
         );
     }
 
-    private void EditIcon(Ability2 ability)
+    private void EditIcon(SerializableGuid abilityId)
     {
-        abilityLookup.abilityIconDictionary[ability] = (Sprite) EditorGUILayout.ObjectField(
+        abilityLookup.abilityIconDictionary[abilityId] = (Sprite) EditorGUILayout.ObjectField(
             "Icon",
-            abilityLookup.abilityIconDictionary[ability],
+            abilityLookup.abilityIconDictionary[abilityId],
             typeof(Sprite),
             false
         );
+    }
+
+    private void AddAbilityButton()
+    {
+        if (GUILayout.Button("Add Ability"))
+        {
+            SerializableGuid abilityId = SerializableGuid.NewGuid();
+            abilityLookup.abilityIds.Insert(0, abilityId);
+            abilityLookup.abilityDisplayNameDictionary[abilityId] = "";
+            abilityLookup.abilityTypeDictionary[abilityId] = AbilityType2.Slash;
+            abilityLookup.abilityDamageDictionary[abilityId] = 0;
+            abilityLookup.abilityEmpowermentsDictionary[abilityId] = new EmpowermentsWrapper();
+            abilityLookup.abilityRarityDictionary[abilityId] = Rarity.Common;
+            abilityLookup.abilityCollisionSoundLevelDictionary[abilityId] = CollisionSoundLevel.Low;
+            abilityLookup.abilityIconDictionary[abilityId] = null;
+            foldoutStatus[abilityId] = false;
+        }
+    }
+
+    private void RemoveAbilityButton(SerializableGuid abilityId)
+    {
+        if (EditorUtils.IndentedButton("Remove Ability"))
+        {
+            abilityLookup.abilityIds.Remove(abilityId);
+            abilityLookup.abilityDisplayNameDictionary.Remove(abilityId);
+            abilityLookup.abilityTypeDictionary.Remove(abilityId);
+            abilityLookup.abilityDamageDictionary.Remove(abilityId);
+            abilityLookup.abilityEmpowermentsDictionary.Remove(abilityId);
+            abilityLookup.abilityRarityDictionary.Remove(abilityId);
+            abilityLookup.abilityCollisionSoundLevelDictionary.Remove(abilityId);
+            abilityLookup.abilityIconDictionary.Remove(abilityId);
+            foldoutStatus.Remove(abilityId);
+        }
     }
 }

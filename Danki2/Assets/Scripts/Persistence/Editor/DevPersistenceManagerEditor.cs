@@ -10,6 +10,8 @@ public class DevPersistenceManagerEditor : Editor
 
         EditorUtils.ShowScriptLink(devPersistenceManager);
 
+        devPersistenceManager.abilityNameStore = AbilityNameStoreUtils.EditAbilityNameStore(devPersistenceManager.abilityNameStore);
+
         EditorUtils.Header("Player");
         EditorGUI.indentLevel++;
         devPersistenceManager.playerSpawnerId = EditorGUILayout.IntField("Player Spawner ID", devPersistenceManager.playerSpawnerId);
@@ -23,8 +25,16 @@ public class DevPersistenceManagerEditor : Editor
         EditorUtils.Header("Ability Tree");
         EditorGUI.indentLevel++;
         devPersistenceManager.ownedAbilityCount = EditorGUILayout.IntField("Owned Ability Count", devPersistenceManager.ownedAbilityCount);
-        devPersistenceManager.leftAbility = (Ability2) EditorGUILayout.EnumPopup("Left Ability", devPersistenceManager.leftAbility);
-        devPersistenceManager.rightAbility = (Ability2) EditorGUILayout.EnumPopup("Left Ability", devPersistenceManager.rightAbility);
+        devPersistenceManager.leftAbilityName = AbilityNameStoreUtils.EditAbilityName(
+            "Left Ability Name",
+            devPersistenceManager.leftAbilityName,
+            devPersistenceManager.abilityNameStore
+        );
+        devPersistenceManager.rightAbilityName = AbilityNameStoreUtils.EditAbilityName(
+            "Right Ability Name",
+            devPersistenceManager.rightAbilityName,
+            devPersistenceManager.abilityNameStore
+        );
         EditorGUI.indentLevel--;
         EditorUtils.VerticalSpace();
         
@@ -128,15 +138,16 @@ public class DevPersistenceManagerEditor : Editor
     private void EditAbilityRoomData(DevPersistenceManager devPersistenceManager)
     {
         EditorUtils.Header("Ability Choices");
-
+        
         EditorGUI.indentLevel++;
-
+        
         EditorUtils.ResizeableList(
-            devPersistenceManager.abilityChoices,
-            abilityChoice => (Ability2) EditorGUILayout.EnumPopup("Ability Choice", abilityChoice),
-            Ability2.Slash
+            devPersistenceManager.abilityChoiceNames,
+            abilityChoice => AbilityNameStoreUtils.EditAbilityName("Ability Choice", abilityChoice, devPersistenceManager.abilityNameStore),
+            // abilityChoice => EditorGUILayout.TextField("Ability Choice", abilityChoice),
+            ""
         );
-
+        
         EditorGUI.indentLevel--;
     }
 
