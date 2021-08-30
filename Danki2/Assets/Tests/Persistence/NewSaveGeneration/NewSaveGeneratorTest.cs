@@ -7,6 +7,7 @@ public class NewSaveGeneratorTest : PlayModeTestBase
     {
         yield return base.SetUp();
         TestUtils.InstantiatePrefab<AbilityLookup>();
+        TestUtils.InstantiatePrefab<AbilityLookup2>();
         TestUtils.InstantiatePrefab<RarityLookup>();
         TestUtils.InstantiatePrefab<MapGenerationLookup>();
         TestUtils.InstantiatePrefab<SceneLookup>();
