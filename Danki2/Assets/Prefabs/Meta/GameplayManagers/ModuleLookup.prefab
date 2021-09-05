@@ -201,14 +201,15 @@ MonoBehaviour:
         distinctRotations: []
     - socketRotationType: 1
       moduleData:
-      - prefab: {fileID: 7152780536418578668, guid: 1ff71a9b2262bf841903ffd031cace20,
+      - prefab: {fileID: 7152780536418578668, guid: f712e152581a8a24cb5dcdb82c2afcd5,
           type: 3}
-        zones: 000000000100000002000000
-        tags: 
+        zones: 00000000
+        tags: 000000000200000004000000
         allowAnyFreeRotation: 0
         minFreeRotation: 0
         maxFreeRotation: 0
-        distinctRotations: []
+        distinctRotations:
+        - 0
     - socketRotationType: 1
       moduleData:
       - prefab: {fileID: 7152780536418578668, guid: dcd11cea5639a074ba154cd554ba1add,
