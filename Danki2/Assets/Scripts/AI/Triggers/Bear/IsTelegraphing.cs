@@ -1,15 +1,15 @@
 ﻿public class IsTelegraphing : StateMachineTrigger
 {
-    private Bear bear;
+    private Enemy enemy;
 
-    public IsTelegraphing(Bear bear)
+    public IsTelegraphing(Enemy enemy)
     {
-        this.bear = bear;
+        this.enemy = enemy;
     }
 
     public override void Activate() { }
 
     public override void Deactivate() { }
 
-    public override bool Triggers() => bear.CurrentTelegraph != null;
+    public override bool Triggers() => enemy.CurrentTelegraph != null;
 }
