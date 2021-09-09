@@ -52,7 +52,7 @@ public class AbilityService2
         
         player.AbilityTree.Walk(direction);
         AbilityCastSubject.Next(new AbilityCastInformation(
-            AbilityLookup2.Instance.GetAbilityType(abilityId),
+            abilityId,
             hasDealtDamage,
             empowerments,
             castRotation

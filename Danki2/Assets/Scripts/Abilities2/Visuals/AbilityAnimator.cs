@@ -24,7 +24,8 @@ public class AbilityAnimator : MonoBehaviour
 
     private void HandleAnimation(AbilityCastInformation abilityCastInformation)
     {
-        AbilityAnimationType abilityAnimationType = abilityTypeToAnimationTypeDictionary[abilityCastInformation.Type];
+        AbilityType2 type = AbilityLookup2.Instance.GetAbilityType(abilityCastInformation.AbilityId);
+        AbilityAnimationType abilityAnimationType = abilityTypeToAnimationTypeDictionary[type];
         string animationState = AnimationStringLookup.LookupTable[abilityAnimationType];
         player.AnimController.Play(animationState);
     }
