@@ -84,17 +84,18 @@ public class WraithAi : Ai
             .WithTransition(
                 State.RangedAttacks,
                 State.Advance,
+                !new IsTelegraphing(wraith) &
                 new TimeElapsed(minRangedAttacksDuration) &
                     (
                         new DistanceGreaterThan(wraith, player, rangedAttackStateRange + rangedAttackStateTolerance) |
                         !new HasLineOfSight(wraith.AbilitySourceTransform, player.CentreTransform)
                     )
             )
-            .WithTransition(State.RangedAttacks, State.MeleeEngage, new TimeElapsed(minRangedAttacksDuration) & new DistanceLessThan(player, wraith, engageDistance))
+            .WithTransition(State.RangedAttacks, State.MeleeEngage, !new IsTelegraphing(wraith) & new TimeElapsed(minRangedAttacksDuration) & new DistanceLessThan(player, wraith, engageDistance))
             .WithTransition(State.MeleeEngage, State.MeleeAttacks, new DistanceLessThan(player, wraith, swipeRange))
             .WithTransition(State.MeleeEngage, State.RangedAttacks, new DistanceGreaterThan(player, wraith, disengageDistance))
-            .WithTransition(State.RangedAttacks, State.Blink, new RandomTimeElapsed(forcedBlinkMinTime, forcedBlinkMaxTime))
-            .WithTransition(State.MeleeAttacks, State.Blink, new SubjectEmittedTimes(wraith.SwipeSubject, meleeAttacksBeforeBlinking))
+            .WithTransition(State.RangedAttacks, State.Blink, !new IsTelegraphing(wraith) & new RandomTimeElapsed(forcedBlinkMinTime, forcedBlinkMaxTime))
+            .WithTransition(State.MeleeAttacks, State.Blink, !new IsTelegraphing(wraith) & new SubjectEmittedTimes(wraith.SwipeSubject, meleeAttacksBeforeBlinking))
             .WithTransition(State.Blink, State.Advance, new TimeElapsed(blinkDelay + postBlinkAttackDelay));
     }
 
