@@ -18,6 +18,10 @@ public class AbilityAnimatorEditor : Editor
                 abilityType.ToString(),
                 abilityAnimator.abilityTypeToAnimationTypeDictionary[abilityType]
             );
+
+            abilityAnimator.abilityTypeToAnimationSpeedCurveDictionary[abilityType] = EditorGUILayout.CurveField(
+                abilityAnimator.abilityTypeToAnimationSpeedCurveDictionary[abilityType]
+            );
         });
         EditorGUI.indentLevel--;
         
