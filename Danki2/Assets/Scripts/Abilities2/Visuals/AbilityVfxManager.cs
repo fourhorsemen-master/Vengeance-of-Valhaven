@@ -27,7 +27,9 @@ public class AbilityVfxManager : MonoBehaviour
 
     private void CreateVFX(AbilityCastInformation abilityCastInformation, Empowerment empowerment, float offset)
     {
-        switch (abilityCastInformation.Type)
+        AbilityType2 type = AbilityLookup2.Instance.GetAbilityType(abilityCastInformation.AbilityId);
+
+        switch (type)
         {
             case AbilityType2.Slash:
             case AbilityType2.Thrust:

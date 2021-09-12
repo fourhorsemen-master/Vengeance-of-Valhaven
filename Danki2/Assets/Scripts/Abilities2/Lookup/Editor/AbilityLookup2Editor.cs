@@ -61,6 +61,7 @@ public class AbilityLookup2Editor : Editor
         EditEmpowerments(abilityId);
         EditRarity(abilityId);
         EditCollisionSoundLevel(abilityId);
+        EditVocalisationType(abilityId);
         EditIcon(abilityId);
 
         RemoveAbilityButton(abilityId);
@@ -120,6 +121,14 @@ public class AbilityLookup2Editor : Editor
         );
     }
 
+    private void EditVocalisationType(SerializableGuid abilityId)
+    {
+        abilityLookup.abilityVocalisationTypeDictionary[abilityId] = (AbilityVocalisationType) EditorGUILayout.EnumPopup(
+            "Vocalisation Type",
+            abilityLookup.abilityVocalisationTypeDictionary[abilityId]
+        );
+    }
+
     private void EditIcon(SerializableGuid abilityId)
     {
         abilityLookup.abilityIconDictionary[abilityId] = (Sprite) EditorGUILayout.ObjectField(
@@ -142,6 +151,7 @@ public class AbilityLookup2Editor : Editor
             abilityLookup.abilityEmpowermentsDictionary[abilityId] = new EmpowermentsWrapper();
             abilityLookup.abilityRarityDictionary[abilityId] = Rarity.Common;
             abilityLookup.abilityCollisionSoundLevelDictionary[abilityId] = CollisionSoundLevel.Low;
+            abilityLookup.abilityVocalisationTypeDictionary[abilityId] = AbilityVocalisationType.None;
             abilityLookup.abilityIconDictionary[abilityId] = null;
             foldoutStatus[abilityId] = false;
         }
@@ -158,6 +168,7 @@ public class AbilityLookup2Editor : Editor
             abilityLookup.abilityEmpowermentsDictionary.Remove(abilityId);
             abilityLookup.abilityRarityDictionary.Remove(abilityId);
             abilityLookup.abilityCollisionSoundLevelDictionary.Remove(abilityId);
+            abilityLookup.abilityVocalisationTypeDictionary.Remove(abilityId);
             abilityLookup.abilityIconDictionary.Remove(abilityId);
             foldoutStatus.Remove(abilityId);
         }
