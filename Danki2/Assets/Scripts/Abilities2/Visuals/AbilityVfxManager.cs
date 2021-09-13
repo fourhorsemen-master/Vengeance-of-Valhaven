@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class AbilityVfxManager : MonoBehaviour
@@ -11,7 +10,9 @@ public class AbilityVfxManager : MonoBehaviour
 
     private void Start()
     {
-        player.AbilityService.AbilityCastSubject.Subscribe(HandleVfx);
+        player.AbilityService.AbilityEventSubject
+            .Where(x => x.CastEvent == CastEvent.Impact)
+            .Subscribe(HandleVfx);
     }
 
     private void HandleVfx(AbilityCastInformation abilityCastInformation)

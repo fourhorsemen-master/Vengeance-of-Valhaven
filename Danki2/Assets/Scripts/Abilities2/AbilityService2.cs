@@ -15,12 +15,15 @@ public class AbilityService2
         };
     
     private readonly Player player;
-    
-    public Subject<AbilityCastInformation> AbilityCastSubject { get; } = new Subject<AbilityCastInformation>();
+    private readonly AbilityAnimationListener abilityAnimationListener;
+    public Subscription impactSubscription;
 
-    public AbilityService2(Player player)
+    public Subject<AbilityCastInformation> AbilityEventSubject { get; } = new Subject<AbilityCastInformation>();
+
+    public AbilityService2(Player player, AbilityAnimationListener abilityAnimationListener)
     {
         this.player = player;
+        this.abilityAnimationListener = abilityAnimationListener;
     }
 
     public void Cast(Direction direction, Vector3 targetPosition)
@@ -33,29 +36,43 @@ public class AbilityService2
         
         Vector3 castDirection = targetPosition - player.transform.position;
         Quaternion castRotation = AbilityUtils.GetMeleeCastRotation(castDirection);
-        
-        bool hasDealtDamage = false;
-        
-        AbilityUtils.TemplateCollision(
-            player,
-            collisionTemplateLookup[AbilityLookup2.Instance.GetAbilityType(abilityId)],
-            CalculateRange(empowerments),
-            player.CollisionTemplateSource,
-            castRotation,
-            AbilityLookup2.Instance.GetCollisionSoundLevel(abilityId),
-            enemyCallback: enemy =>
-            {
-                hasDealtDamage = true;
-                HandleCollision(abilityId, enemy, empowerments);
-            }
-        );
-        
+
+        impactSubscription = abilityAnimationListener.ImpactSubject.Subscribe(() =>
+        {
+            bool hasDealtDamage = false;
+
+            AbilityUtils.TemplateCollision(
+                player,
+                collisionTemplateLookup[AbilityLookup2.Instance.GetAbilityType(abilityId)],
+                CalculateRange(empowerments),
+                player.CollisionTemplateSource,
+                castRotation,
+                AbilityLookup2.Instance.GetCollisionSoundLevel(abilityId),
+                enemyCallback: enemy =>
+                {
+                    hasDealtDamage = true;
+                    HandleCollision(abilityId, enemy, empowerments);
+                }
+            );
+
+            AbilityEventSubject.Next(new AbilityCastInformation(
+                abilityId,
+                hasDealtDamage,
+                empowerments,
+                castRotation,
+                CastEvent.Impact
+            ));
+
+            impactSubscription.Unsubscribe();
+        });      
+                
         player.AbilityTree.Walk(direction);
-        AbilityCastSubject.Next(new AbilityCastInformation(
+        AbilityEventSubject.Next(new AbilityCastInformation(
             abilityId,
-            hasDealtDamage,
+            false,
             empowerments,
-            castRotation
+            castRotation,
+            CastEvent.Cast
         ));
     }
 

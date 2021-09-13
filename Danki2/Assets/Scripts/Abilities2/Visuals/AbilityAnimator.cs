@@ -33,7 +33,9 @@ public class AbilityAnimator : MonoBehaviour
 
     private void Start()
     {
-        player.AbilityService.AbilityCastSubject.Subscribe(HandleAnimation);
+        player.AbilityService.AbilityEventSubject
+            .Where(x => x.CastEvent == CastEvent.Cast)
+            .Subscribe(HandleAnimation);
     }
     private void Update()
     {

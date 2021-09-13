@@ -8,7 +8,9 @@ public class AbilityVocalisationManager : MonoBehaviour
 
     private void Start()
     {
-        player.AbilityService.AbilityCastSubject.Subscribe(HandleVocalisation);
+        player.AbilityService.AbilityEventSubject
+            .Where(x => x.CastEvent == CastEvent.Cast)
+            .Subscribe(HandleVocalisation);
     }
 
     private void HandleVocalisation(AbilityCastInformation abilityCastInformation)

@@ -13,6 +13,8 @@ public abstract class Actor : MonoBehaviour
 
     [SerializeField] private Renderer[] meshRenderers = null;
 
+    [SerializeField] protected AbilityAnimationListener abilityAnimationListener = null;
+
     // Serialized properties
     [SerializeField] private float weight = 0;
     public float Weight => weight;
@@ -44,6 +46,7 @@ public abstract class Actor : MonoBehaviour
     protected readonly Subject startSubject = new Subject();
     protected readonly Subject updateSubject = new Subject();
     protected readonly Subject lateUpdateSubject = new Subject();
+    protected readonly Subject abilityImpactSubject = new Subject();
 
     private Coroutine stopTrailCoroutine;
 

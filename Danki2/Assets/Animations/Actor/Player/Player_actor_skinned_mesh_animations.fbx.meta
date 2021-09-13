@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 292b04f93f5a3b8448bc1e46edeb131e
 ModelImporter:
-  serializedVersion: 19301
+  serializedVersion: 20200
   internalIDToNameTable:
   - first:
       74: 5268829706552777367
@@ -42,35 +42,7 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: 
     animationImportErrors: 
-    animationImportWarnings: "\nClip 'PlayerArmature|ArmatureAction' has import animation
-      warnings that might lower retargeting quality:\nNote: Activate translation
-      DOF on avatar to improve retargeting quality.\n\t'CoreIK' has translation animation
-      that will be discarded.\n\t'Spine.003' has translation animation that will
-      be discarded.\n\t'Forearm.L' is inbetween humanoid transforms and has rotation
-      animation that will be discarded.\n\t'Pinky.001.L' has translation animation
-      that will be discarded.\n\t'Ring.001.L' has translation animation that will
-      be discarded.\n\t'Middle.001.L' has translation animation that will be discarded.\n\t'Index.001.L'
-      has translation animation that will be discarded.\n\t'Forearm.R' is inbetween
-      humanoid transforms and has rotation animation that will be discarded.\n\t'Pinky.001.R'
-      has translation animation that will be discarded.\n\t'Ring.001.R' has translation
-      animation that will be discarded.\n\t'Middle.001.R' has translation animation
-      that will be discarded.\n\t'Index.001.R' has translation animation that will
-      be discarded.\n\t'Shin.L' is inbetween humanoid transforms and has rotation
-      animation that will be discarded.\n\t'Shin.R' is inbetween humanoid transforms
-      and has rotation animation that will be discarded.\n\nClip 'PlayerArmature|Character_Library'
-      has import animation warnings that might lower retargeting quality:\nNote:
-      Activate translation DOF on avatar to improve retargeting quality.\n\t'Forearm.L'
-      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'Pinky.001.L'
-      has translation animation that will be discarded.\n\t'Ring.001.L' has translation
-      animation that will be discarded.\n\t'Middle.001.L' has translation animation
-      that will be discarded.\n\t'Index.001.L' has translation animation that will
-      be discarded.\n\t'Forearm.R' is inbetween humanoid transforms and has rotation
-      animation that will be discarded.\n\t'Pinky.001.R' has translation animation
-      that will be discarded.\n\t'Ring.001.R' has translation animation that will
-      be discarded.\n\t'Middle.001.R' has translation animation that will be discarded.\n\t'Index.001.R'
-      has translation animation that will be discarded.\n\t'Shin.L' is inbetween
-      humanoid transforms and has rotation animation that will be discarded.\n\t'Shin.R'
-      is inbetween humanoid transforms and has rotation animation that will be discarded.\n"
+    animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
@@ -194,7 +166,14 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.60544205
+        functionName: Impact
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -223,7 +202,14 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.34693876
+        functionName: Impact
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -252,7 +238,14 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.6768708
+        functionName: Impact
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -281,7 +274,14 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.59863967
+        functionName: Impact
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -304,6 +304,7 @@ ModelImporter:
     useFileUnits: 1
     keepQuads: 0
     weldVertices: 1
+    bakeAxisConversion: 0
     preserveHierarchy: 0
     skinWeightsMode: 0
     maxBonesPerVertex: 4
@@ -313,6 +314,9 @@ ModelImporter:
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
   tangentSpace:
@@ -799,6 +803,7 @@ ModelImporter:
   animationType: 2
   humanoidOversampling: 1
   avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
   additionalBone: 0
   userData: 
   assetBundleName: 

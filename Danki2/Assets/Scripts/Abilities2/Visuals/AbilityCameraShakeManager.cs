@@ -7,7 +7,9 @@ public class AbilityCameraShakeManager : MonoBehaviour
     
     private void Start()
     {
-        player.AbilityService.AbilityCastSubject.Subscribe(HandleCameraShake);
+        player.AbilityService.AbilityEventSubject
+            .Where(x => x.CastEvent == CastEvent.Impact)
+            .Subscribe(HandleCameraShake);
     }
 
     private void HandleCameraShake(AbilityCastInformation abilityCastInformation)

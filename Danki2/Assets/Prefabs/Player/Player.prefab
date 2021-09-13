@@ -2662,8 +2662,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 0}
   m_AABB:
-    m_Center: {x: 0.0000385195, y: 0.9071108, z: 0.3467547}
-    m_Extent: {x: 0.11477211, y: 0.32033172, z: 0.23259774}
+    m_Center: {x: 0.0000085532665, y: 0.90691, z: 0.3438622}
+    m_Extent: {x: 0.11474158, y: 0.32053238, z: 0.22970524}
   m_DirtyAABB: 0
 --- !u!183 &5250604633547756724
 Cloth:
@@ -2879,6 +2879,7 @@ MonoBehaviour:
   - {fileID: 6069462531341055396}
   - {fileID: 321767935209476056}
   - {fileID: 3387462581990253440}
+  abilityAnimationListener: {fileID: 1321271054688396773}
   weight: 1
   rotationSmoothing: 0.1
   animController: {fileID: 238891752984210142}
@@ -3714,6 +3715,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6174604534595793060}
   - component: {fileID: 238891752984210142}
+  - component: {fileID: 1321271054688396773}
   m_Layer: 14
   m_Name: Player_actor_skinned_mesh
   m_TagString: Untagged
@@ -3761,6 +3763,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1321271054688396773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6844146180703218206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d073a65a17c8d7d4d93d169b94c34fe8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6922829322607958891
 GameObject:
   m_ObjectHideFlags: 0
