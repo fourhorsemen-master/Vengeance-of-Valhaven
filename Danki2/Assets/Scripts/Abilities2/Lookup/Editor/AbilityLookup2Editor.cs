@@ -22,7 +22,7 @@ public class AbilityLookup2Editor : Editor
 
         for (int i = abilityLookup.abilityIds.Count - 1; i >= 0; i--)
         {
-            EditAbilityData(abilityLookup.abilityIds[i]);
+            EditAbilityData(abilityLookup.abilityIds[i], i);
             EditorUtils.VerticalSpace();
         }
         AddAbilityButton();
@@ -43,7 +43,7 @@ public class AbilityLookup2Editor : Editor
         foldoutStatus = abilityLookup.abilityIds.ToDictionary(abilityId => abilityId, abilityId => false);
     }
 
-    private void EditAbilityData(SerializableGuid abilityId)
+    private void EditAbilityData(SerializableGuid abilityId, int index)
     {
         foldoutStatus[abilityId] = EditorGUILayout.Foldout(
             foldoutStatus[abilityId],
@@ -62,6 +62,7 @@ public class AbilityLookup2Editor : Editor
         EditRarity(abilityId);
         EditCollisionSoundLevel(abilityId);
         EditVocalisationType(abilityId);
+        EditFmodEvents(abilityId);
         EditIcon(abilityId);
 
         RemoveAbilityButton(abilityId);
@@ -127,6 +128,40 @@ public class AbilityLookup2Editor : Editor
             "Vocalisation Type",
             abilityLookup.abilityVocalisationTypeDictionary[abilityId]
         );
+    }
+
+    private void EditFmodEvents(SerializableGuid abilityId)
+    {
+        SerializedProperty serializedFmodDictionaryKeys = serializedObject.FindProperty("abilityFmodEventDictionary._keys");
+
+        bool keyExists = false;
+
+        for (int i = 0; i < serializedFmodDictionaryKeys.arraySize; i++)
+        {
+            if (serializedFmodDictionaryKeys.GetArrayElementAtIndex(i).FindPropertyRelative("value").stringValue == abilityId.ToString())
+            {
+                keyExists = true;
+            }
+        }
+
+        if (!keyExists) abilityLookup.abilityFmodEventDictionary[abilityId] = new AbilityFmodEvents();
+
+        serializedFmodDictionaryKeys = serializedObject.FindProperty("abilityFmodEventDictionary._keys");
+
+        int valueIndex = -1;
+
+        for (int i = 0; i < serializedFmodDictionaryKeys.arraySize; i++)
+        {
+            if (serializedFmodDictionaryKeys.GetArrayElementAtIndex(i).FindPropertyRelative("value").stringValue == abilityId.ToString())
+            {
+                valueIndex = i;
+            }
+        }
+
+        SerializedProperty serializedAbilityFmodEvents = serializedObject.FindProperty("abilityFmodEventDictionary._values").GetArrayElementAtIndex(valueIndex);
+
+        EditorGUILayout.PropertyField(serializedAbilityFmodEvents.FindPropertyRelative("fmodStartEventRef"), new GUIContent("Start"));
+        EditorGUILayout.PropertyField(serializedAbilityFmodEvents.FindPropertyRelative("fmodEndEventRef"), new GUIContent("End"));
     }
 
     private void EditIcon(SerializableGuid abilityId)

@@ -135,6 +135,15 @@ MonoBehaviour:
     - value: 463df743-c237-4f9e-9b86-e1dac9a4d94b
     - value: 3a819a43-228d-47c6-ba3c-515ee21824eb
     _values: 02000000020000000200000001000000010000000200000001000000
+  abilityFmodEventDictionary:
+    _keys:
+    - value: 3a819a43-228d-47c6-ba3c-515ee21824eb
+    - value: 463df743-c237-4f9e-9b86-e1dac9a4d94b
+    _values:
+    - fmodStartEventRef: event:/AS_AbilitySounds/AS_Slash
+      fmodEndEventRef: 
+    - fmodStartEventRef: event:/AS_AbilitySounds/AS_Smash/AS_Smash_Draw
+      fmodEndEventRef: event:/AS_AbilitySounds/AS_Smash/AS_Smash_Impact
   abilityIconDictionary:
     _keys:
     - value: 3a819a43-228d-47c6-ba3c-515ee21824eb
