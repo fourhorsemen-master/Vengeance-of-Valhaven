@@ -18,7 +18,7 @@
     public bool TryCompleteProcess(out ComboState nextState)
     {
         nextState = player.AbilityTree.CanWalk()
-            ? ComboState.ContinueCombo
+            ? ComboState.ShortCooldown
             : ComboState.CompleteCombo;
 
         return true;
