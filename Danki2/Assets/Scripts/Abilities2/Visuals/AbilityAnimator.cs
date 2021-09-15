@@ -36,6 +36,11 @@ public class AbilityAnimator : MonoBehaviour
         player.AbilityService.AbilityEventSubject
             .Where(x => x.CastEvent == CastEvent.Start)
             .Subscribe(HandleAnimation);
+
+        player.ComboManager.SubscribeToStateEntry(ComboState.Interrupted, () =>
+        {
+            player.AnimController.Play("Idle_Run_Blend_1D");
+        });
     }
     private void Update()
     {
