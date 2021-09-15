@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Footsteps : MonoBehaviour
 {
-    [SerializeField]
-    [EventRef]
+    [SerializeField, EventRef]
     private string footstepEvent = null;
 
     [SerializeField]
