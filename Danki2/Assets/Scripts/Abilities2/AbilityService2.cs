@@ -17,6 +17,7 @@ public class AbilityService2
     private readonly Player player;
     private readonly AbilityAnimationListener abilityAnimationListener;
     public Subscription impactSubscription;
+    public Subscription swingSubscription;
 
     public Subject<AbilityCastInformation> AbilityEventSubject { get; } = new Subject<AbilityCastInformation>();
 
@@ -36,6 +37,19 @@ public class AbilityService2
         
         Vector3 castDirection = targetPosition - player.transform.position;
         Quaternion castRotation = AbilityUtils.GetMeleeCastRotation(castDirection);
+
+        swingSubscription = abilityAnimationListener.SwingSubject.Subscribe(() =>
+        {
+            AbilityEventSubject.Next(new AbilityCastInformation(
+                abilityId,
+                false,
+                empowerments,
+                castRotation,
+                CastEvent.Swing
+            ));
+
+            swingSubscription.Unsubscribe();
+        });
 
         impactSubscription = abilityAnimationListener.ImpactSubject.Subscribe(() =>
         {
@@ -72,7 +86,7 @@ public class AbilityService2
             false,
             empowerments,
             castRotation,
-            CastEvent.Cast
+            CastEvent.Start
         ));
     }
 

@@ -8,8 +8,11 @@ public class AbilityFmodEvents
     [SerializeField, EventRef]
     private string fmodStartEventRef = "";
     [SerializeField, EventRef]
-    private string fmodEndEventRef = "";
+    private string fmodSwingEventRef = "";
+    [SerializeField, EventRef]
+    private string fmodImpactEventRef = "";
 
     public string FmodStartEventRef { get => fmodStartEventRef; set => fmodStartEventRef = value; }
-    public string FmodEndEventRef { get => fmodEndEventRef; set => fmodEndEventRef = value; }
+    public string FmodSwingEventRef { get => fmodSwingEventRef; set => fmodSwingEventRef = value; }
+    public string FmodImpactEventRef { get => fmodImpactEventRef; set => fmodImpactEventRef = value; }
 }

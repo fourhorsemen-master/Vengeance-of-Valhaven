@@ -59,8 +59,7 @@ public class AbilityLookup2 : Singleton<AbilityLookup2>
     public Rarity GetRarity(SerializableGuid abilityId) => abilityRarityDictionary[abilityId];
     public CollisionSoundLevel GetCollisionSoundLevel(SerializableGuid abilityId) => abilityCollisionSoundLevelDictionary[abilityId];
     public AbilityVocalisationType GetAbilityVocalisationType(SerializableGuid abilityId) => abilityVocalisationTypeDictionary[abilityId];
-    public string GetAbilityStartFmodEvent(SerializableGuid abilityId) => abilityFmodEventDictionary[abilityId].FmodStartEventRef;
-    public string GetAbilityImpactFmodEvent(SerializableGuid abilityId) => abilityFmodEventDictionary[abilityId].FmodEndEventRef;
+    public AbilityFmodEvents GetAbilityFmodEvents(SerializableGuid abilityId) => abilityFmodEventDictionary[abilityId];
     public Sprite GetIcon(SerializableGuid abilityId) => abilityIconDictionary[abilityId];
 
     public bool TryGetAbilityId(string displayName, out SerializableGuid abilityId)

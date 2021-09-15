@@ -132,36 +132,28 @@ public class AbilityLookup2Editor : Editor
 
     private void EditFmodEvents(SerializableGuid abilityId)
     {
-        SerializedProperty serializedFmodDictionaryKeys = serializedObject.FindProperty("abilityFmodEventDictionary._keys");
-
-        bool keyExists = false;
-
-        for (int i = 0; i < serializedFmodDictionaryKeys.arraySize; i++)
+        if (!abilityLookup.abilityFmodEventDictionary.ContainsKey(abilityId))
         {
-            if (serializedFmodDictionaryKeys.GetArrayElementAtIndex(i).FindPropertyRelative("value").stringValue == abilityId.ToString())
-            {
-                keyExists = true;
-            }
+            abilityLookup.abilityFmodEventDictionary[abilityId] = new AbilityFmodEvents();
         }
 
-        if (!keyExists) abilityLookup.abilityFmodEventDictionary[abilityId] = new AbilityFmodEvents();
-
-        serializedFmodDictionaryKeys = serializedObject.FindProperty("abilityFmodEventDictionary._keys");
-
-        int valueIndex = -1;
-
-        for (int i = 0; i < serializedFmodDictionaryKeys.arraySize; i++)
-        {
-            if (serializedFmodDictionaryKeys.GetArrayElementAtIndex(i).FindPropertyRelative("value").stringValue == abilityId.ToString())
-            {
-                valueIndex = i;
-            }
-        }
-
+        int valueIndex = abilityLookup.abilityFmodEventDictionary.Keys.ToList().IndexOf(abilityId);
         SerializedProperty serializedAbilityFmodEvents = serializedObject.FindProperty("abilityFmodEventDictionary._values").GetArrayElementAtIndex(valueIndex);
 
+        EditorUtils.Header("Fmod Events:");
+
+        EditorGUI.indentLevel++;
+        
         EditorGUILayout.PropertyField(serializedAbilityFmodEvents.FindPropertyRelative("fmodStartEventRef"), new GUIContent("Start"));
-        EditorGUILayout.PropertyField(serializedAbilityFmodEvents.FindPropertyRelative("fmodEndEventRef"), new GUIContent("End"));
+        if (EditorUtils.IndentedButton("Clear")) abilityLookup.abilityFmodEventDictionary[abilityId].FmodStartEventRef = null;
+
+        EditorGUILayout.PropertyField(serializedAbilityFmodEvents.FindPropertyRelative("fmodSwingEventRef"), new GUIContent("Swing"));
+        if (EditorUtils.IndentedButton("Clear")) abilityLookup.abilityFmodEventDictionary[abilityId].FmodSwingEventRef = null;
+
+        EditorGUILayout.PropertyField(serializedAbilityFmodEvents.FindPropertyRelative("fmodImpactEventRef"), new GUIContent("Impact"));
+        if (EditorUtils.IndentedButton("Clear")) abilityLookup.abilityFmodEventDictionary[abilityId].FmodImpactEventRef = null;
+
+        EditorGUI.indentLevel--;
     }
 
     private void EditIcon(SerializableGuid abilityId)

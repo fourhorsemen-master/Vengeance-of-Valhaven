@@ -9,7 +9,7 @@ public class AbilityVocalisationManager : MonoBehaviour
     private void Start()
     {
         player.AbilityService.AbilityEventSubject
-            .Where(x => x.CastEvent == CastEvent.Cast)
+            .Where(x => x.CastEvent == CastEvent.Swing)
             .Subscribe(HandleVocalisation);
     }
 

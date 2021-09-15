@@ -1,5 +1,6 @@
 ﻿public enum CastEvent
 {
-    Cast,
+    Start,
+    Swing,
     Impact
 }
