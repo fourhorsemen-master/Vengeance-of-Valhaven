@@ -4,7 +4,6 @@
     ReadyInCombo,
     CastLeft,
     CastRight,
-    FinishAbility,
     ShortCooldown,
     CompleteCombo,
     LongCooldown,

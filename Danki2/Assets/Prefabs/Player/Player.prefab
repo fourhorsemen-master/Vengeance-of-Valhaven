@@ -2662,8 +2662,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 0}
   m_AABB:
-    m_Center: {x: 0.0000085532665, y: 0.90691, z: 0.3438622}
-    m_Extent: {x: 0.11474158, y: 0.32053238, z: 0.22970524}
+    m_Center: {x: 0.000034213066, y: 0.90706354, z: 0.346116}
+    m_Extent: {x: 0.1147651, y: 0.32037896, z: 0.23195904}
   m_DirtyAABB: 0
 --- !u!183 &5250604633547756724
 Cloth:
@@ -2880,6 +2880,7 @@ MonoBehaviour:
   - {fileID: 6069462531341055396}
   - {fileID: 321767935209476056}
   - {fileID: 3387462581990253440}
+  - {fileID: 9010139035835365635}
   abilityAnimationListener: {fileID: 1321271054688396773}
   weight: 1
   rotationSmoothing: 0.1
@@ -6435,6 +6436,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6792869166683982730}
     m_Modifications:
+    - target: {fileID: 363277023896507932, guid: 9b2c311f1af778a49b4e2428e48a0491,
+        type: 3}
+      propertyPath: m_BlockingObjects
+      value: 434
+      objectReference: {fileID: 0}
+    - target: {fileID: 363277023896507932, guid: 9b2c311f1af778a49b4e2428e48a0491,
+        type: 3}
+      propertyPath: m_BlockingMask.m_Bits
+      value: 4072381088
+      objectReference: {fileID: 0}
+    - target: {fileID: 363277023896507932, guid: 9b2c311f1af778a49b4e2428e48a0491,
+        type: 3}
+      propertyPath: m_IgnoreReversedGraphics
+      value: 96
+      objectReference: {fileID: 0}
     - target: {fileID: 8161198786838383355, guid: 9b2c311f1af778a49b4e2428e48a0491,
         type: 3}
       propertyPath: actor

@@ -12,7 +12,6 @@ public class ComboManager
 			.WithProcessor(ComboState.ReadyInCombo, new ReadyInComboProcessor(player, player.ComboTimeout))
 			.WithProcessor(ComboState.CastLeft, new CastProcessor(player, Direction.Left))
 			.WithProcessor(ComboState.CastRight, new CastProcessor(player, Direction.Right))
-			.WithProcessor(ComboState.FinishAbility, new FinishAbilityProcessor(player))
 			.WithProcessor(ComboState.ShortCooldown, new AwaitAbilityCopmletionProcessor(player, abilityAnimationListener))
 			.WithProcessor(ComboState.CompleteCombo, new CompleteComboProcessor(player))
 			.WithProcessor(ComboState.Interrupted, new InterruptedProcessor(player))
