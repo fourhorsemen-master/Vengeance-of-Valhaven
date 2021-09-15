@@ -56,7 +56,7 @@ public class Player : Actor
         ChannelService = new ChannelService(this, startSubject, lateUpdateSubject);
         InstantCastService = new InstantCastService(this);
         AbilityService = new AbilityService2(this, abilityAnimationListener);
-        MovementManager = new PlayerMovementManager(this, updateSubject, navmeshAgent);
+        MovementManager = new PlayerMovementManager(this, abilityAnimationListener, updateSubject, navmeshAgent);
 
         AbilityDataStatsDiffer abilityDataStatsDiffer = new AbilityDataStatsDiffer(this);
         RegisterAbilityDataDiffer(abilityDataStatsDiffer);

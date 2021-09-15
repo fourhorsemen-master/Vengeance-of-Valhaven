@@ -33,7 +33,6 @@ public class AbilityService2
         List<Empowerment> empowerments = GetActiveEmpowerments(abilityId);
 
         player.MovementManager.LookAt(targetPosition);
-        player.MovementManager.Pause(AbilityPauseDuration);
         
         Vector3 castDirection = targetPosition - player.transform.position;
         Quaternion castRotation = AbilityUtils.GetMeleeCastRotation(castDirection);
