@@ -24,7 +24,7 @@ public class ForestGolemFireRoot : IStateMachineComponent
             float distance = Random.Range(minDistance, maxDistance);
             Vector2 direction2D = Random.insideUnitCircle.normalized;
             Vector3 direction = new Vector3(direction2D.x, 0f, direction2D.y);
-            Vector3 newPosition = forestGolem.transform.position + distance * direction;
+            Vector3 newPosition = ActorCache.Instance.Player.transform.position + distance * direction;
             if (forestGolem.MovementManager.CanReach(newPosition))
             {
                 return newPosition;
