@@ -28,13 +28,13 @@ public class AbilityRarityDictionary : SerializableDictionary<SerializableGuid, 
 public class AbilityCollisionSoundLevelDictionary : SerializableDictionary<SerializableGuid, CollisionSoundLevel> {}
 
 [Serializable]
-public class AbilityVocalisationTypeDictionary : SerializableDictionary<SerializableGuid, AbilityVocalisationType> { }
+public class AbilityVocalisationTypeDictionary : SerializableDictionary<SerializableGuid, AbilityVocalisationType> {}
 
 [Serializable]
-public class AbilityFmodEventDictionary : SerializableDictionary<SerializableGuid, AbilityFmodEvents> { }
+public class AbilityFmodEventDictionary : SerializableDictionary<SerializableGuid, AbilityFmodEvents> {}
 
 [Serializable]
-public class AbilityIconDictionary2 : SerializableDictionary<SerializableGuid, Sprite> { }
+public class AbilityIconDictionary2 : SerializableDictionary<SerializableGuid, Sprite> {}
 
 public class AbilityLookup2 : Singleton<AbilityLookup2>
 {
