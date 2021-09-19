@@ -22,7 +22,7 @@ public class AbilityLookup2Editor : Editor
 
         for (int i = abilityLookup.abilityIds.Count - 1; i >= 0; i--)
         {
-            EditAbilityData(abilityLookup.abilityIds[i], i);
+            EditAbilityData(abilityLookup.abilityIds[i]);
             EditorUtils.VerticalSpace();
         }
         AddAbilityButton();
@@ -43,7 +43,7 @@ public class AbilityLookup2Editor : Editor
         foldoutStatus = abilityLookup.abilityIds.ToDictionary(abilityId => abilityId, abilityId => false);
     }
 
-    private void EditAbilityData(SerializableGuid abilityId, int index)
+    private void EditAbilityData(SerializableGuid abilityId)
     {
         foldoutStatus[abilityId] = EditorGUILayout.Foldout(
             foldoutStatus[abilityId],
