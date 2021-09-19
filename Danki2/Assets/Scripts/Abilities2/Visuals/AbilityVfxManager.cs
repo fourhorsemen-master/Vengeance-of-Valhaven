@@ -19,7 +19,7 @@ public class AbilityVfxManager : MonoBehaviour
     {
         float offset = 0;
 
-        List<Empowerment> empowerments = player.AbilityService.GetActiveEmpowerments();
+        List<Empowerment> empowerments = player.AbilityService.CurrentEmpowerments;
 
         empowerments.ForEach(empowerment =>
         {
