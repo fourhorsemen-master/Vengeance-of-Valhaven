@@ -2807,7 +2807,6 @@ GameObject:
   - component: {fileID: 6918691881617835041}
   - component: {fileID: 8010275905982216902}
   - component: {fileID: 2156678289039720177}
-  - component: {fileID: 5218322822190265577}
   - component: {fileID: 360675822465966502}
   - component: {fileID: 6289727810404826592}
   - component: {fileID: -3772255382239828309}
@@ -2881,7 +2880,6 @@ MonoBehaviour:
   - {fileID: 321767935209476056}
   - {fileID: 3387462581990253440}
   - {fileID: 9010139035835365635}
-  abilityAnimationListener: {fileID: 1321271054688396773}
   weight: 1
   rotationSmoothing: 0.1
   animController: {fileID: 238891752984210142}
@@ -2898,6 +2896,7 @@ MonoBehaviour:
   rollSpeedMultiplier: 4
   vocalisationEvent: event:/CS_CharacterSounds/CS_Dialog_Attack
   abilityAnimator: {fileID: 2156678289039720177}
+  abilityAnimationListener: {fileID: 1321271054688396773}
 --- !u!114 &-7333941826244338973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3076,19 +3075,6 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
---- !u!114 &5218322822190265577
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4777388720977389772}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f1721d8331ba534387aa94c21836390, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: -5201030127241623248}
 --- !u!114 &360675822465966502
 MonoBehaviour:
   m_ObjectHideFlags: 0

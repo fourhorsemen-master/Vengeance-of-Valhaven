@@ -5,7 +5,6 @@ public class AbilityService2
 {
     private const float AbilityRange = 3;
 
-    public bool HasDealtDamage { get; private set; } = false;
     public SerializableGuid CurrentAbilityId { get; private set; }
     public Quaternion CurrentCastRotation { get; private set; }
     public List<Empowerment> CurrentEmpowerments { get; private set; }
@@ -32,7 +31,6 @@ public class AbilityService2
     public void Cast(Direction direction, Vector3 targetPosition)
     {
         CurrentAbilityId = player.AbilityTree.GetAbilityId(direction);
-        HasDealtDamage = false;
         CurrentEmpowerments = GetActiveEmpowerments(CurrentAbilityId);
 
         player.MovementManager.LookAt(targetPosition);
@@ -47,6 +45,8 @@ public class AbilityService2
 
     private void OnImpact()
     {
+        bool hasDealtDamage = false;
+
         AbilityUtils.TemplateCollision(
             player,
             collisionTemplateLookup[AbilityLookup2.Instance.GetAbilityType(CurrentAbilityId)],
@@ -56,10 +56,15 @@ public class AbilityService2
             AbilityLookup2.Instance.GetCollisionSoundLevel(CurrentAbilityId),
             enemyCallback: enemy =>
             {
-                HasDealtDamage = true;
+                hasDealtDamage = true;
                 HandleCollision(CurrentAbilityId, enemy, CurrentEmpowerments);
             }
         );
+
+        ShakeIntensity shakeIntensity = hasDealtDamage
+            ? ShakeIntensity.High
+            : ShakeIntensity.Low;
+        CustomCamera.Instance.AddShake(shakeIntensity);
     }
 
     private List<Empowerment> GetActiveEmpowerments(SerializableGuid abilityId)
