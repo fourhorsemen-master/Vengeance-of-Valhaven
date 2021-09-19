@@ -2662,8 +2662,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 0}
   m_AABB:
-    m_Center: {x: 0.000030621886, y: 0.9071244, z: 0.3471423}
-    m_Extent: {x: 0.11476151, y: 0.32031813, z: 0.23298535}
+    m_Center: {x: 0.0000385195, y: 0.9071108, z: 0.3467547}
+    m_Extent: {x: 0.11477211, y: 0.32033172, z: 0.23259774}
   m_DirtyAABB: 0
 --- !u!183 &5250604633547756724
 Cloth:
@@ -2962,6 +2962,117 @@ MonoBehaviour:
     - Smash
     - Thrust
     _values: 010000000400000002000000
+  abilityTypeToAnimationSpeedCurveDictionary:
+    _keys:
+    - Slash
+    - Smash
+    - Thrust
+    _values:
+    - serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0.5
+        inSlope: 0.29744816
+        outSlope: 0.29744816
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.65057373
+        value: 0.69351196
+        inSlope: -1.0983555
+        outSlope: -1.0983555
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.85175616
+        value: 0.19173095
+        inSlope: -1.6637442
+        outSlope: -1.6637442
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 0.1
+        inSlope: -0.080590226
+        outSlope: -0.080590226
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.20721775
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    - serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0.3
+        inSlope: 0.9213609
+        outSlope: 0.9213609
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.65594
+        value: 0.9043575
+        inSlope: -1.2263286
+        outSlope: -1.2263286
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.87671953
+        value: 0.15944335
+        inSlope: -1.6637442
+        outSlope: -1.6637442
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 0.1
+        inSlope: -0.080590226
+        outSlope: -0.080590226
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.20721775
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    - serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: -0.5
+        outSlope: -0.5
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 0.5
+        inSlope: -0.5
+        outSlope: -0.5
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
 --- !u!114 &5218322822190265577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5183,8 +5294,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 0}
   m_AABB:
-    m_Center: {x: -0.023546278, y: 1.2844739, z: -0.32684773}
-    m_Extent: {x: 0.5386177, y: 0.7835851, z: 0.5202783}
+    m_Center: {x: -0.023551643, y: 1.2844737, z: -0.3268479}
+    m_Extent: {x: 0.53859586, y: 0.7835853, z: 0.5202784}
   m_DirtyAABB: 0
 --- !u!183 &4472611446018268676
 Cloth:
