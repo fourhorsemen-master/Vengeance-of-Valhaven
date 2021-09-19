@@ -33,10 +33,6 @@ public class AbilityAnimator : MonoBehaviour
 
     private void Start()
     {
-        player.AbilityService.AbilityEventSubject
-            .Where(x => x.CastEvent == CastEvent.Start)
-            .Subscribe(HandleAnimation);
-
         player.ComboManager.SubscribeToStateEntry(ComboState.Interrupted, () =>
         {
             player.AnimController.Play("Idle_Run_Blend_1D");
@@ -61,9 +57,9 @@ public class AbilityAnimator : MonoBehaviour
             .Evaluate(normalizedtime);
     }
 
-    private void HandleAnimation(AbilityCastInformation abilityCastInformation)
+    public void HandleAnimation(SerializableGuid abilityId)
     {
-        AbilityType2 type = AbilityLookup2.Instance.GetAbilityType(abilityCastInformation.AbilityId);
+        AbilityType2 type = AbilityLookup2.Instance.GetAbilityType(abilityId);
         AbilityAnimationType abilityAnimationType = abilityTypeToAnimationTypeDictionary[type];
         string animationState = AnimationStringLookup.LookupTable[abilityAnimationType];
         player.AnimController.Play(animationState);

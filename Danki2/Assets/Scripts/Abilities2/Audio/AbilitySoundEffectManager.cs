@@ -6,35 +6,34 @@ public class AbilitySoundEffectManager : MonoBehaviour
     [SerializeField]
     private Player player = null;
 
+    private SerializableGuid CurrentAbilityId => player.AbilityService.CurrentAbilityId;
+
     private void Start()
     {
-        player.AbilityService.AbilityEventSubject
-            .Where(x => x.CastEvent == CastEvent.Start)
+        player.AbilityAnimationListener.StartSubject
             .Subscribe(PlayStartEvent);
 
-        player.AbilityService.AbilityEventSubject
-            .Where(x => x.CastEvent == CastEvent.Swing)
+        player.AbilityAnimationListener.SwingSubject
             .Subscribe(PlaySwingEvent);
 
-        player.AbilityService.AbilityEventSubject
-            .Where(x => x.CastEvent == CastEvent.Impact)
+        player.AbilityAnimationListener.ImpactSubject
             .Subscribe(PlayImpactEvent);
     }
-    private void PlayStartEvent(AbilityCastInformation castInformation)
+    private void PlayStartEvent()
     {
-        string startEvent = AbilityLookup2.Instance.GetAbilityFmodEvents(castInformation.AbilityId).FmodStartEventRef;
+        string startEvent = AbilityLookup2.Instance.GetAbilityFmodEvents(CurrentAbilityId).FmodStartEventRef;
         PlayAbilityEvent(startEvent);
     }
 
-    private void PlaySwingEvent(AbilityCastInformation castInformation)
+    private void PlaySwingEvent()
     {
-        string swingEvent = AbilityLookup2.Instance.GetAbilityFmodEvents(castInformation.AbilityId).FmodSwingEventRef;
+        string swingEvent = AbilityLookup2.Instance.GetAbilityFmodEvents(CurrentAbilityId).FmodSwingEventRef;
         PlayAbilityEvent(swingEvent);
     }
 
-    private void PlayImpactEvent(AbilityCastInformation castInformation)
+    private void PlayImpactEvent()
     {
-        string impactEvent = AbilityLookup2.Instance.GetAbilityFmodEvents(castInformation.AbilityId).FmodImpactEventRef;
+        string impactEvent = AbilityLookup2.Instance.GetAbilityFmodEvents(CurrentAbilityId).FmodImpactEventRef;
         PlayAbilityEvent(impactEvent);
     }
 

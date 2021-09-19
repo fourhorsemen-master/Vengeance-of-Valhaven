@@ -38,7 +38,7 @@ public class PlayerMovementManager : MovementManager, IMovementStatusProvider
         && !movementStatusManager.Rooted
         && !movementStatusManager.MovementLocked;
 
-    public PlayerMovementManager(Player player, AbilityAnimationListener abilityAnimationListener, Subject updateSubject, NavMeshAgent navMeshAgent)
+    public PlayerMovementManager(Player player, Subject updateSubject, NavMeshAgent navMeshAgent)
         : base(player, navMeshAgent)
     {
         this.player = player;
@@ -47,8 +47,8 @@ public class PlayerMovementManager : MovementManager, IMovementStatusProvider
         movementStatusManager = new MovementStatusManager(updateSubject);
         movementStatusManager.RegisterProviders(this, new StunHandler(player));
 
-        player.AbilityService.AbilityEventSubject.Where(x => x.CastEvent == CastEvent.Start).Subscribe(_ => isCasting = true);
-        abilityAnimationListener.FinishSubject.Subscribe(() => isCasting = false);
+        player.AbilityAnimationListener.StartSubject.Subscribe(() => isCasting = true);
+        player.AbilityAnimationListener.FinishSubject.Subscribe(() => isCasting = false);
         player.ComboManager.SubscribeToStateEntry(ComboState.Interrupted, () => isCasting = false);
     }
 

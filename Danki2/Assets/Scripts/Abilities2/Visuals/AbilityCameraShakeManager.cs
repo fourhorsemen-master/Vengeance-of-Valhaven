@@ -7,14 +7,13 @@ public class AbilityCameraShakeManager : MonoBehaviour
     
     private void Start()
     {
-        player.AbilityService.AbilityEventSubject
-            .Where(x => x.CastEvent == CastEvent.Impact)
+        player.AbilityAnimationListener.ImpactSubject
             .Subscribe(HandleCameraShake);
     }
 
-    private void HandleCameraShake(AbilityCastInformation abilityCastInformation)
+    private void HandleCameraShake()
     {
-        ShakeIntensity shakeIntensity = abilityCastInformation.HasDealtDamage
+        ShakeIntensity shakeIntensity = player.AbilityService.HasDealtDamage
             ? ShakeIntensity.Medium
             : ShakeIntensity.Low;
         CustomCamera.Instance.AddShake(shakeIntensity);

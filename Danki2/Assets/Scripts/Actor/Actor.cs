@@ -13,7 +13,8 @@ public abstract class Actor : MonoBehaviour
 
     [SerializeField] private Renderer[] meshRenderers = null;
 
-    [SerializeField] protected AbilityAnimationListener abilityAnimationListener = null;
+    [SerializeField] private AbilityAnimationListener abilityAnimationListener = null;
+    public AbilityAnimationListener AbilityAnimationListener => abilityAnimationListener;
 
     // Serialized properties
     [SerializeField] private float weight = 0;
