@@ -132,11 +132,6 @@ public class AbilityLookup2Editor : Editor
 
     private void EditFmodEvents(SerializableGuid abilityId)
     {
-        if (!abilityLookup.abilityFmodEventDictionary.ContainsKey(abilityId))
-        {
-            abilityLookup.abilityFmodEventDictionary[abilityId] = new AbilityFmodEvents();
-        }
-
         int valueIndex = abilityLookup.abilityFmodEventDictionary.Keys.ToList().IndexOf(abilityId);
         SerializedProperty serializedAbilityFmodEvents = serializedObject.FindProperty("abilityFmodEventDictionary._values").GetArrayElementAtIndex(valueIndex);
 
@@ -179,6 +174,7 @@ public class AbilityLookup2Editor : Editor
             abilityLookup.abilityRarityDictionary[abilityId] = Rarity.Common;
             abilityLookup.abilityCollisionSoundLevelDictionary[abilityId] = CollisionSoundLevel.Low;
             abilityLookup.abilityVocalisationTypeDictionary[abilityId] = AbilityVocalisationType.None;
+            abilityLookup.abilityFmodEventDictionary[abilityId] = new AbilityFmodEvents();
             abilityLookup.abilityIconDictionary[abilityId] = null;
             foldoutStatus[abilityId] = false;
         }
@@ -196,6 +192,7 @@ public class AbilityLookup2Editor : Editor
             abilityLookup.abilityRarityDictionary.Remove(abilityId);
             abilityLookup.abilityCollisionSoundLevelDictionary.Remove(abilityId);
             abilityLookup.abilityVocalisationTypeDictionary.Remove(abilityId);
+            abilityLookup.abilityFmodEventDictionary.Remove(abilityId);
             abilityLookup.abilityIconDictionary.Remove(abilityId);
             foldoutStatus.Remove(abilityId);
         }
