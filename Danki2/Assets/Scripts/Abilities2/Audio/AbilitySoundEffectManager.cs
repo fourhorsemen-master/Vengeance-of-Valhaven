@@ -19,6 +19,7 @@ public class AbilitySoundEffectManager : MonoBehaviour
         player.AbilityAnimationListener.ImpactSubject
             .Subscribe(PlayImpactEvent);
     }
+
     private void PlayStartEvent()
     {
         string startEvent = AbilityLookup2.Instance.GetAbilityFmodEvents(CurrentAbilityId).FmodStartEventRef;
