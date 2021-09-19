@@ -19,7 +19,11 @@ public class Player : Actor
     [EventRef] [SerializeField] private string vocalisationEvent = null;
 
     [SerializeField]
-    private AbilityAnimator abilityAnimator;
+    private AbilityAnimator abilityAnimator = null;
+    public AbilityAnimationListener AbilityAnimationListener => abilityAnimationListener;
+
+    [SerializeField]
+    private AbilityAnimationListener abilityAnimationListener = null;
 
     private bool readyToRoll = true;
 
