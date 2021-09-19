@@ -1,4 +1,4 @@
-﻿public class AwaitAbilityCopmletionProcessor : Processor<ComboState>
+﻿public class AwaitAbilityCompletionProcessor : Processor<ComboState>
 {
     private readonly Player player;
     private readonly AbilityAnimationListener abilityAnimationListener;
@@ -7,7 +7,7 @@
     private Subscription finishAbilitySubscription;
     private bool abilityFinished = false;
 
-    public AwaitAbilityCopmletionProcessor(Player player, AbilityAnimationListener abilityAnimationListener)
+    public AwaitAbilityCompletionProcessor(Player player, AbilityAnimationListener abilityAnimationListener)
     {
         this.player = player;
         this.abilityAnimationListener = abilityAnimationListener;
