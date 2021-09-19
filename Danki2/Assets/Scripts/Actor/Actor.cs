@@ -44,7 +44,6 @@ public abstract class Actor : MonoBehaviour
     protected readonly Subject startSubject = new Subject();
     protected readonly Subject updateSubject = new Subject();
     protected readonly Subject lateUpdateSubject = new Subject();
-    protected readonly Subject abilityImpactSubject = new Subject();
 
     private Coroutine stopTrailCoroutine;
 
