@@ -15,6 +15,7 @@
     ForestDensScene,
     ForestFordScene,
     RuneScene,
+    RuinsScene,
     Zone1IntroductionScene,
     Zone2IntroductionScene,
     Zone3IntroductionScene,
