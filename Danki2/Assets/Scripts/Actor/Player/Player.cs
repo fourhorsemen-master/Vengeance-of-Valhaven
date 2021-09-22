@@ -20,10 +20,10 @@ public class Player : Actor
 
     [SerializeField]
     private AbilityAnimator abilityAnimator = null;
-    public AbilityAnimationListener AbilityAnimationListener => abilityAnimationListener;
 
     [SerializeField]
     private AbilityAnimationListener abilityAnimationListener = null;
+    public AbilityAnimationListener AbilityAnimationListener => abilityAnimationListener;
 
     private bool readyToRoll = true;
 
