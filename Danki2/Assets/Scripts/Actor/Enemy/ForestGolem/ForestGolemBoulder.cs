@@ -10,11 +10,11 @@ public class ForestGolemBoulder : MonoBehaviour
     private float animationEndTime;
     private Vector3 startPosition;
     private Vector3 endPosition;
-    private Action callback;
+    private Action<float> callback;
 
     private bool finished = false;
 
-    public static void Create(ForestGolemBoulder prefab, Vector3 startPosition, Vector3 endPosition, Action callback)
+    public static void Create(ForestGolemBoulder prefab, Vector3 startPosition, Vector3 endPosition, Action<float> callback)
     {
         ForestGolemBoulder forestGolemBoulder = Instantiate(prefab, startPosition, Quaternion.identity);
         forestGolemBoulder.startPosition = startPosition;
@@ -35,7 +35,7 @@ public class ForestGolemBoulder : MonoBehaviour
         {
             transform.position = endPosition;
             SmashObject.Create(endPosition, smashScaleFactor);
-            callback();
+            callback(animationEndTime);
             finished = true;
             return;
         }
