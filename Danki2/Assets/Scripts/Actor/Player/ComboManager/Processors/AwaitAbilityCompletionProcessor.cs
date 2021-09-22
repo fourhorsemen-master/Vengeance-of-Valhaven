@@ -1,30 +1,29 @@
-﻿using UnityEngine;
-
-public class ShortCooldownProcessor : Processor<ComboState>
+﻿public class AwaitAbilityCompletionProcessor : Processor<ComboState>
 {
     private readonly Player player;
-    private readonly float shortCooldown;
-    private readonly bool continuousCombo;
+    private readonly AbilityAnimationListener abilityAnimationListener;
     private bool canPrecast = true;
-    private float cooldownExpiry;
     private ActionControlState previousActionControlState;
+    private Subscription finishAbilitySubscription;
+    private bool abilityFinished = false;
 
-    public ShortCooldownProcessor(Player player, float shortCooldown, bool continuousCombo)
+    public AwaitAbilityCompletionProcessor(Player player, AbilityAnimationListener abilityAnimationListener)
     {
         this.player = player;
-        this.shortCooldown = shortCooldown;
-        this.continuousCombo = continuousCombo;
+        this.abilityAnimationListener = abilityAnimationListener;
     }
 
     public void Enter()
     {
-        cooldownExpiry = Time.time + shortCooldown;
         previousActionControlState = PlayerControls.Instance.ActionControlState;
-        if (!continuousCombo) canPrecast = false;
+        finishAbilitySubscription = abilityAnimationListener.FinishSubject.Subscribe(() => abilityFinished = true);
+        canPrecast = false;
+        abilityFinished = false;
     }
 
     public void Exit()
     {
+        finishAbilitySubscription.Unsubscribe();
     }
 
     public bool TryCompleteProcess(out ComboState newState)
@@ -42,7 +41,7 @@ public class ShortCooldownProcessor : Processor<ComboState>
 
         previousActionControlState = currentActionControlState;
 
-        if (Time.time >= cooldownExpiry)
+        if (abilityFinished)
         {
             newState = ComboState.ReadyInCombo;
 

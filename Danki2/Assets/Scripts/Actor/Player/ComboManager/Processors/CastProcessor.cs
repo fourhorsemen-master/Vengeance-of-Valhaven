@@ -20,7 +20,9 @@
     public bool TryCompleteProcess(out ComboState nextState)
     {
         player.AbilityService.Cast(castDirection, player.TargetFinder.FloorTargetPosition);
-        nextState = ComboState.FinishAbility;
+        nextState = player.AbilityTree.CanWalk()
+             ? ComboState.ShortCooldown
+             : ComboState.CompleteCombo;
         return true;
     }
 }

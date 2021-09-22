@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class AbilityVfxManager : MonoBehaviour
@@ -11,23 +11,26 @@ public class AbilityVfxManager : MonoBehaviour
 
     private void Start()
     {
-        player.AbilityService.AbilityCastSubject.Subscribe(HandleVfx);
+        player.AbilityAnimationListener.ImpactSubject
+            .Subscribe(HandleVfx);
     }
 
-    private void HandleVfx(AbilityCastInformation abilityCastInformation)
+    private void HandleVfx()
     {
         float offset = 0;
-        
-        abilityCastInformation.Empowerments.ForEach(empowerment =>
+
+        List<Empowerment> empowerments = player.AbilityService.CurrentEmpowerments;
+
+        empowerments.ForEach(empowerment =>
         {
-            CreateVFX(abilityCastInformation, empowerment, offset);
+            CreateVFX(empowerment, offset);
             offset += offsetIncrement;
         });
     }
 
-    private void CreateVFX(AbilityCastInformation abilityCastInformation, Empowerment empowerment, float offset)
+    private void CreateVFX(Empowerment empowerment, float offset)
     {
-        AbilityType2 type = AbilityLookup2.Instance.GetAbilityType(abilityCastInformation.AbilityId);
+        AbilityType2 type = AbilityLookup2.Instance.GetAbilityType(player.AbilityService.CurrentAbilityId);
 
         switch (type)
         {
@@ -35,7 +38,7 @@ public class AbilityVfxManager : MonoBehaviour
             case AbilityType2.Thrust:
                 SlashObject.Create(
                     player.AbilitySource,
-                    abilityCastInformation.CastRotation * Quaternion.Euler(0, offset, 0),
+                    player.AbilityService.CurrentCastRotation * Quaternion.Euler(0, offset, 0),
                     EmpowermentLookup.Instance.GetColour(empowerment)
                 );
                 break;

@@ -4,7 +4,10 @@ using UnityEngine;
 public class AbilityService2
 {
     private const float AbilityRange = 3;
-    private const float AbilityPauseDuration = 0.3f;
+
+    public SerializableGuid CurrentAbilityId { get; private set; }
+    public Quaternion CurrentCastRotation { get; private set; }
+    public List<Empowerment> CurrentEmpowerments { get; private set; }
 
     private static readonly Dictionary<AbilityType2, CollisionTemplateShape> collisionTemplateLookup =
         new Dictionary<AbilityType2, CollisionTemplateShape>
@@ -15,48 +18,53 @@ public class AbilityService2
         };
     
     private readonly Player player;
-    
-    public Subject<AbilityCastInformation> AbilityCastSubject { get; } = new Subject<AbilityCastInformation>();
+    private readonly AbilityAnimator abilityAnimator;
 
-    public AbilityService2(Player player)
+    public AbilityService2(Player player, AbilityAnimator abilityAnimator)
     {
         this.player = player;
+        this.abilityAnimator = abilityAnimator;
+
+        player.AbilityAnimationListener.ImpactSubject.Subscribe(OnImpact);
     }
 
     public void Cast(Direction direction, Vector3 targetPosition)
     {
-        SerializableGuid abilityId = player.AbilityTree.GetAbilityId(direction);
-        List<Empowerment> empowerments = GetActiveEmpowerments(abilityId);
+        CurrentAbilityId = player.AbilityTree.GetAbilityId(direction);
+        CurrentEmpowerments = GetActiveEmpowerments(CurrentAbilityId);
 
         player.MovementManager.LookAt(targetPosition);
-        player.MovementManager.Pause(AbilityPauseDuration);
         
         Vector3 castDirection = targetPosition - player.transform.position;
-        Quaternion castRotation = AbilityUtils.GetMeleeCastRotation(castDirection);
-        
+        CurrentCastRotation = AbilityUtils.GetMeleeCastRotation(castDirection);
+
+        abilityAnimator.HandleAnimation(CurrentAbilityId);
+
+        player.AbilityTree.Walk(direction);
+    }
+
+    private void OnImpact()
+    {
         bool hasDealtDamage = false;
-        
+
         AbilityUtils.TemplateCollision(
             player,
-            collisionTemplateLookup[AbilityLookup2.Instance.GetAbilityType(abilityId)],
-            CalculateRange(empowerments),
+            collisionTemplateLookup[AbilityLookup2.Instance.GetAbilityType(CurrentAbilityId)],
+            CalculateRange(CurrentEmpowerments),
             player.CollisionTemplateSource,
-            castRotation,
-            AbilityLookup2.Instance.GetCollisionSoundLevel(abilityId),
+            CurrentCastRotation,
+            AbilityLookup2.Instance.GetCollisionSoundLevel(CurrentAbilityId),
             enemyCallback: enemy =>
             {
                 hasDealtDamage = true;
-                HandleCollision(abilityId, enemy, empowerments);
+                HandleCollision(CurrentAbilityId, enemy, CurrentEmpowerments);
             }
         );
-        
-        player.AbilityTree.Walk(direction);
-        AbilityCastSubject.Next(new AbilityCastInformation(
-            abilityId,
-            hasDealtDamage,
-            empowerments,
-            castRotation
-        ));
+
+        ShakeIntensity shakeIntensity = hasDealtDamage
+            ? ShakeIntensity.High
+            : ShakeIntensity.Low;
+        CustomCamera.Instance.AddShake(shakeIntensity);
     }
 
     private List<Empowerment> GetActiveEmpowerments(SerializableGuid abilityId)
