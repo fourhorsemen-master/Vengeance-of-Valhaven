@@ -39,8 +39,6 @@ public class Player : Actor
     public PlayerTargetFinder TargetFinder { get; private set; }
     public RuneManager RuneManager { get; private set; }
     public CurrencyManager CurrencyManager { get; private set; }
-    public ChannelService ChannelService { get; private set; }
-    public InstantCastService InstantCastService { get; private set; }
     public AbilityService2 AbilityService { get; private set; }
     public PlayerMovementManager MovementManager { get; private set; }
     
@@ -60,22 +58,13 @@ public class Player : Actor
         TargetFinder = new PlayerTargetFinder(this, updateSubject);
         RuneManager = new RuneManager(this);
         CurrencyManager = new CurrencyManager();
-        ChannelService = new ChannelService(this, startSubject, lateUpdateSubject);
-        InstantCastService = new InstantCastService(this);
         AbilityService = new AbilityService2(this, abilityAnimator);
         MovementManager = new PlayerMovementManager(this, updateSubject, navmeshAgent);
-
-        AbilityDataStatsDiffer abilityDataStatsDiffer = new AbilityDataStatsDiffer(this);
-        RegisterAbilityDataDiffer(abilityDataStatsDiffer);
-
-        SetAbilityBonusCalculator(new AbilityBonusTreeDepthCalculator(AbilityTree));
-
-        MovementManager.RegisterMovementStatusProviders(ChannelService);
     }
 
     public void Roll(Vector3 direction)
     {
-        if (!readyToRoll || ChannelService.Active) return;
+        if (!readyToRoll) return;
 
         bool rolled = MovementManager.TryLockMovement(
             MovementLockType.Dash,
@@ -102,17 +91,5 @@ public class Player : Actor
     {
         base.OnDeath();
         PersistenceManager.Instance.TransitionToDefeatRoom();
-    }
-
-    private void RegisterAbilityDataDiffer(IAbilityDataDiffer abilityDataDiffer)
-    {
-        ChannelService.RegisterAbilityDataDiffer(abilityDataDiffer);
-        InstantCastService.RegisterAbilityDataDiffer(abilityDataDiffer);
-    }
-
-    private void SetAbilityBonusCalculator(IAbilityBonusCalculator abilityBonusCalculator)
-    {
-        ChannelService.SetAbilityBonusCalculator(abilityBonusCalculator);
-        InstantCastService.SetAbilityBonusCalculator(abilityBonusCalculator);
     }
 }
