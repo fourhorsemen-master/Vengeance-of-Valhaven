@@ -31,6 +31,9 @@ public class AbilityCollisionSoundLevelDictionary : SerializableDictionary<Seria
 public class AbilityVocalisationTypeDictionary : SerializableDictionary<SerializableGuid, AbilityVocalisationType> {}
 
 [Serializable]
+public class AbilityFmodEventDictionary : SerializableDictionary<SerializableGuid, AbilityFmodEvents> {}
+
+[Serializable]
 public class AbilityIconDictionary2 : SerializableDictionary<SerializableGuid, Sprite> {}
 
 public class AbilityLookup2 : Singleton<AbilityLookup2>
@@ -44,6 +47,7 @@ public class AbilityLookup2 : Singleton<AbilityLookup2>
     public AbilityRarityDictionary abilityRarityDictionary = new AbilityRarityDictionary();
     public AbilityCollisionSoundLevelDictionary abilityCollisionSoundLevelDictionary = new AbilityCollisionSoundLevelDictionary();
     public AbilityVocalisationTypeDictionary abilityVocalisationTypeDictionary = new AbilityVocalisationTypeDictionary();
+    public AbilityFmodEventDictionary abilityFmodEventDictionary = new AbilityFmodEventDictionary();
     public AbilityIconDictionary2 abilityIconDictionary = new AbilityIconDictionary2();
 
     public TextAsset abilityNameStore = null;
@@ -55,6 +59,7 @@ public class AbilityLookup2 : Singleton<AbilityLookup2>
     public Rarity GetRarity(SerializableGuid abilityId) => abilityRarityDictionary[abilityId];
     public CollisionSoundLevel GetCollisionSoundLevel(SerializableGuid abilityId) => abilityCollisionSoundLevelDictionary[abilityId];
     public AbilityVocalisationType GetAbilityVocalisationType(SerializableGuid abilityId) => abilityVocalisationTypeDictionary[abilityId];
+    public AbilityFmodEvents GetAbilityFmodEvents(SerializableGuid abilityId) => abilityFmodEventDictionary[abilityId];
     public Sprite GetIcon(SerializableGuid abilityId) => abilityIconDictionary[abilityId];
 
     public bool TryGetAbilityId(string displayName, out SerializableGuid abilityId)

@@ -9,7 +9,6 @@ public class Player : Actor
     [SerializeField] private float shortCooldown = 0.75f;
     [SerializeField] private float longCooldown = 1.5f;
     [SerializeField] private float comboTimeout = 2f;
-    [SerializeField] private bool continuousCombo = false;
 
     [Header("Roll")]
     [SerializeField] private float totalRollCooldown = 1f;
@@ -18,6 +17,13 @@ public class Player : Actor
 
     [Header("Fmod events")]
     [EventRef] [SerializeField] private string vocalisationEvent = null;
+
+    [SerializeField]
+    private AbilityAnimator abilityAnimator = null;
+
+    [SerializeField]
+    private AbilityAnimationListener abilityAnimationListener = null;
+    public AbilityAnimationListener AbilityAnimationListener => abilityAnimationListener;
 
     private bool readyToRoll = true;
 
@@ -50,13 +56,13 @@ public class Player : Actor
         base.Awake();
 
         AbilityTree = PersistenceManager.Instance.SaveData.SerializableAbilityTree.Deserialize();
-        ComboManager = new ComboManager(this, updateSubject, continuousCombo);
+        ComboManager = new ComboManager(this, updateSubject);
         TargetFinder = new PlayerTargetFinder(this, updateSubject);
         RuneManager = new RuneManager(this);
         CurrencyManager = new CurrencyManager();
         ChannelService = new ChannelService(this, startSubject, lateUpdateSubject);
         InstantCastService = new InstantCastService(this);
-        AbilityService = new AbilityService2(this);
+        AbilityService = new AbilityService2(this, abilityAnimator);
         MovementManager = new PlayerMovementManager(this, updateSubject, navmeshAgent);
 
         AbilityDataStatsDiffer abilityDataStatsDiffer = new AbilityDataStatsDiffer(this);

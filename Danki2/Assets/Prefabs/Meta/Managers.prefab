@@ -1978,6 +1978,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4149834750418942864}
     m_Modifications:
+    - target: {fileID: 4505607498909261314, guid: a8c635a5ff6013343a87f60d5835104f,
+        type: 3}
+      propertyPath: abilityFmodEventDictionary._values.Array.data[4].fmodStartEventRef
+      value: event:/AS_AbilitySounds/AS_Smash/AS_Smash_Draw
+      objectReference: {fileID: 0}
+    - target: {fileID: 4505607498909261314, guid: a8c635a5ff6013343a87f60d5835104f,
+        type: 3}
+      propertyPath: abilityFmodEventDictionary._values.Array.data[4].fmodImpactEventRef
+      value: event:/AS_AbilitySounds/AS_Smash/AS_Smash_Impact
+      objectReference: {fileID: 0}
     - target: {fileID: 6256103281406501704, guid: a8c635a5ff6013343a87f60d5835104f,
         type: 3}
       propertyPath: m_Name

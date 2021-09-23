@@ -29,6 +29,8 @@ public class PlayerMovementManager : MovementManager, IMovementStatusProvider
 
     private bool movedThisFrame = false;
 
+    private bool isCasting = false;
+
     protected override float RotationSmoothing => player.RotationSmoothing;
 
     public bool CanMove => !player.Dead
@@ -44,9 +46,13 @@ public class PlayerMovementManager : MovementManager, IMovementStatusProvider
         updateSubject.Subscribe(UpdateMovement);
         movementStatusManager = new MovementStatusManager(updateSubject);
         movementStatusManager.RegisterProviders(this, new StunHandler(player));
+
+        player.AbilityAnimationListener.StartSubject.Subscribe(() => isCasting = true);
+        player.AbilityAnimationListener.FinishSubject.Subscribe(() => isCasting = false);
+        player.ComboManager.SubscribeToStateEntry(ComboState.Interrupted, () => isCasting = false);
     }
 
-    public bool Stuns() => movementPaused;
+    public bool Stuns() => movementPaused || isCasting;
 
     public bool Roots() => false;
 

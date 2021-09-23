@@ -8,12 +8,13 @@ public class AbilityVocalisationManager : MonoBehaviour
 
     private void Start()
     {
-        player.AbilityService.AbilityCastSubject.Subscribe(HandleVocalisation);
+        player.AbilityAnimationListener.SwingSubject
+            .Subscribe(HandleVocalisation);
     }
 
-    private void HandleVocalisation(AbilityCastInformation abilityCastInformation)
+    private void HandleVocalisation()
     {
-        AbilityVocalisationType fmodVocalisationType = AbilityLookup2.Instance.GetAbilityVocalisationType(abilityCastInformation.AbilityId);
+        AbilityVocalisationType fmodVocalisationType = AbilityLookup2.Instance.GetAbilityVocalisationType(player.AbilityService.CurrentAbilityId);
         float fmodParameterValue = AbilityVocalisationValueLookup.LookupTable[fmodVocalisationType];
 
         EventInstance eventInstance = FmodUtils.CreatePositionedInstance(

@@ -24,7 +24,7 @@ public class TreeDepth : MonoBehaviour
 
         UpdateDepth();
 
-        player.ComboManager.SubscribeToStateEntry(ComboState.ContinueCombo, UpdateDepth);
+        player.ComboManager.SubscribeToStateEntry(ComboState.ShortCooldown, UpdateDepth);
         player.ComboManager.SubscribeToStateEntry(ComboState.LongCooldown, UpdateDepth);
         player.ComboManager.SubscribeToStateEntry(ComboState.ReadyInCombo, StartFade);
         player.ComboManager.SubscribeToStateExit(ComboState.ReadyInCombo, StopFade);

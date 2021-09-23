@@ -62,6 +62,7 @@ public class AbilityLookup2Editor : Editor
         EditRarity(abilityId);
         EditCollisionSoundLevel(abilityId);
         EditVocalisationType(abilityId);
+        EditFmodEvents(abilityId);
         EditIcon(abilityId);
 
         RemoveAbilityButton(abilityId);
@@ -129,6 +130,27 @@ public class AbilityLookup2Editor : Editor
         );
     }
 
+    private void EditFmodEvents(SerializableGuid abilityId)
+    {
+        int valueIndex = abilityLookup.abilityFmodEventDictionary.Keys.ToList().IndexOf(abilityId);
+        SerializedProperty serializedAbilityFmodEvents = serializedObject.FindProperty("abilityFmodEventDictionary._values").GetArrayElementAtIndex(valueIndex);
+
+        EditorUtils.Header("Fmod Events:");
+
+        EditorGUI.indentLevel++;
+        
+        EditorGUILayout.PropertyField(serializedAbilityFmodEvents.FindPropertyRelative("fmodStartEventRef"), new GUIContent("Start"));
+        if (EditorUtils.IndentedButton("Clear")) abilityLookup.abilityFmodEventDictionary[abilityId].FmodStartEventRef = null;
+
+        EditorGUILayout.PropertyField(serializedAbilityFmodEvents.FindPropertyRelative("fmodSwingEventRef"), new GUIContent("Swing"));
+        if (EditorUtils.IndentedButton("Clear")) abilityLookup.abilityFmodEventDictionary[abilityId].FmodSwingEventRef = null;
+
+        EditorGUILayout.PropertyField(serializedAbilityFmodEvents.FindPropertyRelative("fmodImpactEventRef"), new GUIContent("Impact"));
+        if (EditorUtils.IndentedButton("Clear")) abilityLookup.abilityFmodEventDictionary[abilityId].FmodImpactEventRef = null;
+
+        EditorGUI.indentLevel--;
+    }
+
     private void EditIcon(SerializableGuid abilityId)
     {
         abilityLookup.abilityIconDictionary[abilityId] = (Sprite) EditorGUILayout.ObjectField(
@@ -152,6 +174,7 @@ public class AbilityLookup2Editor : Editor
             abilityLookup.abilityRarityDictionary[abilityId] = Rarity.Common;
             abilityLookup.abilityCollisionSoundLevelDictionary[abilityId] = CollisionSoundLevel.Low;
             abilityLookup.abilityVocalisationTypeDictionary[abilityId] = AbilityVocalisationType.None;
+            abilityLookup.abilityFmodEventDictionary[abilityId] = new AbilityFmodEvents();
             abilityLookup.abilityIconDictionary[abilityId] = null;
             foldoutStatus[abilityId] = false;
         }
@@ -169,6 +192,7 @@ public class AbilityLookup2Editor : Editor
             abilityLookup.abilityRarityDictionary.Remove(abilityId);
             abilityLookup.abilityCollisionSoundLevelDictionary.Remove(abilityId);
             abilityLookup.abilityVocalisationTypeDictionary.Remove(abilityId);
+            abilityLookup.abilityFmodEventDictionary.Remove(abilityId);
             abilityLookup.abilityIconDictionary.Remove(abilityId);
             foldoutStatus.Remove(abilityId);
         }

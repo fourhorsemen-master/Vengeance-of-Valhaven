@@ -2662,8 +2662,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 0}
   m_AABB:
-    m_Center: {x: 0.0000385195, y: 0.9071108, z: 0.3467547}
-    m_Extent: {x: 0.11477211, y: 0.32033172, z: 0.23259774}
+    m_Center: {x: 0.000034213066, y: 0.90706354, z: 0.346116}
+    m_Extent: {x: 0.1147651, y: 0.32037896, z: 0.23195904}
   m_DirtyAABB: 0
 --- !u!183 &5250604633547756724
 Cloth:
@@ -2807,9 +2807,9 @@ GameObject:
   - component: {fileID: 6918691881617835041}
   - component: {fileID: 8010275905982216902}
   - component: {fileID: 2156678289039720177}
-  - component: {fileID: 5218322822190265577}
   - component: {fileID: 360675822465966502}
   - component: {fileID: 6289727810404826592}
+  - component: {fileID: -3772255382239828309}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2879,6 +2879,7 @@ MonoBehaviour:
   - {fileID: 6069462531341055396}
   - {fileID: 321767935209476056}
   - {fileID: 3387462581990253440}
+  - {fileID: 9010139035835365635}
   weight: 1
   rotationSmoothing: 0.1
   animController: {fileID: 238891752984210142}
@@ -2890,11 +2891,12 @@ MonoBehaviour:
   shortCooldown: 0.5
   longCooldown: 1.4
   comboTimeout: 0.35
-  continuousCombo: 0
   totalRollCooldown: 1
   rollDuration: 0.2
   rollSpeedMultiplier: 4
   vocalisationEvent: event:/CS_CharacterSounds/CS_Dialog_Attack
+  abilityAnimator: {fileID: 2156678289039720177}
+  abilityAnimationListener: {fileID: 1321271054688396773}
 --- !u!114 &-7333941826244338973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3073,19 +3075,6 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
---- !u!114 &5218322822190265577
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4777388720977389772}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f1721d8331ba534387aa94c21836390, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: -5201030127241623248}
 --- !u!114 &360675822465966502
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3110,6 +3099,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4cfcfba3350d57548882306e03c8bfa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: -5201030127241623248}
+--- !u!114 &-3772255382239828309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4777388720977389772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6fb40ca841af1842867b35d5670af89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: -5201030127241623248}
@@ -3714,6 +3716,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6174604534595793060}
   - component: {fileID: 238891752984210142}
+  - component: {fileID: 1321271054688396773}
   - component: {fileID: 2170988536928494298}
   m_Layer: 14
   m_Name: Player_actor_skinned_mesh
@@ -3762,6 +3765,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1321271054688396773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6844146180703218206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d073a65a17c8d7d4d93d169b94c34fe8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2170988536928494298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6423,6 +6438,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6792869166683982730}
     m_Modifications:
+    - target: {fileID: 363277023896507932, guid: 9b2c311f1af778a49b4e2428e48a0491,
+        type: 3}
+      propertyPath: m_BlockingObjects
+      value: 434
+      objectReference: {fileID: 0}
+    - target: {fileID: 363277023896507932, guid: 9b2c311f1af778a49b4e2428e48a0491,
+        type: 3}
+      propertyPath: m_BlockingMask.m_Bits
+      value: 4072381088
+      objectReference: {fileID: 0}
+    - target: {fileID: 363277023896507932, guid: 9b2c311f1af778a49b4e2428e48a0491,
+        type: 3}
+      propertyPath: m_IgnoreReversedGraphics
+      value: 96
+      objectReference: {fileID: 0}
     - target: {fileID: 8161198786838383355, guid: 9b2c311f1af778a49b4e2428e48a0491,
         type: 3}
       propertyPath: actor
