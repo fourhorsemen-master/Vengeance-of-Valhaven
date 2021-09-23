@@ -67,7 +67,8 @@ public class ForestGolem : Enemy
                 this.ActOnInterval(
                     boulderSpikeInterval,
                     _ => HandleBoulderSpike(targetPosition),
-                    numRepetitions: Mathf.FloorToInt((boulderDestroyAfter - animationEndTime) / boulderSpikeInterval)
+                    boulderSpikeInterval,
+                    Mathf.FloorToInt((boulderDestroyAfter - animationEndTime) / boulderSpikeInterval)
                 );
                 
                 if (Vector3.Distance(player.transform.position, targetPosition) > boulderRange) return;
