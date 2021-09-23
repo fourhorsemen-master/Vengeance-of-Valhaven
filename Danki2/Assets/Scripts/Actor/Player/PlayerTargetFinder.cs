@@ -75,7 +75,6 @@ public class PlayerTargetFinder
         enemy.PlayerTargeted.Next(true);
         targetDeathSubscription = enemy.DeathSubject.Subscribe(RemoveTarget);
         Target = enemy;
-        player.ChannelService.Target = enemy;
     }
 
     private void RemoveTarget()
@@ -85,7 +84,6 @@ public class PlayerTargetFinder
         Target.PlayerTargeted.Next(false);
         targetDeathSubscription.Unsubscribe();
         Target = null;
-        player.ChannelService.Target = null;
     }
 
     private bool TryHitNavmesh()
@@ -116,7 +114,5 @@ public class PlayerTargetFinder
     {
         FloorTargetPosition = floorPosition;
         OffsetTargetPosition = offsetPosition;
-        player.ChannelService.FloorTargetPosition = floorPosition;
-        player.ChannelService.OffsetTargetPosition = offsetPosition;
     }
 }
