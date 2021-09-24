@@ -8,18 +8,32 @@ public class ForestGolemBoulder : MonoBehaviour
     [SerializeField] private float smashScaleFactor = 0;
 
     private float animationEndTime;
+    private float spikeDamageInitialDelay;
+    private float spikeDamageInterval;
     private Vector3 startPosition;
     private Vector3 endPosition;
-    private Action<float> callback;
+    private Action callback;
+    private Action spikeDamageCallback;
 
     private bool finished = false;
 
-    public static void Create(ForestGolemBoulder prefab, Vector3 startPosition, Vector3 endPosition, Action<float> callback)
+    public static void Create(
+        ForestGolemBoulder prefab,
+        Vector3 startPosition,
+        Vector3 endPosition,
+        Action callback,
+        Action spikeDamageCallback,
+        float spikeDamageInitialDelay,
+        float spikeDamageInterval
+    )
     {
         ForestGolemBoulder forestGolemBoulder = Instantiate(prefab, startPosition, Quaternion.identity);
         forestGolemBoulder.startPosition = startPosition;
         forestGolemBoulder.endPosition = endPosition;
         forestGolemBoulder.callback = callback;
+        forestGolemBoulder.spikeDamageCallback = spikeDamageCallback;
+        forestGolemBoulder.spikeDamageInitialDelay = spikeDamageInitialDelay;
+        forestGolemBoulder.spikeDamageInterval = spikeDamageInterval;
     }
 
     private void Start()
@@ -35,8 +49,9 @@ public class ForestGolemBoulder : MonoBehaviour
         {
             transform.position = endPosition;
             SmashObject.Create(endPosition, smashScaleFactor);
-            callback(animationEndTime);
+            callback();
             finished = true;
+            this.ActOnInterval(spikeDamageInterval, _ => spikeDamageCallback(), spikeDamageInitialDelay);
             return;
         }
 

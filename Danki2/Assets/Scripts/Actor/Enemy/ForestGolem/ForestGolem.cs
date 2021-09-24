@@ -16,6 +16,7 @@ public class ForestGolem : Enemy
     [SerializeField] private float boulderRange = 0;
     [SerializeField] private int boulderDamage = 0;
     [SerializeField] private float boulderSpikeInterval = 0;
+    [SerializeField] private float boulderSpikeInitialDelay = 0;
     [SerializeField] private int boulderSpikeDamage = 0;
 
     [Header("Stomp")]
@@ -30,8 +31,6 @@ public class ForestGolem : Enemy
     public Subject StompSubject { get; } = new Subject();
 
     public override ActorType Type => ActorType.ForestGolem;
-
-    private float boulderDestroyAfter = 4f;
 
     public void FireRoot(Vector3 position)
     {
@@ -62,29 +61,29 @@ public class ForestGolem : Enemy
     {
         Player player = ActorCache.Instance.Player;
         ForestGolemBoulder.Create(
-            boulderPrefab, AbilitySource, targetPosition, (animationEndTime) =>
+            boulderPrefab,
+            AbilitySource,
+            targetPosition,
+            () =>
             {
-                this.ActOnInterval(
-                    boulderSpikeInterval,
-                    _ => HandleBoulderSpike(targetPosition),
-                    boulderSpikeInterval,
-                    Mathf.FloorToInt((boulderDestroyAfter - animationEndTime) / boulderSpikeInterval)
-                );
-                
                 if (Vector3.Distance(player.transform.position, targetPosition) > boulderRange) return;
 
                 player.HealthManager.ReceiveDamage(boulderDamage, this);
                 CustomCamera.Instance.AddShake(ShakeIntensity.High);
-            }
+            },
+            () =>
+            {
+                HandleBoulderSpike(targetPosition, player);
+            },
+            boulderSpikeInterval,
+            boulderSpikeInitialDelay
         );
         
         BoulderThrowSubject.Next();
     }
 
-    private void HandleBoulderSpike(Vector3 position)
+    private void HandleBoulderSpike(Vector3 position, Player player)
     {
-        Player player = ActorCache.Instance.Player;
-        
         if (Vector3.Distance(player.transform.position, position) < boulderRange)
         {
             player.HealthManager.ReceiveDamage(boulderSpikeDamage, this);
