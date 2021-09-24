@@ -3,14 +3,6 @@ using System.Linq;
 
 public static class KeywordUtils
 {
-    private static readonly Dictionary<ChannelType, Keyword> channelTypeLookup =
-        new Dictionary<ChannelType, Keyword>
-        {
-            {ChannelType.Channel, Keyword.Channel},
-            {ChannelType.Cast, Keyword.Cast},
-            {ChannelType.Charge, Keyword.Charge}
-        };
-
     private static readonly Dictionary<TemplatedTooltipSegmentType, Keyword> effectLookup =
         new Dictionary<TemplatedTooltipSegmentType, Keyword>
         {
@@ -66,13 +58,6 @@ public static class KeywordUtils
         keywords.AddRange(GetFromTemplatedTooltipSegments(RuneLookup.Instance.GetTemplatedTooltipSegments(rune)));
 
         return keywords.Distinct().ToList();
-    }
-
-    private static Keyword GetAbilityType(AbilityReference abilityReference)
-    {
-        return AbilityLookup.Instance.TryGetChannelType(abilityReference, out ChannelType channelType)
-            ? channelTypeLookup[channelType]
-            : Keyword.InstantCast;
     }
     
     private static List<Keyword> GetFromTemplatedTooltipSegments(List<TemplatedTooltipSegment> templatedTooltipSegments)
