@@ -21,8 +21,8 @@ public class ForestGolemBoulder : MonoBehaviour
         ForestGolemBoulder prefab,
         Vector3 startPosition,
         Vector3 endPosition,
-        Action callback,
-        Action spikeDamageCallback,
+        Action OnLand,
+        Action landed,
         float spikeDamageInitialDelay,
         float spikeDamageInterval
     )
@@ -30,8 +30,8 @@ public class ForestGolemBoulder : MonoBehaviour
         ForestGolemBoulder forestGolemBoulder = Instantiate(prefab, startPosition, Quaternion.identity);
         forestGolemBoulder.startPosition = startPosition;
         forestGolemBoulder.endPosition = endPosition;
-        forestGolemBoulder.callback = callback;
-        forestGolemBoulder.spikeDamageCallback = spikeDamageCallback;
+        forestGolemBoulder.callback = OnLand;
+        forestGolemBoulder.spikeDamageCallback = landed;
         forestGolemBoulder.spikeDamageInitialDelay = spikeDamageInitialDelay;
         forestGolemBoulder.spikeDamageInterval = spikeDamageInterval;
     }
@@ -44,17 +44,22 @@ public class ForestGolemBoulder : MonoBehaviour
     private void Update()
     {
         if (finished) return;
-        
-        if (lifetimeTracker.Lifetime > animationEndTime)
-        {
-            transform.position = endPosition;
-            SmashObject.Create(endPosition, smashScaleFactor);
-            callback();
-            finished = true;
-            this.ActOnInterval(spikeDamageInterval, _ => spikeDamageCallback(), spikeDamageInitialDelay);
-            return;
-        }
 
+        if (lifetimeTracker.Lifetime > animationEndTime) Land();
+        else MoveAlongTrajectory();
+    }
+
+    private void Land()
+    {
+        transform.position = endPosition;
+        SmashObject.Create(endPosition, smashScaleFactor);
+        callback();
+        finished = true;
+        this.ActOnInterval(spikeDamageInterval, _ => spikeDamageCallback(), spikeDamageInitialDelay);
+    }
+
+    private void MoveAlongTrajectory()
+    {
         float animationProportion = lifetimeTracker.Lifetime / animationEndTime;
         Vector3 position = startPosition + (endPosition - startPosition) * animationProportion;
         position.y += trajectoryCurve.Evaluate(lifetimeTracker.Lifetime);
