@@ -59,6 +59,10 @@ Things to be sure to do when making prop prefabs:
   - The game object layer should be set to "Props" (including all children)
   - If the prop should be part of the navmesh, it should have "Navigation Static" selected and an appropriate "Navigation Area".
 
+### Making Enemy Prefabs
+
+- Make sure that "Depth Write" and "Double-Sided" are checked on any appropriated materials, for example, the Forest Bear leaves.
+
 ### Making New Scenes
 
 To create a new scene:
