@@ -17,6 +17,7 @@ public class ForestGolem : Enemy
     [SerializeField] private int boulderDamage = 0;
     [SerializeField] private float boulderSpikeInterval = 0;
     [SerializeField] private float boulderSpikeInitialDelay = 0;
+    [SerializeField] private float boulderSpikeRange = 0;
     [SerializeField] private int boulderSpikeDamage = 0;
 
     [Header("Stomp")]
@@ -84,7 +85,7 @@ public class ForestGolem : Enemy
 
     private void HandleBoulderSpike(Vector3 position, Player player)
     {
-        if (Vector3.Distance(player.transform.position, position) < boulderRange)
+        if (Vector3.Distance(player.transform.position, position) < boulderSpikeRange)
         {
             player.HealthManager.ReceiveDamage(boulderSpikeDamage, this);
             CustomCamera.Instance.AddShake(ShakeIntensity.Medium);

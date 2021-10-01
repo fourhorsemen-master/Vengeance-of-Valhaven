@@ -6,6 +6,7 @@ public class ForestGolemBoulder : MonoBehaviour
     [SerializeField] private LifetimeTracker lifetimeTracker = null;
     [SerializeField] private AnimationCurve trajectoryCurve = null;
     [SerializeField] private float smashScaleFactor = 0;
+    [SerializeField] private float smashSpikeScaleFactor = 0;
 
     private float animationEndTime;
     private float spikeDamageInitialDelay;
@@ -55,7 +56,15 @@ public class ForestGolemBoulder : MonoBehaviour
         SmashObject.Create(endPosition, smashScaleFactor);
         callback();
         finished = true;
-        this.ActOnInterval(spikeDamageInterval, _ => spikeDamageCallback(), spikeDamageInitialDelay);
+        this.ActOnInterval(
+            spikeDamageInterval,
+            _ =>
+            {
+                spikeDamageCallback();
+                SmashObject.Create(endPosition, smashSpikeScaleFactor);
+            },
+            spikeDamageInitialDelay
+        );
     }
 
     private void MoveAlongTrajectory()
