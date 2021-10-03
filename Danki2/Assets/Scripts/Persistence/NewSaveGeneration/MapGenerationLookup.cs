@@ -56,7 +56,7 @@ public class MapGenerationLookup : Singleton<MapGenerationLookup>
 
     [SerializeField] private SpawnedEnemiesPerDepthLookup spawnedEnemiesPerDepthLookup = new SpawnedEnemiesPerDepthLookup();
 
-    [SerializeField] private TextAsset abilityNameStore = null;
+    [SerializeField] private AbilityData abilityData;
 
     public int AbilityChoices { get => abilityChoices; set => abilityChoices = value; }
     public int RuneSockets { get => runeSockets; set => runeSockets = value; }
@@ -75,7 +75,7 @@ public class MapGenerationLookup : Singleton<MapGenerationLookup>
 
     public SpawnedEnemiesPerDepthLookup SpawnedEnemiesPerDepthLookup => spawnedEnemiesPerDepthLookup;
 
-    public TextAsset AbilityNameStore { get => abilityNameStore; set => abilityNameStore = value; }
+    public AbilityData AbilityData { get => abilityData; set => abilityData = value; }
 
     protected override bool DestroyOnLoad => false;
 

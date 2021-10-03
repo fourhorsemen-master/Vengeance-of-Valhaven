@@ -89,7 +89,7 @@ MonoBehaviour:
   roomType: 0
   abilityChoiceNames: []
   hasHealed: 0
-  abilityNameStore: {fileID: 4900000, guid: bb542debb62b3234fa4a5982c5ab98c4, type: 3}
+  abilityData: {fileID: 11400000, guid: 8277b108ff04a584985980857bd819d4, type: 2}
 --- !u!114 &2149326593565702010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,6 +163,7 @@ MonoBehaviour:
   spawnedEnemiesPerDepthLookup:
     _keys: 
     _values: []
+  abilityData: {fileID: 0}
   roomsPerZoneLookupOverride:
     _keys:
     - Zone1
