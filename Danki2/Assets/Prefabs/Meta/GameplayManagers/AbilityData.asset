@@ -13,63 +13,119 @@ MonoBehaviour:
   m_Name: AbilityData
   m_EditorClassIdentifier: 
   abilityIds:
-  - value: 81168830-cd37-4e1f-8687-87266a272922
-  - value: e8c351fe-094b-4198-8128-8a481ce72b04
+  - value: 33a972b2-dd1f-4680-8d68-43eaa4b8e232
+  - value: 0ea0b9a0-d309-4b46-b5ba-4d1366552530
+  - value: 5eafe85c-a408-4722-84f7-f57798c1cc45
+  - value: 00d5bb40-0998-4b46-90e3-f7180f02fbb9
+  - value: 48a5d45f-871f-4698-896c-b62e6fb1568e
+  - value: 860a6eba-196e-45fb-899d-79220a1be131
   - value: f7b337eb-4410-4d0c-826f-e09dc98da182
   abilityDisplayNameDictionary:
     _keys:
     - value: f7b337eb-4410-4d0c-826f-e09dc98da182
-    - value: e8c351fe-094b-4198-8128-8a481ce72b04
-    - value: 81168830-cd37-4e1f-8687-87266a272922
+    - value: 860a6eba-196e-45fb-899d-79220a1be131
+    - value: 48a5d45f-871f-4698-896c-b62e6fb1568e
+    - value: 00d5bb40-0998-4b46-90e3-f7180f02fbb9
+    - value: 5eafe85c-a408-4722-84f7-f57798c1cc45
+    - value: 0ea0b9a0-d309-4b46-b5ba-4d1366552530
+    - value: 33a972b2-dd1f-4680-8d68-43eaa4b8e232
     _values:
     - Slash
-    - Slash1
-    - Slash 2
+    - Smash
+    - Thrust
+    - Hack
+    - Thunderous Smash
+    - Skewer
+    - Calamity
   abilityTypeDictionary:
     _keys:
     - value: f7b337eb-4410-4d0c-826f-e09dc98da182
-    - value: e8c351fe-094b-4198-8128-8a481ce72b04
-    - value: 81168830-cd37-4e1f-8687-87266a272922
-    _values: 000000000000000000000000
+    - value: 860a6eba-196e-45fb-899d-79220a1be131
+    - value: 48a5d45f-871f-4698-896c-b62e6fb1568e
+    - value: 00d5bb40-0998-4b46-90e3-f7180f02fbb9
+    - value: 5eafe85c-a408-4722-84f7-f57798c1cc45
+    - value: 0ea0b9a0-d309-4b46-b5ba-4d1366552530
+    - value: 33a972b2-dd1f-4680-8d68-43eaa4b8e232
+    _values: 00000000010000000200000000000000010000000200000001000000
   abilityDamageDictionary:
     _keys:
     - value: f7b337eb-4410-4d0c-826f-e09dc98da182
-    - value: e8c351fe-094b-4198-8128-8a481ce72b04
-    - value: 81168830-cd37-4e1f-8687-87266a272922
-    _values: 1e000000410100008db10000
+    - value: 860a6eba-196e-45fb-899d-79220a1be131
+    - value: 48a5d45f-871f-4698-896c-b62e6fb1568e
+    - value: 00d5bb40-0998-4b46-90e3-f7180f02fbb9
+    - value: 5eafe85c-a408-4722-84f7-f57798c1cc45
+    - value: 0ea0b9a0-d309-4b46-b5ba-4d1366552530
+    - value: 33a972b2-dd1f-4680-8d68-43eaa4b8e232
+    _values: 0500000008000000060000000500000008000000050000000a000000
   abilityEmpowermentsDictionary:
     _keys:
     - value: f7b337eb-4410-4d0c-826f-e09dc98da182
-    - value: e8c351fe-094b-4198-8128-8a481ce72b04
-    - value: 81168830-cd37-4e1f-8687-87266a272922
+    - value: 860a6eba-196e-45fb-899d-79220a1be131
+    - value: 48a5d45f-871f-4698-896c-b62e6fb1568e
+    - value: 00d5bb40-0998-4b46-90e3-f7180f02fbb9
+    - value: 5eafe85c-a408-4722-84f7-f57798c1cc45
+    - value: 0ea0b9a0-d309-4b46-b5ba-4d1366552530
+    - value: 33a972b2-dd1f-4680-8d68-43eaa4b8e232
     _values:
+    - empowerments: 
+    - empowerments: 
+    - empowerments: 
+    - empowerments: 01000000
     - empowerments: 00000000
-    - empowerments: 
-    - empowerments: 
+    - empowerments: 02000000
+    - empowerments: 0100000002000000
   abilityRarityDictionary:
     _keys:
     - value: f7b337eb-4410-4d0c-826f-e09dc98da182
-    - value: e8c351fe-094b-4198-8128-8a481ce72b04
-    - value: 81168830-cd37-4e1f-8687-87266a272922
-    _values: 000000000000000000000000
+    - value: 860a6eba-196e-45fb-899d-79220a1be131
+    - value: 48a5d45f-871f-4698-896c-b62e6fb1568e
+    - value: 00d5bb40-0998-4b46-90e3-f7180f02fbb9
+    - value: 5eafe85c-a408-4722-84f7-f57798c1cc45
+    - value: 0ea0b9a0-d309-4b46-b5ba-4d1366552530
+    - value: 33a972b2-dd1f-4680-8d68-43eaa4b8e232
+    _values: 00000000000000000000000001000000010000000100000002000000
   abilityCollisionSoundLevelDictionary:
     _keys:
     - value: f7b337eb-4410-4d0c-826f-e09dc98da182
-    - value: e8c351fe-094b-4198-8128-8a481ce72b04
-    - value: 81168830-cd37-4e1f-8687-87266a272922
-    _values: 000000000000000000000000
+    - value: 860a6eba-196e-45fb-899d-79220a1be131
+    - value: 48a5d45f-871f-4698-896c-b62e6fb1568e
+    - value: 00d5bb40-0998-4b46-90e3-f7180f02fbb9
+    - value: 5eafe85c-a408-4722-84f7-f57798c1cc45
+    - value: 0ea0b9a0-d309-4b46-b5ba-4d1366552530
+    - value: 33a972b2-dd1f-4680-8d68-43eaa4b8e232
+    _values: 00000000010000000000000000000000010000000000000001000000
   abilityVocalisationTypeDictionary:
     _keys:
     - value: f7b337eb-4410-4d0c-826f-e09dc98da182
-    - value: e8c351fe-094b-4198-8128-8a481ce72b04
-    - value: 81168830-cd37-4e1f-8687-87266a272922
-    _values: 000000000000000000000000
+    - value: 860a6eba-196e-45fb-899d-79220a1be131
+    - value: 48a5d45f-871f-4698-896c-b62e6fb1568e
+    - value: 00d5bb40-0998-4b46-90e3-f7180f02fbb9
+    - value: 5eafe85c-a408-4722-84f7-f57798c1cc45
+    - value: 0ea0b9a0-d309-4b46-b5ba-4d1366552530
+    - value: 33a972b2-dd1f-4680-8d68-43eaa4b8e232
+    _values: 01000000020000000100000001000000020000000200000002000000
   abilityFmodEventDictionary:
     _keys:
     - value: f7b337eb-4410-4d0c-826f-e09dc98da182
-    - value: e8c351fe-094b-4198-8128-8a481ce72b04
-    - value: 81168830-cd37-4e1f-8687-87266a272922
+    - value: 860a6eba-196e-45fb-899d-79220a1be131
+    - value: 48a5d45f-871f-4698-896c-b62e6fb1568e
+    - value: 00d5bb40-0998-4b46-90e3-f7180f02fbb9
+    - value: 5eafe85c-a408-4722-84f7-f57798c1cc45
+    - value: 0ea0b9a0-d309-4b46-b5ba-4d1366552530
+    - value: 33a972b2-dd1f-4680-8d68-43eaa4b8e232
     _values:
+    - fmodStartEventRef: 
+      fmodSwingEventRef: event:/AS_AbilitySounds/AS_Slash
+      fmodImpactEventRef: 
+    - fmodStartEventRef: 
+      fmodSwingEventRef: 
+      fmodImpactEventRef: 
+    - fmodStartEventRef: 
+      fmodSwingEventRef: 
+      fmodImpactEventRef: 
+    - fmodStartEventRef: 
+      fmodSwingEventRef: 
+      fmodImpactEventRef: 
     - fmodStartEventRef: 
       fmodSwingEventRef: 
       fmodImpactEventRef: 
@@ -82,9 +138,17 @@ MonoBehaviour:
   abilityIconDictionary:
     _keys:
     - value: f7b337eb-4410-4d0c-826f-e09dc98da182
-    - value: e8c351fe-094b-4198-8128-8a481ce72b04
-    - value: 81168830-cd37-4e1f-8687-87266a272922
+    - value: 860a6eba-196e-45fb-899d-79220a1be131
+    - value: 48a5d45f-871f-4698-896c-b62e6fb1568e
+    - value: 00d5bb40-0998-4b46-90e3-f7180f02fbb9
+    - value: 5eafe85c-a408-4722-84f7-f57798c1cc45
+    - value: 0ea0b9a0-d309-4b46-b5ba-4d1366552530
+    - value: 33a972b2-dd1f-4680-8d68-43eaa4b8e232
     _values:
-    - {fileID: 21300000, guid: 72b1505c0d7f7184a9d423e99fd1a7c8, type: 3}
-    - {fileID: 0}
-    - {fileID: 0}
+    - {fileID: 21300000, guid: 545702d9040f5024e9eed6cf8ac19a16, type: 3}
+    - {fileID: 21300000, guid: 77ca6265971ef524b8f098606670c3cf, type: 3}
+    - {fileID: 21300000, guid: ac04ca413322cf74c9d945688586923f, type: 3}
+    - {fileID: 21300000, guid: b6e6aa96fdf88654983c156e1dabe170, type: 3}
+    - {fileID: 21300000, guid: f38b8a88882a44649907521872d37df8, type: 3}
+    - {fileID: 21300000, guid: c6827bb6e30fc0142bdf085b7818719a, type: 3}
+    - {fileID: 21300000, guid: 46dffb3410840a646800a6a02fbda4f3, type: 3}
