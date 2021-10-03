@@ -1,0 +1,90 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ad90acd62399ef41b142664a017c8ee, type: 3}
+  m_Name: AbilityData
+  m_EditorClassIdentifier: 
+  abilityIds:
+  - value: 81168830-cd37-4e1f-8687-87266a272922
+  - value: e8c351fe-094b-4198-8128-8a481ce72b04
+  - value: f7b337eb-4410-4d0c-826f-e09dc98da182
+  abilityDisplayNameDictionary:
+    _keys:
+    - value: f7b337eb-4410-4d0c-826f-e09dc98da182
+    - value: e8c351fe-094b-4198-8128-8a481ce72b04
+    - value: 81168830-cd37-4e1f-8687-87266a272922
+    _values:
+    - Slash
+    - Slash1
+    - Slash 2
+  abilityTypeDictionary:
+    _keys:
+    - value: f7b337eb-4410-4d0c-826f-e09dc98da182
+    - value: e8c351fe-094b-4198-8128-8a481ce72b04
+    - value: 81168830-cd37-4e1f-8687-87266a272922
+    _values: 000000000000000000000000
+  abilityDamageDictionary:
+    _keys:
+    - value: f7b337eb-4410-4d0c-826f-e09dc98da182
+    - value: e8c351fe-094b-4198-8128-8a481ce72b04
+    - value: 81168830-cd37-4e1f-8687-87266a272922
+    _values: 1e000000410100008db10000
+  abilityEmpowermentsDictionary:
+    _keys:
+    - value: f7b337eb-4410-4d0c-826f-e09dc98da182
+    - value: e8c351fe-094b-4198-8128-8a481ce72b04
+    - value: 81168830-cd37-4e1f-8687-87266a272922
+    _values:
+    - empowerments: 00000000
+    - empowerments: 
+    - empowerments: 
+  abilityRarityDictionary:
+    _keys:
+    - value: f7b337eb-4410-4d0c-826f-e09dc98da182
+    - value: e8c351fe-094b-4198-8128-8a481ce72b04
+    - value: 81168830-cd37-4e1f-8687-87266a272922
+    _values: 000000000000000000000000
+  abilityCollisionSoundLevelDictionary:
+    _keys:
+    - value: f7b337eb-4410-4d0c-826f-e09dc98da182
+    - value: e8c351fe-094b-4198-8128-8a481ce72b04
+    - value: 81168830-cd37-4e1f-8687-87266a272922
+    _values: 000000000000000000000000
+  abilityVocalisationTypeDictionary:
+    _keys:
+    - value: f7b337eb-4410-4d0c-826f-e09dc98da182
+    - value: e8c351fe-094b-4198-8128-8a481ce72b04
+    - value: 81168830-cd37-4e1f-8687-87266a272922
+    _values: 000000000000000000000000
+  abilityFmodEventDictionary:
+    _keys:
+    - value: f7b337eb-4410-4d0c-826f-e09dc98da182
+    - value: e8c351fe-094b-4198-8128-8a481ce72b04
+    - value: 81168830-cd37-4e1f-8687-87266a272922
+    _values:
+    - fmodStartEventRef: 
+      fmodSwingEventRef: 
+      fmodImpactEventRef: 
+    - fmodStartEventRef: 
+      fmodSwingEventRef: 
+      fmodImpactEventRef: 
+    - fmodStartEventRef: 
+      fmodSwingEventRef: 
+      fmodImpactEventRef: 
+  abilityIconDictionary:
+    _keys:
+    - value: f7b337eb-4410-4d0c-826f-e09dc98da182
+    - value: e8c351fe-094b-4198-8128-8a481ce72b04
+    - value: 81168830-cd37-4e1f-8687-87266a272922
+    _values:
+    - {fileID: 21300000, guid: 72b1505c0d7f7184a9d423e99fd1a7c8, type: 3}
+    - {fileID: 0}
+    - {fileID: 0}
