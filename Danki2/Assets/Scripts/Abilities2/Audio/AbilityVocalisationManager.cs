@@ -14,7 +14,9 @@ public class AbilityVocalisationManager : MonoBehaviour
 
     private void HandleVocalisation()
     {
-        AbilityVocalisationType fmodVocalisationType = AbilityLookup2.Instance.GetAbilityVocalisationType(player.AbilityService.CurrentAbilityId);
+        AbilityVocalisationType fmodVocalisationType = AbilityTypeLookup.Instance.GetAbilityVocalisationType(
+            AbilityLookup2.Instance.GetAbilityType(player.AbilityService.CurrentAbilityId)
+        );
         float fmodParameterValue = AbilityVocalisationValueLookup.LookupTable[fmodVocalisationType];
 
         EventInstance eventInstance = FmodUtils.CreatePositionedInstance(

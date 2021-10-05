@@ -12,10 +12,6 @@ public class AbilityLookup2 : Singleton<AbilityLookup2>
     public List<Empowerment> GetEmpowerments(SerializableGuid abilityId) => abilityData.AbilityEmpowermentsDictionary[abilityId].Empowerments;
     public Rarity GetRarity(SerializableGuid abilityId) => abilityData.AbilityRarityDictionary[abilityId];
     public Sprite GetIcon(SerializableGuid abilityId) => abilityData.AbilityIconDictionary[abilityId];
-
-    public CollisionSoundLevel GetCollisionSoundLevel(SerializableGuid abilityId) => AbilityTypeLookup.Instance.GetCollisionSoundLevel(GetAbilityType(abilityId));
-    public AbilityVocalisationType GetAbilityVocalisationType(SerializableGuid abilityId) => AbilityTypeLookup.Instance.GetAbilityVocalisationType(GetAbilityType(abilityId));
-    public AbilityFmodEvents GetAbilityFmodEvents(SerializableGuid abilityId) => AbilityTypeLookup.Instance.GetAbilityFmodEvents(GetAbilityType(abilityId));
     
     public bool TryGetAbilityId(string displayName, out SerializableGuid abilityId)
     {
