@@ -39,29 +39,5 @@ public class AbilityData : ScriptableObject
     public AbilityRarityDictionary abilityRarityDictionary = new AbilityRarityDictionary();
     public AbilityIconDictionary2 abilityIconDictionary = new AbilityIconDictionary2();
 
-    public string GetDisplayName(SerializableGuid abilityId) => abilityDisplayNameDictionary[abilityId];
-    public AbilityType2 GetAbilityType(SerializableGuid abilityId) => abilityTypeDictionary[abilityId];
-    public int GetDamage(SerializableGuid abilityId) => abilityDamageDictionary[abilityId];
-    public List<Empowerment> GetEmpowerments(SerializableGuid abilityId) => abilityEmpowermentsDictionary[abilityId].Empowerments;
-    public Rarity GetRarity(SerializableGuid abilityId) => abilityRarityDictionary[abilityId];
-    public Sprite GetIcon(SerializableGuid abilityId) => abilityIconDictionary[abilityId];
-
-    public bool TryGetAbilityId(string displayName, out SerializableGuid abilityId)
-    {
-        foreach (KeyValuePair<SerializableGuid,string> kvp in abilityDisplayNameDictionary)
-        {
-            if (kvp.Value == displayName)
-            {
-                abilityId = kvp.Key;
-                return true;
-            }
-        }
-
-        abilityId = null;
-        return false;
-    }
-
-    public void ForEachAbilityId(Action<SerializableGuid> action) => abilityIds.ForEach(action);
-
-    public string[] GetAbilityNames() => abilityIds.Select(GetDisplayName).ToArray();
+    public string[] GetAbilityNames() => abilityIds.Select(id => abilityDisplayNameDictionary[id]).ToArray();
 }
