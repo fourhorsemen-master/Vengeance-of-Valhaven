@@ -15,6 +15,10 @@ public class ForestGolem : Enemy
     [SerializeField] private ForestGolemBoulder boulderPrefab = null;
     [SerializeField] private float boulderRange = 0;
     [SerializeField] private int boulderDamage = 0;
+    [SerializeField] private float boulderSpikeInterval = 0;
+    [SerializeField] private float boulderSpikeInitialDelay = 0;
+    [SerializeField] private float boulderSpikeRange = 0;
+    [SerializeField] private int boulderSpikeDamage = 0;
 
     [Header("Stomp")]
     [SerializeField] private float stompPositionOffset = 0;
@@ -57,15 +61,35 @@ public class ForestGolem : Enemy
     public void ThrowBoulder(Vector3 targetPosition)
     {
         Player player = ActorCache.Instance.Player;
-        ForestGolemBoulder.Create(boulderPrefab, AbilitySource, targetPosition, () =>
-        {
-            if (Vector3.Distance(player.transform.position, targetPosition) > boulderRange) return;
+        ForestGolemBoulder.Create(
+            boulderPrefab,
+            AbilitySource,
+            targetPosition,
+            () =>
+            {
+                if (Vector3.Distance(player.transform.position, targetPosition) > boulderRange) return;
 
-            player.HealthManager.ReceiveDamage(boulderDamage, this);
-            CustomCamera.Instance.AddShake(ShakeIntensity.High);
-        });
+                player.HealthManager.ReceiveDamage(boulderDamage, this);
+                CustomCamera.Instance.AddShake(ShakeIntensity.High);
+            },
+            () =>
+            {
+                HandleBoulderSpike(targetPosition, player);
+            },
+            boulderSpikeInterval,
+            boulderSpikeInitialDelay
+        );
         
         BoulderThrowSubject.Next();
+    }
+
+    private void HandleBoulderSpike(Vector3 position, Player player)
+    {
+        if (Vector3.Distance(player.transform.position, position) < boulderSpikeRange)
+        {
+            player.HealthManager.ReceiveDamage(boulderSpikeDamage, this);
+            CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
+        }
     }
 
     public void Stomp()
