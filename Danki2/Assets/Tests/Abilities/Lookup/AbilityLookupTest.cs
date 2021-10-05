@@ -28,7 +28,6 @@ public class AbilityLookupTest : PlayModeTestBase
             AbilityLookup2.Instance.GetDamage(abilityId);
             AbilityLookup2.Instance.GetEmpowerments(abilityId);
             AbilityLookup2.Instance.GetRarity(abilityId);
-            AbilityLookup2.Instance.GetCollisionSoundLevel(abilityId);
             AbilityLookup2.Instance.GetIcon(abilityId);
         });
         

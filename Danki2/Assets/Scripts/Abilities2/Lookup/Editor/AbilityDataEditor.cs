@@ -16,13 +16,15 @@ public class AbilityDataEditor : Editor
         
         if (foldoutStatus == null) InitialiseFoldoutStatuses();
 
-        for (int i = abilityData.abilityIds.Count - 1; i >= 0; i--)
+        for (int i = abilityData.AbilityIds.Count - 1; i >= 0; i--)
         {
-            EditAbilityData(abilityData.abilityIds[i]);
+            EditAbilityData(abilityData.AbilityIds[i]);
             EditorUtils.VerticalSpace();
         }
         AddAbilityButton();
         
+        if (GUILayout.Button("Save")) AssetDatabase.SaveAssets();
+
         if (GUI.changed)
         {
             EditorUtility.SetDirty(target);
@@ -31,14 +33,14 @@ public class AbilityDataEditor : Editor
 
     private void InitialiseFoldoutStatuses()
     {
-        foldoutStatus = abilityData.abilityIds.ToDictionary(abilityId => abilityId, abilityId => false);
+        foldoutStatus = abilityData.AbilityIds.ToDictionary(abilityId => abilityId, abilityId => false);
     }
 
     private void EditAbilityData(SerializableGuid abilityId)
     {
         foldoutStatus[abilityId] = EditorGUILayout.Foldout(
             foldoutStatus[abilityId],
-            abilityData.abilityDisplayNameDictionary[abilityId]
+            abilityData.AbilityDisplayNameDictionary[abilityId]
         );
         if (!foldoutStatus[abilityId]) return;
 
@@ -46,42 +48,57 @@ public class AbilityDataEditor : Editor
 
         EditorUtils.MultilineLabelField($"ID: \"{abilityId}\"");
 
+        EditIcon(abilityId);
         EditDisplayName(abilityId);
         EditType(abilityId);
         EditDamage(abilityId);
-        EditEmpowerments(abilityId);
         EditRarity(abilityId);
-        EditCollisionSoundLevel(abilityId);
-        EditVocalisationType(abilityId);
-        EditFmodEvents(abilityId);
-        EditIcon(abilityId);
+        EditEmpowerments(abilityId);
 
         RemoveAbilityButton(abilityId);
 
         EditorGUI.indentLevel--;
     }
 
+    private void EditIcon(SerializableGuid abilityId)
+    {
+        abilityData.AbilityIconDictionary[abilityId] = (Sprite) EditorGUILayout.ObjectField(
+            "Icon",
+            abilityData.AbilityIconDictionary[abilityId],
+            typeof(Sprite),
+            false
+        );
+    }
+
     private void EditDisplayName(SerializableGuid abilityId)
     {
-        abilityData.abilityDisplayNameDictionary[abilityId] = EditorGUILayout.TextField(
+        abilityData.AbilityDisplayNameDictionary[abilityId] = EditorGUILayout.TextField(
             "Display Name",
-            abilityData.abilityDisplayNameDictionary[abilityId]
+            abilityData.AbilityDisplayNameDictionary[abilityId]
         );
     }
 
     private void EditType(SerializableGuid abilityId)
     {
-        abilityData.abilityTypeDictionary[abilityId] = (AbilityType2) EditorGUILayout.EnumPopup(
+        abilityData.AbilityTypeDictionary[abilityId] = (AbilityType2) EditorGUILayout.EnumPopup(
             "Type",
-            abilityData.abilityTypeDictionary[abilityId]
+            abilityData.AbilityTypeDictionary[abilityId]
         );
     }
 
     private void EditDamage(SerializableGuid abilityId)
     {
-        abilityData.abilityDamageDictionary[abilityId] = EditorGUILayout.IntField(
+        abilityData.AbilityDamageDictionary[abilityId] = EditorGUILayout.IntField(
             "Damage",
-            abilityData.abilityDamageDictionary[abilityId]
+            abilityData.AbilityDamageDictionary[abilityId]
+        );
+    }
+
+    private void EditRarity(SerializableGuid abilityId)
+    {
+        abilityData.AbilityRarityDictionary[abilityId] = (Rarity) EditorGUILayout.EnumPopup(
+            "Rarity",
+            abilityData.AbilityRarityDictionary[abilityId]
         );
     }
 
@@ -90,75 +107,11 @@ public class AbilityDataEditor : Editor
         EditorUtils.Header("Empowerments");
         EditorGUI.indentLevel++;
         EditorUtils.ResizeableList(
-            abilityData.abilityEmpowermentsDictionary[abilityId].Empowerments,
+            abilityData.AbilityEmpowermentsDictionary[abilityId].Empowerments,
             empowerment => (Empowerment) EditorGUILayout.EnumPopup("Empowerment", empowerment),
             defaultValue: default
         );
         EditorGUI.indentLevel--;
-    }
-
-    private void EditRarity(SerializableGuid abilityId)
-    {
-        abilityData.abilityRarityDictionary[abilityId] = (Rarity) EditorGUILayout.EnumPopup(
-            "Rarity",
-            abilityData.abilityRarityDictionary[abilityId]
-        );
-    }
-
-    private void EditCollisionSoundLevel(SerializableGuid abilityId)
-    {
-        abilityData.abilityCollisionSoundLevelDictionary[abilityId] = (CollisionSoundLevel) EditorGUILayout.EnumPopup(
-            "Collision Sound Level",
-            abilityData.abilityCollisionSoundLevelDictionary[abilityId]
-        );
-    }
-
-    private void EditVocalisationType(SerializableGuid abilityId)
-    {
-        abilityData.abilityVocalisationTypeDictionary[abilityId] = (AbilityVocalisationType) EditorGUILayout.EnumPopup(
-            "Vocalisation Type",
-            abilityData.abilityVocalisationTypeDictionary[abilityId]
-        );
-    }
-
-    private void EditFmodEvents(SerializableGuid abilityId)
-    {
-        SerializedProperty keys = serializedObject.FindProperty("abilityFmodEventDictionary._keys");
-        int valueIndex = 0;
-        for (int i = 0; i < keys.arraySize; i++)
-        {
-            SerializedProperty serializedGuid = keys.GetArrayElementAtIndex(i);
-            if (serializedGuid.FindPropertyRelative("value").stringValue != abilityId.ToString()) continue;
-            valueIndex = i;
-            break;
-        }
-
-        SerializedProperty serializedAbilityFmodEvents = serializedObject.FindProperty("abilityFmodEventDictionary._values").GetArrayElementAtIndex(valueIndex);
-
-        EditorUtils.Header("Fmod Events:");
-
-        EditorGUI.indentLevel++;
-
-        EditorGUILayout.PropertyField(serializedAbilityFmodEvents.FindPropertyRelative("fmodStartEventRef"), new GUIContent("Start"));
-        if (EditorUtils.IndentedButton("Clear")) abilityData.abilityFmodEventDictionary[abilityId].FmodStartEventRef = null;
-
-        EditorGUILayout.PropertyField(serializedAbilityFmodEvents.FindPropertyRelative("fmodSwingEventRef"), new GUIContent("Swing"));
-        if (EditorUtils.IndentedButton("Clear")) abilityData.abilityFmodEventDictionary[abilityId].FmodSwingEventRef = null;
-
-        EditorGUILayout.PropertyField(serializedAbilityFmodEvents.FindPropertyRelative("fmodImpactEventRef"), new GUIContent("Impact"));
-        if (EditorUtils.IndentedButton("Clear")) abilityData.abilityFmodEventDictionary[abilityId].FmodImpactEventRef = null;
-
-        EditorGUI.indentLevel--;
-    }
-
-    private void EditIcon(SerializableGuid abilityId)
-    {
-        abilityData.abilityIconDictionary[abilityId] = (Sprite) EditorGUILayout.ObjectField(
-            "Icon",
-            abilityData.abilityIconDictionary[abilityId],
-            typeof(Sprite),
-            false
-        );
     }
 
     private void AddAbilityButton()
@@ -166,16 +119,13 @@ public class AbilityDataEditor : Editor
         if (GUILayout.Button("Add Ability"))
         {
             SerializableGuid abilityId = SerializableGuid.NewGuid();
-            abilityData.abilityIds.Insert(0, abilityId);
-            abilityData.abilityDisplayNameDictionary[abilityId] = "";
-            abilityData.abilityTypeDictionary[abilityId] = AbilityType2.Slash;
-            abilityData.abilityDamageDictionary[abilityId] = 0;
-            abilityData.abilityEmpowermentsDictionary[abilityId] = new EmpowermentsWrapper();
-            abilityData.abilityRarityDictionary[abilityId] = Rarity.Common;
-            abilityData.abilityCollisionSoundLevelDictionary[abilityId] = CollisionSoundLevel.Low;
-            abilityData.abilityVocalisationTypeDictionary[abilityId] = AbilityVocalisationType.None;
-            abilityData.abilityFmodEventDictionary[abilityId] = new AbilityFmodEvents();
-            abilityData.abilityIconDictionary[abilityId] = null;
+            abilityData.AbilityIds.Insert(0, abilityId);
+            abilityData.AbilityDisplayNameDictionary[abilityId] = "";
+            abilityData.AbilityTypeDictionary[abilityId] = AbilityType2.Slash;
+            abilityData.AbilityDamageDictionary[abilityId] = 0;
+            abilityData.AbilityEmpowermentsDictionary[abilityId] = new EmpowermentsWrapper();
+            abilityData.AbilityRarityDictionary[abilityId] = Rarity.Common;
+            abilityData.AbilityIconDictionary[abilityId] = null;
             foldoutStatus[abilityId] = false;
         }
     }
@@ -184,16 +134,13 @@ public class AbilityDataEditor : Editor
     {
         if (EditorUtils.IndentedButton("Remove Ability"))
         {
-            abilityData.abilityIds.Remove(abilityId);
-            abilityData.abilityDisplayNameDictionary.Remove(abilityId);
-            abilityData.abilityTypeDictionary.Remove(abilityId);
-            abilityData.abilityDamageDictionary.Remove(abilityId);
-            abilityData.abilityEmpowermentsDictionary.Remove(abilityId);
-            abilityData.abilityRarityDictionary.Remove(abilityId);
-            abilityData.abilityCollisionSoundLevelDictionary.Remove(abilityId);
-            abilityData.abilityVocalisationTypeDictionary.Remove(abilityId);
-            abilityData.abilityFmodEventDictionary.Remove(abilityId);
-            abilityData.abilityIconDictionary.Remove(abilityId);
+            abilityData.AbilityIds.Remove(abilityId);
+            abilityData.AbilityDisplayNameDictionary.Remove(abilityId);
+            abilityData.AbilityTypeDictionary.Remove(abilityId);
+            abilityData.AbilityDamageDictionary.Remove(abilityId);
+            abilityData.AbilityEmpowermentsDictionary.Remove(abilityId);
+            abilityData.AbilityRarityDictionary.Remove(abilityId);
+            abilityData.AbilityIconDictionary.Remove(abilityId);
             foldoutStatus.Remove(abilityId);
         }
     }
