@@ -10,7 +10,12 @@ public class DevPersistenceManagerEditor : Editor
 
         EditorUtils.ShowScriptLink(devPersistenceManager);
 
-        devPersistenceManager.abilityNameStore = AbilityNameStoreUtils.EditAbilityNameStore(devPersistenceManager.abilityNameStore);
+        devPersistenceManager.abilityData = (AbilityData) EditorGUILayout.ObjectField(
+            "Ability Data",
+            devPersistenceManager.abilityData,
+            typeof(AbilityData),
+            false
+        );
 
         EditorUtils.Header("Player");
         EditorGUI.indentLevel++;
@@ -25,15 +30,15 @@ public class DevPersistenceManagerEditor : Editor
         EditorUtils.Header("Ability Tree");
         EditorGUI.indentLevel++;
         devPersistenceManager.ownedAbilityCount = EditorGUILayout.IntField("Owned Ability Count", devPersistenceManager.ownedAbilityCount);
-        devPersistenceManager.leftAbilityName = AbilityNameStoreUtils.EditAbilityName(
+        devPersistenceManager.leftAbilityName = AbilityDataUtils.EditAbilityName(
             "Left Ability Name",
             devPersistenceManager.leftAbilityName,
-            devPersistenceManager.abilityNameStore
+            devPersistenceManager.abilityData
         );
-        devPersistenceManager.rightAbilityName = AbilityNameStoreUtils.EditAbilityName(
+        devPersistenceManager.rightAbilityName = AbilityDataUtils.EditAbilityName(
             "Right Ability Name",
             devPersistenceManager.rightAbilityName,
-            devPersistenceManager.abilityNameStore
+            devPersistenceManager.abilityData
         );
         EditorGUI.indentLevel--;
         EditorUtils.VerticalSpace();
@@ -143,8 +148,7 @@ public class DevPersistenceManagerEditor : Editor
         
         EditorUtils.ResizeableList(
             devPersistenceManager.abilityChoiceNames,
-            abilityChoice => AbilityNameStoreUtils.EditAbilityName("Ability Choice", abilityChoice, devPersistenceManager.abilityNameStore),
-            // abilityChoice => EditorGUILayout.TextField("Ability Choice", abilityChoice),
+            abilityChoice => AbilityDataUtils.EditAbilityName("Ability Choice", abilityChoice, devPersistenceManager.abilityData),
             ""
         );
         
