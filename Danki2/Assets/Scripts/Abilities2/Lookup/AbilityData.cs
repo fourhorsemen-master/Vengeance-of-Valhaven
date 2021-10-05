@@ -26,58 +26,37 @@ public class AbilityEmpowermentsDictionary : SerializableDictionary<Serializable
 public class AbilityRarityDictionary : SerializableDictionary<SerializableGuid, Rarity> {}
 
 [Serializable]
-public class AbilityCollisionSoundLevelDictionary : SerializableDictionary<SerializableGuid, CollisionSoundLevel> {}
-
-[Serializable]
-public class AbilityVocalisationTypeDictionary : SerializableDictionary<SerializableGuid, AbilityVocalisationType> {}
-
-[Serializable]
-public class AbilityFmodEventDictionary : SerializableDictionary<SerializableGuid, AbilityFmodEvents> {}
-
-[Serializable]
 public class AbilityIconDictionary2 : SerializableDictionary<SerializableGuid, Sprite> {}
 
-[CreateAssetMenu(menuName = "Abilities/AbilityData")]
 public class AbilityData : ScriptableObject
 {
-    public List<SerializableGuid> abilityIds = new List<SerializableGuid>();
+    [SerializeField]
+    private List<SerializableGuid> abilityIds = new List<SerializableGuid>();
+    public List<SerializableGuid> AbilityIds => abilityIds;
 
-    public AbilityDisplayNameDictionary abilityDisplayNameDictionary = new AbilityDisplayNameDictionary();
-    public AbilityTypeDictionary abilityTypeDictionary = new AbilityTypeDictionary();
-    public AbilityDamageDictionary abilityDamageDictionary = new AbilityDamageDictionary();
-    public AbilityEmpowermentsDictionary abilityEmpowermentsDictionary = new AbilityEmpowermentsDictionary();
-    public AbilityRarityDictionary abilityRarityDictionary = new AbilityRarityDictionary();
-    public AbilityCollisionSoundLevelDictionary abilityCollisionSoundLevelDictionary = new AbilityCollisionSoundLevelDictionary();
-    public AbilityVocalisationTypeDictionary abilityVocalisationTypeDictionary = new AbilityVocalisationTypeDictionary();
-    public AbilityFmodEventDictionary abilityFmodEventDictionary = new AbilityFmodEventDictionary();
-    public AbilityIconDictionary2 abilityIconDictionary = new AbilityIconDictionary2();
+    [SerializeField]
+    private AbilityDisplayNameDictionary abilityDisplayNameDictionary = new AbilityDisplayNameDictionary();
+    public AbilityDisplayNameDictionary AbilityDisplayNameDictionary => abilityDisplayNameDictionary;
+    
+    [SerializeField]
+    private AbilityTypeDictionary abilityTypeDictionary = new AbilityTypeDictionary();
+    public AbilityTypeDictionary AbilityTypeDictionary => abilityTypeDictionary;
+    
+    [SerializeField]
+    private AbilityDamageDictionary abilityDamageDictionary = new AbilityDamageDictionary();
+    public AbilityDamageDictionary AbilityDamageDictionary => abilityDamageDictionary;
+    
+    [SerializeField]
+    private AbilityEmpowermentsDictionary abilityEmpowermentsDictionary = new AbilityEmpowermentsDictionary();
+    public AbilityEmpowermentsDictionary AbilityEmpowermentsDictionary => abilityEmpowermentsDictionary;
+    
+    [SerializeField]
+    private AbilityRarityDictionary abilityRarityDictionary = new AbilityRarityDictionary();
+    public AbilityRarityDictionary AbilityRarityDictionary => abilityRarityDictionary;
+    
+    [SerializeField]
+    private AbilityIconDictionary2 abilityIconDictionary = new AbilityIconDictionary2();
+    public AbilityIconDictionary2 AbilityIconDictionary => abilityIconDictionary;
 
-    public string GetDisplayName(SerializableGuid abilityId) => abilityDisplayNameDictionary[abilityId];
-    public AbilityType2 GetAbilityType(SerializableGuid abilityId) => abilityTypeDictionary[abilityId];
-    public int GetDamage(SerializableGuid abilityId) => abilityDamageDictionary[abilityId];
-    public List<Empowerment> GetEmpowerments(SerializableGuid abilityId) => abilityEmpowermentsDictionary[abilityId].Empowerments;
-    public Rarity GetRarity(SerializableGuid abilityId) => abilityRarityDictionary[abilityId];
-    public CollisionSoundLevel GetCollisionSoundLevel(SerializableGuid abilityId) => abilityCollisionSoundLevelDictionary[abilityId];
-    public AbilityVocalisationType GetAbilityVocalisationType(SerializableGuid abilityId) => abilityVocalisationTypeDictionary[abilityId];
-    public AbilityFmodEvents GetAbilityFmodEvents(SerializableGuid abilityId) => abilityFmodEventDictionary[abilityId];
-    public Sprite GetIcon(SerializableGuid abilityId) => abilityIconDictionary[abilityId];
-
-    public bool TryGetAbilityId(string displayName, out SerializableGuid abilityId)
-    {
-        foreach (KeyValuePair<SerializableGuid,string> kvp in abilityDisplayNameDictionary)
-        {
-            if (kvp.Value == displayName)
-            {
-                abilityId = kvp.Key;
-                return true;
-            }
-        }
-
-        abilityId = null;
-        return false;
-    }
-
-    public void ForEachAbilityId(Action<SerializableGuid> action) => abilityIds.ForEach(action);
-
-    public string[] GetAbilityNames() => abilityIds.Select(GetDisplayName).ToArray();
+    public string[] GetAbilityNames() => abilityIds.Select(id => abilityDisplayNameDictionary[id]).ToArray();
 }

@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2815364848806806232
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1019603050560854254}
+  - component: {fileID: 4770915274487102514}
+  m_Layer: 0
+  m_Name: AbilityTypeLookup
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1019603050560854254
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2815364848806806232}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4770915274487102514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2815364848806806232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4841616781e4eb4c8555617b6388a85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  abilityCollisionSoundLevelDictionary:
+    _keys:
+    - Slash
+    - Smash
+    - Thrust
+    _values: 000000000100000000000000
+  abilityVocalisationTypeDictionary:
+    _keys:
+    - Slash
+    - Smash
+    - Thrust
+    _values: 010000000200000001000000
+  abilityFmodEventDictionary:
+    _keys:
+    - Slash
+    - Smash
+    - Thrust
+    _values:
+    - fmodStartEventRef: 
+      fmodSwingEventRef: event:/AS_AbilitySounds/AS_Slash
+      fmodImpactEventRef: 
+    - fmodStartEventRef: event:/AS_AbilitySounds/AS_Smash/AS_Smash_Draw
+      fmodSwingEventRef: 
+      fmodImpactEventRef: event:/AS_AbilitySounds/AS_Smash/AS_Smash_Impact
+    - fmodStartEventRef: 
+      fmodSwingEventRef: event:/AS_AbilitySounds/AS_FanOfKnives/AS_FanOfKnives_Woosh
+      fmodImpactEventRef: 

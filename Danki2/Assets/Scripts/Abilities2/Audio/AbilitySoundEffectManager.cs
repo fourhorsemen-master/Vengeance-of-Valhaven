@@ -22,21 +22,25 @@ public class AbilitySoundEffectManager : MonoBehaviour
 
     private void PlayStartEvent()
     {
-        string startEvent = AbilityLookup2.Instance.GetAbilityFmodEvents(CurrentAbilityId).FmodStartEventRef;
+        string startEvent = GetAbilityFmodEvents().FmodStartEventRef;
         PlayAbilityEvent(startEvent);
     }
 
     private void PlaySwingEvent()
     {
-        string swingEvent = AbilityLookup2.Instance.GetAbilityFmodEvents(CurrentAbilityId).FmodSwingEventRef;
+        string swingEvent = GetAbilityFmodEvents().FmodSwingEventRef;
         PlayAbilityEvent(swingEvent);
     }
 
     private void PlayImpactEvent()
     {
-        string impactEvent = AbilityLookup2.Instance.GetAbilityFmodEvents(CurrentAbilityId).FmodImpactEventRef;
+        string impactEvent = GetAbilityFmodEvents().FmodImpactEventRef;
         PlayAbilityEvent(impactEvent);
     }
+
+    private AbilityFmodEvents GetAbilityFmodEvents() => AbilityTypeLookup.Instance.GetAbilityFmodEvents(
+        AbilityLookup2.Instance.GetAbilityType(CurrentAbilityId)
+    );
 
     private void PlayAbilityEvent(string fmodEvent)
     {

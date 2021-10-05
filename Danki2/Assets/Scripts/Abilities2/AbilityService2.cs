@@ -53,7 +53,7 @@ public class AbilityService2
             CalculateRange(CurrentEmpowerments),
             player.CollisionTemplateSource,
             CurrentCastRotation,
-            AbilityLookup2.Instance.GetCollisionSoundLevel(CurrentAbilityId),
+            AbilityTypeLookup.Instance.GetCollisionSoundLevel(AbilityLookup2.Instance.GetAbilityType(CurrentAbilityId)),
             enemyCallback: enemy =>
             {
                 hasDealtDamage = true;
