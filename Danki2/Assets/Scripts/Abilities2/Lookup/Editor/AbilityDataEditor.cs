@@ -16,9 +16,9 @@ public class AbilityDataEditor : Editor
         
         if (foldoutStatus == null) InitialiseFoldoutStatuses();
 
-        for (int i = abilityData.abilityIds.Count - 1; i >= 0; i--)
+        for (int i = abilityData.AbilityIds.Count - 1; i >= 0; i--)
         {
-            EditAbilityData(abilityData.abilityIds[i]);
+            EditAbilityData(abilityData.AbilityIds[i]);
             EditorUtils.VerticalSpace();
         }
         AddAbilityButton();
@@ -31,14 +31,14 @@ public class AbilityDataEditor : Editor
 
     private void InitialiseFoldoutStatuses()
     {
-        foldoutStatus = abilityData.abilityIds.ToDictionary(abilityId => abilityId, abilityId => false);
+        foldoutStatus = abilityData.AbilityIds.ToDictionary(abilityId => abilityId, abilityId => false);
     }
 
     private void EditAbilityData(SerializableGuid abilityId)
     {
         foldoutStatus[abilityId] = EditorGUILayout.Foldout(
             foldoutStatus[abilityId],
-            abilityData.abilityDisplayNameDictionary[abilityId]
+            abilityData.AbilityDisplayNameDictionary[abilityId]
         );
         if (!foldoutStatus[abilityId]) return;
 
@@ -60,9 +60,9 @@ public class AbilityDataEditor : Editor
 
     private void EditIcon(SerializableGuid abilityId)
     {
-        abilityData.abilityIconDictionary[abilityId] = (Sprite) EditorGUILayout.ObjectField(
+        abilityData.AbilityIconDictionary[abilityId] = (Sprite) EditorGUILayout.ObjectField(
             "Icon",
-            abilityData.abilityIconDictionary[abilityId],
+            abilityData.AbilityIconDictionary[abilityId],
             typeof(Sprite),
             false
         );
@@ -70,33 +70,33 @@ public class AbilityDataEditor : Editor
 
     private void EditDisplayName(SerializableGuid abilityId)
     {
-        abilityData.abilityDisplayNameDictionary[abilityId] = EditorGUILayout.TextField(
+        abilityData.AbilityDisplayNameDictionary[abilityId] = EditorGUILayout.TextField(
             "Display Name",
-            abilityData.abilityDisplayNameDictionary[abilityId]
+            abilityData.AbilityDisplayNameDictionary[abilityId]
         );
     }
 
     private void EditType(SerializableGuid abilityId)
     {
-        abilityData.abilityTypeDictionary[abilityId] = (AbilityType2) EditorGUILayout.EnumPopup(
+        abilityData.AbilityTypeDictionary[abilityId] = (AbilityType2) EditorGUILayout.EnumPopup(
             "Type",
-            abilityData.abilityTypeDictionary[abilityId]
+            abilityData.AbilityTypeDictionary[abilityId]
         );
     }
 
     private void EditDamage(SerializableGuid abilityId)
     {
-        abilityData.abilityDamageDictionary[abilityId] = EditorGUILayout.IntField(
+        abilityData.AbilityDamageDictionary[abilityId] = EditorGUILayout.IntField(
             "Damage",
-            abilityData.abilityDamageDictionary[abilityId]
+            abilityData.AbilityDamageDictionary[abilityId]
         );
     }
 
     private void EditRarity(SerializableGuid abilityId)
     {
-        abilityData.abilityRarityDictionary[abilityId] = (Rarity) EditorGUILayout.EnumPopup(
+        abilityData.AbilityRarityDictionary[abilityId] = (Rarity) EditorGUILayout.EnumPopup(
             "Rarity",
-            abilityData.abilityRarityDictionary[abilityId]
+            abilityData.AbilityRarityDictionary[abilityId]
         );
     }
 
@@ -105,7 +105,7 @@ public class AbilityDataEditor : Editor
         EditorUtils.Header("Empowerments");
         EditorGUI.indentLevel++;
         EditorUtils.ResizeableList(
-            abilityData.abilityEmpowermentsDictionary[abilityId].Empowerments,
+            abilityData.AbilityEmpowermentsDictionary[abilityId].Empowerments,
             empowerment => (Empowerment) EditorGUILayout.EnumPopup("Empowerment", empowerment),
             defaultValue: default
         );
@@ -117,13 +117,13 @@ public class AbilityDataEditor : Editor
         if (GUILayout.Button("Add Ability"))
         {
             SerializableGuid abilityId = SerializableGuid.NewGuid();
-            abilityData.abilityIds.Insert(0, abilityId);
-            abilityData.abilityDisplayNameDictionary[abilityId] = "";
-            abilityData.abilityTypeDictionary[abilityId] = AbilityType2.Slash;
-            abilityData.abilityDamageDictionary[abilityId] = 0;
-            abilityData.abilityEmpowermentsDictionary[abilityId] = new EmpowermentsWrapper();
-            abilityData.abilityRarityDictionary[abilityId] = Rarity.Common;
-            abilityData.abilityIconDictionary[abilityId] = null;
+            abilityData.AbilityIds.Insert(0, abilityId);
+            abilityData.AbilityDisplayNameDictionary[abilityId] = "";
+            abilityData.AbilityTypeDictionary[abilityId] = AbilityType2.Slash;
+            abilityData.AbilityDamageDictionary[abilityId] = 0;
+            abilityData.AbilityEmpowermentsDictionary[abilityId] = new EmpowermentsWrapper();
+            abilityData.AbilityRarityDictionary[abilityId] = Rarity.Common;
+            abilityData.AbilityIconDictionary[abilityId] = null;
             foldoutStatus[abilityId] = false;
         }
     }
@@ -132,13 +132,13 @@ public class AbilityDataEditor : Editor
     {
         if (EditorUtils.IndentedButton("Remove Ability"))
         {
-            abilityData.abilityIds.Remove(abilityId);
-            abilityData.abilityDisplayNameDictionary.Remove(abilityId);
-            abilityData.abilityTypeDictionary.Remove(abilityId);
-            abilityData.abilityDamageDictionary.Remove(abilityId);
-            abilityData.abilityEmpowermentsDictionary.Remove(abilityId);
-            abilityData.abilityRarityDictionary.Remove(abilityId);
-            abilityData.abilityIconDictionary.Remove(abilityId);
+            abilityData.AbilityIds.Remove(abilityId);
+            abilityData.AbilityDisplayNameDictionary.Remove(abilityId);
+            abilityData.AbilityTypeDictionary.Remove(abilityId);
+            abilityData.AbilityDamageDictionary.Remove(abilityId);
+            abilityData.AbilityEmpowermentsDictionary.Remove(abilityId);
+            abilityData.AbilityRarityDictionary.Remove(abilityId);
+            abilityData.AbilityIconDictionary.Remove(abilityId);
             foldoutStatus.Remove(abilityId);
         }
     }

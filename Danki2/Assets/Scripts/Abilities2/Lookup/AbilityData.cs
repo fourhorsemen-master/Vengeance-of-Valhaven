@@ -30,14 +30,33 @@ public class AbilityIconDictionary2 : SerializableDictionary<SerializableGuid, S
 
 public class AbilityData : ScriptableObject
 {
-    public List<SerializableGuid> abilityIds = new List<SerializableGuid>();
+    [SerializeField]
+    private List<SerializableGuid> abilityIds = new List<SerializableGuid>();
+    public List<SerializableGuid> AbilityIds => abilityIds;
 
-    public AbilityDisplayNameDictionary abilityDisplayNameDictionary = new AbilityDisplayNameDictionary();
-    public AbilityTypeDictionary abilityTypeDictionary = new AbilityTypeDictionary();
-    public AbilityDamageDictionary abilityDamageDictionary = new AbilityDamageDictionary();
-    public AbilityEmpowermentsDictionary abilityEmpowermentsDictionary = new AbilityEmpowermentsDictionary();
-    public AbilityRarityDictionary abilityRarityDictionary = new AbilityRarityDictionary();
-    public AbilityIconDictionary2 abilityIconDictionary = new AbilityIconDictionary2();
+    [SerializeField]
+    private AbilityDisplayNameDictionary abilityDisplayNameDictionary = new AbilityDisplayNameDictionary();
+    public AbilityDisplayNameDictionary AbilityDisplayNameDictionary => abilityDisplayNameDictionary;
+    
+    [SerializeField]
+    private AbilityTypeDictionary abilityTypeDictionary = new AbilityTypeDictionary();
+    public AbilityTypeDictionary AbilityTypeDictionary => abilityTypeDictionary;
+    
+    [SerializeField]
+    private AbilityDamageDictionary abilityDamageDictionary = new AbilityDamageDictionary();
+    public AbilityDamageDictionary AbilityDamageDictionary => abilityDamageDictionary;
+    
+    [SerializeField]
+    private AbilityEmpowermentsDictionary abilityEmpowermentsDictionary = new AbilityEmpowermentsDictionary();
+    public AbilityEmpowermentsDictionary AbilityEmpowermentsDictionary => abilityEmpowermentsDictionary;
+    
+    [SerializeField]
+    private AbilityRarityDictionary abilityRarityDictionary = new AbilityRarityDictionary();
+    public AbilityRarityDictionary AbilityRarityDictionary => abilityRarityDictionary;
+    
+    [SerializeField]
+    private AbilityIconDictionary2 abilityIconDictionary = new AbilityIconDictionary2();
+    public AbilityIconDictionary2 AbilityIconDictionary => abilityIconDictionary;
 
     public string[] GetAbilityNames() => abilityIds.Select(id => abilityDisplayNameDictionary[id]).ToArray();
 }

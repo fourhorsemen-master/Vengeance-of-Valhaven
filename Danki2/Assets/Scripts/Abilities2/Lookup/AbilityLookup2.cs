@@ -6,12 +6,12 @@ public class AbilityLookup2 : Singleton<AbilityLookup2>
 {
     [SerializeField] private AbilityData abilityData = null;
     
-    public string GetDisplayName(SerializableGuid abilityId) => abilityData.abilityDisplayNameDictionary[abilityId];
-    public AbilityType2 GetAbilityType(SerializableGuid abilityId) => abilityData.abilityTypeDictionary[abilityId];
-    public int GetDamage(SerializableGuid abilityId) => abilityData.abilityDamageDictionary[abilityId];
-    public List<Empowerment> GetEmpowerments(SerializableGuid abilityId) => abilityData.abilityEmpowermentsDictionary[abilityId].Empowerments;
-    public Rarity GetRarity(SerializableGuid abilityId) => abilityData.abilityRarityDictionary[abilityId];
-    public Sprite GetIcon(SerializableGuid abilityId) => abilityData.abilityIconDictionary[abilityId];
+    public string GetDisplayName(SerializableGuid abilityId) => abilityData.AbilityDisplayNameDictionary[abilityId];
+    public AbilityType2 GetAbilityType(SerializableGuid abilityId) => abilityData.AbilityTypeDictionary[abilityId];
+    public int GetDamage(SerializableGuid abilityId) => abilityData.AbilityDamageDictionary[abilityId];
+    public List<Empowerment> GetEmpowerments(SerializableGuid abilityId) => abilityData.AbilityEmpowermentsDictionary[abilityId].Empowerments;
+    public Rarity GetRarity(SerializableGuid abilityId) => abilityData.AbilityRarityDictionary[abilityId];
+    public Sprite GetIcon(SerializableGuid abilityId) => abilityData.AbilityIconDictionary[abilityId];
 
     public CollisionSoundLevel GetCollisionSoundLevel(SerializableGuid abilityId) => AbilityTypeLookup.Instance.GetCollisionSoundLevel(GetAbilityType(abilityId));
     public AbilityVocalisationType GetAbilityVocalisationType(SerializableGuid abilityId) => AbilityTypeLookup.Instance.GetAbilityVocalisationType(GetAbilityType(abilityId));
@@ -19,7 +19,7 @@ public class AbilityLookup2 : Singleton<AbilityLookup2>
     
     public bool TryGetAbilityId(string displayName, out SerializableGuid abilityId)
     {
-        foreach (KeyValuePair<SerializableGuid,string> kvp in abilityData.abilityDisplayNameDictionary)
+        foreach (KeyValuePair<SerializableGuid,string> kvp in abilityData.AbilityDisplayNameDictionary)
         {
             if (kvp.Value == displayName)
             {
@@ -32,5 +32,5 @@ public class AbilityLookup2 : Singleton<AbilityLookup2>
         return false;
     }
     
-    public void ForEachAbilityId(Action<SerializableGuid> action) => abilityData.abilityIds.ForEach(action);
+    public void ForEachAbilityId(Action<SerializableGuid> action) => abilityData.AbilityIds.ForEach(action);
 }
