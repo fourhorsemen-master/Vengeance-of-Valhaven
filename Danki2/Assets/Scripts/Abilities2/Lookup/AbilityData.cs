@@ -28,7 +28,6 @@ public class AbilityRarityDictionary : SerializableDictionary<SerializableGuid, 
 [Serializable]
 public class AbilityIconDictionary2 : SerializableDictionary<SerializableGuid, Sprite> {}
 
-[CreateAssetMenu(menuName = "Abilities/AbilityData")]
 public class AbilityData : ScriptableObject
 {
     public List<SerializableGuid> abilityIds = new List<SerializableGuid>();
