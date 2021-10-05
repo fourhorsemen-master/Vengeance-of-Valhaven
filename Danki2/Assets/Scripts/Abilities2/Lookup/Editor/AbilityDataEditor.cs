@@ -23,6 +23,8 @@ public class AbilityDataEditor : Editor
         }
         AddAbilityButton();
         
+        if (GUILayout.Button("Save")) AssetDatabase.SaveAssets();
+
         if (GUI.changed)
         {
             EditorUtility.SetDirty(target);
