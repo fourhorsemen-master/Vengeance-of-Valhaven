@@ -14,8 +14,8 @@ public class SwordEmpowermentVisual : MonoBehaviour
         decal.material = decalMaterial;
 
         trail.emitting = true;
-        trail.material.SetColour(colour);
-        trail.material.SetEmissiveColour(colour);
+        Color trailColour = Color.Lerp(colour, Color.white, 0.6f);
+        trail.material.SetUnlitColour(trailColour);
     }
 
     public void Reset()
