@@ -1135,6 +1135,7 @@ GameObject:
   - component: {fileID: 1307004630582523634}
   - component: {fileID: 1064717821195209815}
   - component: {fileID: 8403026213770845855}
+  - component: {fileID: 2417900672932500651}
   m_Layer: 0
   m_Name: Wraith
   m_TagString: Untagged
@@ -1325,6 +1326,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actor: {fileID: 3159524844991251707}
+--- !u!114 &2417900672932500651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4828296177260448678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7030f67251662c54b91ee19663206275, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meshes:
+  - {fileID: 8585309783021498695}
+  intensity: 1
+  updateBaseColour: 1
 --- !u!1 &4883951225066312381
 GameObject:
   m_ObjectHideFlags: 0
