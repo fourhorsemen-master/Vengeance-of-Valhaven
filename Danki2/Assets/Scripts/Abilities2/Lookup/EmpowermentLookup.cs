@@ -19,7 +19,7 @@ public class EmpowermentLookup : Singleton<EmpowermentLookup>
 {
     public EmpowermentColourDictionary empowermentColourDictionary = new EmpowermentColourDictionary(Color.white);
 
-    public EmpowermentDecalMaterialDictionary empowermentDecalMaterialDictionary = new EmpowermentDecalMaterialDictionary(() => null);
+    public EmpowermentDecalMaterialDictionary empowermentDecalMaterialDictionary = new EmpowermentDecalMaterialDictionary(defaultValue: null);
 
     public Color GetColour(Empowerment empowerment) => empowermentColourDictionary[empowerment];
     public Material GetDecalMaterial(Empowerment empowerment) => empowermentDecalMaterialDictionary[empowerment];

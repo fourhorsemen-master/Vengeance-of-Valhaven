@@ -10,8 +10,9 @@ public class SwordEmpowermentVisual : MonoBehaviour
 
     [SerializeField] private VisualEffect vfx;
 
-    private const float TrailColourDamping = 0.6f;
-    private const float VFXEmmissiveIntensity = 5f;
+    [SerializeField, Range(0,1)] private float trailColourDamping = 0.6f;
+
+    [SerializeField] private float vfxEmissiveIntensity = 5f;
 
     public void Activate(Color colour, Material decalMaterial)
     {
@@ -19,10 +20,10 @@ public class SwordEmpowermentVisual : MonoBehaviour
         decal.material = decalMaterial;
 
         trail.emitting = true;
-        Color trailColour = Color.Lerp(colour, Color.white, TrailColourDamping);
+        Color trailColour = Color.Lerp(colour, Color.white, trailColourDamping);
         trail.material.SetUnlitColour(trailColour);
 
-        vfx.SetVector4("Colour", colour * VFXEmmissiveIntensity);
+        vfx.SetVector4("Colour", colour * vfxEmissiveIntensity);
         vfx.Play();
     }
 

@@ -23,12 +23,16 @@ public class EmpowermentVisualManager : MonoBehaviour
 
         for (int i = 0; i < empowerments.Count; i ++)
         {
+            if (visuals.Length <= i)
+            {
+                Debug.LogWarning($"Tried to display {empowerments.Count} empowerments on the sword which is beyone the limit of {visuals.Length}.");
+                break;
+            }
+
             Color colour = EmpowermentLookup.Instance.GetColour(empowerments[i]);
             Material decalMaterial = EmpowermentLookup.Instance.GetDecalMaterial(empowerments[i]);
 
-            SwordEmpowermentVisual visual = visuals[i];
-
-            visual.Activate(colour, decalMaterial);
+            visuals[i].Activate(colour, decalMaterial);
         }
     }
 
