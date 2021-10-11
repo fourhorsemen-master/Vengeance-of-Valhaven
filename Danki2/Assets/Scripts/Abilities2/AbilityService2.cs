@@ -83,6 +83,7 @@ public class AbilityService2
             node => !node.IsRootNode
         );
 
+        // Reversing here ensures empowerments are listed in chronological order
         empowerments.Reverse();
 
         return empowerments;
