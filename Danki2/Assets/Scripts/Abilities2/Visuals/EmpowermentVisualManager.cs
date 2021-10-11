@@ -19,7 +19,7 @@ public class EmpowermentVisualManager : MonoBehaviour
     {
         ResetEmpowerments();
 
-        List<Empowerment> empowerments = player.AbilityService.CurrentEmpowerments;
+        List<Empowerment> empowerments = player.AbilityService.NextEmpowerments;
 
         for (int i = 0; i < empowerments.Count; i ++)
         {

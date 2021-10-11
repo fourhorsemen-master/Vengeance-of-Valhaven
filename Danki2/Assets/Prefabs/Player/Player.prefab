@@ -2985,6 +2985,7 @@ MonoBehaviour:
   shortCooldown: 0.5
   longCooldown: 1.4
   comboTimeout: 0.35
+  selfEmpoweringAbilities: 0
   totalRollCooldown: 1
   rollDuration: 0.2
   rollSpeedMultiplier: 4
@@ -6556,6 +6557,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Empowement2
       objectReference: {fileID: 0}
+    - target: {fileID: 6872675847049642552, guid: ec3749c6aa744a948a4b3c2da6acebe4,
+        type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6872675847049642552, guid: ec3749c6aa744a948a4b3c2da6acebe4,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8351626666338827629, guid: ec3749c6aa744a948a4b3c2da6acebe4,
         type: 3}
       propertyPath: m_RootOrder
@@ -6642,6 +6653,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Empowement5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5788233337564462307, guid: ec3749c6aa744a948a4b3c2da6acebe4,
+        type: 3}
+      propertyPath: m_FadeFactor
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6872675847049642552, guid: ec3749c6aa744a948a4b3c2da6acebe4,
+        type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6872675847049642552, guid: ec3749c6aa744a948a4b3c2da6acebe4,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8351626666338827629, guid: ec3749c6aa744a948a4b3c2da6acebe4,
         type: 3}
@@ -6730,6 +6756,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Empowement1
       objectReference: {fileID: 0}
+    - target: {fileID: 6872675847049642552, guid: ec3749c6aa744a948a4b3c2da6acebe4,
+        type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6872675847049642552, guid: ec3749c6aa744a948a4b3c2da6acebe4,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8351626666338827629, guid: ec3749c6aa744a948a4b3c2da6acebe4,
         type: 3}
       propertyPath: m_RootOrder
@@ -6816,6 +6852,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Empowement3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6872675847049642552, guid: ec3749c6aa744a948a4b3c2da6acebe4,
+        type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6872675847049642552, guid: ec3749c6aa744a948a4b3c2da6acebe4,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8351626666338827629, guid: ec3749c6aa744a948a4b3c2da6acebe4,
         type: 3}
@@ -7053,6 +7099,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Empowement4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6872675847049642552, guid: ec3749c6aa744a948a4b3c2da6acebe4,
+        type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6872675847049642552, guid: ec3749c6aa744a948a4b3c2da6acebe4,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8351626666338827629, guid: ec3749c6aa744a948a4b3c2da6acebe4,
         type: 3}
