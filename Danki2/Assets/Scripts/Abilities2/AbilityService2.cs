@@ -19,12 +19,13 @@ public class AbilityService2
     
     private readonly Player player;
     private readonly AbilityAnimator abilityAnimator;
+    private readonly bool selfEmpoweringAbilities;
 
-    public AbilityService2(Player player, AbilityAnimator abilityAnimator)
+    public AbilityService2(Player player, AbilityAnimator abilityAnimator, bool selfEmpoweringAbilities)
     {
         this.player = player;
         this.abilityAnimator = abilityAnimator;
-
+        this.selfEmpoweringAbilities = selfEmpoweringAbilities;
         player.AbilityAnimationListener.ImpactSubject.Subscribe(OnImpact);
     }
 
@@ -76,7 +77,10 @@ public class AbilityService2
             node => !node.IsRootNode
         );
 
-        empowerments.AddRange(AbilityLookup2.Instance.GetEmpowerments(abilityId));
+        if (selfEmpoweringAbilities)
+        {
+            empowerments.AddRange(AbilityLookup2.Instance.GetEmpowerments(abilityId));
+        }
 
         return empowerments;
     }
