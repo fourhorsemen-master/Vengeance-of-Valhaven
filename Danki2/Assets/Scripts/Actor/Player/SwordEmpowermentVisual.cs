@@ -6,6 +6,8 @@ public class SwordEmpowermentVisual : MonoBehaviour
 {
     [SerializeField] private DecalProjector decal;
 
+    [SerializeField] private DecalProjector reverseDecal;
+
     [SerializeField] private TrailRenderer trail;
 
     [SerializeField] private VisualEffect vfx;
@@ -19,6 +21,9 @@ public class SwordEmpowermentVisual : MonoBehaviour
         decal.fadeFactor = 1;
         decal.material = decalMaterial;
 
+        reverseDecal.fadeFactor = 1;
+        reverseDecal.material = decalMaterial;
+
         trail.emitting = true;
         Color trailColour = Color.Lerp(colour, Color.white, trailColourDamping);
         trail.material.SetUnlitColour(trailColour);
@@ -30,6 +35,7 @@ public class SwordEmpowermentVisual : MonoBehaviour
     public void Reset()
     {
         decal.fadeFactor = 0;
+        reverseDecal.fadeFactor = 0;
         trail.emitting = false;
         vfx.Stop();
     }
