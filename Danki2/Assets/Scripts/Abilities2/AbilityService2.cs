@@ -51,7 +51,7 @@ public class AbilityService2
         AbilityUtils.TemplateCollision(
             player,
             collisionTemplateLookup[AbilityLookup2.Instance.GetAbilityType(CurrentAbilityId)],
-            1,
+            AbilityRange,
             player.CollisionTemplateSource,
             CurrentCastRotation,
             AbilityTypeLookup.Instance.GetCollisionSoundLevel(AbilityLookup2.Instance.GetAbilityType(CurrentAbilityId)),
