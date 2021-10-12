@@ -6,4 +6,5 @@
     Wraith,
     ForestGolem,
     TargetDummy,
+    Ent,
 }
