@@ -102,3 +102,52 @@ To create a new module:
 - Make sure the prefab has the default transform and that it is facing the -ve z-axis (if the direction is important to the module),
 - In the ModuleLookup, add a new entry for your module, drag in the prefab, set the appropriate tags and data about available rotations,
 - The module will now come up in random module selection.
+
+### Creating an Enemy Prefab
+
+This assumes a mesh and materials have been created and a blank enemy prefab is desired:
+
+- Create an empty prefab in the scene, reset the transform and turn this into a prefab appropriately named under the Enemies folder.
+- Place the mesh under the prefab and rename it to Mesh.
+- Take a copy of the SpeedTrail object from another enemy. Place this under the prefab and set the height.
+- Create an Empty under the prefab and name it Sockets. Under Sockets create 3 Empties called: Centre, AbilitySource, and CollisionTemplateSource.
+- Move the 3 Sockets into position.
+- From the UI folder drag the EnemyDiegetic onto the prefab.
+- Zoom out and adjust the Y-position of the Diegetic to be slightly above the enemies height.
+- Create an Enemy script. Open the ActorType enum and add the enemy to that list.
+- Inside the enemies script firstly inheret from the Enemy class, then write `public override ActorType Type => ActorType.Example;`.
+- Note: The enemies script can be left at this unless further details are going to be added immediately.
+- Create an enemy AI script and inheret from EnemyAi. Within the class start by writing: `[SerializeField] private Example example = null;`.
+- Then write: `protected override Actor Actor => example;`.
+- Then ctrl + . the class to create an empty state machine:
+
+```
+protected override IStateMachineComponent BuildStateMachineComponent()
+{
+    throw new System.NotImplementedException();
+}
+```
+
+- Within the Enemy script folder we must also create an enemy editor script.
+- Within this script write:
+
+```
+[CustomEditor(typeof(Example))]
+public class ExampleEditor : EnemyEditor
+{
+}
+```
+
+- Make sure the scripts are saved, open Unity and the prefab. Attach the enemy script and the enemy ai scipt, making sure to drop a reference to the enemy script in the enemy ai scripts serialized field.
+- We now want to complete the enemy script. Start by adding a nav mesh agent component to the prefab. Check the component, but most of the time the component can be left as default. Reference this in the enemy script.
+- Next reference the speed trail child object in the heirarchy.
+- Next open the mesh renderer dropdown box on the enemy script. Add as many lines as there are child objects of the prefabs Mesh, each child of the Mesh must be manually placed into this list.
+- Next enter an appropriate weight, for reference the bear weighs 2, the wolf weighs 1.
+- Enter a rotation smoothing of 0.1.
+- Open the collidors dropdown, create a single line and reference the collidor component from the prefab.
+- Open the sockets dropdown in the heirarchy and 1 by 1 reference each of the sockets.
+- Enter appropriate Stats.
+- Add 2 more components to the prefab: Flash on hit & Player targetable. Reference the enemy in each of these.
+- The EnemyDiegetic child of the prefab now needs a reference to the enemy.
+- Finally open the Spawner prefab and reference the new enemy.
+- Test the enemy in scene to ensure it is appropriately sized.
