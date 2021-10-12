@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class AbilityService2
@@ -50,7 +51,7 @@ public class AbilityService2
         AbilityUtils.TemplateCollision(
             player,
             collisionTemplateLookup[AbilityLookup2.Instance.GetAbilityType(CurrentAbilityId)],
-            CalculateRange(CurrentEmpowerments),
+            1,
             player.CollisionTemplateSource,
             CurrentCastRotation,
             AbilityTypeLookup.Instance.GetCollisionSoundLevel(AbilityLookup2.Instance.GetAbilityType(CurrentAbilityId)),
@@ -81,13 +82,6 @@ public class AbilityService2
         return empowerments;
     }
 
-    private float CalculateRange(List<Empowerment> empowerments)
-    {
-        float range = AbilityRange;
-        empowerments.ForEach(e => range *= e == Empowerment.DoubleRange ? 2 : 1);
-        return range;
-    }
-
     private void HandleCollision(SerializableGuid abilityId, Enemy enemy, List<Empowerment> empowerments)
     {
         enemy.HealthManager.ReceiveDamage(CalculateDamage(abilityId, empowerments), player);
@@ -97,14 +91,13 @@ public class AbilityService2
     private int CalculateDamage(SerializableGuid abilityId, List<Empowerment> empowerments)
     {
         int damage = AbilityLookup2.Instance.GetDamage(abilityId);
-        empowerments.ForEach(e => damage *= e == Empowerment.DoubleDamage ? 2 : 1);
+        damage += empowerments.Count(e => e == Empowerment.Impact);
         return damage;
     }
 
     private int CalculateBleedStacks(List<Empowerment> empowerments)
     {
-        int bleedStacks = 0;
-        empowerments.ForEach(e => bleedStacks += e == Empowerment.Rupture ? 1 : 0);
+        int bleedStacks = empowerments.Count(e => e == Empowerment.Rupture);
         return bleedStacks;
     }
 }
