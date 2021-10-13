@@ -8,6 +8,7 @@ public class AbilityService2
     public SerializableGuid CurrentAbilityId { get; private set; }
     public Quaternion CurrentCastRotation { get; private set; }
     public List<Empowerment> CurrentEmpowerments { get; private set; }
+    public List<Empowerment> NextEmpowerments { get; private set; }
 
     private static readonly Dictionary<AbilityType2, CollisionTemplateShape> collisionTemplateLookup =
         new Dictionary<AbilityType2, CollisionTemplateShape>
@@ -19,19 +20,23 @@ public class AbilityService2
     
     private readonly Player player;
     private readonly AbilityAnimator abilityAnimator;
+    private readonly bool selfEmpoweringAbilities;
 
-    public AbilityService2(Player player, AbilityAnimator abilityAnimator)
+    public AbilityService2(Player player, AbilityAnimator abilityAnimator, bool selfEmpoweringAbilities)
     {
         this.player = player;
         this.abilityAnimator = abilityAnimator;
-
+        this.selfEmpoweringAbilities = selfEmpoweringAbilities;
         player.AbilityAnimationListener.ImpactSubject.Subscribe(OnImpact);
     }
 
     public void Cast(Direction direction, Vector3 targetPosition)
     {
         CurrentAbilityId = player.AbilityTree.GetAbilityId(direction);
-        CurrentEmpowerments = GetActiveEmpowerments(CurrentAbilityId);
+        player.AbilityTree.Walk(direction);
+
+        CurrentEmpowerments = GetCurrentEmpowerments(selfEmpoweringAbilities);
+        NextEmpowerments = GetCurrentEmpowerments();
 
         player.MovementManager.LookAt(targetPosition);
         
@@ -39,8 +44,6 @@ public class AbilityService2
         CurrentCastRotation = AbilityUtils.GetMeleeCastRotation(castDirection);
 
         abilityAnimator.HandleAnimation(CurrentAbilityId);
-
-        player.AbilityTree.Walk(direction);
     }
 
     private void OnImpact()
@@ -67,16 +70,21 @@ public class AbilityService2
         CustomCamera.Instance.AddShake(shakeIntensity);
     }
 
-    private List<Empowerment> GetActiveEmpowerments(SerializableGuid abilityId)
+    private List<Empowerment> GetCurrentEmpowerments(bool includeCurrentAbility = true)
     {
         List<Empowerment> empowerments = new List<Empowerment>();
 
-        player.AbilityTree.CurrentNode.IterateUp(
+        Node iterateFromNode = includeCurrentAbility
+            ? player.AbilityTree.CurrentNode
+            : player.AbilityTree.CurrentNode.Parent;
+
+        iterateFromNode.IterateUp(
             node => empowerments.AddRange(AbilityLookup2.Instance.GetEmpowerments(node.AbilityId)),
             node => !node.IsRootNode
         );
 
-        empowerments.AddRange(AbilityLookup2.Instance.GetEmpowerments(abilityId));
+        // Reversing here ensures empowerments are listed in chronological order
+        empowerments.Reverse();
 
         return empowerments;
     }
