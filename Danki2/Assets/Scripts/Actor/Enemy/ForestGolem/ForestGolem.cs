@@ -26,7 +26,7 @@ public class ForestGolem : Enemy
     [SerializeField] private int stompDamage = 0;
     [SerializeField] private float stompKnockbackDuration = 0;
     [SerializeField] private float stompKnockbackSpeed = 0;
-    [SerializeField] private int stompEffectScaleFactor = 0;
+    [SerializeField] private float stompEffectScaleFactor = 0;
     
     public Subject BoulderThrowSubject { get; } = new Subject();
     public Subject StompSubject { get; } = new Subject();

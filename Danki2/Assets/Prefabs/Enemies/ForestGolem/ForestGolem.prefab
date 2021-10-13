@@ -551,7 +551,7 @@ MonoBehaviour:
   boulderSpikeRange: 1.7
   boulderSpikeDamage: 2
   stompPositionOffset: 1
-  stompRange: 2
+  stompRange: 2.5
   stompDamage: 5
   stompKnockbackDuration: 0.4
   stompKnockbackSpeed: 6
@@ -578,9 +578,9 @@ MonoBehaviour:
   rootStormInterval: 0.2
   rootStormDuration: 7
   boulderThrowTelegraphTime: 1
-  stompRange: 4
+  stompRange: 5
   maxStompAngle: 10
-  stompTelegraphTime: 1
+  stompTelegraphTime: 0.8
 --- !u!114 &1064717821195209815
 MonoBehaviour:
   m_ObjectHideFlags: 0
