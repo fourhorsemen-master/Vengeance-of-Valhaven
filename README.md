@@ -114,6 +114,16 @@ This assumes a mesh and materials have been created and a blank enemy prefab is 
 - Create an Enemy script. Open the ActorType enum and add the enemy to that list.
 - Inside the enemies script firstly inherit from the Enemy class, then write `public override ActorType Type => ActorType.Example;`.
 - Note: The enemies script can be left at this unless further details are going to be added immediately.
+- Create an enemy editor script within the Enemy script folder.
+- Within this script write:
+
+```
+[CustomEditor(typeof(Example))]
+public class ExampleEditor : EnemyEditor
+{
+}
+```
+
 - Make sure the scripts are saved, open Unity and the prefab. Attach the enemy script to the prefab.
 - Complete the enemy script:
   - Add a nav mesh agent component to the prefab. Check the component, but most of the time the component can be left as default. Reference this in the enemy script.
