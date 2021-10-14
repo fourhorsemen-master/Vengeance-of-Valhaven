@@ -59,10 +59,6 @@ Things to be sure to do when making prop prefabs:
   - The game object layer should be set to "Props" (including all children)
   - If the prop should be part of the navmesh, it should have "Navigation Static" selected and an appropriate "Navigation Area".
 
-### Making Enemy Prefabs
-
-- Make sure that "Depth Write" and "Double-Sided" are checked on any appropriated materials, for example, the Forest Bear leaves.
-
 ### Making New Scenes
 
 To create a new scene:
@@ -102,3 +98,44 @@ To create a new module:
 - Make sure the prefab has the default transform and that it is facing the -ve z-axis (if the direction is important to the module),
 - In the ModuleLookup, add a new entry for your module, drag in the prefab, set the appropriate tags and data about available rotations,
 - The module will now come up in random module selection.
+
+### Creating an Enemy Prefab
+
+This assumes a mesh and materials have been created and a blank enemy prefab is desired:
+
+- Create an empty prefab in the scene, reset the transform and turn this into a prefab appropriately named under the Enemies folder.
+- Place the mesh under the prefab and rename it to Mesh.
+- Drag the appropraite material onto each child of Mesh.
+- Make sure that "Depth Write" and "Double-Sided" are checked on any appropriated materials, for example, the Forest Bear leaves.
+- Take a copy of the SpeedTrail object from another enemy. Place this under the prefab and set the height.
+- Take a copy of the Sockets object from another enemy. Place this under the prefab and set the positions of each child.
+- From the UI folder drag the EnemyDiegetic onto the prefab.
+- Zoom out and adjust the Y-position of the Diegetic to be slightly above the enemies height.
+- Create an Enemy script. Open the ActorType enum and add the enemy to that list.
+- Inside the enemies script firstly inherit from the Enemy class, then write `public override ActorType Type => ActorType.Example;`.
+- Note: The enemies script can be left at this unless further details are going to be added immediately.
+- Create an enemy editor script within the Enemy script folder.
+- Within this script write:
+
+```
+[CustomEditor(typeof(Example))]
+public class ExampleEditor : EnemyEditor
+{
+}
+```
+
+- Make sure the scripts are saved, open Unity and the prefab. Attach the enemy script to the prefab.
+- Complete the enemy script:
+  - Add a nav mesh agent component to the prefab. Check the component, but most of the time the component can be left as default. Reference this in the enemy script.
+  - Reference the speed trail child object in the heirarchy.
+  - Open the mesh renderer dropdown box on the enemy script. Add as many lines as there are child objects of the prefabs Mesh, each child of the Mesh must be manually placed into this list.
+  - Enter an appropriate weight, for reference the bear weighs 2, the wolf weighs 1.
+  - Enter a rotation smoothing of 0.1.
+  - Open the colliders dropdown, create a single line and reference the collider component from the prefab.
+  - Open the sockets dropdown in the hierarchy and 1 by 1 reference each of the sockets.
+  - Enter appropriate Stats.
+- Add the following components to the prefab: Flash on hit & Player targetable. Reference the enemy in each of these.
+- Add an Emit Energy component to the prefab, in the dropdown list add each child of the Mesh which emits energy. Set the intensity to 1.
+- The EnemyDiegetic child of the prefab now needs a reference to the enemy.
+- Open the Spawner prefab and reference the new enemy.
+- Test the enemy in scene to ensure it is appropriately sized.
