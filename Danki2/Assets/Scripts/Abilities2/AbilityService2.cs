@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class AbilityService2
@@ -8,6 +9,7 @@ public class AbilityService2
     public SerializableGuid CurrentAbilityId { get; private set; }
     public Quaternion CurrentCastRotation { get; private set; }
     public List<Empowerment> CurrentEmpowerments { get; private set; }
+    public List<Empowerment> NextEmpowerments { get; private set; }
 
     private static readonly Dictionary<AbilityType2, CollisionTemplateShape> collisionTemplateLookup =
         new Dictionary<AbilityType2, CollisionTemplateShape>
@@ -19,19 +21,23 @@ public class AbilityService2
     
     private readonly Player player;
     private readonly AbilityAnimator abilityAnimator;
+    private readonly bool selfEmpoweringAbilities;
 
-    public AbilityService2(Player player, AbilityAnimator abilityAnimator)
+    public AbilityService2(Player player, AbilityAnimator abilityAnimator, bool selfEmpoweringAbilities)
     {
         this.player = player;
         this.abilityAnimator = abilityAnimator;
-
+        this.selfEmpoweringAbilities = selfEmpoweringAbilities;
         player.AbilityAnimationListener.ImpactSubject.Subscribe(OnImpact);
     }
 
     public void Cast(Direction direction, Vector3 targetPosition)
     {
         CurrentAbilityId = player.AbilityTree.GetAbilityId(direction);
-        CurrentEmpowerments = GetActiveEmpowerments(CurrentAbilityId);
+        player.AbilityTree.Walk(direction);
+
+        CurrentEmpowerments = GetCurrentEmpowerments(selfEmpoweringAbilities);
+        NextEmpowerments = GetCurrentEmpowerments();
 
         player.MovementManager.LookAt(targetPosition);
         
@@ -39,8 +45,6 @@ public class AbilityService2
         CurrentCastRotation = AbilityUtils.GetMeleeCastRotation(castDirection);
 
         abilityAnimator.HandleAnimation(CurrentAbilityId);
-
-        player.AbilityTree.Walk(direction);
     }
 
     private void OnImpact()
@@ -50,7 +54,7 @@ public class AbilityService2
         AbilityUtils.TemplateCollision(
             player,
             collisionTemplateLookup[AbilityLookup2.Instance.GetAbilityType(CurrentAbilityId)],
-            CalculateRange(CurrentEmpowerments),
+            AbilityRange,
             player.CollisionTemplateSource,
             CurrentCastRotation,
             AbilityTypeLookup.Instance.GetCollisionSoundLevel(AbilityLookup2.Instance.GetAbilityType(CurrentAbilityId)),
@@ -67,25 +71,23 @@ public class AbilityService2
         CustomCamera.Instance.AddShake(shakeIntensity);
     }
 
-    private List<Empowerment> GetActiveEmpowerments(SerializableGuid abilityId)
+    private List<Empowerment> GetCurrentEmpowerments(bool includeCurrentAbility = true)
     {
         List<Empowerment> empowerments = new List<Empowerment>();
 
-        player.AbilityTree.CurrentNode.IterateUp(
+        Node iterateFromNode = includeCurrentAbility
+            ? player.AbilityTree.CurrentNode
+            : player.AbilityTree.CurrentNode.Parent;
+
+        iterateFromNode.IterateUp(
             node => empowerments.AddRange(AbilityLookup2.Instance.GetEmpowerments(node.AbilityId)),
             node => !node.IsRootNode
         );
 
-        empowerments.AddRange(AbilityLookup2.Instance.GetEmpowerments(abilityId));
+        // Reversing here ensures empowerments are listed in chronological order
+        empowerments.Reverse();
 
         return empowerments;
-    }
-
-    private float CalculateRange(List<Empowerment> empowerments)
-    {
-        float range = AbilityRange;
-        empowerments.ForEach(e => range *= e == Empowerment.DoubleRange ? 2 : 1);
-        return range;
     }
 
     private void HandleCollision(SerializableGuid abilityId, Enemy enemy, List<Empowerment> empowerments)
@@ -97,14 +99,13 @@ public class AbilityService2
     private int CalculateDamage(SerializableGuid abilityId, List<Empowerment> empowerments)
     {
         int damage = AbilityLookup2.Instance.GetDamage(abilityId);
-        empowerments.ForEach(e => damage *= e == Empowerment.DoubleDamage ? 2 : 1);
+        damage += empowerments.Count(e => e == Empowerment.Impact);
         return damage;
     }
 
     private int CalculateBleedStacks(List<Empowerment> empowerments)
     {
-        int bleedStacks = 0;
-        empowerments.ForEach(e => bleedStacks += e == Empowerment.Rupture ? 1 : 0);
+        int bleedStacks = empowerments.Count(e => e == Empowerment.Rupture);
         return bleedStacks;
     }
 }

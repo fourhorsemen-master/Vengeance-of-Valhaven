@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -53,6 +54,8 @@ public class EmpowermentLookupEditor : Editor
 
         EditColour(empowerment);
 
+        EditDecalMaterial(empowerment);
+
         EditorGUI.indentLevel--;
     }
 
@@ -61,6 +64,16 @@ public class EmpowermentLookupEditor : Editor
         empowermentLookup.empowermentColourDictionary[empowerment] = EditorGUILayout.ColorField(
             "Colour",
             empowermentLookup.empowermentColourDictionary[empowerment]
+        );
+    }
+
+    private void EditDecalMaterial(Empowerment empowerment)
+    {
+        empowermentLookup.empowermentDecalMaterialDictionary[empowerment] = (Material)EditorGUILayout.ObjectField(
+            "Material",
+            empowermentLookup.empowermentDecalMaterialDictionary[empowerment],
+            typeof(Material),
+            false
         );
     }
 }
