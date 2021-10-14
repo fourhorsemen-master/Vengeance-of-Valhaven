@@ -13,7 +13,6 @@
     Bleed,
     Poison,
     Vulnerable,
-    DoubleDamage,
+    Impact,
     Rupture,
-    DoubleRange,
 }
