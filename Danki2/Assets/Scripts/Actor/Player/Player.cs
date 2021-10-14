@@ -9,6 +9,7 @@ public class Player : Actor
     [SerializeField] private float shortCooldown = 0.75f;
     [SerializeField] private float longCooldown = 1.5f;
     [SerializeField] private float comboTimeout = 2f;
+    [SerializeField] private bool selfEmpoweringAbilities = false;
 
     [Header("Roll")]
     [SerializeField] private float totalRollCooldown = 1f;
@@ -58,7 +59,7 @@ public class Player : Actor
         TargetFinder = new PlayerTargetFinder(this, updateSubject);
         RuneManager = new RuneManager(this);
         CurrencyManager = new CurrencyManager();
-        AbilityService = new AbilityService2(this, abilityAnimator);
+        AbilityService = new AbilityService2(this, abilityAnimator, selfEmpoweringAbilities);
         MovementManager = new PlayerMovementManager(this, updateSubject, navmeshAgent);
     }
 

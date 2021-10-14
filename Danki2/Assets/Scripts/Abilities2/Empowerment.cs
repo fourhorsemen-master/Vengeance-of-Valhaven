@@ -1,6 +1,5 @@
 public enum Empowerment
 {
-    DoubleDamage,
+    Impact,
     Rupture,
-    DoubleRange,
 }

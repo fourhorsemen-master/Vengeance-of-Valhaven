@@ -19,9 +19,8 @@ public static class KeywordUtils
     private static readonly Dictionary<Empowerment, Keyword> empowermentLookup =
         new Dictionary<Empowerment, Keyword>
         {
-            [Empowerment.DoubleDamage] = Keyword.DoubleDamage,
+            [Empowerment.Impact] = Keyword.Impact,
             [Empowerment.Rupture] = Keyword.Rupture,
-            [Empowerment.DoubleRange] = Keyword.DoubleRange,
         };
 
     public static List<Keyword> GetKeywords(SerializableGuid abilityId)
