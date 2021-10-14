@@ -22,7 +22,7 @@ public class ForestGolem : Enemy
 
     [Header("Stomp")]
     [SerializeField] private float stompPositionOffset = 0;
-    [SerializeField] private float stompRange = 0;
+    [SerializeField] private float stompRadius = 0;
     [SerializeField] private int stompDamage = 0;
     [SerializeField] private float stompKnockbackDuration = 0;
     [SerializeField] private float stompKnockbackSpeed = 0;
@@ -100,7 +100,7 @@ public class ForestGolem : Enemy
 
         Player player = ActorCache.Instance.Player;
 
-        if (Vector3.Distance(player.transform.position, targetPosition) <= stompRange)
+        if (Vector3.Distance(player.transform.position, targetPosition) <= stompRadius)
         {
             player.HealthManager.ReceiveDamage(stompDamage, this);
 
