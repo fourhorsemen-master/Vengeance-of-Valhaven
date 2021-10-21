@@ -23,6 +23,10 @@ public class AbilityService2
     private readonly AbilityAnimator abilityAnimator;
     private readonly bool selfEmpoweringAbilities;
 
+    private const float ImpactDamageIncrease = 1f;
+    private const float ExecuteHealthProportion = 0.3f;
+    private const float ExecuteDamageMultiplier = 1.5f;
+
     public AbilityService2(Player player, AbilityAnimator abilityAnimator, bool selfEmpoweringAbilities)
     {
         this.player = player;
@@ -92,20 +96,35 @@ public class AbilityService2
 
     private void HandleCollision(SerializableGuid abilityId, Enemy enemy, List<Empowerment> empowerments)
     {
-        enemy.HealthManager.ReceiveDamage(CalculateDamage(abilityId, empowerments), player);
+        enemy.HealthManager.ReceiveDamage(CalculateDamage(abilityId, empowerments, enemy), player);
         enemy.EffectManager.AddStacks(StackingEffect.Bleed, CalculateBleedStacks(empowerments));
     }
 
-    private int CalculateDamage(SerializableGuid abilityId, List<Empowerment> empowerments)
+    private int CalculateDamage(SerializableGuid abilityId, List<Empowerment> empowerments, Enemy enemy)
     {
-        int damage = AbilityLookup2.Instance.GetDamage(abilityId);
-        damage += empowerments.Count(e => e == Empowerment.Impact);
-        return damage;
+        float damage = AbilityLookup2.Instance.GetDamage(abilityId);
+        damage = HandleImpactDamage(damage, empowerments);
+        damage = HandleExecuteDamage(damage, empowerments, enemy);
+        return Mathf.CeilToInt(damage);
     }
 
     private int CalculateBleedStacks(List<Empowerment> empowerments)
     {
         int bleedStacks = empowerments.Count(e => e == Empowerment.Rupture);
         return bleedStacks;
+    }
+
+    private float HandleImpactDamage(float damage, List<Empowerment> empowerments)
+    {
+        return damage + empowerments.Count(e => e == Empowerment.Impact) * ImpactDamageIncrease;
+    }
+
+    private float HandleExecuteDamage(float damage, List<Empowerment> empowerments, Enemy enemy)
+    {
+        if (enemy.HealthManager.HealthProportion <= ExecuteHealthProportion)
+        {
+            damage *= 1 + (empowerments.Count(e => e == Empowerment.Execute) * (ExecuteDamageMultiplier - 1));
+        }
+        return damage;
     }
 }
