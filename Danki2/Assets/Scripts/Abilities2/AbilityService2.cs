@@ -23,6 +23,7 @@ public class AbilityService2
     private readonly AbilityAnimator abilityAnimator;
     private readonly bool selfEmpoweringAbilities;
 
+    private const float ImpactDamageIncrease = 1f;
     private const float ExecuteHealthProportion = 0.3f;
     private const float ExecuteDamageMultiplier = 1.5f;
 
@@ -102,11 +103,8 @@ public class AbilityService2
     private int CalculateDamage(SerializableGuid abilityId, List<Empowerment> empowerments, Enemy enemy)
     {
         float damage = AbilityLookup2.Instance.GetDamage(abilityId);
-        damage += empowerments.Count(e => e == Empowerment.Impact);
-        if(enemy.HealthManager.HealthProportion <= ExecuteHealthProportion)
-        {
-            damage *= 1 + (empowerments.Count(e => e == Empowerment.Execute) * (ExecuteDamageMultiplier - 1));
-        }
+        damage = HandleImpactDamage(damage, empowerments);
+        damage = HandleExecuteDamage(damage, empowerments, enemy);
         return Mathf.CeilToInt(damage);
     }
 
@@ -114,5 +112,19 @@ public class AbilityService2
     {
         int bleedStacks = empowerments.Count(e => e == Empowerment.Rupture);
         return bleedStacks;
+    }
+
+    private float HandleImpactDamage(float damage, List<Empowerment> empowerments)
+    {
+        return damage + empowerments.Count(e => e == Empowerment.Impact) * ImpactDamageIncrease;
+    }
+
+    private float HandleExecuteDamage(float damage, List<Empowerment> empowerments, Enemy enemy)
+    {
+        if (enemy.HealthManager.HealthProportion <= ExecuteHealthProportion)
+        {
+            damage *= 1 + (empowerments.Count(e => e == Empowerment.Execute) * (ExecuteDamageMultiplier - 1));
+        }
+        return damage;
     }
 }
