@@ -15,4 +15,5 @@
     Vulnerable,
     Impact,
     Rupture,
+    Execute,
 }

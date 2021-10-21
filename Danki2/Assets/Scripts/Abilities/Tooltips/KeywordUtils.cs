@@ -21,6 +21,7 @@ public static class KeywordUtils
         {
             [Empowerment.Impact] = Keyword.Impact,
             [Empowerment.Rupture] = Keyword.Rupture,
+            [Empowerment.Execute] = Keyword.Execute,
         };
 
     public static List<Keyword> GetKeywords(SerializableGuid abilityId)
