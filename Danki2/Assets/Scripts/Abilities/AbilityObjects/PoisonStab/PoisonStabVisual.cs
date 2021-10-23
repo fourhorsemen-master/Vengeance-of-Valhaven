@@ -4,8 +4,12 @@ public class PoisonStabVisual : StaticAbilityObject
 {
     public override float StickTime => 5f;
 
-    public static void Create(PoisonStabVisual prefab, Vector3 position, Quaternion rotation)
+    [SerializeField]
+    private ModularPFXComponent mpfx;
+    public ModularPFXComponent Mpfx => mpfx;
+
+    public static PoisonStabVisual Create(PoisonStabVisual prefab, Vector3 position, Quaternion rotation)
     {
-        Instantiate(prefab, position, rotation);
+        return Instantiate(prefab, position, rotation);
     }
 }

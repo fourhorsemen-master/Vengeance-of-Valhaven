@@ -16,6 +16,18 @@ public class PoisonStabObject : StaticAbilityObject
         ).Setup(onCastFail, onFinishMovement);
     }
 
+    public static void CreateVisual(Vector3 position, Quaternion rotation, Color colour)
+    {
+        var test = Instantiate(
+            AbilityObjectPrefabLookup.Instance.PoisonStabObjectPrefab,
+            position,
+            rotation
+        );
+        test.visualEffect.Stop();
+        PoisonStabVisual.Create(test.poisonStabVisualPrefab, position, rotation)
+            .Mpfx.UpdateEffectColour(colour);
+    }
+
     private void Setup(Subject onCastFail, Subject onFinishMovement)
     {
         onCastFail.Subscribe(() => visualEffect.Stop());
