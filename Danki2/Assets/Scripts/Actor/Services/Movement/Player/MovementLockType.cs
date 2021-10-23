@@ -1,6 +1,7 @@
 ﻿public enum MovementLockType
 {
-    Dash,
+    Roll,
     Knockback,
-    Pull
+    Pull,
+    AbilityDash
 }
