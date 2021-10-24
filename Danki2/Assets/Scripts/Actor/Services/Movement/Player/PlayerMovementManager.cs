@@ -7,7 +7,8 @@ public class PlayerMovementManager : MovementManager, IMovementStatusProvider
     private static readonly ISet<MovementLockType> MoveLockOverrideTypes = new HashSet<MovementLockType>
     {
         MovementLockType.Knockback,
-        MovementLockType.Pull
+        MovementLockType.Pull,
+        MovementLockType.AbilityDash
     };
 
     private static readonly ISet<MovementLockType> MovementLockTypesAffectedByWeight = new HashSet<MovementLockType>
@@ -99,8 +100,6 @@ public class PlayerMovementManager : MovementManager, IMovementStatusProvider
     private bool TryLockMovement(bool overrideLock, float duration, float speed, Vector3 direction, Vector3 rotation)
     {
         if (!movementStatusManager.TryLockMovement(overrideLock, duration)) return false;
-
-        if (overrideLock) player.InterruptionManager.Interrupt(InterruptionType.Hard);
 
         movementLockSpeed = speed;
         movementLockDirection = direction.normalized;

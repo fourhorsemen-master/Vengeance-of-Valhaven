@@ -35,12 +35,17 @@ public class AbilityVfxManager : MonoBehaviour
         switch (type)
         {
             case AbilityType2.Slash:
-            case AbilityType2.Thrust:
                 SlashObject.Create(
                     player.AbilitySource,
                     player.AbilityService.CurrentCastRotation * Quaternion.Euler(0, offset, 0),
                     EmpowermentLookup.Instance.GetColour(empowerment)
                 );
+                break;
+            case AbilityType2.Thrust:
+                PoisonStabVisual.Create(
+                    player.Centre + player.transform.forward * offset/200,
+                    player.AbilityService.CurrentCastRotation)
+                    .SetColour(EmpowermentLookup.Instance.GetColour(empowerment));
                 break;
             case AbilityType2.Smash:
                 SmashObject.Create(
