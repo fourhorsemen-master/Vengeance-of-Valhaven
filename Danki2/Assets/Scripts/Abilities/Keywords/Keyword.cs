@@ -11,4 +11,5 @@
     Impact,
     Rupture,
     Execute,
+    Maim,
 }
