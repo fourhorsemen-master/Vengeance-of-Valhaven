@@ -6,6 +6,12 @@ public class AbilityService2
 {
     private const float AbilityRange = 3;
 
+    private const float ImpactDamageIncrease = 1f;
+    private const float ExecuteHealthProportion = 0.3f;
+    private const float ExecuteDamageMultiplier = 1.5f;
+    private const float MaimHealthProportion = 0.7f;
+    private const float MaimDamageMultiplier = 1.5f;
+
     public SerializableGuid CurrentAbilityId { get; private set; }
     public Quaternion CurrentCastRotation { get; private set; }
     public List<Empowerment> CurrentEmpowerments { get; private set; }
@@ -22,10 +28,6 @@ public class AbilityService2
     private readonly Player player;
     private readonly AbilityAnimator abilityAnimator;
     private readonly bool selfEmpoweringAbilities;
-
-    private const float ImpactDamageIncrease = 1f;
-    private const float ExecuteHealthProportion = 0.3f;
-    private const float ExecuteDamageMultiplier = 1.5f;
 
     public AbilityService2(Player player, AbilityAnimator abilityAnimator, bool selfEmpoweringAbilities)
     {
@@ -105,6 +107,7 @@ public class AbilityService2
         float damage = AbilityLookup2.Instance.GetDamage(abilityId);
         damage = HandleImpactDamage(damage, empowerments);
         damage = HandleExecuteDamage(damage, empowerments, enemy);
+        damage = HandleMaimDamage(damage, empowerments, enemy);
         return Mathf.CeilToInt(damage);
     }
 
@@ -124,6 +127,15 @@ public class AbilityService2
         if (enemy.HealthManager.HealthProportion <= ExecuteHealthProportion)
         {
             damage *= 1 + (empowerments.Count(e => e == Empowerment.Execute) * (ExecuteDamageMultiplier - 1));
+        }
+        return damage;
+    }
+
+    private float HandleMaimDamage(float damage, List<Empowerment> empowerments, Enemy enemy)
+    {
+        if (enemy.HealthManager.HealthProportion >= MaimHealthProportion)
+        {
+            damage *= 1 + (empowerments.Count(e => e == Empowerment.Maim) * (MaimDamageMultiplier - 1));
         }
         return damage;
     }

@@ -45,11 +45,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keywordLookup:
     _keys:
-    - Finisher
-    - Channel
-    - Cast
-    - Charge
-    - InstantCast
     - Heal
     - Shield
     - Stun
@@ -61,17 +56,8 @@ MonoBehaviour:
     - Impact
     - Rupture
     - Execute
+    - Maim
     _values:
-    - displayName: Finisher
-      description: Can only be placed at the end of a combo.
-    - displayName: Channel
-      description: Has continuous effect while held.
-    - displayName: Cast
-      description: Hold for a set period to cast.
-    - displayName: Charge
-      description: Hold to charge, release to cast.
-    - displayName: Instant Cast
-      description: Casts instantly on click.
     - displayName: Heal
       description: Restore health.
     - displayName: Shield
@@ -94,3 +80,5 @@ MonoBehaviour:
       description: Abilities apply bleed.
     - displayName: Execute
       description: Increases damage by 50% to targets below 30% health.
+    - displayName: Maim
+      description: Increases damage by 50% to targets above 30% health.
