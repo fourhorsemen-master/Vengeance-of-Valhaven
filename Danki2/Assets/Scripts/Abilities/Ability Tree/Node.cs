@@ -134,8 +134,8 @@ public abstract class Node
         return true;
         // return
         //     this != otherNode
-        //     && !(otherNode.IsParent && AbilityLookup.Instance.IsFinisher(Ability))
-        //     && !(IsParent && AbilityLookup.Instance.IsFinisher(otherNode.Ability));
+        //     && !(otherNode.IsParent)
+        //     && !(IsParent);
     }
 
     public void SwapAbilitiesWith(Node node)
