@@ -31,20 +31,13 @@ public class AbilityInsertListener : MonoBehaviour
     internal void Activate(Node node, SerializableGuid abilityId)
     {
         // Set Central area
-        if (
-            !node.IsRootNode
-            && !node.IsParent
-            && node.AbilityId != abilityId
-        )
+        if (!node.IsRootNode && node.AbilityId != abilityId)
         {
             centralArea.gameObject.SetActive(true);
         }
 
-        if (!node.HasChild(Direction.Left))
-            bottomLeftArrow.gameObject.SetActive(true);
-
-        if (!node.HasChild(Direction.Right))
-            bottomRightArrow.gameObject.SetActive(true);
+        bottomLeftArrow.gameObject.SetActive(true);
+        bottomRightArrow.gameObject.SetActive(true);
     }
 
     internal void Deactivate()
