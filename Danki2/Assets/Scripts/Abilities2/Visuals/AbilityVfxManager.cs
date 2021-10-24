@@ -42,11 +42,10 @@ public class AbilityVfxManager : MonoBehaviour
                 );
                 break;
             case AbilityType2.Thrust:
-                PoisonStabObject.CreateVisual(
+                PoisonStabVisual.Create(
                     player.Centre + player.transform.forward * offset/200,
-                    player.AbilityService.CurrentCastRotation,
-                    EmpowermentLookup.Instance.GetColour(empowerment)
-                );
+                    player.AbilityService.CurrentCastRotation)
+                    .SetColour(EmpowermentLookup.Instance.GetColour(empowerment));
                 break;
             case AbilityType2.Smash:
                 SmashObject.Create(

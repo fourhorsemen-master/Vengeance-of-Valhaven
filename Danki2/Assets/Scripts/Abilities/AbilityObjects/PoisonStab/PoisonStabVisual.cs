@@ -6,10 +6,15 @@ public class PoisonStabVisual : StaticAbilityObject
 
     [SerializeField]
     private ModularPFXComponent mpfx;
-    public ModularPFXComponent Mpfx => mpfx;
 
-    public static PoisonStabVisual Create(PoisonStabVisual prefab, Vector3 position, Quaternion rotation)
+    public static PoisonStabVisual Create(Vector3 position, Quaternion rotation)
     {
-        return Instantiate(prefab, position, rotation);
+        return Instantiate(
+            AbilityObjectPrefabLookup.Instance.PoisonStabVisualPrefab,
+            position,
+            rotation
+        );
     }
+
+    public void SetColour(Color colour) => mpfx.UpdateEffectColour(colour);
 }
