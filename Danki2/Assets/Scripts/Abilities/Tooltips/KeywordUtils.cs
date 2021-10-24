@@ -28,8 +28,6 @@ public static class KeywordUtils
     {
         // List<Keyword> keywords = new List<Keyword>();
         //
-        // if (AbilityLookup.Instance.IsFinisher(abilityReference)) keywords.Add(Keyword.Finisher);
-        //
         // keywords.Add(GetAbilityType(abilityReference));
         //
         // keywords.AddRange(

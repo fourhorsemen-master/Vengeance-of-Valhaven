@@ -8,9 +8,6 @@ public class AbilityTooltip : Tooltip
     private Text titleText = null;
 
     [SerializeField]
-    private Text finisherText = null;
-
-    [SerializeField]
     private Text descriptionText = null;
 
     [SerializeField]
@@ -40,10 +37,9 @@ public class AbilityTooltip : Tooltip
 
         string titleText = AbilityLookup2.Instance.GetDisplayName(abilityId);
         Color color = RarityLookup.Instance.Lookup[AbilityLookup2.Instance.GetRarity(abilityId)].Colour;
-        bool isFinisher = false;
         string descriptionText = GenerateDescription(abilityId);
 
-        SetContents(titleText, color, isFinisher, descriptionText);
+        SetContents(titleText, color, descriptionText);
 
         abilitySupplementaryTooltipPanel.Activate(abilityId);
     }
@@ -71,13 +67,11 @@ public class AbilityTooltip : Tooltip
     private void SetContents(
         string title,
         Color color,
-        bool isFinisher,
         string description
     )
     {
         titleText.text = title;
         titleText.color = color;
-        finisherText.enabled = isFinisher;
         descriptionText.text = description;
 
         foreach (AbilityBonusTooltipSection section in bonusSections)
