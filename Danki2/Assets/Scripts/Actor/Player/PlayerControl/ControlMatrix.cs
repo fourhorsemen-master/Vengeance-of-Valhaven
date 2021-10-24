@@ -13,44 +13,6 @@ public class ControlMatrix
     private static Dictionary<CastingStatus, Layer> _controlMatrix = new Dictionary<CastingStatus, Layer>
     {
         {
-            CastingStatus.ChannelingLeft,
-            new Layer(
-                new Row(
-                    CastingCommand.ContinueChannel,
-                    CastingCommand.CancelChannel,
-                    CastingCommand.ContinueChannel,
-                    CastingCommand.CancelChannel
-                ),
-                null,
-                new Row(
-                    CastingCommand.ContinueChannel,
-                    CastingCommand.CancelChannel,
-                    CastingCommand.ContinueChannel,
-                    CastingCommand.CancelChannel
-                ),
-                null
-            )
-        },
-        {
-            CastingStatus.ChannelingRight,
-            new Layer(
-                null,
-                new Row(
-                    CastingCommand.CancelChannel,
-                    CastingCommand.ContinueChannel,
-                    CastingCommand.ContinueChannel,
-                    CastingCommand.CancelChannel
-                ),
-                new Row(
-                    CastingCommand.CancelChannel,
-                    CastingCommand.ContinueChannel,
-                    CastingCommand.ContinueChannel,
-                    CastingCommand.CancelChannel
-                ),
-                null
-            )
-        },
-        {
             CastingStatus.Cooldown,
             new Layer(
                 new Row(

@@ -1,10 +1,5 @@
 ﻿public enum Keyword
 {
-    Finisher,
-    Channel,
-    Cast,
-    Charge,
-    InstantCast,
     Heal,
     Shield,
     Stun,
