@@ -30,7 +30,9 @@ public class SmashObject : StaticAbilityObject
         
         if (!desiredColour.Equals(default))
         {
-            outerMeshRenderer.material.SetEmissiveColour(desiredColour);
+            Color lighterColour = Color.Lerp(desiredColour, Color.white, 0.5f);
+
+            outerMeshRenderer.material.SetEmissiveColour(lighterColour);
             innerMeshRenderer.material.SetEmissiveColour(desiredColour);
         }
     }
