@@ -1,14 +1,9 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerTargetable : MonoBehaviour
 {
     [SerializeField]
     private Enemy enemy = null;
-
-    private const float HighlightIntensity = 0.02f;
-
-    private Guid highlightId = Guid.Empty;
     
     void Start()
     {
@@ -19,12 +14,11 @@ public class PlayerTargetable : MonoBehaviour
     {
         if (highlighted)
         {
-            highlightId = enemy.HighlightManager.AddIndefiniteHighlight(HighlightIntensity);
+            enemy.EmissiveManager.StartHighlight();
         }
-        else if (highlightId != Guid.Empty)
+        else
         {
-            enemy.HighlightManager.RemoveHighlight(highlightId);
-            highlightId = Guid.Empty;
+            enemy.EmissiveManager.StopHighlight();
         }
     }
 }

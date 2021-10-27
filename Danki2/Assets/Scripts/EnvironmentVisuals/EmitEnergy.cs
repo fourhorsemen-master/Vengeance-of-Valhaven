@@ -12,7 +12,7 @@ public class EmitEnergy : MonoBehaviour
     [SerializeField]
     private bool updateBaseColour = false;
 
-    private void Start()
+    private void Awake()
     {
         Color colour = VisualSettings.Instance.EnergyColour * Mathf.Pow(2, intensity);
 
