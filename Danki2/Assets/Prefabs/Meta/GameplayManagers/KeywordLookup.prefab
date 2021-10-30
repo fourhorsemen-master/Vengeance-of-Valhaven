@@ -58,6 +58,7 @@ MonoBehaviour:
     - Execute
     - Maim
     - Dual
+    - Brawl
     _values:
     - displayName: Heal
       description: Restore health.
@@ -85,3 +86,5 @@ MonoBehaviour:
       description: Increases damage by 50% to targets above 70% health.
     - displayName: Dual
       description: Increases damage by 2 when fighting a single enemy.
+    - displayName: Brawl
+      description: Increases damage by 2 when fighting multiple enemies.

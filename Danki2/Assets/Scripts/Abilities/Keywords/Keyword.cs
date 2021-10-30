@@ -13,4 +13,5 @@
     Execute,
     Maim,
     Dual,
+    Brawl,
 }

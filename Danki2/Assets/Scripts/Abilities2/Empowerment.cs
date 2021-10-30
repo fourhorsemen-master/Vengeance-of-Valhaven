@@ -5,4 +5,5 @@ public enum Empowerment
     Execute,
     Maim,
     Dual,
+    Brawl,
 }

@@ -8,6 +8,7 @@ public class AbilityService2
 
     private const float ImpactDamageIncrease = 1f;
     private const float DualDamageIncrease = 2f;
+    private const float BrawlDamageIncrease = 2f;
     private const float ExecuteHealthProportion = 0.3f;
     private const float ExecuteDamageMultiplier = 1.5f;
     private const float MaimHealthProportion = 0.7f;
@@ -108,6 +109,7 @@ public class AbilityService2
         float damage = AbilityLookup2.Instance.GetDamage(abilityId);
         damage = HandleImpactDamage(damage, empowerments);
         damage = HandleDualDamage(damage, empowerments);
+        damage = HandleBrawlDamage(damage, empowerments);
         damage = HandleExecuteDamage(damage, empowerments, enemy);
         damage = HandleMaimDamage(damage, empowerments, enemy);
         return Mathf.CeilToInt(damage);
@@ -128,6 +130,13 @@ public class AbilityService2
     {
         return CombatRoomManager.Instance.EnemyCount - CombatRoomManager.Instance.DeadEnemyCount == 1
             ? damage + empowerments.Count(e => e == Empowerment.Dual) * DualDamageIncrease
+            : damage;
+    }
+
+    private float HandleBrawlDamage(float damage, List<Empowerment> empowerments)
+    {
+        return CombatRoomManager.Instance.EnemyCount - CombatRoomManager.Instance.DeadEnemyCount > 1
+            ? damage + empowerments.Count(e => e == Empowerment.Brawl) * BrawlDamageIncrease
             : damage;
     }
 
