@@ -12,6 +12,6 @@
     Rupture,
     Execute,
     Maim,
-    Dual,
+    Duel,
     Brawl,
 }
