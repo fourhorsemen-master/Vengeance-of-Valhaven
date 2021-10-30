@@ -87,7 +87,7 @@ public class CombatRoomManager : Singleton<CombatRoomManager>
 
     private void YieldCurrency(Enemy enemy)
     {
-        int currencyValue = CurrencyLookup.Instance.EnemyCurrencyValueLookup[enemy.Type];
+        int currencyValue = enemy.GetCurrencyValue();
 
         ActorCache.Instance.Player.CurrencyManager.AddCurrency(currencyValue);
         CurrencyCollectionVisual.Create(enemy.Centre, currencyValue);

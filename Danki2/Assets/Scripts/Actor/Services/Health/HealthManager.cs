@@ -89,7 +89,7 @@ public class HealthManager
 
     public void ReceiveHeal(int healing)
     {
-        if (actor.Dead) return;
+        if (Health <= 0 || actor.Dead) return;
 
         if (healing < 0)
         {
