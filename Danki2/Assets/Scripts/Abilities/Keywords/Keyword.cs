@@ -12,4 +12,5 @@
     Rupture,
     Execute,
     Maim,
+    Dual,
 }

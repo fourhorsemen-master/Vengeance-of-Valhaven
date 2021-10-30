@@ -14,6 +14,9 @@ public class CombatRoomManager : Singleton<CombatRoomManager>
     public Subject EnemiesClearedSubject { get; }  = new Subject();
     public bool InCombatRoom { get; private set; }
 
+    public int EnemyCount { get; private set; } = 0;
+    public int DeadEnemyCount { get; private set; } = 0;
+
     protected override void Awake()
     {
         base.Awake();
@@ -62,14 +65,14 @@ public class CombatRoomManager : Singleton<CombatRoomManager>
 
     private void TrackEnemyDeaths(List<Enemy> enemies)
     {
-        int enemyCount = enemies.Count;
-        int deadEnemyCount = 0;
+        EnemyCount = enemies.Count;
+        DeadEnemyCount = 0;
         enemies.ForEach(enemy => enemy.DeathSubject.Subscribe(() =>
         {
             YieldCurrency(enemy);
 
-            deadEnemyCount++;
-            if (deadEnemyCount != enemyCount) return;
+            DeadEnemyCount++;
+            if (DeadEnemyCount != EnemyCount) return;
 
             if (ActorCache.Instance.Player.RuneManager.HasRune(Rune.FirstAid))
             {

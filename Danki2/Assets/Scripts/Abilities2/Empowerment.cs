@@ -4,4 +4,5 @@ public enum Empowerment
     Rupture,
     Execute,
     Maim,
+    Dual,
 }
