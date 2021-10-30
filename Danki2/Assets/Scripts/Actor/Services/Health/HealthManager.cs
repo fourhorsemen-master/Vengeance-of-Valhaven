@@ -82,8 +82,6 @@ public class HealthManager
         {
             ModifyHealth(-damage);
             ModifiedDamageSubject.Next(new DamageData(damage, source));
-
-            actor.InterruptionManager.Interrupt(InterruptionType.Soft);
         }            
     }
 
