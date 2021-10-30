@@ -128,14 +128,14 @@ public class AbilityService2
 
     private float HandleDuelDamage(float damage, List<Empowerment> empowerments)
     {
-        return CombatRoomManager.Instance.EnemyCount - CombatRoomManager.Instance.DeadEnemyCount == 1
+        return CombatRoomManager.Instance.TotalEnemyCount - CombatRoomManager.Instance.DeadEnemyCount == 1
             ? damage + empowerments.Count(e => e == Empowerment.Duel) * DuelDamageIncrease
             : damage;
     }
 
     private float HandleBrawlDamage(float damage, List<Empowerment> empowerments)
     {
-        return CombatRoomManager.Instance.EnemyCount - CombatRoomManager.Instance.DeadEnemyCount > 1
+        return CombatRoomManager.Instance.TotalEnemyCount - CombatRoomManager.Instance.DeadEnemyCount > 1
             ? damage + empowerments.Count(e => e == Empowerment.Brawl) * BrawlDamageIncrease
             : damage;
     }
