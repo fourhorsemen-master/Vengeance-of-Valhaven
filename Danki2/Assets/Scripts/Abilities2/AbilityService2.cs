@@ -7,6 +7,8 @@ public class AbilityService2
     private const float AbilityRange = 3;
 
     private const float ImpactDamageIncrease = 1f;
+    private const float DuelDamageIncrease = 2f;
+    private const float BrawlDamageIncrease = 2f;
     private const float ExecuteHealthProportion = 0.3f;
     private const float ExecuteDamageMultiplier = 1.5f;
     private const float MaimHealthProportion = 0.7f;
@@ -106,6 +108,8 @@ public class AbilityService2
     {
         float damage = AbilityLookup2.Instance.GetDamage(abilityId);
         damage = HandleImpactDamage(damage, empowerments);
+        damage = HandleDuelDamage(damage, empowerments);
+        damage = HandleBrawlDamage(damage, empowerments);
         damage = HandleExecuteDamage(damage, empowerments, enemy);
         damage = HandleMaimDamage(damage, empowerments, enemy);
         return Mathf.CeilToInt(damage);
@@ -120,6 +124,20 @@ public class AbilityService2
     private float HandleImpactDamage(float damage, List<Empowerment> empowerments)
     {
         return damage + empowerments.Count(e => e == Empowerment.Impact) * ImpactDamageIncrease;
+    }
+
+    private float HandleDuelDamage(float damage, List<Empowerment> empowerments)
+    {
+        return CombatRoomManager.Instance.TotalEnemyCount - CombatRoomManager.Instance.DeadEnemyCount == 1
+            ? damage + empowerments.Count(e => e == Empowerment.Duel) * DuelDamageIncrease
+            : damage;
+    }
+
+    private float HandleBrawlDamage(float damage, List<Empowerment> empowerments)
+    {
+        return CombatRoomManager.Instance.TotalEnemyCount - CombatRoomManager.Instance.DeadEnemyCount > 1
+            ? damage + empowerments.Count(e => e == Empowerment.Brawl) * BrawlDamageIncrease
+            : damage;
     }
 
     private float HandleExecuteDamage(float damage, List<Empowerment> empowerments, Enemy enemy)

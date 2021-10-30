@@ -23,6 +23,8 @@ public static class KeywordUtils
             [Empowerment.Rupture] = Keyword.Rupture,
             [Empowerment.Execute] = Keyword.Execute,
             [Empowerment.Maim] = Keyword.Maim,
+            [Empowerment.Duel] = Keyword.Duel,
+            [Empowerment.Brawl] = Keyword.Brawl,
         };
 
     public static List<Keyword> GetKeywords(SerializableGuid abilityId)

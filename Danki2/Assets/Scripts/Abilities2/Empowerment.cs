@@ -4,4 +4,6 @@ public enum Empowerment
     Rupture,
     Execute,
     Maim,
+    Duel,
+    Brawl,
 }
