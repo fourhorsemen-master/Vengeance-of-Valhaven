@@ -52,7 +52,6 @@ public abstract class Actor : MonoBehaviour
     public HealthManager HealthManager { get; private set; }
     public EffectManager EffectManager { get; private set; }
     public InterruptionManager InterruptionManager { get; private set; }
-    // public HighlightManager HighlightManager { get; private set; }
     public EmissiveManager EmissiveManager { get; private set; }
 
     public bool Dead { get; private set; }
@@ -74,7 +73,6 @@ public abstract class Actor : MonoBehaviour
         EffectManager = new EffectManager(this, updateSubject);
         HealthManager = new HealthManager(this, updateSubject);
         InterruptionManager = new InterruptionManager(this, startSubject, updateSubject);
-        // HighlightManager = new HighlightManager(updateSubject, meshRenderers);
         EmissiveManager = new EmissiveManager(this, startSubject, meshRenderers);
 
         Dead = false;

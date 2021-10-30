@@ -29,10 +29,6 @@ public class EmissiveManager
         });
     }
 
-    public void StartHighlight() { }
-
-    public void StopHighlight() { }
-
     public void Flash()
     {
         if (cancelFlashCoroutine != null) actor.StopCoroutine(cancelFlashCoroutine);
