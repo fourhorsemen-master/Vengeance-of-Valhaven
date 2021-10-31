@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class AbilityService2
+public class AbilityService
 {
     private const float AbilityRange = 3;
 
@@ -31,7 +31,7 @@ public class AbilityService2
     private readonly AbilityAnimator abilityAnimator;
     private readonly bool selfEmpoweringAbilities;
 
-    public AbilityService2(Player player, AbilityAnimator abilityAnimator, bool selfEmpoweringAbilities)
+    public AbilityService(Player player, AbilityAnimator abilityAnimator, bool selfEmpoweringAbilities)
     {
         this.player = player;
         this.abilityAnimator = abilityAnimator;
