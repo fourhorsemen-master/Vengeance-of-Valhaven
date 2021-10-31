@@ -69,8 +69,8 @@ Transform:
   - {fileID: 7784544651023399058}
   - {fileID: 4060205081682710446}
   - {fileID: 4039390320960347832}
-  - {fileID: 3709034038562862946}
   - {fileID: 8795691068014911749}
+  - {fileID: 3951716409837855094}
   - {fileID: 7627100518586788543}
   - {fileID: 6589878729786263423}
   - {fileID: 4149834749046846706}
@@ -705,7 +705,7 @@ PrefabInstance:
     - target: {fileID: 4866067770582864674, guid: 07a7279e926fee7428f2f53cfda07d2f,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4866067770582864674, guid: 07a7279e926fee7428f2f53cfda07d2f,
         type: 3}
@@ -1820,32 +1820,22 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 5875571707168072662}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &6046495388522344281
+--- !u!1001 &6216942657978104141
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 4149834750418942864}
     m_Modifications:
-    - target: {fileID: 4505607498909261314, guid: a8c635a5ff6013343a87f60d5835104f,
-        type: 3}
-      propertyPath: abilityFmodEventDictionary._values.Array.data[4].fmodStartEventRef
-      value: event:/AS_AbilitySounds/AS_Smash/AS_Smash_Draw
-      objectReference: {fileID: 0}
-    - target: {fileID: 4505607498909261314, guid: a8c635a5ff6013343a87f60d5835104f,
-        type: 3}
-      propertyPath: abilityFmodEventDictionary._values.Array.data[4].fmodImpactEventRef
-      value: event:/AS_AbilitySounds/AS_Smash/AS_Smash_Impact
-      objectReference: {fileID: 0}
     - target: {fileID: 6256103281406501704, guid: a8c635a5ff6013343a87f60d5835104f,
         type: 3}
       propertyPath: m_Name
-      value: AbilityLookup2
+      value: AbilityLookup
       objectReference: {fileID: 0}
     - target: {fileID: 6958155207594629179, guid: a8c635a5ff6013343a87f60d5835104f,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6958155207594629179, guid: a8c635a5ff6013343a87f60d5835104f,
         type: 3}
@@ -1899,11 +1889,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a8c635a5ff6013343a87f60d5835104f, type: 3}
---- !u!4 &3709034038562862946 stripped
+--- !u!4 &3951716409837855094 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6958155207594629179, guid: a8c635a5ff6013343a87f60d5835104f,
     type: 3}
-  m_PrefabInstance: {fileID: 6046495388522344281}
+  m_PrefabInstance: {fileID: 6216942657978104141}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7512866771658445621
 PrefabInstance:

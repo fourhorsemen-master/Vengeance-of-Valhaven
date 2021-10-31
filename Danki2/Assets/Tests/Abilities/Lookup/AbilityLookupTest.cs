@@ -7,28 +7,28 @@ public class AbilityLookupTest : PlayModeTestBase
     protected override IEnumerator SetUp()
     {
         yield return base.SetUp();
-        TestUtils.InstantiatePrefab<AbilityLookup2>();
+        TestUtils.InstantiatePrefab<AbilityLookup>();
         yield return null;
     }
 
     protected override IEnumerator TearDown()
     {
-        AbilityLookup2.Instance.Destroy();
+        AbilityLookup.Instance.Destroy();
         yield return null;
     }
 
     [UnityTest]
     public IEnumerator TestAbilityLookupIds()
     {
-        AbilityLookup2.Instance.ForEachAbilityId(abilityId =>
+        AbilityLookup.Instance.ForEachAbilityId(abilityId =>
         {
-            string displayName = AbilityLookup2.Instance.GetDisplayName(abilityId);
-            Assert.True(AbilityLookup2.Instance.TryGetAbilityId(displayName, out SerializableGuid _));
-            AbilityLookup2.Instance.GetAbilityType(abilityId);
-            AbilityLookup2.Instance.GetDamage(abilityId);
-            AbilityLookup2.Instance.GetEmpowerments(abilityId);
-            AbilityLookup2.Instance.GetRarity(abilityId);
-            AbilityLookup2.Instance.GetIcon(abilityId);
+            string displayName = AbilityLookup.Instance.GetDisplayName(abilityId);
+            Assert.True(AbilityLookup.Instance.TryGetAbilityId(displayName, out SerializableGuid _));
+            AbilityLookup.Instance.GetAbilityType(abilityId);
+            AbilityLookup.Instance.GetDamage(abilityId);
+            AbilityLookup.Instance.GetEmpowerments(abilityId);
+            AbilityLookup.Instance.GetRarity(abilityId);
+            AbilityLookup.Instance.GetIcon(abilityId);
         });
         
         yield return null;

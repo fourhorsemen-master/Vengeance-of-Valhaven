@@ -39,7 +39,7 @@ public class AbilitySoundEffectManager : MonoBehaviour
     }
 
     private AbilityFmodEvents GetAbilityFmodEvents() => AbilityTypeLookup.Instance.GetAbilityFmodEvents(
-        AbilityLookup2.Instance.GetAbilityType(CurrentAbilityId)
+        AbilityLookup.Instance.GetAbilityType(CurrentAbilityId)
     );
 
     private void PlayAbilityEvent(string fmodEvent)

@@ -50,14 +50,14 @@ public class DevPersistenceManager : PersistenceManager
     private SaveData GenerateNewSaveData()
     {
         Dictionary<SerializableGuid, int> ownedAbilities = new Dictionary<SerializableGuid, int>();
-        AbilityLookup2.Instance.ForEachAbilityId(abilityId => ownedAbilities[abilityId] = ownedAbilityCount);
+        AbilityLookup.Instance.ForEachAbilityId(abilityId => ownedAbilities[abilityId] = ownedAbilityCount);
 
-        if (!AbilityLookup2.Instance.TryGetAbilityId(leftAbilityName, out SerializableGuid leftAbilityId))
+        if (!AbilityLookup.Instance.TryGetAbilityId(leftAbilityName, out SerializableGuid leftAbilityId))
         {
             Debug.LogError($"Invalid left starting ability name: {leftAbilityName}.");
         }
 
-        if (!AbilityLookup2.Instance.TryGetAbilityId(rightAbilityName, out SerializableGuid rightAbilityId))
+        if (!AbilityLookup.Instance.TryGetAbilityId(rightAbilityName, out SerializableGuid rightAbilityId))
         {
             Debug.LogError($"Invalid right starting ability name: {rightAbilityName}.");
         }
@@ -65,7 +65,7 @@ public class DevPersistenceManager : PersistenceManager
         List<SerializableGuid> abilityChoices = new List<SerializableGuid>();
         abilityChoiceNames.ForEach(abilityName =>
         {
-            if (!AbilityLookup2.Instance.TryGetAbilityId(abilityName, out SerializableGuid abilityId))
+            if (!AbilityLookup.Instance.TryGetAbilityId(abilityName, out SerializableGuid abilityId))
             {
                 Debug.LogError($"Invalid ability name in ability choices: {abilityName}.");
                 return;

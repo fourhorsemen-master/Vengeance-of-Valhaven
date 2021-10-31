@@ -59,7 +59,7 @@ public class AbilityAnimator : MonoBehaviour
 
     public void HandleAnimation(SerializableGuid abilityId)
     {
-        AbilityType type = AbilityLookup2.Instance.GetAbilityType(abilityId);
+        AbilityType type = AbilityLookup.Instance.GetAbilityType(abilityId);
         AbilityAnimationType abilityAnimationType = abilityTypeToAnimationTypeDictionary[type];
         string animationState = AnimationStringLookup.LookupTable[abilityAnimationType];
         player.AnimController.Play(animationState);

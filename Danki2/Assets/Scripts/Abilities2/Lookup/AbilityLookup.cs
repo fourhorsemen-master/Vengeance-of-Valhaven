@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AbilityLookup2 : Singleton<AbilityLookup2>
+public class AbilityLookup : Singleton<AbilityLookup>
 {
     [SerializeField] private AbilityData abilityData = null;
     

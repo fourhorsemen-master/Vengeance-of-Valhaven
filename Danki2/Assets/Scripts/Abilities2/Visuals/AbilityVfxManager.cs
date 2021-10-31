@@ -30,7 +30,7 @@ public class AbilityVfxManager : MonoBehaviour
 
     private void CreateVFX(Empowerment empowerment, float offset)
     {
-        AbilityType type = AbilityLookup2.Instance.GetAbilityType(player.AbilityService.CurrentAbilityId);
+        AbilityType type = AbilityLookup.Instance.GetAbilityType(player.AbilityService.CurrentAbilityId);
 
         switch (type)
         {

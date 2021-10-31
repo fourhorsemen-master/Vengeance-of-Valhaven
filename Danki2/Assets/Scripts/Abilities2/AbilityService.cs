@@ -61,11 +61,11 @@ public class AbilityService
 
         AbilityUtils.TemplateCollision(
             player,
-            collisionTemplateLookup[AbilityLookup2.Instance.GetAbilityType(CurrentAbilityId)],
+            collisionTemplateLookup[AbilityLookup.Instance.GetAbilityType(CurrentAbilityId)],
             AbilityRange,
             player.CollisionTemplateSource,
             CurrentCastRotation,
-            AbilityTypeLookup.Instance.GetCollisionSoundLevel(AbilityLookup2.Instance.GetAbilityType(CurrentAbilityId)),
+            AbilityTypeLookup.Instance.GetCollisionSoundLevel(AbilityLookup.Instance.GetAbilityType(CurrentAbilityId)),
             enemyCallback: enemy =>
             {
                 hasDealtDamage = true;
@@ -88,7 +88,7 @@ public class AbilityService
             : player.AbilityTree.CurrentNode.Parent;
 
         iterateFromNode.IterateUp(
-            node => empowerments.AddRange(AbilityLookup2.Instance.GetEmpowerments(node.AbilityId)),
+            node => empowerments.AddRange(AbilityLookup.Instance.GetEmpowerments(node.AbilityId)),
             node => !node.IsRootNode
         );
 
@@ -106,7 +106,7 @@ public class AbilityService
 
     private int CalculateDamage(SerializableGuid abilityId, List<Empowerment> empowerments, Enemy enemy)
     {
-        float damage = AbilityLookup2.Instance.GetDamage(abilityId);
+        float damage = AbilityLookup.Instance.GetDamage(abilityId);
         damage = HandleImpactDamage(damage, empowerments);
         damage = HandleDuelDamage(damage, empowerments);
         damage = HandleBrawlDamage(damage, empowerments);

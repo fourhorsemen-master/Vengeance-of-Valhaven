@@ -35,8 +35,8 @@ public class AbilityTooltip : Tooltip
     {
         ActivateTooltip();
 
-        string titleText = AbilityLookup2.Instance.GetDisplayName(abilityId);
-        Color color = RarityLookup.Instance.Lookup[AbilityLookup2.Instance.GetRarity(abilityId)].Colour;
+        string titleText = AbilityLookup.Instance.GetDisplayName(abilityId);
+        Color color = RarityLookup.Instance.Lookup[AbilityLookup.Instance.GetRarity(abilityId)].Colour;
         string descriptionText = GenerateDescription(abilityId);
 
         SetContents(titleText, color, descriptionText);
@@ -48,13 +48,13 @@ public class AbilityTooltip : Tooltip
     {
         string description = "";
 
-        AbilityType abilityType = AbilityLookup2.Instance.GetAbilityType(abilityId);
+        AbilityType abilityType = AbilityLookup.Instance.GetAbilityType(abilityId);
         description += $"Type: {abilityType.ToString()}\n";
         
-        int damage = AbilityLookup2.Instance.GetDamage(abilityId);
+        int damage = AbilityLookup.Instance.GetDamage(abilityId);
         description += $"Damage: {damage.ToString()}\n";
         
-        List<Empowerment> empowerments = AbilityLookup2.Instance.GetEmpowerments(abilityId);
+        List<Empowerment> empowerments = AbilityLookup.Instance.GetEmpowerments(abilityId);
         if (empowerments.Count > 0)
         {
             description += "Empowerments:\n";
