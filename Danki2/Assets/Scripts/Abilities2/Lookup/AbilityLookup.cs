@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AbilityLookup2 : Singleton<AbilityLookup2>
+public class AbilityLookup : Singleton<AbilityLookup>
 {
     [SerializeField] private AbilityData abilityData = null;
     
     public string GetDisplayName(SerializableGuid abilityId) => abilityData.AbilityDisplayNameDictionary[abilityId];
-    public AbilityType2 GetAbilityType(SerializableGuid abilityId) => abilityData.AbilityTypeDictionary[abilityId];
+    public AbilityType GetAbilityType(SerializableGuid abilityId) => abilityData.AbilityTypeDictionary[abilityId];
     public int GetDamage(SerializableGuid abilityId) => abilityData.AbilityDamageDictionary[abilityId];
     public List<Empowerment> GetEmpowerments(SerializableGuid abilityId) => abilityData.AbilityEmpowermentsDictionary[abilityId].Empowerments;
     public Rarity GetRarity(SerializableGuid abilityId) => abilityData.AbilityRarityDictionary[abilityId];

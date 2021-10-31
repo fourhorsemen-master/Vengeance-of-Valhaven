@@ -234,9 +234,9 @@ public class MapGenerator : Singleton<MapGenerator>
     private void SetAbilityData(RoomNode node)
     {
         List<SerializableGuid> choices = new List<SerializableGuid>();
-        AbilityLookup2.Instance.ForEachAbilityId(abilityId =>
+        AbilityLookup.Instance.ForEachAbilityId(abilityId =>
         {
-            Rarity rarity = AbilityLookup2.Instance.GetRarity(abilityId);
+            Rarity rarity = AbilityLookup.Instance.GetRarity(abilityId);
             int weighting = RarityLookup.Instance.Lookup[rarity].Weighting;
             Utils.Repeat(weighting, () => choices.Add(abilityId));
         });

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class AbilityService2
+public class AbilityService
 {
     private const float AbilityRange = 3;
 
@@ -19,19 +19,19 @@ public class AbilityService2
     public List<Empowerment> CurrentEmpowerments { get; private set; }
     public List<Empowerment> NextEmpowerments { get; private set; }
 
-    private static readonly Dictionary<AbilityType2, CollisionTemplateShape> collisionTemplateLookup =
-        new Dictionary<AbilityType2, CollisionTemplateShape>
+    private static readonly Dictionary<AbilityType, CollisionTemplateShape> collisionTemplateLookup =
+        new Dictionary<AbilityType, CollisionTemplateShape>
         {
-            [AbilityType2.Slash] = CollisionTemplateShape.Wedge90,
-            [AbilityType2.Smash] = CollisionTemplateShape.Cylinder,
-            [AbilityType2.Thrust] = CollisionTemplateShape.Wedge45,
+            [AbilityType.Slash] = CollisionTemplateShape.Wedge90,
+            [AbilityType.Smash] = CollisionTemplateShape.Cylinder,
+            [AbilityType.Thrust] = CollisionTemplateShape.Wedge45,
         };
     
     private readonly Player player;
     private readonly AbilityAnimator abilityAnimator;
     private readonly bool selfEmpoweringAbilities;
 
-    public AbilityService2(Player player, AbilityAnimator abilityAnimator, bool selfEmpoweringAbilities)
+    public AbilityService(Player player, AbilityAnimator abilityAnimator, bool selfEmpoweringAbilities)
     {
         this.player = player;
         this.abilityAnimator = abilityAnimator;
@@ -61,11 +61,11 @@ public class AbilityService2
 
         AbilityUtils.TemplateCollision(
             player,
-            collisionTemplateLookup[AbilityLookup2.Instance.GetAbilityType(CurrentAbilityId)],
+            collisionTemplateLookup[AbilityLookup.Instance.GetAbilityType(CurrentAbilityId)],
             AbilityRange,
             player.CollisionTemplateSource,
             CurrentCastRotation,
-            AbilityTypeLookup.Instance.GetCollisionSoundLevel(AbilityLookup2.Instance.GetAbilityType(CurrentAbilityId)),
+            AbilityTypeLookup.Instance.GetCollisionSoundLevel(AbilityLookup.Instance.GetAbilityType(CurrentAbilityId)),
             enemyCallback: enemy =>
             {
                 hasDealtDamage = true;
@@ -88,7 +88,7 @@ public class AbilityService2
             : player.AbilityTree.CurrentNode.Parent;
 
         iterateFromNode.IterateUp(
-            node => empowerments.AddRange(AbilityLookup2.Instance.GetEmpowerments(node.AbilityId)),
+            node => empowerments.AddRange(AbilityLookup.Instance.GetEmpowerments(node.AbilityId)),
             node => !node.IsRootNode
         );
 
@@ -106,7 +106,7 @@ public class AbilityService2
 
     private int CalculateDamage(SerializableGuid abilityId, List<Empowerment> empowerments, Enemy enemy)
     {
-        float damage = AbilityLookup2.Instance.GetDamage(abilityId);
+        float damage = AbilityLookup.Instance.GetDamage(abilityId);
         damage = HandleImpactDamage(damage, empowerments);
         damage = HandleDuelDamage(damage, empowerments);
         damage = HandleBrawlDamage(damage, empowerments);

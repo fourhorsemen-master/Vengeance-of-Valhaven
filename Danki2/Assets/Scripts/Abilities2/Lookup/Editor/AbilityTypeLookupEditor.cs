@@ -4,7 +4,7 @@ using UnityEngine;
 [CustomEditor(typeof(AbilityTypeLookup))]
 public class AbilityTypeLookupEditor : Editor
 {
-    private EnumDictionary<AbilityType2, bool> foldoutStatus = new EnumDictionary<AbilityType2, bool>(false);
+    private EnumDictionary<AbilityType, bool> foldoutStatus = new EnumDictionary<AbilityType, bool>(false);
     
     private AbilityTypeLookup abilityTypeLookup;
 
@@ -12,7 +12,7 @@ public class AbilityTypeLookupEditor : Editor
     {
         abilityTypeLookup = (AbilityTypeLookup) target;
         
-        EnumUtils.ForEach<AbilityType2>(EditAbilityType);
+        EnumUtils.ForEach<AbilityType>(EditAbilityType);
         
         if (GUI.changed)
         {
@@ -20,7 +20,7 @@ public class AbilityTypeLookupEditor : Editor
         }
     }
 
-    private void EditAbilityType(AbilityType2 abilityType)
+    private void EditAbilityType(AbilityType abilityType)
     {
         foldoutStatus[abilityType] = EditorGUILayout.Foldout(
             foldoutStatus[abilityType],
@@ -33,7 +33,7 @@ public class AbilityTypeLookupEditor : Editor
         EditAbilityFmodEvents(abilityType);
     }
 
-    private void EditCollisionSoundLevel(AbilityType2 abilityType)
+    private void EditCollisionSoundLevel(AbilityType abilityType)
     {
         abilityTypeLookup.abilityCollisionSoundLevelDictionary[abilityType] = (CollisionSoundLevel) EditorGUILayout.EnumPopup(
             "Collision Sound Level",
@@ -41,7 +41,7 @@ public class AbilityTypeLookupEditor : Editor
         );
     }
 
-    private void EditAbilityVocalisationType(AbilityType2 abilityType)
+    private void EditAbilityVocalisationType(AbilityType abilityType)
     {
         abilityTypeLookup.abilityVocalisationTypeDictionary[abilityType] = (AbilityVocalisationType) EditorGUILayout.EnumPopup(
             "Vocalisation Type",
@@ -49,7 +49,7 @@ public class AbilityTypeLookupEditor : Editor
         );
     }
 
-    private void EditAbilityFmodEvents(AbilityType2 abilityType)
+    private void EditAbilityFmodEvents(AbilityType abilityType)
     {
         SerializedProperty keys = serializedObject.FindProperty("abilityFmodEventDictionary._keys");
         int valueIndex = 0;

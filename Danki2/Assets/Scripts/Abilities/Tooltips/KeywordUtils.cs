@@ -46,7 +46,7 @@ public static class KeywordUtils
 
         List<Keyword> keywords = new List<Keyword>();
 
-        List<Empowerment> empowerments = AbilityLookup2.Instance.GetEmpowerments(abilityId);
+        List<Empowerment> empowerments = AbilityLookup.Instance.GetEmpowerments(abilityId);
         empowerments.ForEach(empowerment => keywords.Add(empowermentLookup[empowerment]));
 
         return keywords;

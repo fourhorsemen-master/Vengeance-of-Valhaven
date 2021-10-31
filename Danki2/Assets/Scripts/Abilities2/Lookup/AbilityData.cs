@@ -7,7 +7,7 @@ using UnityEngine;
 public class AbilityDisplayNameDictionary : SerializableDictionary<SerializableGuid, string> {}
 
 [Serializable]
-public class AbilityTypeDictionary : SerializableDictionary<SerializableGuid, AbilityType2> {}
+public class AbilityTypeDictionary : SerializableDictionary<SerializableGuid, AbilityType> {}
 
 [Serializable]
 public class AbilityDamageDictionary : SerializableDictionary<SerializableGuid, int> {}
