@@ -80,7 +80,7 @@ public class AbilityDataEditor : Editor
 
     private void EditType(SerializableGuid abilityId)
     {
-        abilityData.AbilityTypeDictionary[abilityId] = (AbilityType2) EditorGUILayout.EnumPopup(
+        abilityData.AbilityTypeDictionary[abilityId] = (AbilityType) EditorGUILayout.EnumPopup(
             "Type",
             abilityData.AbilityTypeDictionary[abilityId]
         );
@@ -121,7 +121,7 @@ public class AbilityDataEditor : Editor
             SerializableGuid abilityId = SerializableGuid.NewGuid();
             abilityData.AbilityIds.Insert(0, abilityId);
             abilityData.AbilityDisplayNameDictionary[abilityId] = "";
-            abilityData.AbilityTypeDictionary[abilityId] = AbilityType2.Slash;
+            abilityData.AbilityTypeDictionary[abilityId] = AbilityType.Slash;
             abilityData.AbilityDamageDictionary[abilityId] = 0;
             abilityData.AbilityEmpowermentsDictionary[abilityId] = new EmpowermentsWrapper();
             abilityData.AbilityRarityDictionary[abilityId] = Rarity.Common;

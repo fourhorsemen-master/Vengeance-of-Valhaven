@@ -30,24 +30,24 @@ public class AbilityVfxManager : MonoBehaviour
 
     private void CreateVFX(Empowerment empowerment, float offset)
     {
-        AbilityType2 type = AbilityLookup2.Instance.GetAbilityType(player.AbilityService.CurrentAbilityId);
+        AbilityType type = AbilityLookup2.Instance.GetAbilityType(player.AbilityService.CurrentAbilityId);
 
         switch (type)
         {
-            case AbilityType2.Slash:
+            case AbilityType.Slash:
                 SlashObject.Create(
                     player.AbilitySource,
                     player.AbilityService.CurrentCastRotation * Quaternion.Euler(0, offset, 0),
                     EmpowermentLookup.Instance.GetColour(empowerment)
                 );
                 break;
-            case AbilityType2.Thrust:
+            case AbilityType.Thrust:
                 PoisonStabVisual.Create(
                     player.Centre + player.transform.forward * offset/200,
                     player.AbilityService.CurrentCastRotation)
                     .SetColour(EmpowermentLookup.Instance.GetColour(empowerment));
                 break;
-            case AbilityType2.Smash:
+            case AbilityType.Smash:
                 SmashObject.Create(
                     player.transform.position,
                     rotation: Quaternion.Euler(0, offset, 0),

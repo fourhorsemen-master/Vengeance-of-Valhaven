@@ -19,12 +19,12 @@ public class AbilityService
     public List<Empowerment> CurrentEmpowerments { get; private set; }
     public List<Empowerment> NextEmpowerments { get; private set; }
 
-    private static readonly Dictionary<AbilityType2, CollisionTemplateShape> collisionTemplateLookup =
-        new Dictionary<AbilityType2, CollisionTemplateShape>
+    private static readonly Dictionary<AbilityType, CollisionTemplateShape> collisionTemplateLookup =
+        new Dictionary<AbilityType, CollisionTemplateShape>
         {
-            [AbilityType2.Slash] = CollisionTemplateShape.Wedge90,
-            [AbilityType2.Smash] = CollisionTemplateShape.Cylinder,
-            [AbilityType2.Thrust] = CollisionTemplateShape.Wedge45,
+            [AbilityType.Slash] = CollisionTemplateShape.Wedge90,
+            [AbilityType.Smash] = CollisionTemplateShape.Cylinder,
+            [AbilityType.Thrust] = CollisionTemplateShape.Wedge45,
         };
     
     private readonly Player player;

@@ -12,7 +12,7 @@ public class AbilityAnimatorEditor : Editor
         
         EditorUtils.Header("Animation Types");
         EditorGUI.indentLevel++;
-        EnumUtils.ForEach<AbilityType2>(abilityType =>
+        EnumUtils.ForEach<AbilityType>(abilityType =>
         {
             abilityAnimator.abilityTypeToAnimationTypeDictionary[abilityType] = (AbilityAnimationType) EditorGUILayout.EnumPopup(
                 abilityType.ToString(),

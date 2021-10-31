@@ -48,7 +48,7 @@ public class AbilityTooltip : Tooltip
     {
         string description = "";
 
-        AbilityType2 abilityType = AbilityLookup2.Instance.GetAbilityType(abilityId);
+        AbilityType abilityType = AbilityLookup2.Instance.GetAbilityType(abilityId);
         description += $"Type: {abilityType.ToString()}\n";
         
         int damage = AbilityLookup2.Instance.GetDamage(abilityId);

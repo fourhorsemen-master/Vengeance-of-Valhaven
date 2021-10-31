@@ -1,4 +1,4 @@
-public enum AbilityType2
+public enum AbilityType
 {
     Slash,
     Smash,

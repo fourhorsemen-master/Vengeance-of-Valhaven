@@ -2,14 +2,14 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class AbilityTypeToAnimationTypeDictionary : SerializableEnumDictionary<AbilityType2, AbilityAnimationType>
+public class AbilityTypeToAnimationTypeDictionary : SerializableEnumDictionary<AbilityType, AbilityAnimationType>
 {
     public AbilityTypeToAnimationTypeDictionary(AbilityAnimationType defaultValue) : base(defaultValue) {}
     public AbilityTypeToAnimationTypeDictionary(Func<AbilityAnimationType> defaultValueProvider) : base(defaultValueProvider) {}
 }
 
 [Serializable]
-public class AbilityTypeToAnimationSpeedCurveDictionary : SerializableEnumDictionary<AbilityType2, AnimationCurve>
+public class AbilityTypeToAnimationSpeedCurveDictionary : SerializableEnumDictionary<AbilityType, AnimationCurve>
 {
     public AbilityTypeToAnimationSpeedCurveDictionary(AnimationCurve defaultValue) : base(defaultValue) { }
     public AbilityTypeToAnimationSpeedCurveDictionary(Func<AnimationCurve> defaultValueProvider) : base(defaultValueProvider) { }
@@ -20,7 +20,7 @@ public class AbilityAnimator : MonoBehaviour
     [SerializeField]
     private Player player = null;
 
-    private AbilityType2? currentAbilityType = null;
+    private AbilityType? currentAbilityType = null;
     private float? currentNormalizedTime = null;
 
     [SerializeField, HideInInspector]
@@ -59,7 +59,7 @@ public class AbilityAnimator : MonoBehaviour
 
     public void HandleAnimation(SerializableGuid abilityId)
     {
-        AbilityType2 type = AbilityLookup2.Instance.GetAbilityType(abilityId);
+        AbilityType type = AbilityLookup2.Instance.GetAbilityType(abilityId);
         AbilityAnimationType abilityAnimationType = abilityTypeToAnimationTypeDictionary[type];
         string animationState = AnimationStringLookup.LookupTable[abilityAnimationType];
         player.AnimController.Play(animationState);
