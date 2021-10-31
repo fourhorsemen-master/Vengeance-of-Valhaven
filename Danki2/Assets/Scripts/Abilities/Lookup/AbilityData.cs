@@ -26,7 +26,7 @@ public class AbilityEmpowermentsDictionary : SerializableDictionary<Serializable
 public class AbilityRarityDictionary : SerializableDictionary<SerializableGuid, Rarity> {}
 
 [Serializable]
-public class AbilityIconDictionary2 : SerializableDictionary<SerializableGuid, Sprite> {}
+public class AbilityIconDictionary : SerializableDictionary<SerializableGuid, Sprite> {}
 
 public class AbilityData : ScriptableObject
 {
@@ -55,8 +55,8 @@ public class AbilityData : ScriptableObject
     public AbilityRarityDictionary AbilityRarityDictionary => abilityRarityDictionary;
     
     [SerializeField]
-    private AbilityIconDictionary2 abilityIconDictionary = new AbilityIconDictionary2();
-    public AbilityIconDictionary2 AbilityIconDictionary => abilityIconDictionary;
+    private AbilityIconDictionary abilityIconDictionary = new AbilityIconDictionary();
+    public AbilityIconDictionary AbilityIconDictionary => abilityIconDictionary;
 
     public string[] GetAbilityNames() => abilityIds.Select(id => abilityDisplayNameDictionary[id]).ToArray();
 }
