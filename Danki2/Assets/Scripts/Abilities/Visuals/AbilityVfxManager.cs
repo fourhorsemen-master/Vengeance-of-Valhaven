@@ -9,6 +9,9 @@ public class AbilityVfxManager : MonoBehaviour
     [SerializeField]
     private float offsetIncrement = 0;
 
+    [SerializeField]
+    private Color defaultAbilityVFXColour = default;
+
     private void Start()
     {
         player.AbilityAnimationListener.ImpactSubject
@@ -71,18 +74,21 @@ public class AbilityVfxManager : MonoBehaviour
             case AbilityType.Slash:
                 SlashObject.Create(
                     player.AbilitySource,
-                    player.AbilityService.CurrentCastRotation * Quaternion.Euler(0, offset, 0)
+                    player.AbilityService.CurrentCastRotation * Quaternion.Euler(0, offset, 0),
+                    defaultAbilityVFXColour
                 );
                 break;
             case AbilityType.Thrust:
                 PoisonStabVisual.Create(
                     player.Centre + player.transform.forward * offset / 200,
-                    player.AbilityService.CurrentCastRotation);
+                    player.AbilityService.CurrentCastRotation)
+                    .SetColour(defaultAbilityVFXColour);
                 break;
             case AbilityType.Smash:
                 SmashObject.Create(
                     player.transform.position,
-                    rotation: Quaternion.Euler(0, offset, 0)
+                    rotation: Quaternion.Euler(0, offset, 0),
+                    colour: defaultAbilityVFXColour
                 );
                 break;
         }
