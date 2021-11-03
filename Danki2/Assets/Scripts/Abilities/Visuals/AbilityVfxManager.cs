@@ -26,6 +26,11 @@ public class AbilityVfxManager : MonoBehaviour
             CreateVFX(empowerment, offset);
             offset += offsetIncrement;
         });
+
+        if (empowerments.Count == 0)
+        {
+            CreateVFX(offset);
+        }
     }
 
     private void CreateVFX(Empowerment empowerment, float offset)
@@ -52,6 +57,32 @@ public class AbilityVfxManager : MonoBehaviour
                     player.transform.position,
                     rotation: Quaternion.Euler(0, offset, 0),
                     colour: EmpowermentLookup.Instance.GetColour(empowerment)
+                );
+                break;
+        }
+    }
+
+    private void CreateVFX(float offset)
+    {
+        AbilityType type = AbilityLookup.Instance.GetAbilityType(player.AbilityService.CurrentAbilityId);
+
+        switch (type)
+        {
+            case AbilityType.Slash:
+                SlashObject.Create(
+                    player.AbilitySource,
+                    player.AbilityService.CurrentCastRotation * Quaternion.Euler(0, offset, 0)
+                );
+                break;
+            case AbilityType.Thrust:
+                PoisonStabVisual.Create(
+                    player.Centre + player.transform.forward * offset / 200,
+                    player.AbilityService.CurrentCastRotation);
+                break;
+            case AbilityType.Smash:
+                SmashObject.Create(
+                    player.transform.position,
+                    rotation: Quaternion.Euler(0, offset, 0)
                 );
                 break;
         }
