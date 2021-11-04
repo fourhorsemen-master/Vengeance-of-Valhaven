@@ -17,7 +17,7 @@ public class InterruptionManager
 
     private void Setup()
     {
-        actor.DeathSubject.Subscribe(OnDeath);
+        actor.DeathSubject.Subscribe(_ => OnDeath());
     }
 
     public Guid Register(InterruptionType type, Action onInterrupt, params InterruptibleFeature[] features)

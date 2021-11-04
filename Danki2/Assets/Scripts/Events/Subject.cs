@@ -92,4 +92,11 @@ public class Subject<T> : IObservable<T>
         });
         return filteredSubject;
     }
+
+    public Subject Flatten()
+    {
+        Subject subject = new Subject();
+        Subscribe(_ => subject.Next());
+        return subject;
+    }
 }

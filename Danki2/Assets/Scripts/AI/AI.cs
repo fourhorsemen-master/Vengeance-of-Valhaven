@@ -6,7 +6,7 @@
     {
         base.Start();
 
-        Actor.DeathSubject.Subscribe(OnDeath);
+        Actor.DeathSubject.Subscribe(_ => OnDeath());
     }
 
     private void OnDeath()

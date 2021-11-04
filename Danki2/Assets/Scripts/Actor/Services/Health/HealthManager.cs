@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class HealthManager
@@ -10,6 +11,8 @@ public class HealthManager
 
     public int MaxHealth => actor.StatsManager.Get(Stat.MaxHealth);
 
+    public bool Dead => Health <= 0;
+
     public float HealthProportion => (float)Health / MaxHealth;
 
     private Registry<Func<DamageData, bool>> damagePipeRegistry;
@@ -18,6 +21,7 @@ public class HealthManager
     public Subject<int> ModifiedTickDamageSubject { get; } = new Subject<int>();
     public Subject DamageSubject { get; } = new Subject();
     public Subject<int> HealSubject { get; } = new Subject<int>();
+    public Subject<DeathData> DeathSubject { get; } = new Subject<DeathData>();
 
     private const int MinimumDamageAfterStats = 1;
 
@@ -42,7 +46,7 @@ public class HealthManager
 
     public void TickDamage(int damage)
     {
-        if (actor.Dead) return;
+        if (Dead) return;
 
         if (damage < 0)
         {
@@ -55,11 +59,13 @@ public class HealthManager
             ModifyHealth(-damage);
             ModifiedTickDamageSubject.Next(damage);
         }
+
+        if (Dead) DeathSubject.Next(new DeathData());
     }
 
-    public void ReceiveDamage(int damage, Actor source)
+    public void ReceiveDamage(int damage, Actor source, List<Empowerment> empowerments = null)
     {
-        if (actor.Dead) return;
+        if (Dead) return;
 
         bool damageBlockedByPipes = false;
         damagePipeRegistry.ForEach(pipe =>
@@ -70,7 +76,9 @@ public class HealthManager
         if (damageBlockedByPipes) return;
 
         // If already 0, damage should be left as 0, else reduce according to defence, but not below the minimum threshold.
-        damage = damage == 0 ? 0 : Mathf.Max(MinimumDamageAfterStats, damage - actor.StatsManager.Get(Stat.Defence));
+        damage = damage == 0
+            ? 0
+            : Mathf.Max(MinimumDamageAfterStats, damage - actor.StatsManager.Get(Stat.Defence));
 
         if (damage < 0)
         {
@@ -84,12 +92,14 @@ public class HealthManager
             ModifiedDamageSubject.Next(new DamageData(damage, source));
 
             actor.InterruptionManager.Interrupt(InterruptionType.Soft);
-        }            
+        }
+
+        if (Dead) DeathSubject.Next(new DeathData(empowerments));
     }
 
     public void ReceiveHeal(int healing)
     {
-        if (Health <= 0 || actor.Dead) return;
+        if (Dead) return;
 
         if (healing < 0)
         {

@@ -73,7 +73,9 @@ public class PlayerTargetFinder
         RemoveTarget();
 
         enemy.PlayerTargeted.Next(true);
-        targetDeathSubscription = enemy.DeathSubject.Subscribe(RemoveTarget);
+        targetDeathSubscription = enemy.DeathSubject.Flatten()
+            .Subscribe(RemoveTarget);
+
         Target = enemy;
     }
 
