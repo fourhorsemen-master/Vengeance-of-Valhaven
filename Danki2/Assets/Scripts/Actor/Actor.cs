@@ -53,7 +53,7 @@ public abstract class Actor : MonoBehaviour
     public HighlightManager HighlightManager { get; private set; }
 
     public bool Dead => HealthManager.Dead;
-    public Subject<DeathData> DeathSubject => HealthManager.DeathSubject;
+    public Subject<DeathData> DeathSubject = new Subject<DeathData>();
     public abstract ActorType Type { get; }
     protected abstract Tag Tag { get; }
 

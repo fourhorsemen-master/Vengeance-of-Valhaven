@@ -21,7 +21,6 @@ public class HealthManager
     public Subject<int> ModifiedTickDamageSubject { get; } = new Subject<int>();
     public Subject DamageSubject { get; } = new Subject();
     public Subject<int> HealSubject { get; } = new Subject<int>();
-    public Subject<DeathData> DeathSubject { get; } = new Subject<DeathData>();
 
     private const int MinimumDamageAfterStats = 1;
 
@@ -60,7 +59,7 @@ public class HealthManager
             ModifiedTickDamageSubject.Next(damage);
         }
 
-        if (Dead) DeathSubject.Next(new DeathData());
+        if (Dead) actor.DeathSubject.Next(new DeathData());
     }
 
     public void ReceiveDamage(int damage, Actor source, List<Empowerment> empowerments = null)
@@ -92,7 +91,7 @@ public class HealthManager
             ModifiedDamageSubject.Next(new DamageData(damage, source));
         }
 
-        if (Dead) DeathSubject.Next(new DeathData(empowerments));
+        if (Dead) actor.DeathSubject.Next(new DeathData(empowerments));
     }
 
     public void ReceiveHeal(int healing)
