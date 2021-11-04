@@ -13,7 +13,7 @@ public class AbilityService2
     private const float ExecuteDamageMultiplier = 1.5f;
     private const float MaimHealthProportion = 0.7f;
     private const float MaimDamageMultiplier = 1.5f;
-    private const float SiphonCurrencyMultipier = 1.5f;
+    private const float SiphonCurrencyMultiplier = 1.5f;
 
     public SerializableGuid CurrentAbilityId { get; private set; }
     public Quaternion CurrentCastRotation { get; private set; }
@@ -107,7 +107,7 @@ public class AbilityService2
         if (enemy.HealthManager.Health <= 0)
         {
             int siphonCount = empowerments.Count(e => e == Empowerment.Siphon);
-            enemy.AddCurrencyValueMultiplier(1 + siphonCount * (SiphonCurrencyMultipier - 1));
+            enemy.AddCurrencyValueMultiplier(1 + siphonCount * (SiphonCurrencyMultiplier - 1));
         }
     }
 
