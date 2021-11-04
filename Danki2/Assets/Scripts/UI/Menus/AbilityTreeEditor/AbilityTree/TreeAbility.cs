@@ -127,7 +127,7 @@ public class TreeAbility : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         }
         else
         {
-            abilityImage.sprite = AbilityLookup2.Instance.GetIcon(node.AbilityId);            
+            abilityImage.sprite = AbilityLookup.Instance.GetIcon(node.AbilityId);            
         }
     }
 

@@ -72,7 +72,6 @@ public class WolfAi : Ai
                 AttackState.TelegraphBite,
                 new DistanceLessThan(wolf, player, biteRange) & new TimeElapsed(biteCooldown) & new Facing(wolf, player, biteMaxAngle)
             )
-            .WithTransition(AttackState.TelegraphBite, AttackState.Reposition, new Interrupted(wolf, InterruptionType.Hard))
             .WithTransition(AttackState.TelegraphBite, AttackState.Bite, new TimeElapsed(biteDelay))
             .WithTransition(AttackState.Bite, AttackState.Reposition)
             .WithTransition(
@@ -80,7 +79,6 @@ public class WolfAi : Ai
                 AttackState.TelegraphPounce,
                 new DistanceWithin(wolf, player, pounceMinRange, pounceMaxRange) & new TimeElapsed(pounceCooldown) & new HasLineOfSight(wolf.CentreTransform, player.CentreTransform)
             )
-            .WithTransition(AttackState.TelegraphPounce, AttackState.Reposition, new Interrupted(wolf, InterruptionType.Hard))
             .WithTransition(AttackState.TelegraphPounce, AttackState.Pounce, new TimeElapsed(pounceDelay))
             .WithTransition(AttackState.Pounce, AttackState.Reposition);
 

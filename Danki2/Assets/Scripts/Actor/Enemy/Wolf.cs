@@ -68,7 +68,7 @@ public class Wolf : Enemy
         MovementManager.LockMovement(duration, pounceSpeed, direction, direction);
         StartTrail(duration);
 
-        InterruptibleAction(duration, InterruptionType.Hard, HandlePounceLand);
+        this.WaitAndAct(duration, HandlePounceLand);
     }
 
     private void HandlePounceLand()

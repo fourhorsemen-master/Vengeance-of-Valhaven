@@ -90,8 +90,6 @@ public class HealthManager
         {
             ModifyHealth(-damage);
             ModifiedDamageSubject.Next(new DamageData(damage, source));
-
-            actor.InterruptionManager.Interrupt(InterruptionType.Soft);
         }
 
         if (Dead) DeathSubject.Next(new DeathData(empowerments));

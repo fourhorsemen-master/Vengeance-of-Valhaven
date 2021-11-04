@@ -101,7 +101,7 @@ public abstract class AbilityTree
     private void UpdateInventory()
     {
         Inventory = new Dictionary<SerializableGuid, int>();
-        AbilityLookup2.Instance.ForEachAbilityId(abilityId =>
+        AbilityLookup.Instance.ForEachAbilityId(abilityId =>
         {
             Inventory[abilityId] = OwnedAbilities[abilityId];
         });

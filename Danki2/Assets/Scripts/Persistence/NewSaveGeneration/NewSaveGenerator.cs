@@ -45,15 +45,15 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
     private void SetAbilityTree(SaveData saveData)
     {
         Dictionary<SerializableGuid, int> ownedAbilities = new Dictionary<SerializableGuid, int>();
-        AbilityLookup2.Instance.ForEachAbilityId(abilityId => ownedAbilities[abilityId] = 0);
+        AbilityLookup.Instance.ForEachAbilityId(abilityId => ownedAbilities[abilityId] = 0);
 
-        if (!AbilityLookup2.Instance.TryGetAbilityId(MapGenerationLookup.Instance.LeftStartingAbilityName, out SerializableGuid leftAbilityId))
+        if (!AbilityLookup.Instance.TryGetAbilityId(MapGenerationLookup.Instance.LeftStartingAbilityName, out SerializableGuid leftAbilityId))
         {
             Debug.LogError($"Invalid left starting ability name: {MapGenerationLookup.Instance.LeftStartingAbilityName}.");
             return;
         }
 
-        if (!AbilityLookup2.Instance.TryGetAbilityId(MapGenerationLookup.Instance.RightStartingAbilityName, out SerializableGuid rightAbilityId))
+        if (!AbilityLookup.Instance.TryGetAbilityId(MapGenerationLookup.Instance.RightStartingAbilityName, out SerializableGuid rightAbilityId))
         {
             Debug.LogError($"Invalid right starting ability name: {MapGenerationLookup.Instance.RightStartingAbilityName}.");
             return;
