@@ -46,7 +46,9 @@ public class Player : Actor
     // Subjects
     public Subject RollSubject { get; } = new Subject();
 
-    public string VocalisationEvent { get => vocalisationEvent; }
+    public string VocalisationEvent  => vocalisationEvent;
+
+    public CastContext CurrentCast => AbilityService.CurrentCast;
 
     protected override Tag Tag => Tag.Player;
 
