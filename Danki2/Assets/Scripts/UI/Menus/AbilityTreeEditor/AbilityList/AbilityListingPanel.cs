@@ -69,10 +69,10 @@ public class AbilityListingPanel : MonoBehaviour, IBeginDragHandler, IDragHandle
 
         highlighter.HighlightState = DraggableHighlightState.Default;
 
-        iconPanelImage.sprite = AbilityLookup2.Instance.GetIcon(abilityId);
+        iconPanelImage.sprite = AbilityLookup.Instance.GetIcon(abilityId);
 
-        namePanelText.text = AbilityLookup2.Instance.GetDisplayName(abilityId);
-        namePanelText.color = RarityLookup.Instance.Lookup[AbilityLookup2.Instance.GetRarity(abilityId)].Colour;
+        namePanelText.text = AbilityLookup.Instance.GetDisplayName(abilityId);
+        namePanelText.color = RarityLookup.Instance.Lookup[AbilityLookup.Instance.GetRarity(abilityId)].Colour;
 
         UpdateQuantityText();
     }

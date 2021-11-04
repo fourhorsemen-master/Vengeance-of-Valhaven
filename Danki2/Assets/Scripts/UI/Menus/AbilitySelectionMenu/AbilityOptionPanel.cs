@@ -38,12 +38,12 @@ public class AbilityOptionPanel : MonoBehaviour
     {
         AbilityId = abilityId;
 
-        RarityData rarityData = RarityLookup.Instance.Lookup[AbilityLookup2.Instance.GetRarity(abilityId)];
+        RarityData rarityData = RarityLookup.Instance.Lookup[AbilityLookup.Instance.GetRarity(abilityId)];
 
-        image.sprite = AbilityLookup2.Instance.GetIcon(abilityId);
+        image.sprite = AbilityLookup.Instance.GetIcon(abilityId);
         frame.sprite = rarityData.Frame;
         frame.color = rarityData.Colour;
-        text.text = AbilityLookup2.Instance.GetDisplayName(abilityId);
+        text.text = AbilityLookup.Instance.GetDisplayName(abilityId);
         text.color = rarityData.Colour;
     }
 

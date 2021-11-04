@@ -71,7 +71,7 @@ public class Bear : Enemy
 
         MovementManager.LockMovement(swipeDashDuration, StatsManager.Get(Stat.Speed) * swipeDashSpeedMultiplier, forward, forward);
         
-        InterruptibleAction(swipeDashDuration, InterruptionType.Hard, HandleSwipeLand);
+        this.WaitAndAct(swipeDashDuration, HandleSwipeLand);
     }
     
     private void HandleSwipeLand()

@@ -19,10 +19,8 @@ public class ComboManager
 			.WithProcessor(ComboState.Timeout, new TimeoutProcessor(player))
 			.WithProcessor(ComboState.TimeoutCooldown, new TimeElapsedProcessor<ComboState>(ComboState.ReadyAtRoot, player.LongCooldown - player.ComboTimeout));
 
-		player.InterruptionManager.Register(
-			InterruptionType.Soft,
-			() => workflow.ForceTransition(ComboState.Interrupted),
-			InterruptibleFeature.Repeat
+		player.HealthManager.DamageSubject.Subscribe(
+			() => workflow.ForceTransition(ComboState.Interrupted)
 		);
 
 		ForceTransitionOnEvent(player.AbilityTree.ChangeSubject, ComboState.Interrupted, ComboState.ReadyAtRoot, ComboState.LongCooldown);

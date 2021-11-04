@@ -32,7 +32,7 @@ public class SerializableAbilityTree
             serializableNodes.Add(new SerializableNode(node.AbilityId, nodeToIdLookup[node], leftChildId, rightChildId));
         });
 
-        AbilityLookup2.Instance.ForEachAbilityId(abilityId =>
+        AbilityLookup.Instance.ForEachAbilityId(abilityId =>
         {
             serializableOwnedAbilities.Add(new SerializableOwnedAbility(
                 abilityId,
