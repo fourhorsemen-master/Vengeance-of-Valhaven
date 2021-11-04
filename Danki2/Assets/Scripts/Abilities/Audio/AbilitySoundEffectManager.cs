@@ -6,7 +6,7 @@ public class AbilitySoundEffectManager : MonoBehaviour
     [SerializeField]
     private Player player = null;
 
-    private SerializableGuid CurrentAbilityId => player.AbilityService.CurrentAbilityId;
+    private SerializableGuid CurrentAbilityId => player.CurrentCast.AbilityId;
 
     private void Start()
     {

@@ -14,10 +14,7 @@ public class AbilityService
     private const float MaimHealthProportion = 0.7f;
     private const float MaimDamageMultiplier = 1.5f;
 
-    public SerializableGuid CurrentAbilityId { get; private set; }
-    public Quaternion CurrentCastRotation { get; private set; }
-    public List<Empowerment> CurrentEmpowerments { get; private set; }
-    public List<Empowerment> NextEmpowerments { get; private set; }
+    public CastContext CurrentCast { get; private set; }
 
     private static readonly Dictionary<AbilityType, CollisionTemplateShape> collisionTemplateLookup =
         new Dictionary<AbilityType, CollisionTemplateShape>
@@ -41,18 +38,33 @@ public class AbilityService
 
     public void Cast(Direction direction, Vector3 targetPosition)
     {
-        CurrentAbilityId = player.AbilityTree.GetAbilityId(direction);
+        SerializableGuid abilityId = player.AbilityTree.GetAbilityId(direction);
+        AbilityType abilityType = AbilityLookup.Instance.GetAbilityType(abilityId);
+
         player.AbilityTree.Walk(direction);
 
-        CurrentEmpowerments = GetCurrentEmpowerments(selfEmpoweringAbilities);
-        NextEmpowerments = GetCurrentEmpowerments();
+        List<Empowerment> empowerments = GetCurrentEmpowerments(selfEmpoweringAbilities);
+        List<Empowerment> nextEmpowerments = GetCurrentEmpowerments();
 
         player.MovementManager.LookAt(targetPosition);
         
         Vector3 castDirection = targetPosition - player.transform.position;
-        CurrentCastRotation = AbilityUtils.GetMeleeCastRotation(castDirection);
+        Quaternion currentCastRotation = AbilityUtils.GetMeleeCastRotation(castDirection);
 
-        abilityAnimator.HandleAnimation(CurrentAbilityId);
+        Vector3 collisionTemplateOrigin = abilityType == AbilityType.Smash
+            ? player.transform.position + player.transform.forward * 1.2f
+            : player.CollisionTemplateSource;
+
+        abilityAnimator.HandleAnimation(abilityId);
+
+        CurrentCast = new CastContext(
+            abilityId,
+            abilityType,
+            currentCastRotation,
+            collisionTemplateOrigin,
+            empowerments,
+            nextEmpowerments
+        );
     }
 
     private void OnImpact()
@@ -61,15 +73,15 @@ public class AbilityService
 
         AbilityUtils.TemplateCollision(
             player,
-            collisionTemplateLookup[AbilityLookup.Instance.GetAbilityType(CurrentAbilityId)],
+            collisionTemplateLookup[AbilityLookup.Instance.GetAbilityType(CurrentCast.AbilityId)],
             AbilityRange,
-            player.CollisionTemplateSource,
-            CurrentCastRotation,
-            AbilityTypeLookup.Instance.GetCollisionSoundLevel(AbilityLookup.Instance.GetAbilityType(CurrentAbilityId)),
+            CurrentCast.CollisionTemplateOrigin,
+            CurrentCast.CastRotation,
+            AbilityTypeLookup.Instance.GetCollisionSoundLevel(AbilityLookup.Instance.GetAbilityType(CurrentCast.AbilityId)),
             enemyCallback: enemy =>
             {
                 hasDealtDamage = true;
-                HandleCollision(CurrentAbilityId, enemy, CurrentEmpowerments);
+                HandleCollision(CurrentCast.AbilityId, enemy, CurrentCast.Empowerments);
             }
         );
 
