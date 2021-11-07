@@ -67,26 +67,26 @@ public class AbilityVfxManager : MonoBehaviour
 
     private void CreateVFX(float offset)
     {
-        AbilityType type = AbilityLookup.Instance.GetAbilityType(player.AbilityService.CurrentAbilityId);
+        AbilityType type = AbilityLookup.Instance.GetAbilityType(player.CurrentCast.AbilityId);
 
         switch (type)
         {
             case AbilityType.Slash:
                 SlashObject.Create(
-                    player.AbilitySource,
-                    player.AbilityService.CurrentCastRotation * Quaternion.Euler(0, offset, 0),
+                    player.CurrentCast.CollisionTemplateOrigin,
+                    player.CurrentCast.CastRotation * Quaternion.Euler(0, offset, 0),
                     defaultAbilityVFXColour
                 );
                 break;
             case AbilityType.Thrust:
                 PoisonStabVisual.Create(
-                    player.Centre + player.transform.forward * offset / 200,
-                    player.AbilityService.CurrentCastRotation)
+                    player.CurrentCast.CollisionTemplateOrigin + player.transform.forward * offset / 200,
+                    player.CurrentCast.CastRotation)
                     .SetColour(defaultAbilityVFXColour);
                 break;
             case AbilityType.Smash:
                 SmashObject.Create(
-                    player.transform.position,
+                    player.CurrentCast.CollisionTemplateOrigin,
                     rotation: Quaternion.Euler(0, offset, 0),
                     colour: defaultAbilityVFXColour
                 );
