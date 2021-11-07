@@ -14,4 +14,5 @@
     Maim,
     Duel,
     Brawl,
+    Shock,
 }

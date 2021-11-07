@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -114,6 +115,7 @@ public class AbilityService
     {
         enemy.HealthManager.ReceiveDamage(CalculateDamage(abilityId, empowerments, enemy), player);
         enemy.EffectManager.AddStacks(StackingEffect.Bleed, CalculateBleedStacks(empowerments));
+        HandleShock(enemy, empowerments);
     }
 
     private int CalculateDamage(SerializableGuid abilityId, List<Empowerment> empowerments, Enemy enemy)
@@ -168,5 +170,18 @@ public class AbilityService
             damage *= 1 + (empowerments.Count(e => e == Empowerment.Maim) * (MaimDamageMultiplier - 1));
         }
         return damage;
+    }
+
+    private void HandleShock(Enemy enemy, List<Empowerment> empowerments)
+    {
+        if (!empowerments.Contains(Empowerment.Shock)) return;
+
+        foreach (Actor actor in ActorCache.Instance.Cache.Select(x => x.Actor))
+        {
+            if (actor.CompareTag(Tag.Player)) continue;
+            if (enemy.gameObject.Equals(actor.gameObject)) continue;
+
+            LightningVisual.Create(enemy.Centre, actor.Centre);
+        }
     }
 }
