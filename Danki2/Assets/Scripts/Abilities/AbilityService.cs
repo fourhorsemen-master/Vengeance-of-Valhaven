@@ -14,6 +14,9 @@ public class AbilityService
     private const float ExecuteDamageMultiplier = 1.5f;
     private const float MaimHealthProportion = 0.7f;
     private const float MaimDamageMultiplier = 1.5f;
+    private const int ShockMaxJumps = 2;
+    private const float ShockDamage = 3f;
+    private const float ShockJumpRange = 8f;
 
     public CastContext CurrentCast { get; private set; }
 
@@ -176,12 +179,8 @@ public class AbilityService
     {
         if (!empowerments.Contains(Empowerment.Shock)) return;
 
-        foreach (Actor actor in ActorCache.Instance.Cache.Select(x => x.Actor))
-        {
-            if (actor.CompareTag(Tag.Player)) continue;
-            if (enemy.gameObject.Equals(actor.gameObject)) continue;
+        int lightningDamage = Mathf.CeilToInt(empowerments.Count(x => x == Empowerment.Shock) * ShockDamage);
 
-            LightningVisual.Create(enemy.Centre, actor.Centre);
-        }
+        ChainLightning.Fire(enemy, lightningDamage, ShockMaxJumps, ShockJumpRange);
     }
 }
