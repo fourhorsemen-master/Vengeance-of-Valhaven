@@ -25,7 +25,7 @@ public class EnemyMovementManager : MovementManager
         : base(enemy, navMeshAgent)
     {
         this.enemy = enemy;
-        this.enemy.DeathSubject.Subscribe(StopPathfinding);
+        this.enemy.DeathSubject.Subscribe(_ => StopPathfinding());
 
         updateSubject.Subscribe(UpdateMovement);
     }

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -51,11 +50,10 @@ public abstract class Actor : MonoBehaviour
     public StatsManager StatsManager { get; private set; }
     public HealthManager HealthManager { get; private set; }
     public EffectManager EffectManager { get; private set; }
-    public InterruptionManager InterruptionManager { get; private set; }
     public EmissiveManager EmissiveManager { get; private set; }
 
-    public bool Dead { get; private set; }
-    public Subject DeathSubject { get; } = new Subject();
+    public bool Dead => HealthManager.Dead;
+    public Subject<DeathData> DeathSubject = new Subject<DeathData>();
     public abstract ActorType Type { get; }
     protected abstract Tag Tag { get; }
 
@@ -72,60 +70,16 @@ public abstract class Actor : MonoBehaviour
         StatsManager = new StatsManager(baseStats);
         EffectManager = new EffectManager(this, updateSubject);
         HealthManager = new HealthManager(this, updateSubject);
-        InterruptionManager = new InterruptionManager(this, startSubject, updateSubject);
         EmissiveManager = new EmissiveManager(this, startSubject, meshRenderers);
-
-        Dead = false;
     }
 
-    protected virtual void Start()
-    {
-        startSubject.Next();
-    }
+    protected virtual void Start() => startSubject.Next();
 
-    protected virtual void Update()
-    {
-        updateSubject.Next();
-    }
+    protected virtual void Update() => updateSubject.Next();
 
-    protected virtual void LateUpdate()
-    {
-        lateUpdateSubject.Next();
-
-        if (HealthManager.Health <= 0 && !Dead)
-        {
-            OnDeath();
-        }
-    }
+    protected virtual void LateUpdate() => lateUpdateSubject.Next();
         
-    public bool Opposes(Actor target)
-    {
-        return !CompareTag(target.tag);
-    }
-
-    public void InterruptibleAction(float delay, InterruptionType interruptionType, Action action)
-    {
-        Coroutine coroutine = this.WaitAndAct(delay, action);
-        
-        // We don't need to worry about deregistering the interruptible as Stopping a finished coroutine doesn't cause any problems.
-        InterruptionManager.Register(
-            interruptionType,
-            () => StopCoroutine(coroutine),
-            InterruptibleFeature.InterruptOnDeath
-        );
-    }
-
-    public void InterruptibleIntervalAction(float interval, InterruptionType interruptionType, Action<int> action, float startDelay = 0, int? numRepetitions = null)
-    {
-        Coroutine coroutine = this.ActOnInterval(interval, action, startDelay, numRepetitions);
-
-        // We don't need to worry about deregistering the interruptible as Stopping a finished coroutine doesn't cause any problems.
-        InterruptionManager.Register(
-            interruptionType,
-            () => StopCoroutine(coroutine),
-            InterruptibleFeature.InterruptOnDeath
-        );
-    }
+    public bool Opposes(Actor target) => !CompareTag(target.tag);
 
     public void StartTrail(float duration)
     {
@@ -137,11 +91,5 @@ public abstract class Actor : MonoBehaviour
         }
 
         stopTrailCoroutine = this.WaitAndAct(duration, () => trailRenderer.emitting = false);
-    }
-
-    protected virtual void OnDeath()
-    {
-        DeathSubject.Next();
-        Dead = true;
     }
 }

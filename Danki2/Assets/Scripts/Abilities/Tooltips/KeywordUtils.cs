@@ -23,6 +23,9 @@ public static class KeywordUtils
             [Empowerment.Rupture] = Keyword.Rupture,
             [Empowerment.Execute] = Keyword.Execute,
             [Empowerment.Maim] = Keyword.Maim,
+            [Empowerment.Duel] = Keyword.Duel,
+            [Empowerment.Brawl] = Keyword.Brawl,
+            [Empowerment.Siphon] = Keyword.Siphon,
         };
 
     public static List<Keyword> GetKeywords(SerializableGuid abilityId)
@@ -44,7 +47,7 @@ public static class KeywordUtils
 
         List<Keyword> keywords = new List<Keyword>();
 
-        List<Empowerment> empowerments = AbilityLookup2.Instance.GetEmpowerments(abilityId);
+        List<Empowerment> empowerments = AbilityLookup.Instance.GetEmpowerments(abilityId);
         empowerments.ForEach(empowerment => keywords.Add(empowermentLookup[empowerment]));
 
         return keywords;

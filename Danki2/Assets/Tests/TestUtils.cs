@@ -10,7 +10,7 @@ public static class TestUtils
 {
     private static readonly Dictionary<Type, string> assetPathLookup = new Dictionary<Type, string>
     {
-        [typeof(AbilityLookup2)] = "Assets/Prefabs/Meta/GameplayManagers/AbilityLookup2.prefab",
+        [typeof(AbilityLookup)] = "Assets/Prefabs/Meta/GameplayManagers/AbilityLookup.prefab",
         [typeof(RarityLookup)] = "Assets/Prefabs/Meta/GameplayManagers/RarityLookup.prefab",
         [typeof(RuneLookup)] = "Assets/Prefabs/Meta/GameplayManagers/RuneLookup.prefab",
         [typeof(DevPersistenceManager)] = "Assets/Prefabs/Meta/GameplayManagers/DevManagers.prefab",

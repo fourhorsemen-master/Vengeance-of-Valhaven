@@ -12,4 +12,7 @@
     Rupture,
     Execute,
     Maim,
+    Duel,
+    Brawl,
+    Siphon,
 }

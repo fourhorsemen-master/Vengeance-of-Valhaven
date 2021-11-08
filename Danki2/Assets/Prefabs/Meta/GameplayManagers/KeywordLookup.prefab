@@ -57,6 +57,9 @@ MonoBehaviour:
     - Rupture
     - Execute
     - Maim
+    - Duel
+    - Brawl
+    - Siphon
     _values:
     - displayName: Heal
       description: Restore health.
@@ -82,3 +85,9 @@ MonoBehaviour:
       description: Increases damage by 50% to targets below 30% health.
     - displayName: Maim
       description: Increases damage by 50% to targets above 70% health.
+    - displayName: Duel
+      description: Increases damage by 2 when fighting a single enemy.
+    - displayName: Brawl
+      description: Increases damage by 2 when fighting multiple enemies.
+    - displayName: Siphon
+      description: Killing blows increase currency gained by 50%.

@@ -40,13 +40,15 @@ public class Player : Actor
     public PlayerTargetFinder TargetFinder { get; private set; }
     public RuneManager RuneManager { get; private set; }
     public CurrencyManager CurrencyManager { get; private set; }
-    public AbilityService2 AbilityService { get; private set; }
+    public AbilityService AbilityService { get; private set; }
     public PlayerMovementManager MovementManager { get; private set; }
     
     // Subjects
     public Subject RollSubject { get; } = new Subject();
 
-    public string VocalisationEvent { get => vocalisationEvent; }
+    public string VocalisationEvent  => vocalisationEvent;
+
+    public CastContext CurrentCast => AbilityService.CurrentCast;
 
     protected override Tag Tag => Tag.Player;
 
@@ -59,8 +61,10 @@ public class Player : Actor
         TargetFinder = new PlayerTargetFinder(this, updateSubject);
         RuneManager = new RuneManager(this);
         CurrencyManager = new CurrencyManager();
-        AbilityService = new AbilityService2(this, abilityAnimator, selfEmpoweringAbilities);
+        AbilityService = new AbilityService(this, abilityAnimator, selfEmpoweringAbilities);
         MovementManager = new PlayerMovementManager(this, updateSubject, navmeshAgent);
+
+        DeathSubject.Subscribe(_ => PersistenceManager.Instance.TransitionToDefeatRoom());
     }
 
     public void Roll(Vector3 direction)
@@ -86,11 +90,5 @@ public class Player : Actor
 
             AnimController.Play("Dash_OneShot");
         }
-    }
-
-    protected override void OnDeath()
-    {
-        base.OnDeath();
-        PersistenceManager.Instance.TransitionToDefeatRoom();
     }
 }

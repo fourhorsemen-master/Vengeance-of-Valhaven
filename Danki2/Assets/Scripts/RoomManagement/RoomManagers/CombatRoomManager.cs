@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 /// <summary>
 /// Handles combat rooms. If we are not in a combat room, then this class does nothing.
@@ -13,6 +14,11 @@ public class CombatRoomManager : Singleton<CombatRoomManager>
     public bool EnemiesCleared { get; private set; } = false;
     public Subject EnemiesClearedSubject { get; }  = new Subject();
     public bool InCombatRoom { get; private set; }
+
+    public int TotalEnemyCount { get; private set; } = 0;
+    public int DeadEnemyCount { get; private set; } = 0;
+
+    private const float SiphonCurrencyMultiplier = 1.5f;
 
     protected override void Awake()
     {
@@ -62,14 +68,14 @@ public class CombatRoomManager : Singleton<CombatRoomManager>
 
     private void TrackEnemyDeaths(List<Enemy> enemies)
     {
-        int enemyCount = enemies.Count;
-        int deadEnemyCount = 0;
-        enemies.ForEach(enemy => enemy.DeathSubject.Subscribe(() =>
+        TotalEnemyCount = enemies.Count;
+        DeadEnemyCount = 0;
+        enemies.ForEach(enemy => enemy.DeathSubject.Subscribe(deathData =>
         {
-            YieldCurrency(enemy);
+            YieldCurrency(enemy, deathData);
 
-            deadEnemyCount++;
-            if (deadEnemyCount != enemyCount) return;
+            DeadEnemyCount++;
+            if (DeadEnemyCount != TotalEnemyCount) return;
 
             if (ActorCache.Instance.Player.RuneManager.HasRune(Rune.FirstAid))
             {
@@ -82,9 +88,14 @@ public class CombatRoomManager : Singleton<CombatRoomManager>
         }));
     }
 
-    private void YieldCurrency(Enemy enemy)
+    private void YieldCurrency(Enemy enemy, DeathData deathData)
     {
-        int currencyValue = CurrencyLookup.Instance.EnemyCurrencyValueLookup[enemy.Type];
+        float baseValue = CurrencyLookup.Instance.EnemyCurrencyValueLookup[enemy.Type];
+
+        int siphonCount = deathData.Empowerments.Count(e => e == Empowerment.Siphon);
+        float siphonMultiplier = 1 + siphonCount * (SiphonCurrencyMultiplier - 1);
+
+        int currencyValue = Mathf.CeilToInt(baseValue * siphonMultiplier);
 
         ActorCache.Instance.Player.CurrencyManager.AddCurrency(currencyValue);
         CurrencyCollectionVisual.Create(enemy.Centre, currencyValue);
