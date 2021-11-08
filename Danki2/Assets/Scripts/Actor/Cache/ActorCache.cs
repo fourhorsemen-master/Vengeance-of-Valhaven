@@ -49,6 +49,6 @@ public class ActorCache : Singleton<ActorCache>
 
         ActorCacheItem actorCacheItem = new ActorCacheItem(actor, collider);
         Cache.Add(actorCacheItem);
-        actorCacheItem.Actor.DeathSubject.Subscribe(() => Cache.Remove(actorCacheItem));
+        actorCacheItem.Actor.DeathSubject.Subscribe(_ => Cache.Remove(actorCacheItem));
     }
 }

@@ -52,8 +52,8 @@ public abstract class Actor : MonoBehaviour
     public EffectManager EffectManager { get; private set; }
     public HighlightManager HighlightManager { get; private set; }
 
-    public bool Dead { get; private set; }
-    public Subject DeathSubject { get; } = new Subject();
+    public bool Dead => HealthManager.Dead;
+    public Subject<DeathData> DeathSubject = new Subject<DeathData>();
     public abstract ActorType Type { get; }
     protected abstract Tag Tag { get; }
 
@@ -71,34 +71,15 @@ public abstract class Actor : MonoBehaviour
         EffectManager = new EffectManager(this, updateSubject);
         HealthManager = new HealthManager(this, updateSubject);
         HighlightManager = new HighlightManager(updateSubject, meshRenderers);
-
-        Dead = false;
     }
 
-    protected virtual void Start()
-    {
-        startSubject.Next();
-    }
+    protected virtual void Start() => startSubject.Next();
 
-    protected virtual void Update()
-    {
-        updateSubject.Next();
-    }
+    protected virtual void Update() => updateSubject.Next();
 
-    protected virtual void LateUpdate()
-    {
-        lateUpdateSubject.Next();
-
-        if (HealthManager.Health <= 0 && !Dead)
-        {
-            OnDeath();
-        }
-    }
+    protected virtual void LateUpdate() => lateUpdateSubject.Next();
         
-    public bool Opposes(Actor target)
-    {
-        return !CompareTag(target.tag);
-    }
+    public bool Opposes(Actor target) => !CompareTag(target.tag);
 
     public void StartTrail(float duration)
     {
@@ -110,11 +91,5 @@ public abstract class Actor : MonoBehaviour
         }
 
         stopTrailCoroutine = this.WaitAndAct(duration, () => trailRenderer.emitting = false);
-    }
-
-    protected virtual void OnDeath()
-    {
-        DeathSubject.Next();
-        Dead = true;
     }
 }
