@@ -63,6 +63,8 @@ public class Player : Actor
         CurrencyManager = new CurrencyManager();
         AbilityService = new AbilityService(this, abilityAnimator, selfEmpoweringAbilities);
         MovementManager = new PlayerMovementManager(this, updateSubject, navmeshAgent);
+
+        DeathSubject.Subscribe(_ => PersistenceManager.Instance.TransitionToDefeatRoom());
     }
 
     public void Roll(Vector3 direction)
@@ -88,11 +90,5 @@ public class Player : Actor
 
             AnimController.Play("Dash_OneShot");
         }
-    }
-
-    protected override void OnDeath()
-    {
-        base.OnDeath();
-        PersistenceManager.Instance.TransitionToDefeatRoom();
     }
 }

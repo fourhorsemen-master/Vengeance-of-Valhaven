@@ -13,7 +13,7 @@ public class Diegetic : MonoBehaviour
 
     private void Start()
     {
-        Actor.DeathSubject.Subscribe(() =>
+        Actor.DeathSubject.Subscribe(_ =>
             deactivateOnDeath.ForEach(o => o.gameObject.SetActive(false))
         );
     }
