@@ -55,6 +55,7 @@ public class AbilityDataEditor : Editor
         EditRarity(abilityId);
         EditEmpowerments(abilityId);
 
+        EditorUtils.VerticalSpace();
         RemoveAbilityButton(abilityId);
 
         EditorGUI.indentLevel--;
