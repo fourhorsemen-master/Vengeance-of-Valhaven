@@ -79,7 +79,7 @@ public class Wraith : Enemy
             target.CentreTransform,
             AbilitySource,
             HandleGuidedOrbExplosion,
-            DeathSubject
+            DeathSubject.Flatten()
         );
     }
 

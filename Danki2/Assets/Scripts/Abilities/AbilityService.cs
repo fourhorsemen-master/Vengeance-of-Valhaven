@@ -113,9 +113,9 @@ public class AbilityService
 
     private void HandleCollision(SerializableGuid abilityId, Enemy enemy, List<Empowerment> empowerments)
     {
-        enemy.HealthManager.ReceiveDamage(CalculateDamage(abilityId, empowerments, enemy), player);
         enemy.EffectManager.AddStacks(StackingEffect.Bleed, CalculateBleedStacks(empowerments));
         HandleShock(enemy, empowerments);
+        enemy.HealthManager.ReceiveDamage(CalculateDamage(abilityId, empowerments, enemy), player, empowerments);
     }
 
     private int CalculateDamage(SerializableGuid abilityId, List<Empowerment> empowerments, Enemy enemy)

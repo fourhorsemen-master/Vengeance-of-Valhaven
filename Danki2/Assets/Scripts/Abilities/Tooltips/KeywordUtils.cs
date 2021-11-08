@@ -26,6 +26,7 @@ public static class KeywordUtils
             [Empowerment.Duel] = Keyword.Duel,
             [Empowerment.Brawl] = Keyword.Brawl,
             [Empowerment.Shock] = Keyword.Shock,
+            [Empowerment.Siphon] = Keyword.Siphon,
         };
 
     public static List<Keyword> GetKeywords(SerializableGuid abilityId)
