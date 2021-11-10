@@ -19,12 +19,12 @@ public class EmissiveManager
 
         startSubject.Subscribe(() => {
             materialsToEmissiveMaps = renderers.ToDictionary(
-                x => x.material,
-                x => x.material.GetEmissiveMap()
+                r => r.material,
+                r => r.material.GetEmissiveMap()
             );
             materialsToEmissiveColours = renderers.ToDictionary(
-                x => x.material,
-                x => x.material.GetEmissiveColour()
+                r => r.material,
+                r => r.material.GetEmissiveColour()
             );
         });
     }
@@ -40,21 +40,19 @@ public class EmissiveManager
 
     private void SetFlashEmissive()
     {
-        materialsToEmissiveMaps.Keys.ToList()
-            .ForEach(x =>
-            {
-                x.SetEmissiveMap(Texture2D.whiteTexture);
-                x.SetEmissiveColour(Color.white * FlashIntensity);
-            });
+        foreach (Material material in materialsToEmissiveMaps.Keys)
+        {
+            material.SetEmissiveMap(Texture2D.whiteTexture);
+            material.SetEmissiveColour(Color.white * FlashIntensity);
+        }
     }
 
     private void ResetEmissive()
     {
-        materialsToEmissiveMaps.Keys.ToList()
-            .ForEach(x =>
-            {
-                x.SetEmissiveMap(materialsToEmissiveMaps[x]);
-                x.SetEmissiveColour(materialsToEmissiveColours[x]);
-            });
+        foreach (Material material in materialsToEmissiveMaps.Keys)
+        {
+            material.SetEmissiveMap(materialsToEmissiveMaps[material]);
+            material.SetEmissiveColour(materialsToEmissiveColours[material]);
+        }
     }
 }
