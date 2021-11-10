@@ -70,7 +70,7 @@ public abstract class Actor : MonoBehaviour
         StatsManager = new StatsManager(baseStats);
         EffectManager = new EffectManager(this, updateSubject);
         HealthManager = new HealthManager(this, updateSubject);
-        EmissiveManager = new EmissiveManager(this, startSubject, meshRenderers);
+        EmissiveManager = new EmissiveManager(this, meshRenderers);
     }
 
     protected virtual void Start() => startSubject.Next();

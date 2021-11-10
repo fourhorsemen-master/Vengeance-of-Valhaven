@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class EmissiveManager
 {
-    private Dictionary<Material, Texture> materialsToEmissiveMaps;
-    private Dictionary<Material, Color> materialsToEmissiveColours;
+    private readonly Dictionary<Material, Texture> materialsToEmissiveMaps;
+    private readonly Dictionary<Material, Color> materialsToEmissiveColours;
     private readonly Actor actor;
 
     private const float FlashIntensity = 0.3f;
@@ -13,20 +13,24 @@ public class EmissiveManager
 
     private Coroutine cancelFlashCoroutine = null;
 
-    public EmissiveManager(Actor actor, Subject startSubject, Renderer[] renderers)
+    public EmissiveManager(Actor actor, Renderer[] renderers)
     {
         this.actor = actor;
 
-        startSubject.Subscribe(() => {
-            materialsToEmissiveMaps = renderers.ToDictionary(
-                r => r.material,
-                r => r.material.GetEmissiveMap()
-            );
-            materialsToEmissiveColours = renderers.ToDictionary(
-                r => r.material,
-                r => r.material.GetEmissiveColour()
-            );
-        });
+        materialsToEmissiveMaps = renderers.ToDictionary(
+            r => r.material,
+            r => r.material.GetEmissiveMap()
+        );
+        materialsToEmissiveColours = renderers.ToDictionary(
+            r => r.material,
+            r => r.material.GetEmissiveColour()
+        );
+    }
+
+    public void SetBaseEmissiveColour(List<MeshRenderer> renderers, Color colour)
+    {
+        renderers.ForEach(r => materialsToEmissiveColours[r.material] = colour);
+        ResetEmissive();
     }
 
     public void Flash()
