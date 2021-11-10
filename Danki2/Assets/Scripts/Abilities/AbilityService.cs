@@ -21,7 +21,7 @@ public class AbilityService
         {
             [AbilityType.Slash] = CollisionTemplateShape.Wedge90,
             [AbilityType.Smash] = CollisionTemplateShape.Cylinder,
-            [AbilityType.Thrust] = CollisionTemplateShape.Wedge45,
+            [AbilityType.Lunge] = CollisionTemplateShape.Wedge45,
         };
     
     private readonly Player player;
