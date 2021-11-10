@@ -52,7 +52,7 @@ public class EffectManager
             TickStackingEffects();
         });
 
-        actor.DeathSubject.Subscribe(() =>
+        actor.DeathSubject.Subscribe(_ =>
         {
             RemoveAllActiveEffects();
             RemoveAllPassiveEffects();

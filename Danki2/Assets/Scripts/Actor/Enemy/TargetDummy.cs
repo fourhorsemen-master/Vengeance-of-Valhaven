@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class TargetDummy : Enemy
+﻿public class TargetDummy : Enemy
 {
     public override ActorType Type => ActorType.TargetDummy;
 
