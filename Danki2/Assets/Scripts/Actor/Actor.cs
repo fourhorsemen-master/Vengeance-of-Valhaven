@@ -50,7 +50,7 @@ public abstract class Actor : MonoBehaviour
     public StatsManager StatsManager { get; private set; }
     public HealthManager HealthManager { get; private set; }
     public EffectManager EffectManager { get; private set; }
-    public HighlightManager HighlightManager { get; private set; }
+    public EmissiveManager EmissiveManager { get; private set; }
 
     public bool Dead => HealthManager.Dead;
     public Subject<DeathData> DeathSubject = new Subject<DeathData>();
@@ -70,7 +70,7 @@ public abstract class Actor : MonoBehaviour
         StatsManager = new StatsManager(baseStats);
         EffectManager = new EffectManager(this, updateSubject);
         HealthManager = new HealthManager(this, updateSubject);
-        HighlightManager = new HighlightManager(updateSubject, meshRenderers);
+        EmissiveManager = new EmissiveManager(this, meshRenderers);
     }
 
     protected virtual void Start() => startSubject.Next();
