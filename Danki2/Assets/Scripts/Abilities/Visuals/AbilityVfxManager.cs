@@ -49,7 +49,7 @@ public class AbilityVfxManager : MonoBehaviour
                     empowermentColor
                 );
                 break;
-            case AbilityType.Thrust:
+            case AbilityType.Lunge:
                 PoisonStabVisual.Create(
                     player.CurrentCast.CollisionTemplateOrigin + player.transform.forward * offset/200,
                     player.CurrentCast.CastRotation)
