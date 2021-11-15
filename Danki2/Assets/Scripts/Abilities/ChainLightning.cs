@@ -28,25 +28,27 @@ public class ChainLightning
 
         while (affectedTargets.Count < maxJumps + 1)
         {
-            List<Actor> possibleTargets = ActorCache.Instance.Cache.Select(x => x.Actor)
+            List<Enemy> possibleTargets = ActorCache.Instance.Cache.Select(x => x.Actor)
                 .Where(x => x.CompareTag(Tag.Enemy))
                 .Except(affectedTargets)
                 .Where(x => Vector3.Distance(x.Centre, affectedTargets.Last().Centre) < jumpRange)
+                .Select(x => (Enemy)x)
                 .ToList();
 
             if (!possibleTargets.Any()) return;
 
-            Actor nextTarget = RandomUtils.Choice(possibleTargets);
+            Enemy nextTarget = RandomUtils.Choice(possibleTargets);
 
-            LightningVisual.Create(affectedTargets.Last().Centre, nextTarget.Centre);
+            LightningChainVisual.Create(affectedTargets.Last().Centre, nextTarget.Centre);
 
             Damage(nextTarget);
         }
     }
 
-    private void Damage(Actor actor)
+    private void Damage(Enemy enemy)
     {
-        actor.HealthManager.ReceiveDamage(damage, ActorCache.Instance.Player);
-        affectedTargets.Add(actor);
+        LightningImpactVisual.Create(enemy.Centre);
+        enemy.HealthManager.ReceiveDamage(damage, ActorCache.Instance.Player);
+        affectedTargets.Add(enemy);
     }
 }
