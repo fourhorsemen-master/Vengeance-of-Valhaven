@@ -13,6 +13,7 @@ public class AbilityService
     private const float ExecuteDamageMultiplier = 1.5f;
     private const float MaimHealthProportion = 0.7f;
     private const float MaimDamageMultiplier = 1.5f;
+    private const float EnvenomPoisonDuration = 5f;
 
     public CastContext CurrentCast { get; private set; }
 
@@ -113,6 +114,7 @@ public class AbilityService
     private void HandleCollision(SerializableGuid abilityId, Enemy enemy, List<Empowerment> empowerments)
     {
         enemy.EffectManager.AddStacks(StackingEffect.Bleed, CalculateBleedStacks(empowerments));
+        enemy.EffectManager.AddActiveEffect(ActiveEffect.Poison, CalculatePoisonApplication(empowerments));
         enemy.HealthManager.ReceiveDamage(CalculateDamage(abilityId, empowerments, enemy), player, empowerments);
     }
 
@@ -131,6 +133,13 @@ public class AbilityService
     {
         int bleedStacks = empowerments.Count(e => e == Empowerment.Rupture);
         return bleedStacks;
+    }
+
+    private float CalculatePoisonApplication(List<Empowerment> empowerments)
+    {
+        return empowerments.Contains(Empowerment.Envenom)
+            ? EnvenomPoisonDuration
+            : 0f;
     }
 
     private float HandleImpactDamage(float damage, List<Empowerment> empowerments)
