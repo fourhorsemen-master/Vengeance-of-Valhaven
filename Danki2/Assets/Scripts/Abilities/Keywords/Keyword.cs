@@ -15,4 +15,5 @@
     Duel,
     Brawl,
     Siphon,
+    Envenom,
 }

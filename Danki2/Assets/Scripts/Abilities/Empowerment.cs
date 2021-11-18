@@ -6,5 +6,6 @@ public enum Empowerment
     Maim,
     Duel,
     Brawl,
-    Siphon
+    Siphon,
+    Envenom,
 }
