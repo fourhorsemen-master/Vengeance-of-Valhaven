@@ -12,8 +12,6 @@ public class AbilityTooltip : Tooltip
 
     [SerializeField]
     private SupplementaryTooltipPanel abilitySupplementaryTooltipPanel = null;
-
-    private readonly List<AbilityBonusTooltipSection> bonusSections = new List<AbilityBonusTooltipSection>();
     
     public static AbilityTooltip Create(Transform transform, SerializableGuid abilityId)
     {
@@ -52,13 +50,13 @@ public class AbilityTooltip : Tooltip
         description += $"Type: {abilityType.ToString()}\n";
         
         int damage = AbilityLookup.Instance.GetDamage(abilityId);
-        description += $"Damage: {damage.ToString()}\n";
+        description += $"Damage: {damage.ToString()}";
         
         List<Empowerment> empowerments = AbilityLookup.Instance.GetEmpowerments(abilityId);
         if (empowerments.Count > 0)
         {
-            description += "Empowerments:\n";
-            empowerments.ForEach(empowerment => description += $"    {empowerment.ToString()}");
+            description += "\nEmpowerments:";
+            empowerments.ForEach(empowerment => description += $"\n    {empowerment.ToString()}");
         }
 
         return description;
@@ -73,12 +71,5 @@ public class AbilityTooltip : Tooltip
         titleText.text = title;
         titleText.color = color;
         descriptionText.text = description;
-
-        foreach (AbilityBonusTooltipSection section in bonusSections)
-        {
-            Destroy(section.gameObject);
-        }
-
-        bonusSections.Clear();
     }
 }
