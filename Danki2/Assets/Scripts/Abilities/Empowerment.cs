@@ -8,4 +8,5 @@ public enum Empowerment
     Brawl,
     Shock,
     Siphon,
+    Envenom,
 }

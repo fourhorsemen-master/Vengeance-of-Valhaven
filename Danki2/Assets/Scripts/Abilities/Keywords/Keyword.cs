@@ -16,4 +16,5 @@
     Brawl,
     Shock,
     Siphon,
+    Envenom,
 }

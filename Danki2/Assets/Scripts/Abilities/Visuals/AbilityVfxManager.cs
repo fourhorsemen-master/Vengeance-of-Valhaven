@@ -9,6 +9,9 @@ public class AbilityVfxManager : MonoBehaviour
     [SerializeField]
     private float offsetIncrement = 0;
 
+    [SerializeField]
+    private Color defaultAbilityVFXColour = default;
+
     private void Start()
     {
         player.AbilityAnimationListener.ImpactSubject
@@ -23,12 +26,17 @@ public class AbilityVfxManager : MonoBehaviour
 
         empowerments.ForEach(empowerment =>
         {
-            CreateVFX(empowerment, offset);
+            CreateVFX(EmpowermentLookup.Instance.GetColour(empowerment), offset);
             offset += offsetIncrement;
         });
+
+        if (empowerments.Count == 0)
+        {
+            CreateVFX(defaultAbilityVFXColour, offset);
+        }
     }
 
-    private void CreateVFX(Empowerment empowerment, float offset)
+    private void CreateVFX(Color empowermentColor, float offset)
     {
         AbilityType type = AbilityLookup.Instance.GetAbilityType(player.CurrentCast.AbilityId);
 
@@ -38,20 +46,20 @@ public class AbilityVfxManager : MonoBehaviour
                 SlashObject.Create(
                     player.CurrentCast.CollisionTemplateOrigin,
                     player.CurrentCast.CastRotation * Quaternion.Euler(0, offset, 0),
-                    EmpowermentLookup.Instance.GetColour(empowerment)
+                    empowermentColor
                 );
                 break;
-            case AbilityType.Thrust:
+            case AbilityType.Lunge:
                 PoisonStabVisual.Create(
                     player.CurrentCast.CollisionTemplateOrigin + player.transform.forward * offset/200,
                     player.CurrentCast.CastRotation)
-                    .SetColour(EmpowermentLookup.Instance.GetColour(empowerment));
+                    .SetColour(empowermentColor);
                 break;
             case AbilityType.Smash:
                 SmashObject.Create(
                     player.CurrentCast.CollisionTemplateOrigin,
                     rotation: Quaternion.Euler(0, offset, 0),
-                    colour: EmpowermentLookup.Instance.GetColour(empowerment)
+                    colour: empowermentColor
                 );
                 break;
         }

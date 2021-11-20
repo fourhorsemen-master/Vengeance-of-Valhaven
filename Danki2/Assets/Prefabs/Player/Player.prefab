@@ -2975,6 +2975,7 @@ MonoBehaviour:
   - {fileID: 321767935209476056}
   - {fileID: 3387462581990253440}
   - {fileID: 9010139035835365635}
+  - {fileID: 7118821877519093548}
   weight: 1
   rotationSmoothing: 0.1
   animController: {fileID: 238891752984210142}
@@ -3058,13 +3059,13 @@ MonoBehaviour:
     _keys:
     - Slash
     - Smash
-    - Thrust
+    - Lunge
     _values: 010000000400000002000000
   abilityTypeToAnimationSpeedCurveDictionary:
     _keys:
     - Slash
     - Smash
-    - Thrust
+    - Lunge
     _values:
     - serializedVersion: 2
       m_Curve:
@@ -3194,6 +3195,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: -5201030127241623248}
   offsetIncrement: 16.83
+  defaultAbilityVFXColour: {r: 1, g: 0.8757807, b: 0.8254717, a: 0.50980395}
 --- !u!114 &6289727810404826592
 MonoBehaviour:
   m_ObjectHideFlags: 0

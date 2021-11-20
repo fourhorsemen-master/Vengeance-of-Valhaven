@@ -15,8 +15,9 @@ public class AbilityService
     private const float MaimHealthProportion = 0.7f;
     private const float MaimDamageMultiplier = 1.5f;
     private const int ShockMaxJumps = 2;
-    private const float ShockDamage = 3f;
+    private const int ShockDamage = 3;
     private const float ShockJumpRange = 8f;
+    private const float EnvenomPoisonDuration = 10f;
 
     public CastContext CurrentCast { get; private set; }
 
@@ -25,7 +26,7 @@ public class AbilityService
         {
             [AbilityType.Slash] = CollisionTemplateShape.Wedge90,
             [AbilityType.Smash] = CollisionTemplateShape.Cylinder,
-            [AbilityType.Thrust] = CollisionTemplateShape.Wedge45,
+            [AbilityType.Lunge] = CollisionTemplateShape.Wedge45,
         };
     
     private readonly Player player;
@@ -117,8 +118,12 @@ public class AbilityService
     private void HandleCollision(SerializableGuid abilityId, Enemy enemy, List<Empowerment> empowerments)
     {
         enemy.EffectManager.AddStacks(StackingEffect.Bleed, CalculateBleedStacks(empowerments));
-        HandleShock(enemy, empowerments);
+        if (empowerments.Contains(Empowerment.Envenom))
+        {
+            enemy.EffectManager.AddActiveEffect(ActiveEffect.Poison, EnvenomPoisonDuration);
+        }
         enemy.HealthManager.ReceiveDamage(CalculateDamage(abilityId, empowerments, enemy), player, empowerments);
+        HandleShock(enemy, empowerments);
     }
 
     private int CalculateDamage(SerializableGuid abilityId, List<Empowerment> empowerments, Enemy enemy)
