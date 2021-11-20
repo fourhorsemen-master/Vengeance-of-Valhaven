@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -184,7 +183,7 @@ public class AbilityService
     {
         if (!empowerments.Contains(Empowerment.Shock)) return;
 
-        int lightningDamage = Mathf.CeilToInt(empowerments.Count(x => x == Empowerment.Shock) * ShockDamage);
+        int lightningDamage = empowerments.Count(x => x == Empowerment.Shock) * ShockDamage;
 
         ChainLightning.Fire(enemy, lightningDamage, ShockMaxJumps, ShockJumpRange);
     }

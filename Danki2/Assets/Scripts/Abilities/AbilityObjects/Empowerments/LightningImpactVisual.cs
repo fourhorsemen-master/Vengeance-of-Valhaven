@@ -12,6 +12,4 @@ public class LightningImpactVisual : MonoBehaviour
         LightningImpactVisual lightningImpactVisual = Instantiate(prefab, position, Quaternion.identity);
         lightningImpactVisual.visualEffect.Play();
     }
-
-
 }

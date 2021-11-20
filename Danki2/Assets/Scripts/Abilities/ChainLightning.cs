@@ -6,9 +6,9 @@ public class ChainLightning
 {
     private readonly int damage;
     private readonly int maxJumps;
-    private float jumpRange;
+    private readonly float jumpRange;
 
-    private List<Actor> affectedTargets = new List<Actor>();
+    private readonly List<Actor> affectedTargets = new List<Actor>();
 
     private ChainLightning(int damage, int maxJumps, float jumpRange)
     {
@@ -35,7 +35,7 @@ public class ChainLightning
                 .Select(x => (Enemy)x)
                 .ToList();
 
-            if (!possibleTargets.Any()) return;
+            if (!possibleTargets.Any()) break;
 
             Enemy nextTarget = RandomUtils.Choice(possibleTargets);
 

@@ -14,6 +14,4 @@ public class LightningChainVisual : MonoBehaviour
         lightningChainVisual.visualEffect.SetVector3("End", endPosition);
         lightningChainVisual.visualEffect.Play();
     }
-
-
 }
