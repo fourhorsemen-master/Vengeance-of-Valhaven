@@ -59,6 +59,7 @@ MonoBehaviour:
     - Maim
     - Duel
     - Brawl
+    - Shock
     - Siphon
     - Envenom
     _values:
@@ -90,6 +91,8 @@ MonoBehaviour:
       description: Increases damage by 2 when fighting a single enemy.
     - displayName: Brawl
       description: Increases damage by 2 when fighting multiple enemies.
+    - displayName: Shock
+      description: Chains lightning to nearby enemies dealing 3 damage.
     - displayName: Siphon
       description: Killing blows increase currency gained by 50%.
     - displayName: Envenom

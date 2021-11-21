@@ -14,6 +14,7 @@
     Maim,
     Duel,
     Brawl,
+    Shock,
     Siphon,
     Envenom,
 }

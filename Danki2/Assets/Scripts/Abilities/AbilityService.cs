@@ -13,6 +13,9 @@ public class AbilityService
     private const float ExecuteDamageMultiplier = 1.5f;
     private const float MaimHealthProportion = 0.7f;
     private const float MaimDamageMultiplier = 1.5f;
+    private const int ShockMaxJumps = 2;
+    private const int ShockDamage = 3;
+    private const float ShockJumpRange = 8f;
     private const float EnvenomPoisonDuration = 10f;
 
     public CastContext CurrentCast { get; private set; }
@@ -119,6 +122,7 @@ public class AbilityService
             enemy.EffectManager.AddActiveEffect(ActiveEffect.Poison, EnvenomPoisonDuration);
         }
         enemy.HealthManager.ReceiveDamage(CalculateDamage(abilityId, empowerments, enemy), player, empowerments);
+        HandleShock(enemy, empowerments);
     }
 
     private int CalculateDamage(SerializableGuid abilityId, List<Empowerment> empowerments, Enemy enemy)
@@ -173,5 +177,14 @@ public class AbilityService
             damage *= 1 + (empowerments.Count(e => e == Empowerment.Maim) * (MaimDamageMultiplier - 1));
         }
         return damage;
+    }
+
+    private void HandleShock(Enemy enemy, List<Empowerment> empowerments)
+    {
+        if (!empowerments.Contains(Empowerment.Shock)) return;
+
+        int lightningDamage = empowerments.Count(x => x == Empowerment.Shock) * ShockDamage;
+
+        ChainLightning.Fire(enemy, lightningDamage, ShockMaxJumps, ShockJumpRange);
     }
 }

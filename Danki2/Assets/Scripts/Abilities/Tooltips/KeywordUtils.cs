@@ -25,6 +25,7 @@ public static class KeywordUtils
             [Empowerment.Maim] = Keyword.Maim,
             [Empowerment.Duel] = Keyword.Duel,
             [Empowerment.Brawl] = Keyword.Brawl,
+            [Empowerment.Shock] = Keyword.Shock,
             [Empowerment.Siphon] = Keyword.Siphon,
             [Empowerment.Envenom] = Keyword.Envenom,
         };
