@@ -4,10 +4,7 @@
 public enum TemplatedTooltipSegmentType
 {
     Text,
-    PrimaryDamage,
-    SecondaryDamage,
     Heal,
-    Shield,
     Stun,
     Slow,
     Block,

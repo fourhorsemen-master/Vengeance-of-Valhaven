@@ -4,7 +4,6 @@ public static class Lexer
 {
     private const char OpenBrace = '{';
     private const char CloseBrace = '}';
-    private const char Pipe = '|';
 
     /// <summary>
     /// Turns a tooltip into a list of tokens. A token represents a distinct part of our tooltip templating
@@ -36,11 +35,6 @@ public static class Lexer
             {
                 tokens.Add(new Token(GetBraceType(c), c.ToString()));
             }
-
-            if (IsPipe(c))
-            {
-                tokens.Add(new Token(TokenType.Pipe, c.ToString()));
-            }
         }
 
         if (!currentString.Equals(""))
@@ -53,7 +47,7 @@ public static class Lexer
 
     private static bool IsString(char c)
     {
-        return !IsBrace(c) && !IsPipe(c);
+        return !IsBrace(c);
     }
 
     private static bool IsBrace(char c)
@@ -64,10 +58,5 @@ public static class Lexer
     private static TokenType GetBraceType(char brace)
     {
         return brace.Equals(OpenBrace) ? TokenType.OpenBrace : TokenType.CloseBrace;
-    }
-
-    private static bool IsPipe(char c)
-    {
-        return c.Equals(Pipe);
     }
 }

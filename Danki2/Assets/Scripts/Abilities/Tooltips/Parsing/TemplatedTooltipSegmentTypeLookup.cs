@@ -1,14 +1,11 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 public static class TemplatedTooltipSegmentTypeLookup
 {
     private static readonly Dictionary<BindableProperty, TemplatedTooltipSegmentType> bindablePropertyToTemplatedTooltipSegmentType =
         new Dictionary<BindableProperty, TemplatedTooltipSegmentType>
         {
-            {BindableProperty.PrimaryDamage, TemplatedTooltipSegmentType.PrimaryDamage},
-            {BindableProperty.SecondaryDamage, TemplatedTooltipSegmentType.SecondaryDamage},
             {BindableProperty.Heal, TemplatedTooltipSegmentType.Heal},
-            {BindableProperty.Shield, TemplatedTooltipSegmentType.Shield},
             {BindableProperty.Stun, TemplatedTooltipSegmentType.Stun},
             {BindableProperty.Slow, TemplatedTooltipSegmentType.Slow},
             {BindableProperty.Block, TemplatedTooltipSegmentType.Block},

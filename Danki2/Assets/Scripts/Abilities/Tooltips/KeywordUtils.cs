@@ -7,7 +7,6 @@ public static class KeywordUtils
         new Dictionary<TemplatedTooltipSegmentType, Keyword>
         {
             {TemplatedTooltipSegmentType.Heal, Keyword.Heal},
-            {TemplatedTooltipSegmentType.Shield, Keyword.Shield},
             {TemplatedTooltipSegmentType.Stun, Keyword.Stun},
             {TemplatedTooltipSegmentType.Slow, Keyword.Slow},
             {TemplatedTooltipSegmentType.Block, Keyword.Block},

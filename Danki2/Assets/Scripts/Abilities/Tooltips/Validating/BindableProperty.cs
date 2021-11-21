@@ -3,10 +3,7 @@
 /// </summary>
 public enum BindableProperty
 {
-    PrimaryDamage,
-    SecondaryDamage,
     Heal,
-    Shield,
     Stun,
     Slow,
     Block,
