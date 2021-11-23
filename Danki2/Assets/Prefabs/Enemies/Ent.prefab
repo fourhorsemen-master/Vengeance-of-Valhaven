@@ -343,7 +343,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ent: {fileID: 7773382599880723946}
-  followDistance: 2.5
+  minAdvanceDistance: 2.5
+  minRangedDistance: 5
+  maxRangedDistance: 6
   aggroDistance: 12
   swipeMaxRange: 2.8
   swipeDelay: 0.75

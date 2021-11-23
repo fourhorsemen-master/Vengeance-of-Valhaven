@@ -4,8 +4,10 @@ public class EntAi : Ai
 {
     [SerializeField] private Ent ent = null;
 
-    [Header("General")]
-    [SerializeField] private float followDistance;
+    [Header("Movement")]
+    [SerializeField] private float minAdvanceDistance;
+    [SerializeField] private float minRangedDistance;
+    [SerializeField] private float maxRangedDistance;
 
     [Header("Melee")]
     [SerializeField] private float aggroDistance;
@@ -26,7 +28,7 @@ public class EntAi : Ai
         Player player = ActorCache.Instance.Player;
 
         return new StateMachine<State>(State.Idle)
-            .WithComponent(State.Advance, new MoveTowardsAtDistance(ent, player, followDistance))
+            .WithComponent(State.Advance, new EntAdvance(ent, player, minAdvanceDistance, minRangedDistance, maxRangedDistance))
             .WithComponent(State.TelegraphSpine, new TelegraphAttackAndWatch(ent, player, Color.green))
             .WithComponent(State.TelegraphSwipe, new TelegraphAttack(ent, Color.red))
             .WithComponent(State.Spine, new EntCastSpine(ent, player))
