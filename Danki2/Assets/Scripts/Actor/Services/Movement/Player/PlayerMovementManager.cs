@@ -106,10 +106,8 @@ public class PlayerMovementManager : MovementManager, IMovementStatusProvider
         return true;
     }
 
-    protected override void UpdateMovement()
+    private void UpdateMovement()
     {
-        base.UpdateMovement();
-
         if (player.Dead) return;
 
         navMeshAgent.speed = GetMoveSpeed();

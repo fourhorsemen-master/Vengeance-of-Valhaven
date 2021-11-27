@@ -132,10 +132,8 @@ public class EnemyMovementManager : MovementManager
         return navMeshAgent.CalculatePath(position, navMeshPath) && navMeshPath.status == NavMeshPathStatus.PathComplete;
     }
 
-    protected override void UpdateMovement()
+    private void UpdateMovement()
     {
-        base.UpdateMovement();
-
         if (enemy.Dead) return;
 
         if (movementPaused && !navMeshAgent.isStopped) StopPathfinding();
