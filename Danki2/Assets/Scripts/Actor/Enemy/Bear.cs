@@ -62,7 +62,6 @@ public class Bear : Enemy
     {
         base.Update();
 
-        AnimController.SetBool("Moving", positionLastFrame != transform.position);
         positionLastFrame = transform.position;
 
         if (charging) ContinueCharge();

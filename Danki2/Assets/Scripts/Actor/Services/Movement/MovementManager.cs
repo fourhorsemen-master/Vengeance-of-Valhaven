@@ -9,6 +9,8 @@ public abstract class MovementManager
     private const float WalkSpeedMultiplier = 0.3f;
 
     protected bool movementPaused = false;
+    protected bool movedThisFrame = false;
+    protected Vector3 positionLastFrame;
     private Coroutine endPauseCoroutine = null;
 
     public MotionType MotionType { get; set; } = MotionType.Run;
@@ -20,6 +22,13 @@ public abstract class MovementManager
         this.actor = actor;
 
         this.navMeshAgent = navMeshAgent;
+    }
+
+    protected virtual void UpdateMovement()
+    {
+        movedThisFrame = !positionLastFrame.Equals(actor.transform.position);
+
+        positionLastFrame = actor.transform.position;
     }
 
     /// <summary>
