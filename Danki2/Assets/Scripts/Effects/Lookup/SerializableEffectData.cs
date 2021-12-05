@@ -5,9 +5,11 @@ using UnityEngine;
 public abstract class SerializableEffectData
 {
     [SerializeField] private string displayName = "";
+    [SerializeField] private string tooltip = "";
     [SerializeField] private Sprite sprite = null;
 
     public string DisplayName { get => displayName; set => displayName = value; }
+    public string Tooltip { get => tooltip; set => tooltip = value; }
     public Sprite Sprite { get => sprite; set => sprite = value; }
 }
 

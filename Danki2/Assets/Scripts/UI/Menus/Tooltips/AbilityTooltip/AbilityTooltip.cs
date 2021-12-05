@@ -41,7 +41,7 @@ public class AbilityTooltip : Tooltip
 
         SetContents(titleText, color, descriptionText);
 
-        abilitySupplementaryTooltipPanel.Activate(abilityId);
+        ActivateSupplementaryTooltips(abilityId);
     }
 
     private string GenerateDescription(SerializableGuid abilityId)
@@ -52,13 +52,13 @@ public class AbilityTooltip : Tooltip
         description += $"Type: {abilityType.ToString()}\n";
         
         int damage = AbilityLookup.Instance.GetDamage(abilityId);
-        description += $"Damage: {damage.ToString()}\n";
+        description += $"Damage: {damage.ToString()}";
         
         List<Empowerment> empowerments = AbilityLookup.Instance.GetEmpowerments(abilityId);
         if (empowerments.Count > 0)
         {
-            description += "Empowerments:\n";
-            empowerments.ForEach(empowerment => description += $"    {empowerment.ToString()}");
+            description += "\nEmpowerments:";
+            empowerments.ForEach(empowerment => description += $"\n    {empowerment.ToString()}");
         }
 
         return description;
@@ -80,5 +80,28 @@ public class AbilityTooltip : Tooltip
         }
 
         bonusSections.Clear();
+    }
+
+    private void ActivateSupplementaryTooltips(SerializableGuid abilityId)
+    {
+        List<Empowerment> empowerments = AbilityLookup.Instance.GetEmpowerments(abilityId);
+
+        List<ActiveEffect> activeEffects = new List<ActiveEffect>();
+        List<PassiveEffect> passiveEffects = new List<PassiveEffect>();
+        List<StackingEffect> stackingEffects = new List<StackingEffect>();
+        
+        empowerments.ForEach(e =>
+        {
+            activeEffects.AddRange(EmpowermentLookup.Instance.GetActiveEffects(e));
+            passiveEffects.AddRange(EmpowermentLookup.Instance.GetPassiveEffects(e));
+            stackingEffects.AddRange(EmpowermentLookup.Instance.GetStackingEffects(e));
+        });
+        
+        abilitySupplementaryTooltipPanel.Activate(
+            empowerments,
+            activeEffects,
+            passiveEffects,
+            stackingEffects
+        );
     }
 }

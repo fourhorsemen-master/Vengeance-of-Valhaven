@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI.Extensions;
 
@@ -16,7 +17,7 @@ public class SupplementaryTooltipPanel : MonoBehaviour
     [SerializeField]
     public SupplementaryTooltip supplementaryTooltipPrefab = null;
 
-    private Dictionary<ScreenQuadrant, Vector2> pivotPoints = new Dictionary<ScreenQuadrant, Vector2>
+    private readonly Dictionary<ScreenQuadrant, Vector2> pivotPoints = new Dictionary<ScreenQuadrant, Vector2>
     {
         { ScreenQuadrant.TopLeft, new Vector2(0, 0) },
         { ScreenQuadrant.TopRight, new Vector2(1, 0) },
@@ -24,7 +25,7 @@ public class SupplementaryTooltipPanel : MonoBehaviour
         { ScreenQuadrant.BottomRight, new Vector2(1, 1) }
     };
 
-    private List<ScreenQuadrant> leftQuadrants = new List<ScreenQuadrant> {
+    private readonly List<ScreenQuadrant> leftQuadrants = new List<ScreenQuadrant> {
         ScreenQuadrant.TopLeft,
         ScreenQuadrant.BottomLeft
     };
@@ -44,18 +45,33 @@ public class SupplementaryTooltipPanel : MonoBehaviour
         transform.position = tooltipRectTransform.position + new Vector3(horizontalOffset, 0);
     }
 
-    public void Activate(SerializableGuid abilityId)
+    public void Activate(
+        List<Empowerment> empowerments = null,
+        List<ActiveEffect> activeEffects = null,
+        List<PassiveEffect> passiveEffects = null,
+        List<StackingEffect> stackingEffects = null
+    )
     {
         Activate();
 
-        displayCoroutine = this.WaitAndAct(displayDelay, () => Display(KeywordUtils.GetKeywords(abilityId)));
-    }
-
-    public void Activate(Rune rune)
-    {
-        Activate();
-
-        displayCoroutine = this.WaitAndAct(displayDelay, () => Display(KeywordUtils.GetKeywords(rune)));
+        List<Tuple<string, string>> tuples = new List<Tuple<string, string>>();
+        empowerments?.ForEach(e => tuples.Add(Tuple.Create(
+            EmpowermentLookup.Instance.GetDisplayName(e),
+            EmpowermentLookup.Instance.GetTooltip(e)
+        )));
+        activeEffects?.ForEach(e => tuples.Add(Tuple.Create(
+            EffectLookup.Instance.GetDisplayName(e),
+            EffectLookup.Instance.GetTooltip(e)
+        )));
+        passiveEffects?.ForEach(e => tuples.Add(Tuple.Create(
+            EffectLookup.Instance.GetDisplayName(e),
+            EffectLookup.Instance.GetTooltip(e)
+        )));
+        stackingEffects?.ForEach(e => tuples.Add(Tuple.Create(
+            EffectLookup.Instance.GetDisplayName(e),
+            EffectLookup.Instance.GetTooltip(e)
+        )));
+        displayCoroutine = this.WaitAndAct(displayDelay, () => Display(tuples));
     }
 
     private void Activate()
@@ -64,12 +80,12 @@ public class SupplementaryTooltipPanel : MonoBehaviour
         rectTransform.pivot = pivotPoints[currentScreenQuadrant];
     }
 
-    private void Display(List<Keyword> keywords)
+    private void Display(List<Tuple<string, string>> tooltips)
     {
-        keywords.ForEach(k =>
+        tooltips.ForEach(t =>
         {
             Instantiate(supplementaryTooltipPrefab, transform)
-                .Setup(k);
+                .Setup(t.Item1, t.Item2);
         });
     }
 }
