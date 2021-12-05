@@ -23,7 +23,7 @@ public class RuneTooltip : Tooltip
         titleText.text = RuneLookup.Instance.GetDisplayName(rune);
         descriptionText.text = GenerateDescription(RuneTooltipBuilder.Build(rune));
 
-        abilitySupplementaryTooltipPanel.Activate(rune);
+        // abilitySupplementaryTooltipPanel.Activate(rune);
     }
 
     private string GenerateDescription(List<TooltipSegment> segments)

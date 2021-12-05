@@ -6,8 +6,8 @@ public class SupplementaryTooltip : MonoBehaviour
     [SerializeField]
     private Text description = null;
 
-    public void Setup(Keyword keyword)
+    public void Setup(string title, string body)
     {
-        description.text = $"{TextUtils.BoldText(KeywordLookup.Instance.GetDisplayName(keyword) + ":")} {KeywordLookup.Instance.GetDescription(keyword)}";
+        description.text = $"{TextUtils.BoldText(title + ":")} {body}";
     }
 }

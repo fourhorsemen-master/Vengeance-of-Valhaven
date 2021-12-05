@@ -41,7 +41,7 @@ public class AbilityTooltip : Tooltip
 
         SetContents(titleText, color, descriptionText);
 
-        abilitySupplementaryTooltipPanel.Activate(abilityId);
+        ActivateSupplementaryTooltips(abilityId);
     }
 
     private string GenerateDescription(SerializableGuid abilityId)
@@ -80,5 +80,28 @@ public class AbilityTooltip : Tooltip
         }
 
         bonusSections.Clear();
+    }
+
+    private void ActivateSupplementaryTooltips(SerializableGuid abilityId)
+    {
+        List<Empowerment> empowerments = AbilityLookup.Instance.GetEmpowerments(abilityId);
+
+        List<ActiveEffect> activeEffects = new List<ActiveEffect>();
+        List<PassiveEffect> passiveEffects = new List<PassiveEffect>();
+        List<StackingEffect> stackingEffects = new List<StackingEffect>();
+        
+        empowerments.ForEach(e =>
+        {
+            activeEffects.AddRange(EmpowermentLookup.Instance.GetActiveEffects(e));
+            passiveEffects.AddRange(EmpowermentLookup.Instance.GetPassiveEffects(e));
+            stackingEffects.AddRange(EmpowermentLookup.Instance.GetStackingEffects(e));
+        });
+        
+        abilitySupplementaryTooltipPanel.Activate(
+            empowerments,
+            activeEffects,
+            passiveEffects,
+            stackingEffects
+        );
     }
 }

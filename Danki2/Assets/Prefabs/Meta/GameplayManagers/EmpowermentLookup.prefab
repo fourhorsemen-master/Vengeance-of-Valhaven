@@ -85,6 +85,69 @@ MonoBehaviour:
     - Chains lightning to nearby enemies dealing 3 damage.
     - Killing blows increase currency gained by 50%.
     - Abilities apply poison.
+  empowermentActiveEffectsDictionary:
+    _keys:
+    - Impact
+    - Rupture
+    - Execute
+    - Maim
+    - Duel
+    - Brawl
+    - Shock
+    - Siphon
+    - Envenom
+    _values:
+    - activeEffects: 
+    - activeEffects: 
+    - activeEffects: 
+    - activeEffects: 
+    - activeEffects: 
+    - activeEffects: 
+    - activeEffects: 
+    - activeEffects: 
+    - activeEffects: 02000000
+  empowermentPassiveEffectsDictionary:
+    _keys:
+    - Impact
+    - Rupture
+    - Execute
+    - Maim
+    - Duel
+    - Brawl
+    - Shock
+    - Siphon
+    - Envenom
+    _values:
+    - passiveEffects: 
+    - passiveEffects: 
+    - passiveEffects: 
+    - passiveEffects: 
+    - passiveEffects: 
+    - passiveEffects: 
+    - passiveEffects: 
+    - passiveEffects: 
+    - passiveEffects: 
+  empowermentStackingEffectsDictionary:
+    _keys:
+    - Impact
+    - Rupture
+    - Execute
+    - Maim
+    - Duel
+    - Brawl
+    - Shock
+    - Siphon
+    - Envenom
+    _values:
+    - stackingEffects: 
+    - stackingEffects: 00000000
+    - stackingEffects: 
+    - stackingEffects: 
+    - stackingEffects: 
+    - stackingEffects: 
+    - stackingEffects: 
+    - stackingEffects: 
+    - stackingEffects: 
   empowermentColourDictionary:
     _keys:
     - Impact

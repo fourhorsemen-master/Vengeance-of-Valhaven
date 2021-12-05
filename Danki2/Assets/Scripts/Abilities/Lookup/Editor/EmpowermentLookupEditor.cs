@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -54,6 +53,7 @@ public class EmpowermentLookupEditor : Editor
 
         EditDisplayName(empowerment);
         EditTooltip(empowerment);
+        EditSupplementaryTooltips(empowerment);
         EditColour(empowerment);
         EditDecalMaterial(empowerment);
 
@@ -74,6 +74,42 @@ public class EmpowermentLookupEditor : Editor
             "Tooltip",
             empowermentLookup.EmpowermentTooltipDictionary[empowerment]
         );
+    }
+
+    private void EditSupplementaryTooltips(Empowerment empowerment)
+    {
+        EditorUtils.Header("SupplementaryTooltips");
+
+        EditorGUI.indentLevel++;
+        
+        EditorUtils.Header("Active Effects");
+        EditorGUI.indentLevel++;
+        EditorUtils.ResizeableList(
+            empowermentLookup.EmpowermentActiveEffectsDictionary[empowerment].ActiveEffects,
+            activeEffect => (ActiveEffect) EditorGUILayout.EnumPopup("Active Effect", activeEffect),
+            defaultValue: default
+        );
+        EditorGUI.indentLevel--;
+        
+        EditorUtils.Header("Passive Effects");
+        EditorGUI.indentLevel++;
+        EditorUtils.ResizeableList(
+            empowermentLookup.EmpowermentPassiveEffectsDictionary[empowerment].PassiveEffects,
+            passiveEffect => (PassiveEffect) EditorGUILayout.EnumPopup("Passive Effect", passiveEffect),
+            defaultValue: default
+        );
+        EditorGUI.indentLevel--;
+        
+        EditorUtils.Header("Stacking Effects");
+        EditorGUI.indentLevel++;
+        EditorUtils.ResizeableList(
+            empowermentLookup.EmpowermentStackingEffectsDictionary[empowerment].StackingEffects,
+            stackingEffect => (StackingEffect) EditorGUILayout.EnumPopup("Stacking Effect", stackingEffect),
+            defaultValue: default
+        );
+        EditorGUI.indentLevel--;
+        
+        EditorGUI.indentLevel--;
     }
 
     private void EditColour(Empowerment empowerment)
