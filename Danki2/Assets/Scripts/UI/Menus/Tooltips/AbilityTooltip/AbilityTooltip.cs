@@ -52,13 +52,13 @@ public class AbilityTooltip : Tooltip
         description += $"Type: {abilityType.ToString()}\n";
         
         int damage = AbilityLookup.Instance.GetDamage(abilityId);
-        description += $"Damage: {damage.ToString()}\n";
+        description += $"Damage: {damage.ToString()}";
         
         List<Empowerment> empowerments = AbilityLookup.Instance.GetEmpowerments(abilityId);
         if (empowerments.Count > 0)
         {
-            description += "Empowerments:\n";
-            empowerments.ForEach(empowerment => description += $"    {empowerment.ToString()}");
+            description += "\nEmpowerments:";
+            empowerments.ForEach(empowerment => description += $"\n    {empowerment.ToString()}");
         }
 
         return description;
