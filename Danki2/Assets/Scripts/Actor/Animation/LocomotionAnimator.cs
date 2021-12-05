@@ -8,26 +8,16 @@ public class LocomotionAnimator : MonoBehaviour
     private LocomotionAnimData animData = null;
 
     [SerializeField]
-    private Animator animator = null;
+    private Actor actor = null;
 
     private Vector3 positionLastFrame;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        if (animator == null)
-        {
-            Debug.LogError("LocomotionAnimator on a GameObject with no MovementManager");
-        }
-    }
-
-    // Update is called once per frame
     void Update()
     {
-        AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
+        AnimatorStateInfo currentState = actor.AnimController.GetCurrentAnimatorStateInfo(0);
         float currentForwardValue = 0f;
 
-        if (currentState.IsName("Locomotion_Blend"))
+        if (currentState.IsName(CommonAnimStrings.Locomotion))
         {
             Vector3 delta = gameObject.transform.position - positionLastFrame;
             float speed = delta.magnitude;
@@ -35,8 +25,7 @@ public class LocomotionAnimator : MonoBehaviour
             currentForwardValue = speed / (animData.ForwardRunSpeed * Time.deltaTime);
         }
 
-        animator.SetFloat("Forward_MoveSpeed_Blend", currentForwardValue, 0.1f, Time.deltaTime);
-        //If adding strafing, the controllers have "Lateral_MoveSpeed_Blend" set up ready.
+        actor.AnimController.SetFloat(CommonAnimStrings.ForwardBlend, currentForwardValue, 0.1f, Time.deltaTime);
 
         positionLastFrame = gameObject.transform.position;
     }

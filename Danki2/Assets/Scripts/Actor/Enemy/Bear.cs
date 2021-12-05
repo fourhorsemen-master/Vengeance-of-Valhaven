@@ -44,7 +44,6 @@ public class Bear : Enemy
     private Actor chargeTarget = null;
     private Vector3 chargeDirection;
     private bool charging = false;
-    private Vector3 positionLastFrame;
     
     public override ActorType Type => ActorType.Bear;
 
@@ -61,8 +60,6 @@ public class Bear : Enemy
     protected override void Update()
     {
         base.Update();
-
-        positionLastFrame = transform.position;
 
         if (charging) ContinueCharge();
     }
