@@ -52,26 +52,43 @@ public class EmpowermentLookupEditor : Editor
 
         EditorGUI.indentLevel++;
 
+        EditDisplayName(empowerment);
+        EditTooltip(empowerment);
         EditColour(empowerment);
-
         EditDecalMaterial(empowerment);
 
         EditorGUI.indentLevel--;
     }
 
+    private void EditDisplayName(Empowerment empowerment)
+    {
+        empowermentLookup.EmpowermentDisplayNameDictionary[empowerment] = EditorGUILayout.TextField(
+            "Display Name",
+            empowermentLookup.EmpowermentDisplayNameDictionary[empowerment]
+        );
+    }
+
+    private void EditTooltip(Empowerment empowerment)
+    {
+        empowermentLookup.EmpowermentTooltipDictionary[empowerment] = EditorGUILayout.TextField(
+            "Tooltip",
+            empowermentLookup.EmpowermentTooltipDictionary[empowerment]
+        );
+    }
+
     private void EditColour(Empowerment empowerment)
     {
-        empowermentLookup.empowermentColourDictionary[empowerment] = EditorGUILayout.ColorField(
+        empowermentLookup.EmpowermentColourDictionary[empowerment] = EditorGUILayout.ColorField(
             "Colour",
-            empowermentLookup.empowermentColourDictionary[empowerment]
+            empowermentLookup.EmpowermentColourDictionary[empowerment]
         );
     }
 
     private void EditDecalMaterial(Empowerment empowerment)
     {
-        empowermentLookup.empowermentDecalMaterialDictionary[empowerment] = (Material)EditorGUILayout.ObjectField(
+        empowermentLookup.EmpowermentDecalMaterialDictionary[empowerment] = (Material)EditorGUILayout.ObjectField(
             "Material",
-            empowermentLookup.empowermentDecalMaterialDictionary[empowerment],
+            empowermentLookup.EmpowermentDecalMaterialDictionary[empowerment],
             typeof(Material),
             false
         );

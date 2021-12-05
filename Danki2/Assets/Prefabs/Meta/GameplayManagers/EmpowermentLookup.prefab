@@ -43,6 +43,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 194fbf9559e4be64190d70434a0876d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  empowermentDisplayNameDictionary:
+    _keys:
+    - Impact
+    - Rupture
+    - Execute
+    - Maim
+    - Duel
+    - Brawl
+    - Shock
+    - Siphon
+    - Envenom
+    _values:
+    - Impact
+    - Rupture
+    - Execute
+    - Maim
+    - Duel
+    - Brawl
+    - Shock
+    - Siphon
+    - Envenom
+  empowermentTooltipDictionary:
+    _keys:
+    - Impact
+    - Rupture
+    - Execute
+    - Maim
+    - Duel
+    - Brawl
+    - Shock
+    - Siphon
+    - Envenom
+    _values:
+    - Increases damage by 1.
+    - Abilities apply bleed.
+    - Increases damage by 50% to targets below 30% health.
+    - Increases damage by 50% to targets above 70% health.
+    - Increases damage by 2 when fighting a single enemy.
+    - Increases damage by 2 when fighting multiple enemies.
+    - Chains lightning to nearby enemies dealing 3 damage.
+    - Killing blows increase currency gained by 50%.
+    - Abilities apply poison.
   empowermentColourDictionary:
     _keys:
     - Impact
