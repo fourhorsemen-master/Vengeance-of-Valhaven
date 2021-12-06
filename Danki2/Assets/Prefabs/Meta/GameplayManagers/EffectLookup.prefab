@@ -50,13 +50,13 @@ MonoBehaviour:
     - Poison
     _values:
     - displayName: Stun
-      tooltip: Stops all movement and actions.
+      tooltip: Stops all movement and actions (does not stack).
       sprite: {fileID: 21300000, guid: 363da66706f97d243b921f21841a4ddb, type: 3}
     - displayName: Slow
-      tooltip: Reduces movement speed.
+      tooltip: Reduces movement speed (does not stack).
       sprite: {fileID: 21300000, guid: 4e36df84fd94d4343acf27b6f8c893d1, type: 3}
     - displayName: Poison
-      tooltip: Deals damage over time.
+      tooltip: Deals damage over time (does not stack).
       sprite: {fileID: 21300000, guid: 0bbdf7df4dd7b764ab4f9080db95f452, type: 3}
   serializablePassiveEffectDictionary:
     _keys:
@@ -64,10 +64,10 @@ MonoBehaviour:
     - Block
     _values:
     - displayName: Slow
-      tooltip: Reduces movement speed.
+      tooltip: Reduces movement speed (does not stack).
       sprite: {fileID: 21300000, guid: 4e36df84fd94d4343acf27b6f8c893d1, type: 3}
     - displayName: Parry
-      tooltip: Negates incoming damage.
+      tooltip: Negates incoming damage (does not stack).
       sprite: {fileID: 21300000, guid: 536280deae60bc34a975d59364474ffd, type: 3}
   serializableStackingEffectDictionary:
     _keys:
