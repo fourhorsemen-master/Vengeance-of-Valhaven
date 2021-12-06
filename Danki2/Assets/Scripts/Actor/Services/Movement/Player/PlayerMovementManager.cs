@@ -28,8 +28,6 @@ public class PlayerMovementManager : MovementManager, IMovementStatusProvider
     public bool Rooted => movementStatusManager.Rooted;
     public bool MovementLocked => movementStatusManager.MovementLocked;
 
-    private bool movedThisFrame = false;
-
     private bool isCasting = false;
 
     protected override float RotationSmoothing => player.RotationSmoothing;
@@ -81,7 +79,6 @@ public class PlayerMovementManager : MovementManager, IMovementStatusProvider
         if (speed == null) speed = GetMoveSpeed();
 
         navMeshAgent.Move(direction.normalized * (Time.deltaTime * speed.Value));
-        movedThisFrame = true;
     }
 
     public bool TryLockMovement(MovementLockType type, float duration, float speed, Vector3 direction, Vector3 rotation)
@@ -112,14 +109,6 @@ public class PlayerMovementManager : MovementManager, IMovementStatusProvider
     private void UpdateMovement()
     {
         if (player.Dead) return;
-
-        if (player.AnimController)
-        {
-            float blendValue = movedThisFrame ? 1f : 0f;
-            player.AnimController.SetFloat("MoveSpeed_Blend", blendValue, 0.1f, Time.deltaTime);
-        }
-
-        movedThisFrame = false;
 
         navMeshAgent.speed = GetMoveSpeed();
 

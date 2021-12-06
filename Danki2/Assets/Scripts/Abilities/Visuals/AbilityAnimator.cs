@@ -35,7 +35,7 @@ public class AbilityAnimator : MonoBehaviour
     {
         player.ComboManager.SubscribeToStateEntry(ComboState.Interrupted, () =>
         {
-            player.AnimController.Play("Idle_Run_Blend_1D");
+            player.AnimController.Play(CommonAnimStrings.Locomotion);
         });
     }
     private void Update()
