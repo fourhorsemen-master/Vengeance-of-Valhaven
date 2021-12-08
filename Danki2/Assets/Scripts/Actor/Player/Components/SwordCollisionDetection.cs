@@ -11,7 +11,7 @@ public class SwordCollisionDetection : MonoBehaviour
     private void Start()
     {
         player.AbilityAnimationListener.SwingSubject.Subscribe(StartCollisionDetection);
-        player.AbilityAnimationListener.ImpactSubject.Subscribe(StopCollisionDetection);
+        player.AbilityAnimationListener.FinishSubject.Subscribe(StopCollisionDetection);
     }
 
     private void StartCollisionDetection() => isDetecting = true;
