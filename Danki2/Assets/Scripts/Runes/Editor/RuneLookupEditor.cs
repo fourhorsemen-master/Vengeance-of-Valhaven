@@ -42,7 +42,44 @@ public class RuneLookupEditor : Editor
         RuneData runeData = runeLookup.runeDataLookup[rune];
         runeData.DisplayName = EditorGUILayout.TextField("Display Name", runeData.DisplayName);
         runeData.Tooltip = EditorUtils.MultilineTextField("Tooltip", runeData.Tooltip, 3);
+        EditSupplementaryTooltips(rune);
         runeData.Sprite = (Sprite) EditorGUILayout.ObjectField("Sprite", runeData.Sprite, typeof(Sprite), false);
+        
+        EditorGUI.indentLevel--;
+    }
+
+    private void EditSupplementaryTooltips(Rune rune)
+    {
+        EditorUtils.Header("SupplementaryTooltips");
+
+        EditorGUI.indentLevel++;
+        
+        EditorUtils.Header("Active Effects");
+        EditorGUI.indentLevel++;
+        EditorUtils.ResizeableList(
+            runeLookup.GetActiveEffects(rune),
+            activeEffect => (ActiveEffect) EditorGUILayout.EnumPopup("Active Effect", activeEffect),
+            defaultValue: default
+        );
+        EditorGUI.indentLevel--;
+        
+        EditorUtils.Header("Passive Effects");
+        EditorGUI.indentLevel++;
+        EditorUtils.ResizeableList(
+            runeLookup.GetPassiveEffects(rune),
+            passiveEffect => (PassiveEffect) EditorGUILayout.EnumPopup("Passive Effect", passiveEffect),
+            defaultValue: default
+        );
+        EditorGUI.indentLevel--;
+        
+        EditorUtils.Header("Stacking Effects");
+        EditorGUI.indentLevel++;
+        EditorUtils.ResizeableList(
+            runeLookup.GetStackingEffects(rune),
+            stackingEffect => (StackingEffect) EditorGUILayout.EnumPopup("Stacking Effect", stackingEffect),
+            defaultValue: default
+        );
+        EditorGUI.indentLevel--;
         
         EditorGUI.indentLevel--;
     }

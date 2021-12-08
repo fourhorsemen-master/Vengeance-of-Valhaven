@@ -20,6 +20,10 @@ public class EffectLookup : Singleton<EffectLookup>
     public string GetDisplayName(PassiveEffect effect) => serializablePassiveEffectDictionary[effect].DisplayName;
     public string GetDisplayName(StackingEffect effect) => serializableStackingEffectDictionary[effect].DisplayName;
 
+    public string GetTooltip(ActiveEffect effect) => serializableActiveEffectDictionary[effect].Tooltip;
+    public string GetTooltip(PassiveEffect effect) => serializablePassiveEffectDictionary[effect].Tooltip;
+    public string GetTooltip(StackingEffect effect) => serializableStackingEffectDictionary[effect].Tooltip;
+
     public Sprite GetSprite(ActiveEffect effect) => serializableActiveEffectDictionary[effect].Sprite;
     public Sprite GetSprite(PassiveEffect effect) => serializablePassiveEffectDictionary[effect].Sprite;
     public Sprite GetSprite(StackingEffect effect) => serializableStackingEffectDictionary[effect].Sprite;
