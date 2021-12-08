@@ -34,6 +34,8 @@ public class CollisionTemplate : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (owner.Colliders.Contains(other)) return;
+
         if (other.gameObject.layer == (int)Layer.Actors)
         {
             collisionMaterials.Add(other.sharedMaterial);
