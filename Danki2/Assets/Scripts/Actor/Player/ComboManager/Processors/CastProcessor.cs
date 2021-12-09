@@ -21,7 +21,7 @@
     {
         player.AbilityService.Cast(castDirection, player.TargetFinder.FloorTargetPosition);
         nextState = player.AbilityTree.CanWalk()
-             ? ComboState.ShortCooldown
+             ? ComboState.Casting
              : ComboState.CompleteCombo;
         return true;
     }

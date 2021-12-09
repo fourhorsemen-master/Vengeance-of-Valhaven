@@ -11,8 +11,6 @@ public class MovementStatusManager
 
 	public bool Stunned => statusProviders.Any(p => p.Stuns());
 
-	public bool Rooted => statusProviders.Any(p => p.Roots());
-
 	public MovementStatusManager(Subject updateSubject)
 	{
 		updateSubject.Subscribe(TickMovementLock);
@@ -31,7 +29,7 @@ public class MovementStatusManager
 	/// <returns></returns>
 	public bool TryLockMovement(bool overrideLock, float duration)
 	{
-		if (!overrideLock && (Stunned || Rooted || MovementLocked)) return false;
+		if (!overrideLock && (Stunned || MovementLocked)) return false;
 
 		movementLockRemainingDuration = duration;
 		return true;

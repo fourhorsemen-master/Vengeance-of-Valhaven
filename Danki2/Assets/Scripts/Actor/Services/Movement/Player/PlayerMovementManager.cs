@@ -25,7 +25,6 @@ public class PlayerMovementManager : MovementManager, IMovementStatusProvider
     private readonly MovementStatusManager movementStatusManager;
 
     public bool Stunned => movementStatusManager.Stunned;
-    public bool Rooted => movementStatusManager.Rooted;
     public bool MovementLocked => movementStatusManager.MovementLocked;
 
     private bool isCasting = false;
@@ -34,7 +33,6 @@ public class PlayerMovementManager : MovementManager, IMovementStatusProvider
 
     public bool CanMove => !player.Dead
         && !movementStatusManager.Stunned
-        && !movementStatusManager.Rooted
         && !movementStatusManager.MovementLocked;
 
     public PlayerMovementManager(Player player, Subject updateSubject, NavMeshAgent navMeshAgent)
@@ -48,12 +46,10 @@ public class PlayerMovementManager : MovementManager, IMovementStatusProvider
 
         player.AbilityAnimationListener.StartSubject.Subscribe(() => isCasting = true);
         player.AbilityAnimationListener.FinishSubject.Subscribe(() => isCasting = false);
-        player.ComboManager.SubscribeToStateEntry(ComboState.Interrupted, () => isCasting = false);
+        player.InterruptSubject.Subscribe(() => isCasting = false);
     }
 
     public bool Stuns() => movementPaused || isCasting;
-
-    public bool Roots() => false;
 
     public void RegisterMovementStatusProviders(params IMovementStatusProvider[] providers)
     {
@@ -73,8 +69,6 @@ public class PlayerMovementManager : MovementManager, IMovementStatusProvider
         if (direction == Vector3.zero) return;
 
         RotateTowards(direction);
-
-        if (Rooted) return;
 
         if (speed == null) speed = GetMoveSpeed();
 

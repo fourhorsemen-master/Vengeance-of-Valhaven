@@ -92,4 +92,9 @@ public abstract class Actor : MonoBehaviour
 
         stopTrailCoroutine = this.WaitAndAct(duration, () => trailRenderer.emitting = false);
     }
+
+    public bool IsCurrentAnimationState(string state)
+    {
+        return AnimController.GetCurrentAnimatorStateInfo(0).IsName(state);
+    }
 }

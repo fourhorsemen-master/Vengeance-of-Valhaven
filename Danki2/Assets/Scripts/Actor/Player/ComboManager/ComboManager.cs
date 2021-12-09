@@ -9,21 +9,19 @@ public class ComboManager
 	{
 		workflow = new ObservableWorkflow<ComboState>(ComboState.ReadyAtRoot, updateSubject)
 			.WithProcessor(ComboState.ReadyAtRoot, new ReadyAtRootProcessor(player))
-			.WithProcessor(ComboState.ReadyInCombo, new ReadyInComboProcessor(player, player.ComboTimeout))
+			.WithProcessor(ComboState.ReadyInCombo, new ReadyInComboProcessor(player))
 			.WithProcessor(ComboState.CastLeft, new CastProcessor(player, Direction.Left))
 			.WithProcessor(ComboState.CastRight, new CastProcessor(player, Direction.Right))
-			.WithProcessor(ComboState.ShortCooldown, new AwaitAbilityCompletionProcessor(player, player.AbilityAnimationListener))
-			.WithProcessor(ComboState.CompleteCombo, new CompleteComboProcessor(player))
-			.WithProcessor(ComboState.Interrupted, new InterruptedProcessor(player))
-			.WithProcessor(ComboState.LongCooldown, new TimeElapsedProcessor<ComboState>(ComboState.ReadyAtRoot, player.LongCooldown))
-			.WithProcessor(ComboState.Timeout, new TimeoutProcessor(player))
-			.WithProcessor(ComboState.TimeoutCooldown, new TimeElapsedProcessor<ComboState>(ComboState.ReadyAtRoot, player.LongCooldown - player.ComboTimeout));
+			.WithProcessor(ComboState.Casting, new AwaitAbilityCompletionProcessor(player, player.AbilityAnimationListener))
+			.WithProcessor(ComboState.Interrupted, new EndComboProcessor(player))
+			.WithProcessor(ComboState.Timeout, new EndComboProcessor(player))
+			.WithProcessor(ComboState.CompleteCombo, new EndComboProcessor(player));
 
-		player.HealthManager.DamageSubject.Subscribe(
+		player.InterruptSubject.Subscribe(
 			() => workflow.ForceTransition(ComboState.Interrupted)
 		);
 
-		ForceTransitionOnEvent(player.AbilityTree.ChangeSubject, ComboState.Interrupted, ComboState.ReadyAtRoot, ComboState.LongCooldown);
+		ForceTransitionOnEvent(player.AbilityTree.ChangeSubject, ComboState.Interrupted, ComboState.ReadyAtRoot);
 	}
 
 	public void SubscribeToStateEntry(ComboState state, Action action) => workflow.SubscribeToStateEntry(state, action);
