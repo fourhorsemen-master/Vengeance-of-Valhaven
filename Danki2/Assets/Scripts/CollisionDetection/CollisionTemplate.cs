@@ -34,14 +34,12 @@ public class CollisionTemplate : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.sharedMaterial == null) return;
-
         if (owner.Colliders.Contains(other)) return;
 
-        // Ignore the terrain
-        if (other.gameObject.layer == (int)Layer.Floor) return;
-
-        collisionMaterials.Add(other.sharedMaterial);
+        if (other.gameObject.layer == (int)Layer.Actors)
+        {
+            collisionMaterials.Add(other.sharedMaterial);
+        }        
     }
 
     public List<Actor> GetCollidingActors()
