@@ -41,8 +41,9 @@ public class EffectManager
         actor.StatsManager.RegisterPipe(new VulnerableHandler(actor));
 
         BleedHandler bleedHandler = new BleedHandler(actor, this);
+        PurgeHandler purgeHandler = new PurgeHandler(actor, this);
         PoisonHandler poisonHandler = new PoisonHandler(actor, this);
-        
+
         updateSubject.Subscribe(() =>
         {
             bleedHandler.Update();
@@ -163,6 +164,8 @@ public class EffectManager
     public void RemoveAllStackingEffects() => EnumUtils.ForEach<StackingEffect>(RemoveStackingEffect);
 
     public int GetStacks(StackingEffect effect) => stacks[effect];
+
+    public int GetMaxStacks(StackingEffect effect) => EffectLookup.Instance.GetMaxStackSize(effect);
 
     public float GetRemainingStackingEffectDuration(StackingEffect effect) => remainingStackingEffectDurations[effect];
 

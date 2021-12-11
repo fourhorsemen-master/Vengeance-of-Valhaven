@@ -16,7 +16,7 @@ public abstract class EffectHandler<TEffect> where TEffect : Enum
         Actor actor,
         EffectManager effectManager,
         TEffect effectToHandle,
-        float tickInterval,
+        float tickInterval = 0,
         float tickStartDelay = 0
     )
     {
@@ -28,7 +28,10 @@ public abstract class EffectHandler<TEffect> where TEffect : Enum
             .Where(EffectFilter)
             .Subscribe(_ =>
             {
-                repeater ??= new Repeater(tickInterval, HandleEffectTicked, tickStartDelay);
+                if (tickInterval > 0)
+                {
+                    repeater ??= new Repeater(tickInterval, HandleEffectTicked, tickStartDelay);
+                }
                 HandleEffectAdded();
             });
 

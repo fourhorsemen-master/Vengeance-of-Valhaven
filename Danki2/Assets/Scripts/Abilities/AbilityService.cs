@@ -117,6 +117,7 @@ public class AbilityService
     private void HandleCollision(SerializableGuid abilityId, Enemy enemy, List<Empowerment> empowerments)
     {
         enemy.EffectManager.AddStacks(StackingEffect.Bleed, CalculateBleedStacks(empowerments));
+        enemy.EffectManager.AddStacks(StackingEffect.Purge, CalculatePurgeStacks(empowerments));
         if (empowerments.Contains(Empowerment.Envenom))
         {
             enemy.EffectManager.AddActiveEffect(ActiveEffect.Poison, EnvenomPoisonDuration);
@@ -140,6 +141,12 @@ public class AbilityService
     {
         int bleedStacks = empowerments.Count(e => e == Empowerment.Rupture);
         return bleedStacks;
+    }
+
+    private int CalculatePurgeStacks(List<Empowerment> empowerments)
+    {
+        int purgeStacks = empowerments.Count(e => e == Empowerment.Exorcise);
+        return purgeStacks;
     }
 
     private float HandleImpactDamage(float damage, List<Empowerment> empowerments)
