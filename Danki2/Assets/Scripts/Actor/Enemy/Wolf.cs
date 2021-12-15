@@ -62,7 +62,7 @@ public class Wolf : Enemy
         Vector3 direction = targetPosition - position;
 
         float distance = Vector3.Distance(targetPosition, position);
-        float pounceSpeed = StatsManager.Get(Stat.Speed) * pounceSpeedMultiplier;
+        float pounceSpeed = Speed * pounceSpeedMultiplier;
         float duration = Mathf.Clamp(distance / pounceSpeed, pounceMinMovementDuration, pounceMaxMovementDuration);
 
         MovementManager.LockMovement(duration, pounceSpeed, direction, direction);

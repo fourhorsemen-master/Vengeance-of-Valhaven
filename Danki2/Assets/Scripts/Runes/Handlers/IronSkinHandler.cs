@@ -1,30 +1,16 @@
-﻿public class IronSkinHandler : IStatPipe
+﻿public static class IronSkinHandler
 {
     private const int HealthBonus = 10;
 
-    private readonly RuneManager runeManager;
-    
-    public IronSkinHandler(RuneManager runeManager, Player player)
+    public static int ProcessMaxHealth(int value)
     {
-        this.runeManager = runeManager;
-
-        runeManager.RuneAddedSubject
-            .Where(rune => rune == Rune.IronSkin)
-            .Subscribe(_ =>
-            {
-                player.StatsManager.ClearCache();
-                player.HealthManager.ReceiveHeal(HealthBonus);
-            });
-
-        runeManager.RuneRemovedSubject
-            .Where(rune => rune == Rune.IronSkin)
-            .Subscribe(_ => player.StatsManager.ClearCache());
-    }
-
-    public float ProcessStat(Stat stat, float value)
-    {
-        return stat == Stat.MaxHealth && runeManager.HasRune(Rune.IronSkin)
+        return ActorCache.Instance.Player.RuneManager.HasRune(Rune.IronSkin)
             ? value + HealthBonus
             : value;
+    }
+
+    public static void OnRuneAdded()
+    {
+        ActorCache.Instance.Player.HealthManager.ReceiveHeal(HealthBonus);
     }
 }

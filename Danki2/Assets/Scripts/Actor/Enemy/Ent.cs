@@ -30,7 +30,7 @@ public class Ent : Enemy
     public void Swipe()
     {
         Vector3 castDirection = transform.forward;
-        float lungeSpeed = StatsManager.Get(Stat.Speed) * swipeMovementSpeedMultiplier;
+        float lungeSpeed = Speed * swipeMovementSpeedMultiplier;
 
         MovementManager.LockMovement(swipeMovementDuration, lungeSpeed, castDirection, castDirection);
 
