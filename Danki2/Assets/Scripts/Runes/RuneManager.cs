@@ -12,8 +12,8 @@ public class RuneManager
     {
         RuneSockets = PersistenceManager.Instance.SaveData.RuneSockets;
 
-        player.StatsManager.RegisterPipe(new IronSkinHandler(this, player));
-        player.StatsManager.RegisterPipe(new FleetOfFootHandler(this, player));
+        player.RegisterMaxHealthPipe(IronSkinHandler.ProcessMaxHealth);
+        player.RegisterSpeedPipe(FleetOfFootHandler.ProcessSpeed);
     }
 
     public bool HasRune(Rune rune) => RuneSockets.Any(s => s.HasRune && s.Rune == rune);

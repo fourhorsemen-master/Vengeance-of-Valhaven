@@ -1,5 +1,4 @@
 ﻿public enum StackingEffect
 {
-    Bleed,
-    Vulnerable
+    Bleed
 }

@@ -1,21 +1,11 @@
-﻿public class ActiveSlowHandler : IStatPipe
+﻿public static class ActiveSlowHandler
 {
     private const float SlowMultiplier = 0.5f;
 
-    private readonly Actor actor;
-
-    public ActiveSlowHandler(Actor actor)
+    public static float ProcessSpeed(float value)
     {
-        this.actor = actor;
-    }
-
-    public float ProcessStat(Stat stat, float value)
-    {
-        if (stat == Stat.Speed && actor.EffectManager.HasActiveEffect(ActiveEffect.Slow))
-        {
-            return value * SlowMultiplier;
-        }
-
-        return value;
+        return ActorCache.Instance.Player.EffectManager.HasActiveEffect(ActiveEffect.Slow)
+            ? value * SlowMultiplier
+            : value;
     }
 }

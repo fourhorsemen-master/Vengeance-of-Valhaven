@@ -62,7 +62,7 @@ public abstract class MovementManager
 
     protected float GetMoveSpeed()
     {
-        float moveSpeed = actor.StatsManager.Get(Stat.Speed);
+        float moveSpeed = actor.Speed;
 
         return MotionType == MotionType.Run
             ? moveSpeed

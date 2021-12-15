@@ -1,11 +1,11 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
 public abstract class Actor : MonoBehaviour
 {
-    [HideInInspector]
-    public StatsDictionary baseStats = new StatsDictionary(0);
-
     [SerializeField] protected NavMeshAgent navmeshAgent = null;
 
     [SerializeField] private TrailRenderer trailRenderer = null;
@@ -15,6 +15,12 @@ public abstract class Actor : MonoBehaviour
     // Serialized properties
     [SerializeField] private float weight = 0;
     public float Weight => weight;
+
+    [SerializeField] private float speed = 0;
+    public float Speed => SpeedPipes.Aggregate(speed, (value, pipe) => pipe(value));
+
+    [SerializeField] private int maxHealth = 0;
+    public int MaxHealth => MaxHealthPipes.Aggregate(maxHealth, (value, pipe) => pipe(value));
 
     [SerializeField] private float rotationSmoothing = 0;
     public float RotationSmoothing => rotationSmoothing;
@@ -46,8 +52,10 @@ public abstract class Actor : MonoBehaviour
 
     private Coroutine stopTrailCoroutine;
 
+    private List<Func<int, int>> MaxHealthPipes = new List<Func<int, int>>();
+    private List<Func<float, float>> SpeedPipes = new List<Func<float, float>>();
+
     // Services
-    public StatsManager StatsManager { get; private set; }
     public HealthManager HealthManager { get; private set; }
     public EffectManager EffectManager { get; private set; }
     public EmissiveManager EmissiveManager { get; private set; }
@@ -67,7 +75,6 @@ public abstract class Actor : MonoBehaviour
 
         gameObject.SetTag(Tag);
 
-        StatsManager = new StatsManager(baseStats);
         EffectManager = new EffectManager(this, updateSubject);
         HealthManager = new HealthManager(this, updateSubject);
         EmissiveManager = new EmissiveManager(this, meshRenderers);
@@ -92,4 +99,8 @@ public abstract class Actor : MonoBehaviour
 
         stopTrailCoroutine = this.WaitAndAct(duration, () => trailRenderer.emitting = false);
     }
+
+    public void RegisterSpeedPipe(Func<float, float> pipe) => SpeedPipes.Add(pipe);
+
+    public void RegisterMaxHealthPipe(Func<int, int> pipe) => MaxHealthPipes.Add(pipe);
 }
