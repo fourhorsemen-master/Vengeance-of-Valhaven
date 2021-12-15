@@ -8,4 +8,9 @@
             ? value + HealthBonus
             : value;
     }
+
+    public static void OnRuneAdded()
+    {
+        ActorCache.Instance.Player.HealthManager.ReceiveHeal(HealthBonus);
+    }
 }
