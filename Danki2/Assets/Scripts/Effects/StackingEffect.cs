@@ -1,4 +1,5 @@
 ﻿public enum StackingEffect
 {
-    Bleed
+    Bleed,
+    Purge
 }

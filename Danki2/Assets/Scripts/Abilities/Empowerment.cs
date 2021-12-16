@@ -9,4 +9,5 @@ public enum Empowerment
     Shock,
     Siphon,
     Envenom,
+    Exorcise,
 }
