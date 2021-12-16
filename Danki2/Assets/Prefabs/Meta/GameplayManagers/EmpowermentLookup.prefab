@@ -54,6 +54,7 @@ MonoBehaviour:
     - Shock
     - Siphon
     - Envenom
+    - Exorcise
     _values:
     - Impact
     - Rupture
@@ -64,6 +65,7 @@ MonoBehaviour:
     - Shock
     - Siphon
     - Envenom
+    - Exorcise
   empowermentTooltipDictionary:
     _keys:
     - Impact
@@ -75,6 +77,7 @@ MonoBehaviour:
     - Shock
     - Siphon
     - Envenom
+    - Exorcise
     _values:
     - Increases damage by 1.
     - Abilities apply <b>Bleed</b>.
@@ -85,6 +88,7 @@ MonoBehaviour:
     - Chains lightning to nearby enemies dealing 3 damage.
     - Killing blows increase currency gained by 50%.
     - Abilities apply <b>Poison</b>.
+    - Abilities apply <b>Purge</b>.
   empowermentActiveEffectsDictionary:
     _keys:
     - Impact
@@ -96,6 +100,7 @@ MonoBehaviour:
     - Shock
     - Siphon
     - Envenom
+    - Exorcise
     _values:
     - activeEffects: 
     - activeEffects: 
@@ -106,6 +111,7 @@ MonoBehaviour:
     - activeEffects: 
     - activeEffects: 
     - activeEffects: 02000000
+    - activeEffects: 
   empowermentPassiveEffectsDictionary:
     _keys:
     - Impact
@@ -117,7 +123,9 @@ MonoBehaviour:
     - Shock
     - Siphon
     - Envenom
+    - Exorcise
     _values:
+    - passiveEffects: 
     - passiveEffects: 
     - passiveEffects: 
     - passiveEffects: 
@@ -138,6 +146,7 @@ MonoBehaviour:
     - Shock
     - Siphon
     - Envenom
+    - Exorcise
     _values:
     - stackingEffects: 
     - stackingEffects: 00000000
@@ -148,6 +157,7 @@ MonoBehaviour:
     - stackingEffects: 
     - stackingEffects: 
     - stackingEffects: 
+    - stackingEffects: 01000000
   empowermentColourDictionary:
     _keys:
     - Impact
@@ -159,6 +169,7 @@ MonoBehaviour:
     - Shock
     - Siphon
     - Envenom
+    - Exorcise
     _values:
     - {r: 0, g: 0, b: 1, a: 1}
     - {r: 1, g: 0, b: 0, a: 1}
@@ -169,6 +180,7 @@ MonoBehaviour:
     - {r: 0.4481132, g: 0.7816229, b: 1, a: 1}
     - {r: 0, g: 1, b: 1, a: 1}
     - {r: 0.7019608, g: 1, b: 0.5254902, a: 1}
+    - {r: 0.5283019, g: 0.19607843, b: 0, a: 1}
   empowermentDecalMaterialDictionary:
     _keys:
     - Impact
@@ -180,6 +192,7 @@ MonoBehaviour:
     - Shock
     - Siphon
     - Envenom
+    - Exorcise
     _values:
     - {fileID: 2100000, guid: f3cfa84957b0cab498c4724716875132, type: 2}
     - {fileID: 2100000, guid: f5598693894d0384c99bede27e7aa86c, type: 2}
@@ -190,3 +203,4 @@ MonoBehaviour:
     - {fileID: 2100000, guid: 8fa7ed934985b8140814bdb40e54127d, type: 2}
     - {fileID: 2100000, guid: 4dcf7eb7878a9b54ea7f25400a2217bd, type: 2}
     - {fileID: 2100000, guid: 88171317eb42d13499165a550f070376, type: 2}
+    - {fileID: 2100000, guid: 22e864670c4950e40a3f88dae2c9c36e, type: 2}
