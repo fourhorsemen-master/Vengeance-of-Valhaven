@@ -29,16 +29,8 @@ public class EffectManager
     {
         this.actor = actor;
 
-        ActiveEffectAddedSubject.Subscribe(_ => actor.StatsManager.ClearCache());
-        ActiveEffectRemovedSubject.Subscribe(_ => actor.StatsManager.ClearCache());
-        PassiveEffectAddedSubject.Subscribe(_ => actor.StatsManager.ClearCache());
-        PassiveEffectRemovedSubject.Subscribe(_ => actor.StatsManager.ClearCache());
-        StackingEffectAddedSubject.Subscribe(_ => actor.StatsManager.ClearCache());
-        StackingEffectRemovedSubject.Subscribe(_ => actor.StatsManager.ClearCache());
-
-        actor.StatsManager.RegisterPipe(new ActiveSlowHandler(actor));
-        actor.StatsManager.RegisterPipe(new PassiveSlowHandler(actor));
-        actor.StatsManager.RegisterPipe(new VulnerableHandler(actor));
+        actor.RegisterSpeedPipe(ActiveSlowHandler.ProcessSpeed);
+        actor.RegisterSpeedPipe(PassiveSlowHandler.ProcessSpeed);
 
         BleedHandler bleedHandler = new BleedHandler(actor, this);
         PoisonHandler poisonHandler = new PoisonHandler(actor, this);

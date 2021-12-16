@@ -69,7 +69,7 @@ public class Bear : Enemy
         Vector3 forward = transform.forward;
         MovementManager.LookAt(transform.position + forward);
 
-        MovementManager.LockMovement(swipeDashDuration, StatsManager.Get(Stat.Speed) * swipeDashSpeedMultiplier, forward, forward);
+        MovementManager.LockMovement(swipeDashDuration, Speed * swipeDashSpeedMultiplier, forward, forward);
         
         this.WaitAndAct(swipeDashDuration, HandleSwipeLand);
     }
