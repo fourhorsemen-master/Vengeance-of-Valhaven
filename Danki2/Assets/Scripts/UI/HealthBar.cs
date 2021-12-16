@@ -42,7 +42,7 @@ public abstract class HealthBar : MonoBehaviour
         healthBar.rectTransform.sizeDelta = new Vector2(healthProportion * barWidth, healthBar.rectTransform.sizeDelta.y);
 
         // Decrement recent damage if there is any.
-        float decrement = Mathf.Lerp(minLagDecrement, maxLagDecrement, recentDamage / Actor.HealthManager.MaxHealth);
+        float decrement = Mathf.Lerp(minLagDecrement, maxLagDecrement, recentDamage / Actor.MaxHealth);
         recentDamage = Mathf.Max(0f, recentDamage - (Time.deltaTime * decrement));
         
         // Adjust the recent damage by any damage or healing in the current frame (cannot become less than 0). Note: -ve means healing.

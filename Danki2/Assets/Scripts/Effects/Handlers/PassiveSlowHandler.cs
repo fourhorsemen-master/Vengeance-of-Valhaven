@@ -1,17 +1,10 @@
-﻿public class PassiveSlowHandler : IStatPipe
+﻿public static class PassiveSlowHandler
 {
     private const float SpeedMultiplier = 0.5f;
-    
-    private readonly Actor actor;
 
-    public PassiveSlowHandler(Actor actor)
+    public static float ProcessSpeed(float value)
     {
-        this.actor = actor;
-    }
-
-    public float ProcessStat(Stat stat, float value)
-    {
-        return stat == Stat.Speed && actor.EffectManager.HasPassiveEffect(PassiveEffect.Slow)
+        return ActorCache.Instance.Player.EffectManager.HasPassiveEffect(PassiveEffect.Slow)
             ? value * SpeedMultiplier
             : value;
     }

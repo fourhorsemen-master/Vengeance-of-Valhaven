@@ -3003,14 +3003,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e1ea7e958e193143965f692ae890a3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseStats:
-    _keys:
-    - MaxHealth
-    - Speed
-    - Power
-    - Defence
-    - Recovery
-    _values: 1400000003000000000000000000000000000000
   navmeshAgent: {fileID: 6918691881617835041}
   trailRenderer: {fileID: 1618317697}
   meshRenderers:
@@ -3023,6 +3015,8 @@ MonoBehaviour:
   - {fileID: 9010139035835365635}
   - {fileID: 7118821877519093548}
   weight: 1
+  speed: 4
+  maxHealth: 30
   rotationSmoothing: 0.1
   animController: {fileID: 238891752984210142}
   colliders:
