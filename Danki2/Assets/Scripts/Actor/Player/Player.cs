@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class Player : Actor, IMovementStatusProvider
 {
-    private const string InterruptedAnimationString = "Interrupted_OneShot";
-
     public override ActorType Type => ActorType.Player;
 
     [Header("Ability tree")]
@@ -87,15 +85,15 @@ public class Player : Actor, IMovementStatusProvider
             readyToRoll = false;
             this.WaitAndAct(totalRollCooldown, () => readyToRoll = true);
 
-            AnimController.Play("Dash_OneShot");
+            AnimController.Play(CommonAnimStrings.Dash);
         }
     }
 
-    public bool Stuns() => IsCurrentAnimationState(InterruptedAnimationString);
+    public bool Stuns() => IsCurrentAnimationState(CommonAnimStrings.Interrupted);
 
     private void Interrupt()
     {
         InterruptSubject.Next();
-        AnimController.Play(InterruptedAnimationString);
+        AnimController.Play(CommonAnimStrings.Interrupted);
     }
 }
