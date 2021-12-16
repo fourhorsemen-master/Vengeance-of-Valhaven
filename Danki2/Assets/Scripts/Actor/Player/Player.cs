@@ -1,14 +1,13 @@
 ﻿using FMODUnity;
 using UnityEngine;
 
-public class Player : Actor
+public class Player : Actor, IMovementStatusProvider
 {
+    private const string InterruptedAnimationString = "Interrupted_OneShot";
+
     public override ActorType Type => ActorType.Player;
 
     [Header("Ability tree")]
-    [SerializeField] private float shortCooldown = 0.75f;
-    [SerializeField] private float longCooldown = 1.5f;
-    [SerializeField] private float comboTimeout = 2f;
     [SerializeField] private bool selfEmpoweringAbilities = false;
 
     [Header("Roll")]
@@ -28,10 +27,6 @@ public class Player : Actor
 
     private bool readyToRoll = true;
 
-    public float ShortCooldown => shortCooldown;
-    public float LongCooldown => longCooldown;
-    public float ComboTimeout => comboTimeout;
-
     public bool CanCast => !Dead && !MovementManager.Stunned && !MovementManager.MovementLocked;
 
     // Services
@@ -45,6 +40,7 @@ public class Player : Actor
     
     // Subjects
     public Subject RollSubject { get; } = new Subject();
+    public Subject InterruptSubject { get; } = new Subject();
 
     public string VocalisationEvent  => vocalisationEvent;
 
@@ -63,6 +59,9 @@ public class Player : Actor
         CurrencyManager = new CurrencyManager();
         AbilityService = new AbilityService(this, abilityAnimator, selfEmpoweringAbilities);
         MovementManager = new PlayerMovementManager(this, updateSubject, navmeshAgent);
+        MovementManager.RegisterMovementStatusProviders(this);
+
+        HealthManager.DamageSubject.Subscribe(Interrupt);
 
         DeathSubject.Subscribe(_ => PersistenceManager.Instance.TransitionToDefeatRoom());
     }
@@ -90,5 +89,13 @@ public class Player : Actor
 
             AnimController.Play("Dash_OneShot");
         }
+    }
+
+    public bool Stuns() => IsCurrentAnimationState(InterruptedAnimationString);
+
+    private void Interrupt()
+    {
+        InterruptSubject.Next();
+        AnimController.Play(InterruptedAnimationString);
     }
 }

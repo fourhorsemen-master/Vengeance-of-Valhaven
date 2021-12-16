@@ -4,10 +4,8 @@
     ReadyInCombo,
     CastLeft,
     CastRight,
-    ShortCooldown,
-    CompleteCombo,
-    LongCooldown,
+    Casting,
     Timeout,
-    TimeoutCooldown,
-    Interrupted
+    Interrupted,
+    CompleteCombo
 }

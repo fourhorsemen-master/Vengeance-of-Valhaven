@@ -100,6 +100,11 @@ public abstract class Actor : MonoBehaviour
         stopTrailCoroutine = this.WaitAndAct(duration, () => trailRenderer.emitting = false);
     }
 
+    public bool IsCurrentAnimationState(string state)
+    {
+        return AnimController.GetCurrentAnimatorStateInfo(0).IsName(state);
+    }
+    
     public void RegisterSpeedPipe(Func<float, float> pipe) => SpeedPipes.Add(pipe);
 
     public void RegisterMaxHealthPipe(Func<int, int> pipe) => MaxHealthPipes.Add(pipe);

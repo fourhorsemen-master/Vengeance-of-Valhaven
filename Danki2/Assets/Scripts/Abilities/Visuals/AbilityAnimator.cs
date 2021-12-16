@@ -33,11 +33,9 @@ public class AbilityAnimator : MonoBehaviour
 
     private void Start()
     {
-        player.ComboManager.SubscribeToStateEntry(ComboState.Interrupted, () =>
-        {
-            player.AnimController.Play(CommonAnimStrings.Locomotion);
-        });
+        player.InterruptSubject.Subscribe(OnInterrupt);
     }
+
     private void Update()
     {
         if (!currentAbilityType.HasValue) return;
@@ -66,5 +64,11 @@ public class AbilityAnimator : MonoBehaviour
 
         currentAbilityType = type;
         currentNormalizedTime = null;
+    }
+
+    private void OnInterrupt()
+    {
+        currentAbilityType = null;
+        player.AnimController.speed = 1;
     }
 }

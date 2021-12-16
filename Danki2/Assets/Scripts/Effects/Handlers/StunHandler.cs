@@ -8,6 +8,4 @@
     }
 
     public bool Stuns() => actor.EffectManager.HasActiveEffect(ActiveEffect.Stun);
-
-    public bool Roots() => false;
 }
