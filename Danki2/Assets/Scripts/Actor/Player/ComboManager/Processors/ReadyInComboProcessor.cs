@@ -9,11 +9,6 @@ public class ReadyInComboProcessor : ReadyProcessor
         this.player = player;
     }
 
-    public override void Enter()
-    {
-        base.Enter();
-    }
-
     public override bool TryCompleteProcess(out ComboState newState)
     {
         if (base.TryCompleteProcess(out newState)) return true;
