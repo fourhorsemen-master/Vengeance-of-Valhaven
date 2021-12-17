@@ -7,8 +7,8 @@
 
     protected override void HandleEffectAdded()
     {
-        var stacks = effectManager.GetStacks(StackingEffect.Purge);
-        var maxStacks = effectManager.GetMaxStacks(StackingEffect.Purge);
+        int stacks = effectManager.GetStacks(StackingEffect.Purge);
+        int maxStacks = effectManager.GetMaxStacks(StackingEffect.Purge);
 
         if (stacks >= maxStacks)
         {
