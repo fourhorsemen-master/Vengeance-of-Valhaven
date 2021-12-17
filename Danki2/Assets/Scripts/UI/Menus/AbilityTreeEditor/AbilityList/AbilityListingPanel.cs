@@ -4,17 +4,15 @@ using UnityEngine.UI;
 
 public class AbilityListingPanel : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    [SerializeField]
-    private Image iconPanelImage = null;
+    [SerializeField] private Image iconPanelImage = null;
 
-    [SerializeField]
-    private Text namePanelText = null;
+    [SerializeField] private Text namePanelText = null;
 
-    [SerializeField]
-    private Text quantityPanelText = null;
+    [SerializeField] private Text quantityPanelText = null;
 
-    [SerializeField]
-    private DraggableHighlighter highlighter = null;
+    [SerializeField] private DraggableHighlighter highlighter = null;
+
+    [SerializeField] private AbilityListingEmpowerments empowermentPanel = null;
 
     private SerializableGuid abilityId;
     private int quantity;
@@ -73,6 +71,8 @@ public class AbilityListingPanel : MonoBehaviour, IBeginDragHandler, IDragHandle
 
         namePanelText.text = AbilityLookup.Instance.GetDisplayName(abilityId);
         namePanelText.color = RarityLookup.Instance.Lookup[AbilityLookup.Instance.GetRarity(abilityId)].Colour;
+
+        empowermentPanel.Initialise(AbilityLookup.Instance.GetEmpowerments(abilityId));
 
         UpdateQuantityText();
     }
