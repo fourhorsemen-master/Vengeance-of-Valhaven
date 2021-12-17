@@ -13,6 +13,18 @@ MonoBehaviour:
   m_Name: AbilityData
   m_EditorClassIdentifier: 
   abilityIds:
+  - value: 220fdc16-29a1-4f22-a8d7-b8224a5f2d68
+  - value: f4c80cfa-6e13-4271-97ed-85c67a1a0793
+  - value: ec814581-ce3d-4896-9ca8-005a9121e173
+  - value: fe5fa151-37d0-4aae-aafb-55afad422c11
+  - value: 7f9caa85-e6ba-47d7-bf92-ee176db2c333
+  - value: e59ae49d-3b64-4451-9a9c-33bbb44aa2fa
+  - value: 977d8bd2-e9aa-4bc8-96dc-8ff1cfefa7ed
+  - value: 6dc651fa-73f6-450d-a41b-1edbd10a6656
+  - value: 52ee49d9-01f5-4153-a644-40efcddd29f4
+  - value: f20b8a21-9248-41ef-bd98-5deb6b741665
+  - value: 8a3b7663-f9a2-4a03-a3ac-e7b2a496c361
+  - value: d41895f6-b195-48f6-b2a2-46e405e8ba55
   - value: bdf45730-660b-4ece-a4b9-46d5be068686
   - value: 112c2927-2387-4977-84e0-1c06cff1ba61
   - value: f514ef40-8c93-4372-a4ba-245ac416f2f4
@@ -47,23 +59,47 @@ MonoBehaviour:
     - value: f514ef40-8c93-4372-a4ba-245ac416f2f4
     - value: 112c2927-2387-4977-84e0-1c06cff1ba61
     - value: bdf45730-660b-4ece-a4b9-46d5be068686
+    - value: d41895f6-b195-48f6-b2a2-46e405e8ba55
+    - value: 8a3b7663-f9a2-4a03-a3ac-e7b2a496c361
+    - value: f20b8a21-9248-41ef-bd98-5deb6b741665
+    - value: 52ee49d9-01f5-4153-a644-40efcddd29f4
+    - value: 6dc651fa-73f6-450d-a41b-1edbd10a6656
+    - value: 977d8bd2-e9aa-4bc8-96dc-8ff1cfefa7ed
+    - value: e59ae49d-3b64-4451-9a9c-33bbb44aa2fa
+    - value: 7f9caa85-e6ba-47d7-bf92-ee176db2c333
+    - value: fe5fa151-37d0-4aae-aafb-55afad422c11
+    - value: ec814581-ce3d-4896-9ca8-005a9121e173
+    - value: f4c80cfa-6e13-4271-97ed-85c67a1a0793
+    - value: 220fdc16-29a1-4f22-a8d7-b8224a5f2d68
     _values:
     - Slash
     - Smash
     - Lunge
-    - Vengeful Lunge
-    - Raging Smash
-    - Keen Slash
-    - Puncture
-    - Haemorrhage
-    - Rend
-    - Charge
-    - Ambush
-    - Extract
-    - Implosion
+    - Heavy Lunge
+    - Heavy Smash
+    - Heavy Slash
+    - Rupturing Lunge
+    - Rupturing Smash
+    - Rupturing Slash
+    - Menacing Lunge
+    - Maiming Slash
+    - Siphoning Lunge
+    - Siphoning Smash
     - Siphoning Slash
     - Sweeping Slash
-    - Reap
+    - Consuming Slash
+    - Decapitating Smash
+    - Challenging Lunge
+    - Electrified Smash
+    - Venomous Smash
+    - Purging Lunge
+    - Puncturing Slash
+    - Finishing Smash
+    - Conductive Lunge
+    - Pillaging Smash
+    - Putrid Lunge
+    - Septic Slash
+    - Wicked Smash
   abilityTypeDictionary:
     _keys:
     - value: f7b337eb-4410-4d0c-826f-e09dc98da182
@@ -82,7 +118,19 @@ MonoBehaviour:
     - value: f514ef40-8c93-4372-a4ba-245ac416f2f4
     - value: 112c2927-2387-4977-84e0-1c06cff1ba61
     - value: bdf45730-660b-4ece-a4b9-46d5be068686
-    _values: 00000000010000000200000002000000010000000000000002000000010000000000000002000000000000000200000001000000000000000000000000000000
+    - value: d41895f6-b195-48f6-b2a2-46e405e8ba55
+    - value: 8a3b7663-f9a2-4a03-a3ac-e7b2a496c361
+    - value: f20b8a21-9248-41ef-bd98-5deb6b741665
+    - value: 52ee49d9-01f5-4153-a644-40efcddd29f4
+    - value: 6dc651fa-73f6-450d-a41b-1edbd10a6656
+    - value: 977d8bd2-e9aa-4bc8-96dc-8ff1cfefa7ed
+    - value: e59ae49d-3b64-4451-9a9c-33bbb44aa2fa
+    - value: 7f9caa85-e6ba-47d7-bf92-ee176db2c333
+    - value: fe5fa151-37d0-4aae-aafb-55afad422c11
+    - value: ec814581-ce3d-4896-9ca8-005a9121e173
+    - value: f4c80cfa-6e13-4271-97ed-85c67a1a0793
+    - value: 220fdc16-29a1-4f22-a8d7-b8224a5f2d68
+    _values: 00000000010000000200000002000000010000000000000002000000010000000000000002000000000000000200000001000000000000000000000000000000000000000200000001000000010000000200000000000000000000000200000001000000020000000000000001000000
   abilityDamageDictionary:
     _keys:
     - value: f7b337eb-4410-4d0c-826f-e09dc98da182
@@ -101,7 +149,19 @@ MonoBehaviour:
     - value: f514ef40-8c93-4372-a4ba-245ac416f2f4
     - value: 112c2927-2387-4977-84e0-1c06cff1ba61
     - value: bdf45730-660b-4ece-a4b9-46d5be068686
-    _values: 0500000009000000060000000600000009000000050000000800000009000000070000000900000008000000040000000700000004000000060000000a000000
+    - value: d41895f6-b195-48f6-b2a2-46e405e8ba55
+    - value: 8a3b7663-f9a2-4a03-a3ac-e7b2a496c361
+    - value: f20b8a21-9248-41ef-bd98-5deb6b741665
+    - value: 52ee49d9-01f5-4153-a644-40efcddd29f4
+    - value: 6dc651fa-73f6-450d-a41b-1edbd10a6656
+    - value: 977d8bd2-e9aa-4bc8-96dc-8ff1cfefa7ed
+    - value: e59ae49d-3b64-4451-9a9c-33bbb44aa2fa
+    - value: 7f9caa85-e6ba-47d7-bf92-ee176db2c333
+    - value: fe5fa151-37d0-4aae-aafb-55afad422c11
+    - value: ec814581-ce3d-4896-9ca8-005a9121e173
+    - value: f4c80cfa-6e13-4271-97ed-85c67a1a0793
+    - value: 220fdc16-29a1-4f22-a8d7-b8224a5f2d68
+    _values: 0500000007000000090000000900000007000000050000000900000007000000050000000a000000050000000900000007000000040000000500000006000000070000000900000007000000070000000900000006000000080000000a000000080000000a0000000600000008000000
   abilityEmpowermentsDictionary:
     _keys:
     - value: f7b337eb-4410-4d0c-826f-e09dc98da182
@@ -120,6 +180,18 @@ MonoBehaviour:
     - value: f514ef40-8c93-4372-a4ba-245ac416f2f4
     - value: 112c2927-2387-4977-84e0-1c06cff1ba61
     - value: bdf45730-660b-4ece-a4b9-46d5be068686
+    - value: d41895f6-b195-48f6-b2a2-46e405e8ba55
+    - value: 8a3b7663-f9a2-4a03-a3ac-e7b2a496c361
+    - value: f20b8a21-9248-41ef-bd98-5deb6b741665
+    - value: 52ee49d9-01f5-4153-a644-40efcddd29f4
+    - value: 6dc651fa-73f6-450d-a41b-1edbd10a6656
+    - value: 977d8bd2-e9aa-4bc8-96dc-8ff1cfefa7ed
+    - value: e59ae49d-3b64-4451-9a9c-33bbb44aa2fa
+    - value: 7f9caa85-e6ba-47d7-bf92-ee176db2c333
+    - value: fe5fa151-37d0-4aae-aafb-55afad422c11
+    - value: ec814581-ce3d-4896-9ca8-005a9121e173
+    - value: f4c80cfa-6e13-4271-97ed-85c67a1a0793
+    - value: 220fdc16-29a1-4f22-a8d7-b8224a5f2d68
     _values:
     - empowerments: 
     - empowerments: 
@@ -137,6 +209,18 @@ MonoBehaviour:
     - empowerments: 07000000
     - empowerments: 05000000
     - empowerments: 0200000007000000
+    - empowerments: 02000000
+    - empowerments: 04000000
+    - empowerments: 06000000
+    - empowerments: 08000000
+    - empowerments: 09000000
+    - empowerments: 0000000001000000
+    - empowerments: 0400000002000000
+    - empowerments: 0600000005000000
+    - empowerments: 0500000007000000
+    - empowerments: 0100000008000000
+    - empowerments: 0300000008000000
+    - empowerments: 0900000000000000
   abilityRarityDictionary:
     _keys:
     - value: f7b337eb-4410-4d0c-826f-e09dc98da182
@@ -155,7 +239,19 @@ MonoBehaviour:
     - value: f514ef40-8c93-4372-a4ba-245ac416f2f4
     - value: 112c2927-2387-4977-84e0-1c06cff1ba61
     - value: bdf45730-660b-4ece-a4b9-46d5be068686
-    _values: 00000000000000000000000000000000000000000000000001000000000000000100000002000000010000000100000001000000010000000100000002000000
+    - value: d41895f6-b195-48f6-b2a2-46e405e8ba55
+    - value: 8a3b7663-f9a2-4a03-a3ac-e7b2a496c361
+    - value: f20b8a21-9248-41ef-bd98-5deb6b741665
+    - value: 52ee49d9-01f5-4153-a644-40efcddd29f4
+    - value: 6dc651fa-73f6-450d-a41b-1edbd10a6656
+    - value: 977d8bd2-e9aa-4bc8-96dc-8ff1cfefa7ed
+    - value: e59ae49d-3b64-4451-9a9c-33bbb44aa2fa
+    - value: 7f9caa85-e6ba-47d7-bf92-ee176db2c333
+    - value: fe5fa151-37d0-4aae-aafb-55afad422c11
+    - value: ec814581-ce3d-4896-9ca8-005a9121e173
+    - value: f4c80cfa-6e13-4271-97ed-85c67a1a0793
+    - value: 220fdc16-29a1-4f22-a8d7-b8224a5f2d68
+    _values: 00000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000010000000000000001000000000000000000000000000000000000000000000001000000010000000100000001000000010000000100000001000000
   abilityIconDictionary:
     _keys:
     - value: f7b337eb-4410-4d0c-826f-e09dc98da182
@@ -174,6 +270,18 @@ MonoBehaviour:
     - value: f514ef40-8c93-4372-a4ba-245ac416f2f4
     - value: 112c2927-2387-4977-84e0-1c06cff1ba61
     - value: bdf45730-660b-4ece-a4b9-46d5be068686
+    - value: d41895f6-b195-48f6-b2a2-46e405e8ba55
+    - value: 8a3b7663-f9a2-4a03-a3ac-e7b2a496c361
+    - value: f20b8a21-9248-41ef-bd98-5deb6b741665
+    - value: 52ee49d9-01f5-4153-a644-40efcddd29f4
+    - value: 6dc651fa-73f6-450d-a41b-1edbd10a6656
+    - value: 977d8bd2-e9aa-4bc8-96dc-8ff1cfefa7ed
+    - value: e59ae49d-3b64-4451-9a9c-33bbb44aa2fa
+    - value: 7f9caa85-e6ba-47d7-bf92-ee176db2c333
+    - value: fe5fa151-37d0-4aae-aafb-55afad422c11
+    - value: ec814581-ce3d-4896-9ca8-005a9121e173
+    - value: f4c80cfa-6e13-4271-97ed-85c67a1a0793
+    - value: 220fdc16-29a1-4f22-a8d7-b8224a5f2d68
     _values:
     - {fileID: 21300000, guid: 545702d9040f5024e9eed6cf8ac19a16, type: 3}
     - {fileID: 21300000, guid: 77ca6265971ef524b8f098606670c3cf, type: 3}
@@ -191,3 +299,15 @@ MonoBehaviour:
     - {fileID: 21300000, guid: 50c57b3bae953014589f2030e6e1f387, type: 3}
     - {fileID: 21300000, guid: d2102326123da544aae57d7be6549f45, type: 3}
     - {fileID: 21300000, guid: 8600d52b37ca19d45850e5c10a8590a4, type: 3}
+    - {fileID: 21300000, guid: 77ca6265971ef524b8f098606670c3cf, type: 3}
+    - {fileID: 21300000, guid: ac04ca413322cf74c9d945688586923f, type: 3}
+    - {fileID: 21300000, guid: 77ca6265971ef524b8f098606670c3cf, type: 3}
+    - {fileID: 21300000, guid: 77ca6265971ef524b8f098606670c3cf, type: 3}
+    - {fileID: 21300000, guid: ac04ca413322cf74c9d945688586923f, type: 3}
+    - {fileID: 21300000, guid: 545702d9040f5024e9eed6cf8ac19a16, type: 3}
+    - {fileID: 21300000, guid: 77ca6265971ef524b8f098606670c3cf, type: 3}
+    - {fileID: 21300000, guid: ac04ca413322cf74c9d945688586923f, type: 3}
+    - {fileID: 21300000, guid: 77ca6265971ef524b8f098606670c3cf, type: 3}
+    - {fileID: 21300000, guid: ac04ca413322cf74c9d945688586923f, type: 3}
+    - {fileID: 21300000, guid: 545702d9040f5024e9eed6cf8ac19a16, type: 3}
+    - {fileID: 21300000, guid: 77ca6265971ef524b8f098606670c3cf, type: 3}
