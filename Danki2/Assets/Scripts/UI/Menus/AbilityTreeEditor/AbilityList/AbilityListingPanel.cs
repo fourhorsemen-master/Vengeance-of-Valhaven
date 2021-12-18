@@ -12,7 +12,7 @@ public class AbilityListingPanel : MonoBehaviour, IBeginDragHandler, IDragHandle
 
     [SerializeField] private DraggableHighlighter highlighter = null;
 
-    [SerializeField] private AbilityListingEmpowerments empowermentPanel = null;
+    [SerializeField] private AbilityEmpowermentContainer empowermentPanel = null;
 
     private SerializableGuid abilityId;
     private int quantity;
@@ -72,7 +72,7 @@ public class AbilityListingPanel : MonoBehaviour, IBeginDragHandler, IDragHandle
         namePanelText.text = AbilityLookup.Instance.GetDisplayName(abilityId);
         namePanelText.color = RarityLookup.Instance.Lookup[AbilityLookup.Instance.GetRarity(abilityId)].Colour;
 
-        empowermentPanel.Initialise(AbilityLookup.Instance.GetEmpowerments(abilityId));
+        empowermentPanel.SetEmpowerments(abilityId);
 
         UpdateQuantityText();
     }
