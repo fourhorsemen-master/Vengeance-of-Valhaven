@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI.Extensions;
 
@@ -55,7 +56,7 @@ public class SupplementaryTooltipPanel : MonoBehaviour
         Activate();
 
         List<Tuple<string, string>> tuples = new List<Tuple<string, string>>();
-        empowerments?.ForEach(e => tuples.Add(Tuple.Create(
+        empowerments?.Distinct().ToList().ForEach(e => tuples.Add(Tuple.Create(
             EmpowermentLookup.Instance.GetDisplayName(e),
             EmpowermentLookup.Instance.GetTooltip(e)
         )));

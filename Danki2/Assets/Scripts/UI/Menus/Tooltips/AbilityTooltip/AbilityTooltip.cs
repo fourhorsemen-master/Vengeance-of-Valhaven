@@ -59,11 +59,11 @@ public class AbilityTooltip : Tooltip
         titleText.color = color;
         damageText.text = description;
 
-        empowerments.ForEach(e =>
+        foreach (Empowerment empowerment in empowerments)
         {
             Instantiate(abilityTooltipEmpowermentPrefab, tooltipPanel)
-                .SetEmpowerment(e);
-        });
+                .SetEmpowerment(empowerment);
+        }
 
         foreach (AbilityBonusTooltipSection section in bonusSections)
         {
@@ -80,13 +80,13 @@ public class AbilityTooltip : Tooltip
         List<ActiveEffect> activeEffects = new List<ActiveEffect>();
         List<PassiveEffect> passiveEffects = new List<PassiveEffect>();
         List<StackingEffect> stackingEffects = new List<StackingEffect>();
-        
-        empowerments.ForEach(e =>
+
+        foreach (Empowerment empowerment in empowerments)
         {
-            activeEffects.AddRange(EmpowermentLookup.Instance.GetActiveEffects(e));
-            passiveEffects.AddRange(EmpowermentLookup.Instance.GetPassiveEffects(e));
-            stackingEffects.AddRange(EmpowermentLookup.Instance.GetStackingEffects(e));
-        });
+            activeEffects.AddRange(EmpowermentLookup.Instance.GetActiveEffects(empowerment));
+            passiveEffects.AddRange(EmpowermentLookup.Instance.GetPassiveEffects(empowerment));
+            stackingEffects.AddRange(EmpowermentLookup.Instance.GetStackingEffects(empowerment));
+        }
         
         abilitySupplementaryTooltipPanel.Activate(
             empowerments,
