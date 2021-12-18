@@ -8,6 +8,7 @@ public class AbilityOptionPanel : MonoBehaviour
     [SerializeField] private Image image = null;
     [SerializeField] private Image frame = null;
     [SerializeField] private Text text = null;
+    [SerializeField] private AbilityEmpowermentContainer empowermentPanel = null;
 
     public SerializableGuid AbilityId { get; private set; }
 
@@ -45,6 +46,8 @@ public class AbilityOptionPanel : MonoBehaviour
         frame.color = rarityData.Colour;
         text.text = AbilityLookup.Instance.GetDisplayName(abilityId);
         text.color = rarityData.Colour;
+
+        empowermentPanel.SetEmpowerments(abilityId);
     }
 
     public void Click() => OnClickSubject.Next();
