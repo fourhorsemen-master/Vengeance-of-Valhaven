@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 [Serializable]
 public class AbilityCollisionSoundLevelDictionary : SerializableEnumDictionary<AbilityType, CollisionSoundLevel> {
@@ -18,13 +19,22 @@ public class AbilityFmodEventDictionary : SerializableEnumDictionary<AbilityType
     public AbilityFmodEventDictionary(Func<AbilityFmodEvents> defaultValueProvider) : base(defaultValueProvider) {}
 }
 
+[Serializable]
+public class AbilityIconDictionary : SerializableEnumDictionary<AbilityType, Sprite>
+{
+    public AbilityIconDictionary(Sprite defaultValue) : base(defaultValue) { }
+    public AbilityIconDictionary(Func<Sprite> defaultValueProvider) : base(defaultValueProvider) { }
+}
+
 public class AbilityTypeLookup : Singleton<AbilityTypeLookup>
 {
     public AbilityCollisionSoundLevelDictionary abilityCollisionSoundLevelDictionary = new AbilityCollisionSoundLevelDictionary(CollisionSoundLevel.Low);
     public AbilityVocalisationTypeDictionary abilityVocalisationTypeDictionary = new AbilityVocalisationTypeDictionary(AbilityVocalisationType.None);
     public AbilityFmodEventDictionary abilityFmodEventDictionary = new AbilityFmodEventDictionary(() => new AbilityFmodEvents());
+    public AbilityIconDictionary abilityIconDictionary = new AbilityIconDictionary(() => null);
 
     public CollisionSoundLevel GetCollisionSoundLevel(AbilityType abilityType) => abilityCollisionSoundLevelDictionary[abilityType];
     public AbilityVocalisationType GetAbilityVocalisationType(AbilityType abilityType) => abilityVocalisationTypeDictionary[abilityType];
     public AbilityFmodEvents GetAbilityFmodEvents(AbilityType abilityType) => abilityFmodEventDictionary[abilityType];
+    public Sprite GetAbilityIcon(AbilityType abilityType) => abilityIconDictionary[abilityType];
 }
