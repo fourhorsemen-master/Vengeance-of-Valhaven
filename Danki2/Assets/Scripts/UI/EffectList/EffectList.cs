@@ -72,11 +72,12 @@ public abstract class EffectList : MonoBehaviour
         if (stackingEffects.TryGetValue(effect, out EffectListItem existingEffectListItem))
         {
             existingEffectListItem.UpdateStacks(Actor.EffectManager.GetStacks(effect));
-            return;
         }
-
-        stackingEffects[effect] = Instantiate(EffectListItemPrefab, transform)
-            .InitialiseStackingEffect(effect, Actor.EffectManager.GetStacks(effect));
+        else if (Actor.EffectManager.GetStacks(effect) > 0)
+        {
+            stackingEffects[effect] = Instantiate(EffectListItemPrefab, transform)
+               .InitialiseStackingEffect(effect, Actor.EffectManager.GetStacks(effect));
+        }
     }
 
     private void StackingEffectRemoved(StackingEffect effect)
