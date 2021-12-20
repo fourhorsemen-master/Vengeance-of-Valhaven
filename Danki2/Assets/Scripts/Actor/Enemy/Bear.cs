@@ -15,6 +15,7 @@ public class Bear : Enemy
     [SerializeField] private float swipeDashSpeedMultiplier = 0;
     [SerializeField] private float swipePauseDuration = 0;
     [SerializeField] private float swipeDamageRange = 0;
+    private const string SwipeAnimationName = "Swipe_OneShot";
 
     [Header("Charge")]
     [SerializeField] private int chargeDamage = 0;
@@ -70,6 +71,7 @@ public class Bear : Enemy
         MovementManager.LookAt(transform.position + forward);
 
         MovementManager.LockMovement(swipeDashDuration, Speed * swipeDashSpeedMultiplier, forward, forward);
+        AnimController.Play(SwipeAnimationName);
         
         this.WaitAndAct(swipeDashDuration, HandleSwipeLand);
     }
