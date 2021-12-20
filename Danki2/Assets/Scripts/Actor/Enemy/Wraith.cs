@@ -8,7 +8,6 @@ public class Wraith : Enemy
     
     [Header("Spine")]
     [SerializeField] private int spineDamage = 0;
-    [SerializeField] private float spineSpeed = 0;
     [SerializeField] private float spineSlowDuration = 0;
     [SerializeField] private int spineCount = 0;
     [SerializeField] private float spineMaxAngle = 0;
@@ -54,7 +53,7 @@ public class Wraith : Enemy
                 {
                     Quaternion rotation = Quaternion.LookRotation(target.Centre - Centre);
                     rotation *= Quaternion.Euler(0f, Random.Range(-spineMaxAngle, spineMaxAngle), 0f);
-                    SpineObject.Fire(this, OnSpineCollision, spineSpeed, AbilitySource, rotation);
+                    SpineObject.Fire(this, OnSpineCollision, AbilitySource, rotation);
                 }
             );
         }

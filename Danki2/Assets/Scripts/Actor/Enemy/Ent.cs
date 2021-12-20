@@ -4,7 +4,6 @@ public class Ent : Enemy
 {
     [Header("Spine")]
     [SerializeField] private int spineMaxAngle;
-    [SerializeField] private float spineSpeed;
     [SerializeField] private int spineDamage;
     [SerializeField] private float spineSlowDuration;
 
@@ -24,7 +23,7 @@ public class Ent : Enemy
 
         Quaternion rotation = Quaternion.LookRotation(target.Centre - Centre);
         rotation *= Quaternion.Euler(0f, Random.Range(-spineMaxAngle, spineMaxAngle), 0f);
-        SpineObject.Fire(this, OnSpineCollision, spineSpeed, AbilitySource, rotation);
+        SpineObject.Fire(this, OnSpineCollision, AbilitySource, rotation);
     }
 
     public void Swipe()
