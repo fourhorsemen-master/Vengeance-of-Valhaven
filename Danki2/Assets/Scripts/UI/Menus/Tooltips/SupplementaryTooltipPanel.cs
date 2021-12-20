@@ -60,15 +60,15 @@ public class SupplementaryTooltipPanel : MonoBehaviour
             EmpowermentLookup.Instance.GetDisplayName(e),
             EmpowermentLookup.Instance.GetTooltip(e)
         )));
-        activeEffects?.ForEach(e => tuples.Add(Tuple.Create(
+        activeEffects?.Distinct().ToList().ForEach(e => tuples.Add(Tuple.Create(
             EffectLookup.Instance.GetDisplayName(e),
             EffectLookup.Instance.GetTooltip(e)
         )));
-        passiveEffects?.ForEach(e => tuples.Add(Tuple.Create(
+        passiveEffects?.Distinct().ToList().ForEach(e => tuples.Add(Tuple.Create(
             EffectLookup.Instance.GetDisplayName(e),
             EffectLookup.Instance.GetTooltip(e)
         )));
-        stackingEffects?.ForEach(e => tuples.Add(Tuple.Create(
+        stackingEffects?.Distinct().ToList().ForEach(e => tuples.Add(Tuple.Create(
             EffectLookup.Instance.GetDisplayName(e),
             EffectLookup.Instance.GetTooltip(e)
         )));
