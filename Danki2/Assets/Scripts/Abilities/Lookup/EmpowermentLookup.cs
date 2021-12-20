@@ -65,6 +65,13 @@ public class EmpowermentDecalMaterialDictionary : SerializableEnumDictionary<Emp
     public EmpowermentDecalMaterialDictionary(Func<Material> defaultValueProvider) : base(defaultValueProvider) { }
 }
 
+[Serializable]
+public class EmpowermentSpriteDictionary : SerializableEnumDictionary<Empowerment, Sprite>
+{
+    public EmpowermentSpriteDictionary(Sprite defaultValue) : base(defaultValue) { }
+    public EmpowermentSpriteDictionary(Func<Sprite> defaultValueProvider) : base(defaultValueProvider) { }
+}
+
 public class EmpowermentLookup : Singleton<EmpowermentLookup>
 {
     [SerializeField] private EmpowermentStringDictionary empowermentDisplayNameDictionary = new EmpowermentStringDictionary("");
@@ -74,6 +81,7 @@ public class EmpowermentLookup : Singleton<EmpowermentLookup>
     [SerializeField] private EmpowermentStackingEffectsDictionary empowermentStackingEffectsDictionary = new EmpowermentStackingEffectsDictionary(() => new StackingEffectListWrapper());
     [SerializeField] private EmpowermentColourDictionary empowermentColourDictionary = new EmpowermentColourDictionary(Color.white);
     [SerializeField] private EmpowermentDecalMaterialDictionary empowermentDecalMaterialDictionary = new EmpowermentDecalMaterialDictionary(defaultValue: null);
+    [SerializeField] private EmpowermentSpriteDictionary empowermentSpriteDictionary = new EmpowermentSpriteDictionary(defaultValue: null);
 
     public EmpowermentStringDictionary EmpowermentDisplayNameDictionary => empowermentDisplayNameDictionary;
     public EmpowermentStringDictionary EmpowermentTooltipDictionary => empowermentTooltipDictionary;
@@ -82,6 +90,7 @@ public class EmpowermentLookup : Singleton<EmpowermentLookup>
     public EmpowermentStackingEffectsDictionary EmpowermentStackingEffectsDictionary => empowermentStackingEffectsDictionary;
     public EmpowermentColourDictionary EmpowermentColourDictionary => empowermentColourDictionary;
     public EmpowermentDecalMaterialDictionary EmpowermentDecalMaterialDictionary => empowermentDecalMaterialDictionary;
+    public EmpowermentSpriteDictionary EmpowermentSpriteDictionary => empowermentSpriteDictionary;
 
     public string GetDisplayName(Empowerment empowerment) => empowermentDisplayNameDictionary[empowerment];
     public string GetTooltip(Empowerment empowerment) => empowermentTooltipDictionary[empowerment];
@@ -90,4 +99,5 @@ public class EmpowermentLookup : Singleton<EmpowermentLookup>
     public List<StackingEffect> GetStackingEffects(Empowerment empowerment) => empowermentStackingEffectsDictionary[empowerment].StackingEffects;
     public Color GetColour(Empowerment empowerment) => empowermentColourDictionary[empowerment];
     public Material GetDecalMaterial(Empowerment empowerment) => empowermentDecalMaterialDictionary[empowerment];
+    public Sprite GetSprite(Empowerment empowerment) => empowermentSpriteDictionary[empowerment];
 }

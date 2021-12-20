@@ -8,7 +8,10 @@ public class AbilityTooltip : Tooltip
     private Text titleText = null;
 
     [SerializeField]
-    private Text descriptionText = null;
+    private Text damageText = null;
+
+    [SerializeField]
+    private AbilityTooltipEmpowerment abilityTooltipEmpowermentPrefab = null;
 
     [SerializeField]
     private SupplementaryTooltipPanel abilitySupplementaryTooltipPanel = null;
@@ -37,42 +40,30 @@ public class AbilityTooltip : Tooltip
 
         string titleText = AbilityLookup.Instance.GetDisplayName(abilityId);
         Color color = RarityLookup.Instance.Lookup[AbilityLookup.Instance.GetRarity(abilityId)].Colour;
-        string descriptionText = GenerateDescription(abilityId);
+        string damageText = $"Damage: {AbilityLookup.Instance.GetDamage(abilityId)}";
+        List<Empowerment> empowerments = AbilityLookup.Instance.GetEmpowerments(abilityId);
 
-        SetContents(titleText, color, descriptionText);
+        SetContents(titleText, color, damageText, empowerments);
 
         ActivateSupplementaryTooltips(abilityId);
-    }
-
-    private string GenerateDescription(SerializableGuid abilityId)
-    {
-        string description = "";
-
-        AbilityType abilityType = AbilityLookup.Instance.GetAbilityType(abilityId);
-        description += $"Type: {abilityType.ToString()}\n";
-        
-        int damage = AbilityLookup.Instance.GetDamage(abilityId);
-        description += $"Damage: {damage.ToString()}";
-        
-        List<Empowerment> empowerments = AbilityLookup.Instance.GetEmpowerments(abilityId);
-        if (empowerments.Count > 0)
-        {
-            description += "\nEmpowerments:";
-            empowerments.ForEach(empowerment => description += $"\n    {empowerment.ToString()}");
-        }
-
-        return description;
     }
 
     private void SetContents(
         string title,
         Color color,
-        string description
+        string description,
+        List<Empowerment> empowerments
     )
     {
         titleText.text = title;
         titleText.color = color;
-        descriptionText.text = description;
+        damageText.text = description;
+
+        foreach (Empowerment empowerment in empowerments)
+        {
+            Instantiate(abilityTooltipEmpowermentPrefab, tooltipPanel)
+                .SetEmpowerment(empowerment);
+        }
 
         foreach (AbilityBonusTooltipSection section in bonusSections)
         {
@@ -89,13 +80,13 @@ public class AbilityTooltip : Tooltip
         List<ActiveEffect> activeEffects = new List<ActiveEffect>();
         List<PassiveEffect> passiveEffects = new List<PassiveEffect>();
         List<StackingEffect> stackingEffects = new List<StackingEffect>();
-        
-        empowerments.ForEach(e =>
+
+        foreach (Empowerment empowerment in empowerments)
         {
-            activeEffects.AddRange(EmpowermentLookup.Instance.GetActiveEffects(e));
-            passiveEffects.AddRange(EmpowermentLookup.Instance.GetPassiveEffects(e));
-            stackingEffects.AddRange(EmpowermentLookup.Instance.GetStackingEffects(e));
-        });
+            activeEffects.AddRange(EmpowermentLookup.Instance.GetActiveEffects(empowerment));
+            passiveEffects.AddRange(EmpowermentLookup.Instance.GetPassiveEffects(empowerment));
+            stackingEffects.AddRange(EmpowermentLookup.Instance.GetStackingEffects(empowerment));
+        }
         
         abilitySupplementaryTooltipPanel.Activate(
             empowerments,
