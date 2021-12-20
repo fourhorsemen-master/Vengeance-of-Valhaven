@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 331450969830623652}
   - component: {fileID: 5491284868879516774}
+  - component: {fileID: 4405492598359245810}
   m_Layer: 0
   m_Name: MaulObject
   m_TagString: Untagged
@@ -43,3 +44,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3cf34e5b1167d945b39bdcd7272cbcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4405492598359245810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5733360210213287891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 486d5df5fa30f6a4884dc586fe78597d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time: 5

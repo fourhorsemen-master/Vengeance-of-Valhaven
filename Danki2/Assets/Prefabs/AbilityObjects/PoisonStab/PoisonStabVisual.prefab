@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 471394936315035394}
   - component: {fileID: 7013119832904699460}
+  - component: {fileID: 2898978188874074542}
   m_Layer: 0
   m_Name: PoisonStabVisual
   m_TagString: Untagged
@@ -45,6 +46,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mpfx: {fileID: 8318900149099839729}
+--- !u!114 &2898978188874074542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 972519807038881388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 486d5df5fa30f6a4884dc586fe78597d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time: 5
 --- !u!1 &1098324358270557144
 GameObject:
   m_ObjectHideFlags: 0

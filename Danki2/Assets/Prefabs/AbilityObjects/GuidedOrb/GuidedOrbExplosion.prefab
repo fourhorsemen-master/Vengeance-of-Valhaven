@@ -182,6 +182,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7018885368246903580}
   - component: {fileID: 8773174164764043830}
+  - component: {fileID: 4363459674831611042}
   m_Layer: 0
   m_Name: GuidedOrbExplosion
   m_TagString: Untagged
@@ -217,3 +218,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   visualEffect: {fileID: 2314263860666998117}
+--- !u!114 &4363459674831611042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7111956879752976280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 486d5df5fa30f6a4884dc586fe78597d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time: 5

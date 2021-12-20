@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
 
-public class MaulObject : StaticAbilityObject
+public class MaulObject : AbilityObject
 {
     private const float ForwardOffset = 1f;
-
-    public override float StickTime => 5f;
 
     public static MaulObject Create(Vector3 position)
     {

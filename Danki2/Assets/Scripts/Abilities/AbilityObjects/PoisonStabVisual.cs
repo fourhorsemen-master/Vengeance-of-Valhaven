@@ -1,9 +1,7 @@
 using UnityEngine;
 
-public class PoisonStabVisual : StaticAbilityObject
+public class PoisonStabVisual : AbilityObject
 {
-    public override float StickTime => 5f;
-
     [SerializeField]
     private ModularPFXComponent mpfx;
 

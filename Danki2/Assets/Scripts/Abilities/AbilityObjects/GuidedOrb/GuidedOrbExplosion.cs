@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.VFX;
 
-public class GuidedOrbExplosion : StaticAbilityObject
+public class GuidedOrbExplosion : AbilityObject
 {
-    public override float StickTime => 5f;
-
     [SerializeField]
     private VisualEffect visualEffect;
 

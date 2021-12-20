@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5052100117423879836}
   - component: {fileID: 5658047363533800899}
+  - component: {fileID: 5624365768087335610}
   m_Layer: 0
   m_Name: SmashObject
   m_TagString: Untagged
@@ -48,6 +49,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outerMeshRenderer: {fileID: 1178693474567065198}
   innerMeshRenderer: {fileID: 1080337490256598758}
+--- !u!114 &5624365768087335610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1958704838030240310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 486d5df5fa30f6a4884dc586fe78597d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time: 5
 --- !u!1 &2569802138402492398
 GameObject:
   m_ObjectHideFlags: 0

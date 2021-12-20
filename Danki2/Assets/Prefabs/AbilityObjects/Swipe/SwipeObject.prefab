@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1171868277810194324}
   - component: {fileID: -8766885985023550432}
+  - component: {fileID: 5712793788182369174}
   m_Layer: 0
   m_Name: SwipeObject
   m_TagString: Untagged
@@ -44,7 +45,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81512c4e5b61d0e46a749f8286aa6af2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitAudioSource: {fileID: 0}
+--- !u!114 &5712793788182369174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5521347126976864366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 486d5df5fa30f6a4884dc586fe78597d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time: 5
 --- !u!1 &6146590219119339682
 GameObject:
   m_ObjectHideFlags: 0
