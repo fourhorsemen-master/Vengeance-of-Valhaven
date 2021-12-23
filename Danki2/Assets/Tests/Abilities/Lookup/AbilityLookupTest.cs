@@ -8,6 +8,7 @@ public class AbilityLookupTest : PlayModeTestBase
     {
         yield return base.SetUp();
         TestUtils.InstantiatePrefab<AbilityLookup>();
+        TestUtils.InstantiatePrefab<AbilityTypeLookup>();
         yield return null;
     }
 
