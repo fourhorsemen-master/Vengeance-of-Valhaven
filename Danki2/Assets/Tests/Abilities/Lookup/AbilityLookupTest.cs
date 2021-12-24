@@ -15,6 +15,7 @@ public class AbilityLookupTest : PlayModeTestBase
     protected override IEnumerator TearDown()
     {
         AbilityLookup.Instance.Destroy();
+        AbilityTypeLookup.Instance.Destroy();
         yield return null;
     }
 
