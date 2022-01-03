@@ -35,6 +35,8 @@ public class EnemyMovementManager : MovementManager
     /// </summary>
     public void StartPathfinding(Vector3 destination)
     {
+        if (!CanMove) return;
+
         navMeshAgent.isStopped = false;
 
         if (navMeshAgent.destination == destination) return;
@@ -44,20 +46,9 @@ public class EnemyMovementManager : MovementManager
         navMeshAgent.SetDestination(destination);
     }
 
-    /// <summary>
-    /// Starts pathing to navmesh point closest to given destination IF those points are within <see cref="DefaultBar"/> of eachother.
-    /// </summary>
-    /// <returns>True if started pathfinding</returns>
-    public bool TryStartPathfinding(Vector3 destination, float tolerance = DestinationTolerance)
+    public bool CanPathToDestination(Vector3 destination, float tolerance = DestinationTolerance)
     {
-        bool canPathToDestination = NavMesh.SamplePosition(destination, out NavMeshHit hit, tolerance, NavMesh.AllAreas);
-
-        if (canPathToDestination)
-        {
-            StartPathfinding(hit.position);
-        }
-
-        return canPathToDestination;
+        return NavMesh.SamplePosition(destination, out NavMeshHit hit, tolerance, NavMesh.AllAreas);
     }
 
     /// <summary>

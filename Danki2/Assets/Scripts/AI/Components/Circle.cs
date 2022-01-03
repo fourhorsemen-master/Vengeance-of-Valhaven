@@ -34,11 +34,21 @@ public class Circle : IStateMachineComponent
 
         Vector3 destination = position + movementDirection;
 
-        if (enemy.MovementManager.TryStartPathfinding(destination)) return;
+        if (enemy.MovementManager.CanPathToDestination(destination))
+        {
+            enemy.MovementManager.StartPathfinding(destination);
+        }
+        else
+        {
+            SwitchCircleDirection();
+        }
+    }
 
+    private void SwitchCircleDirection()
+    {
         circleDirection = circleDirection == CircleDirection.Clockwise
-            ? CircleDirection.Anticlockwise
-            : CircleDirection.Clockwise;
+                   ? CircleDirection.Anticlockwise
+                   : CircleDirection.Clockwise;
     }
 
     private enum CircleDirection
