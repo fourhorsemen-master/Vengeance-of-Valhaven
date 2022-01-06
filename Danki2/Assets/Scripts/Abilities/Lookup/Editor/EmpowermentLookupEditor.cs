@@ -56,6 +56,7 @@ public class EmpowermentLookupEditor : Editor
         EditSupplementaryTooltips(empowerment);
         EditColour(empowerment);
         EditDecalMaterial(empowerment);
+        EditSprite(empowerment);
 
         EditorGUI.indentLevel--;
     }
@@ -126,6 +127,16 @@ public class EmpowermentLookupEditor : Editor
             "Material",
             empowermentLookup.EmpowermentDecalMaterialDictionary[empowerment],
             typeof(Material),
+            false
+        );
+    }
+
+    private void EditSprite(Empowerment empowerment)
+    {
+        empowermentLookup.EmpowermentSpriteDictionary[empowerment] = (Sprite)EditorGUILayout.ObjectField(
+            "Sprite",
+            empowermentLookup.EmpowermentSpriteDictionary[empowerment],
+            typeof(Sprite),
             false
         );
     }

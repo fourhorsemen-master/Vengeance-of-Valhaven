@@ -28,9 +28,20 @@ public class AbilityTypeLookupEditor : Editor
         );
         if (!foldoutStatus[abilityType]) return;
 
+        EditIcon(abilityType);
         EditCollisionSoundLevel(abilityType);
         EditAbilityVocalisationType(abilityType);
         EditAbilityFmodEvents(abilityType);
+    }
+
+    private void EditIcon(AbilityType abilityType)
+    {
+        abilityTypeLookup.abilityIconDictionary[abilityType] = (Sprite)EditorGUILayout.ObjectField(
+            "Icon",
+            abilityTypeLookup.abilityIconDictionary[abilityType],
+            typeof(Sprite),
+            false
+        );
     }
 
     private void EditCollisionSoundLevel(AbilityType abilityType)

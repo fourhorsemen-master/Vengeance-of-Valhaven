@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI.Extensions;
 
@@ -55,19 +56,19 @@ public class SupplementaryTooltipPanel : MonoBehaviour
         Activate();
 
         List<Tuple<string, string>> tuples = new List<Tuple<string, string>>();
-        empowerments?.ForEach(e => tuples.Add(Tuple.Create(
+        empowerments?.Distinct().ToList().ForEach(e => tuples.Add(Tuple.Create(
             EmpowermentLookup.Instance.GetDisplayName(e),
             EmpowermentLookup.Instance.GetTooltip(e)
         )));
-        activeEffects?.ForEach(e => tuples.Add(Tuple.Create(
+        activeEffects?.Distinct().ToList().ForEach(e => tuples.Add(Tuple.Create(
             EffectLookup.Instance.GetDisplayName(e),
             EffectLookup.Instance.GetTooltip(e)
         )));
-        passiveEffects?.ForEach(e => tuples.Add(Tuple.Create(
+        passiveEffects?.Distinct().ToList().ForEach(e => tuples.Add(Tuple.Create(
             EffectLookup.Instance.GetDisplayName(e),
             EffectLookup.Instance.GetTooltip(e)
         )));
-        stackingEffects?.ForEach(e => tuples.Add(Tuple.Create(
+        stackingEffects?.Distinct().ToList().ForEach(e => tuples.Add(Tuple.Create(
             EffectLookup.Instance.GetDisplayName(e),
             EffectLookup.Instance.GetTooltip(e)
         )));

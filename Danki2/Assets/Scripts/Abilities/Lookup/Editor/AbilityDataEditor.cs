@@ -48,7 +48,6 @@ public class AbilityDataEditor : Editor
 
         EditorUtils.MultilineLabelField($"ID: \"{abilityId}\"");
 
-        EditIcon(abilityId);
         EditDisplayName(abilityId);
         EditType(abilityId);
         EditDamage(abilityId);
@@ -59,16 +58,6 @@ public class AbilityDataEditor : Editor
         RemoveAbilityButton(abilityId);
 
         EditorGUI.indentLevel--;
-    }
-
-    private void EditIcon(SerializableGuid abilityId)
-    {
-        abilityData.AbilityIconDictionary[abilityId] = (Sprite) EditorGUILayout.ObjectField(
-            "Icon",
-            abilityData.AbilityIconDictionary[abilityId],
-            typeof(Sprite),
-            false
-        );
     }
 
     private void EditDisplayName(SerializableGuid abilityId)
@@ -126,7 +115,6 @@ public class AbilityDataEditor : Editor
             abilityData.AbilityDamageDictionary[abilityId] = 0;
             abilityData.AbilityEmpowermentsDictionary[abilityId] = new EmpowermentsWrapper();
             abilityData.AbilityRarityDictionary[abilityId] = Rarity.Common;
-            abilityData.AbilityIconDictionary[abilityId] = null;
             foldoutStatus[abilityId] = false;
         }
     }
@@ -141,7 +129,6 @@ public class AbilityDataEditor : Editor
             abilityData.AbilityDamageDictionary.Remove(abilityId);
             abilityData.AbilityEmpowermentsDictionary.Remove(abilityId);
             abilityData.AbilityRarityDictionary.Remove(abilityId);
-            abilityData.AbilityIconDictionary.Remove(abilityId);
             foldoutStatus.Remove(abilityId);
         }
     }

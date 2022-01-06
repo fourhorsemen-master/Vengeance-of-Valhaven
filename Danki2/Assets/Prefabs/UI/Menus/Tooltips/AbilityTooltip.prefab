@@ -177,7 +177,7 @@ MonoBehaviour:
     m_Top: 6
     m_Bottom: 6
   m_ChildAlignment: 0
-  m_Spacing: 8
+  m_Spacing: 6
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
@@ -224,7 +224,7 @@ GameObject:
   - component: {fileID: 1178105531171348631}
   - component: {fileID: 1178105531171348630}
   m_Layer: 5
-  m_Name: Description
+  m_Name: Damage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -338,7 +338,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tooltipPanel: {fileID: 1178105531026763120}
   titleText: {fileID: 1178105530808077705}
-  descriptionText: {fileID: 1178105531171348630}
+  damageText: {fileID: 1178105531171348630}
+  abilityTooltipEmpowermentPrefab: {fileID: 2519450582685306986, guid: cf0cb250c0d9955468a611c37ff5197a,
+    type: 3}
   abilitySupplementaryTooltipPanel: {fileID: 456115277759005757}
 --- !u!1001 &6148365500657481733
 PrefabInstance:

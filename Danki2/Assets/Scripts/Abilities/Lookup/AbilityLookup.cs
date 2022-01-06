@@ -11,7 +11,6 @@ public class AbilityLookup : Singleton<AbilityLookup>
     public int GetDamage(SerializableGuid abilityId) => abilityData.AbilityDamageDictionary[abilityId];
     public List<Empowerment> GetEmpowerments(SerializableGuid abilityId) => abilityData.AbilityEmpowermentsDictionary[abilityId].Empowerments;
     public Rarity GetRarity(SerializableGuid abilityId) => abilityData.AbilityRarityDictionary[abilityId];
-    public Sprite GetIcon(SerializableGuid abilityId) => abilityData.AbilityIconDictionary[abilityId];
     
     public bool TryGetAbilityId(string displayName, out SerializableGuid abilityId)
     {
@@ -29,4 +28,7 @@ public class AbilityLookup : Singleton<AbilityLookup>
     }
     
     public void ForEachAbilityId(Action<SerializableGuid> action) => abilityData.AbilityIds.ForEach(action);
+
+    public Sprite GetIcon(SerializableGuid abilityId) =>
+        AbilityTypeLookup.Instance.GetAbilityIcon(GetAbilityType(abilityId));
 }
