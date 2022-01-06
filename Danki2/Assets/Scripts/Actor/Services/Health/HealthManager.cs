@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class HealthManager
@@ -8,9 +9,9 @@ public class HealthManager
     // Note health is clamped below at 0
     public int Health { get; private set; }
 
-    public int MaxHealth => actor.StatsManager.Get(Stat.MaxHealth);
+    public bool Dead => Health <= 0;
 
-    public float HealthProportion => (float)Health / MaxHealth;
+    public float HealthProportion => (float)Health / actor.MaxHealth;
 
     private Registry<Func<DamageData, bool>> damagePipeRegistry;
 
@@ -27,11 +28,11 @@ public class HealthManager
 
         Health = this.actor.Type == ActorType.Player
             ? PersistenceManager.Instance.SaveData.PlayerHealth
-            : this.actor.StatsManager.Get(Stat.MaxHealth);
+            : this.actor.MaxHealth;
 
         updateSubject.Subscribe(() =>
         {
-            Health = Math.Min(Health, MaxHealth);
+            Health = Math.Min(Health, actor.MaxHealth);
         });
 
         damagePipeRegistry = new Registry<Func<DamageData, bool>>(updateSubject);
@@ -42,7 +43,7 @@ public class HealthManager
 
     public void TickDamage(int damage)
     {
-        if (actor.Dead) return;
+        if (Dead) return;
 
         if (damage < 0)
         {
@@ -55,11 +56,13 @@ public class HealthManager
             ModifyHealth(-damage);
             ModifiedTickDamageSubject.Next(damage);
         }
+
+        if (Dead) actor.DeathSubject.Next(new DeathData());
     }
 
-    public void ReceiveDamage(int damage, Actor source)
+    public void ReceiveDamage(int damage, Actor source, List<Empowerment> empowerments = null)
     {
-        if (actor.Dead) return;
+        if (Dead) return;
 
         bool damageBlockedByPipes = false;
         damagePipeRegistry.ForEach(pipe =>
@@ -68,9 +71,6 @@ public class HealthManager
         });
 
         if (damageBlockedByPipes) return;
-
-        // If already 0, damage should be left as 0, else reduce according to defence, but not below the minimum threshold.
-        damage = damage == 0 ? 0 : Mathf.Max(MinimumDamageAfterStats, damage - actor.StatsManager.Get(Stat.Defence));
 
         if (damage < 0)
         {
@@ -82,14 +82,14 @@ public class HealthManager
         {
             ModifyHealth(-damage);
             ModifiedDamageSubject.Next(new DamageData(damage, source));
+        }
 
-            actor.InterruptionManager.Interrupt(InterruptionType.Soft);
-        }            
+        if (Dead) actor.DeathSubject.Next(new DeathData(empowerments));
     }
 
     public void ReceiveHeal(int healing)
     {
-        if (actor.Dead) return;
+        if (Dead) return;
 
         if (healing < 0)
         {
@@ -115,6 +115,6 @@ public class HealthManager
 
     private void ModifyHealth(int healthChange)
     {
-        Health = Mathf.Clamp(Health + healthChange, 0, MaxHealth);
+        Health = Mathf.Clamp(Health + healthChange, 0, actor.MaxHealth);
     }
 }

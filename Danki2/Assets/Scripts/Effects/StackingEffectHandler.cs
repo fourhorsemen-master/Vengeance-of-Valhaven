@@ -7,7 +7,7 @@
         Actor actor,
         EffectManager effectManager,
         StackingEffect effectToHandle,
-        float tickInterval,
+        float tickInterval = 0,
         float tickStartDelay = 0
     ) : base(actor, effectManager, effectToHandle, tickInterval, tickStartDelay) {}
 }

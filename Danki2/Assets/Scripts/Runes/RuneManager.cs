@@ -12,8 +12,12 @@ public class RuneManager
     {
         RuneSockets = PersistenceManager.Instance.SaveData.RuneSockets;
 
-        player.StatsManager.RegisterPipe(new IronSkinHandler(this, player));
-        player.StatsManager.RegisterPipe(new FleetOfFootHandler(this, player));
+        RuneAddedSubject
+            .Where(rune => rune == Rune.IronSkin)
+            .Subscribe(_ => IronSkinHandler.OnRuneAdded());
+
+        player.RegisterMaxHealthPipe(IronSkinHandler.ProcessMaxHealth);
+        player.RegisterSpeedPipe(FleetOfFootHandler.ProcessSpeed);
     }
 
     public bool HasRune(Rune rune) => RuneSockets.Any(s => s.HasRune && s.Rune == rune);

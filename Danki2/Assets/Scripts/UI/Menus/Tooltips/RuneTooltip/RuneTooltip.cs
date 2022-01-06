@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class RuneTooltip : Tooltip
@@ -21,29 +20,17 @@ public class RuneTooltip : Tooltip
         ActivateTooltip();
         
         titleText.text = RuneLookup.Instance.GetDisplayName(rune);
-        descriptionText.text = GenerateDescription(RuneTooltipBuilder.Build(rune));
+        descriptionText.text = RuneLookup.Instance.GetTooltip(rune);
 
-        abilitySupplementaryTooltipPanel.Activate(rune);
+        ActivateSupplementaryTooltips(rune);
     }
 
-    private string GenerateDescription(List<TooltipSegment> segments)
+    private void ActivateSupplementaryTooltips(Rune rune)
     {
-        string description = "";
-
-        foreach (TooltipSegment segment in segments)
-        {
-            switch (segment.Type)
-            {
-                case TooltipSegmentType.Text:
-                    description += segment.Value;
-                    break;
-
-                case TooltipSegmentType.BoldText:
-                    description += TextUtils.BoldText(segment.Value);
-                    break;
-            }
-        }
-
-        return description;
+        abilitySupplementaryTooltipPanel.Activate(
+            activeEffects: RuneLookup.Instance.GetActiveEffects(rune),
+            passiveEffects: RuneLookup.Instance.GetPassiveEffects(rune),
+            stackingEffects: RuneLookup.Instance.GetStackingEffects(rune)
+        );
     }
 }

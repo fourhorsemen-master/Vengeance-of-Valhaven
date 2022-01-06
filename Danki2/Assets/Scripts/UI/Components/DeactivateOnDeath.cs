@@ -13,11 +13,11 @@ public class DeactivateOnDeath : MonoBehaviour
             return;
         }
         
-        Subject deathSubject = usePlayer
+        Subject<DeathData> deathSubject = usePlayer
             ? ActorCache.Instance.Player.DeathSubject
             : actor.DeathSubject;
 
-        deathSubject.Subscribe(Deactivate);
+        deathSubject.Subscribe(_ => Deactivate());
     }
 
     private void Deactivate()

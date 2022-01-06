@@ -29,20 +29,13 @@ public class EffectManager
     {
         this.actor = actor;
 
-        ActiveEffectAddedSubject.Subscribe(_ => actor.StatsManager.ClearCache());
-        ActiveEffectRemovedSubject.Subscribe(_ => actor.StatsManager.ClearCache());
-        PassiveEffectAddedSubject.Subscribe(_ => actor.StatsManager.ClearCache());
-        PassiveEffectRemovedSubject.Subscribe(_ => actor.StatsManager.ClearCache());
-        StackingEffectAddedSubject.Subscribe(_ => actor.StatsManager.ClearCache());
-        StackingEffectRemovedSubject.Subscribe(_ => actor.StatsManager.ClearCache());
-
-        actor.StatsManager.RegisterPipe(new ActiveSlowHandler(actor));
-        actor.StatsManager.RegisterPipe(new PassiveSlowHandler(actor));
-        actor.StatsManager.RegisterPipe(new VulnerableHandler(actor));
+        actor.RegisterSpeedPipe(ActiveSlowHandler.ProcessSpeed);
+        actor.RegisterSpeedPipe(PassiveSlowHandler.ProcessSpeed);
 
         BleedHandler bleedHandler = new BleedHandler(actor, this);
+        PurgeHandler purgeHandler = new PurgeHandler(actor, this);
         PoisonHandler poisonHandler = new PoisonHandler(actor, this);
-        
+
         updateSubject.Subscribe(() =>
         {
             bleedHandler.Update();
@@ -52,7 +45,7 @@ public class EffectManager
             TickStackingEffects();
         });
 
-        actor.DeathSubject.Subscribe(() =>
+        actor.DeathSubject.Subscribe(_ =>
         {
             RemoveAllActiveEffects();
             RemoveAllPassiveEffects();
@@ -163,6 +156,8 @@ public class EffectManager
     public void RemoveAllStackingEffects() => EnumUtils.ForEach<StackingEffect>(RemoveStackingEffect);
 
     public int GetStacks(StackingEffect effect) => stacks[effect];
+
+    public int GetMaxStacks(StackingEffect effect) => EffectLookup.Instance.GetMaxStackSize(effect);
 
     public float GetRemainingStackingEffectDuration(StackingEffect effect) => remainingStackingEffectDurations[effect];
 

@@ -4,17 +4,15 @@ using UnityEngine.UI;
 
 public class AbilityListingPanel : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    [SerializeField]
-    private Image iconPanelImage = null;
+    [SerializeField] private Image iconPanelImage = null;
 
-    [SerializeField]
-    private Text namePanelText = null;
+    [SerializeField] private Text namePanelText = null;
 
-    [SerializeField]
-    private Text quantityPanelText = null;
+    [SerializeField] private Text quantityPanelText = null;
 
-    [SerializeField]
-    private DraggableHighlighter highlighter = null;
+    [SerializeField] private DraggableHighlighter highlighter = null;
+
+    [SerializeField] private AbilityEmpowermentContainer empowermentPanel = null;
 
     private SerializableGuid abilityId;
     private int quantity;
@@ -69,10 +67,12 @@ public class AbilityListingPanel : MonoBehaviour, IBeginDragHandler, IDragHandle
 
         highlighter.HighlightState = DraggableHighlightState.Default;
 
-        iconPanelImage.sprite = AbilityLookup2.Instance.GetIcon(abilityId);
+        iconPanelImage.sprite = AbilityLookup.Instance.GetIcon(abilityId);
 
-        namePanelText.text = AbilityLookup2.Instance.GetDisplayName(abilityId);
-        namePanelText.color = RarityLookup.Instance.Lookup[AbilityLookup2.Instance.GetRarity(abilityId)].Colour;
+        namePanelText.text = AbilityLookup.Instance.GetDisplayName(abilityId);
+        namePanelText.color = RarityLookup.Instance.Lookup[AbilityLookup.Instance.GetRarity(abilityId)].Colour;
+
+        empowermentPanel.SetEmpowerments(abilityId);
 
         UpdateQuantityText();
     }

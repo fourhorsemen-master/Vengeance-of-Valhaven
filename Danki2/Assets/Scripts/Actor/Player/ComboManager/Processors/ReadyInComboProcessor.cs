@@ -2,25 +2,20 @@
 
 public class ReadyInComboProcessor : ReadyProcessor
 {
-    private readonly float feedbackTimeout;
-    private float feedbackExpiry;
+    private readonly Player player;
 
-    public ReadyInComboProcessor(Player player, float feedbackTimeout) : base(player)
+    public ReadyInComboProcessor(Player player) : base(player)
     {
-        this.feedbackTimeout = feedbackTimeout;
-    }
-
-    public override void Enter()
-    {
-        base.Enter();
-        feedbackExpiry = Time.time + feedbackTimeout;
+        this.player = player;
     }
 
     public override bool TryCompleteProcess(out ComboState newState)
     {
         if (base.TryCompleteProcess(out newState)) return true;
 
-        if (Time.time >= feedbackExpiry)
+        AnimatorStateInfo currentState = player.AnimController.GetCurrentAnimatorStateInfo(0);
+
+        if (currentState.IsName(CommonAnimStrings.Locomotion))
         {
             newState = ComboState.Timeout;
             return true;

@@ -63,7 +63,7 @@ MonoBehaviour:
   ownedAbilityCount: 3
   leftAbilityName: Slash
   rightAbilityName: Smash
-  playerHealth: 20
+  playerHealth: 30
   runeSockets:
   - hasRune: 0
     rune: 0
@@ -199,6 +199,7 @@ MonoBehaviour:
     - ForestDensScene
     - ForestFordScene
     - RuneScene
+    - RuinsScene
     - Zone1IntroductionScene
     - Zone2IntroductionScene
     - Zone3IntroductionScene
@@ -206,6 +207,14 @@ MonoBehaviour:
     - Zone2BossScene
     - Zone3BossScene
     _values:
+    - fileName: 
+      sceneType: 0
+      gameplaySceneData:
+        zones: 
+        roomTypes: 
+        cameraOrientations: 
+        entranceData: []
+        exitData: []
     - fileName: 
       sceneType: 0
       gameplaySceneData:

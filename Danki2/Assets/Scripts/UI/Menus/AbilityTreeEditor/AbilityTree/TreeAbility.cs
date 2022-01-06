@@ -29,6 +29,9 @@ public class TreeAbility : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     [SerializeField]
     private AbilityInsertListener abilityInsertListener = null;
 
+    [SerializeField]
+    private AbilityEmpowermentContainer empowermentPanel = null;
+
     private Node node;
     private Subscription<SerializableGuid> dragStartSubscription;
     private Subscription<SerializableGuid> dragStopSubscription;
@@ -127,7 +130,8 @@ public class TreeAbility : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         }
         else
         {
-            abilityImage.sprite = AbilityLookup2.Instance.GetIcon(node.AbilityId);            
+            abilityImage.sprite = AbilityLookup.Instance.GetIcon(node.AbilityId);
+            empowermentPanel.SetEmpowerments(node.AbilityId);
         }
     }
 

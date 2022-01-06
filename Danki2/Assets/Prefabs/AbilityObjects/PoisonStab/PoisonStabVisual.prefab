@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13397c8b3c4c47f4488c7c1df2229602, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mpfx: {fileID: 8318900149099839729}
 --- !u!1 &1098324358270557144
 GameObject:
   m_ObjectHideFlags: 0
@@ -92,7 +93,7 @@ MonoBehaviour:
     effectObject: {fileID: 7516510025786791067, guid: ffb6b6de607087544b3b5e404704c42c,
       type: 3}
     effectColor: {r: 0, g: 1, b: 0.19607843, a: 1}
-    effectEmissive: {r: 0, g: 0, b: 0, a: 0}
+    effectEmissive: {r: 2.9960785, g: 2.9960785, b: 2.9960785, a: 0}
     effectAlbedo: {fileID: 2800000, guid: cb4a4b3c18d727b42bd207d8380deb06, type: 3}
   behaviours:
   - {fileID: 11400000, guid: 0d4613b67da69da4fb257eb30481eef9, type: 2}

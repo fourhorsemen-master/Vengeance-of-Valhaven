@@ -47,19 +47,19 @@ MonoBehaviour:
     _keys:
     - Slash
     - Smash
-    - Thrust
+    - Lunge
     _values: 000000000100000000000000
   abilityVocalisationTypeDictionary:
     _keys:
     - Slash
     - Smash
-    - Thrust
+    - Lunge
     _values: 010000000200000001000000
   abilityFmodEventDictionary:
     _keys:
     - Slash
     - Smash
-    - Thrust
+    - Lunge
     _values:
     - fmodStartEventRef: 
       fmodSwingEventRef: event:/AS_AbilitySounds/AS_Slash
@@ -70,3 +70,12 @@ MonoBehaviour:
     - fmodStartEventRef: 
       fmodSwingEventRef: event:/AS_AbilitySounds/AS_FanOfKnives/AS_FanOfKnives_Woosh
       fmodImpactEventRef: 
+  abilityIconDictionary:
+    _keys:
+    - Slash
+    - Smash
+    - Lunge
+    _values:
+    - {fileID: 21300000, guid: 545702d9040f5024e9eed6cf8ac19a16, type: 3}
+    - {fileID: 21300000, guid: 77ca6265971ef524b8f098606670c3cf, type: 3}
+    - {fileID: 21300000, guid: f2f3007e73af96a4da4403bb9617381c, type: 3}

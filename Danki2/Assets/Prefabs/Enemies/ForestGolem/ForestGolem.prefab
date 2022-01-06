@@ -438,7 +438,6 @@ GameObject:
   - component: {fileID: 1307004630582523634}
   - component: {fileID: 990749912874947100}
   - component: {fileID: 8709911725352143315}
-  - component: {fileID: 1064717821195209815}
   - component: {fileID: 8403026213770845855}
   m_Layer: 0
   m_Name: ForestGolem
@@ -513,19 +512,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 456b03ebc07344a469c3ee60a619d885, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseStats:
-    _keys:
-    - MaxHealth
-    - Speed
-    - Power
-    - Defence
-    - Recovery
-    _values: 3c00000001000000000000000000000000000000
   navmeshAgent: {fileID: 1307004630582523634}
   trailRenderer: {fileID: 4564750321355086747}
   meshRenderers:
   - {fileID: 2465564384247126164}
   weight: 5
+  speed: 1
+  maxHealth: 150
   rotationSmoothing: 0.1
   animController: {fileID: 0}
   colliders:
@@ -581,19 +574,6 @@ MonoBehaviour:
   stompRange: 5
   maxStompAngle: 10
   stompTelegraphTime: 0.8
---- !u!114 &1064717821195209815
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4828296177260448678}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 713ab4dedb1718048ac26f68ed7a324b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemy: {fileID: 990749912874947100}
 --- !u!114 &8403026213770845855
 MonoBehaviour:
   m_ObjectHideFlags: 0

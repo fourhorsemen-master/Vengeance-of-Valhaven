@@ -7,7 +7,8 @@ public class PlayerMovementManager : MovementManager, IMovementStatusProvider
     private static readonly ISet<MovementLockType> MoveLockOverrideTypes = new HashSet<MovementLockType>
     {
         MovementLockType.Knockback,
-        MovementLockType.Pull
+        MovementLockType.Pull,
+        MovementLockType.AbilityDash
     };
 
     private static readonly ISet<MovementLockType> MovementLockTypesAffectedByWeight = new HashSet<MovementLockType>
@@ -24,10 +25,7 @@ public class PlayerMovementManager : MovementManager, IMovementStatusProvider
     private readonly MovementStatusManager movementStatusManager;
 
     public bool Stunned => movementStatusManager.Stunned;
-    public bool Rooted => movementStatusManager.Rooted;
     public bool MovementLocked => movementStatusManager.MovementLocked;
-
-    private bool movedThisFrame = false;
 
     private bool isCasting = false;
 
@@ -35,7 +33,6 @@ public class PlayerMovementManager : MovementManager, IMovementStatusProvider
 
     public bool CanMove => !player.Dead
         && !movementStatusManager.Stunned
-        && !movementStatusManager.Rooted
         && !movementStatusManager.MovementLocked;
 
     public PlayerMovementManager(Player player, Subject updateSubject, NavMeshAgent navMeshAgent)
@@ -49,12 +46,10 @@ public class PlayerMovementManager : MovementManager, IMovementStatusProvider
 
         player.AbilityAnimationListener.StartSubject.Subscribe(() => isCasting = true);
         player.AbilityAnimationListener.FinishSubject.Subscribe(() => isCasting = false);
-        player.ComboManager.SubscribeToStateEntry(ComboState.Interrupted, () => isCasting = false);
+        player.InterruptSubject.Subscribe(() => isCasting = false);
     }
 
     public bool Stuns() => movementPaused || isCasting;
-
-    public bool Roots() => false;
 
     public void RegisterMovementStatusProviders(params IMovementStatusProvider[] providers)
     {
@@ -75,12 +70,9 @@ public class PlayerMovementManager : MovementManager, IMovementStatusProvider
 
         RotateTowards(direction);
 
-        if (Rooted) return;
-
         if (speed == null) speed = GetMoveSpeed();
 
         navMeshAgent.Move(direction.normalized * (Time.deltaTime * speed.Value));
-        movedThisFrame = true;
     }
 
     public bool TryLockMovement(MovementLockType type, float duration, float speed, Vector3 direction, Vector3 rotation)
@@ -100,8 +92,6 @@ public class PlayerMovementManager : MovementManager, IMovementStatusProvider
     {
         if (!movementStatusManager.TryLockMovement(overrideLock, duration)) return false;
 
-        if (overrideLock) player.InterruptionManager.Interrupt(InterruptionType.Hard);
-
         movementLockSpeed = speed;
         movementLockDirection = direction.normalized;
 
@@ -113,14 +103,6 @@ public class PlayerMovementManager : MovementManager, IMovementStatusProvider
     private void UpdateMovement()
     {
         if (player.Dead) return;
-
-        if (player.AnimController)
-        {
-            float blendValue = movedThisFrame ? 1f : 0f;
-            player.AnimController.SetFloat("MoveSpeed_Blend", blendValue, 0.1f, Time.deltaTime);
-        }
-
-        movedThisFrame = false;
 
         navMeshAgent.speed = GetMoveSpeed();
 

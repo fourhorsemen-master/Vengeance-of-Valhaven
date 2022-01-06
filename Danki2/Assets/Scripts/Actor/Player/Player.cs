@@ -1,14 +1,11 @@
 ﻿using FMODUnity;
 using UnityEngine;
 
-public class Player : Actor
+public class Player : Actor, IMovementStatusProvider
 {
     public override ActorType Type => ActorType.Player;
 
     [Header("Ability tree")]
-    [SerializeField] private float shortCooldown = 0.75f;
-    [SerializeField] private float longCooldown = 1.5f;
-    [SerializeField] private float comboTimeout = 2f;
     [SerializeField] private bool selfEmpoweringAbilities = false;
 
     [Header("Roll")]
@@ -28,10 +25,6 @@ public class Player : Actor
 
     private bool readyToRoll = true;
 
-    public float ShortCooldown => shortCooldown;
-    public float LongCooldown => longCooldown;
-    public float ComboTimeout => comboTimeout;
-
     public bool CanCast => !Dead && !MovementManager.Stunned && !MovementManager.MovementLocked;
 
     // Services
@@ -40,13 +33,16 @@ public class Player : Actor
     public PlayerTargetFinder TargetFinder { get; private set; }
     public RuneManager RuneManager { get; private set; }
     public CurrencyManager CurrencyManager { get; private set; }
-    public AbilityService2 AbilityService { get; private set; }
+    public AbilityService AbilityService { get; private set; }
     public PlayerMovementManager MovementManager { get; private set; }
     
     // Subjects
     public Subject RollSubject { get; } = new Subject();
+    public Subject InterruptSubject { get; } = new Subject();
 
-    public string VocalisationEvent { get => vocalisationEvent; }
+    public string VocalisationEvent  => vocalisationEvent;
+
+    public CastContext CurrentCast => AbilityService.CurrentCast;
 
     protected override Tag Tag => Tag.Player;
 
@@ -59,8 +55,13 @@ public class Player : Actor
         TargetFinder = new PlayerTargetFinder(this, updateSubject);
         RuneManager = new RuneManager(this);
         CurrencyManager = new CurrencyManager();
-        AbilityService = new AbilityService2(this, abilityAnimator, selfEmpoweringAbilities);
+        AbilityService = new AbilityService(this, abilityAnimator, selfEmpoweringAbilities);
         MovementManager = new PlayerMovementManager(this, updateSubject, navmeshAgent);
+        MovementManager.RegisterMovementStatusProviders(this);
+
+        HealthManager.DamageSubject.Subscribe(Interrupt);
+
+        DeathSubject.Subscribe(_ => PersistenceManager.Instance.TransitionToDefeatRoom());
     }
 
     public void Roll(Vector3 direction)
@@ -68,9 +69,9 @@ public class Player : Actor
         if (!readyToRoll) return;
 
         bool rolled = MovementManager.TryLockMovement(
-            MovementLockType.Dash,
+            MovementLockType.Roll,
             rollDuration,
-            StatsManager.Get(Stat.Speed) * rollSpeedMultiplier,
+            Speed * rollSpeedMultiplier,
             direction,
             direction
         );
@@ -84,13 +85,15 @@ public class Player : Actor
             readyToRoll = false;
             this.WaitAndAct(totalRollCooldown, () => readyToRoll = true);
 
-            AnimController.Play("Dash_OneShot");
+            AnimController.Play(CommonAnimStrings.Dash);
         }
     }
 
-    protected override void OnDeath()
+    public bool Stuns() => IsCurrentAnimationState(CommonAnimStrings.Interrupted);
+
+    private void Interrupt()
     {
-        base.OnDeath();
-        PersistenceManager.Instance.TransitionToDefeatRoom();
+        InterruptSubject.Next();
+        AnimController.Play(CommonAnimStrings.Interrupted);
     }
 }

@@ -15,6 +15,7 @@ public class Bear : Enemy
     [SerializeField] private float swipeDashSpeedMultiplier = 0;
     [SerializeField] private float swipePauseDuration = 0;
     [SerializeField] private float swipeDamageRange = 0;
+    private const string SwipeAnimationName = "Swipe_OneShot";
 
     [Header("Charge")]
     [SerializeField] private int chargeDamage = 0;
@@ -69,9 +70,10 @@ public class Bear : Enemy
         Vector3 forward = transform.forward;
         MovementManager.LookAt(transform.position + forward);
 
-        MovementManager.LockMovement(swipeDashDuration, StatsManager.Get(Stat.Speed) * swipeDashSpeedMultiplier, forward, forward);
+        MovementManager.LockMovement(swipeDashDuration, Speed * swipeDashSpeedMultiplier, forward, forward);
+        AnimController.Play(SwipeAnimationName);
         
-        InterruptibleAction(swipeDashDuration, InterruptionType.Hard, HandleSwipeLand);
+        this.WaitAndAct(swipeDashDuration, HandleSwipeLand);
     }
     
     private void HandleSwipeLand()
