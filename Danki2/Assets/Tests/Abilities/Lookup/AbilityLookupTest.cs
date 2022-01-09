@@ -8,12 +8,14 @@ public class AbilityLookupTest : PlayModeTestBase
     {
         yield return base.SetUp();
         TestUtils.InstantiatePrefab<AbilityLookup>();
+        TestUtils.InstantiatePrefab<AbilityTypeLookup>();
         yield return null;
     }
 
     protected override IEnumerator TearDown()
     {
         AbilityLookup.Instance.Destroy();
+        AbilityTypeLookup.Instance.Destroy();
         yield return null;
     }
 
