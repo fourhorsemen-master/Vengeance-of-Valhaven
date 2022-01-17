@@ -200,13 +200,13 @@ public class Bear : Enemy
     }
 
     private void BeginBiteAnim()
-	{
-		AnimController.SetBool(MaulAnimationTrigger, true);
-		this.NextFrame(EndBiteAnim);
-	}
+    {
+        AnimController.SetBool(MaulAnimationTrigger, true);
+        this.NextFrame(EndBiteAnim);
+    }
 
     private void EndBiteAnim()
-	{
+    {
         AnimController.SetBool(MaulAnimationTrigger, false);
     }
 
