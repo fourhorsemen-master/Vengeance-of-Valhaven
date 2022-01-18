@@ -63,6 +63,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7161521280746059079}
   - component: {fileID: 5525614779161752969}
+  - component: {fileID: 2334074600716769751}
   m_Layer: 0
   m_Name: CleaveObject
   m_TagString: Untagged
@@ -97,3 +98,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8eac8cff954d444db7970553e582e91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2334074600716769751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3644807651717400697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 486d5df5fa30f6a4884dc586fe78597d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time: 5

@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
 
-public class SmashObject : StaticAbilityObject
+public class SmashObject : AbilityObject
 {
-    public override float StickTime => 5f;
-
     [SerializeField]
     private MeshRenderer outerMeshRenderer = null;
 
@@ -24,10 +22,8 @@ public class SmashObject : StaticAbilityObject
         smashObject.desiredColour = colour;
     }
 
-    protected override void Start()
-    {
-        base.Start();
-        
+    private void Start()
+    {        
         if (!desiredColour.Equals(default))
         {
             Color lighterColour = Color.Lerp(desiredColour, Color.white, 0.5f);
