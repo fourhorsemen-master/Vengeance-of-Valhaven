@@ -4,10 +4,10 @@ using UnityEngine;
 public class SpineObject : AbilityObject
 {
     [SerializeField]
-    Collider spineCollider = null;
+    private Collider spineCollider = null;
 
     [SerializeField]
-    Rigidbody rigidBody = null;
+    private Rigidbody rigidBody = null;
 
     [SerializeField]
     private TrailRenderer trailRenderer = null;
