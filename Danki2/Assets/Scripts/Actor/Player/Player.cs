@@ -19,10 +19,6 @@ public class Player : Actor, IMovementStatusProvider
     [SerializeField]
     private AbilityAnimator abilityAnimator = null;
 
-    [SerializeField]
-    private AbilityAnimationListener abilityAnimationListener = null;
-    public AbilityAnimationListener AbilityAnimationListener => abilityAnimationListener;
-
     private bool readyToRoll = true;
 
     public bool CanCast => !Dead && !MovementManager.Stunned && !MovementManager.MovementLocked;

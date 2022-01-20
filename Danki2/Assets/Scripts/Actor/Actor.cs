@@ -28,6 +28,10 @@ public abstract class Actor : MonoBehaviour
     [SerializeField] private Animator animController = null;
     public Animator AnimController => animController;
 
+    [SerializeField]
+    private AbilityAnimationListener abilityAnimationListener = null;
+    public AbilityAnimationListener AbilityAnimationListener => abilityAnimationListener;
+
     [SerializeField] private Collider[] colliders = null;
     public Collider[] Colliders => colliders;
 
