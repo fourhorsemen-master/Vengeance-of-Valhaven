@@ -264,6 +264,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animData: {fileID: 11400000, guid: b69b25ad17ca3f8408b4b24cc444366e, type: 2}
   actor: {fileID: 5616573760960498849}
+--- !u!114 &518689174279743712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2279857883725626383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d073a65a17c8d7d4d93d169b94c34fe8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2849145068045050472
 GameObject:
   m_ObjectHideFlags: 0
@@ -371,6 +383,7 @@ MonoBehaviour:
   maxHealth: 100
   rotationSmoothing: 0.1
   animController: {fileID: 7158387974175414483}
+  abilityAnimationListener: {fileID: 518689174279743712}
   colliders:
   - {fileID: 7545607284339213606}
   centre: {fileID: 7817277397840590268}
@@ -424,7 +437,6 @@ MonoBehaviour:
   chargeRecoveryTime: 2
   minIdleSoundTimer: 3.5
   maxIdleSoundTimer: 8.5
-  swipeDelay: 0.5
   chargeDelay: 0.5
   maulDelay: 0.5
   cleaveDelay: 1.3
