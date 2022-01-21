@@ -13,8 +13,6 @@ public class Bear : Enemy
 
     [Header("Swipe")]
     [SerializeField] private int swipeDamage = 0;
-    [SerializeField] private float swipeDashDuration = 0;
-    [SerializeField] private float swipeDashSpeedMultiplier = 0;
     [SerializeField] private float swipePauseDuration = 0;
     [SerializeField] private float swipeDamageRange = 0;
 
