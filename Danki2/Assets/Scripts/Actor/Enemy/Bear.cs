@@ -16,7 +16,7 @@ public class Bear : Enemy
     [SerializeField] private float swipePauseDuration = 0;
     [SerializeField] private float swipeDamageRange = 0;
     private const string SwipeAnimationName = "Swipe_OneShot";
-    private const string MaulAnimationTrigger = "Should_Bite_OneShot";
+    private const string MaulAnimationName = "Bite_OneShot";
 
     [Header("Charge")]
     [SerializeField] private int chargeDamage = 0;
@@ -201,13 +201,10 @@ public class Bear : Enemy
 
     private void BeginBiteAnim()
     {
-        AnimController.SetBool(MaulAnimationTrigger, true);
-        this.NextFrame(EndBiteAnim);
-    }
-
-    private void EndBiteAnim()
-    {
-        AnimController.SetBool(MaulAnimationTrigger, false);
+		if (!IsCurrentAnimationState(MaulAnimationName))
+		{
+            AnimController.Play(MaulAnimationName);
+		}
     }
 
     public void Cleave()
