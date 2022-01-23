@@ -5,5 +5,7 @@
     OnGrass,
     OnRock,
     OnDirt,
-    OnWater
+    OnWater,
+    OnSnow,
+    OnIce
 }
