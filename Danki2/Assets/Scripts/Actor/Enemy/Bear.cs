@@ -5,6 +5,7 @@ using UnityEngine;
 public class Bear : Enemy
 {
     private const string SwipeAnimationName = "Swipe_OneShot";
+    private const string MaulAnimationName = "Bite_OneShot";
 
     [Header("FMOD Events"), EventRef, SerializeField]
     private string roarEvent = null;
@@ -140,6 +141,7 @@ public class Bear : Enemy
         );
 
         SwipeObject.Create(AbilitySource, castRotation);
+        BeginBiteAnim();
     }
 
     private void ChargeKnockBack(Player player)
@@ -174,6 +176,7 @@ public class Bear : Enemy
         Quaternion castRotation = AbilityUtils.GetMeleeCastRotation(randomisedCastDirection);
 
         maulObject.Bite(castRotation);
+        BeginBiteAnim();
 
         AbilityUtils.TemplateCollision(
             this,
@@ -190,6 +193,14 @@ public class Bear : Enemy
         );
 
         MovementManager.Pause(maulBiteInterval);
+    }
+
+    private void BeginBiteAnim()
+    {
+		if (!IsCurrentAnimationState(MaulAnimationName))
+		{
+            AnimController.Play(MaulAnimationName);
+		}
     }
 
     public void Cleave()
