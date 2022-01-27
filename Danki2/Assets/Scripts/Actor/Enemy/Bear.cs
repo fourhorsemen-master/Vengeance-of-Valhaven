@@ -16,6 +16,7 @@ public class Bear : Enemy
     [SerializeField] private float swipePauseDuration = 0;
     [SerializeField] private float swipeDamageRange = 0;
     private const string SwipeAnimationName = "Swipe_OneShot";
+    private const string MaulAnimationName = "Bite_OneShot";
 
     [Header("Charge")]
     [SerializeField] private int chargeDamage = 0;
@@ -144,6 +145,7 @@ public class Bear : Enemy
         );
 
         SwipeObject.Create(AbilitySource, castRotation);
+        BeginBiteAnim();
     }
 
     private void ChargeKnockBack(Player player)
@@ -178,6 +180,7 @@ public class Bear : Enemy
         Quaternion castRotation = AbilityUtils.GetMeleeCastRotation(randomisedCastDirection);
 
         maulObject.Bite(castRotation);
+        BeginBiteAnim();
 
         AbilityUtils.TemplateCollision(
             this,
@@ -194,6 +197,14 @@ public class Bear : Enemy
         );
 
         MovementManager.Pause(maulBiteInterval);
+    }
+
+    private void BeginBiteAnim()
+    {
+		if (!IsCurrentAnimationState(MaulAnimationName))
+		{
+            AnimController.Play(MaulAnimationName);
+		}
     }
 
     public void Cleave()
