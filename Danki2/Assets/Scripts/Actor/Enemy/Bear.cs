@@ -166,8 +166,16 @@ public class Bear : Enemy
     {
         Vector3 floorTargetPosition = transform.position + transform.forward;
         MovementManager.LookAt(floorTargetPosition);
+
+        MovementManager.Pause(maulBiteInterval * maulBiteCount);
+
         MaulObject maulObject = MaulObject.Create(AbilitySource);
-        this.ActOnInterval(maulBiteInterval, index => HandleMaulBite(index, maulObject), 0, maulBiteCount);
+        this.ActOnInterval(
+            maulBiteInterval,
+            index => HandleMaulBite(index, maulObject),
+            initialInterval: 0,
+            numRepetitions: maulBiteCount
+        );
     }
 
     private void HandleMaulBite(int index, MaulObject maulObject)
@@ -195,8 +203,6 @@ public class Bear : Enemy
                 CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
             }
         );
-
-        MovementManager.Pause(maulBiteInterval);
     }
 
     private void BeginBiteAnim()
