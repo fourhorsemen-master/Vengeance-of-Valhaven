@@ -3019,7 +3019,8 @@ MonoBehaviour:
   speed: 4
   maxHealth: 30
   rotationSmoothing: 0.1
-  animController: {fileID: 238891752984210142}
+  animator: {fileID: 238891752984210142}
+  abilityAnimationListener: {fileID: 1321271054688396773}
   colliders:
   - {fileID: 8075471737366941008}
   centre: {fileID: 1799277828141391130}
@@ -3031,7 +3032,6 @@ MonoBehaviour:
   rollSpeedMultiplier: 4
   vocalisationEvent: event:/CS_CharacterSounds/CS_Dialog_Attack
   abilityAnimator: {fileID: 2156678289039720177}
-  abilityAnimationListener: {fileID: 1321271054688396773}
 --- !u!114 &-7333941826244338973
 MonoBehaviour:
   m_ObjectHideFlags: 0

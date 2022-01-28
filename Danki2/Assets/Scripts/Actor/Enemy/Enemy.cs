@@ -30,8 +30,8 @@ public abstract class Enemy : Actor
     {
         HealthManager.ModifiedDamageSubject.Subscribe(_ =>
         {
-            AnimController.speed = 0;
-            this.WaitAndAct(DamageInterruptTime, () => AnimController.speed = 1);
+            Animator.speed = 0;
+            this.WaitAndAct(DamageInterruptTime, () => Animator.speed = 1);
         });
     }
 }

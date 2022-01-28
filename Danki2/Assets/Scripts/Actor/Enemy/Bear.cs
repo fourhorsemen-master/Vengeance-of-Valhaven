@@ -67,7 +67,7 @@ public class Bear : Enemy
 
     public void PlaySwipeAnimation()
     {
-        AnimController.Play(SwipeAnimationName);
+        Animator.Play(SwipeAnimationName);
     }
 
     public void Swipe()
@@ -205,7 +205,7 @@ public class Bear : Enemy
     {
 		if (!IsCurrentAnimationState(MaulAnimationName))
 		{
-            AnimController.Play(MaulAnimationName);
+            Animator.Play(MaulAnimationName);
 		}
     }
 

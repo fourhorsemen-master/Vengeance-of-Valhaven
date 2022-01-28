@@ -81,7 +81,7 @@ public class Player : Actor, IMovementStatusProvider
             readyToRoll = false;
             this.WaitAndAct(totalRollCooldown, () => readyToRoll = true);
 
-            AnimController.Play(CommonAnimStrings.Dash);
+            Animator.Play(CommonAnimStrings.Dash);
         }
     }
 
@@ -90,6 +90,6 @@ public class Player : Actor, IMovementStatusProvider
     private void Interrupt()
     {
         InterruptSubject.Next();
-        AnimController.Play(CommonAnimStrings.Interrupted);
+        Animator.Play(CommonAnimStrings.Interrupted);
     }
 }
