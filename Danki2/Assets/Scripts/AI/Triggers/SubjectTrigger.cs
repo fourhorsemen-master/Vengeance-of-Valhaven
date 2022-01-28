@@ -7,7 +7,6 @@
     public SubjectTrigger(Subject subject)
     {
         this.subject = subject;
-        this.subject = subject;
     }
 
     public override void Activate()
