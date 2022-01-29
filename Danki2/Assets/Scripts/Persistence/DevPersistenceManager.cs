@@ -49,29 +49,23 @@ public class DevPersistenceManager : PersistenceManager
 
     private SaveData GenerateNewSaveData()
     {
-        Dictionary<SerializableGuid, int> ownedAbilities = new Dictionary<SerializableGuid, int>();
-        AbilityLookup.Instance.ForEachAbilityId(abilityId => ownedAbilities[abilityId] = ownedAbilityCount);
+        List<Ability> ownedAbilities = new List<Ability>();
 
-        if (!AbilityLookup.Instance.TryGetAbilityId(leftAbilityName, out SerializableGuid leftAbilityId))
-        {
-            Debug.LogError($"Invalid left starting ability name: {leftAbilityName}.");
-        }
+        Ability leftStartingAbility = CustomAbilityLookup.Instance.GetByName(leftAbilityName);
 
-        if (!AbilityLookup.Instance.TryGetAbilityId(rightAbilityName, out SerializableGuid rightAbilityId))
-        {
-            Debug.LogError($"Invalid right starting ability name: {rightAbilityName}.");
-        }
+        Ability rightStartingAbility = CustomAbilityLookup.Instance.GetByName(rightAbilityName);
 
-        List<SerializableGuid> abilityChoices = new List<SerializableGuid>();
+        ownedAbilities.Add(leftStartingAbility);
+        ownedAbilities.Add(rightStartingAbility);
+
+        List<Ability> abilityChoices = new List<Ability>();
         abilityChoiceNames.ForEach(abilityName =>
         {
-            if (!AbilityLookup.Instance.TryGetAbilityId(abilityName, out SerializableGuid abilityId))
-            {
-                Debug.LogError($"Invalid ability name in ability choices: {abilityName}.");
-                return;
-            }
+            Ability abilityChoice = CustomAbilityLookup.Instance.GetByName(
+                MapGenerationLookup.Instance.RightStartingAbilityName
+            );
 
-            abilityChoices.Add(abilityId);
+            abilityChoices.Add(abilityChoice);
         });
         
         return new SaveData
@@ -79,8 +73,8 @@ public class DevPersistenceManager : PersistenceManager
             PlayerHealth = playerHealth,
             SerializableAbilityTree = AbilityTreeFactory.CreateTree(
                 ownedAbilities,
-                AbilityTreeFactory.CreateNode(leftAbilityId),
-                AbilityTreeFactory.CreateNode(rightAbilityId)
+                AbilityTreeFactory.CreateNode(leftStartingAbility),
+                AbilityTreeFactory.CreateNode(rightStartingAbility)
             ).Serialize(),
             RuneSockets = runeSockets,
             RuneOrder = runeOrder,

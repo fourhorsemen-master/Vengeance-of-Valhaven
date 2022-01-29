@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public abstract class AbilityTree
@@ -22,13 +23,13 @@ public abstract class AbilityTree
 
     public Subject ChangeSubject { get; } = new Subject();
 
-    public Dictionary<SerializableGuid, int> OwnedAbilities { get; }
+    public List<Ability> OwnedAbilities { get; }
 
-    public Dictionary<SerializableGuid, int> Inventory { get; private set; }
+    public List<Ability> Inventory { get; private set; }
 
     public Direction DirectionLastWalked { get; private set; }
 
-    protected AbilityTree(Dictionary<SerializableGuid, int> ownedAbilities, Node rootNode)
+    protected AbilityTree(List<Ability> ownedAbilities, Node rootNode)
     {
         OwnedAbilities = ownedAbilities;
 
@@ -57,9 +58,9 @@ public abstract class AbilityTree
         return currentNode.HasChild(Direction.Left) || currentNode.HasChild(Direction.Right);
     }
 
-    public SerializableGuid GetAbilityId(Direction direction)
+    public Ability GetAbility(Direction direction)
     {
-        return currentNode.GetChild(direction).AbilityId;
+        return currentNode.GetChild(direction).Ability;
     }
 
     public void Walk(Direction direction)
@@ -87,9 +88,9 @@ public abstract class AbilityTree
         CurrentDepthSubject.Next(CurrentDepth);
     }
 
-    public void AddToInventory(SerializableGuid abilityId)
+    public void AddToInventory(Ability ability)
     {
-        OwnedAbilities[abilityId]++;
+        OwnedAbilities.Add(ability);
         UpdateInventory();
     }
 
@@ -100,17 +101,12 @@ public abstract class AbilityTree
 
     private void UpdateInventory()
     {
-        Inventory = new Dictionary<SerializableGuid, int>();
-        AbilityLookup.Instance.ForEachAbilityId(abilityId =>
-        {
-            Inventory[abilityId] = OwnedAbilities[abilityId];
-        });
+        Inventory = OwnedAbilities.Select(x => x).ToList();
 
         RootNode.IterateDown(
             n =>
             {
-                Inventory[n.AbilityId] -= 1;
-                if (Inventory[n.AbilityId] < 0) Debug.LogError("Tree abilities not subset of owned abilities.");
+                Inventory.RemoveAll(x => x.ID.Equals(n.Ability.ID));
             },
             n => !n.IsRootNode
         );

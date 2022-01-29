@@ -28,10 +28,10 @@ public class AbilityInsertListener : MonoBehaviour
         );
     }
 
-    internal void Activate(Node node, SerializableGuid abilityId)
+    internal void Activate(Node node)
     {
         // Set Central area
-        if (!node.IsRootNode && node.AbilityId != abilityId)
+        if (!node.IsRootNode)
         {
             centralArea.gameObject.SetActive(true);
         }

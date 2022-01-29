@@ -31,13 +31,10 @@ public class AbilityListDisplay : MonoBehaviour
             Destroy(child.gameObject);
         }
         
-        foreach (KeyValuePair<SerializableGuid, int> item in player.AbilityTree.Inventory)
+        foreach (Ability ability in player.AbilityTree.Inventory)
         {
-            if (item.Value > 0)
-            {
-                AbilityListingPanel abilityListingPanel = Instantiate(abilityListingPanelPrefab, Vector3.zero, Quaternion.identity, transform);
-                abilityListingPanel.Initialise(item.Key, item.Value);
-            }
+            AbilityListingPanel abilityListingPanel = Instantiate(abilityListingPanelPrefab, Vector3.zero, Quaternion.identity, transform);
+            abilityListingPanel.Initialise(ability);
         }
 
         // PreferredHeight isn't up to date until next frame, so we set the content height then.

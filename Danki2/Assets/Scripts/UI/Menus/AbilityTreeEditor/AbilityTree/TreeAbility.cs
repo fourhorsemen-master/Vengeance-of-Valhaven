@@ -33,18 +33,18 @@ public class TreeAbility : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     private AbilityEmpowermentContainer empowermentPanel = null;
 
     private Node node;
-    private Subscription<SerializableGuid> dragStartSubscription;
-    private Subscription<SerializableGuid> dragStopSubscription;
+    private Subscription<Ability> dragStartSubscription;
+    private Subscription<Ability> dragStopSubscription;
 
     private AbilityTooltip tooltip;
     
     private void Start()
     {
         dragStartSubscription = AbilityTreeEditorMenu.Instance.ListAbilityDragStartSubject
-            .Subscribe(abilityId => abilityInsertListener.Activate(node, abilityId));
+            .Subscribe(_ => abilityInsertListener.Activate(node));
 
         dragStopSubscription = AbilityTreeEditorMenu.Instance.ListAbilityDragStopSubject
-            .Subscribe(abilityId => abilityInsertListener.Deactivate());
+            .Subscribe(_ => abilityInsertListener.Deactivate());
 
         abilityInsertListener.AbilityInsertSubject.Subscribe(location =>
         {
@@ -103,8 +103,7 @@ public class TreeAbility : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         {
             Node otherNode = AbilityTreeEditorMenu.Instance.CurrentTreeNodeHover;
 
-            if (node.CanSwapAbilitiesWith(otherNode))
-                node.SwapAbilitiesWith(otherNode);
+            node.SwapAbilitiesWith(otherNode);
         }
 
         AbilityTreeEditorMenu.Instance.TreeAbilityDragStopSubject.Next();
@@ -130,8 +129,8 @@ public class TreeAbility : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         }
         else
         {
-            abilityImage.sprite = AbilityLookup.Instance.GetIcon(node.AbilityId);
-            empowermentPanel.SetEmpowerments(node.AbilityId);
+            abilityImage.sprite = AbilityTypeLookup.Instance.GetAbilityIcon(node.Ability.Type);
+            empowermentPanel.SetEmpowerments(node.Ability);
         }
     }
 

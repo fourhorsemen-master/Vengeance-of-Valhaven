@@ -44,28 +44,23 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
     
     private void SetAbilityTree(SaveData saveData)
     {
-        Dictionary<SerializableGuid, int> ownedAbilities = new Dictionary<SerializableGuid, int>();
-        AbilityLookup.Instance.ForEachAbilityId(abilityId => ownedAbilities[abilityId] = 0);
+        List<Ability> ownedAbilities = new List<Ability>();
 
-        if (!AbilityLookup.Instance.TryGetAbilityId(MapGenerationLookup.Instance.LeftStartingAbilityName, out SerializableGuid leftAbilityId))
-        {
-            Debug.LogError($"Invalid left starting ability name: {MapGenerationLookup.Instance.LeftStartingAbilityName}.");
-            return;
-        }
+        Ability leftStartingAbility = CustomAbilityLookup.Instance.GetByName(
+            MapGenerationLookup.Instance.LeftStartingAbilityName
+        );
 
-        if (!AbilityLookup.Instance.TryGetAbilityId(MapGenerationLookup.Instance.RightStartingAbilityName, out SerializableGuid rightAbilityId))
-        {
-            Debug.LogError($"Invalid right starting ability name: {MapGenerationLookup.Instance.RightStartingAbilityName}.");
-            return;
-        }
+        Ability rightStartingAbility = CustomAbilityLookup.Instance.GetByName(
+            MapGenerationLookup.Instance.RightStartingAbilityName
+        );
 
-        ownedAbilities[leftAbilityId]++;
-        ownedAbilities[rightAbilityId]++;
+        ownedAbilities.Add(leftStartingAbility);
+        ownedAbilities.Add(rightStartingAbility);
 
         saveData.SerializableAbilityTree = AbilityTreeFactory.CreateTree(
             ownedAbilities,
-            AbilityTreeFactory.CreateNode(leftAbilityId),
-            AbilityTreeFactory.CreateNode(rightAbilityId)
+            AbilityTreeFactory.CreateNode(leftStartingAbility),
+            AbilityTreeFactory.CreateNode(rightStartingAbility)
         ).Serialize();
     }
 

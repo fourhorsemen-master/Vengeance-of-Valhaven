@@ -11,7 +11,7 @@ public abstract class Node
 
     public Node Parent { get; set; }
 
-    public SerializableGuid AbilityId { get; private set; }
+    public Ability Ability { get; private set; }
 
     public int Depth => IsRootNode ? 0 : Parent.Depth + 1;
 
@@ -22,9 +22,9 @@ public abstract class Node
     {
     }
 
-    protected Node(SerializableGuid abilityId)
+    protected Node(Ability ability)
     {
-        AbilityId = abilityId;
+        Ability = ability;
     }
 
     public bool HasChild(Direction direction)
@@ -85,9 +85,9 @@ public abstract class Node
         return Mathf.Max(maxLeftDepth, maxRightDepth) + 1;
     }
 
-    public void Insert(SerializableGuid abilityId, InsertArea area)
+    public void Insert(Ability ability, InsertArea area)
     {
-        Node newNode = AbilityTreeFactory.CreateNode(abilityId);
+        Node newNode = AbilityTreeFactory.CreateNode(ability);
 
         switch (area)
         {
@@ -97,7 +97,7 @@ public abstract class Node
                     Debug.LogError("Tried to insert ability into root node.");
                     return;
                 }
-                AbilityId = abilityId;
+                Ability = ability;
                 break;
 
             case InsertArea.BottomLeft:
@@ -129,22 +129,11 @@ public abstract class Node
         Parent.RemoveChild(GetDirectionFromParent());
     }
 
-    public bool CanSwapAbilitiesWith(Node otherNode)
-    {
-        return true;
-        // return
-        //     this != otherNode
-        //     && !(otherNode.IsParent)
-        //     && !(IsParent);
-    }
-
     public void SwapAbilitiesWith(Node node)
     {
-        if (!CanSwapAbilitiesWith(node)) return;
-
-        SerializableGuid otherAbilityId = node.AbilityId;
-        node.AbilityId = AbilityId;
-        AbilityId = otherAbilityId;
+        Ability otherAbility = node.Ability;
+        node.Ability = Ability;
+        Ability = otherAbility;
 
         ChangeSubject.Next();
     }

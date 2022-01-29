@@ -6,8 +6,6 @@ public class AbilitySoundEffectManager : MonoBehaviour
     [SerializeField]
     private Player player = null;
 
-    private SerializableGuid CurrentAbilityId => player.CurrentCast.AbilityId;
-
     private void Start()
     {
         player.AbilityAnimationListener.StartSubject
@@ -38,9 +36,8 @@ public class AbilitySoundEffectManager : MonoBehaviour
         PlayAbilityEvent(impactEvent);
     }
 
-    private AbilityFmodEvents GetAbilityFmodEvents() => AbilityTypeLookup.Instance.GetAbilityFmodEvents(
-        AbilityLookup.Instance.GetAbilityType(CurrentAbilityId)
-    );
+    private AbilityFmodEvents GetAbilityFmodEvents() =>
+        AbilityTypeLookup.Instance.GetAbilityFmodEvents(player.CurrentCast.Ability.Type);
 
     private void PlayAbilityEvent(string fmodEvent)
     {

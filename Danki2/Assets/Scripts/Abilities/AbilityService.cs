@@ -42,8 +42,7 @@ public class AbilityService
 
     public void Cast(Direction direction, Vector3 targetPosition)
     {
-        SerializableGuid abilityId = player.AbilityTree.GetAbilityId(direction);
-        AbilityType abilityType = AbilityLookup.Instance.GetAbilityType(abilityId);
+        Ability ability = player.AbilityTree.GetAbility(direction);
 
         player.AbilityTree.Walk(direction);
 
@@ -55,15 +54,14 @@ public class AbilityService
         Vector3 castDirection = targetPosition - player.transform.position;
         Quaternion currentCastRotation = AbilityUtils.GetMeleeCastRotation(castDirection);
 
-        Vector3 collisionTemplateOrigin = abilityType == AbilityType.Smash
+        Vector3 collisionTemplateOrigin = ability.Type == AbilityType.Smash
             ? player.transform.position + player.transform.forward * 1.2f
             : player.CollisionTemplateSource;
 
-        abilityAnimator.HandleAnimation(abilityId);
+        abilityAnimator.HandleAnimation(ability.Type);
 
         CurrentCast = new CastContext(
-            abilityId,
-            abilityType,
+            ability,
             currentCastRotation,
             collisionTemplateOrigin,
             empowerments,
@@ -77,15 +75,15 @@ public class AbilityService
 
         AbilityUtils.TemplateCollision(
             player,
-            collisionTemplateLookup[AbilityLookup.Instance.GetAbilityType(CurrentCast.AbilityId)],
+            collisionTemplateLookup[CurrentCast.Ability.Type],
             AbilityRange,
             CurrentCast.CollisionTemplateOrigin,
             CurrentCast.CastRotation,
-            AbilityTypeLookup.Instance.GetCollisionSoundLevel(AbilityLookup.Instance.GetAbilityType(CurrentCast.AbilityId)),
+            AbilityTypeLookup.Instance.GetCollisionSoundLevel(CurrentCast.Ability.Type),
             enemyCallback: enemy =>
             {
                 hasDealtDamage = true;
-                HandleCollision(CurrentCast.AbilityId, enemy, CurrentCast.Empowerments);
+                HandleCollision(CurrentCast.Ability, enemy, CurrentCast.Empowerments);
             }
         );
 
@@ -104,7 +102,7 @@ public class AbilityService
             : player.AbilityTree.CurrentNode.Parent;
 
         iterateFromNode.IterateUp(
-            node => empowerments.AddRange(AbilityLookup.Instance.GetEmpowerments(node.AbilityId)),
+            node => empowerments.AddRange(node.Ability.Empowerments),
             node => !node.IsRootNode
         );
 
@@ -114,7 +112,7 @@ public class AbilityService
         return empowerments;
     }
 
-    private void HandleCollision(SerializableGuid abilityId, Enemy enemy, List<Empowerment> empowerments)
+    private void HandleCollision(Ability ability, Enemy enemy, List<Empowerment> empowerments)
     {
         enemy.EffectManager.AddStacks(StackingEffect.Bleed, CalculateBleedStacks(empowerments));
         enemy.EffectManager.AddStacks(StackingEffect.Purge, CalculatePurgeStacks(empowerments));
@@ -122,13 +120,13 @@ public class AbilityService
         {
             enemy.EffectManager.AddActiveEffect(ActiveEffect.Poison, EnvenomPoisonDuration);
         }
-        enemy.HealthManager.ReceiveDamage(CalculateDamage(abilityId, empowerments, enemy), player, empowerments);
+        enemy.HealthManager.ReceiveDamage(CalculateDamage(ability, empowerments, enemy), player, empowerments);
         HandleShock(enemy, empowerments);
     }
 
-    private int CalculateDamage(SerializableGuid abilityId, List<Empowerment> empowerments, Enemy enemy)
+    private int CalculateDamage(Ability ability, List<Empowerment> empowerments, Enemy enemy)
     {
-        float damage = AbilityLookup.Instance.GetDamage(abilityId);
+        float damage = ability.Damage;
         damage = HandleImpactDamage(damage, empowerments);
         damage = HandleDuelDamage(damage, empowerments);
         damage = HandleBrawlDamage(damage, empowerments);

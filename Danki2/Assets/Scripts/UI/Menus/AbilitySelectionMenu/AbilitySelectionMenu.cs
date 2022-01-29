@@ -8,7 +8,7 @@ public class AbilitySelectionMenu : MonoBehaviour
 
     private readonly List<ISubscription> subscriptions = new List<ISubscription>();
 
-    private SerializableGuid selectedAbilityId = default;
+    private Ability selectedAbility = default;
 
     public Subject SkipClickedSubject { get; } = new Subject();
     public Subject ConfirmClickedSubject { get; } = new Subject();
@@ -21,7 +21,7 @@ public class AbilitySelectionMenu : MonoBehaviour
             abilityOptionPanels.AbilitySelectedSubject.Subscribe(HandleAbilitySelection),
             abilityOptionPanels.AbilityDeselectedSubject.Subscribe(HandleAbilityDeselection),
             abilityOptionButtons.SkipSubject.Subscribe(HandleSkip),
-            abilityOptionButtons.ConfirmSubject.Subscribe(() => HandleConfirm(selectedAbilityId))
+            abilityOptionButtons.ConfirmSubject.Subscribe(() => HandleConfirm(selectedAbility))
         );
     }
 
@@ -31,23 +31,23 @@ public class AbilitySelectionMenu : MonoBehaviour
         subscriptions.Clear();
     }
 
-    private void HandleAbilitySelection(SerializableGuid abilityId)
+    private void HandleAbilitySelection(Ability ability)
     {
-        selectedAbilityId = abilityId;
+        selectedAbility = ability;
         abilityOptionButtons.CanConfirm = true;
     }
 
     private void HandleAbilityDeselection()
     {
-        selectedAbilityId = default;
+        selectedAbility = null;
         abilityOptionButtons.CanConfirm = false;
     }
 
     private void HandleSkip() => SkipClickedSubject.Next();
 
-    private void HandleConfirm(SerializableGuid abilityId)
+    private void HandleConfirm(Ability ability)
     {
-        AbilitySelectionRoomManager.Instance.SelectAbility(abilityId);
+        AbilitySelectionRoomManager.Instance.SelectAbility(ability);
         ConfirmClickedSubject.Next();
     }
 }

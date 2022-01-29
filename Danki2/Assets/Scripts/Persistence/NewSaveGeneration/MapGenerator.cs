@@ -233,20 +233,34 @@ public class MapGenerator : Singleton<MapGenerator>
 
     private void SetAbilityData(RoomNode node)
     {
-        List<SerializableGuid> choices = new List<SerializableGuid>();
-        AbilityLookup.Instance.ForEachAbilityId(abilityId =>
-        {
-            Rarity rarity = AbilityLookup.Instance.GetRarity(abilityId);
-            int weighting = RarityLookup.Instance.Lookup[rarity].Weighting;
-            Utils.Repeat(weighting, () => choices.Add(abilityId));
-        });
+        //TODO: generate random abilities
 
         Utils.Repeat(MapGenerationLookup.Instance.AbilityChoices, () =>
         {
-            SerializableGuid choice = RandomUtils.Choice(choices);
-            node.AbilityRoomSaveData.AbilityChoices.Add(choice);
-            choices.RemoveAll(c => Equals(c, choice));
+            node.AbilityRoomSaveData.AbilityChoices.Add(new Ability
+            (
+                "Test",
+                AbilityType.Smash,
+                5,
+                Rarity.Common,
+                new List<Empowerment> { Empowerment.Envenom }
+            ));
         });
+
+        //List<SerializableGuid> choices = new List<SerializableGuid>();
+        //AbilityLookup.Instance.ForEachAbilityId(abilityId =>
+        //{
+        //    Rarity rarity = AbilityLookup.Instance.GetRarity(abilityId);
+        //    int weighting = RarityLookup.Instance.Lookup[rarity].Weighting;
+        //    Utils.Repeat(weighting, () => choices.Add(abilityId));
+        //});
+
+        //Utils.Repeat(MapGenerationLookup.Instance.AbilityChoices, () =>
+        //{
+        //    SerializableGuid choice = RandomUtils.Choice(choices);
+        //    node.AbilityRoomSaveData.AbilityChoices.Add(choice);
+        //    choices.RemoveAll(c => Equals(c, choice));
+        //});
     }
 
     private void SetIndicatorData(RoomNode node)

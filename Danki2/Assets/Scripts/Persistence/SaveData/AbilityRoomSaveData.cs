@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 public class AbilityRoomSaveData
 {
-    public List<SerializableGuid> AbilityChoices { get; set; } = new List<SerializableGuid>();
+    public List<Ability> AbilityChoices { get; set; } = new List<Ability>();
     public bool AbilitiesViewed { get; set; } = false;
     public bool AbilitySelected { get; set; } = false;
 
@@ -10,7 +11,7 @@ public class AbilityRoomSaveData
     {
         return new SerializableAbilityRoomSaveData
         {
-            AbilityChoices = AbilityChoices,
+            AbilityChoices = AbilityChoices.Select(x => x.Serialize()).ToList(),
             AbilitiesViewed = AbilitiesViewed,
             AbilitySelected = AbilitySelected
         };

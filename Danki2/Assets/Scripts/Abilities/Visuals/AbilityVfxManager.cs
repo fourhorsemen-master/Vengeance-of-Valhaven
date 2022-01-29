@@ -38,9 +38,7 @@ public class AbilityVfxManager : MonoBehaviour
 
     private void CreateVFX(Color empowermentColor, float offset)
     {
-        AbilityType type = AbilityLookup.Instance.GetAbilityType(player.CurrentCast.AbilityId);
-
-        switch (type)
+        switch (player.CurrentCast.Ability.Type)
         {
             case AbilityType.Slash:
                 SlashObject.Create(

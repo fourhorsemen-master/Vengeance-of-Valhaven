@@ -18,10 +18,10 @@ public class AbilityTooltip : Tooltip
 
     private readonly List<AbilityBonusTooltipSection> bonusSections = new List<AbilityBonusTooltipSection>();
     
-    public static AbilityTooltip Create(Transform transform, SerializableGuid abilityId)
+    public static AbilityTooltip Create(Transform transform, Ability ability)
     {
         AbilityTooltip abilityTooltip = Instantiate(TooltipLookup.Instance.AbilityTooltipPrefab, transform);
-        abilityTooltip.Activate(abilityId);
+        abilityTooltip.Activate(ability);
 
         return abilityTooltip;
     }
@@ -29,23 +29,21 @@ public class AbilityTooltip : Tooltip
     public static AbilityTooltip Create(Transform transform, Node node)
     {
         AbilityTooltip abilityTooltip = Instantiate(TooltipLookup.Instance.AbilityTooltipPrefab, transform);
-        abilityTooltip.Activate(node.AbilityId);
+        abilityTooltip.Activate(node.Ability);
 
         return abilityTooltip;
     }
 
-    private void Activate(SerializableGuid abilityId)
+    private void Activate(Ability ability)
     {
         ActivateTooltip();
 
-        string titleText = AbilityLookup.Instance.GetDisplayName(abilityId);
-        Color color = RarityLookup.Instance.Lookup[AbilityLookup.Instance.GetRarity(abilityId)].Colour;
-        string damageText = $"Damage: {AbilityLookup.Instance.GetDamage(abilityId)}";
-        List<Empowerment> empowerments = AbilityLookup.Instance.GetEmpowerments(abilityId);
+        Color color = RarityLookup.Instance.Lookup[ability.Rarity].Colour;
+        string damageText = $"Damage: {ability.Damage}";
 
-        SetContents(titleText, color, damageText, empowerments);
+        SetContents(ability.DisplayName, color, damageText, ability.Empowerments);
 
-        ActivateSupplementaryTooltips(abilityId);
+        ActivateSupplementaryTooltips(ability);
     }
 
     private void SetContents(
@@ -73,9 +71,9 @@ public class AbilityTooltip : Tooltip
         bonusSections.Clear();
     }
 
-    private void ActivateSupplementaryTooltips(SerializableGuid abilityId)
+    private void ActivateSupplementaryTooltips(Ability ability)
     {
-        List<Empowerment> empowerments = AbilityLookup.Instance.GetEmpowerments(abilityId);
+        List<Empowerment> empowerments = ability.Empowerments;
 
         List<ActiveEffect> activeEffects = new List<ActiveEffect>();
         List<PassiveEffect> passiveEffects = new List<PassiveEffect>();
