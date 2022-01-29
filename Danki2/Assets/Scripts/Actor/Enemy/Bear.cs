@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Bear : Enemy
 {
+    private const string SwipeAnimationName = "Swipe_OneShot";
+    private const string MaulAnimationName = "Bite_OneShot";
+
     [Header("FMOD Events"), EventRef, SerializeField]
     private string roarEvent = null;
     [EventRef, SerializeField]
@@ -11,12 +14,8 @@ public class Bear : Enemy
 
     [Header("Swipe")]
     [SerializeField] private int swipeDamage = 0;
-    [SerializeField] private float swipeDashDuration = 0;
-    [SerializeField] private float swipeDashSpeedMultiplier = 0;
     [SerializeField] private float swipePauseDuration = 0;
     [SerializeField] private float swipeDamageRange = 0;
-    private const string SwipeAnimationName = "Swipe_OneShot";
-    private const string MaulAnimationName = "Bite_OneShot";
 
     [Header("Charge")]
     [SerializeField] private int chargeDamage = 0;
@@ -66,21 +65,18 @@ public class Bear : Enemy
         if (charging) ContinueCharge();
     }
 
+    public void PlaySwipeAnimation()
+    {
+        Animator.Play(SwipeAnimationName);
+    }
+
     public void Swipe()
     {
         Vector3 forward = transform.forward;
         MovementManager.LookAt(transform.position + forward);
 
-        MovementManager.LockMovement(swipeDashDuration, Speed * swipeDashSpeedMultiplier, forward, forward);
-        AnimController.Play(SwipeAnimationName);
-        
-        this.WaitAndAct(swipeDashDuration, HandleSwipeLand);
-    }
-    
-    private void HandleSwipeLand()
-    {
         Quaternion castRotation = Quaternion.LookRotation(transform.forward);
-        
+
         AbilityUtils.TemplateCollision(
             this,
             CollisionTemplateShape.Wedge90,
@@ -209,7 +205,7 @@ public class Bear : Enemy
     {
 		if (!IsCurrentAnimationState(MaulAnimationName))
 		{
-            AnimController.Play(MaulAnimationName);
+            Animator.Play(MaulAnimationName);
 		}
     }
 
