@@ -31,7 +31,6 @@ public class DevPersistenceManager : PersistenceManager
     [SerializeField] public Zone zone = Zone.Zone1;
     [SerializeField] public int depthInZone = 0;
     [SerializeField] public RoomType roomType = RoomType.Combat;
-    [SerializeField] public List<string> abilityChoiceNames = new List<string>();
     [SerializeField] public bool hasHealed = false;
     [SerializeField] public AbilityData abilityData = null;
 
@@ -59,15 +58,15 @@ public class DevPersistenceManager : PersistenceManager
         ownedAbilities.Add(rightStartingAbility);
 
         List<Ability> abilityChoices = new List<Ability>();
-        abilityChoiceNames.ForEach(abilityName =>
-        {
-            Ability abilityChoice = CustomAbilityLookup.Instance.GetByName(
-                MapGenerationLookup.Instance.RightStartingAbilityName
-            );
 
-            abilityChoices.Add(abilityChoice);
+        AbilityGenerator generator = new AbilityGenerator(zone, 0.5f);
+
+        Utils.Repeat(3, () =>
+        {
+            Ability ability = generator.Generate();
+            abilityChoices.Add(ability);
         });
-        
+
         return new SaveData
         {
             PlayerHealth = playerHealth,

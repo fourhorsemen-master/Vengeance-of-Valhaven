@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class AbilityGenerator
 {
-    private readonly RoomNode node;
-
     private readonly Dictionary<Zone, (float, float)> chanceRareByZone = new Dictionary<Zone, (float,float)>
     {
         [Zone.Zone1] = (0f, 0.25f),
@@ -26,9 +24,13 @@ public class AbilityGenerator
         [Rarity.Legendary] = 1.8f,
     };
 
-    public AbilityGenerator(RoomNode node)
+    private readonly Zone zone;
+    private readonly float depthProportion;
+
+    public AbilityGenerator(Zone zone, float depthProportion)
     {
-        this.node = node;
+        this.zone = zone;
+        this.depthProportion = depthProportion;
     }
 
     public Ability Generate()
@@ -63,13 +65,11 @@ public class AbilityGenerator
 
     private Rarity ChooseRarity()
     {
-        float zoneProgress = DepthUtils.GetDepthProportion(node);
+        (float minChanceRare, float maxChanceRare) = chanceRareByZone[zone];
+        float chanceRare = Mathf.Lerp(minChanceRare, maxChanceRare, depthProportion);
 
-        (float minChanceRare, float maxChanceRare) = chanceRareByZone[node.Zone];
-        float chanceRare = Mathf.Lerp(minChanceRare, maxChanceRare, zoneProgress);
-
-        (float minChanceLegendary, float maxChanceLegendary) = chanceLegendaryByZone[node.Zone];
-        float chanceLegendary = Mathf.Lerp(minChanceLegendary, maxChanceLegendary, zoneProgress);
+        (float minChanceLegendary, float maxChanceLegendary) = chanceLegendaryByZone[zone];
+        float chanceLegendary = Mathf.Lerp(minChanceLegendary, maxChanceLegendary, depthProportion);
 
         var randomValue = Random.value;
 

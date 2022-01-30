@@ -62,7 +62,6 @@ public class DevPersistenceManagerEditor : Editor
         devPersistenceManager.depthInZone = EditorGUILayout.IntField("Depth In Zone", devPersistenceManager.depthInZone);
         devPersistenceManager.roomType = (RoomType) EditorGUILayout.EnumPopup("Room Type", devPersistenceManager.roomType);
         if (devPersistenceManager.roomType == RoomType.Combat) EditCombatRoomData(devPersistenceManager);
-        if (devPersistenceManager.roomType == RoomType.Ability) EditAbilityRoomData(devPersistenceManager);
         if (devPersistenceManager.roomType == RoomType.Healing) EditHealingRoomData(devPersistenceManager);
         EditorGUI.indentLevel--;
 
@@ -135,21 +134,6 @@ public class DevPersistenceManagerEditor : Editor
                 spawnedEnemy.ActorType = (ActorType) EditorGUILayout.EnumPopup("Actor Type", spawnedEnemy.ActorType);
             },
             () => new DevPersistenceManager.SpawnedEnemy()
-        );
-        
-        EditorGUI.indentLevel--;
-    }
-
-    private void EditAbilityRoomData(DevPersistenceManager devPersistenceManager)
-    {
-        EditorUtils.Header("Ability Choices");
-        
-        EditorGUI.indentLevel++;
-        
-        EditorUtils.ResizeableList(
-            devPersistenceManager.abilityChoiceNames,
-            abilityChoice => AbilityDataUtils.EditAbilityName("Ability Choice", abilityChoice, devPersistenceManager.abilityData),
-            ""
         );
         
         EditorGUI.indentLevel--;
