@@ -11,7 +11,7 @@ public class AbilityRoomSaveData
     {
         return new SerializableAbilityRoomSaveData
         {
-            AbilityChoices = AbilityChoices.Select(x => x.Serialize()).ToList(),
+            AbilityChoices = AbilityChoices?.Select(x => x.Serialize()).ToList(),
             AbilitiesViewed = AbilitiesViewed,
             AbilitySelected = AbilitySelected
         };

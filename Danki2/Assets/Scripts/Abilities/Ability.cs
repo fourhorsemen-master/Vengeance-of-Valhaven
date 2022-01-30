@@ -16,11 +16,11 @@ public class Ability
     }
 
     public SerializableGuid ID { get; private set; }
-    public string DisplayName { get; set; }
-    public AbilityType Type { get; set; }
-    public int Damage { get; set; }
-    public Rarity Rarity { get; set; }
-    public List<Empowerment> Empowerments { get; set; }
+    public string DisplayName { get; private set; }
+    public AbilityType Type { get; private set; }
+    public int Damage { get; private set; }
+    public Rarity Rarity { get; private set; }
+    public List<Empowerment> Empowerments { get; private set; }
 
     public SerializableAbility Serialize()
     {
