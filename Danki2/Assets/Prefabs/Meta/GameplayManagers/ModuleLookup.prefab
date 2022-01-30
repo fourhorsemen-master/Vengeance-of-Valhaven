@@ -153,9 +153,9 @@ MonoBehaviour:
           type: 3}
         zones: 01000000
         tags: 06000000
-        allowAnyFreeRotation: 0
-        minFreeRotation: -90
-        maxFreeRotation: 90
+        allowAnyFreeRotation: 1
+        minFreeRotation: 0
+        maxFreeRotation: 360
         distinctRotations: []
     - socketRotationType: 0
       moduleData:
