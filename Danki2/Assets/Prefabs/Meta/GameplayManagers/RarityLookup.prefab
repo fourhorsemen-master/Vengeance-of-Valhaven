@@ -53,14 +53,56 @@ MonoBehaviour:
       weighting: 10
       colour: {r: 1, g: 1, b: 1, a: 1}
       frame: {fileID: 21300000, guid: 8150d91eba0aa5741a53facf7fc75e97, type: 3}
-      augmentations: []
+      augmentations:
+      - descriptor: Heavy
+        empowerments: 00000000
+      - descriptor: Rupturing
+        empowerments: 01000000
+      - descriptor: Decapitating
+        empowerments: 02000000
+      - descriptor: Maiming
+        empowerments: 03000000
+      - descriptor: Challenging
+        empowerments: 04000000
+      - descriptor: Sweeping
+        empowerments: 05000000
+      - descriptor: Electrified
+        empowerments: 06000000
+      - descriptor: Siphoning
+        empowerments: 07000000
+      - descriptor: Venomous
+        empowerments: 08000000
+      - descriptor: Purging
+        empowerments: 09000000
     - displayName: Rare
       weighting: 5
       colour: {r: 0, g: 0.5882353, b: 1, a: 1}
       frame: {fileID: 21300000, guid: ad047d856b326bd42b9a0d04d8da43e3, type: 3}
-      augmentations: []
+      augmentations:
+      - descriptor: Puncturing
+        empowerments: 0000000001000000
+      - descriptor: Wicked
+        empowerments: 0000000009000000
+      - descriptor: Putrid
+        empowerments: 0100000008000000
+      - descriptor: Finishing
+        empowerments: 0200000004000000
+      - descriptor: Consuming
+        empowerments: 0200000007000000
+      - descriptor: Menacing
+        empowerments: 0300000004000000
+      - descriptor: Septic
+        empowerments: 0300000008000000
+      - descriptor: Conductive
+        empowerments: 0500000006000000
+      - descriptor: Pillaging
+        empowerments: 0500000007000000
     - displayName: Legendary
       weighting: 2
       colour: {r: 1, g: 0.84313726, b: 0, a: 1}
       frame: {fileID: 21300000, guid: 276dc5f2246d3ff4b986edb9147b350d, type: 3}
-      augmentations: []
+      augmentations:
+      - descriptor: Terrifying
+        empowerments: 000000000400000003000000
+      - descriptor: Decimating
+        empowerments: 000000000500000006000000

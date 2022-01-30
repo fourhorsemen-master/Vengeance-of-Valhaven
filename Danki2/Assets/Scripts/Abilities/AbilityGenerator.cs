@@ -37,18 +37,18 @@ public class AbilityGenerator
 
         Rarity rarity = ChooseRarity();
 
-        List<Empowerment> empowerments = new List<Empowerment>();
+        Augmentation augmentation = RandomUtils.Choice(RarityLookup.Instance.Lookup[rarity].Augmentations);
 
         int damage = (int) (AbilityTypeLookup.Instance.GetAbilityBaseDamage(type) * rarityDamageMultipliers[rarity]);
 
-        string displayName = "Generated Ability";
+        string displayName = $"{augmentation.Descriptor} {type}";
 
         return new Ability(
             displayName,
             type,
             damage,
             rarity,
-            empowerments
+            augmentation.Empowerments
         );
     }
 
