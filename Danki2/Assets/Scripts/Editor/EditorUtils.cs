@@ -87,10 +87,11 @@ public static class EditorUtils
         T defaultValue,
         Action<T> itemAddedCallback = null,
         Action<T> itemRemovedCallback = null,
-        int maxSize = -1
+        int maxSize = -1,
+        string itemName = null
     )
     {
-        ResizeableList(items, editItem, () => defaultValue, itemAddedCallback, itemRemovedCallback, maxSize);
+        ResizeableList(items, editItem, () => defaultValue, itemAddedCallback, itemRemovedCallback, maxSize, itemName);
     }
 
     /// <inheritdoc cref="ResizeableList{T}(System.Collections.Generic.List{T},System.Func{T,T},T,System.Action{T},System.Action{T})"/>
@@ -100,7 +101,8 @@ public static class EditorUtils
         Func<T> defaultValueProvider,
         Action<T> itemAddedCallback = null,
         Action<T> itemRemovedCallback = null,
-        int maxSize = -1
+        int maxSize = -1,
+        string itemName = null
     )
     {
         for (int i = 0; i < items.Count; i++)
@@ -108,7 +110,7 @@ public static class EditorUtils
             items[i] = editItem(items[i]);
         }
 
-        EditListSize(items, defaultValueProvider, itemAddedCallback, itemRemovedCallback, maxSize);
+        EditListSize(items, defaultValueProvider, itemAddedCallback, itemRemovedCallback, maxSize, itemName);
     }
 
     /// <inheritdoc cref="ResizeableList{T}(System.Collections.Generic.List{T},System.Func{T,T},T,System.Action{T},System.Action{T})"/>
@@ -118,10 +120,11 @@ public static class EditorUtils
         T defaultValue,
         Action<T> itemAddedCallback = null,
         Action<T> itemRemovedCallback = null,
-        int maxSize = -1
+        int maxSize = -1,
+        string itemName = null
     )
     {
-        ResizeableList(items, editItem, () => defaultValue, itemAddedCallback, itemRemovedCallback, maxSize);
+        ResizeableList(items, editItem, () => defaultValue, itemAddedCallback, itemRemovedCallback, maxSize, itemName);
     }
 
     /// <inheritdoc cref="ResizeableList{T}(System.Collections.Generic.List{T},System.Func{T,T},T,System.Action{T},System.Action{T})"/>
@@ -131,12 +134,13 @@ public static class EditorUtils
         Func<T> defaultValueProvider,
         Action<T> itemAddedCallback = null,
         Action<T> itemRemovedCallback = null,
-        int maxSize = -1
+        int maxSize = -1,
+        string itemName = null
     )
     {
         items.ForEach(editItem);
 
-        EditListSize(items, defaultValueProvider, itemAddedCallback, itemRemovedCallback, maxSize);
+        EditListSize(items, defaultValueProvider, itemAddedCallback, itemRemovedCallback, maxSize, itemName);
     }
 
     /// <summary>
@@ -148,10 +152,11 @@ public static class EditorUtils
         T defaultValue,
         Action<T> itemAddedCallback = null,
         Action<T> itemRemovedCallback = null,
-        int maxSize = -1
+        int maxSize = -1,
+        string itemName = null
     )
     {
-        EditListSize(list, () => defaultValue, itemAddedCallback, itemRemovedCallback, maxSize);
+        EditListSize(list, () => defaultValue, itemAddedCallback, itemRemovedCallback, maxSize, itemName);
     }
 
     /// <inheritdoc cref="EditListSize{T}(System.Collections.Generic.List{T},T,System.Action{T},System.Action{T})" />
@@ -160,14 +165,15 @@ public static class EditorUtils
         Func<T> defaultValueProvider,
         Action<T> itemAddedCallback = null,
         Action<T> itemRemovedCallback = null,
-        int maxSize = -1
+        int maxSize = -1,
+        string itemName = null
     )
     {
         GUILayout.BeginHorizontal();
         GUILayout.Space(EditorGUI.indentLevel * LineHeight);
 
         EditorGUI.BeginDisabledGroup(list.Count == maxSize);
-        if (GUILayout.Button("Add Item"))
+        if (GUILayout.Button($"Add {itemName ?? "item"}"))
         {
             T newItem = defaultValueProvider();
             list.Add(newItem);
@@ -176,7 +182,7 @@ public static class EditorUtils
         EditorGUI.EndDisabledGroup();
 
         EditorGUI.BeginDisabledGroup(list.Count == 0);
-        if (GUILayout.Button("Remove Item"))
+        if (GUILayout.Button($"Remove {itemName ?? "item"}"))
         {
             int index = list.Count - 1;
             T oldItem = list[index];
