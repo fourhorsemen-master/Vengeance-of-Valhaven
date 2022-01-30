@@ -20,8 +20,6 @@ public class HealthManager
     public Subject DamageSubject { get; } = new Subject();
     public Subject<int> HealSubject { get; } = new Subject<int>();
 
-    private const int MinimumDamageAfterStats = 1;
-
     public HealthManager(Actor actor, Subject updateSubject)
     {
         this.actor = actor;

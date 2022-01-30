@@ -25,8 +25,12 @@ public abstract class Actor : MonoBehaviour
     [SerializeField] private float rotationSmoothing = 0;
     public float RotationSmoothing => rotationSmoothing;
 
-    [SerializeField] private Animator animController = null;
-    public Animator AnimController => animController;
+    [SerializeField] private Animator animator = null;
+    public Animator Animator => animator;
+
+    [SerializeField]
+    private AbilityAnimationListener abilityAnimationListener = null;
+    public AbilityAnimationListener AbilityAnimationListener => abilityAnimationListener;
 
     [SerializeField] private Collider[] colliders = null;
     public Collider[] Colliders => colliders;
@@ -102,7 +106,7 @@ public abstract class Actor : MonoBehaviour
 
     public bool IsCurrentAnimationState(string state)
     {
-        return AnimController.GetCurrentAnimatorStateInfo(0).IsName(state);
+        return Animator.GetCurrentAnimatorStateInfo(0).IsName(state);
     }
     
     public void RegisterSpeedPipe(Func<float, float> pipe) => SpeedPipes.Add(pipe);

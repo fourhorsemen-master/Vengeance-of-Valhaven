@@ -1,30 +1,7 @@
-﻿public class TakesDamage : StateMachineTrigger
+﻿public class TakesDamage : SubjectTrigger
 {
-    private readonly Actor actor;
-
-    private bool takenDamage;
-    private Subscription damageSubscription;
-
     public TakesDamage(Actor actor)
+        : base(actor.HealthManager.DamageSubject)
     {
-        this.actor = actor;
-    }
-
-    public override void Activate()
-    {
-        takenDamage = false;
-
-        damageSubscription = actor.HealthManager.DamageSubject
-            .Subscribe(() => takenDamage = true);
-    }
-
-    public override void Deactivate()
-    {
-        damageSubscription.Unsubscribe();
-    }
-
-    public override bool Triggers()
-    {
-        return takenDamage;
     }
 }

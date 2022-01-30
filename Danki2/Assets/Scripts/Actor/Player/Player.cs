@@ -19,10 +19,6 @@ public class Player : Actor, IMovementStatusProvider
     [SerializeField]
     private AbilityAnimator abilityAnimator = null;
 
-    [SerializeField]
-    private AbilityAnimationListener abilityAnimationListener = null;
-    public AbilityAnimationListener AbilityAnimationListener => abilityAnimationListener;
-
     private bool readyToRoll = true;
 
     public bool CanCast => !Dead && !MovementManager.Stunned && !MovementManager.MovementLocked;
@@ -85,7 +81,7 @@ public class Player : Actor, IMovementStatusProvider
             readyToRoll = false;
             this.WaitAndAct(totalRollCooldown, () => readyToRoll = true);
 
-            AnimController.Play(CommonAnimStrings.Dash);
+            Animator.Play(CommonAnimStrings.Dash);
         }
     }
 
@@ -94,6 +90,6 @@ public class Player : Actor, IMovementStatusProvider
     private void Interrupt()
     {
         InterruptSubject.Next();
-        AnimController.Play(CommonAnimStrings.Interrupted);
+        Animator.Play(CommonAnimStrings.Interrupted);
     }
 }

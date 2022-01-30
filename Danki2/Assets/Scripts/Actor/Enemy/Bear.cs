@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Bear : Enemy
 {
+    private const string SwipeAnimationName = "Swipe_OneShot";
+    private const string MaulAnimationName = "Bite_OneShot";
+
     [Header("FMOD Events"), EventRef, SerializeField]
     private string roarEvent = null;
     [EventRef, SerializeField]
@@ -11,11 +14,8 @@ public class Bear : Enemy
 
     [Header("Swipe")]
     [SerializeField] private int swipeDamage = 0;
-    [SerializeField] private float swipeDashDuration = 0;
-    [SerializeField] private float swipeDashSpeedMultiplier = 0;
     [SerializeField] private float swipePauseDuration = 0;
     [SerializeField] private float swipeDamageRange = 0;
-    private const string SwipeAnimationName = "Swipe_OneShot";
 
     [Header("Charge")]
     [SerializeField] private int chargeDamage = 0;
@@ -65,21 +65,18 @@ public class Bear : Enemy
         if (charging) ContinueCharge();
     }
 
+    public void PlaySwipeAnimation()
+    {
+        Animator.Play(SwipeAnimationName);
+    }
+
     public void Swipe()
     {
         Vector3 forward = transform.forward;
         MovementManager.LookAt(transform.position + forward);
 
-        MovementManager.LockMovement(swipeDashDuration, Speed * swipeDashSpeedMultiplier, forward, forward);
-        AnimController.Play(SwipeAnimationName);
-        
-        this.WaitAndAct(swipeDashDuration, HandleSwipeLand);
-    }
-    
-    private void HandleSwipeLand()
-    {
         Quaternion castRotation = Quaternion.LookRotation(transform.forward);
-        
+
         AbilityUtils.TemplateCollision(
             this,
             CollisionTemplateShape.Wedge90,
@@ -144,6 +141,7 @@ public class Bear : Enemy
         );
 
         SwipeObject.Create(AbilitySource, castRotation);
+        BeginBiteAnim();
     }
 
     private void ChargeKnockBack(Player player)
@@ -164,8 +162,16 @@ public class Bear : Enemy
     {
         Vector3 floorTargetPosition = transform.position + transform.forward;
         MovementManager.LookAt(floorTargetPosition);
+
+        MovementManager.Pause(maulBiteInterval * maulBiteCount);
+
         MaulObject maulObject = MaulObject.Create(AbilitySource);
-        this.ActOnInterval(maulBiteInterval, index => HandleMaulBite(index, maulObject), 0, maulBiteCount);
+        this.ActOnInterval(
+            maulBiteInterval,
+            index => HandleMaulBite(index, maulObject),
+            initialInterval: 0,
+            numRepetitions: maulBiteCount
+        );
     }
 
     private void HandleMaulBite(int index, MaulObject maulObject)
@@ -178,6 +184,7 @@ public class Bear : Enemy
         Quaternion castRotation = AbilityUtils.GetMeleeCastRotation(randomisedCastDirection);
 
         maulObject.Bite(castRotation);
+        BeginBiteAnim();
 
         AbilityUtils.TemplateCollision(
             this,
@@ -192,8 +199,14 @@ public class Bear : Enemy
                 CustomCamera.Instance.AddShake(ShakeIntensity.Medium);
             }
         );
+    }
 
-        MovementManager.Pause(maulBiteInterval);
+    private void BeginBiteAnim()
+    {
+		if (!IsCurrentAnimationState(MaulAnimationName))
+		{
+            Animator.Play(MaulAnimationName);
+		}
     }
 
     public void Cleave()

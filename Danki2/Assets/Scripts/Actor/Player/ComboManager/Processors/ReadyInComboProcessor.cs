@@ -13,7 +13,7 @@ public class ReadyInComboProcessor : ReadyProcessor
     {
         if (base.TryCompleteProcess(out newState)) return true;
 
-        AnimatorStateInfo currentState = player.AnimController.GetCurrentAnimatorStateInfo(0);
+        AnimatorStateInfo currentState = player.Animator.GetCurrentAnimatorStateInfo(0);
 
         if (currentState.IsName(CommonAnimStrings.Locomotion))
         {

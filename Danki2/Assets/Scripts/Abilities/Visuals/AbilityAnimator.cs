@@ -40,18 +40,18 @@ public class AbilityAnimator : MonoBehaviour
     {
         if (!currentAbilityType.HasValue) return;
 
-        float normalizedtime = player.AnimController.GetCurrentAnimatorStateInfo(0).normalizedTime;
+        float normalizedtime = player.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
 
         if (currentNormalizedTime.HasValue && normalizedtime < currentNormalizedTime)
         {
-            player.AnimController.speed = 1f;
+            player.Animator.speed = 1f;
             currentAbilityType = null;
             return;
         }
 
         currentNormalizedTime = currentNormalizedTime.HasValue ? normalizedtime : 0f;
 
-        player.AnimController.speed = abilityTypeToAnimationSpeedCurveDictionary[currentAbilityType.Value]
+        player.Animator.speed = abilityTypeToAnimationSpeedCurveDictionary[currentAbilityType.Value]
             .Evaluate(normalizedtime);
     }
 
@@ -60,7 +60,7 @@ public class AbilityAnimator : MonoBehaviour
         AbilityType type = AbilityLookup.Instance.GetAbilityType(abilityId);
         AbilityAnimationType abilityAnimationType = abilityTypeToAnimationTypeDictionary[type];
         string animationState = AnimationStringLookup.LookupTable[abilityAnimationType];
-        player.AnimController.Play(animationState);
+        player.Animator.Play(animationState);
 
         currentAbilityType = type;
         currentNormalizedTime = null;
@@ -69,6 +69,6 @@ public class AbilityAnimator : MonoBehaviour
     private void OnInterrupt()
     {
         currentAbilityType = null;
-        player.AnimController.speed = 1;
+        player.Animator.speed = 1;
     }
 }

@@ -12,7 +12,7 @@ public class LocomotionAnimator : MonoBehaviour
 
     void Update()
     {
-        AnimatorStateInfo currentState = actor.AnimController.GetCurrentAnimatorStateInfo(0);
+        AnimatorStateInfo currentState = actor.Animator.GetCurrentAnimatorStateInfo(0);
         float currentForwardValue = 0f;
 
         if (currentState.IsName(CommonAnimStrings.Locomotion))
@@ -23,7 +23,7 @@ public class LocomotionAnimator : MonoBehaviour
             currentForwardValue = speed / (animData.ForwardRunSpeed * Time.deltaTime);
         }
 
-        actor.AnimController.SetFloat(CommonAnimStrings.ForwardBlend, currentForwardValue, 0.1f, Time.deltaTime);
+        actor.Animator.SetFloat(CommonAnimStrings.ForwardBlend, currentForwardValue, 0.1f, Time.deltaTime);
 
         positionLastFrame = gameObject.transform.position;
     }

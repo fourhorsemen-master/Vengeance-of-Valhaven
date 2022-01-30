@@ -11,14 +11,14 @@ public class TelegraphAttack : IStateMachineComponent
         this.telegraphColour = telegraphColour;
     }
 
-    public void Enter()
+    public virtual void Enter()
     {
         enemy.MovementManager.StopPathfinding();
         enemy.MovementManager.ClearWatch();
         enemy.StartTelegraph(telegraphColour);
     }
 
-    public void Exit()
+    public virtual void Exit()
     {
         enemy.StopTelegraph();
     }
