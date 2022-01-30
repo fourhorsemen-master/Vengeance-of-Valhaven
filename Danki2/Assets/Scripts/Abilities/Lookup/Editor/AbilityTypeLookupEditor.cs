@@ -31,6 +31,7 @@ public class AbilityTypeLookupEditor : Editor
         EditIcon(abilityType);
         EditCollisionSoundLevel(abilityType);
         EditAbilityVocalisationType(abilityType);
+        EditAbilityBaseDamage(abilityType);
         EditAbilityFmodEvents(abilityType);
     }
 
@@ -57,6 +58,14 @@ public class AbilityTypeLookupEditor : Editor
         abilityTypeLookup.abilityVocalisationTypeDictionary[abilityType] = (AbilityVocalisationType) EditorGUILayout.EnumPopup(
             "Vocalisation Type",
             abilityTypeLookup.abilityVocalisationTypeDictionary[abilityType]
+        );
+    }
+
+    private void EditAbilityBaseDamage(AbilityType abilityType)
+    {
+        abilityTypeLookup.abilityBaseDamageDictionary[abilityType] = EditorGUILayout.IntField(
+            "Base Damage",
+            abilityTypeLookup.abilityBaseDamageDictionary[abilityType]
         );
     }
 

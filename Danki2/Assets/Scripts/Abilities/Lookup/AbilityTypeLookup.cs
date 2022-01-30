@@ -26,15 +26,24 @@ public class AbilityIconDictionary : SerializableEnumDictionary<AbilityType, Spr
     public AbilityIconDictionary(Func<Sprite> defaultValueProvider) : base(defaultValueProvider) { }
 }
 
+[Serializable]
+public class AbilityBaseDamageDictionary : SerializableEnumDictionary<AbilityType, int>
+{
+    public AbilityBaseDamageDictionary(int defaultValue) : base(defaultValue) { }
+    public AbilityBaseDamageDictionary(Func<int> defaultValueProvider) : base(defaultValueProvider) { }
+}
+
 public class AbilityTypeLookup : Singleton<AbilityTypeLookup>
 {
     public AbilityCollisionSoundLevelDictionary abilityCollisionSoundLevelDictionary = new AbilityCollisionSoundLevelDictionary(CollisionSoundLevel.Low);
     public AbilityVocalisationTypeDictionary abilityVocalisationTypeDictionary = new AbilityVocalisationTypeDictionary(AbilityVocalisationType.None);
     public AbilityFmodEventDictionary abilityFmodEventDictionary = new AbilityFmodEventDictionary(() => new AbilityFmodEvents());
     public AbilityIconDictionary abilityIconDictionary = new AbilityIconDictionary(() => null);
+    public AbilityBaseDamageDictionary abilityBaseDamageDictionary = new AbilityBaseDamageDictionary(() => 0);
 
     public CollisionSoundLevel GetCollisionSoundLevel(AbilityType abilityType) => abilityCollisionSoundLevelDictionary[abilityType];
     public AbilityVocalisationType GetAbilityVocalisationType(AbilityType abilityType) => abilityVocalisationTypeDictionary[abilityType];
     public AbilityFmodEvents GetAbilityFmodEvents(AbilityType abilityType) => abilityFmodEventDictionary[abilityType];
     public Sprite GetAbilityIcon(AbilityType abilityType) => abilityIconDictionary[abilityType];
+    public int GetAbilityBaseDamage(AbilityType abilityType) => abilityBaseDamageDictionary[abilityType];
 }
