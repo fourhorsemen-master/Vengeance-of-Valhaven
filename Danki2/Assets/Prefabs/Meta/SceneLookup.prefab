@@ -67,6 +67,7 @@ MonoBehaviour:
     - Zone1BossScene
     - Zone2BossScene
     - Zone3BossScene
+    - IceSheetScene
     _values:
     - fileName: EntryScene
       sceneType: 0
@@ -163,7 +164,7 @@ MonoBehaviour:
     - fileName: ForestCliffScene
       sceneType: 1
       gameplaySceneData:
-        zones: 000000000100000002000000
+        zones: 00000000
         roomTypes: 00000000
         cameraOrientations: 000000000100000003000000
         entranceData:
@@ -205,7 +206,7 @@ MonoBehaviour:
     - fileName: ForestValleyScene
       sceneType: 1
       gameplaySceneData:
-        zones: 000000000100000002000000
+        zones: 00000000
         roomTypes: 00000000
         cameraOrientations: 0000000002000000
         entranceData:
@@ -225,7 +226,7 @@ MonoBehaviour:
     - fileName: ForestClearingScene
       sceneType: 1
       gameplaySceneData:
-        zones: 000000000100000002000000
+        zones: 00000000
         roomTypes: 00000000
         cameraOrientations: 0000000003000000
         entranceData:
@@ -249,7 +250,7 @@ MonoBehaviour:
     - fileName: ForestDensScene
       sceneType: 1
       gameplaySceneData:
-        zones: 000000000100000002000000
+        zones: 00000000
         roomTypes: 00000000
         cameraOrientations: 00000000010000000200000003000000
         entranceData:
@@ -273,7 +274,7 @@ MonoBehaviour:
     - fileName: ForestFordScene
       sceneType: 1
       gameplaySceneData:
-        zones: 000000000100000002000000
+        zones: 00000000
         roomTypes: 00000000
         cameraOrientations: 000000000100000003000000
         entranceData:
@@ -309,7 +310,7 @@ MonoBehaviour:
     - fileName: RuinsScene
       sceneType: 1
       gameplaySceneData:
-        zones: 000000000100000002000000
+        zones: 00000000
         roomTypes: 00000000
         cameraOrientations: 0000000001000000
         entranceData:
@@ -419,4 +420,28 @@ MonoBehaviour:
           side: 1
         exitData:
         - id: 0
+          side: 0
+    - fileName: IceSheetScene
+      sceneType: 1
+      gameplaySceneData:
+        zones: 01000000
+        roomTypes: 00000000
+        cameraOrientations: 00000000010000000200000003000000
+        entranceData:
+        - id: 0
+          side: 0
+        - id: 1
+          side: 3
+        - id: 2
+          side: 2
+        - id: 3
+          side: 1
+        exitData:
+        - id: 0
+          side: 2
+        - id: 1
+          side: 3
+        - id: 2
+          side: 1
+        - id: 3
           side: 0

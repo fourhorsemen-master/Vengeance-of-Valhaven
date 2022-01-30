@@ -22,4 +22,5 @@
     Zone1BossScene,
     Zone2BossScene,
     Zone3BossScene,
+    IceSheetScene,
 }
