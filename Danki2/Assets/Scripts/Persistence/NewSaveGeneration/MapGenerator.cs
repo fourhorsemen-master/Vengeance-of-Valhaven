@@ -235,16 +235,12 @@ public class MapGenerator : Singleton<MapGenerator>
     {
         //TODO: generate random abilities
 
+        AbilityGenerator generator = new AbilityGenerator(node);
+
         Utils.Repeat(MapGenerationLookup.Instance.AbilityChoices, () =>
         {
-            node.AbilityRoomSaveData.AbilityChoices.Add(new Ability
-            (
-                "Test",
-                AbilityType.Smash,
-                5,
-                Rarity.Common,
-                new List<Empowerment> { Empowerment.Envenom }
-            ));
+            Ability ability = generator.Generate();
+            node.AbilityRoomSaveData.AbilityChoices.Add(ability);
         });
 
         //List<SerializableGuid> choices = new List<SerializableGuid>();
