@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 3202411135486486904}
   - component: {fileID: -5140422250883935027}
   - component: {fileID: 4460194356530006560}
-  - component: {fileID: 8232916219738652434}
   - component: {fileID: 4624218613124974401}
+  - component: {fileID: 5755236150745086451}
   m_Layer: 0
   m_Name: SpineObject
   m_TagString: Untagged
@@ -172,21 +172,6 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
---- !u!114 &8232916219738652434
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4032865229739014662}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1183b26bf24ff2a4eb5dd5df57af416a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spineCollider: {fileID: 3202411135486486904}
-  rigidBody: {fileID: -5140422250883935027}
-  trailRenderer: {fileID: 4460194356530006560}
 --- !u!114 &4624218613124974401
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,6 +185,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   time: 5
+--- !u!114 &5755236150745086451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4032865229739014662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d83af89e32044cd28f2844c49cbd4b1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spineCollider: {fileID: 3202411135486486904}
+  rigidBody: {fileID: -5140422250883935027}
+  trailRenderer: {fileID: 4460194356530006560}
 --- !u!1 &4806097048696025913
 GameObject:
   m_ObjectHideFlags: 0
