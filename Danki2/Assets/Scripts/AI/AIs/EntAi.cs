@@ -5,21 +5,21 @@ public class EntAi : Ai
     [SerializeField] private Ent ent = null;
 
     [Header("Movement")]
-    [SerializeField] private float minAdvanceDistance;
-    [SerializeField] private float minRangedDistance;
-    [SerializeField] private float maxRangedDistance;
+    [SerializeField] private float minAdvanceDistance = 0;
+    [SerializeField] private float minRangedDistance = 0;
+    [SerializeField] private float maxRangedDistance = 0;
 
     [Header("Melee")]
-    [SerializeField] private float aggroDistance;
-    [SerializeField] private float swipeMaxRange;
-    [SerializeField] private float swipeDelay;
-    [SerializeField] private float swipeCooldown;
-    [SerializeField] private float maxSwipeAngle;
+    [SerializeField] private float aggroDistance = 0;
+    [SerializeField] private float swipeMaxRange = 0;
+    [SerializeField] private float swipeDelay = 0;
+    [SerializeField] private float swipeCooldown = 0;
+    [SerializeField] private float maxSwipeAngle = 0;
 
     [Header("Ranged")]
-    [SerializeField] private float spineMinRange;
-    [SerializeField] private float spineDelay;
-    [SerializeField] private float spineCooldown;
+    [SerializeField] private float spineMinRange = 0;
+    [SerializeField] private float spineDelay = 0;
+    [SerializeField] private float spineCooldown = 0;
 
     protected override Actor Actor => ent;
 

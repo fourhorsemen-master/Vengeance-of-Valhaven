@@ -4,7 +4,7 @@ using UnityEngine.VFX;
 public class GuidedOrbExplosion : AbilityObject
 {
     [SerializeField]
-    private VisualEffect visualEffect;
+    private VisualEffect visualEffect = null;
 
     public static void Create(GuidedOrbExplosion prefab, Vector3 position)
     {

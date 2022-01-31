@@ -4,13 +4,13 @@ using UnityEngine.VFX;
 
 public class SwordEmpowermentVisual : MonoBehaviour
 {
-    [SerializeField] private DecalProjector decal;
+    [SerializeField] private DecalProjector decal = null;
 
-    [SerializeField] private DecalProjector reverseDecal;
+    [SerializeField] private DecalProjector reverseDecal = null;
 
-    [SerializeField] private TrailRenderer trail;
+    [SerializeField] private TrailRenderer trail = null;
 
-    [SerializeField] private VisualEffect vfx;
+    [SerializeField] private VisualEffect vfx = null;
 
     [SerializeField, Range(0,1)] private float trailColourDamping = 0.6f;
 
