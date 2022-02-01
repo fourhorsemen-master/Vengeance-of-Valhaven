@@ -34,7 +34,9 @@ public class DevPersistenceManager : PersistenceManager
     [SerializeField] public bool hasHealed = false;
     [SerializeField] public AbilityData abilityData = null;
 
-    public override SaveData SaveData => GenerateNewSaveData();
+    private SaveData saveData = null;
+
+    public override SaveData SaveData => GetSaveData();
 
     protected override bool DestroyOnLoad => true;
 
@@ -45,6 +47,13 @@ public class DevPersistenceManager : PersistenceManager
     public override void TransitionToNextRoom(RoomNode nextRoomNode) {}
 
     public override void TransitionToDefeatRoom() {}
+
+    private SaveData GetSaveData()
+    {
+        if (saveData == null) saveData = GenerateNewSaveData();
+
+        return saveData;
+    }
 
     private SaveData GenerateNewSaveData()
     {
