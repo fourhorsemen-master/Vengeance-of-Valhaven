@@ -31,11 +31,12 @@ public class DevPersistenceManager : PersistenceManager
     [SerializeField] public Zone zone = Zone.Zone1;
     [SerializeField] public int depthInZone = 0;
     [SerializeField] public RoomType roomType = RoomType.Combat;
-    [SerializeField] public List<string> abilityChoiceNames = new List<string>();
     [SerializeField] public bool hasHealed = false;
     [SerializeField] public AbilityData abilityData = null;
 
-    public override SaveData SaveData => GenerateNewSaveData();
+    private SaveData saveData = null;
+
+    public override SaveData SaveData => GetSaveData();
 
     protected override bool DestroyOnLoad => true;
 
@@ -47,40 +48,41 @@ public class DevPersistenceManager : PersistenceManager
 
     public override void TransitionToDefeatRoom() {}
 
+    private SaveData GetSaveData()
+    {
+        if (saveData == null) saveData = GenerateNewSaveData();
+
+        return saveData;
+    }
+
     private SaveData GenerateNewSaveData()
     {
-        Dictionary<SerializableGuid, int> ownedAbilities = new Dictionary<SerializableGuid, int>();
-        AbilityLookup.Instance.ForEachAbilityId(abilityId => ownedAbilities[abilityId] = ownedAbilityCount);
+        List<Ability> ownedAbilities = new List<Ability>();
 
-        if (!AbilityLookup.Instance.TryGetAbilityId(leftAbilityName, out SerializableGuid leftAbilityId))
+        Ability leftStartingAbility = CustomAbilityLookup.Instance.GetByName(leftAbilityName);
+
+        Ability rightStartingAbility = CustomAbilityLookup.Instance.GetByName(rightAbilityName);
+
+        ownedAbilities.Add(leftStartingAbility);
+        ownedAbilities.Add(rightStartingAbility);
+
+        List<Ability> abilityChoices = new List<Ability>();
+
+        AbilityGenerator generator = new AbilityGenerator(zone, 0.5f);
+
+        Utils.Repeat(3, () =>
         {
-            Debug.LogError($"Invalid left starting ability name: {leftAbilityName}.");
-        }
-
-        if (!AbilityLookup.Instance.TryGetAbilityId(rightAbilityName, out SerializableGuid rightAbilityId))
-        {
-            Debug.LogError($"Invalid right starting ability name: {rightAbilityName}.");
-        }
-
-        List<SerializableGuid> abilityChoices = new List<SerializableGuid>();
-        abilityChoiceNames.ForEach(abilityName =>
-        {
-            if (!AbilityLookup.Instance.TryGetAbilityId(abilityName, out SerializableGuid abilityId))
-            {
-                Debug.LogError($"Invalid ability name in ability choices: {abilityName}.");
-                return;
-            }
-
-            abilityChoices.Add(abilityId);
+            Ability ability = generator.Generate();
+            abilityChoices.Add(ability);
         });
-        
+
         return new SaveData
         {
             PlayerHealth = playerHealth,
             SerializableAbilityTree = AbilityTreeFactory.CreateTree(
                 ownedAbilities,
-                AbilityTreeFactory.CreateNode(leftAbilityId),
-                AbilityTreeFactory.CreateNode(rightAbilityId)
+                AbilityTreeFactory.CreateNode(leftStartingAbility),
+                AbilityTreeFactory.CreateNode(rightStartingAbility)
             ).Serialize(),
             RuneSockets = runeSockets,
             RuneOrder = runeOrder,

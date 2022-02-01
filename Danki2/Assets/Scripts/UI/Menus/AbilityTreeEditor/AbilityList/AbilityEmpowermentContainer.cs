@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class AbilityEmpowermentContainer : MonoBehaviour
@@ -7,11 +6,9 @@ public class AbilityEmpowermentContainer : MonoBehaviour
     [SerializeField]
     private Image empowermentPrefab = null;
 
-    public void SetEmpowerments(SerializableGuid abilityId)
+    public void SetEmpowerments(Ability ability)
     {
-        List<Empowerment> empowerments = AbilityLookup.Instance.GetEmpowerments(abilityId);
-
-        foreach (Empowerment empowerment in empowerments)
+        foreach (Empowerment empowerment in ability.Empowerments)
         {
             Sprite sprite = EmpowermentLookup.Instance.GetSprite(empowerment);
 

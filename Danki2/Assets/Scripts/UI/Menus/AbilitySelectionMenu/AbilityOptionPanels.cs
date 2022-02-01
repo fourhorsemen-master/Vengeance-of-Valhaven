@@ -11,7 +11,7 @@ public class AbilityOptionPanels : MonoBehaviour
 
     private AbilityTooltip abilityTooltip;
 
-    public Subject<SerializableGuid> AbilitySelectedSubject { get; } = new Subject<SerializableGuid>();
+    public Subject<Ability> AbilitySelectedSubject { get; } = new Subject<Ability>();
     public Subject AbilityDeselectedSubject { get; } = new Subject();
 
     private void OnEnable()
@@ -28,7 +28,7 @@ public class AbilityOptionPanels : MonoBehaviour
         TryDestroyTooltip();
     }
 
-    private void InitialisePanels(List<SerializableGuid> options)
+    private void InitialisePanels(List<Ability> options)
     {
         options.ForEach(option =>
         {
@@ -51,14 +51,14 @@ public class AbilityOptionPanels : MonoBehaviour
             else panel.Selected = false;
         });
 
-        if (abilityOptionPanel.Selected) AbilitySelectedSubject.Next(abilityOptionPanel.AbilityId);
+        if (abilityOptionPanel.Selected) AbilitySelectedSubject.Next(abilityOptionPanel.Ability);
         else AbilityDeselectedSubject.Next();
     }
 
     private void OnPointerEnter(AbilityOptionPanel abilityOptionPanel)
     {
         TryDestroyTooltip();
-        abilityTooltip = AbilityTooltip.Create(transform, abilityOptionPanel.AbilityId);
+        abilityTooltip = AbilityTooltip.Create(transform, abilityOptionPanel.Ability);
         abilityOptionPanel.Highlighted = true;
     }
 

@@ -14,8 +14,7 @@ public class AbilityListingPanel : MonoBehaviour, IBeginDragHandler, IDragHandle
 
     [SerializeField] private AbilityEmpowermentContainer empowermentPanel = null;
 
-    private SerializableGuid abilityId;
-    private int quantity;
+    private Ability ability;
 
     private AbilityTooltip tooltip;
 
@@ -28,7 +27,7 @@ public class AbilityListingPanel : MonoBehaviour, IBeginDragHandler, IDragHandle
     {
         if (AbilityTreeEditorMenu.Instance.IsDraggingFromList) return;
 
-        tooltip = AbilityTreeEditorMenu.Instance.CreateTooltip(abilityId);
+        tooltip = AbilityTreeEditorMenu.Instance.CreateTooltip(ability);
         if (highlighter.HighlightState != DraggableHighlightState.Dragging)
             highlighter.HighlightState = DraggableHighlightState.Hover;
     }
@@ -42,9 +41,7 @@ public class AbilityListingPanel : MonoBehaviour, IBeginDragHandler, IDragHandle
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        quantity -= 1;
-        UpdateQuantityText();
-        AbilityTreeEditorMenu.Instance.ListAbilityDragStartSubject.Next(abilityId);
+        AbilityTreeEditorMenu.Instance.ListAbilityDragStartSubject.Next(ability);
         highlighter.HighlightState = DraggableHighlightState.Dragging;
     }
 
@@ -56,29 +53,28 @@ public class AbilityListingPanel : MonoBehaviour, IBeginDragHandler, IDragHandle
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        AbilityTreeEditorMenu.Instance.ListAbilityDragStopSubject.Next(abilityId);
+        AbilityTreeEditorMenu.Instance.ListAbilityDragStopSubject.Next(ability);
         highlighter.HighlightState = DraggableHighlightState.Default;
     }
 
-    public void Initialise(SerializableGuid abilityId, int quantity)
+    public void Initialise(Ability ability)
     {
-        this.abilityId = abilityId;
-        this.quantity = quantity;
+        this.ability = ability;
 
         highlighter.HighlightState = DraggableHighlightState.Default;
 
-        iconPanelImage.sprite = AbilityLookup.Instance.GetIcon(abilityId);
+        iconPanelImage.sprite = AbilityTypeLookup.Instance.GetAbilityIcon(ability.Type);
 
-        namePanelText.text = AbilityLookup.Instance.GetDisplayName(abilityId);
-        namePanelText.color = RarityLookup.Instance.Lookup[AbilityLookup.Instance.GetRarity(abilityId)].Colour;
+        namePanelText.text = ability.DisplayName;
+        namePanelText.color = RarityLookup.Instance.Lookup[ability.Rarity].Colour;
 
-        empowermentPanel.SetEmpowerments(abilityId);
+        empowermentPanel.SetEmpowerments(ability);
 
         UpdateQuantityText();
     }
 
     private void UpdateQuantityText()
     {
-        quantityPanelText.text = quantity.ToString();
+        quantityPanelText.text = "1";
     }
 }

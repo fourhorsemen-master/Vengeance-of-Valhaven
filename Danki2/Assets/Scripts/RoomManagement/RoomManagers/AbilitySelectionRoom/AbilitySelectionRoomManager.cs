@@ -38,9 +38,9 @@
         PersistenceManager.Instance.Save();
     }
 
-    public void SelectAbility(SerializableGuid abilityId)
+    public void SelectAbility(Ability ability)
     {
-        ActorCache.Instance.Player.AbilityTree.AddToInventory(abilityId);
+        ActorCache.Instance.Player.AbilityTree.AddToInventory(ability);
         AbilitySelected = true;
         AbilitySelectedSubject.Next();
         PersistenceManager.Instance.Save();

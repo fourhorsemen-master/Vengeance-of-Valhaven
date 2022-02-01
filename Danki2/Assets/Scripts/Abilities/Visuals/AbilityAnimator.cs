@@ -55,14 +55,13 @@ public class AbilityAnimator : MonoBehaviour
             .Evaluate(normalizedtime);
     }
 
-    public void HandleAnimation(SerializableGuid abilityId)
+    public void HandleAnimation(AbilityType abilityType)
     {
-        AbilityType type = AbilityLookup.Instance.GetAbilityType(abilityId);
-        AbilityAnimationType abilityAnimationType = abilityTypeToAnimationTypeDictionary[type];
+        AbilityAnimationType abilityAnimationType = abilityTypeToAnimationTypeDictionary[abilityType];
         string animationState = AnimationStringLookup.LookupTable[abilityAnimationType];
         player.Animator.Play(animationState);
 
-        currentAbilityType = type;
+        currentAbilityType = abilityType;
         currentNormalizedTime = null;
     }
 

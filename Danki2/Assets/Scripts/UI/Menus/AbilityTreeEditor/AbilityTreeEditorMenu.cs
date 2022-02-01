@@ -11,21 +11,21 @@ public class AbilityTreeEditorMenu : Singleton<AbilityTreeEditorMenu>
 
     public bool IsDraggingFromList { get; private set; }
 
-    public SerializableGuid AbilityDraggingFromList { get; private set; }
+    public Ability AbilityDraggingFromList { get; private set; }
 
-    public Subject<SerializableGuid> ListAbilityDragStartSubject { get; } = new Subject<SerializableGuid>();
+    public Subject<Ability> ListAbilityDragStartSubject { get; } = new Subject<Ability>();
 
-    public Subject<SerializableGuid> ListAbilityDragStopSubject { get; } = new Subject<SerializableGuid>();
+    public Subject<Ability> ListAbilityDragStopSubject { get; } = new Subject<Ability>();
 
     public Subject TreeAbilityDragStopSubject { get; } = new Subject();
 
     public Node CurrentTreeNodeHover { get; set; } = null;
 
-    private readonly List<Subscription<SerializableGuid>> subscriptions = new List<Subscription<SerializableGuid>>();
+    private readonly List<Subscription<Ability>> subscriptions = new List<Subscription<Ability>>();
 
-    public AbilityTooltip CreateTooltip(SerializableGuid abilityId)
+    public AbilityTooltip CreateTooltip(Ability ability)
     {
-        return AbilityTooltip.Create(transform, abilityId);
+        return AbilityTooltip.Create(transform, ability);
     }
 
     public AbilityTooltip CreateTooltip(Node node)

@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public abstract class Enemy : Actor
 {
@@ -28,6 +27,8 @@ public abstract class Enemy : Actor
 
     private void SetUpInterruption()
     {
+        if (Animator == null) return;
+
         HealthManager.ModifiedDamageSubject.Subscribe(_ =>
         {
             Animator.speed = 0;

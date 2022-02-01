@@ -87,7 +87,6 @@ public class CameraVolume : MonoBehaviour
             overrideSmoothFactor ? smoothFactorOverride : (float?) null
         );
 
-        if (turnOffStaticAbilityUI) StaticAbilityUI.Instance.OverrideVisibility(0);
         if (turnOffStaticHealthBarUI) StaticHealthBarUI.Instance.OverrideVisibility(0);
         if (turnOffStaticCurrencyUI) StaticCurrencyUI.Instance.OverrideVisibility(0);
     }
@@ -98,7 +97,6 @@ public class CameraVolume : MonoBehaviour
 
         CustomCamera.Instance.RemoveTransformOverride();
 
-        if (turnOffStaticAbilityUI) StaticAbilityUI.Instance.RemoveVisibilityOverride();
         if (turnOffStaticHealthBarUI) StaticHealthBarUI.Instance.RemoveVisibilityOverride();
         if (turnOffStaticCurrencyUI) StaticCurrencyUI.Instance.RemoveVisibilityOverride();
     }

@@ -10,7 +10,7 @@ public class AbilityOptionPanel : MonoBehaviour
     [SerializeField] private Text text = null;
     [SerializeField] private AbilityEmpowermentContainer empowermentPanel = null;
 
-    public SerializableGuid AbilityId { get; private set; }
+    public Ability Ability { get; private set; }
 
     public Subject OnClickSubject { get; } = new Subject();
 
@@ -35,19 +35,19 @@ public class AbilityOptionPanel : MonoBehaviour
         Highlighted = false;
     }
 
-    public void Initialise(SerializableGuid abilityId)
+    public void Initialise(Ability ability)
     {
-        AbilityId = abilityId;
+        Ability = ability;
 
-        RarityData rarityData = RarityLookup.Instance.Lookup[AbilityLookup.Instance.GetRarity(abilityId)];
+        RarityData rarityData = RarityLookup.Instance.Lookup[ability.Rarity];
 
-        image.sprite = AbilityLookup.Instance.GetIcon(abilityId);
+        image.sprite = AbilityTypeLookup.Instance.GetAbilityIcon(ability.Type);
         frame.sprite = rarityData.Frame;
         frame.color = rarityData.Colour;
-        text.text = AbilityLookup.Instance.GetDisplayName(abilityId);
+        text.text = ability.DisplayName;
         text.color = rarityData.Colour;
 
-        empowermentPanel.SetEmpowerments(abilityId);
+        empowermentPanel.SetEmpowerments(ability);
     }
 
     public void Click() => OnClickSubject.Next();

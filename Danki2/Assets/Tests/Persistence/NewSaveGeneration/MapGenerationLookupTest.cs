@@ -70,23 +70,4 @@ public class MapGenerationLookupTest : PlayModeTestBase
             );
         }
     }
-
-    [UnityTest]
-    public IEnumerator TestStartingAbilityNamesAreValid()
-    {
-        TestUtils.InstantiatePrefab<MapGenerationLookup>();
-        TestUtils.InstantiatePrefab<AbilityLookup>();
-        
-        Assert.True(AbilityLookup.Instance.TryGetAbilityId(
-            MapGenerationLookup.Instance.LeftStartingAbilityName, out SerializableGuid _
-        ));
-        Assert.True(AbilityLookup.Instance.TryGetAbilityId(
-            MapGenerationLookup.Instance.RightStartingAbilityName, out SerializableGuid _
-        ));
-        
-        MapGenerationLookup.Instance.Destroy();
-        AbilityLookup.Instance.Destroy();
-
-        yield return null;
-    }
 }
