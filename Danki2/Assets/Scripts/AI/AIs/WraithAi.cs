@@ -15,7 +15,7 @@ public class WraithAi : Ai
     [SerializeField] private float guidedOrbDelay = 0;
     
     [Header("Melee Attacks")]
-    [SerializeField] private float swipeRotationSmoothingOverride;
+    [SerializeField] private float swipeRotationSmoothingOverride = 9;
     [SerializeField] private float swipeRange = 0;
     [SerializeField] private float maxSwipeAngle = 0;
     [SerializeField] private float swipeDelay = 0;
