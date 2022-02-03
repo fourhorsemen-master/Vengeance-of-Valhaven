@@ -7,5 +7,6 @@
     OnDirt,
     OnWater,
     OnSnow,
-    OnIce
+    OnIce,
+    OnNavmesh
 }
