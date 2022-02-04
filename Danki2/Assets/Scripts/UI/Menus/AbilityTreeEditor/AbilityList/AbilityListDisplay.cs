@@ -31,7 +31,7 @@ public class AbilityListDisplay : MonoBehaviour
             Destroy(child.gameObject);
         }
         
-        foreach (Ability ability in player.AbilityTree.Inventory)
+        foreach (Ability ability in player.AbilityTree.AbilityInventory)
         {
             AbilityListingPanel abilityListingPanel = Instantiate(abilityListingPanelPrefab, Vector3.zero, Quaternion.identity, transform);
             abilityListingPanel.Initialise(ability);

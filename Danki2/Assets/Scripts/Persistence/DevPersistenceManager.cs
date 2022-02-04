@@ -12,7 +12,6 @@ using UnityEngine;
 /// </summary>
 public class DevPersistenceManager : PersistenceManager
 {
-    [SerializeField] public int ownedAbilityCount = 0;
     [SerializeField] public string leftAbilityName = "";
     [SerializeField] public string rightAbilityName = "";
     [SerializeField] public int playerHealth = 0;
@@ -57,14 +56,11 @@ public class DevPersistenceManager : PersistenceManager
 
     private SaveData GenerateNewSaveData()
     {
-        List<Ability> ownedAbilities = new List<Ability>();
+        List<Ability> abilityInventory = new List<Ability>();
 
         Ability leftStartingAbility = CustomAbilityLookup.Instance.GetByName(leftAbilityName);
 
         Ability rightStartingAbility = CustomAbilityLookup.Instance.GetByName(rightAbilityName);
-
-        ownedAbilities.Add(leftStartingAbility);
-        ownedAbilities.Add(rightStartingAbility);
 
         List<Ability> abilityChoices = new List<Ability>();
 
@@ -80,7 +76,7 @@ public class DevPersistenceManager : PersistenceManager
         {
             PlayerHealth = playerHealth,
             SerializableAbilityTree = AbilityTreeFactory.CreateTree(
-                ownedAbilities,
+                abilityInventory,
                 AbilityTreeFactory.CreateNode(leftStartingAbility),
                 AbilityTreeFactory.CreateNode(rightStartingAbility)
             ).Serialize(),
