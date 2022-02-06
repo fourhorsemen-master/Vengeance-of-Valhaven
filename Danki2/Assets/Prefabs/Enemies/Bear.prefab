@@ -373,11 +373,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   navmeshAgent: {fileID: 1307004630582523634}
   trailRenderer: {fileID: 4564750321355086747}
-  meshRenderers:
-  - {fileID: 6969344539391237554}
-  - {fileID: 8914314302726665118}
-  - {fileID: 4355169385532917339}
-  - {fileID: 949195686626205941}
   weight: 2
   speed: 4
   maxHealth: 100
@@ -391,6 +386,7 @@ MonoBehaviour:
   collisionTemplateSource: {fileID: 7496201845270352354}
   roarEvent: event:/SX_InWorldSoundEffects/SX_NPC/SX_NPC_Bear/SX_NPC_Bear_Roar
   idleEvent: event:/SX_InWorldSoundEffects/SX_NPC/SX_NPC_Bear/SX_NPC_Bear_Idle
+  cleaveOrigin: {fileID: 7114172805389326850}
   swipeDamage: 6
   swipePauseDuration: 0.3
   swipeDamageRange: 3
@@ -437,7 +433,6 @@ MonoBehaviour:
   maxIdleSoundTimer: 8.5
   chargeDelay: 0.5
   maulDelay: 0.5
-  cleaveDelay: 1.3
   abilityInterval: 2
   maxAttackAngle: 10
 --- !u!195 &1307004630582523634
@@ -581,27 +576,9 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1396898167242080606}
   m_PrefabAsset: {fileID: 0}
---- !u!137 &6969344539391237554 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: -875155637655118612, guid: 011e7d29bbe8f244fb671a03eaa117a6,
-    type: 3}
-  m_PrefabInstance: {fileID: 1396898167242080606}
-  m_PrefabAsset: {fileID: 0}
---- !u!137 &8914314302726665118 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: -1669490914928676160, guid: 011e7d29bbe8f244fb671a03eaa117a6,
-    type: 3}
-  m_PrefabInstance: {fileID: 1396898167242080606}
-  m_PrefabAsset: {fileID: 0}
---- !u!137 &4355169385532917339 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 3391892217231787781, guid: 011e7d29bbe8f244fb671a03eaa117a6,
-    type: 3}
-  m_PrefabInstance: {fileID: 1396898167242080606}
-  m_PrefabAsset: {fileID: 0}
---- !u!137 &949195686626205941 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 2183963286904234411, guid: 011e7d29bbe8f244fb671a03eaa117a6,
+--- !u!4 &7114172805389326850 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -1019967449633498276, guid: 011e7d29bbe8f244fb671a03eaa117a6,
     type: 3}
   m_PrefabInstance: {fileID: 1396898167242080606}
   m_PrefabAsset: {fileID: 0}

@@ -10,8 +10,11 @@ public class Bear : Enemy
 
     [Header("FMOD Events"), EventRef, SerializeField]
     private string roarEvent = null;
+
     [EventRef, SerializeField]
     private string idleEvent = null;
+
+    [SerializeField] private Transform cleaveOrigin = null;
 
     [Header("Swipe")]
     [SerializeField] private int swipeDamage = 0;
@@ -42,7 +45,7 @@ public class Bear : Enemy
     [SerializeField] private float cleavePauseDuration = 0;
     [SerializeField] private float cleaveKnockBackDuration = 0;
     [SerializeField] private float cleaveKnockBackSpeed = 0;
-    
+
     private Actor chargeTarget = null;
     private Vector3 chargeDirection;
     private bool charging = false;
@@ -66,10 +69,9 @@ public class Bear : Enemy
         if (charging) ContinueCharge();
     }
 
-    public void PlaySwipeAnimation()
-    {
-        Animator.Play(SwipeAnimationName);
-    }
+    public void PlaySwipeAnimation() => Animator.Play(SwipeAnimationName);
+
+    public void PlayCleaveAnimation() => Animator.Play(CleaveAnimationName);
 
     public void Swipe()
     {
@@ -216,13 +218,13 @@ public class Bear : Enemy
         Vector3 castDirection = forward;
         Quaternion castRotation = AbilityUtils.GetMeleeCastRotation(castDirection);
 
-        CleaveObject.Create(AbilitySource, castRotation);
+        SmashObject.Create(cleaveOrigin.position, cleaveRange/2);
 
         AbilityUtils.TemplateCollision(
             this,
-            CollisionTemplateShape.Wedge180,
+            CollisionTemplateShape.Cylinder,
             cleaveRange,
-            CollisionTemplateSource,
+            cleaveOrigin.position,
             castRotation,
             playerCallback: player =>
             {
@@ -233,11 +235,10 @@ public class Bear : Enemy
         );
 
         MovementManager.LookAt(transform.position + forward);
-        MovementManager.Pause(cleavePauseDuration);
-
-        Animator.Play(CleaveAnimationName);
 
         CleaveSubject.Next();
+
+        MovementManager.Pause(cleavePauseDuration);
     }
 
     public void PlayIdleSound()
