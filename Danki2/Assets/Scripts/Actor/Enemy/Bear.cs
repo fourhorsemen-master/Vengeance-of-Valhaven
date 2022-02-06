@@ -14,6 +14,8 @@ public class Bear : Enemy
     [EventRef, SerializeField]
     private string idleEvent = null;
 
+    [SerializeField] private Transform cleaveOrigin = null;
+
     [Header("Swipe")]
     [SerializeField] private int swipeDamage = 0;
     [SerializeField] private float swipePauseDuration = 0;
@@ -43,7 +45,7 @@ public class Bear : Enemy
     [SerializeField] private float cleavePauseDuration = 0;
     [SerializeField] private float cleaveKnockBackDuration = 0;
     [SerializeField] private float cleaveKnockBackSpeed = 0;
-    
+
     private Actor chargeTarget = null;
     private Vector3 chargeDirection;
     private bool charging = false;
@@ -222,13 +224,13 @@ public class Bear : Enemy
         Vector3 castDirection = forward;
         Quaternion castRotation = AbilityUtils.GetMeleeCastRotation(castDirection);
 
-        CleaveObject.Create(AbilitySource, castRotation);
+        SmashObject.Create(cleaveOrigin.position, cleaveRange/2);
 
         AbilityUtils.TemplateCollision(
             this,
-            CollisionTemplateShape.Wedge180,
+            CollisionTemplateShape.Cylinder,
             cleaveRange,
-            CollisionTemplateSource,
+            cleaveOrigin.position,
             castRotation,
             playerCallback: player =>
             {
