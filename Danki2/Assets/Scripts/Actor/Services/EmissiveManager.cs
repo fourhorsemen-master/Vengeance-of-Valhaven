@@ -13,9 +13,13 @@ public class EmissiveManager
 
     private Coroutine cancelFlashCoroutine = null;
 
-    public EmissiveManager(Actor actor, Renderer[] renderers)
+    public EmissiveManager(Actor actor)
     {
         this.actor = actor;
+
+        Renderer[] skinnedMeshRenderers = actor.GetComponentsInChildren<SkinnedMeshRenderer>();
+        Renderer[] meshRenderers = actor.GetComponentsInChildren<MeshRenderer>();
+        Renderer[] renderers = skinnedMeshRenderers.Concat(meshRenderers).ToArray();
 
         materialsToEmissiveMaps = renderers.ToDictionary(
             r => r.material,
