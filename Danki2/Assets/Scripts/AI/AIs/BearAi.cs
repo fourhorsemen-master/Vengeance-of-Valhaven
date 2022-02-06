@@ -18,7 +18,6 @@ public class BearAi : Ai
     [Header("Attack")]
     [SerializeField] private float chargeDelay = 0;
     [SerializeField] private float maulDelay = 0;
-    [SerializeField] private float cleaveDelay = 0;
     [SerializeField] private float abilityInterval = 0;
     [SerializeField] private float maxAttackAngle = 0;
 
@@ -37,20 +36,18 @@ public class BearAi : Ai
             .WithComponent(AttackState.WatchTarget, new WatchTarget(bear, player))
             .WithComponent(AttackState.TelegraphSwipe, new BearTelegraphSwipe(bear))
             .WithComponent(AttackState.TelegraphMaul, new TelegraphAttack(bear, Color.green))
-            .WithComponent(AttackState.TelegraphCleave, new TelegraphAttackAndWatch(bear, player, Color.yellow))
+            .WithComponent(AttackState.TelegraphCleave, new BearTelegraphCleave(bear))
             .WithComponent(AttackState.Swipe, new BearSwipe(bear))
             .WithComponent(AttackState.Maul, new BearMaul(bear))
             .WithComponent(AttackState.Cleave, new BearCleave(bear))
             .WithTransition(AttackState.WatchTarget, AttackState.ChooseAbility, new TimeElapsed(abilityInterval) & new Facing(bear, player, maxAttackAngle))
             .WithTransition(AttackState.TelegraphSwipe, AttackState.Swipe, new AbilityImpact(bear))
             .WithTransition(AttackState.TelegraphMaul, AttackState.Maul, new TimeElapsed(maulDelay))
-            .WithTransition(AttackState.TelegraphCleave, AttackState.Cleave, new TimeElapsed(cleaveDelay))
+            .WithTransition(AttackState.TelegraphCleave, AttackState.Cleave, new AbilityImpact(bear))
             .WithTransition(AttackState.Swipe, AttackState.WatchTarget, new AbilityFinish(bear))
             .WithTransition(AttackState.Maul, AttackState.WatchTarget)
-            .WithTransition(AttackState.Cleave, AttackState.WatchTarget)
+            .WithTransition(AttackState.Cleave, AttackState.WatchTarget, new AbilityFinish(bear))
             .WithDecisionState(AttackState.ChooseAbility, new RandomDecider<AttackState>(
-                AttackState.TelegraphSwipe,
-                AttackState.TelegraphMaul,
                 AttackState.TelegraphCleave
             ));
 

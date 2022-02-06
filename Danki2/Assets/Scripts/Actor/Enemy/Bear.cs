@@ -10,6 +10,7 @@ public class Bear : Enemy
 
     [Header("FMOD Events"), EventRef, SerializeField]
     private string roarEvent = null;
+
     [EventRef, SerializeField]
     private string idleEvent = null;
 
@@ -69,6 +70,11 @@ public class Bear : Enemy
     public void PlaySwipeAnimation()
     {
         Animator.Play(SwipeAnimationName);
+    }
+
+    public void PlayCleaveAnimation()
+    {
+        Animator.Play(CleaveAnimationName);
     }
 
     public void Swipe()
@@ -233,11 +239,10 @@ public class Bear : Enemy
         );
 
         MovementManager.LookAt(transform.position + forward);
-        MovementManager.Pause(cleavePauseDuration);
-
-        Animator.Play(CleaveAnimationName);
 
         CleaveSubject.Next();
+
+        MovementManager.Pause(cleavePauseDuration);
     }
 
     public void PlayIdleSound()
