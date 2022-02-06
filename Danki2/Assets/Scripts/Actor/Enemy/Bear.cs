@@ -6,6 +6,7 @@ public class Bear : Enemy
 {
     private const string SwipeAnimationName = "Swipe_OneShot";
     private const string MaulAnimationName = "Bite_OneShot";
+    private const string CleaveAnimationName = "Smash_OneShot";
 
     [Header("FMOD Events"), EventRef, SerializeField]
     private string roarEvent = null;
@@ -233,6 +234,8 @@ public class Bear : Enemy
 
         MovementManager.LookAt(transform.position + forward);
         MovementManager.Pause(cleavePauseDuration);
+
+        Animator.Play(CleaveAnimationName);
 
         CleaveSubject.Next();
     }
