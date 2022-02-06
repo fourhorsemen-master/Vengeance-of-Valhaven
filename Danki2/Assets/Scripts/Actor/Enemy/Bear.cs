@@ -69,15 +69,9 @@ public class Bear : Enemy
         if (charging) ContinueCharge();
     }
 
-    public void PlaySwipeAnimation()
-    {
-        Animator.Play(SwipeAnimationName);
-    }
+    public void PlaySwipeAnimation() => Animator.Play(SwipeAnimationName);
 
-    public void PlayCleaveAnimation()
-    {
-        Animator.Play(CleaveAnimationName);
-    }
+    public void PlayCleaveAnimation() => Animator.Play(CleaveAnimationName);
 
     public void Swipe()
     {

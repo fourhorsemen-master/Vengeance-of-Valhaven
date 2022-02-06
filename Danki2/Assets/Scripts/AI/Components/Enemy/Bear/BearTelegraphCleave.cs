@@ -1,18 +1,18 @@
 ﻿using UnityEngine;
 
-public class BearTelegraphSwipe : TelegraphAttack
+public class BearTelegraphCleave : TelegraphAttack
 {
     private readonly Bear bear;
 
-    public BearTelegraphSwipe(Bear bear)
-        : base(bear, Color.red)
+    public BearTelegraphCleave(Bear bear)
+        : base(bear, Color.yellow)
     {
         this.bear = bear;
     }
 
     public override void Enter()
     {
-        bear.PlaySwipeAnimation();
+        bear.PlayCleaveAnimation();
         base.Enter();
     }
 }
