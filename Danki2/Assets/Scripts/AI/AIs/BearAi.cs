@@ -48,6 +48,8 @@ public class BearAi : Ai
             .WithTransition(AttackState.Maul, AttackState.WatchTarget)
             .WithTransition(AttackState.Cleave, AttackState.WatchTarget, new AbilityFinish(bear))
             .WithDecisionState(AttackState.ChooseAbility, new RandomDecider<AttackState>(
+                AttackState.TelegraphSwipe,
+                AttackState.TelegraphMaul,
                 AttackState.TelegraphCleave
             ));
 
