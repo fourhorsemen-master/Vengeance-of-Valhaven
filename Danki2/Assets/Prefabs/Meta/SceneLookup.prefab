@@ -54,12 +54,10 @@ MonoBehaviour:
     - CatchAllScene
     - AbilityScene
     - ForestCliffScene
-    - HealingScene
     - ForestValleyScene
     - ForestClearingScene
     - ForestDensScene
     - ForestFordScene
-    - RuneScene
     - RuinsScene
     - Zone1IntroductionScene
     - Zone2IntroductionScene
@@ -143,7 +141,7 @@ MonoBehaviour:
       sceneType: 1
       gameplaySceneData:
         zones: 000000000100000002000000
-        roomTypes: 05000000
+        roomTypes: 050000000700000006000000
         cameraOrientations: 00000000
         entranceData:
         - id: 0
@@ -182,26 +180,6 @@ MonoBehaviour:
         - id: 2
           side: 3
         - id: 3
-          side: 0
-    - fileName: HealingScene
-      sceneType: 1
-      gameplaySceneData:
-        zones: 000000000100000002000000
-        roomTypes: 06000000
-        cameraOrientations: 00000000
-        entranceData:
-        - id: 0
-          side: 2
-        - id: 1
-          side: 1
-        - id: 2
-          side: 3
-        exitData:
-        - id: 0
-          side: 0
-        - id: 1
-          side: 0
-        - id: 2
           side: 0
     - fileName: ForestValleyScene
       sceneType: 1
@@ -286,26 +264,6 @@ MonoBehaviour:
         - id: 0
           side: 2
         - id: 1
-          side: 0
-    - fileName: RuneScene
-      sceneType: 1
-      gameplaySceneData:
-        zones: 000000000100000002000000
-        roomTypes: 07000000
-        cameraOrientations: 00000000
-        entranceData:
-        - id: 0
-          side: 2
-        - id: 1
-          side: 1
-        - id: 2
-          side: 3
-        exitData:
-        - id: 0
-          side: 0
-        - id: 1
-          side: 0
-        - id: 2
           side: 0
     - fileName: RuinsScene
       sceneType: 1
