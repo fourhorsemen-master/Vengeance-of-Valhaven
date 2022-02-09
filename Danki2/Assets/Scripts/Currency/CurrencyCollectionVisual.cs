@@ -4,7 +4,7 @@ using UnityEngine.VFX;
 public class CurrencyCollectionVisual : MonoBehaviour
 {
     [SerializeField]
-    private VisualEffect visualEffect;
+    private VisualEffect visualEffect = null;
 
     [SerializeField]
     private float targetRefreshInterval = 0f;

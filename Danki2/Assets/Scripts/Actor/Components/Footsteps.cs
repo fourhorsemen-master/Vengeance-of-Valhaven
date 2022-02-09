@@ -8,7 +8,7 @@ public class Footsteps : MonoBehaviour
     private string footstepEvent = null;
 
     [SerializeField]
-    private Actor actor;
+    private Actor actor = null;
 
     // We don't want to hear footsteps when highly blended with other animations
     private const float MinWeightThreshold = 0.5f;

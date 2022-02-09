@@ -3,7 +3,7 @@ using UnityEngine;
 public class PoisonStabVisual : AbilityObject
 {
     [SerializeField]
-    private ModularPFXComponent mpfx;
+    private ModularPFXComponent mpfx = null;
 
     public static PoisonStabVisual Create(Vector3 position, Quaternion rotation)
     {

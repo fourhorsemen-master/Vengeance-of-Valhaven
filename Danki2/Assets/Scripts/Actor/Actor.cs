@@ -10,8 +10,6 @@ public abstract class Actor : MonoBehaviour
 
     [SerializeField] private TrailRenderer trailRenderer = null;
 
-    [SerializeField] private Renderer[] meshRenderers = null;
-
     // Serialized properties
     [SerializeField] private float weight = 0;
     public float Weight => weight;
@@ -81,7 +79,7 @@ public abstract class Actor : MonoBehaviour
 
         EffectManager = new EffectManager(this, updateSubject);
         HealthManager = new HealthManager(this, updateSubject);
-        EmissiveManager = new EmissiveManager(this, meshRenderers);
+        EmissiveManager = new EmissiveManager(this);
     }
 
     protected virtual void Start() => startSubject.Next();

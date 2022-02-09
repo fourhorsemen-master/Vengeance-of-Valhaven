@@ -3,16 +3,16 @@ using UnityEngine;
 public class Ent : Enemy
 {
     [Header("Spine")]
-    [SerializeField] private int spineMaxAngle;
-    [SerializeField] private int spineDamage;
-    [SerializeField] private float spineSlowDuration;
+    [SerializeField] private int spineMaxAngle = 0;
+    [SerializeField] private int spineDamage = 0;
+    [SerializeField] private float spineSlowDuration = 0;
 
     [Header("Swipe")]
-    [SerializeField] private float swipeMovementDuration;
-    [SerializeField] private float swipePauseDuration;
-    [SerializeField] private float swipeRange;
-    [SerializeField] private int swipeDamage;
-    [SerializeField] private int swipeMovementSpeedMultiplier;
+    [SerializeField] private float swipeMovementDuration = 0;
+    [SerializeField] private float swipePauseDuration = 0;
+    [SerializeField] private float swipeRange = 0;
+    [SerializeField] private int swipeDamage = 0;
+    [SerializeField] private int swipeMovementSpeedMultiplier = 0;
 
     public override ActorType Type => ActorType.Ent;
 
