@@ -51,7 +51,6 @@ MonoBehaviour:
     - GameplayExitScene
     - GameplayVictoryScene
     - GameplayDefeatScene
-    - CatchAllScene
     - AbilityScene
     - ForestCliffScene
     - ForestValleyScene
@@ -115,28 +114,6 @@ MonoBehaviour:
         cameraOrientations: 
         entranceData: []
         exitData: []
-    - fileName: CatchAllScene
-      sceneType: 1
-      gameplaySceneData:
-        zones: 000000000100000002000000
-        roomTypes: 00000000
-        cameraOrientations: 00000000010000000200000003000000
-        entranceData:
-        - id: 0
-          side: 2
-        - id: 1
-          side: 1
-        - id: 2
-          side: 3
-        exitData:
-        - id: 0
-          side: 1
-        - id: 1
-          side: 0
-        - id: 2
-          side: 0
-        - id: 3
-          side: 3
     - fileName: AbilityScene
       sceneType: 1
       gameplaySceneData:
