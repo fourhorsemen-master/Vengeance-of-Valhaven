@@ -8,7 +8,7 @@ public class ShrineActivator : MonoBehaviour
 
     private void Start()
     {
-        var roomType = PersistenceManager.Instance.SaveData.CurrentRoomNode.RoomType;
+        RoomType roomType = PersistenceManager.Instance.SaveData.CurrentRoomNode.RoomType;
 
         if (roomType == RoomType.Ability)
             abilityShrine.gameObject.SetActive(true);
