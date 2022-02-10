@@ -14,7 +14,7 @@ public class SerializableAbilityTree
     private const int NoChildId = -1;
     
     [SerializeField] private List<SerializableNode> serializableNodes = new List<SerializableNode>();
-    [SerializeField] private List<SerializableAbility> serializableOwnedAbilities = new List<SerializableAbility>();
+    [SerializeField] private List<SerializableAbility> serializableAbilityInventory= new List<SerializableAbility>();
 
     public SerializableAbilityTree(AbilityTree abilityTree)
     {
@@ -33,7 +33,7 @@ public class SerializableAbilityTree
             serializableNodes.Add(new SerializableNode(node.IsRootNode, node.Ability, nodeToIdLookup[node], leftChildId, rightChildId));
         });
 
-        serializableOwnedAbilities = abilityTree.OwnedAbilities
+        serializableAbilityInventory = abilityTree.AbilityInventory
             .Select(x => x.Serialize())
             .ToList();
     }
@@ -42,7 +42,7 @@ public class SerializableAbilityTree
     {
         Node rootNode = DeserializeRootNode();
         return AbilityTreeFactory.CreateTree(
-            serializableOwnedAbilities.Select(x => Ability.FromSerializedAbility(x)).ToList(),
+            serializableAbilityInventory.Select(x => Ability.FromSerializedAbility(x)).ToList(),
             rootNode.GetChild(Direction.Left),
             rootNode.GetChild(Direction.Right)
         );

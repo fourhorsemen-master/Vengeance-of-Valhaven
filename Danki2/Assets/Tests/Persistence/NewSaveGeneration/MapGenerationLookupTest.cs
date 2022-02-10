@@ -8,18 +8,28 @@ using UnityEngine.TestTools;
 
 public class MapGenerationLookupTest : PlayModeTestBase
 {
-    [UnityTest]
-    public IEnumerator TestScenesAllHaveRequiredSpawners()
+    [UnityTest] public IEnumerator TestZone1ScenesHaveRequiredSpawners() =>
+        TestZoneScenesAllHaveRequiredSpawners(Zone.Zone1);
+
+    [UnityTest] public IEnumerator TestZone2ScenesHaveRequiredSpawners() =>
+        TestZoneScenesAllHaveRequiredSpawners(Zone.Zone2);
+
+    [UnityTest] public IEnumerator TestZone3ScenesHaveRequiredSpawners() =>
+        TestZoneScenesAllHaveRequiredSpawners(Zone.Zone3);
+
+    private IEnumerator TestZoneScenesAllHaveRequiredSpawners(Zone zone)
     {
-        List<string> combatScenes = GetCombatScenes();
+        EnumDictionary<Zone, List<string>> combatScenes = GetCombatScenes();
         yield return null;
         int requiredSpawners = GetRequiredSpawners();
         yield return null;
-        
-        TestUtils.InstantiatePrefab<DevPersistenceManager>();
+
+        var test = TestUtils.InstantiatePrefab<DevPersistenceManager>();
         DevPersistenceManager.Instance.DontDestroyOnLoad();
-        
-        foreach (string combatScene in combatScenes)
+
+        test.zone = zone;
+
+        foreach (string combatScene in combatScenes[zone])
         {
             SceneManager.LoadScene(combatScene);
             yield return null;
@@ -30,15 +40,17 @@ public class MapGenerationLookupTest : PlayModeTestBase
         yield return null;
     }
 
-    private List<string> GetCombatScenes()
+    private EnumDictionary<Zone, List<string>> GetCombatScenes()
     {
         TestUtils.InstantiatePrefab<SceneLookup>();
 
-        List<string> combatScenes = SceneLookup.Instance.sceneDataLookup.Values
+        EnumDictionary<Zone, List<string>> combatScenes = new EnumDictionary<Zone, List<string>>(() => new List<string>());
+
+        SceneLookup.Instance.sceneDataLookup.Values
             .Where(sceneData => sceneData.SceneType == SceneType.Gameplay)
             .Where(sceneData => sceneData.GameplaySceneData.RoomTypes.Contains(RoomType.Combat))
-            .Select(sceneData => sceneData.FileName)
-            .ToList();
+            .ToList()
+            .ForEach(sceneData => sceneData.GameplaySceneData.Zones.ForEach(x => combatScenes[x].Add(sceneData.FileName)));
         
         SceneLookup.Instance.Destroy();
         return combatScenes;

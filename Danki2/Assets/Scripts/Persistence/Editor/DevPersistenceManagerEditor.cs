@@ -29,7 +29,6 @@ public class DevPersistenceManagerEditor : Editor
         
         EditorUtils.Header("Ability Tree");
         EditorGUI.indentLevel++;
-        devPersistenceManager.ownedAbilityCount = EditorGUILayout.IntField("Owned Ability Count", devPersistenceManager.ownedAbilityCount);
         devPersistenceManager.leftAbilityName = AbilityDataUtils.EditAbilityName(
             "Left Ability Name",
             devPersistenceManager.leftAbilityName,

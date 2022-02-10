@@ -3,12 +3,12 @@
 public static class AbilityTreeFactory
 {
     // Root node must have two children for ability tree to be functional.
-    public static AbilityTree CreateTree(List<Ability> ownedAbilities, Node leftChild, Node rightChild)
+    public static AbilityTree CreateTree(List<Ability> abilityInventory, Node leftChild, Node rightChild)
     {
         Node rootNode = new NodeImplementation();
         if (leftChild != null) rootNode.SetChild(Direction.Left, leftChild);
         if (rightChild != null) rootNode.SetChild(Direction.Right, rightChild);
-        return new AbilityTreeImplementation(ownedAbilities, rootNode);
+        return new AbilityTreeImplementation(abilityInventory, rootNode);
     }
 
     public static Node CreateNode(Ability ability, Node leftChild = null, Node rightChild = null)
@@ -24,7 +24,7 @@ public static class AbilityTreeFactory
     // for more information
     private class AbilityTreeImplementation : AbilityTree
     {
-        public AbilityTreeImplementation(List<Ability> ownedAbilities, Node rootNode) : base(ownedAbilities, rootNode)
+        public AbilityTreeImplementation(List<Ability> abilityInventory, Node rootNode) : base(abilityInventory, rootNode)
         {
         }
     }
