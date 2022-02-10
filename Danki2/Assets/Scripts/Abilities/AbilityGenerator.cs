@@ -71,7 +71,7 @@ public class AbilityGenerator
         (float minChanceLegendary, float maxChanceLegendary) = chanceLegendaryByZone[zone];
         float chanceLegendary = Mathf.Lerp(minChanceLegendary, maxChanceLegendary, depthProportion);
 
-        var randomValue = Random.value;
+        float randomValue = Random.value;
 
         if (randomValue < chanceLegendary) return Rarity.Legendary;
         if (randomValue < chanceRare) return Rarity.Rare;
