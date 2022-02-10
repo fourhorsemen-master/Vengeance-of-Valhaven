@@ -44,7 +44,7 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
     
     private void SetAbilityTree(SaveData saveData)
     {
-        List<Ability> ownedAbilities = new List<Ability>();
+        List<Ability> abilityInventory = new List<Ability>();
 
         Ability leftStartingAbility = CustomAbilityLookup.Instance.GetByName(
             MapGenerationLookup.Instance.LeftStartingAbilityName
@@ -54,11 +54,8 @@ public class NewSaveGenerator : Singleton<NewSaveGenerator>
             MapGenerationLookup.Instance.RightStartingAbilityName
         );
 
-        ownedAbilities.Add(leftStartingAbility);
-        ownedAbilities.Add(rightStartingAbility);
-
         saveData.SerializableAbilityTree = AbilityTreeFactory.CreateTree(
-            ownedAbilities,
+            abilityInventory,
             AbilityTreeFactory.CreateNode(leftStartingAbility),
             AbilityTreeFactory.CreateNode(rightStartingAbility)
         ).Serialize();

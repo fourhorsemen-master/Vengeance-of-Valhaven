@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
 public abstract class AbilityTree
 {
@@ -23,24 +23,24 @@ public abstract class AbilityTree
 
     public Subject ChangeSubject { get; } = new Subject();
 
-    public List<Ability> OwnedAbilities { get; }
+    public List<Ability> AbilityInventory { get; private set; }
 
-    public List<Ability> Inventory { get; private set; }
+    public List<Ability> OwnedAbilities { get; private set; }
 
     public Direction DirectionLastWalked { get; private set; }
 
-    protected AbilityTree(List<Ability> ownedAbilities, Node rootNode)
+    protected AbilityTree(List<Ability> abilityInventory, Node rootNode)
     {
-        OwnedAbilities = ownedAbilities;
+        AbilityInventory = abilityInventory;
 
         RootNode = rootNode;
         currentNode = RootNode;
         CurrentDepth = 0;
 
+        UpdateOwnedAbilities();
+
         TreeWalkSubject = new BehaviourSubject<Node>(currentNode);
         CurrentDepthSubject = new BehaviourSubject<int>(CurrentDepth);
-
-        UpdateInventory();
 
         RootNode.ChangeSubject.Subscribe(() => {
             UpdateInventory();
@@ -90,8 +90,21 @@ public abstract class AbilityTree
 
     public void AddToInventory(Ability ability)
     {
-        OwnedAbilities.Add(ability);
-        UpdateInventory();
+        AbilityInventory.Add(ability);
+        UpdateOwnedAbilities();
+    }
+
+    private void UpdateOwnedAbilities()
+    {
+        OwnedAbilities = AbilityInventory.Select(x => x).ToList();
+
+        RootNode.IterateDown(
+            n =>
+            {
+                OwnedAbilities.Add(n.Ability);
+            },
+            n => !n.IsRootNode
+        );
     }
 
     public SerializableAbilityTree Serialize()
@@ -101,12 +114,12 @@ public abstract class AbilityTree
 
     private void UpdateInventory()
     {
-        Inventory = OwnedAbilities.Select(x => x).ToList();
+        AbilityInventory = OwnedAbilities.Select(x => x).ToList();
 
         RootNode.IterateDown(
             n =>
             {
-                Inventory.RemoveAll(x => x.ID.Equals(n.Ability.ID));
+                AbilityInventory.RemoveAll(x => x.ID.Equals(n.Ability.ID));
             },
             n => !n.IsRootNode
         );

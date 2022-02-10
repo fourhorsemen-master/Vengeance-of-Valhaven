@@ -3,8 +3,6 @@ using System.Linq;
 
 public class Ability
 {
-    private Ability() { }
-
     public Ability(string displayName, AbilityType type, int damage, Rarity rarity, List<Empowerment> empowerments)
     {
         ID = SerializableGuid.NewGuid();
@@ -26,7 +24,6 @@ public class Ability
     {
         return new SerializableAbility
         {
-            ID = ID,
             DisplayName = DisplayName,
             Type = Type,
             Damage = Damage,
@@ -38,13 +35,12 @@ public class Ability
     public static Ability FromSerializedAbility(SerializableAbility ability)
     {
         return new Ability
-        {
-            ID = ability.ID,
-            DisplayName = ability.DisplayName,
-            Type = ability.Type,
-            Damage = ability.Damage,
-            Rarity = ability.Rarity,
-            Empowerments = ability.Empowerments
-        };
+        (
+            ability.DisplayName,
+            ability.Type,
+            ability.Damage,
+            ability.Rarity,
+            ability.Empowerments
+        );
     }
 }
