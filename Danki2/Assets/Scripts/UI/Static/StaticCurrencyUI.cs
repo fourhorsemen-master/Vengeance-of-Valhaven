@@ -11,7 +11,7 @@ public class StaticCurrencyUI : StaticUI<StaticCurrencyUI>
 
         ActorCache.Instance.Player.CurrencyManager.CurrencySubject.Subscribe(amount =>
         {
-            text.text = $"Currency: {amount.ToString()}";
+            text.text = $"Currency: {amount}";
         });
     }
 }
