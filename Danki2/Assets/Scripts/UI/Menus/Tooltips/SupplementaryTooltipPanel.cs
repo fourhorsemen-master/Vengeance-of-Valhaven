@@ -55,20 +55,20 @@ public class SupplementaryTooltipPanel : MonoBehaviour
     {
         Activate();
 
-        List<Tuple<string, string>> tuples = new List<Tuple<string, string>>();
-        empowerments?.Distinct().ToList().ForEach(e => tuples.Add(Tuple.Create(
+        List<(string, string)> tuples = new List<(string, string)>();
+        empowerments?.Distinct().ToList().ForEach(e => tuples.Add((
             EmpowermentLookup.Instance.GetDisplayName(e),
             EmpowermentLookup.Instance.GetTooltip(e)
         )));
-        activeEffects?.Distinct().ToList().ForEach(e => tuples.Add(Tuple.Create(
+        activeEffects?.Distinct().ToList().ForEach(e => tuples.Add((
             EffectLookup.Instance.GetDisplayName(e),
             EffectLookup.Instance.GetTooltip(e)
         )));
-        passiveEffects?.Distinct().ToList().ForEach(e => tuples.Add(Tuple.Create(
+        passiveEffects?.Distinct().ToList().ForEach(e => tuples.Add((
             EffectLookup.Instance.GetDisplayName(e),
             EffectLookup.Instance.GetTooltip(e)
         )));
-        stackingEffects?.Distinct().ToList().ForEach(e => tuples.Add(Tuple.Create(
+        stackingEffects?.Distinct().ToList().ForEach(e => tuples.Add((
             EffectLookup.Instance.GetDisplayName(e),
             EffectLookup.Instance.GetTooltip(e)
         )));
@@ -81,7 +81,7 @@ public class SupplementaryTooltipPanel : MonoBehaviour
         rectTransform.pivot = pivotPoints[currentScreenQuadrant];
     }
 
-    private void Display(List<Tuple<string, string>> tooltips)
+    private void Display(List<(string, string)> tooltips)
     {
         tooltips.ForEach(t =>
         {
