@@ -2801,8 +2801,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 0}
   m_AABB:
-    m_Center: {x: 0.0000073984265, y: 0.90691495, z: 0.34387717}
-    m_Extent: {x: 0.11474313, y: 0.32052752, z: 0.2297202}
+    m_Center: {x: 0.000016085804, y: 0.9069459, z: 0.3443155}
+    m_Extent: {x: 0.11475015, y: 0.32049662, z: 0.23015854}
   m_DirtyAABB: 0
 --- !u!183 &5250604633547756724
 Cloth:
@@ -3006,15 +3006,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   navmeshAgent: {fileID: 6918691881617835041}
   trailRenderer: {fileID: 1618317697}
-  meshRenderers:
-  - {fileID: 1602192253724852033}
-  - {fileID: 9202046508669020431}
-  - {fileID: 8861419367491515239}
-  - {fileID: 6069462531341055396}
-  - {fileID: 321767935209476056}
-  - {fileID: 3387462581990253440}
-  - {fileID: 9010139035835365635}
-  - {fileID: 7118821877519093548}
   weight: 1
   speed: 4
   maxHealth: 30
@@ -3201,20 +3192,38 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 0
         value: 1.2
-        inSlope: -0.6
-        outSlope: -0.6
+        inSlope: -0.6832688
+        outSlope: -0.6832688
         tangentMode: 34
         weightedMode: 0
         inWeight: 0
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1
-        value: 0.6
-        inSlope: -0.6
-        outSlope: -0.6
-        tangentMode: 34
+        time: 0.8982527
+        value: 0.586252
+        inSlope: -0.7676277
+        outSlope: -0.7676277
+        tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
+        outWeight: 1
+      - serializedVersion: 3
+        time: 0.92433685
+        value: 0.32880095
+        inSlope: -5.9760118
+        outSlope: -5.9760118
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 0.105823636
+        inSlope: -1.1159332
+        outSlope: -1.1159332
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.8409207
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -5503,8 +5512,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 0}
   m_AABB:
-    m_Center: {x: -0.023550034, y: 1.2844739, z: -0.3268478}
-    m_Extent: {x: 0.5386203, y: 0.7835851, z: 0.5202783}
+    m_Center: {x: -0.023551643, y: 1.2844737, z: -0.3268479}
+    m_Extent: {x: 0.53859586, y: 0.7835853, z: 0.5202784}
   m_DirtyAABB: 0
 --- !u!183 &4472611446018268676
 Cloth:
