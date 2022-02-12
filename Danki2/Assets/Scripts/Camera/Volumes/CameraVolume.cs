@@ -86,9 +86,6 @@ public class CameraVolume : MonoBehaviour
             cameraTransformLookup[cameraOrientation],
             overrideSmoothFactor ? smoothFactorOverride : (float?) null
         );
-
-        if (turnOffStaticHealthBarUI) StaticHealthBarUI.Instance.OverrideVisibility(0);
-        if (turnOffStaticCurrencyUI) StaticCurrencyUI.Instance.OverrideVisibility(0);
     }
 
     private void OnTriggerExit(Collider other)
@@ -96,9 +93,6 @@ public class CameraVolume : MonoBehaviour
         if (!IsPlayer(other)) return;
 
         CustomCamera.Instance.RemoveTransformOverride();
-
-        if (turnOffStaticHealthBarUI) StaticHealthBarUI.Instance.RemoveVisibilityOverride();
-        if (turnOffStaticCurrencyUI) StaticCurrencyUI.Instance.RemoveVisibilityOverride();
     }
 
     private void OnDestroy()
