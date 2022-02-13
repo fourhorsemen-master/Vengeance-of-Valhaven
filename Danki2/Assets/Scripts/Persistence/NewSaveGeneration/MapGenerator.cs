@@ -227,8 +227,7 @@ public class MapGenerator : Singleton<MapGenerator>
 
     private void SetBossData(RoomNode node)
     {
-        node.CombatRoomSaveData.SpawnerIdToSpawnedActor[0] = ActorType.Wraith;
-        node.CombatRoomSaveData.SpawnerIdToSpawnedActor[1] = ActorType.Wraith;
+        node.CombatRoomSaveData.SpawnerIdToSpawnedActor[0] = ActorType.ForestGolem;
     }
 
     private void SetAbilityData(RoomNode node)
