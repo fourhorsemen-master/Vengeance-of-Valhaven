@@ -4,6 +4,7 @@ public class RuneShrine : Singleton<RuneShrine>, IShrine
 {
     [SerializeField] private InteractionText interactionText = null;
     [SerializeField] private float interactionDistance = 0;
+    [SerializeField] private CollectibleOrb collectibleOrb = null;
 
     private bool runeSelected = false;
 
@@ -15,6 +16,7 @@ public class RuneShrine : Singleton<RuneShrine>, IShrine
         RuneRoomManager.Instance.RuneSelectedSubject.Subscribe(() =>
         {
             runeSelected = true;
+            collectibleOrb.Collect();
             interactionText.Hide();
         });
     }

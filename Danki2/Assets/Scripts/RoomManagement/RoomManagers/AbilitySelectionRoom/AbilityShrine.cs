@@ -4,6 +4,7 @@ public class AbilityShrine : Singleton<AbilityShrine>, IShrine
 {
     [SerializeField] private InteractionText interactionText = null;
     [SerializeField] private float interactionDistance = 0;
+    [SerializeField] private CollectibleOrb collectibleOrb = null;
 
     private bool abilitySelected = false;
 
@@ -15,6 +16,7 @@ public class AbilityShrine : Singleton<AbilityShrine>, IShrine
         AbilitySelectionRoomManager.Instance.AbilitySelectedSubject.Subscribe(() =>
         {
             abilitySelected = true;
+            collectibleOrb.Collect();
             interactionText.Hide();
         });
     }
