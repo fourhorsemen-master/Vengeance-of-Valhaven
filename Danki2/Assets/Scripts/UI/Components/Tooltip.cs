@@ -23,6 +23,7 @@ public class Tooltip : MonoBehaviour
 
     public static TTooltip Create<TTooltip>(TTooltip prefab) where TTooltip : Tooltip
     {
+        // Parenting to MenuController ensures we are at the end of the heirarchy and appearing at the top
         return Instantiate(prefab, MenuController.Instance.transform);
     }
 
