@@ -10,13 +10,12 @@ public class RunePanel : MonoBehaviour
     [SerializeField] private Text text = null;
 
     private Rune? rune;
-    private Transform containerTransform;
     private RuneTooltip runeTooltip;
     
     public static RunePanel Create(RunePanel prefab, Transform transform, Rune? rune = null)
     {
         RunePanel runePanel = Instantiate(prefab, transform);
-        runePanel.Initialise(transform, rune);
+        runePanel.Initialise(rune);
         return runePanel;
     }
 
@@ -24,15 +23,14 @@ public class RunePanel : MonoBehaviour
 
     public void PointerEnter()
     {
-        if (rune.HasValue) runeTooltip = RuneTooltip.Create(rune.Value, containerTransform);
+        if (rune.HasValue) runeTooltip = RuneTooltip.Create(rune.Value);
     }
 
     public void PointerExit() => TryDestroyTooltip();
     
-    public void Initialise(Transform containerTransform, Rune? rune = null)
+    public void Initialise(Rune? rune = null)
     {
         this.rune = rune;
-        this.containerTransform = containerTransform;
 
         if (this.rune.HasValue)
         {

@@ -18,7 +18,7 @@ public class RuneSelectionMenu : MonoBehaviour
     private void Start()
     {
         nextRune = ActorCache.Instance.Player.RuneManager.GetNextRune();
-        nextRunePanel.Initialise(transform, nextRune);
+        nextRunePanel.Initialise(nextRune);
     }
 
     private void OnEnable()

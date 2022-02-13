@@ -18,17 +18,17 @@ public class AbilityTooltip : Tooltip
 
     private readonly List<AbilityBonusTooltipSection> bonusSections = new List<AbilityBonusTooltipSection>();
     
-    public static AbilityTooltip Create(Transform menuTransform, Ability ability)
+    public static AbilityTooltip Create(Ability ability)
     {
-        AbilityTooltip abilityTooltip = Instantiate(TooltipLookup.Instance.AbilityTooltipPrefab, menuTransform);
+        AbilityTooltip abilityTooltip = Create(TooltipLookup.Instance.AbilityTooltipPrefab);
         abilityTooltip.Activate(ability);
 
         return abilityTooltip;
     }
 
-    public static AbilityTooltip Create(Transform menuTransform, Node node)
+    public static AbilityTooltip Create(Node node)
     {
-        AbilityTooltip abilityTooltip = Instantiate(TooltipLookup.Instance.AbilityTooltipPrefab, menuTransform);
+        AbilityTooltip abilityTooltip = Create(TooltipLookup.Instance.AbilityTooltipPrefab);
         abilityTooltip.Activate(node.Ability);
 
         return abilityTooltip;

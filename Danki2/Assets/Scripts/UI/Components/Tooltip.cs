@@ -21,6 +21,11 @@ public class Tooltip : MonoBehaviour
         MoveToMouse();
     }
 
+    public static TTooltip Create<TTooltip>(TTooltip prefab) where TTooltip : Tooltip
+    {
+        return Instantiate(prefab, MenuController.Instance.transform);
+    }
+
     public void Destroy()
     {
         Destroy(gameObject);
