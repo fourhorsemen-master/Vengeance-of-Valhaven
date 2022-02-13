@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class HealingTree : Singleton<HealingTree>
+public class HealingShrine : Singleton<HealingShrine>
 {
     [SerializeField] private InteractionText interactionText = null;
     [SerializeField] private float interactionDistance = 0;

@@ -28,6 +28,6 @@ public class ClickableRunePanel : MonoBehaviour
 
     private void Initialise(RuneSocket runeSocket)
     {
-        runePanel.Initialise(runeSocket.HasRune ? runeSocket.Rune : (Rune?) null);
+        runePanel.Initialise(transform.parent, runeSocket.HasRune ? runeSocket.Rune : (Rune?) null);
     }
 }
