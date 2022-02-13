@@ -54,9 +54,13 @@ public class AbilityService
         Vector3 castDirection = targetPosition - player.transform.position;
         Quaternion currentCastRotation = AbilityUtils.GetMeleeCastRotation(castDirection);
 
-        Vector3 collisionTemplateOrigin = ability.Type == AbilityType.Smash
-            ? player.transform.position + player.transform.forward * 1.2f
-            : player.CollisionTemplateSource;
+        Vector3 collisionTemplateOrigin = ability.Type switch
+        {
+            AbilityType.Lunge => player.CollisionTemplateSource + player.transform.forward,
+            AbilityType.Smash => player.transform.position + player.transform.forward * 1.2f,
+            AbilityType.Slash => player.CollisionTemplateSource,
+            _ => default
+        };
 
         abilityAnimator.HandleAnimation(ability.Type);
 

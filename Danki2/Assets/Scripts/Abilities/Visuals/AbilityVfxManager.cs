@@ -47,12 +47,6 @@ public class AbilityVfxManager : MonoBehaviour
                     empowermentColor
                 );
                 break;
-            case AbilityType.Lunge:
-                PoisonStabVisual.Create(
-                    player.CurrentCast.CollisionTemplateOrigin + player.transform.forward * offset/200,
-                    player.CurrentCast.CastRotation)
-                    .SetColour(empowermentColor);
-                break;
             case AbilityType.Smash:
                 SmashObject.Create(
                     player.CurrentCast.CollisionTemplateOrigin,
