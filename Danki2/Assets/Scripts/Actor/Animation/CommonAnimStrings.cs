@@ -6,4 +6,10 @@ public static class CommonAnimStrings
 		StrafeBlend = "Lateral_MoveSpeed_Blend",
 		Interrupted = "Interrupted_OneShot",
 		Dash = "Dash_OneShot";
+
+	public readonly static string[] FlinchStrings = 
+	{ 
+		"Additive_Flinch_Right",
+		"Additive_Flinch_Left" 
+	};
 }

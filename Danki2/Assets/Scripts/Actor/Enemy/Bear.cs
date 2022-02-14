@@ -59,7 +59,7 @@ public class Bear : Enemy
     {
         base.Start();
 
-        HealthManager.ModifiedDamageSubject.Subscribe(_ => Roar());
+        HealthManager.ModifiedDamageSubject.Subscribe(_ => OnTakeDamage());
     }
 
     protected override void Update()
@@ -261,6 +261,12 @@ public class Bear : Enemy
             knockBackFaceDirection
         );
     }
+
+    private void OnTakeDamage()
+	{
+        Animator.Play(CommonAnimStrings.FlinchStrings[Random.Range(0, 2)]);
+        Roar();
+	}
 
     private void Roar()
     {
