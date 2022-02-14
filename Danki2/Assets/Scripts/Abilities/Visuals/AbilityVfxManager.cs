@@ -42,7 +42,7 @@ public class AbilityVfxManager : MonoBehaviour
         {
             case AbilityType.Slash:
                 SlashObject.Create(
-                    player.CurrentCast.CollisionTemplateOrigin,
+                    player.AbilitySource,
                     player.CurrentCast.CastRotation * Quaternion.Euler(0, offset, 0),
                     empowermentColor
                 );
