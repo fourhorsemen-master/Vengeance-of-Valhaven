@@ -58,7 +58,7 @@ public class AbilityOptionPanels : MonoBehaviour
     private void OnPointerEnter(AbilityOptionPanel abilityOptionPanel)
     {
         TryDestroyTooltip();
-        abilityTooltip = AbilityTooltip.Create(transform, abilityOptionPanel.Ability);
+        abilityTooltip = AbilityTooltip.Create(abilityOptionPanel.Ability);
         abilityOptionPanel.Highlighted = true;
     }
 

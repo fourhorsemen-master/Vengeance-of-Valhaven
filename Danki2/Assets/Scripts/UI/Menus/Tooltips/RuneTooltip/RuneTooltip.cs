@@ -8,10 +8,11 @@ public class RuneTooltip : Tooltip
 
     [SerializeField] private SupplementaryTooltipPanel abilitySupplementaryTooltipPanel = null;
 
-    public static RuneTooltip Create(Rune rune, Transform transform)
+    public static RuneTooltip Create(Rune rune)
     {
-        RuneTooltip runeTooltip = Instantiate(TooltipLookup.Instance.RuneTooltip, transform);
+        RuneTooltip runeTooltip = Create(TooltipLookup.Instance.RuneTooltip);
         runeTooltip.Activate(rune);
+
         return runeTooltip;
     }
 

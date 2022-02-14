@@ -25,12 +25,12 @@ public class AbilityTreeEditorMenu : Singleton<AbilityTreeEditorMenu>
 
     public AbilityTooltip CreateTooltip(Ability ability)
     {
-        return AbilityTooltip.Create(transform, ability);
+        return AbilityTooltip.Create(ability);
     }
 
     public AbilityTooltip CreateTooltip(Node node)
     {
-        return AbilityTooltip.Create(transform, node);
+        return AbilityTooltip.Create(node);
     }
     
     private void OnEnable()
