@@ -248,7 +248,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: -29701163559749557, guid: 011e7d29bbe8f244fb671a03eaa117a6, type: 3}
   m_Tag: 
-  m_SpeedParameter: InterruptionFactor
+  m_SpeedParameter: AbilityPauseFactor
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -276,7 +276,7 @@ AnimatorState:
   m_Motion: {fileID: -4752678672011182919, guid: 011e7d29bbe8f244fb671a03eaa117a6,
     type: 3}
   m_Tag: 
-  m_SpeedParameter: InterruptionFactor
+  m_SpeedParameter: AbilityPauseFactor
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -398,19 +398,19 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: Lateral_MoveSpeed_Blend
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
-  - m_Name: InterruptionFactor
+    m_Controller: {fileID: 0}
+  - m_Name: AbilityPauseFactor
     m_Type: 1
     m_DefaultFloat: 1
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -506,7 +506,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: -5559284479256548839}
   m_Tag: 
-  m_SpeedParameter: InterruptionFactor
+  m_SpeedParameter: AbilityPauseFactor
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 

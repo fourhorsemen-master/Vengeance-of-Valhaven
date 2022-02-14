@@ -31,8 +31,8 @@ public abstract class Enemy : Actor
 
         HealthManager.ModifiedDamageSubject.Subscribe(_ =>
         {
-            Animator.SetFloat("InterruptionFactor", 0);
-            this.WaitAndAct(DamageInterruptTime, () => Animator.SetFloat("InterruptionFactor", 1));
+            Animator.SetFloat("AbilityPauseFactor", 0);
+            this.WaitAndAct(DamageInterruptTime, () => Animator.SetFloat("AbilityPauseFactor", 1));
         });
     }
 }
