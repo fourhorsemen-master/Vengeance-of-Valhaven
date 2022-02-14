@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.VFX;
 
 public class CollectibleOrb : MonoBehaviour
@@ -19,6 +20,8 @@ public class CollectibleOrb : MonoBehaviour
 
         glow.color = colour;
     }
+
+    public void Destroy() => Destroy(gameObject);
 
     public void Collect()
     {

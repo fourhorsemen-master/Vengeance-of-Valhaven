@@ -9,6 +9,11 @@ public class HealingShrine : Singleton<HealingShrine>
     private void Start()
     {
         interactionText.Hide();
+
+        if (HealingRoomManager.Instance.HasHealed)
+        {
+            collectibleOrb.Destroy();
+        }
     }
 
     private void Update()

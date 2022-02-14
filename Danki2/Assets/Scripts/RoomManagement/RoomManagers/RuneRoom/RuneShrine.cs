@@ -13,6 +13,9 @@ public class RuneShrine : Singleton<RuneShrine>, IShrine
         interactionText.Hide();
 
         runeSelected = RuneRoomManager.Instance.RuneSelected;
+
+        if (runeSelected) collectibleOrb.Destroy();
+
         RuneRoomManager.Instance.RuneSelectedSubject.Subscribe(() =>
         {
             runeSelected = true;

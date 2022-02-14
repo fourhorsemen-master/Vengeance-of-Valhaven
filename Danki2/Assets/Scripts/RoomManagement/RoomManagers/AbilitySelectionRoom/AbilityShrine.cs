@@ -13,6 +13,9 @@ public class AbilityShrine : Singleton<AbilityShrine>, IShrine
         interactionText.Hide();
 
         abilitySelected = AbilitySelectionRoomManager.Instance.AbilitySelected;
+
+        if (abilitySelected) collectibleOrb.Destroy();
+
         AbilitySelectionRoomManager.Instance.AbilitySelectedSubject.Subscribe(() =>
         {
             abilitySelected = true;
