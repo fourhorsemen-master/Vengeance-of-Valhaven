@@ -38,6 +38,9 @@ public static class DankiMenu
     [MenuItem("Danki/Scenes/Forest Dens", priority = 4)]
     private static void OpenForestDensScene() => OpenScene("Assets/Scenes/GameplayScenes/Zone1/ForestDens/ForestDensScene.unity");
 
+    [MenuItem("Danki/Scenes/Ability", priority = 5)]
+    private static void OpenAbilityScene() => OpenScene("Assets/Scenes/GameplayScenes/Zone1/AbilityScene/AbilityScene.unity");
+
     private static void RunScene(string scenePath)
     {
         if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
