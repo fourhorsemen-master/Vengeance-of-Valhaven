@@ -206,10 +206,10 @@ public class Bear : Enemy
 
     private void BeginBiteAnim()
     {
-		if (!IsCurrentAnimationState(MaulAnimationName))
-		{
+        if (!IsCurrentAnimationState(MaulAnimationName))
+        {
             Animator.Play(MaulAnimationName);
-		}
+        }
     }
 
     public void Cleave()
@@ -263,10 +263,10 @@ public class Bear : Enemy
     }
 
     private void OnTakeDamage()
-	{
-        Animator.Play(CommonAnimStrings.FlinchStrings[Random.Range(0, 2)]);
+    {
+        Animator.Play(CommonAnimStrings.RandomFlinch);
         Roar();
-	}
+    }
 
     private void Roar()
     {

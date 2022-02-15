@@ -5,11 +5,9 @@ public static class CommonAnimStrings
 		ForwardBlend = "Forward_MoveSpeed_Blend",
 		StrafeBlend = "Lateral_MoveSpeed_Blend",
 		Interrupted = "Interrupted_OneShot",
-		Dash = "Dash_OneShot";
+		Dash = "Dash_OneShot",
+		FlinchLeft = "Additive_Flinch_Left",
+		FlinchRight = "Additive_Flinch_Right";
 
-	public readonly static string[] FlinchStrings = 
-	{ 
-		"Additive_Flinch_Right",
-		"Additive_Flinch_Left" 
-	};
+	public static string RandomFlinch => RandomUtils.Choice(FlinchLeft, FlinchRight);
 }
