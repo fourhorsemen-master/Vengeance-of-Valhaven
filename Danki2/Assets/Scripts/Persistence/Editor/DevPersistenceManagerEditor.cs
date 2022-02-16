@@ -17,6 +17,25 @@ public class DevPersistenceManagerEditor : Editor
             false
         );
 
+        EditPlayer(devPersistenceManager);
+
+        EditorUtils.VerticalSpace();
+        EditAbilityTree(devPersistenceManager);
+
+        EditorUtils.VerticalSpace();
+        EditScene(devPersistenceManager);
+        
+        EditorUtils.VerticalSpace();
+        EditRoom(devPersistenceManager);
+        
+        if (GUI.changed)
+        {
+            EditorUtility.SetDirty(target);
+        }
+    }
+
+    private void EditPlayer(DevPersistenceManager devPersistenceManager)
+    {
         EditorUtils.Header("Player");
         EditorGUI.indentLevel++;
         devPersistenceManager.playerSpawnerId = EditorGUILayout.IntField("Player Spawner ID", devPersistenceManager.playerSpawnerId);
@@ -25,26 +44,37 @@ public class DevPersistenceManagerEditor : Editor
         EditRuneSockets(devPersistenceManager);
         EditRuneOrder(devPersistenceManager);
         EditorGUI.indentLevel--;
-        EditorUtils.VerticalSpace();
-        
+    }
+
+    private void EditAbilityTree(DevPersistenceManager devPersistenceManager)
+    {
         EditorUtils.Header("Ability Tree");
         EditorGUI.indentLevel++;
-        devPersistenceManager.leftAbilityName = AbilityDataUtils.EditAbilityName(
-            "Left Ability Name",
-            devPersistenceManager.leftAbilityName,
-            devPersistenceManager.abilityData
-        );
-        devPersistenceManager.rightAbilityName = AbilityDataUtils.EditAbilityName(
-            "Right Ability Name",
-            devPersistenceManager.rightAbilityName,
-            devPersistenceManager.abilityData
-        );
-        EditorGUI.indentLevel--;
+
+        devPersistenceManager.leftAbilitytype = (AbilityType)EditorGUILayout.EnumPopup("Left Ability", devPersistenceManager.leftAbilitytype);
+        EditorUtils.ResizeableList(
+            devPersistenceManager.leftAbilityEmpowerments,
+            x => (Empowerment)EditorGUILayout.EnumPopup("Empowerment", x),
+            Empowerment.Impact,
+            itemName: "empowerment");
+
         EditorUtils.VerticalSpace();
-        
+
+        devPersistenceManager.rightAbilitytype = (AbilityType)EditorGUILayout.EnumPopup("Right Ability", devPersistenceManager.rightAbilitytype);
+        EditorUtils.ResizeableList(
+            devPersistenceManager.rightAbilityEmpowerments,
+            x => (Empowerment)EditorGUILayout.EnumPopup("Empowerment", x),
+            Empowerment.Impact,
+            itemName: "empowerment");
+
+        EditorGUI.indentLevel--;
+    }
+
+    private void EditScene(DevPersistenceManager devPersistenceManager)
+    {
         EditorUtils.Header("Scene");
         EditorGUI.indentLevel++;
-        devPersistenceManager.cameraOrientation = (Pole) EditorGUILayout.EnumPopup("Camera Orientation", devPersistenceManager.cameraOrientation);
+        devPersistenceManager.cameraOrientation = (Pole)EditorGUILayout.EnumPopup("Camera Orientation", devPersistenceManager.cameraOrientation);
         devPersistenceManager.useRandomSeeds = EditorGUILayout.Toggle("Use Random Seeds", devPersistenceManager.useRandomSeeds);
         if (devPersistenceManager.useRandomSeeds) EditorGUI.BeginDisabledGroup(true);
         devPersistenceManager.moduleSeed = EditorGUILayout.IntField("Module Seed", devPersistenceManager.moduleSeed);
@@ -52,22 +82,19 @@ public class DevPersistenceManagerEditor : Editor
         if (devPersistenceManager.useRandomSeeds) EditorGUI.EndDisabledGroup();
         EditTransitions(devPersistenceManager);
         EditorGUI.indentLevel--;
-        EditorUtils.VerticalSpace();
-        
+    }
+
+    private void EditRoom(DevPersistenceManager devPersistenceManager)
+    {
         EditorUtils.Header("Room");
         EditorGUI.indentLevel++;
         devPersistenceManager.depth = EditorGUILayout.IntField("Depth", devPersistenceManager.depth);
-        devPersistenceManager.zone = (Zone) EditorGUILayout.EnumPopup("Zone", devPersistenceManager.zone);
+        devPersistenceManager.zone = (Zone)EditorGUILayout.EnumPopup("Zone", devPersistenceManager.zone);
         devPersistenceManager.depthInZone = EditorGUILayout.IntField("Depth In Zone", devPersistenceManager.depthInZone);
-        devPersistenceManager.roomType = (RoomType) EditorGUILayout.EnumPopup("Room Type", devPersistenceManager.roomType);
+        devPersistenceManager.roomType = (RoomType)EditorGUILayout.EnumPopup("Room Type", devPersistenceManager.roomType);
         if (devPersistenceManager.roomType == RoomType.Combat) EditCombatRoomData(devPersistenceManager);
         if (devPersistenceManager.roomType == RoomType.Healing) EditHealingRoomData(devPersistenceManager);
         EditorGUI.indentLevel--;
-
-        if (GUI.changed)
-        {
-            EditorUtility.SetDirty(target);
-        }
     }
 
     private void EditRuneSockets(DevPersistenceManager devPersistenceManager)

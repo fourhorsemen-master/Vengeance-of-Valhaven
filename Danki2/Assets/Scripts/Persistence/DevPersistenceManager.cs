@@ -12,8 +12,10 @@ using UnityEngine;
 /// </summary>
 public class DevPersistenceManager : PersistenceManager
 {
-    [SerializeField] public string leftAbilityName = "";
-    [SerializeField] public string rightAbilityName = "";
+    [SerializeField] public AbilityType leftAbilitytype = default;
+    [SerializeField] public List<Empowerment> leftAbilityEmpowerments = null;
+    [SerializeField] public AbilityType rightAbilitytype = default;
+    [SerializeField] public List<Empowerment> rightAbilityEmpowerments = null;
     [SerializeField] public int playerHealth = 0;
     [SerializeField] public List<RuneSocket> runeSockets = new List<RuneSocket>();
     [SerializeField] public List<Rune> runeOrder = new List<Rune>();
@@ -58,9 +60,9 @@ public class DevPersistenceManager : PersistenceManager
     {
         List<Ability> abilityInventory = new List<Ability>();
 
-        Ability leftStartingAbility = CustomAbilityLookup.Instance.GetByName(leftAbilityName);
+        Ability leftStartingAbility = new Ability("LeftAbility", leftAbilitytype, 6, Rarity.Common, leftAbilityEmpowerments);
 
-        Ability rightStartingAbility = CustomAbilityLookup.Instance.GetByName(rightAbilityName);
+        Ability rightStartingAbility = new Ability("rightAbility", rightAbilitytype, 6, Rarity.Common, rightAbilityEmpowerments);
 
         List<Ability> abilityChoices = new List<Ability>();
 
