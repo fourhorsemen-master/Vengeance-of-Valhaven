@@ -59,7 +59,7 @@ public class Bear : Enemy
     {
         base.Start();
 
-        HealthManager.ModifiedDamageSubject.Subscribe(_ => Roar());
+        HealthManager.ModifiedDamageSubject.Subscribe(_ => OnTakeDamage());
     }
 
     protected override void Update()
@@ -206,10 +206,10 @@ public class Bear : Enemy
 
     private void BeginBiteAnim()
     {
-		if (!IsCurrentAnimationState(MaulAnimationName))
-		{
+        if (!IsCurrentAnimationState(MaulAnimationName))
+        {
             Animator.Play(MaulAnimationName);
-		}
+        }
     }
 
     public void Cleave()
@@ -260,6 +260,12 @@ public class Bear : Enemy
             knockBackDirection,
             knockBackFaceDirection
         );
+    }
+
+    private void OnTakeDamage()
+    {
+        Animator.Play(CommonAnimStrings.RandomFlinch);
+        Roar();
     }
 
     private void Roar()
