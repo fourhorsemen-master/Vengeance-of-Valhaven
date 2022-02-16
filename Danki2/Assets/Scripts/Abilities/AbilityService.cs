@@ -66,7 +66,7 @@ public class AbilityService
     {
         return CurrentCast.Ability.Type switch
         {
-            AbilityType.Lunge => player.CollisionTemplateSource + player.transform.forward,
+            AbilityType.Lunge => player.CollisionTemplateSource,
             AbilityType.Smash => player.transform.position + player.transform.forward * 1.2f,
             AbilityType.Slash => player.CollisionTemplateSource,
             _ => default
