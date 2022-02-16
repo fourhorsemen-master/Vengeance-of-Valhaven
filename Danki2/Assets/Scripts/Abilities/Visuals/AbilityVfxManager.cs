@@ -49,7 +49,7 @@ public class AbilityVfxManager : MonoBehaviour
                 break;
             case AbilityType.Smash:
                 SmashObject.Create(
-                    player.CurrentCast.CollisionTemplateOrigin,
+                    player.AbilityService.GetCollisionTemplateOrigin(),
                     rotation: Quaternion.Euler(0, offset, 0),
                     colour: empowermentColor
                 );

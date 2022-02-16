@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class AbilityService
 {
-    private const float AbilityRange = 3;
-
     private const float ImpactDamageIncrease = 1f;
     private const float DuelDamageIncrease = 2f;
     private const float BrawlDamageIncrease = 2f;
@@ -54,23 +52,25 @@ public class AbilityService
         Vector3 castDirection = targetPosition - player.transform.position;
         Quaternion currentCastRotation = AbilityUtils.GetMeleeCastRotation(castDirection);
 
-        Vector3 collisionTemplateOrigin = ability.Type switch
-        {
-            AbilityType.Lunge => player.CollisionTemplateSource + player.transform.forward,
-            AbilityType.Smash => player.transform.position + player.transform.forward * 1.2f,
-            AbilityType.Slash => player.CollisionTemplateSource,
-            _ => default
-        };
-
         abilityAnimator.HandleAnimation(ability.Type);
 
         CurrentCast = new CastContext(
             ability,
             currentCastRotation,
-            collisionTemplateOrigin,
             empowerments,
             nextEmpowerments
         );
+    }
+
+    public Vector3 GetCollisionTemplateOrigin()
+    {
+        return CurrentCast.Ability.Type switch
+        {
+            AbilityType.Lunge => player.CollisionTemplateSource,
+            AbilityType.Smash => player.transform.position + player.transform.forward * 1.2f,
+            AbilityType.Slash => player.CollisionTemplateSource,
+            _ => default
+        };
     }
 
     private void OnImpact()
@@ -80,8 +80,8 @@ public class AbilityService
         AbilityUtils.TemplateCollision(
             player,
             collisionTemplateLookup[CurrentCast.Ability.Type],
-            AbilityRange,
-            CurrentCast.CollisionTemplateOrigin,
+            AbilityTypeLookup.Instance.GetAbilityRange(CurrentCast.Ability.Type),
+            GetCollisionTemplateOrigin(),
             CurrentCast.CastRotation,
             AbilityTypeLookup.Instance.GetCollisionSoundLevel(CurrentCast.Ability.Type),
             enemyCallback: enemy =>
