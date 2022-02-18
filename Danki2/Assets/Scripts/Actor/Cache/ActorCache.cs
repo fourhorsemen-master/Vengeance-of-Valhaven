@@ -3,12 +3,21 @@ using UnityEngine;
 
 public class ActorCache : Singleton<ActorCache>
 {
+    public Subject<Actor> ActorRegisteredSubject { get; } = new Subject<Actor>();
     public List<ActorCacheItem> Cache { get; } = new List<ActorCacheItem>();
     public Player Player { get; private set; }
 
+    private void Start()
+    {
+        if (Player == null)
+        {
+            Debug.LogError("No player registered with the actor cache");
+        }
+    }
+
     public bool TryGetActor(GameObject gameObject, out Actor actor)
     {
-        foreach(ActorCacheItem item in Cache)
+        foreach (ActorCacheItem item in Cache)
         {
             if (item.Actor.gameObject.MatchesId(gameObject))
             {
@@ -19,14 +28,6 @@ public class ActorCache : Singleton<ActorCache>
 
         actor = null;
         return false;
-    }
-
-    private void Start()
-    {
-        if (Player == null)
-        {
-            Debug.LogError("No player registered with the actor cache");
-        }
     }
 
     public void Register(Actor actor)
@@ -50,5 +51,7 @@ public class ActorCache : Singleton<ActorCache>
         ActorCacheItem actorCacheItem = new ActorCacheItem(actor, collider);
         Cache.Add(actorCacheItem);
         actorCacheItem.Actor.DeathSubject.Subscribe(_ => Cache.Remove(actorCacheItem));
+
+        ActorRegisteredSubject.Next(actor);
     }
 }
