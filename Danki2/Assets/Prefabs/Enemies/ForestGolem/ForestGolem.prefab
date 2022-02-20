@@ -12502,7 +12502,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   navmeshAgent: {fileID: 1307004630582523634}
   trailRenderer: {fileID: 4564750321355086747}
-  meshRenderers: []
   weight: 5
   speed: 1
   maxHealth: 150
@@ -12514,6 +12513,8 @@ MonoBehaviour:
   centre: {fileID: 7817277397840590268}
   abilitySource: {fileID: 2501541229603721505}
   collisionTemplateSource: {fileID: 7496201845270352354}
+  entPrefab: {fileID: 7773382599880723946, guid: 23da4e3462db10e4db1802df1c244e5d,
+    type: 3}
   rootIndicatorPrefab: {fileID: 8442699388731173857, guid: d93680d88a21d4e4b8a7b8205ea466f2,
     type: 3}
   rootPrefab: {fileID: 3090825199352626148, guid: 7b08c4355a760454ba0be59592066915,
@@ -12553,6 +12554,8 @@ MonoBehaviour:
   aggroRange: 6
   advanceDistance: 3
   advanceDuration: 2
+  entCount: 2
+  spawnEntsTelegraphTime: 1
   rootStormCooldown: 20
   minRootStormDistance: 0
   maxRootStormDistance: 15

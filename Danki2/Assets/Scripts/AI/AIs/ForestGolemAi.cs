@@ -8,7 +8,11 @@ public class ForestGolemAi : Ai
     [SerializeField] private float aggroRange = 0;
     [SerializeField] private float advanceDistance = 0;
     [SerializeField] private float advanceDuration = 0;
-    
+
+    [Header("Spawn Ents")]
+    [SerializeField] private int entCount = 0;
+    [SerializeField] private float spawnEntsTelegraphTime = 0;
+
     [Header("Root Storm")]
     [SerializeField] private float rootStormCooldown = 0;
     [SerializeField] private float minRootStormDistance = 0;
@@ -34,7 +38,12 @@ public class ForestGolemAi : Ai
             .WithComponent(RootStormState.FireRoot, new ForestGolemFireRoot(forestGolem, minRootStormDistance, maxRootStormDistance))
             .WithTransition(RootStormState.Idle, RootStormState.FireRoot, new TimeElapsed(rootStormInterval))
             .WithTransition(RootStormState.FireRoot, RootStormState.Idle, new AlwaysTrigger());
-        
+
+        IStateMachineComponent spawnEntStateMachine = new StateMachine<SpawnEntState>(SpawnEntState.Telegraph)
+            .WithComponent(SpawnEntState.Telegraph, new TelegraphAttack(forestGolem, Color.red))
+            .WithComponent(SpawnEntState.SpawnEnt, new ForestGolemSpawnEnts(forestGolem, player, entCount))
+            .WithTransition(SpawnEntState.Telegraph, SpawnEntState.SpawnEnt, new TimeElapsed(spawnEntsTelegraphTime));
+
         IStateMachineComponent boulderThrowStateMachine = new StateMachine<BoulderThrowState>(BoulderThrowState.Telegraph)
             .WithComponent(BoulderThrowState.Telegraph, new TelegraphAttack(forestGolem, Color.blue))
             .WithComponent(BoulderThrowState.ThrowBoulder, new ForestGolemThrowBoulder(forestGolem))
@@ -50,12 +59,14 @@ public class ForestGolemAi : Ai
         return new StateMachine<State>(State.Idle)
             .WithComponent(State.Advance, new MoveTowardsAtDistance(forestGolem, player, advanceDistance))
             .WithComponent(State.RootStorm, rootStormStateMachine)
+            .WithComponent(State.SpawnEnts, spawnEntStateMachine)
             .WithComponent(State.BoulderThrow, boulderThrowStateMachine)
             .WithComponent(State.Stomp, stompStateMachine)
             .WithDecisionState(State.DecideAttack, new ForestGolemAttackDecider(forestGolem, rootStormCooldown, stompRange))
             .WithTransition(State.Idle, State.Advance, new DistanceLessThan(forestGolem, player, aggroRange) | new TakesDamage(forestGolem))
             .WithTransition(State.Advance, State.DecideAttack, new TimeElapsed(advanceDuration))
             .WithTransition(State.RootStorm, State.DecideAttack, new TimeElapsed(rootStormDuration))
+            .WithTransition(State.SpawnEnts, State.Advance, new SubjectEmitted(forestGolem.EntSpawnedSubject))
             .WithTransition(State.BoulderThrow, State.Advance, new SubjectEmitted(forestGolem.BoulderThrowSubject))
             .WithTransition(State.Stomp, State.Advance, new SubjectEmitted(forestGolem.StompSubject));
     }
@@ -66,6 +77,7 @@ public class ForestGolemAi : Ai
         Advance,
         DecideAttack,
         RootStorm,
+        SpawnEnts,
         BoulderThrow,
         Stomp
     }
@@ -80,6 +92,12 @@ public class ForestGolemAi : Ai
     {
         Telegraph,
         ThrowBoulder
+    }
+
+    private enum SpawnEntState
+    {
+        Telegraph,
+        SpawnEnt
     }
 
     private enum StompState
