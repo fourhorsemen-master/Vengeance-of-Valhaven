@@ -18,7 +18,7 @@ public class ForestGolemSpawnEnts : IStateMachineComponent
         Repeat.Times(entCount, () =>
         {
             Vector3 position = positionFinder.GetRandomPositionAroundTarget();
-            forestGolem.SpawnEnt(ActorCache.Instance.Player.transform.position);
+            forestGolem.SpawnEnt(position);
         });
     }
 

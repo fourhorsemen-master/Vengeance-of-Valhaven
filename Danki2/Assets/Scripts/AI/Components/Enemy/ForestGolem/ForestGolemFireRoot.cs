@@ -15,14 +15,7 @@ public class ForestGolemFireRoot : IStateMachineComponent
 
     public void Enter()
     {
-        if (Random.value < 0.1)
-        {
-            forestGolem.SpawnEnt(GetNewPosition());
-        }
-        else
-        {
-            forestGolem.FireRoot(GetNewPosition());
-        }
+        forestGolem.FireRoot(GetNewPosition());
     }
 
     public void Exit() {}
