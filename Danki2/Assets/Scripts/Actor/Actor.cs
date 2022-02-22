@@ -71,11 +71,11 @@ public abstract class Actor : MonoBehaviour
 
     protected virtual void Awake()
     {
-        ActorCache.Instance.Register(this);
-        
+        gameObject.SetTag(Tag);
+
         gameObject.SetLayerRecursively(Layer.Actors);
 
-        gameObject.SetTag(Tag);
+        ActorCache.Instance.Register(this);
 
         EffectManager = new EffectManager(this, updateSubject);
         HealthManager = new HealthManager(this, updateSubject);

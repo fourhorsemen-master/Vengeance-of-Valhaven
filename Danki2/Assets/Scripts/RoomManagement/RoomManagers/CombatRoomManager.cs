@@ -45,8 +45,27 @@ public class CombatRoomManager : Singleton<CombatRoomManager>
             return;
         }
 
+        ActorCache.Instance.ActorRegisteredSubject
+            .Where(x => x.CompareTag(Tag.Enemy))
+            .Subscribe(x => TrackEnemy((Enemy)x));
+
         List<Enemy> enemies = SpawnEnemies();
-        TrackEnemyDeaths(enemies);
+    }
+
+    private void TrackEnemy(Enemy enemy)
+    {
+        enemy.DeathSubject.Subscribe(deathData =>
+        {
+            YieldCurrency(enemy, deathData);
+
+            if (ActorCache.Instance.Cache.All(x => !x.Actor.CompareTag(Tag.Enemy)))
+            {
+                CompleteRoom();
+            }
+
+            DeadEnemyCount++;
+            if (DeadEnemyCount != TotalEnemyCount) return;
+        });
     }
 
     private List<Enemy> SpawnEnemies()
@@ -66,28 +85,6 @@ public class CombatRoomManager : Singleton<CombatRoomManager>
         return enemies;
     }
 
-    private void TrackEnemyDeaths(List<Enemy> enemies)
-    {
-        TotalEnemyCount = enemies.Count;
-        DeadEnemyCount = 0;
-        enemies.ForEach(enemy => enemy.DeathSubject.Subscribe(deathData =>
-        {
-            YieldCurrency(enemy, deathData);
-
-            DeadEnemyCount++;
-            if (DeadEnemyCount != TotalEnemyCount) return;
-
-            if (ActorCache.Instance.Player.RuneManager.HasRune(Rune.FirstAid))
-            {
-                ActorCache.Instance.Player.HealthManager.ReceiveHeal(FirstAidHealAmount);
-            }
-            
-            EnemiesCleared = true;
-            EnemiesClearedSubject.Next();
-            PersistenceManager.Instance.Save();
-        }));
-    }
-
     private void YieldCurrency(Enemy enemy, DeathData deathData)
     {
         float baseValue = CurrencyLookup.Instance.EnemyCurrencyValueLookup[enemy.Type];
@@ -99,5 +96,17 @@ public class CombatRoomManager : Singleton<CombatRoomManager>
 
         ActorCache.Instance.Player.CurrencyManager.AddCurrency(currencyValue);
         CurrencyCollectionVisual.Create(enemy.Centre, currencyValue);
+    }
+
+    private void CompleteRoom()
+    {
+        if (ActorCache.Instance.Player.RuneManager.HasRune(Rune.FirstAid))
+        {
+            ActorCache.Instance.Player.HealthManager.ReceiveHeal(FirstAidHealAmount);
+        }
+
+        EnemiesCleared = true;
+        EnemiesClearedSubject.Next();
+        PersistenceManager.Instance.Save();
     }
 }
