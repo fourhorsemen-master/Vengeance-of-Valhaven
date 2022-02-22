@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class ForestGolem : Enemy
 {
+    [SerializeField] private Ent entPrefab = null;
+
     [Header("Root")]
     [SerializeField] private ForestGolemRootIndicator rootIndicatorPrefab = null;
     [SerializeField] private ForestGolemRoot rootPrefab = null;
@@ -27,7 +29,8 @@ public class ForestGolem : Enemy
     [SerializeField] private float stompKnockbackDuration = 0;
     [SerializeField] private float stompKnockbackSpeed = 0;
     [SerializeField] private float stompEffectScaleFactor = 0;
-    
+
+    public Subject EntSpawnedSubject { get; } = new Subject();
     public Subject BoulderThrowSubject { get; } = new Subject();
     public Subject StompSubject { get; } = new Subject();
 
@@ -47,6 +50,12 @@ public class ForestGolem : Enemy
                 numRepetitions: rootDamageRepetitions
             );
         });
+    }
+
+    public void SpawnEnt(Vector3 position)
+    {
+        Instantiate(entPrefab, position, Quaternion.identity);
+        EntSpawnedSubject.Next();
     }
 
     private void HandleRootDamage(Vector3 position)

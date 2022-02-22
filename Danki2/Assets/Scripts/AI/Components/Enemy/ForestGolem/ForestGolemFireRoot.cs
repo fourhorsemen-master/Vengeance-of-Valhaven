@@ -13,7 +13,11 @@ public class ForestGolemFireRoot : IStateMachineComponent
         this.maxDistance = maxDistance;
     }
 
-    public void Enter() => forestGolem.FireRoot(GetNewPosition());
+    public void Enter()
+    {
+        forestGolem.FireRoot(GetNewPosition());
+    }
+
     public void Exit() {}
     public void Update() {}
 
