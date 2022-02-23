@@ -8,7 +8,7 @@ public class LazyFollow : MonoBehaviour
 	private Transform Parent;
 
 	[SerializeField, Range(0f, 1f), Tooltip("0 will never move, 1 will follow the parent exactly.")]
-	float FollowStrength;
+	private float FollowStrength;
 
 	private Vector3 pos, forward, up;
 
