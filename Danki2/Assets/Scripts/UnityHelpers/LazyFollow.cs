@@ -12,6 +12,7 @@ public class LazyFollow : MonoBehaviour
 
 	private Vector3 pos, forward, up;
 
+	private Vector3 velocity = Vector3.zero;
 	void Start()
 	{
 		pos = Parent.transform.InverseTransformPoint(transform.position);
@@ -28,7 +29,12 @@ public class LazyFollow : MonoBehaviour
 		Vector3 newup = Parent.transform.TransformDirection(up);
 		Quaternion newrot = Quaternion.LookRotation(newforward, newup);
 
-		transform.position = Vector3.Lerp(transform.position, newpos, FollowStrength);
-		transform.rotation = Quaternion.Lerp(transform.rotation, newrot, FollowStrength);
+		velocity += Vector3.Distance(newpos, transform.position) * (newpos - transform.position) * FollowStrength * Time.deltaTime;
+
+		velocity = Vector3.Lerp(velocity, Vector3.zero, Time.deltaTime * 2);
+
+		transform.position += velocity;
+
+		transform.rotation = Quaternion.Lerp(transform.rotation, newrot, Time.deltaTime * 5);
 	}
 }
