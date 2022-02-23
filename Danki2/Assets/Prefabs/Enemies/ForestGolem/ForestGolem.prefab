@@ -92,6 +92,7 @@ GameObject:
   - component: {fileID: 231366146471522129}
   - component: {fileID: 5735775795156651272}
   - component: {fileID: 4521094374444011150}
+  - component: {fileID: 4178138934688418772}
   m_Layer: 0
   m_Name: Rock_11_low
   m_TagString: Untagged
@@ -162,6 +163,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &4178138934688418772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 64333700470215030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7915bf17439457a49ba90424313446cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Parent: {fileID: 5288101457634720532}
+  FollowStrength: 0.057
 --- !u!1 &170938874357659189
 GameObject:
   m_ObjectHideFlags: 0
@@ -3287,6 +3302,7 @@ GameObject:
   - component: {fileID: 902583484255767851}
   - component: {fileID: 6624086679734925309}
   - component: {fileID: 6841665488814383154}
+  - component: {fileID: 6721548521211877847}
   m_Layer: 0
   m_Name: Rock_03_low
   m_TagString: Untagged
@@ -3357,6 +3373,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &6721548521211877847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1501639499122401694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7915bf17439457a49ba90424313446cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Parent: {fileID: 5288101457634720532}
+  FollowStrength: 0.075
 --- !u!1 &1526099997081538309
 GameObject:
   m_ObjectHideFlags: 0
@@ -4340,6 +4370,7 @@ GameObject:
   - component: {fileID: 41843481870257527}
   - component: {fileID: 2511736398017151269}
   - component: {fileID: 677185597362105310}
+  - component: {fileID: 8004611925178039078}
   m_Layer: 0
   m_Name: Rock_01_low
   m_TagString: Untagged
@@ -4410,6 +4441,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8004611925178039078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1797117437164518659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7915bf17439457a49ba90424313446cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Parent: {fileID: 5288101457634720532}
+  FollowStrength: 0.156
 --- !u!1 &1802004557214143006
 GameObject:
   m_ObjectHideFlags: 0
@@ -5831,6 +5876,7 @@ GameObject:
   - component: {fileID: 3477001066526032866}
   - component: {fileID: 162416157025002800}
   - component: {fileID: 627312812831876027}
+  - component: {fileID: 5807181383735715401}
   m_Layer: 0
   m_Name: Rock_10_high
   m_TagString: Untagged
@@ -5901,6 +5947,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &5807181383735715401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2333794055106026387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7915bf17439457a49ba90424313446cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Parent: {fileID: 5288101457634720532}
+  FollowStrength: 0.131
 --- !u!1 &2353471387955988750
 GameObject:
   m_ObjectHideFlags: 0
@@ -6722,6 +6782,7 @@ GameObject:
   - component: {fileID: 1892543852638108921}
   - component: {fileID: 381551433762914181}
   - component: {fileID: 3618562833969174631}
+  - component: {fileID: 1922280258397652167}
   m_Layer: 0
   m_Name: Rock_11_low.001
   m_TagString: Untagged
@@ -6792,6 +6853,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &1922280258397652167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2604059418764895302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7915bf17439457a49ba90424313446cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Parent: {fileID: 5288101457634720532}
+  FollowStrength: 0.095
 --- !u!1 &2609262956184461979
 GameObject:
   m_ObjectHideFlags: 0
@@ -10721,6 +10796,7 @@ GameObject:
   - component: {fileID: 4173338366000357842}
   - component: {fileID: 3571038694453916672}
   - component: {fileID: 2375874095544077663}
+  - component: {fileID: 5679765831398146178}
   m_Layer: 0
   m_Name: Rock_08_low
   m_TagString: Untagged
@@ -10791,6 +10867,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &5679765831398146178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4351627835072723993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7915bf17439457a49ba90424313446cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Parent: {fileID: 5288101457634720532}
+  FollowStrength: 0.131
 --- !u!1 &4361035615270409708
 GameObject:
   m_ObjectHideFlags: 0
@@ -11288,6 +11378,7 @@ GameObject:
   - component: {fileID: 5268253495080980880}
   - component: {fileID: 5333536116233547635}
   - component: {fileID: 7365501432363982804}
+  - component: {fileID: 5772064068077857892}
   m_Layer: 0
   m_Name: Rock_07_low
   m_TagString: Untagged
@@ -11358,6 +11449,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &5772064068077857892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4586713659499388842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7915bf17439457a49ba90424313446cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Parent: {fileID: 5288101457634720532}
+  FollowStrength: 0.471
 --- !u!1 &4598270016250682358
 GameObject:
   m_ObjectHideFlags: 0
@@ -11531,6 +11636,7 @@ GameObject:
   - component: {fileID: 6515130200830376774}
   - component: {fileID: 3841501978702662847}
   - component: {fileID: 8286212244222499400}
+  - component: {fileID: 4923558222336423163}
   m_Layer: 0
   m_Name: Rock_02_low.001
   m_TagString: Untagged
@@ -11601,6 +11707,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &4923558222336423163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4634621948305893679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7915bf17439457a49ba90424313446cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Parent: {fileID: 5288101457634720532}
+  FollowStrength: 0.072
 --- !u!1 &4671340166635236677
 GameObject:
   m_ObjectHideFlags: 0
@@ -11774,6 +11894,7 @@ GameObject:
   - component: {fileID: 923612032780832364}
   - component: {fileID: 5398542269351534412}
   - component: {fileID: 7923642981255104550}
+  - component: {fileID: 6739449536627358928}
   m_Layer: 0
   m_Name: Rock_01_low.001
   m_TagString: Untagged
@@ -11844,6 +11965,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &6739449536627358928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4674519708630577435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7915bf17439457a49ba90424313446cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Parent: {fileID: 5288101457634720532}
+  FollowStrength: 0.117
 --- !u!1 &4686232054307596070
 GameObject:
   m_ObjectHideFlags: 0
@@ -16690,6 +16825,7 @@ GameObject:
   - component: {fileID: 5961575381609260856}
   - component: {fileID: 1010213684100127717}
   - component: {fileID: 898139538569487118}
+  - component: {fileID: 2544793762284879286}
   m_Layer: 0
   m_Name: Rock_02_low
   m_TagString: Untagged
@@ -16760,6 +16896,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &2544793762284879286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7072232655367799904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7915bf17439457a49ba90424313446cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Parent: {fileID: 5288101457634720532}
+  FollowStrength: 0.065
 --- !u!1 &7114863850433360963
 GameObject:
   m_ObjectHideFlags: 0
