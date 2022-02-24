@@ -11,9 +11,6 @@ public abstract class Actor : MonoBehaviour
     [SerializeField] private TrailRenderer trailRenderer = null;
 
     // Serialized properties
-    [SerializeField] private float weight = 0;
-    public float Weight => weight;
-
     [SerializeField] private float speed = 0;
     public float Speed => SpeedPipes.Aggregate(speed, (value, pipe) => pipe(value));
 
