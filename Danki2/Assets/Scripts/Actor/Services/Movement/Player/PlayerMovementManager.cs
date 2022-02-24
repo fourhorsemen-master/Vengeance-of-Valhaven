@@ -11,12 +11,6 @@ public class PlayerMovementManager : MovementManager, IMovementStatusProvider
         MovementLockType.AbilityDash
     };
 
-    private static readonly ISet<MovementLockType> MovementLockTypesAffectedByWeight = new HashSet<MovementLockType>
-    {
-        MovementLockType.Knockback,
-        MovementLockType.Pull
-    };
-
     private readonly Player player;
 
     private Vector3 movementLockDirection;
@@ -78,8 +72,6 @@ public class PlayerMovementManager : MovementManager, IMovementStatusProvider
     public bool TryLockMovement(MovementLockType type, float duration, float speed, Vector3 direction, Vector3 rotation)
     {
         bool overrideLock = MoveLockOverrideTypes.Contains(type);
-
-        if (MovementLockTypesAffectedByWeight.Contains(type)) speed /= player.Weight;
 
         return TryLockMovement(overrideLock, duration, speed, direction, rotation);
     }
