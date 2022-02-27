@@ -5,21 +5,19 @@ public class LazyFollow : MonoBehaviour
 	[SerializeField]
 	private Transform parent;
 
-	[SerializeField, Range(0f, 1f), Tooltip("0 will never move, 1 will follow the parent exactly.")]
+	[SerializeField, Range(0f, 1f)]
 	private float followStrength;
 
-	private Vector3
-		initialPositionRelativeToParent,
-		initialForwardRelativeToParent,
-		initialUpRelativeToParent;
+	private Vector3 initialLocalPosition;
+
+	private Quaternion initialLocalRotation;
 
 	private Vector3 velocity = Vector3.zero;
 
 	void Start()
 	{
-		initialPositionRelativeToParent = parent.transform.InverseTransformPoint(transform.position);
-		initialForwardRelativeToParent = parent.transform.InverseTransformDirection(transform.forward);
-		initialUpRelativeToParent = parent.transform.InverseTransformDirection(transform.up);
+		initialLocalPosition = transform.localPosition;
+		initialLocalRotation = transform.localRotation;
 
 		transform.SetParent(null, true);
 	}
@@ -32,7 +30,7 @@ public class LazyFollow : MonoBehaviour
 
     private void Move()
 	{
-		Vector3 desiredPosition = parent.transform.TransformPoint(initialPositionRelativeToParent);
+		Vector3 desiredPosition = parent.transform.TransformPoint(initialLocalPosition);
 
 		// Acceleration proportional to square of distance from desired position
 		velocity += Vector3.Distance(desiredPosition, transform.position)
@@ -48,9 +46,7 @@ public class LazyFollow : MonoBehaviour
 
 	private void Rotate()
 	{
-		Vector3 desiredForward = parent.transform.TransformDirection(initialForwardRelativeToParent);
-		Vector3 desiredUp = parent.transform.TransformDirection(initialUpRelativeToParent);
-		Quaternion desiredRotation = Quaternion.LookRotation(desiredForward, desiredUp);
+		Quaternion desiredRotation = parent.rotation * initialLocalRotation;
 
 		transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, Time.deltaTime * 5);
 	}
