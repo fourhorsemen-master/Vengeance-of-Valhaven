@@ -19,8 +19,7 @@ public class AbilityDashManager : MonoBehaviour
 
     private void HandleDash()
     {
-        player.MovementManager.TryLockMovement(
-            MovementLockType.AbilityDash,
+        player.MovementManager.LockMovement(
             dashDuration,
             dashSpeed,
             player.transform.forward,

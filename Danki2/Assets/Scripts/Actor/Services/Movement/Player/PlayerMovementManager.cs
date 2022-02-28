@@ -4,13 +4,6 @@ using UnityEngine.AI;
 
 public class PlayerMovementManager : MovementManager, IMovementStatusProvider
 {
-    private static readonly ISet<MovementLockType> MoveLockOverrideTypes = new HashSet<MovementLockType>
-    {
-        MovementLockType.Knockback,
-        MovementLockType.Pull,
-        MovementLockType.AbilityDash
-    };
-
     private readonly Player player;
 
     private Vector3 movementLockDirection;
@@ -69,20 +62,13 @@ public class PlayerMovementManager : MovementManager, IMovementStatusProvider
         navMeshAgent.Move(direction.normalized * (Time.deltaTime * speed.Value));
     }
 
-    public bool TryLockMovement(MovementLockType type, float duration, float speed, Vector3 direction, Vector3 rotation)
-    {
-        bool overrideLock = MoveLockOverrideTypes.Contains(type);
-
-        return TryLockMovement(overrideLock, duration, speed, direction, rotation);
-    }
-
     /// <summary>
     /// Lock movement velocity for a given duration with a fixed rotation.
     /// </summary>
     /// <param name="rotation">The rotation to maintain for the duration.</param>
-    private bool TryLockMovement(bool overrideLock, float duration, float speed, Vector3 direction, Vector3 rotation)
+    public bool LockMovement(float duration, float speed, Vector3 direction, Vector3 rotation)
     {
-        if (!movementStatusManager.TryLockMovement(overrideLock, duration)) return false;
+        movementStatusManager.LockMovement(duration);
 
         movementLockSpeed = speed;
         movementLockDirection = direction.normalized;
