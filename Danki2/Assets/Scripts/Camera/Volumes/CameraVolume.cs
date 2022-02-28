@@ -41,18 +41,6 @@ public class CameraVolume : MonoBehaviour
     private float smoothFactorOverride = 0;
     public float SmoothFactorOverride { get => smoothFactorOverride; set => smoothFactorOverride = value; }
 
-    [SerializeField]
-    private bool turnOffStaticAbilityUI = true;
-    public bool TurnOffStaticAbilityUI { get => turnOffStaticAbilityUI; set => turnOffStaticAbilityUI = value; }
-
-    [SerializeField]
-    private bool turnOffStaticHealthBarUI = true;
-    public bool TurnOffStaticHealthBarUI { get => turnOffStaticHealthBarUI; set => turnOffStaticHealthBarUI = value; }
-
-    [SerializeField]
-    private bool turnOffStaticCurrencyUI = true;
-    public bool TurnOffStaticCurrencyUI { get => turnOffStaticCurrencyUI; set => turnOffStaticCurrencyUI = value; }
-
     private Pole cameraOrientation;
     private Subscription enemiesClearedSubscription;
 
