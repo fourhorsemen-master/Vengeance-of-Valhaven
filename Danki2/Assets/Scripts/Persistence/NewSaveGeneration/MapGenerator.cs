@@ -13,14 +13,12 @@ public class MapGenerator : Singleton<MapGenerator>
     private void Start()
     {
         int zoneIntroductionDepth = 1;
-        EnumUtils.ForEach<Zone>(zone =>
-        {
-            zoneIntroductionDepthsLookup[zone] = zoneIntroductionDepth;
-            int newDepth = zoneIntroductionDepth + MapGenerationLookup.Instance.RoomsPerZoneLookup[zone];
-            for (int i = zoneIntroductionDepth; i < newDepth; i++) depthToZoneLookup[i] = zone;
-            zoneIntroductionDepth = newDepth;
-            bossDepthsLookup[zone] = zoneIntroductionDepth - 1;
-        });
+
+        zoneIntroductionDepthsLookup[Zone.Zone1] = zoneIntroductionDepth;
+        int newDepth = zoneIntroductionDepth + MapGenerationLookup.Instance.RoomsPerZoneLookup[Zone.Zone1];
+        for (int i = zoneIntroductionDepth; i < newDepth; i++) depthToZoneLookup[i] = Zone.Zone1;
+        zoneIntroductionDepth = newDepth;
+        bossDepthsLookup[Zone.Zone1] = zoneIntroductionDepth - 1;
 
         finalNodeDepth = zoneIntroductionDepth - 1;
     }
