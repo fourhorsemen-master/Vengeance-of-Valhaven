@@ -1190,7 +1190,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   navmeshAgent: {fileID: 1307004630582523634}
   trailRenderer: {fileID: 4564750321355086747}
-  weight: 1
   speed: 1
   maxHealth: 70
   rotationSmoothing: 0.1
@@ -1235,20 +1234,20 @@ MonoBehaviour:
   wraith: {fileID: 3159524844991251707}
   aggroRange: 12
   rangedAttackStateRange: 8
-  rangedAttackStateTolerance: 2
+  rangedAttackStateTolerance: 1
   minRangedAttacksDuration: 2
   spineDelay: 2
   guidedOrbDelay: 2
   swipeRotationSmoothingOverride: 0.2
   swipeRange: 2.8
   maxSwipeAngle: 25
-  swipeDelay: 0.5
-  engageDistance: 5
-  disengageDistance: 6
+  swipeDelay: 0.8
+  engageDistance: 5.5
+  disengageDistance: 6.5
   forcedBlinkMinTime: 10
   forcedBlinkMaxTime: 15
   meleeAttacksBeforeBlinking: 3
-  blinkDelay: 2.5
+  blinkDelay: 2.8
   postBlinkAttackDelay: 2.2
   minBlinkDistance: 8
   maxBlinkDistance: 9
