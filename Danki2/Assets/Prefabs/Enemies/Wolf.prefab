@@ -770,18 +770,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   navmeshAgent: {fileID: -7685572653157387656}
   trailRenderer: {fileID: 1836045994299074019}
-  meshRenderers:
-  - {fileID: 5487553441502891898}
-  - {fileID: 4522518749031019808}
-  - {fileID: 8594584410840049016}
-  - {fileID: 3956253006841342666}
-  - {fileID: 345691399501193596}
-  - {fileID: 6302674395875494306}
   weight: 1
   speed: 4
   maxHealth: 50
   rotationSmoothing: 0.1
-  animController: {fileID: 0}
+  animator: {fileID: 0}
+  abilityAnimationListener: {fileID: 0}
   colliders:
   - {fileID: 2369984067544073560}
   centre: {fileID: 3521829330655442378}
@@ -847,7 +841,7 @@ NavMeshAgent:
   m_Radius: 0.8
   m_Speed: 3.5
   m_Acceleration: 8
-  avoidancePriority: 50
+  avoidancePriority: 3
   m_AngularSpeed: 450
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1

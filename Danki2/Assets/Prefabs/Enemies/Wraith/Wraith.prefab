@@ -1190,31 +1190,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   navmeshAgent: {fileID: 1307004630582523634}
   trailRenderer: {fileID: 4564750321355086747}
-  meshRenderers:
-  - {fileID: 2795316562320181620}
-  - {fileID: 8577012738515223535}
-  - {fileID: 4509303182837389587}
-  - {fileID: 2240554301904825641}
-  - {fileID: 8585309783021498695}
-  - {fileID: 3918004861702439673}
-  - {fileID: 9014395795911431998}
-  - {fileID: 2022191929589205645}
-  - {fileID: 8248413636835119543}
-  - {fileID: 6713356359858259737}
-  - {fileID: 7211025744098679955}
-  - {fileID: 1322600321996835271}
-  - {fileID: 8528500404902740267}
-  - {fileID: 6430995053671564260}
-  - {fileID: 913225904846605944}
-  - {fileID: 2854832383402345198}
-  - {fileID: 7100130900383841641}
-  - {fileID: 711200835748424118}
-  - {fileID: 1538081166608037910}
   weight: 1
   speed: 1
   maxHealth: 70
   rotationSmoothing: 0.1
-  animController: {fileID: 0}
+  animator: {fileID: 0}
+  abilityAnimationListener: {fileID: 0}
   colliders:
   - {fileID: 41546268463245919}
   centre: {fileID: 7817277397840590268}
@@ -1222,7 +1203,6 @@ MonoBehaviour:
   collisionTemplateSource: {fileID: 7496201845270352354}
   blinkVisualEffect: {fileID: 6921725586172320483}
   spineDamage: 2
-  spineSpeed: 5.5
   spineSlowDuration: 2
   spineCount: 3
   spineMaxAngle: 20
@@ -1284,7 +1264,7 @@ NavMeshAgent:
   m_Radius: 0.5
   m_Speed: 3.5
   m_Acceleration: 8
-  avoidancePriority: 50
+  avoidancePriority: 2
   m_AngularSpeed: 450
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1

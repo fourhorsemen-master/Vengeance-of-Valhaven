@@ -30,7 +30,7 @@ Transform:
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 4996888051859879402}
-  m_RootOrder: 233
+  m_RootOrder: 228
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8756543168134441152
 MeshFilter:
@@ -92,6 +92,7 @@ GameObject:
   - component: {fileID: 231366146471522129}
   - component: {fileID: 5735775795156651272}
   - component: {fileID: 4521094374444011150}
+  - component: {fileID: 4178138934688418772}
   m_Layer: 0
   m_Name: Rock_11_low
   m_TagString: Untagged
@@ -106,12 +107,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 64333700470215030}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 100, y: 100, z: 100}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4996888051859879402}
-  m_RootOrder: 239
+  m_Father: {fileID: 5288101457634720532}
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5735775795156651272
 MeshFilter:
@@ -162,6 +163,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &4178138934688418772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 64333700470215030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7915bf17439457a49ba90424313446cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parent: {fileID: 5288101457634720532}
+  followStrength: 0.057
 --- !u!1 &170938874357659189
 GameObject:
   m_ObjectHideFlags: 0
@@ -3144,7 +3159,7 @@ Transform:
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 4996888051859879402}
-  m_RootOrder: 232
+  m_RootOrder: 227
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2799591623339256192
 MeshFilter:
@@ -3287,6 +3302,7 @@ GameObject:
   - component: {fileID: 902583484255767851}
   - component: {fileID: 6624086679734925309}
   - component: {fileID: 6841665488814383154}
+  - component: {fileID: 6721548521211877847}
   m_Layer: 0
   m_Name: Rock_03_low
   m_TagString: Untagged
@@ -3301,12 +3317,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1501639499122401694}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 100, y: 100, z: 100}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4996888051859879402}
-  m_RootOrder: 231
+  m_Father: {fileID: 5288101457634720532}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6624086679734925309
 MeshFilter:
@@ -3357,6 +3373,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &6721548521211877847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1501639499122401694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7915bf17439457a49ba90424313446cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parent: {fileID: 5288101457634720532}
+  followStrength: 0.075
 --- !u!1 &1526099997081538309
 GameObject:
   m_ObjectHideFlags: 0
@@ -4340,6 +4370,7 @@ GameObject:
   - component: {fileID: 41843481870257527}
   - component: {fileID: 2511736398017151269}
   - component: {fileID: 677185597362105310}
+  - component: {fileID: 8004611925178039078}
   m_Layer: 0
   m_Name: Rock_01_low
   m_TagString: Untagged
@@ -4354,12 +4385,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1797117437164518659}
-  m_LocalRotation: {x: 0.000000081460335, y: 0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0.7071069, y: -0, z: -0, w: 0.70710665}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.01, y: 0.010000002, z: 0.010000002}
   m_Children: []
-  m_Father: {fileID: 4996888051859879402}
-  m_RootOrder: 227
+  m_Father: {fileID: 5288101457634720532}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2511736398017151269
 MeshFilter:
@@ -4410,6 +4441,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8004611925178039078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1797117437164518659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7915bf17439457a49ba90424313446cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parent: {fileID: 5288101457634720532}
+  followStrength: 0.156
 --- !u!1 &1802004557214143006
 GameObject:
   m_ObjectHideFlags: 0
@@ -4764,7 +4809,7 @@ Transform:
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 4996888051859879402}
-  m_RootOrder: 245
+  m_RootOrder: 235
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5908548124732285836
 MeshFilter:
@@ -5831,6 +5876,7 @@ GameObject:
   - component: {fileID: 3477001066526032866}
   - component: {fileID: 162416157025002800}
   - component: {fileID: 627312812831876027}
+  - component: {fileID: 5807181383735715401}
   m_Layer: 0
   m_Name: Rock_10_high
   m_TagString: Untagged
@@ -5845,12 +5891,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2333794055106026387}
-  m_LocalRotation: {x: 0.000000081460335, y: 0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0.7071069, y: -0, z: -0, w: 0.70710665}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.01, y: 0.010000002, z: 0.010000002}
   m_Children: []
-  m_Father: {fileID: 4996888051859879402}
-  m_RootOrder: 238
+  m_Father: {fileID: 5288101457634720532}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &162416157025002800
 MeshFilter:
@@ -5901,6 +5947,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &5807181383735715401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2333794055106026387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7915bf17439457a49ba90424313446cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parent: {fileID: 5288101457634720532}
+  followStrength: 0.131
 --- !u!1 &2353471387955988750
 GameObject:
   m_ObjectHideFlags: 0
@@ -6722,6 +6782,7 @@ GameObject:
   - component: {fileID: 1892543852638108921}
   - component: {fileID: 381551433762914181}
   - component: {fileID: 3618562833969174631}
+  - component: {fileID: 1922280258397652167}
   m_Layer: 0
   m_Name: Rock_11_low.001
   m_TagString: Untagged
@@ -6736,12 +6797,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2604059418764895302}
-  m_LocalRotation: {x: 0.07158025, y: 0.12290811, z: 0.0385412, w: 0.98908263}
-  m_LocalPosition: {x: 0.014438778, y: 2.008873, z: -0.37044197}
-  m_LocalScale: {x: 99.99999, y: 100, z: 100}
+  m_LocalRotation: {x: 0.75000197, y: 0.059656397, z: 0.1141619, w: 0.64877206}
+  m_LocalPosition: {x: 0.00014438778, y: 0.0037044166, z: 0.020088727}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4996888051859879402}
-  m_RootOrder: 240
+  m_Father: {fileID: 5288101457634720532}
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &381551433762914181
 MeshFilter:
@@ -6792,6 +6853,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &1922280258397652167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2604059418764895302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7915bf17439457a49ba90424313446cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parent: {fileID: 5288101457634720532}
+  followStrength: 0.095
 --- !u!1 &2609262956184461979
 GameObject:
   m_ObjectHideFlags: 0
@@ -7581,7 +7656,7 @@ Transform:
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 4996888051859879402}
-  m_RootOrder: 243
+  m_RootOrder: 233
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3872300263949216814
 MeshFilter:
@@ -8067,7 +8142,7 @@ Transform:
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 4996888051859879402}
-  m_RootOrder: 234
+  m_RootOrder: 229
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6087201163326281128
 MeshFilter:
@@ -9768,7 +9843,7 @@ Transform:
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 4996888051859879402}
-  m_RootOrder: 241
+  m_RootOrder: 231
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4817344582404612297
 MeshFilter:
@@ -10721,6 +10796,7 @@ GameObject:
   - component: {fileID: 4173338366000357842}
   - component: {fileID: 3571038694453916672}
   - component: {fileID: 2375874095544077663}
+  - component: {fileID: 5679765831398146178}
   m_Layer: 0
   m_Name: Rock_08_low
   m_TagString: Untagged
@@ -10735,12 +10811,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4351627835072723993}
-  m_LocalRotation: {x: 0.000000081460335, y: 0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0.7071069, y: -0, z: -0, w: 0.70710665}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.01, y: 0.010000002, z: 0.010000002}
   m_Children: []
-  m_Father: {fileID: 4996888051859879402}
-  m_RootOrder: 236
+  m_Father: {fileID: 5288101457634720532}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3571038694453916672
 MeshFilter:
@@ -10791,6 +10867,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &5679765831398146178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4351627835072723993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7915bf17439457a49ba90424313446cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parent: {fileID: 5288101457634720532}
+  followStrength: 0.131
 --- !u!1 &4361035615270409708
 GameObject:
   m_ObjectHideFlags: 0
@@ -11288,6 +11378,7 @@ GameObject:
   - component: {fileID: 5268253495080980880}
   - component: {fileID: 5333536116233547635}
   - component: {fileID: 7365501432363982804}
+  - component: {fileID: 5772064068077857892}
   m_Layer: 0
   m_Name: Rock_07_low
   m_TagString: Untagged
@@ -11302,12 +11393,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4586713659499388842}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 100, y: 100, z: 100}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4996888051859879402}
-  m_RootOrder: 235
+  m_Father: {fileID: 5288101457634720532}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5333536116233547635
 MeshFilter:
@@ -11358,6 +11449,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &5772064068077857892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4586713659499388842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7915bf17439457a49ba90424313446cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parent: {fileID: 5288101457634720532}
+  followStrength: 0.471
 --- !u!1 &4598270016250682358
 GameObject:
   m_ObjectHideFlags: 0
@@ -11531,6 +11636,7 @@ GameObject:
   - component: {fileID: 6515130200830376774}
   - component: {fileID: 3841501978702662847}
   - component: {fileID: 8286212244222499400}
+  - component: {fileID: 4923558222336423163}
   m_Layer: 0
   m_Name: Rock_02_low.001
   m_TagString: Untagged
@@ -11545,12 +11651,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4634621948305893679}
-  m_LocalRotation: {x: 0.9429119, y: -0.20663609, z: 0.021817563, w: 0.2602741}
-  m_LocalPosition: {x: 0.10144323, y: 2.4632602, z: -0.35553345}
-  m_LocalScale: {x: 99.99999, y: 100, z: 100}
+  m_LocalRotation: {x: 0.85078096, y: -0.16154112, z: -0.13068643, w: -0.4826979}
+  m_LocalPosition: {x: 0.0010144323, y: 0.0035553311, z: 0.0246326}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4996888051859879402}
-  m_RootOrder: 230
+  m_Father: {fileID: 5288101457634720532}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3841501978702662847
 MeshFilter:
@@ -11601,6 +11707,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &4923558222336423163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4634621948305893679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7915bf17439457a49ba90424313446cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parent: {fileID: 5288101457634720532}
+  followStrength: 0.072
 --- !u!1 &4671340166635236677
 GameObject:
   m_ObjectHideFlags: 0
@@ -11631,7 +11751,7 @@ Transform:
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 4996888051859879402}
-  m_RootOrder: 244
+  m_RootOrder: 234
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3724977573966240064
 MeshFilter:
@@ -11774,6 +11894,7 @@ GameObject:
   - component: {fileID: 923612032780832364}
   - component: {fileID: 5398542269351534412}
   - component: {fileID: 7923642981255104550}
+  - component: {fileID: 6739449536627358928}
   m_Layer: 0
   m_Name: Rock_01_low.001
   m_TagString: Untagged
@@ -11788,12 +11909,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4674519708630577435}
-  m_LocalRotation: {x: 0.2947706, y: 0.64301276, z: -0.56838405, w: 0.42021954}
-  m_LocalPosition: {x: -0.1575898, y: 2.182396, z: -0.44311407}
-  m_LocalScale: {x: 1, y: 0.99999994, z: 0.99999994}
+  m_LocalRotation: {x: 0.50557446, y: 0.8565869, z: 0.05277053, w: 0.08870576}
+  m_LocalPosition: {x: -0.0015758979, y: 0.004431138, z: 0.021823956}
+  m_LocalScale: {x: 0.01, y: 0.009999999, z: 0.009999999}
   m_Children: []
-  m_Father: {fileID: 4996888051859879402}
-  m_RootOrder: 228
+  m_Father: {fileID: 5288101457634720532}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5398542269351534412
 MeshFilter:
@@ -11844,6 +11965,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &6739449536627358928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4674519708630577435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7915bf17439457a49ba90424313446cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parent: {fileID: 5288101457634720532}
+  followStrength: 0.117
 --- !u!1 &4686232054307596070
 GameObject:
   m_ObjectHideFlags: 0
@@ -12478,7 +12613,7 @@ NavMeshAgent:
   m_Radius: 1.75
   m_Speed: 3.5
   m_Acceleration: 8
-  avoidancePriority: 50
+  avoidancePriority: 2
   m_AngularSpeed: 450
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
@@ -13030,7 +13165,7 @@ Transform:
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 4996888051859879402}
-  m_RootOrder: 242
+  m_RootOrder: 232
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &9186622642869760985
 MeshFilter:
@@ -13516,7 +13651,7 @@ Transform:
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 4996888051859879402}
-  m_RootOrder: 237
+  m_RootOrder: 230
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6252754394768613116
 MeshFilter:
@@ -14388,20 +14523,10 @@ Transform:
   - {fileID: 1775625734788604100}
   - {fileID: 6208320924803801204}
   - {fileID: 843848240520830431}
-  - {fileID: 41843481870257527}
-  - {fileID: 923612032780832364}
-  - {fileID: 5961575381609260856}
-  - {fileID: 6515130200830376774}
-  - {fileID: 902583484255767851}
   - {fileID: 7928253912659682766}
   - {fileID: 2827828619910994942}
   - {fileID: 1815780453675719986}
-  - {fileID: 5268253495080980880}
-  - {fileID: 4173338366000357842}
   - {fileID: 8067246410723423742}
-  - {fileID: 3477001066526032866}
-  - {fileID: 231366146471522129}
-  - {fileID: 1892543852638108921}
   - {fileID: 6695901507009075649}
   - {fileID: 2582527984417963544}
   - {fileID: 6998958166082135846}
@@ -16690,6 +16815,7 @@ GameObject:
   - component: {fileID: 5961575381609260856}
   - component: {fileID: 1010213684100127717}
   - component: {fileID: 898139538569487118}
+  - component: {fileID: 2544793762284879286}
   m_Layer: 0
   m_Name: Rock_02_low
   m_TagString: Untagged
@@ -16704,12 +16830,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7072232655367799904}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 100, y: 100, z: 100}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4996888051859879402}
-  m_RootOrder: 229
+  m_Father: {fileID: 5288101457634720532}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1010213684100127717
 MeshFilter:
@@ -16760,6 +16886,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &2544793762284879286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7072232655367799904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7915bf17439457a49ba90424313446cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parent: {fileID: 5288101457634720532}
+  followStrength: 0.065
 --- !u!1 &7114863850433360963
 GameObject:
   m_ObjectHideFlags: 0
@@ -17679,7 +17819,17 @@ Transform:
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 100}
-  m_Children: []
+  m_Children:
+  - {fileID: 41843481870257527}
+  - {fileID: 923612032780832364}
+  - {fileID: 5961575381609260856}
+  - {fileID: 6515130200830376774}
+  - {fileID: 902583484255767851}
+  - {fileID: 5268253495080980880}
+  - {fileID: 4173338366000357842}
+  - {fileID: 3477001066526032866}
+  - {fileID: 231366146471522129}
+  - {fileID: 1892543852638108921}
   m_Father: {fileID: 4996888051859879402}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -19382,7 +19532,7 @@ Transform:
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 4996888051859879402}
-  m_RootOrder: 246
+  m_RootOrder: 236
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4429658649118526132
 MeshFilter:
