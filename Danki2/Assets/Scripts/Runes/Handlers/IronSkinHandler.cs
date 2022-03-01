@@ -1,16 +1,9 @@
-﻿public static class IronSkinHandler
+﻿public static class GreedHandler
 {
-    private const int HealthBonus = 10;
-
-    public static int ProcessMaxHealth(int value)
-    {
-        return ActorCache.Instance.Player.RuneManager.HasRune(Rune.IronSkin)
-            ? value + HealthBonus
-            : value;
-    }
+    private const int CurrencyGain = 100;
 
     public static void OnRuneAdded()
     {
-        ActorCache.Instance.Player.HealthManager.ReceiveHeal(HealthBonus);
+        ActorCache.Instance.Player.CurrencyManager.AddCurrency(CurrencyGain);
     }
 }

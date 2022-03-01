@@ -48,7 +48,11 @@ MonoBehaviour:
     - DeepWounds
     - IronSkin
     - FleetOfFoot
-    - FirstAid
+    - SecondWind
+    - Acrobatics
+    - BountyHunter
+    - Greed
+    - HeavyHand
     _values:
     - displayName: Deep Wounds
       tooltip: <b>Bleed</b> deals 2 damage per stack.
@@ -68,9 +72,33 @@ MonoBehaviour:
       passiveEffects: 
       stackingEffects: 
       sprite: {fileID: 21300000, guid: bfdb0be3a2276ff48a443dc1ea12a3e0, type: 3}
-    - displayName: First Aid
-      tooltip: Heal 3 at the end of each combat.
+    - displayName: Second Wind
+      tooltip: Heal by 1 after each kill.
       activeEffects: 
       passiveEffects: 
       stackingEffects: 
-      sprite: {fileID: 21300000, guid: e1ebb106983801e46a948b4c6772aed5, type: 3}
+      sprite: {fileID: 21300000, guid: 9b8ba7e89bdd04b49ba2a985af9c3677, type: 3}
+    - displayName: Acrobatics
+      tooltip: Faster roll.
+      activeEffects: 
+      passiveEffects: 
+      stackingEffects: 
+      sprite: {fileID: 21300000, guid: 6da70a0c6e6486d4aa2b0af3235cdaae, type: 3}
+    - displayName: Bounty Hunter
+      tooltip: Increase currency gain on kill by 30%.
+      activeEffects: 
+      passiveEffects: 
+      stackingEffects: 
+      sprite: {fileID: 21300000, guid: 1176a0c03804cc94090758712887b3aa, type: 3}
+    - displayName: Greed
+      tooltip: Gain 100 currency on pick up.
+      activeEffects: 
+      passiveEffects: 
+      stackingEffects: 
+      sprite: {fileID: 21300000, guid: dae3b9fa5879b0e43864346f6f3568d1, type: 3}
+    - displayName: Heavy Hand
+      tooltip: Increase attack damage by 2.
+      activeEffects: 
+      passiveEffects: 
+      stackingEffects: 
+      sprite: {fileID: 21300000, guid: c38b359ec890625409b5da356887ef33, type: 3}
