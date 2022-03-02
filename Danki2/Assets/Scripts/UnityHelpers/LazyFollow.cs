@@ -3,10 +3,10 @@ using UnityEngine;
 public class LazyFollow : MonoBehaviour
 {
 	[SerializeField]
-	private Transform parent;
+	private Transform parent = null;
 
-	[SerializeField, Range(0f, 1f)]
-	private float followStrength;
+	[SerializeField]
+	private float followStrength = 0f;
 
 	private Vector3 initialLocalPosition;
 
@@ -14,7 +14,7 @@ public class LazyFollow : MonoBehaviour
 
 	private Vector3 velocity = Vector3.zero;
 
-	void Start()
+	private void Start()
 	{
 		initialLocalPosition = transform.localPosition;
 		initialLocalRotation = transform.localRotation;
@@ -22,7 +22,7 @@ public class LazyFollow : MonoBehaviour
 		transform.SetParent(null, true);
 	}
 
-	void Update()
+	private void Update()
 	{
 		Move();
 		Rotate();

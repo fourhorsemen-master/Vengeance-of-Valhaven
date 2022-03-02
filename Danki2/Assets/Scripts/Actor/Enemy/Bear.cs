@@ -152,8 +152,7 @@ public class Bear : Enemy
         Vector3 knockBackDirection = player.transform.position - transform.position;
         Vector3 knockBackFaceDirection = player.transform.forward;
 
-        player.MovementManager.TryLockMovement(
-            MovementLockType.Knockback,
+        player.MovementManager.LockMovement(
             chargeKnockBackDuration,
             chargeKnockBackSpeed,
             knockBackDirection,
@@ -253,8 +252,7 @@ public class Bear : Enemy
         Vector3 knockBackDirection = player.transform.position - transform.position;
         Vector3 knockBackFaceDirection = player.transform.forward;
 
-        player.MovementManager.TryLockMovement(
-            MovementLockType.Knockback,
+        player.MovementManager.LockMovement(
             cleaveKnockBackDuration,
             cleaveKnockBackSpeed,
             knockBackDirection,
