@@ -64,14 +64,13 @@ public class Player : Actor, IMovementStatusProvider
 
     public void Roll(Vector3 direction)
     {
-        if (!readyToRoll) return;
+        if (!readyToRoll || !MovementManager.CanMove) return;
 
         float acrobaticsMultiplier = RuneManager.HasRune(Rune.Acrobatics)
             ? AcrobaticsRollSpeedMultiplier
             : 1;
 
-        bool rolled = MovementManager.TryLockMovement(
-            MovementLockType.Roll,
+        bool rolled = MovementManager.LockMovement(
             rollDuration,
             Speed * rollSpeedMultiplier * acrobaticsMultiplier,
             direction,

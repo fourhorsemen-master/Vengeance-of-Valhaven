@@ -21,18 +21,9 @@ public class MovementStatusManager
 		statusProviders.AddRange(providers);
 	}
 
-	/// <summary>
-	/// Return true if the movement lock is applied.
-	/// </summary>
-	/// <param name="overrideLock"></param>
-	/// <param name="duration"></param>
-	/// <returns></returns>
-	public bool TryLockMovement(bool overrideLock, float duration)
+	public void LockMovement(float duration)
 	{
-		if (!overrideLock && (Stunned || MovementLocked)) return false;
-
 		movementLockRemainingDuration = duration;
-		return true;
 	}
 
 	private void TickMovementLock()
