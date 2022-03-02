@@ -12,9 +12,11 @@ public class RuneManager
     {
         RuneSockets = PersistenceManager.Instance.SaveData.RuneSockets;
 
-        RuneAddedSubject
-            .Where(rune => rune == Rune.IronSkin)
+        RuneAddedSubject.Where(rune => rune == Rune.IronSkin)
             .Subscribe(_ => IronSkinHandler.OnRuneAdded());
+
+        RuneAddedSubject.Where(rune => rune == Rune.Greed)
+            .Subscribe(_ => GreedHandler.OnRuneAdded());
 
         player.RegisterMaxHealthPipe(IronSkinHandler.ProcessMaxHealth);
         player.RegisterSpeedPipe(FleetOfFootHandler.ProcessSpeed);
