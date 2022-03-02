@@ -114,8 +114,7 @@ public class ForestGolem : Enemy
             player.HealthManager.ReceiveDamage(stompDamage, this);
 
             Vector3 knockbackDirection = player.transform.position - transform.position;
-            player.MovementManager.TryLockMovement(
-                MovementLockType.Knockback,
+            player.MovementManager.LockMovement(
                 stompKnockbackDuration,
                 stompKnockbackSpeed,
                 knockbackDirection,

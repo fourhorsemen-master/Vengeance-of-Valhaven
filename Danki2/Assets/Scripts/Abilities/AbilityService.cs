@@ -15,6 +15,7 @@ public class AbilityService
     private const int ShockDamage = 3;
     private const float ShockJumpRange = 8f;
     private const float EnvenomPoisonDuration = 10f;
+    private const int HeavyHandDamageBonus = 2;
 
     public CastContext CurrentCast { get; private set; }
 
@@ -131,6 +132,7 @@ public class AbilityService
     private int CalculateDamage(Ability ability, List<Empowerment> empowerments, Enemy enemy)
     {
         float damage = ability.Damage;
+        damage = HandleHeavyHandDamage(damage);
         damage = HandleImpactDamage(damage, empowerments);
         damage = HandleDuelDamage(damage, empowerments);
         damage = HandleBrawlDamage(damage, empowerments);
@@ -149,6 +151,13 @@ public class AbilityService
     {
         int purgeStacks = empowerments.Count(e => e == Empowerment.Exorcise);
         return purgeStacks;
+    }
+
+    private float HandleHeavyHandDamage(float damage)
+    {
+        return player.RuneManager.HasRune(Rune.HeavyHand)
+            ? damage + HeavyHandDamageBonus
+            : damage;
     }
 
     private float HandleImpactDamage(float damage, List<Empowerment> empowerments)

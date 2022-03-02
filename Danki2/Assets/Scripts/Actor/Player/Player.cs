@@ -5,6 +5,8 @@ public class Player : Actor, IMovementStatusProvider
 {
     public override ActorType Type => ActorType.Player;
 
+    private const float AcrobaticsRollSpeedMultiplier = 1.5f;
+
     [Header("Ability tree")]
     [SerializeField] private bool selfEmpoweringAbilities = false;
 
@@ -62,12 +64,15 @@ public class Player : Actor, IMovementStatusProvider
 
     public void Roll(Vector3 direction)
     {
-        if (!readyToRoll) return;
+        if (!readyToRoll || !MovementManager.CanMove) return;
 
-        bool rolled = MovementManager.TryLockMovement(
-            MovementLockType.Roll,
+        float acrobaticsMultiplier = RuneManager.HasRune(Rune.Acrobatics)
+            ? AcrobaticsRollSpeedMultiplier
+            : 1;
+
+        bool rolled = MovementManager.LockMovement(
             rollDuration,
-            Speed * rollSpeedMultiplier,
+            Speed * rollSpeedMultiplier * acrobaticsMultiplier,
             direction,
             direction
         );
