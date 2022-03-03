@@ -51,11 +51,13 @@ public class CombatRoomManager : Singleton<CombatRoomManager>
             .Where(x => x.CompareTag(Tag.Enemy))
             .Subscribe(x => TrackEnemy((Enemy)x));
 
-        List<Enemy> enemies = SpawnEnemies();
+        SpawnEnemies();
     }
 
     private void TrackEnemy(Enemy enemy)
     {
+        TotalEnemyCount++;
+
         enemy.DeathSubject.Subscribe(deathData =>
         {
             if (ActorCache.Instance.Player.RuneManager.HasRune(Rune.SecondWind))
@@ -75,21 +77,18 @@ public class CombatRoomManager : Singleton<CombatRoomManager>
         });
     }
 
-    private List<Enemy> SpawnEnemies()
+    private void SpawnEnemies()
     {
         CombatRoomSaveData combatRoomSaveData = PersistenceManager.Instance.SaveData.CurrentRoomNode.CombatRoomSaveData;
         
         Dictionary<int, EnemySpawner> spawnerLookup = FindObjectsOfType<EnemySpawner>().ToDictionary(s => s.Id);
 
-        List<Enemy> enemies = new List<Enemy>();
         foreach (int spawnerId in combatRoomSaveData.SpawnerIdToSpawnedActor.Keys)
         {
             EnemySpawner spawner = spawnerLookup[spawnerId];
             ActorType actorType = combatRoomSaveData.SpawnerIdToSpawnedActor[spawnerId];
-            enemies.Add(spawner.Spawn(actorType));
+            spawner.Spawn(actorType);
         }
-
-        return enemies;
     }
 
     private void YieldCurrency(Enemy enemy, DeathData deathData)
