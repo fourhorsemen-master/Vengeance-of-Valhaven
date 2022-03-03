@@ -9,8 +9,10 @@ using UnityEngine;
 /// </summary>
 public class CombatRoomManager : Singleton<CombatRoomManager>
 {
-    private const int FirstAidHealAmount = 3;
-    
+    private const int SecondWindHealAmount = 1;
+
+    private const float BountyHunterCurrencyMultiplier = 1.3f;
+
     public bool EnemiesCleared { get; private set; } = false;
     public Subject EnemiesClearedSubject { get; }  = new Subject();
     public bool InCombatRoom { get; private set; }
@@ -49,13 +51,20 @@ public class CombatRoomManager : Singleton<CombatRoomManager>
             .Where(x => x.CompareTag(Tag.Enemy))
             .Subscribe(x => TrackEnemy((Enemy)x));
 
-        List<Enemy> enemies = SpawnEnemies();
+        SpawnEnemies();
     }
 
     private void TrackEnemy(Enemy enemy)
     {
+        TotalEnemyCount++;
+
         enemy.DeathSubject.Subscribe(deathData =>
         {
+            if (ActorCache.Instance.Player.RuneManager.HasRune(Rune.SecondWind))
+            {
+                ActorCache.Instance.Player.HealthManager.ReceiveHeal(SecondWindHealAmount);
+            }
+
             YieldCurrency(enemy, deathData);
 
             if (ActorCache.Instance.Cache.All(x => !x.Actor.CompareTag(Tag.Enemy)))
@@ -68,21 +77,18 @@ public class CombatRoomManager : Singleton<CombatRoomManager>
         });
     }
 
-    private List<Enemy> SpawnEnemies()
+    private void SpawnEnemies()
     {
         CombatRoomSaveData combatRoomSaveData = PersistenceManager.Instance.SaveData.CurrentRoomNode.CombatRoomSaveData;
         
         Dictionary<int, EnemySpawner> spawnerLookup = FindObjectsOfType<EnemySpawner>().ToDictionary(s => s.Id);
 
-        List<Enemy> enemies = new List<Enemy>();
         foreach (int spawnerId in combatRoomSaveData.SpawnerIdToSpawnedActor.Keys)
         {
             EnemySpawner spawner = spawnerLookup[spawnerId];
             ActorType actorType = combatRoomSaveData.SpawnerIdToSpawnedActor[spawnerId];
-            enemies.Add(spawner.Spawn(actorType));
+            spawner.Spawn(actorType);
         }
-
-        return enemies;
     }
 
     private void YieldCurrency(Enemy enemy, DeathData deathData)
@@ -92,7 +98,11 @@ public class CombatRoomManager : Singleton<CombatRoomManager>
         int siphonCount = deathData.Empowerments.Count(e => e == Empowerment.Siphon);
         float siphonMultiplier = 1 + siphonCount * (SiphonCurrencyMultiplier - 1);
 
-        int currencyValue = Mathf.CeilToInt(baseValue * siphonMultiplier);
+        float bountyHunterMultiplier = ActorCache.Instance.Player.RuneManager.HasRune(Rune.BountyHunter)
+            ? BountyHunterCurrencyMultiplier
+            : 1;
+
+        int currencyValue = Mathf.CeilToInt(baseValue * siphonMultiplier * BountyHunterCurrencyMultiplier);
 
         ActorCache.Instance.Player.CurrencyManager.AddCurrency(currencyValue);
         CurrencyCollectionVisual.Create(enemy.Centre, currencyValue);
@@ -100,11 +110,6 @@ public class CombatRoomManager : Singleton<CombatRoomManager>
 
     private void CompleteRoom()
     {
-        if (ActorCache.Instance.Player.RuneManager.HasRune(Rune.FirstAid))
-        {
-            ActorCache.Instance.Player.HealthManager.ReceiveHeal(FirstAidHealAmount);
-        }
-
         EnemiesCleared = true;
         EnemiesClearedSubject.Next();
         PersistenceManager.Instance.Save();
