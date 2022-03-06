@@ -6,6 +6,7 @@ public class Bear : Enemy
 {
     private const string SwipeAnimationName = "Swipe_OneShot";
     private const string MaulAnimationName = "Bite_OneShot";
+    private const string MaulWindupAnimationName = "BiteWindup_OneShot";
     private const string CleaveAnimationName = "Smash_OneShot";
 
     [Header("FMOD Events"), EventRef, SerializeField]
@@ -72,6 +73,8 @@ public class Bear : Enemy
     public void PlaySwipeAnimation() => Animator.Play(SwipeAnimationName);
 
     public void PlayCleaveAnimation() => Animator.Play(CleaveAnimationName);
+
+    public void PlayBiteWindupAnimation() => Animator.Play(MaulWindupAnimationName);
 
     public void Swipe()
     {
