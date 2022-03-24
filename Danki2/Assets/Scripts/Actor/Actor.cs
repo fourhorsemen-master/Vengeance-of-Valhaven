@@ -11,17 +11,11 @@ public abstract class Actor : MonoBehaviour
     [SerializeField] private TrailRenderer trailRenderer = null;
 
     // Serialized properties
-    [SerializeField] private float speed = 0;
-    public float Speed => SpeedPipes.Aggregate(speed, (value, pipe) => pipe(value));
+    [SerializeField] private Animator animator = null;
+    public Animator Animator => animator;
 
     [SerializeField] private int maxHealth = 0;
     public int MaxHealth => MaxHealthPipes.Aggregate(maxHealth, (value, pipe) => pipe(value));
-
-    [SerializeField] private float rotationSmoothing = 0;
-    public float RotationSmoothing => rotationSmoothing;
-
-    [SerializeField] private Animator animator = null;
-    public Animator Animator => animator;
 
     [SerializeField]
     private AbilityAnimationListener abilityAnimationListener = null;
@@ -30,8 +24,17 @@ public abstract class Actor : MonoBehaviour
     [SerializeField] private Collider[] colliders = null;
     public Collider[] Colliders => colliders;
 
-    [Header("Sockets")]
+    [Header("Movement")]
+    [SerializeField] private float speed = 0f;
+    public float Speed => SpeedPipes.Aggregate(speed, (value, pipe) => pipe(value));
 
+    [SerializeField] private float turnSpeed = 0f;
+    public float TurnSpeed => turnSpeed;
+
+    [SerializeField] private float rotationSmoothing = 0f;
+    public float RotationSmoothing => rotationSmoothing;
+
+    [Header("Sockets")]
     [SerializeField] private Transform centre = null;
     public Transform CentreTransform => centre;
     public Vector3 Centre => centre.position;

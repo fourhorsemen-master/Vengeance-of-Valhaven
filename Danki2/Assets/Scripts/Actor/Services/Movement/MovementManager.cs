@@ -8,6 +8,10 @@ public abstract class MovementManager
 
     private const float WalkSpeedMultiplier = 0.3f;
 
+    protected float? rotationSmoothingOverride = null;
+    protected Transform watchTarget = null;
+    protected bool watching = false;
+
     protected bool movementPaused = false;
     private Coroutine endPauseCoroutine = null;
 
@@ -29,6 +33,8 @@ public abstract class MovementManager
     {
         Look(position - actor.transform.position);
     }
+
+    public bool IsFacingTarget() => true; 
 
     /// <summary>
     /// Lock the position and rotation for the given duration.
@@ -56,8 +62,7 @@ public abstract class MovementManager
         if (direction.Equals(Vector3.zero)) return;
         
         Quaternion desiredRotation = Quaternion.LookRotation(direction);
-        float lerpAmount = MathUtils.GetDeltaTimeLerpAmount(RotationSmoothing);
-        actor.transform.rotation = Quaternion.Lerp(actor.transform.rotation, desiredRotation, lerpAmount);
+        actor.transform.rotation = Quaternion.RotateTowards(actor.transform.rotation, desiredRotation, actor.TurnSpeed );
     }
 
     protected float GetMoveSpeed()

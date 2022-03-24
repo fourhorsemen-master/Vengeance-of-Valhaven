@@ -7,11 +7,6 @@ public class EnemyMovementManager : MovementManager
 
     private const float DestinationTolerance = 0.5f;
 
-    private float? rotationSmoothingOverride = null;
-
-    private Transform watchTarget = null;
-    private bool watching = false;
-
     private bool movementLocked = false;
     private float movementLockSpeed;
     private Vector3 movementLockDirection;
