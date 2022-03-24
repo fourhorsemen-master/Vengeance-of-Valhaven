@@ -16,7 +16,6 @@ public class BearAi : Ai
     [SerializeField] private float maxIdleSoundTimer = 0;
 
     [Header("Attack")]
-    [SerializeField] private float maulDelay = 0;
     [SerializeField] private float abilityInterval = 0;
     [SerializeField] private float maxAttackAngle = 0;
 
