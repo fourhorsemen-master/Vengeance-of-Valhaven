@@ -62,7 +62,7 @@ public abstract class MovementManager
         if (direction.Equals(Vector3.zero)) return;
         
         Quaternion desiredRotation = Quaternion.LookRotation(direction);
-        actor.transform.rotation = Quaternion.RotateTowards(actor.transform.rotation, desiredRotation, actor.TurnSpeed );
+        actor.transform.rotation = Quaternion.RotateTowards(actor.transform.rotation, desiredRotation, actor.TurnSpeed * Time.deltaTime );
     }
 
     protected float GetMoveSpeed()

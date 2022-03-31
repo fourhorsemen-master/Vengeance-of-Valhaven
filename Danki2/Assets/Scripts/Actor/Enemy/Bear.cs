@@ -111,13 +111,7 @@ public class Bear : Enemy
 
     private void ContinueCharge()
     {
-        Vector3 desiredDirection = chargeTarget.transform.position - transform.position;
-        chargeDirection = Vector3.RotateTowards(
-            chargeDirection,
-            desiredDirection,
-            chargeRotationRate * Time.deltaTime,
-            Mathf.Infinity
-        );
+        //Vector3 desiredDirection = chargeTarget.transform.position - transform.position;
         MovementManager.Move(chargeDirection, chargeSpeed);
     }
 
