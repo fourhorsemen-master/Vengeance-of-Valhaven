@@ -53,7 +53,7 @@ public class ForestGolemAi : Ai
             .WithComponent(StompState.WatchTarget, new WatchTarget(forestGolem, player))
             .WithComponent(StompState.Telegraph, new TelegraphAttack(forestGolem, Color.yellow))
             .WithComponent(StompState.Stomp, new ForestGolemStomp(forestGolem))
-            .WithTransition(StompState.WatchTarget, StompState.Telegraph, new Facing(forestGolem, player, maxStompAngle))
+            .WithTransition(StompState.WatchTarget, StompState.Telegraph, new Facing(forestGolem.MovementManager, player, null))
             .WithTransition(StompState.Telegraph, StompState.Stomp, new TimeElapsed(stompTelegraphTime));
         
         return new StateMachine<State>(State.Idle)

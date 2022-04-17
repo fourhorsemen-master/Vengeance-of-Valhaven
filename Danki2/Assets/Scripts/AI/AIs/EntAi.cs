@@ -46,7 +46,7 @@ public class EntAi : Ai
             .WithTransition(
                 State.Advance,
                 State.TelegraphSwipe,
-                new DistanceLessThan(ent, player, swipeMaxRange) & new TimeElapsed(swipeCooldown) & new Facing(ent, player, maxSwipeAngle)
+                new DistanceLessThan(ent, player, swipeMaxRange) & new TimeElapsed(swipeCooldown) & new Facing(ent.MovementManager, player, maxSwipeAngle)
             );
     }
 

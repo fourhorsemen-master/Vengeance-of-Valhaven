@@ -60,7 +60,7 @@ public class WolfAi : Ai
             .WithTransition(
                 AttackState.InitialReposition,
                 AttackState.TelegraphBite,
-                new DistanceLessThan(wolf, player, biteRange) & new Facing(wolf, player, biteMaxAngle)
+                new DistanceLessThan(wolf, player, biteRange) & new Facing(wolf.MovementManager, player, biteMaxAngle)
             )
             .WithTransition(
                 AttackState.InitialReposition,
@@ -70,7 +70,7 @@ public class WolfAi : Ai
             .WithTransition(
                 AttackState.Reposition,
                 AttackState.TelegraphBite,
-                new DistanceLessThan(wolf, player, biteRange) & new TimeElapsed(biteCooldown) & new Facing(wolf, player, biteMaxAngle)
+                new DistanceLessThan(wolf, player, biteRange) & new TimeElapsed(biteCooldown) & new Facing(wolf.MovementManager, player, biteMaxAngle)
             )
             .WithTransition(AttackState.TelegraphBite, AttackState.Bite, new TimeElapsed(biteDelay))
             .WithTransition(AttackState.Bite, AttackState.Reposition)

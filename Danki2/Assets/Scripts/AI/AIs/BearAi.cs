@@ -38,7 +38,7 @@ public class BearAi : Ai
             .WithComponent(AttackState.Swipe, new BearSwipe(bear))
             .WithComponent(AttackState.Maul, new BearMaul(bear))
             .WithComponent(AttackState.Cleave, new BearCleave(bear))
-            .WithTransition(AttackState.WatchTarget, AttackState.ChooseAbility, new TimeElapsed(abilityInterval) & new Facing(bear, player, maxAttackAngle))
+            .WithTransition(AttackState.WatchTarget, AttackState.ChooseAbility, new TimeElapsed(abilityInterval) & new Facing(bear.MovementManager, player, maxAttackAngle))
             .WithTransition(AttackState.TelegraphSwipe, AttackState.Swipe, new AbilityImpact(bear))
             .WithTransition(AttackState.TelegraphMaul, AttackState.Maul, new AbilityFinish(bear))
             .WithTransition(AttackState.TelegraphCleave, AttackState.Cleave, new AbilityImpact(bear))
@@ -59,7 +59,7 @@ public class BearAi : Ai
             .WithComponent(State.Watch, new WatchTarget(bear, player))
             .WithComponent(State.Idle, new BearIdle(bear, minIdleSoundTimer, maxIdleSoundTimer))
             .WithTransition(State.Idle, State.Advance, new DistanceLessThan(bear, player, aggroDistance) | new TakesDamage(bear))
-            .WithTransition(State.Advance, State.Attack, new DistanceLessThan(bear, player, minAdvanceRange) & new Facing(bear, player, maxAttackAngle))
+            .WithTransition(State.Advance, State.Attack, new DistanceLessThan(bear, player, minAdvanceRange) & new Facing(bear.MovementManager, player, maxAttackAngle))
             .WithTransition(State.Attack, State.Advance, new DistanceGreaterThan(bear, player, maxAttackRange) & !new IsTelegraphing(bear) & !new SubjectEmitted(bear.CleaveSubject))
             .WithTransition(State.Attack, State.TelegraphCharge, new SubjectEmitted(bear.CleaveSubject))
             .WithTransition(

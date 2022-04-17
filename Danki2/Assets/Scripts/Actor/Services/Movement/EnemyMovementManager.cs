@@ -23,6 +23,8 @@ public class EnemyMovementManager : MovementManager
         this.enemy.DeathSubject.Subscribe(_ => StopPathfinding());
 
         updateSubject.Subscribe(UpdateMovement);
+
+        navMeshAgent.updateRotation = false;
     }
 
     /// <summary>
@@ -60,8 +62,6 @@ public class EnemyMovementManager : MovementManager
 
         ClearWatch();
 
-        RotateTowards(direction);
-
         if (speed == null) speed = GetMoveSpeed();
 
         if(CanStrafeTarget(direction))
@@ -94,7 +94,6 @@ public class EnemyMovementManager : MovementManager
         movementLocked = true;
         movementLockSpeed = speed;
         movementLockDirection = direction.normalized;
-        navMeshAgent.updateRotation = false;
 
         if (rotation != Vector3.zero) Look(rotation);
 
@@ -105,7 +104,6 @@ public class EnemyMovementManager : MovementManager
 
         endMoveLockCoroutine = enemy.WaitAndAct(duration, () => {
             movementLocked = false;
-            navMeshAgent.updateRotation = true;
         });
     }
 
@@ -129,14 +127,14 @@ public class EnemyMovementManager : MovementManager
 
         navMeshAgent.speed = GetMoveSpeed();
 
-        if (watching && !movementPaused && !movementLocked)
-        {
-            RotateTowards(watchTarget.position - enemy.transform.position);
-        }
+        RotateTowards(watchTarget.position - enemy.transform.position);
 
         if (movementLocked)
         {
-            navMeshAgent.Move(movementLockDirection * (Time.deltaTime * movementLockSpeed));
+            if(CanStrafeTarget(watchTarget.position))
+			{
+                navMeshAgent.Move(movementLockDirection * (Time.deltaTime * movementLockSpeed));
+			}
         }
     }
 }

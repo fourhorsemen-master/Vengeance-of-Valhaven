@@ -97,13 +97,13 @@ public class PlayerMovementManager : MovementManager, IMovementStatusProvider
 
         RotateTowards(targetPosition);
 
-		if (IsFacingTarget(targetPosition))
-		{
-            rotationSpeedMultiplier = Mathf.Clamp(rotationSpeedMultiplier - (player.RotationSpeedAcceleration * Time.deltaTime), 1, float.MaxValue);
-		}
-		else
-		{
-            rotationSpeedMultiplier = Mathf.Clamp(rotationSpeedMultiplier + (player.RotationSpeedAcceleration * Time.deltaTime), 1, float.MaxValue);
-		}
+// 		if (IsFacingTarget(targetPosition, null))
+// 		{
+//             rotationSpeedMultiplier = Mathf.Clamp(rotationSpeedMultiplier - (player.RotationSpeedAcceleration * Time.deltaTime), 1, float.MaxValue);
+// 		}
+// 		else
+// 		{
+//             rotationSpeedMultiplier = Mathf.Clamp(rotationSpeedMultiplier + (player.RotationSpeedAcceleration * Time.deltaTime), 1, float.MaxValue);
+// 		}
 	}
 }

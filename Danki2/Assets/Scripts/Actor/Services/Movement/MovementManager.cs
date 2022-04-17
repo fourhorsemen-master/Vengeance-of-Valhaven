@@ -1,7 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 
-public abstract class MovementManager
+public interface IMovementManager
+{
+    public bool IsFacingTarget(Vector3 targetPosition, float? graceAngleOverride);
+}
+
+public abstract class MovementManager : IMovementManager
 {
     private readonly Actor actor;
     protected readonly NavMeshAgent navMeshAgent;
@@ -35,10 +40,16 @@ public abstract class MovementManager
         Look(position - actor.transform.position);
     }
 
-    public bool IsFacingTarget( Vector3 targetPosition )
+    public bool IsFacingTarget(Vector3 targetPosition, float? graceAngleOverride)
 	{
         Quaternion targetRotation = Quaternion.LookRotation(targetPosition);
-        return Quaternion.Angle(actor.transform.rotation, targetRotation) <= actor.FacingAngleGrace;
+        float angleDelta = Quaternion.Angle(actor.transform.rotation, targetRotation);
+        float granceAngle = graceAngleOverride.HasValue ? graceAngleOverride.Value : actor.FacingAngleGrace;
+
+        bool result = angleDelta <= granceAngle;
+
+        Debug.Log("IsFacingTarget: Angle:" + angleDelta + ". Grace:" + granceAngle + ". Result:" + result);
+        return result;
     }
 
 	public bool CanStrafeTarget(Vector3 targetPosition)
