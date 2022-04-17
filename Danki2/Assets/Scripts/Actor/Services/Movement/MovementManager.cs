@@ -8,6 +8,7 @@ public abstract class MovementManager
 
     private const float WalkSpeedMultiplier = 0.3f;
 
+    protected float rotationSpeedMultiplier = 1f;
     protected float? rotationSmoothingOverride = null;
     protected Transform watchTarget = null;
     protected bool watching = false;
@@ -34,12 +35,22 @@ public abstract class MovementManager
         Look(position - actor.transform.position);
     }
 
-    public bool IsFacingTarget() => true; 
+    public bool IsFacingTarget( Vector3 targetPosition )
+	{
+        Quaternion targetRotation = Quaternion.LookRotation(targetPosition);
+        return Quaternion.Angle(actor.transform.rotation, targetRotation) <= actor.FacingAngleGrace;
+    }
 
-    /// <summary>
-    /// Lock the position and rotation for the given duration.
-    /// </summary>
-    public void Pause(float duration)
+	public bool CanStrafeTarget(Vector3 targetPosition)
+	{
+		Quaternion targetRotation = Quaternion.LookRotation(targetPosition);
+		return Quaternion.Angle(actor.transform.rotation, targetRotation) <= actor.StrafeAngleLimit;
+	}
+
+	/// <summary>
+	/// Lock the position and rotation for the given duration.
+	/// </summary>
+	public void Pause(float duration)
     {
         movementPaused = true;
 
@@ -60,9 +71,11 @@ public abstract class MovementManager
     protected void RotateTowards(Vector3 direction)
     {
         if (direction.Equals(Vector3.zero)) return;
+
+        float currentTurnSpeed = (actor.TurnSpeed * rotationSpeedMultiplier) * Time.deltaTime;
         
         Quaternion desiredRotation = Quaternion.LookRotation(direction);
-        actor.transform.rotation = Quaternion.RotateTowards(actor.transform.rotation, desiredRotation, actor.TurnSpeed * Time.deltaTime );
+        actor.transform.rotation = Quaternion.RotateTowards(actor.transform.rotation, desiredRotation, currentTurnSpeed);
     }
 
     protected float GetMoveSpeed()

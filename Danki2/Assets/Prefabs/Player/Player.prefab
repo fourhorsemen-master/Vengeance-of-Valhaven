@@ -2801,8 +2801,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 0}
   m_AABB:
-    m_Center: {x: 0.00003077835, y: 0.9071213, z: 0.3470184}
-    m_Extent: {x: 0.114761665, y: 0.32032123, z: 0.23286143}
+    m_Center: {x: 0.000017106533, y: 0.90695554, z: 0.34460008}
+    m_Extent: {x: 0.11475155, y: 0.32048684, z: 0.23044312}
   m_DirtyAABB: 0
 --- !u!183 &5250604633547756724
 Cloth:
@@ -3006,14 +3006,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   navmeshAgent: {fileID: 6918691881617835041}
   trailRenderer: {fileID: 1618317697}
-  weight: 1
-  speed: 4
-  maxHealth: 30
-  rotationSmoothing: 0.1
   animator: {fileID: 238891752984210142}
+  maxHealth: 30
   abilityAnimationListener: {fileID: 1321271054688396773}
   colliders:
   - {fileID: 8075471737366941008}
+  speed: 4
+  turnSpeed: 200
+  RotationSpeedAcceleration: 7
+  strafeAngleLimit: 0
+  facingAngleGrace: 0
+  rotationSmoothing: 0.1
   centre: {fileID: 1799277828141391130}
   abilitySource: {fileID: 1765111089319286674}
   collisionTemplateSource: {fileID: 3913281348500960943}
@@ -5512,8 +5515,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 0}
   m_AABB:
-    m_Center: {x: -0.023551643, y: 1.2844737, z: -0.3268479}
-    m_Extent: {x: 0.53859586, y: 0.7835853, z: 0.5202784}
+    m_Center: {x: -0.023550034, y: 1.2844739, z: -0.3268478}
+    m_Extent: {x: 0.5386203, y: 0.7835851, z: 0.5202783}
   m_DirtyAABB: 0
 --- !u!183 &4472611446018268676
 Cloth:

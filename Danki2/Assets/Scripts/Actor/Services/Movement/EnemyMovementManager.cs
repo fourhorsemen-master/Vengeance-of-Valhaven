@@ -64,7 +64,10 @@ public class EnemyMovementManager : MovementManager
 
         if (speed == null) speed = GetMoveSpeed();
 
-        navMeshAgent.Move(direction.normalized * (Time.deltaTime * speed.Value));
+        if(CanStrafeTarget(direction))
+		{
+            navMeshAgent.Move(direction.normalized * (Time.deltaTime * speed.Value));
+		}
     }
 
     /// <summary>

@@ -31,6 +31,14 @@ public abstract class Actor : MonoBehaviour
     [SerializeField] private float turnSpeed = 0f;
     public float TurnSpeed => turnSpeed;
 
+    [SerializeField] public float RotationSpeedAcceleration = 1f;
+
+    [SerializeField] private float strafeAngleLimit = 0f;
+    public float StrafeAngleLimit => strafeAngleLimit;
+
+    [SerializeField] private float facingAngleGrace = 0f;
+    public float FacingAngleGrace => facingAngleGrace;
+
     [SerializeField] private float rotationSmoothing = 0f;
     public float RotationSmoothing => rotationSmoothing;
 
