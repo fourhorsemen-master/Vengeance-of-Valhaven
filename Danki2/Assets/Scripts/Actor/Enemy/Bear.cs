@@ -112,7 +112,7 @@ public class Bear : Enemy
     private void ContinueCharge()
     {
         Vector3 desiredDirection = chargeTarget.transform.position - transform.position;
-        MovementManager.Move(desiredDirection, chargeSpeed);
+        MovementManager.SetMovementTargetPoint(transform.position + desiredDirection);
     }
 
     private void ChargeEffect(int index)

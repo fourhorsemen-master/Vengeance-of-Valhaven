@@ -36,7 +36,7 @@ public class Circle : IStateMachineComponent
 
         if (enemy.MovementManager.CanPathToDestination(destination))
         {
-            enemy.MovementManager.StartPathfinding(destination);
+            enemy.MovementManager.SetMovementTargetPoint(destination);
         }
         else
         {

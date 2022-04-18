@@ -13,13 +13,7 @@
     {
         public AndTrigger(StateMachineTrigger t1, StateMachineTrigger t2) : base(t1, t2) {}
 
-        public override bool Triggers()
-        {
-            bool r1 = t1.Triggers();
-            bool r2 = t2.Triggers();
-
-            return r1 && r2;
-        }
+        public override bool Triggers() => t1.Triggers() && t2.Triggers();
     }
     
     private class OrTrigger : CompositeTrigger

@@ -13,10 +13,9 @@ public abstract class MovementManager : IMovementManager
 
     private const float WalkSpeedMultiplier = 0.3f;
 
+    protected float baseRotationSpeedMultiplier = 1f;
     protected float rotationSpeedMultiplier = 1f;
     protected float? rotationSmoothingOverride = null;
-    protected Transform watchTarget = null;
-    protected bool watching = false;
 
     protected bool movementPaused = false;
     private Coroutine endPauseCoroutine = null;
@@ -30,6 +29,7 @@ public abstract class MovementManager : IMovementManager
         this.actor = actor;
 
         this.navMeshAgent = navMeshAgent;
+        baseRotationSpeedMultiplier = rotationSpeedMultiplier;
     }
 
     /// <summary>
@@ -42,20 +42,21 @@ public abstract class MovementManager : IMovementManager
 
     public bool IsFacingTarget(Vector3 targetPosition, float? graceAngleOverride)
 	{
-        Quaternion targetRotation = Quaternion.LookRotation(targetPosition);
-        float angleDelta = Quaternion.Angle(actor.transform.rotation, targetRotation);
-        float granceAngle = graceAngleOverride.HasValue ? graceAngleOverride.Value : actor.FacingAngleGrace;
+        Vector3 ourForward = actor.transform.forward;
+        ourForward.y = 0f; //2D top-down check only;
 
-        bool result = angleDelta <= granceAngle;
+        Vector3 offsetToTarget = targetPosition - actor.transform.position;
+        offsetToTarget.y = 0f;
 
-        Debug.Log("IsFacingTarget: Angle:" + angleDelta + ". Grace:" + granceAngle + ". Result:" + result);
-        return result;
+        float AngleDelta = Vector3.Angle(ourForward, offsetToTarget);
+        float graceAngle = graceAngleOverride.HasValue ? graceAngleOverride.Value : actor.FacingAngleGrace;
+
+        return AngleDelta <= graceAngle;
     }
 
 	public bool CanStrafeTarget(Vector3 targetPosition)
 	{
-		Quaternion targetRotation = Quaternion.LookRotation(targetPosition);
-		return Quaternion.Angle(actor.transform.rotation, targetRotation) <= actor.StrafeAngleLimit;
+        return IsFacingTarget(targetPosition, actor.StrafeAngleLimit);
 	}
 
 	/// <summary>
@@ -97,4 +98,16 @@ public abstract class MovementManager : IMovementManager
             ? moveSpeed
             : moveSpeed * WalkSpeedMultiplier;
     }
+
+	protected void UpdateRotationAcceleration(bool isFacingTarget)
+	{
+		if (isFacingTarget)
+		{
+			rotationSpeedMultiplier = Mathf.Clamp(rotationSpeedMultiplier - (actor.RotationSpeedAcceleration * Time.deltaTime), 1, float.MaxValue);
+		}
+		else
+		{
+			rotationSpeedMultiplier = Mathf.Clamp(rotationSpeedMultiplier + (actor.RotationSpeedAcceleration * Time.deltaTime), 1, float.MaxValue);
+		}
+	}
 }

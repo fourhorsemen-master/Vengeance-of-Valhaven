@@ -19,7 +19,7 @@ public class Ent : Enemy
     public void Spine(Actor target)
     {
         MovementManager.LookAt(target.Centre);
-        MovementManager.Watch(target.transform);
+        MovementManager.SetRotationTarget(target.transform, null);
 
         Quaternion rotation = Quaternion.LookRotation(target.Centre - Centre);
         rotation *= Quaternion.Euler(0f, Random.Range(-spineMaxAngle, spineMaxAngle), 0f);

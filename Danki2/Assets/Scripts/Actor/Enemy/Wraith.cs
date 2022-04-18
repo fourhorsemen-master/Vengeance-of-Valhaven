@@ -43,7 +43,7 @@ public class Wraith : Enemy
     private void FireSpines(Actor target, int spineCount, float spineInterval, float spineMaxAngle)
     {
         MovementManager.LookAt(target.Centre);
-        MovementManager.Watch(target.transform);
+        MovementManager.SetRotationTarget(target.transform, null);
 
         for (int i = 0; i < spineCount; i++)
         {

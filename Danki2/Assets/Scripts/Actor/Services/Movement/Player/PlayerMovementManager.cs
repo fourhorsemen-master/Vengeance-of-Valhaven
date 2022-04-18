@@ -96,14 +96,6 @@ public class PlayerMovementManager : MovementManager, IMovementStatusProvider
         Vector3 targetPosition = desiredLookatPosition - player.transform.position;
 
         RotateTowards(targetPosition);
-
-// 		if (IsFacingTarget(targetPosition, null))
-// 		{
-//             rotationSpeedMultiplier = Mathf.Clamp(rotationSpeedMultiplier - (player.RotationSpeedAcceleration * Time.deltaTime), 1, float.MaxValue);
-// 		}
-// 		else
-// 		{
-//             rotationSpeedMultiplier = Mathf.Clamp(rotationSpeedMultiplier + (player.RotationSpeedAcceleration * Time.deltaTime), 1, float.MaxValue);
-// 		}
+        UpdateRotationAcceleration(IsFacingTarget(targetPosition, null));
 	}
 }

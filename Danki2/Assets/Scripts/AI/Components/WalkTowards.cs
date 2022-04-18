@@ -12,16 +12,18 @@
     public void Enter()
     {
         enemy.MovementManager.MotionType = MotionType.Walk;
+        enemy.MovementManager.SetMovementTarget(target.transform);
+        enemy.MovementManager.SetRotationTarget(target.transform, null);
     }
 
     public void Exit()
     {
         enemy.MovementManager.MotionType = MotionType.Run;
-        enemy.MovementManager.StopPathfinding();
+        enemy.MovementManager.SetRotationTarget(null, null);
     }
 
     public void Update()
     {
-        enemy.MovementManager.StartPathfinding(target.transform.position);
+        
     }
 }

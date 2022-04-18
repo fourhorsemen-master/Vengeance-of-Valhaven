@@ -3,138 +3,231 @@ using UnityEngine.AI;
 
 public class EnemyMovementManager : MovementManager
 {
-    private readonly Enemy enemy;
+	private readonly Enemy enemy;
 
-    private const float DestinationTolerance = 0.5f;
+	private const float DestinationTolerance = 0.5f;
 
-    private bool movementLocked = false;
-    private float movementLockSpeed;
-    private Vector3 movementLockDirection;
-    private Coroutine endMoveLockCoroutine;
+	private bool movementLocked = false;
+	private float movementLockSpeed;
+	private Transform objectToFollow;
+	private Vector3 pointToMoveTo = Vector3.zero;
+	private Vector3 movementLockDirection;
+	private Coroutine endMoveLockCoroutine;
 
-    protected override float RotationSmoothing => rotationSmoothingOverride ?? enemy.RotationSmoothing;
+	private bool watching = false;
+	private bool rotationLocked = false;
+	private Transform objectToWatch = null;
+	private Vector3 pointToLookAt = Vector3.zero;
+	private Coroutine endRotationLockCoroutine;
 
-    public bool CanMove => !enemy.Dead && !movementPaused && !movementLocked;
+	private Subscription updateSubscription;
+	private Subscription<DeathData> deathSubscription;
 
-    public EnemyMovementManager(Enemy enemy, Subject updateSubject, NavMeshAgent navMeshAgent)
-        : base(enemy, navMeshAgent)
-    {
-        this.enemy = enemy;
-        this.enemy.DeathSubject.Subscribe(_ => StopPathfinding());
+	protected override float RotationSmoothing => rotationSmoothingOverride ?? enemy.RotationSmoothing;
 
-        updateSubject.Subscribe(UpdateMovement);
+	public bool CanMove => !enemy.Dead && !movementPaused && !movementLocked;
 
-        navMeshAgent.updateRotation = false;
-    }
+	public EnemyMovementManager(Enemy enemy, Subject updateSubject, NavMeshAgent navMeshAgent)
+		: base(enemy, navMeshAgent)
+	{
+		this.enemy = enemy;
 
-    /// <summary>
-    /// Path towards the destination using navmesh pathfinding unless rooted, stunned or movement locked.
-    /// </summary>
-    public void StartPathfinding(Vector3 destination)
-    {
-        if (!CanMove) return;
+		deathSubscription = this.enemy.DeathSubject.Subscribe(_ => OnDeath());
+		updateSubscription = updateSubject.Subscribe(UpdateMovement);
 
-        navMeshAgent.isStopped = false;
+		navMeshAgent.updateRotation = false;
+	}
 
-        if (navMeshAgent.destination == destination) return;
-
-        ClearWatch();
-
-        navMeshAgent.SetDestination(destination);
-    }
-
-    public bool CanPathToDestination(Vector3 destination, float tolerance = DestinationTolerance)
-    {
-        return NavMesh.SamplePosition(destination, out NavMeshHit hit, tolerance, NavMesh.AllAreas);
-    }
-
-    /// <summary>
-    /// Move along the navmesh in the given direction unless rooted, stunned or movement locked.
-    /// </summary>
-    /// <param name="speed"> Defaults to the actors speed stat. </param>
-    public void Move(Vector3 direction, float? speed = null)
-    {
-        if (enemy.Dead) return;
-
-        StopPathfinding();
-
-        if (direction == Vector3.zero) return;
-
-        ClearWatch();
-
-        if (speed == null) speed = GetMoveSpeed();
-
-        if(CanStrafeTarget(direction))
+	public bool SetMovementTargetPoint(Vector3 targetLocation)
+	{
+		if (CanPathToDestination(targetLocation))
 		{
-            navMeshAgent.Move(direction.normalized * (Time.deltaTime * speed.Value));
+			pointToMoveTo = targetLocation;
+			objectToFollow = null;
+			return true;
 		}
-    }
 
-    /// <summary>
-    /// Lerp rotate the actor to face the target until we begin movement.
-    /// </summary>
-    public void Watch(Transform target, float? rotationSmoothingOverride = null)
-    {
-        watchTarget = target;
-        watching = true;
-        this.rotationSmoothingOverride = rotationSmoothingOverride;
-    }
+		return false;
+	}
 
-    public void ClearWatch()
-    {
-        watchTarget = null;
-        watching = false;
-        rotationSmoothingOverride = null;
-    }
+	public bool SetMovementTarget(Transform targetToFollow)
+	{
+		if (targetToFollow && CanPathToDestination(targetToFollow.position))
+		{
+			objectToFollow = targetToFollow;
+			pointToMoveTo = Vector3.zero;
+			return true;
+		}
 
-    public void LockMovement(float duration, float speed, Vector3 direction, Vector3 rotation)
-    {
-        StopPathfinding();
-        ClearWatch();
-        movementLocked = true;
-        movementLockSpeed = speed;
-        movementLockDirection = direction.normalized;
+		return false;
+	}
 
-        if (rotation != Vector3.zero) Look(rotation);
+	private bool GetMovementTarget(out Vector3 positionToMoveTo)
+	{
+		if (objectToFollow)
+		{
+			positionToMoveTo = objectToFollow.position;
+			return true;
+		}
 
-        if (endMoveLockCoroutine != null)
-        {
-            enemy.StopCoroutine(endMoveLockCoroutine);
-        }
+		if (pointToMoveTo != Vector3.zero)
+		{
+			positionToMoveTo = pointToMoveTo;
+			return true;
+		}
 
-        endMoveLockCoroutine = enemy.WaitAndAct(duration, () => {
-            movementLocked = false;
-        });
-    }
+		positionToMoveTo = Vector3.zero;
+		return false;
+	}
 
-    public void StopPathfinding()
-    {
-        navMeshAgent.ResetPath();
-        navMeshAgent.isStopped = true;
-    }
+	public void SetRotationTargetPoint(Vector3 targetToLookAt, float? rotationSpeedMultiplier)
+	{
+		objectToWatch = null;
+		pointToLookAt = targetToLookAt;
 
-    public bool CanReach(Vector3 position)
-    {
-        NavMeshPath navMeshPath = new NavMeshPath();
-        return navMeshAgent.CalculatePath(position, navMeshPath) && navMeshPath.status == NavMeshPathStatus.PathComplete;
-    }
+		UpdateRotationSpeedMultiplier(rotationSpeedMultiplier);
+	}
 
-    private void UpdateMovement()
-    {
-        if (enemy.Dead) return;
+	public void SetRotationTarget(Transform targetToLookAt, float? rotationSpeedMultiplier)
+	{
+		objectToWatch = targetToLookAt;
+		pointToLookAt = targetToLookAt ? targetToLookAt.position : Vector3.zero;
 
-        if (movementPaused && !navMeshAgent.isStopped) StopPathfinding();
+		UpdateRotationSpeedMultiplier(rotationSpeedMultiplier);
+	}
 
-        navMeshAgent.speed = GetMoveSpeed();
+	private void UpdateRotationSpeedMultiplier(float? rotationSpeedMultiplier)
+	{
+		if (rotationSpeedMultiplier.HasValue)
+		{
+			this.rotationSpeedMultiplier = rotationSpeedMultiplier.Value;
+		}
+		else
+		{
+			this.rotationSpeedMultiplier = baseRotationSpeedMultiplier;
+		}
+	}
 
-        RotateTowards(watchTarget.position - enemy.transform.position);
+	private bool GetRotationTarget(out Vector3 positionToLookAt)
+	{
+		if (objectToWatch) 
+		{ 
+			positionToLookAt = objectToWatch.position;
+			return true;
+		}
 
-        if (movementLocked)
-        {
-            if(CanStrafeTarget(watchTarget.position))
+		if (pointToLookAt != Vector3.zero)
+		{
+			positionToLookAt = pointToLookAt;
+			return true;
+		}
+
+		positionToLookAt = Vector3.zero;
+		return false;
+	}
+
+	private void StartPathfinding(Vector3 destination)
+	{
+		if (!CanMove) return;
+
+		navMeshAgent.isStopped = false;
+
+		if (navMeshAgent.destination == destination) return;
+
+		navMeshAgent.SetDestination(destination);
+	}
+
+	public bool CanPathToDestination(Vector3 destination, float tolerance = DestinationTolerance)
+	{
+		return NavMesh.SamplePosition(destination, out NavMeshHit hit, tolerance, NavMesh.AllAreas);
+	}
+
+	public void LockMovement(float duration, float speed, Vector3 direction, Vector3 rotation)
+	{
+		StopPathfinding();
+		movementLocked = true;
+		movementLockSpeed = speed;
+		movementLockDirection = direction.normalized;
+
+		if (rotation != Vector3.zero) Look(rotation);
+
+		if (endMoveLockCoroutine != null)
+		{
+			enemy.StopCoroutine(endMoveLockCoroutine);
+		}
+
+		endMoveLockCoroutine = enemy.WaitAndAct(duration, () => { movementLocked = false; });
+	}
+
+	public void LockRotation(float duration)
+	{
+		rotationLocked = true;
+
+		if(endRotationLockCoroutine != null)
+		{
+			enemy.StopCoroutine(endRotationLockCoroutine);
+		}
+
+		endRotationLockCoroutine = enemy.WaitAndAct(duration, () => { rotationLocked = false; });
+	}
+
+	public void StopPathfinding()
+	{
+		navMeshAgent.ResetPath();
+		navMeshAgent.isStopped = true;
+	}
+
+	public bool CanReach(Vector3 position)
+	{
+		NavMeshPath navMeshPath = new NavMeshPath();
+		return navMeshAgent.CalculatePath(position, navMeshPath) && navMeshPath.status == NavMeshPathStatus.PathComplete;
+	}
+
+	private void UpdateMovement()
+	{
+		if (movementPaused && !navMeshAgent.isStopped) StopPathfinding();
+
+		navMeshAgent.speed = GetMoveSpeed();
+
+		Vector3 desiredLookPostition;
+		bool hasValidRotationTarget = GetRotationTarget(out desiredLookPostition);
+
+		if (!rotationLocked && hasValidRotationTarget)
+		{
+			RotateTowards(desiredLookPostition - enemy.transform.position);
+			UpdateRotationAcceleration(IsFacingTarget(desiredLookPostition, null));
+		}
+
+		if (movementLocked)
+		{
+			Vector3 lockMoveOffest = movementLockDirection * (Time.deltaTime * movementLockSpeed);
+			if (CanStrafeTarget(enemy.transform.position + lockMoveOffest))
 			{
-                navMeshAgent.Move(movementLockDirection * (Time.deltaTime * movementLockSpeed));
+				navMeshAgent.Move(lockMoveOffest);
 			}
-        }
-    }
+		}
+		else
+		{
+			Vector3 desiredMovementPostion;
+			bool hasValidMovementTarget = GetMovementTarget(out desiredMovementPostion);
+
+			if (hasValidMovementTarget)
+			{
+				if (CanStrafeTarget(desiredMovementPostion))
+				{
+					StartPathfinding(desiredMovementPostion);
+				}
+			}
+			else
+			{
+				StopPathfinding();
+			}
+		}
+	}
+
+	private void OnDeath()
+	{
+		StopPathfinding();
+		updateSubscription.Unsubscribe();
+	}
 }

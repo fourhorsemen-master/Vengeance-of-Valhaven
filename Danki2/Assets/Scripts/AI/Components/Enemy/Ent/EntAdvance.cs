@@ -34,7 +34,6 @@ public class EntAdvance : IStateMachineComponent
     public void Exit()
     {
         ent.MovementManager.StopPathfinding();
-        ent.MovementManager.ClearWatch();
     }
 
     public void Update()
@@ -53,8 +52,7 @@ public class EntAdvance : IStateMachineComponent
     {
         if (distanceFromPlayer < minRangedDistance)
         {
-            ent.MovementManager.ClearWatch();
-            ent.MovementManager.StartPathfinding(2 * ent.transform.position - player.transform.position);
+            ent.MovementManager.SetMovementTargetPoint(2 * ent.transform.position - player.transform.position);
         }
         else Stop();
     }
@@ -63,8 +61,7 @@ public class EntAdvance : IStateMachineComponent
     {
         if (distanceFromPlayer > minDistance)
         {
-            ent.MovementManager.ClearWatch();
-            ent.MovementManager.StartPathfinding(player.transform.position);
+            ent.MovementManager.SetMovementTarget(player.transform);
         }
         else Stop();
     }
@@ -72,6 +69,6 @@ public class EntAdvance : IStateMachineComponent
     private void Stop()
     {
         ent.MovementManager.StopPathfinding();
-        ent.MovementManager.Watch(player.transform);
+        ent.MovementManager.SetRotationTarget(player.transform, null);
     }
 }

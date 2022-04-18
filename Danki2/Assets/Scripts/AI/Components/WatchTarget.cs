@@ -2,24 +2,23 @@
 {
     private readonly Enemy enemy;
     private readonly Actor target;
-    private readonly float? rotationSmoothingOverride;
+    private readonly float? rotationSpeedMultiplier;
 
-    public WatchTarget(Enemy enemy, Actor target, float? rotationSmoothingOverride = null)
+    public WatchTarget(Enemy enemy, Actor target, float? rotationSpeedMultiplier = null)
     {
         this.enemy = enemy;
         this.target = target;
-        this.rotationSmoothingOverride = rotationSmoothingOverride;
+        this.rotationSpeedMultiplier = rotationSpeedMultiplier;
     }
 
     public void Enter()
     {
-        enemy.MovementManager.Watch(target.transform, rotationSmoothingOverride);
+        enemy.MovementManager.SetRotationTarget(target.transform, rotationSpeedMultiplier);        
     }
 
     public void Exit()
-    {
-        enemy.MovementManager.ClearWatch();
-    }
+    {}
 
-    public void Update() {}
+    public void Update()
+    {}
 }
