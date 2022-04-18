@@ -54,7 +54,7 @@ public class BearAi : Ai
         return new StateMachine<State>(State.Idle)
             .WithComponent(State.Advance, advanceStateMachine)
             .WithComponent(State.Attack, attackStateMachine)
-            .WithComponent(State.TelegraphCharge, new BearTelegraphCharge(bear))
+            .WithComponent(State.TelegraphCharge, new BearTelegraphCharge(bear, player))
             .WithComponent(State.Charge, new BearChannelCharge(bear, player))
             .WithComponent(State.Watch, new WatchTarget(bear, player))
             .WithComponent(State.Idle, new BearIdle(bear, minIdleSoundTimer, maxIdleSoundTimer))

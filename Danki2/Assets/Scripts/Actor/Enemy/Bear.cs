@@ -152,8 +152,7 @@ public class Bear : Enemy
         player.MovementManager.LockMovement(
             chargeKnockBackDuration,
             chargeKnockBackSpeed,
-            knockBackDirection,
-            knockBackFaceDirection
+            knockBackDirection
         );
     }
 
@@ -252,8 +251,7 @@ public class Bear : Enemy
         player.MovementManager.LockMovement(
             cleaveKnockBackDuration,
             cleaveKnockBackSpeed,
-            knockBackDirection,
-            knockBackFaceDirection
+            knockBackDirection
         );
     }
 

@@ -38,28 +38,15 @@ public class EnemyMovementManager : MovementManager
 		navMeshAgent.updateRotation = false;
 	}
 
-	public bool SetMovementTargetPoint(Vector3 targetLocation)
+	public void SetMovementTargetPoint(Vector3 targetLocation)
 	{
-		if (CanPathToDestination(targetLocation))
-		{
-			pointToMoveTo = targetLocation;
-			objectToFollow = null;
-			return true;
-		}
-
-		return false;
+		pointToMoveTo = targetLocation;
+		objectToFollow = null;
 	}
 
-	public bool SetMovementTarget(Transform targetToFollow)
+	public void SetMovementTarget(Transform targetToFollow)
 	{
-		if (targetToFollow && CanPathToDestination(targetToFollow.position))
-		{
-			objectToFollow = targetToFollow;
-			pointToMoveTo = Vector3.zero;
-			return true;
-		}
-
-		return false;
+		objectToFollow = targetToFollow;
 	}
 
 	private bool GetMovementTarget(out Vector3 positionToMoveTo)
@@ -194,7 +181,8 @@ public class EnemyMovementManager : MovementManager
 
 		if (!rotationLocked && hasValidRotationTarget)
 		{
-			RotateTowards(desiredLookPostition - enemy.transform.position);
+			Vector3 turnVector = desiredLookPostition - enemy.transform.position;
+			RotateTowards(turnVector);
 			UpdateRotationAcceleration(IsFacingTarget(desiredLookPostition, null));
 		}
 
@@ -213,6 +201,9 @@ public class EnemyMovementManager : MovementManager
 
 			if (hasValidMovementTarget)
 			{
+				Vector3 strafeVector = desiredMovementPostion - enemy.transform.position;
+				//Debug.DrawLine(enemy.transform.position, desiredMovementPostion, Color.magenta);
+
 				if (CanStrafeTarget(desiredMovementPostion))
 				{
 					StartPathfinding(desiredMovementPostion);

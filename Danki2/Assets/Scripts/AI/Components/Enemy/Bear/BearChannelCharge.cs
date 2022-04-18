@@ -12,5 +12,9 @@
     public void Enter() => bear.Charge(target);
 
     public void Exit() {}
-    public void Update() {}
+
+    public void Update()
+    {
+        bear.MovementManager.SetRotationTargetPoint(target.transform.position, null);
+    }
 }

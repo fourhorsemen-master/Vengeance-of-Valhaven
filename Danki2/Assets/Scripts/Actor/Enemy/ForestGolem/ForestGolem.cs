@@ -117,7 +117,6 @@ public class ForestGolem : Enemy
             player.MovementManager.LockMovement(
                 stompKnockbackDuration,
                 stompKnockbackSpeed,
-                knockbackDirection,
                 knockbackDirection
             );
 

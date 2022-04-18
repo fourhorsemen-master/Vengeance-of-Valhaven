@@ -17,6 +17,7 @@
 
     public void Exit()
     {
+        enemy.MovementManager.SetMovementTarget(null);
         enemy.MovementManager.SetRotationTarget(null, null);
     }
 

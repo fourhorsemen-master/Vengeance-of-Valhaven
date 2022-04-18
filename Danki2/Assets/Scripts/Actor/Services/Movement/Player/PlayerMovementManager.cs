@@ -64,15 +64,12 @@ public class PlayerMovementManager : MovementManager, IMovementStatusProvider
     /// <summary>
     /// Lock movement velocity for a given duration with a fixed rotation.
     /// </summary>
-    /// <param name="rotation">The rotation to maintain for the duration.</param>
-    public bool LockMovement(float duration, float speed, Vector3 direction, Vector3 rotation)
+    public bool LockMovement(float duration, float speed, Vector3 direction)
     {
         movementStatusManager.LockMovement(duration);
 
         movementLockSpeed = speed;
         movementLockDirection = direction.normalized;
-
-        if (rotation != Vector3.zero) Look(rotation);
 
         return true;
     }
@@ -93,9 +90,8 @@ public class PlayerMovementManager : MovementManager, IMovementStatusProvider
 	{
 		Vector3 desiredLookatPosition = Vector3.zero;
 		MouseGamePositionFinder.Instance.GetPlanePositions(player.transform.position.y, out desiredLookatPosition, out _);
-        Vector3 targetPosition = desiredLookatPosition - player.transform.position;
 
-        RotateTowards(targetPosition);
-        UpdateRotationAcceleration(IsFacingTarget(targetPosition, null));
+        RotateTowards(desiredLookatPosition - player.transform.position);
+        UpdateRotationAcceleration(IsFacingTarget(desiredLookatPosition, 20f));
 	}
 }
