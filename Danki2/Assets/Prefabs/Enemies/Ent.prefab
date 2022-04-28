@@ -300,14 +300,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   navmeshAgent: {fileID: 36210376447996110}
   trailRenderer: {fileID: 7325946564035363342}
-  weight: 1.5
-  speed: 2
-  maxHealth: 30
-  rotationSmoothing: 0.1
   animator: {fileID: 0}
+  maxHealth: 30
   abilityAnimationListener: {fileID: 0}
   colliders:
   - {fileID: 1090301374523841698}
+  speed: 2
+  turnSpeed: 30
+  RotationSpeedAcceleration: 0
+  strafeAngleLimit: 4
+  facingAngleGrace: 2
+  rotationSmoothing: 0.1
   centre: {fileID: 2612157708333112033}
   abilitySource: {fileID: 1182299498202484336}
   collisionTemplateSource: {fileID: 1967900721886357586}
