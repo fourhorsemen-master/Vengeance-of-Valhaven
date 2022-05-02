@@ -146,7 +146,7 @@ public class EnemyMovementManager : MovementManager
 		endMoveLockCoroutine = enemy.WaitAndAct(duration, () => { movementLocked = false; });
 	}
 
-	public void LockRotation(float duration)
+	public void LockRotation(float? duration)
 	{
 		rotationLocked = true;
 
@@ -155,7 +155,20 @@ public class EnemyMovementManager : MovementManager
 			enemy.StopCoroutine(endRotationLockCoroutine);
 		}
 
-		endRotationLockCoroutine = enemy.WaitAndAct(duration, () => { rotationLocked = false; });
+		if (duration.HasValue)
+		{
+			endRotationLockCoroutine = enemy.WaitAndAct(duration.Value, () => { rotationLocked = false; });
+		}
+	}
+
+	public void UnlockRotation()
+	{
+		rotationLocked = false;
+
+		if (endRotationLockCoroutine != null)
+		{
+			enemy.StopCoroutine(endRotationLockCoroutine);
+		}
 	}
 
 	public void StopPathfinding()
@@ -196,6 +209,8 @@ public class EnemyMovementManager : MovementManager
 		}
 		else
 		{
+			if (movementPaused) return;
+
 			Vector3 desiredMovementPostion;
 			bool hasValidMovementTarget = GetMovementTarget(out desiredMovementPostion);
 

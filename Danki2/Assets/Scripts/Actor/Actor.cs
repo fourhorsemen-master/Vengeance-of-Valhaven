@@ -36,6 +36,10 @@ public abstract class Actor : MonoBehaviour
     [SerializeField] private float strafeAngleLimit = 0f;
     public float StrafeAngleLimit => strafeAngleLimit;
 
+    private bool isFreeStrafe = false;
+    public bool IsFreeStrafe => isFreeStrafe;
+    public void SetIsFreeStrafe(bool inIsFreeStrafe) { isFreeStrafe = inIsFreeStrafe; }
+
     [SerializeField] private float facingAngleGrace = 0f;
     public float FacingAngleGrace => facingAngleGrace;
 

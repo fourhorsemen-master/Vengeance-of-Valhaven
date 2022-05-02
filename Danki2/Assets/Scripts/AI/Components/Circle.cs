@@ -16,11 +16,13 @@ public class Circle : IStateMachineComponent
     public void Enter()
     {
         circleDirection = RandomUtils.Choice(CircleDirection.Clockwise, CircleDirection.Anticlockwise);
+        enemy.SetIsFreeStrafe(true);
     }
 
     public void Exit()
     {
         enemy.MovementManager.StopPathfinding();
+        enemy.SetIsFreeStrafe(false);
     }
 
     public void Update()

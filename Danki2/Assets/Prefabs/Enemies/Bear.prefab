@@ -382,6 +382,7 @@ MonoBehaviour:
   turnSpeed: 60
   RotationSpeedAcceleration: 1
   strafeAngleLimit: 10
+  isFreeStrafe: 0
   facingAngleGrace: 0
   rotationSmoothing: 0.1
   centre: {fileID: 7817277397840590268}
@@ -426,8 +427,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bear: {fileID: 5616573760960498849}
   aggroDistance: 9
-  minAdvanceRange: 3
-  maxAttackRange: 4.5
+  minAdvanceRange: 4
+  maxAttackRange: 5
   maxChargeRange: 10
   chargeMinInterval: 3
   chargeMaxInterval: 5

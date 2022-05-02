@@ -61,6 +61,8 @@ public abstract class MovementManager : IMovementManager
 
 	public bool CanStrafeTarget(Vector3 targetPosition)
 	{
+		if (actor.IsFreeStrafe) return true;
+
 		Vector3 ourForward = actor.transform.forward;
 		ourForward.y = 0f; //2D top-down check only;
 
@@ -80,16 +82,26 @@ public abstract class MovementManager : IMovementManager
 	/// <summary>
 	/// Lock the position and rotation for the given duration.
 	/// </summary>
-	public void Pause(float duration)
+	public void Pause(float? duration)
 	{
 		movementPaused = true;
 
 		if (endPauseCoroutine != null) actor.StopCoroutine(endPauseCoroutine);
 
-		endPauseCoroutine = actor.WaitAndAct(duration, () => {
-			movementPaused = false;
-			endPauseCoroutine = null;
-		});
+		if(duration.HasValue)
+		{
+			endPauseCoroutine = actor.WaitAndAct(duration.Value, () => {
+				movementPaused = false;
+				endPauseCoroutine = null;
+			});
+		}
+	}
+
+	public void Unpause()
+	{
+		movementPaused = false;
+
+		if (endPauseCoroutine != null) actor.StopCoroutine(endPauseCoroutine);
 	}
 
 	protected void Look(Vector3 rotation)

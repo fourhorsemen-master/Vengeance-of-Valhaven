@@ -31,12 +31,12 @@ public class MoveTowardsAtDistance : IStateMachineComponent
     {
         if (Vector3.Distance(enemy.transform.position, target.transform.position) > distance)
         {
-            enemy.MovementManager.SetRotationTargetPoint(target.transform.position, rotationSpeedMultiplier);
+            enemy.MovementManager.SetMovementTargetPoint(target.transform.position);
         }
         else
         {
             enemy.MovementManager.StopPathfinding();
-            enemy.MovementManager.SetRotationTarget(target.transform, rotationSpeedMultiplier);
+            enemy.MovementManager.SetRotationTarget(target.transform, null);
         }
     }
 }

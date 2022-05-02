@@ -54,7 +54,7 @@ public class WraithAi : Ai
 
         IStateMachineComponent meleeAttackStateMachine = new StateMachine<MeleeAttackState>(MeleeAttackState.WatchTarget)
             .WithComponent(MeleeAttackState.WatchTarget, new WatchTarget(wraith, player, swipeRotationSmoothingOverride))
-            .WithComponent(MeleeAttackState.Telegraph, new TelegraphAttack(wraith, Color.yellow))
+            .WithComponent(MeleeAttackState.Telegraph, new TelegraphAttack(wraith, Color.yellow, true))
             .WithComponent(MeleeAttackState.Swipe, new WraithCastSwipe(wraith))
             .WithTransition(MeleeAttackState.WatchTarget, MeleeAttackState.Telegraph, new Facing(wraith.MovementManager, player, maxSwipeAngle))
             .WithTransition(MeleeAttackState.Telegraph, MeleeAttackState.Swipe, new TimeElapsed(swipeDelay))

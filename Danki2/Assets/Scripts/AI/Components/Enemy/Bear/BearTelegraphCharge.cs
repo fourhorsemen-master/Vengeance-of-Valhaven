@@ -6,7 +6,7 @@ public class BearTelegraphCharge : TelegraphAttack
 	private readonly Actor target;
 
 	public BearTelegraphCharge(Bear bear, Actor target)
-		: base(bear, Color.red)
+		: base(bear, Color.red, true)
 	{
 		this.bear = bear;
 		this.target = target;
