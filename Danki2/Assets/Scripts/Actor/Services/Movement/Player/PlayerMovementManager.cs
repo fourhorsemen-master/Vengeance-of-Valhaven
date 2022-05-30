@@ -28,6 +28,7 @@ public class PlayerMovementManager : MovementManager, IMovementStatusProvider
         this.player = player;
 
         updateSubject.Subscribe(UpdateMovement);
+        updateSubject.Subscribe(LookAtMouse);
         movementStatusManager = new MovementStatusManager(updateSubject);
         movementStatusManager.RegisterProviders(this, new StunHandler(player));
 
@@ -55,8 +56,6 @@ public class PlayerMovementManager : MovementManager, IMovementStatusProvider
 
         if (direction == Vector3.zero) return;
 
-        RotateTowards(direction);
-
         if (speed == null) speed = GetMoveSpeed();
 
         navMeshAgent.Move(direction.normalized * (Time.deltaTime * speed.Value));
@@ -65,15 +64,12 @@ public class PlayerMovementManager : MovementManager, IMovementStatusProvider
     /// <summary>
     /// Lock movement velocity for a given duration with a fixed rotation.
     /// </summary>
-    /// <param name="rotation">The rotation to maintain for the duration.</param>
-    public bool LockMovement(float duration, float speed, Vector3 direction, Vector3 rotation)
+    public bool LockMovement(float duration, float speed, Vector3 direction)
     {
         movementStatusManager.LockMovement(duration);
 
         movementLockSpeed = speed;
         movementLockDirection = direction.normalized;
-
-        if (rotation != Vector3.zero) Look(rotation);
 
         return true;
     }
@@ -89,4 +85,13 @@ public class PlayerMovementManager : MovementManager, IMovementStatusProvider
             navMeshAgent.Move(movementLockDirection * (Time.deltaTime * movementLockSpeed));
         }
     }
+
+    private void LookAtMouse()
+	{
+		Vector3 desiredLookatPosition = Vector3.zero;
+		MouseGamePositionFinder.Instance.GetPlanePositions(player.transform.position.y, out desiredLookatPosition, out _);
+
+        RotateTowards(desiredLookatPosition - player.transform.position);
+        UpdateRotationAcceleration(IsFacingTarget(desiredLookatPosition, 20f));
+	}
 }

@@ -17,13 +17,10 @@ public class MoveInRandomDirection : IStateMachineComponent
         direction = new Vector3(offset.x, 0f, offset.y);
     }
 
-    public void Exit()
-    {
-        enemy.MovementManager.StopPathfinding();
-    }
+    public void Exit() {}
 
     public void Update()
     {
-        enemy.MovementManager.StartPathfinding(enemy.transform.position + direction);
+        enemy.MovementManager.SetMovementTargetPoint(enemy.transform.position + direction);
     }
 }

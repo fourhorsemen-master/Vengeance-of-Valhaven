@@ -22,7 +22,6 @@ public class AbilityDashManager : MonoBehaviour
         player.MovementManager.LockMovement(
             dashDuration,
             dashSpeed,
-            player.transform.forward,
             player.transform.forward
         );
     }

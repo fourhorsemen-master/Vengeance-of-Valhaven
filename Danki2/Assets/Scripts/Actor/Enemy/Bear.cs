@@ -112,13 +112,7 @@ public class Bear : Enemy
     private void ContinueCharge()
     {
         Vector3 desiredDirection = chargeTarget.transform.position - transform.position;
-        chargeDirection = Vector3.RotateTowards(
-            chargeDirection,
-            desiredDirection,
-            chargeRotationRate * Time.deltaTime,
-            Mathf.Infinity
-        );
-        MovementManager.Move(chargeDirection, chargeSpeed);
+        MovementManager.SetMovementTargetPoint(transform.position + desiredDirection);
     }
 
     private void ChargeEffect(int index)
@@ -158,8 +152,7 @@ public class Bear : Enemy
         player.MovementManager.LockMovement(
             chargeKnockBackDuration,
             chargeKnockBackSpeed,
-            knockBackDirection,
-            knockBackFaceDirection
+            knockBackDirection
         );
     }
 
@@ -258,8 +251,7 @@ public class Bear : Enemy
         player.MovementManager.LockMovement(
             cleaveKnockBackDuration,
             cleaveKnockBackSpeed,
-            knockBackDirection,
-            knockBackFaceDirection
+            knockBackDirection
         );
     }
 

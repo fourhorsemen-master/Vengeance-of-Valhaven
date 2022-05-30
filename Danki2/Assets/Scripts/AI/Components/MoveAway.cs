@@ -11,13 +11,10 @@
 
     public void Enter() {}
 
-    public void Exit()
-    {
-        enemy.MovementManager.StopPathfinding();
-    }
+    public void Exit() {}
 
     public void Update()
     {
-        enemy.MovementManager.StartPathfinding(2 * enemy.transform.position - target.transform.position);
+        enemy.MovementManager.SetMovementTargetPoint(2 * enemy.transform.position - target.transform.position);
     }
 }

@@ -1,71 +1,143 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 
-public abstract class MovementManager
+public interface IMovementManager
 {
-    private readonly Actor actor;
-    protected readonly NavMeshAgent navMeshAgent;
+	public bool IsFacingTarget(Vector3 targetPosition, float? graceAngleOverride);
+}
 
-    private const float WalkSpeedMultiplier = 0.3f;
+public abstract class MovementManager : IMovementManager
+{
+	private readonly Actor actor;
+	protected readonly NavMeshAgent navMeshAgent;
 
-    protected bool movementPaused = false;
-    private Coroutine endPauseCoroutine = null;
+	private const float WalkSpeedMultiplier = 0.3f;
 
-    public MotionType MotionType { get; set; } = MotionType.Run;
+	protected float baseRotationSpeedMultiplier = 1f;
+	protected float rotationSpeedMultiplier = 1f;
+	protected float? rotationSmoothingOverride = null;
 
-    protected abstract float RotationSmoothing { get; }
+	protected bool movementPaused = false;
+	private Coroutine endPauseCoroutine = null;
 
-    public MovementManager(Actor actor, NavMeshAgent navMeshAgent)
-    {
-        this.actor = actor;
+	public MotionType MotionType { get; set; } = MotionType.Run;
 
-        this.navMeshAgent = navMeshAgent;
-    }
+	protected abstract float RotationSmoothing { get; }
 
-    /// <summary>
-    /// Snap rotate the actor to face the position.
-    /// </summary>
-    public void LookAt(Vector3 position)
-    {
-        Look(position - actor.transform.position);
-    }
+	public MovementManager(Actor actor, NavMeshAgent navMeshAgent)
+	{
+		this.actor = actor;
 
-    /// <summary>
-    /// Lock the position and rotation for the given duration.
-    /// </summary>
-    public void Pause(float duration)
-    {
-        movementPaused = true;
+		this.navMeshAgent = navMeshAgent;
+		baseRotationSpeedMultiplier = rotationSpeedMultiplier;
+	}
 
-        if (endPauseCoroutine != null) actor.StopCoroutine(endPauseCoroutine);
+	/// <summary>
+	/// Snap rotate the actor to face the position.
+	/// </summary>
+	public void LookAt(Vector3 position)
+	{
+		Look(position - actor.transform.position);
+	}
 
-        endPauseCoroutine = actor.WaitAndAct(duration, () => {
-            movementPaused = false;
-            endPauseCoroutine = null;
-        });
-    }
+	public bool IsFacingTarget(Vector3 targetPosition, float? graceAngleOverride)
+	{
+		Vector3 ourForward = actor.transform.forward;
+		ourForward.y = 0f; //2D top-down check only;
 
-    protected void Look(Vector3 rotation)
-    {
-        rotation.y = 0;
-        actor.transform.rotation = Quaternion.LookRotation(rotation);
-    }
+		//Debug.DrawLine(actor.transform.position, actor.transform.position + ourForward, Color.green);
 
-    protected void RotateTowards(Vector3 direction)
-    {
-        if (direction.Equals(Vector3.zero)) return;
-        
-        Quaternion desiredRotation = Quaternion.LookRotation(direction);
-        float lerpAmount = MathUtils.GetDeltaTimeLerpAmount(RotationSmoothing);
-        actor.transform.rotation = Quaternion.Lerp(actor.transform.rotation, desiredRotation, lerpAmount);
-    }
+		Vector3 offsetToTarget = targetPosition - actor.transform.position;
+		offsetToTarget.y = 0f;
+		targetPosition.Normalize();
 
-    protected float GetMoveSpeed()
-    {
-        float moveSpeed = actor.Speed;
+		//Debug.DrawLine(actor.transform.position, actor.transform.position + offsetToTarget, Color.yellow);
 
-        return MotionType == MotionType.Run
-            ? moveSpeed
-            : moveSpeed * WalkSpeedMultiplier;
-    }
+		float AngleDelta = Vector3.Angle(ourForward, offsetToTarget);
+		float graceAngle = graceAngleOverride.HasValue ? graceAngleOverride.Value : actor.FacingAngleGrace;
+
+		return AngleDelta <= graceAngle;
+	}
+
+	public bool CanStrafeTarget(Vector3 targetPosition)
+	{
+		if (actor.IsFreeStrafe) return true;
+
+		Vector3 ourForward = actor.transform.forward;
+		ourForward.y = 0f; //2D top-down check only;
+
+		Debug.DrawLine(actor.transform.position, actor.transform.position + ourForward, Color.red);
+
+		Vector3 offsetToTarget = targetPosition - actor.transform.position;
+		offsetToTarget.y = 0f;
+		offsetToTarget.Normalize();
+
+		Debug.DrawLine(actor.transform.position, actor.transform.position + offsetToTarget, Color.magenta);
+
+		float AngleDelta = Vector3.Angle(ourForward, offsetToTarget);
+
+		return AngleDelta <= actor.StrafeAngleLimit;
+	}
+
+	/// <summary>
+	/// Lock the position and rotation for the given duration.
+	/// </summary>
+	public void Pause(float? duration)
+	{
+		movementPaused = true;
+
+		if (endPauseCoroutine != null) actor.StopCoroutine(endPauseCoroutine);
+
+		if(duration.HasValue)
+		{
+			endPauseCoroutine = actor.WaitAndAct(duration.Value, () => {
+				movementPaused = false;
+				endPauseCoroutine = null;
+			});
+		}
+	}
+
+	public void Unpause()
+	{
+		movementPaused = false;
+
+		if (endPauseCoroutine != null) actor.StopCoroutine(endPauseCoroutine);
+	}
+
+	protected void Look(Vector3 rotation)
+	{
+		rotation.y = 0;
+		actor.transform.rotation = Quaternion.LookRotation(rotation);
+	}
+
+	protected void RotateTowards(Vector3 direction)
+	{
+		if (direction.Equals(Vector3.zero)) return;
+
+		float currentTurnSpeed = (actor.TurnSpeed * rotationSpeedMultiplier) * Time.deltaTime;
+		
+		Quaternion desiredRotation = Quaternion.LookRotation(direction);
+		actor.transform.rotation = Quaternion.RotateTowards(actor.transform.rotation, desiredRotation, currentTurnSpeed);
+	}
+
+	protected float GetMoveSpeed()
+	{
+		float moveSpeed = actor.Speed;
+
+		return MotionType == MotionType.Run
+			? moveSpeed
+			: moveSpeed * WalkSpeedMultiplier;
+	}
+
+	protected void UpdateRotationAcceleration(bool isFacingTarget)
+	{
+		if (isFacingTarget)
+		{
+			rotationSpeedMultiplier = Mathf.Clamp(rotationSpeedMultiplier - (actor.RotationSpeedAcceleration * Time.deltaTime), 1, float.MaxValue);
+		}
+		else
+		{
+			rotationSpeedMultiplier = Mathf.Clamp(rotationSpeedMultiplier + (actor.RotationSpeedAcceleration * Time.deltaTime), 1, float.MaxValue);
+		}
+	}
 }

@@ -5,30 +5,29 @@ public class TelegraphAttackAndWatch : IStateMachineComponent
     private readonly Enemy enemy;
     private readonly Actor target;
     private readonly Color telegraphColour;
-    private readonly float? rotationSmoothingOverride;
+    private readonly float? rotationSpeedMultiplier;
 
     public TelegraphAttackAndWatch(
         Enemy enemy,
         Actor target,
         Color telegraphColour,
-        float? rotationSmoothingOverride = null
+        float? rotationSpeedMultiplier = null
     )
     {
         this.enemy = enemy;
         this.target = target;
         this.telegraphColour = telegraphColour;
-        this.rotationSmoothingOverride = rotationSmoothingOverride;
+        this.rotationSpeedMultiplier = rotationSpeedMultiplier;
     }
 
     public void Enter()
     {
-        enemy.MovementManager.Watch(target.transform, rotationSmoothingOverride);
+        enemy.MovementManager.SetRotationTarget(target.transform, rotationSpeedMultiplier);
         enemy.StartTelegraph(telegraphColour);
     }
 
     public void Exit()
     {
-        enemy.MovementManager.ClearWatch();
         enemy.StopTelegraph();
     }
 

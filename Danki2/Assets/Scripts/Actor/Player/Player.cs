@@ -73,7 +73,6 @@ public class Player : Actor, IMovementStatusProvider
         bool rolled = MovementManager.LockMovement(
             rollDuration,
             Speed * rollSpeedMultiplier * acrobaticsMultiplier,
-            direction,
             direction
         );
 

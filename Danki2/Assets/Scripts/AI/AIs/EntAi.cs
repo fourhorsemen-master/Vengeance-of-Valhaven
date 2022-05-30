@@ -30,7 +30,7 @@ public class EntAi : Ai
         return new StateMachine<State>(State.Idle)
             .WithComponent(State.Advance, new EntAdvance(ent, player, minAdvanceDistance, minRangedDistance, maxRangedDistance))
             .WithComponent(State.TelegraphSpine, new TelegraphAttackAndWatch(ent, player, Color.green))
-            .WithComponent(State.TelegraphSwipe, new TelegraphAttack(ent, Color.red))
+            .WithComponent(State.TelegraphSwipe, new TelegraphAttack(ent, Color.red, true))
             .WithComponent(State.Spine, new EntCastSpine(ent, player))
             .WithComponent(State.Swipe, new EntCastSwipe(ent))
             .WithTransition(State.Idle, State.Advance, new TakesDamage(ent) | new DistanceLessThan(ent, player, aggroDistance))
@@ -46,7 +46,7 @@ public class EntAi : Ai
             .WithTransition(
                 State.Advance,
                 State.TelegraphSwipe,
-                new DistanceLessThan(ent, player, swipeMaxRange) & new TimeElapsed(swipeCooldown) & new Facing(ent, player, maxSwipeAngle)
+                new DistanceLessThan(ent, player, swipeMaxRange) & new TimeElapsed(swipeCooldown) & new Facing(ent.MovementManager, player, maxSwipeAngle)
             );
     }
 

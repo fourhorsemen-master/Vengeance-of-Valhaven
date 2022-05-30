@@ -33,27 +33,28 @@ public class ForestGolemAi : Ai
     protected override IStateMachineComponent BuildStateMachineComponent()
     {
         Player player = ActorCache.Instance.Player;
-        
+
         IStateMachineComponent rootStormStateMachine = new StateMachine<RootStormState>(RootStormState.Idle)
+            .WithComponent(RootStormState.Idle, new StandStill(forestGolem, rootStormDuration))
             .WithComponent(RootStormState.FireRoot, new ForestGolemFireRoot(forestGolem, minRootStormDistance, maxRootStormDistance))
             .WithTransition(RootStormState.Idle, RootStormState.FireRoot, new TimeElapsed(rootStormInterval))
             .WithTransition(RootStormState.FireRoot, RootStormState.Idle, new AlwaysTrigger());
 
         IStateMachineComponent spawnEntStateMachine = new StateMachine<SpawnEntState>(SpawnEntState.Telegraph)
-            .WithComponent(SpawnEntState.Telegraph, new TelegraphAttack(forestGolem, Color.red))
+            .WithComponent(SpawnEntState.Telegraph, new TelegraphAttack(forestGolem, Color.red, true))
             .WithComponent(SpawnEntState.SpawnEnt, new ForestGolemSpawnEnts(forestGolem, player, entCount))
             .WithTransition(SpawnEntState.Telegraph, SpawnEntState.SpawnEnt, new TimeElapsed(spawnEntsTelegraphTime));
 
         IStateMachineComponent boulderThrowStateMachine = new StateMachine<BoulderThrowState>(BoulderThrowState.Telegraph)
-            .WithComponent(BoulderThrowState.Telegraph, new TelegraphAttack(forestGolem, Color.blue))
+            .WithComponent(BoulderThrowState.Telegraph, new TelegraphAttack(forestGolem, Color.blue, true))
             .WithComponent(BoulderThrowState.ThrowBoulder, new ForestGolemThrowBoulder(forestGolem))
             .WithTransition(BoulderThrowState.Telegraph, BoulderThrowState.ThrowBoulder, new TimeElapsed(boulderThrowTelegraphTime));
 
         IStateMachineComponent stompStateMachine = new StateMachine<StompState>(StompState.WatchTarget)
             .WithComponent(StompState.WatchTarget, new WatchTarget(forestGolem, player))
-            .WithComponent(StompState.Telegraph, new TelegraphAttack(forestGolem, Color.yellow))
+            .WithComponent(StompState.Telegraph, new TelegraphAttack(forestGolem, Color.yellow, true))
             .WithComponent(StompState.Stomp, new ForestGolemStomp(forestGolem))
-            .WithTransition(StompState.WatchTarget, StompState.Telegraph, new Facing(forestGolem, player, maxStompAngle))
+            .WithTransition(StompState.WatchTarget, StompState.Telegraph, new Facing(forestGolem.MovementManager, player, maxStompAngle))
             .WithTransition(StompState.Telegraph, StompState.Stomp, new TimeElapsed(stompTelegraphTime));
         
         return new StateMachine<State>(State.Idle)
@@ -85,6 +86,7 @@ public class ForestGolemAi : Ai
     private enum RootStormState
     {
         Idle,
+        Casting,
         FireRoot
     }
 

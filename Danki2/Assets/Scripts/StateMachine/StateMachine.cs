@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class StateMachine<TState> : IStateMachineComponent where TState : Enum
 {
@@ -110,6 +111,8 @@ public class StateMachine<TState> : IStateMachineComponent where TState : Enum
     {
         DeactivateTriggers();
         components[currentState].Exit();
+
+        Debug.Log("State Machine Transition. From " + currentState.ToString() + ". To " + toState.ToString() + ".");
 
         currentState = toState;
         ActivateTriggers();

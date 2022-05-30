@@ -9,15 +9,17 @@
         this.target = target;
     }
 
-    public void Enter() {}
+    public void Enter()
+    {
+        enemy.MovementManager.SetMovementTarget(target.transform);
+        enemy.MovementManager.SetRotationTarget(target.transform, null);
+    }
 
     public void Exit()
     {
-        enemy.MovementManager.StopPathfinding();
+        enemy.MovementManager.SetMovementTarget(null);
+        enemy.MovementManager.SetRotationTarget(null, null);
     }
 
-    public void Update()
-    {
-        enemy.MovementManager.StartPathfinding(target.transform.position);
-    }
+    public void Update() {}
 }

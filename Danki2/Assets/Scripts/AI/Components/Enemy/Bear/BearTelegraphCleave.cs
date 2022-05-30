@@ -5,7 +5,7 @@ public class BearTelegraphCleave : TelegraphAttack
     private readonly Bear bear;
 
     public BearTelegraphCleave(Bear bear)
-        : base(bear, Color.yellow)
+        : base(bear, Color.yellow, true)
     {
         this.bear = bear;
     }
