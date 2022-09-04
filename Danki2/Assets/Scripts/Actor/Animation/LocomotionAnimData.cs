@@ -15,4 +15,7 @@ public class LocomotionAnimData : ScriptableObject
 	private float strafeRunSpeed = 0.5f;
 	public float StrafeRunSpeed => strafeRunSpeed;
 
+	[SerializeField]
+	private float turnSpeed = 1f;
+	public float TurnSpeed => turnSpeed;
 }
