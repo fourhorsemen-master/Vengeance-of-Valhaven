@@ -33,6 +33,12 @@ ModelImporter:
   - first:
       74: -6758807784315297340
     second: Bear_Armature|Bear_Bite_Windup
+  - first:
+      74: -5738819508311436424
+    second: Bear_Armature|Bear_Turn_L
+  - first:
+      74: 7518520596454743234
+    second: Bear_Armature|Bear_Turn_R
   externalObjects: {}
   materials:
     materialImportMode: 0
@@ -66,7 +72,7 @@ ModelImporter:
       takeName: Bear_Armature|Bear_Anims
       internalID: 0
       firstFrame: 0
-      lastFrame: 240
+      lastFrame: 295
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -360,6 +366,64 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Bear_Armature|Bear_Turn_L
+      takeName: Bear_Armature|Bear_Anims
+      internalID: 0
+      firstFrame: 269
+      lastFrame: 295
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 1
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Bear_Armature|Bear_Turn_R
+      takeName: Bear_Armature|Bear_Anims
+      internalID: 0
+      firstFrame: 242
+      lastFrame: 268
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 1
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
